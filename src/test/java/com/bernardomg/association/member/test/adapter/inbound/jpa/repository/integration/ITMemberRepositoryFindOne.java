@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
@@ -32,26 +32,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - get one")
-class ITMemberServiceGetOne {
+@DisplayName("MemberRepository - find one")
+class ITMemberRepositoryFindOne {
 
     @Autowired
-    private FeeInitializer feeInitializer;
+    private FeeInitializer   feeInitializer;
 
     @Autowired
-    private MemberService  service;
-
-    public ITMemberServiceGetOne() {
-        super();
-    }
+    private MemberRepository memberRepository;
 
     @Test
     @DisplayName("With a member having no fee in the current month, a not active member is returned")
@@ -60,7 +56,7 @@ class ITMemberServiceGetOne {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = service.getOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -77,7 +73,7 @@ class ITMemberServiceGetOne {
         feeInitializer.registerFeeCurrentMonth(false);
 
         // WHEN
-        memberOptional = service.getOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -94,7 +90,7 @@ class ITMemberServiceGetOne {
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        memberOptional = service.getOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -111,7 +107,7 @@ class ITMemberServiceGetOne {
         feeInitializer.registerFeeNextMonth(true);
 
         // WHEN
-        memberOptional = service.getOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -128,7 +124,7 @@ class ITMemberServiceGetOne {
         feeInitializer.registerFeePreviousMonth(true);
 
         // WHEN
-        memberOptional = service.getOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)

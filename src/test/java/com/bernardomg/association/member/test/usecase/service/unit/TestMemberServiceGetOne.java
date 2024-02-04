@@ -22,43 +22,68 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.integration;
+package com.bernardomg.association.member.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
-import com.bernardomg.association.member.domain.model.MemberChange;
-import com.bernardomg.association.member.test.config.factory.MemberChanges;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.usecase.service.MemberService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
-@IntegrationTest
-@DisplayName("Member service - update")
-class ITMemberServiceUpdateError {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Member service - get one")
+class TestMemberServiceGetOne {
 
-    @Autowired
-    private MemberService service;
+    @Mock
+    private MemberRepository     memberRepository;
 
-    public ITMemberServiceUpdateError() {
+    @InjectMocks
+    private DefaultMemberService service;
+
+    public TestMemberServiceGetOne() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testUpdate_NotExisting_Exception() {
-        final MemberChange     memberRequest;
+    @DisplayName("When there is data it is returned")
+    void testGetOne() {
+        final Optional<Member> memberOptional;
+
+        // GIVEN
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+
+        // WHEN
+        memberOptional = service.getOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .contains(Members.active());
+    }
+
+    @Test
+    @DisplayName("When the member doesn't exist an exception is thrown")
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        memberRequest = MemberChanges.nameChange();
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(MemberConstants.NUMBER, memberRequest);
+        execution = () -> service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

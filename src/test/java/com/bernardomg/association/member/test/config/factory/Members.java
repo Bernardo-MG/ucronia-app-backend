@@ -125,6 +125,22 @@ public final class Members {
             .build();
     }
 
+    public static final Member missingSurname() {
+        final MemberName memberName;
+
+        memberName = MemberName.builder()
+            .withFirstName(MemberConstants.NAME)
+            .withFullName(MemberConstants.NAME)
+            .build();
+        return Member.builder()
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(true)
+            .build();
+    }
+
     public static final Member nameChange() {
         final MemberName memberName;
 
@@ -149,6 +165,23 @@ public final class Members {
             .withFirstName("Member 123")
             .withLastName("Surname")
             .withFullName("Member 123 Surname")
+            .build();
+        return Member.builder()
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(true)
+            .build();
+    }
+
+    public static final Member paddedWithWhitespaces() {
+        final MemberName memberName;
+
+        memberName = MemberName.builder()
+            .withFirstName(" " + MemberConstants.NAME + " ")
+            .withLastName(" " + MemberConstants.SURNAME + " ")
+            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)

@@ -45,6 +45,7 @@ public final class DefaultMemberService implements MemberService {
     public final Member create(final MemberChange member) {
         final Member toCreate;
         final Long   index;
+        final String fullName;
 
         log.debug("Creating member {}", member);
 
@@ -65,6 +66,12 @@ public final class DefaultMemberService implements MemberService {
         toCreate.getName()
             .setLastName(StringUtils.trim(toCreate.getName()
                 .getLastName()));
+        fullName = Strings.trimWhitespace(toCreate.getName()
+            .getFirstName() + " "
+                + toCreate.getName()
+                    .getLastName());
+        toCreate.getName()
+            .setFullName(fullName);
 
         return memberRepository.save(toCreate);
     }
@@ -128,6 +135,7 @@ public final class DefaultMemberService implements MemberService {
     public final Member update(final long number, final MemberChange change) {
         final boolean exists;
         final Member  toUpdate;
+        final String  fullName;
 
         log.debug("Updating member {} using data {}", number, change);
 
@@ -152,6 +160,12 @@ public final class DefaultMemberService implements MemberService {
         toUpdate.getName()
             .setLastName(StringUtils.trim(toUpdate.getName()
                 .getLastName()));
+        fullName = Strings.trimWhitespace(toUpdate.getName()
+            .getFirstName() + " "
+                + toUpdate.getName()
+                    .getLastName());
+        toUpdate.getName()
+            .setFullName(fullName);
 
         return memberRepository.save(toUpdate);
     }

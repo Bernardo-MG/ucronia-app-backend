@@ -40,7 +40,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -50,18 +49,15 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - get all")
-class ITMemberServiceGetAllFilter {
+class TestMemberServiceGetAllFilter {
 
     @Mock
-    private MemberRepository       activeMemberSource;
-
-    @Mock
-    private MemberSpringRepository memberRepository;
+    private MemberRepository     memberRepository;
 
     @InjectMocks
-    private DefaultMemberService   service;
+    private DefaultMemberService service;
 
-    public ITMemberServiceGetAllFilter() {
+    public TestMemberServiceGetAllFilter() {
         super();
     }
 
@@ -75,7 +71,7 @@ class ITMemberServiceGetAllFilter {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(activeMemberSource.findActive(ArgumentMatchers.any())).willReturn(readMembers);
+        given(memberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
 
@@ -100,7 +96,7 @@ class ITMemberServiceGetAllFilter {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(activeMemberSource.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+        given(memberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
 
@@ -125,7 +121,7 @@ class ITMemberServiceGetAllFilter {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(activeMemberSource.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
+        given(memberRepository.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
 

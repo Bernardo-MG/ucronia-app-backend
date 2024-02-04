@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.integration;
-
-import java.util.List;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,81 +32,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
-import com.bernardomg.association.member.test.config.factory.MemberChanges;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - create")
-class ITMemberServiceCreate {
+@DisplayName("MemberRepository - save")
+class ITMemberRepositorySave {
+
+    @Autowired
+    private MemberRepository       memberRepository;
 
     @Autowired
     private MemberSpringRepository repository;
 
-    @Autowired
-    private MemberService          service;
-
-    public ITMemberServiceCreate() {
+    public ITMemberRepositorySave() {
         super();
-    }
-
-    @Test
-    @DisplayName("With a member with no surname, the member is persisted")
-    @Disabled("This is an error case, handle somehow")
-    void testCreate_NoSurname_PersistedData() {
-        final MemberChange       memberRequest;
-        final List<MemberEntity> entities;
-
-        // GIVEN
-        memberRequest = MemberChanges.missingSurname();
-
-        // WHEN
-        service.create(memberRequest);
-
-        // THEN
-        entities = repository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(MemberEntities.missingSurname());
-    }
-
-    @Test
-    @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
-    void testCreate_Padded_PersistedData() {
-        final MemberChange           memberRequest;
-        final Iterable<MemberEntity> entities;
-
-        // GIVEN
-        memberRequest = MemberChanges.paddedWithWhitespaces();
-
-        // WHEN
-        service.create(memberRequest);
-
-        // THEN
-        entities = repository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberChange           memberRequest;
+        final Member                 member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        memberRequest = MemberChanges.valid();
+        member = Members.active();
 
         // WHEN
-        service.create(memberRequest);
+        memberRepository.save(member);
 
         // THEN
         entities = repository.findAll();
@@ -123,18 +75,19 @@ class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testCreate_ReturnedData() {
-        final MemberChange memberRequest;
-        final Member       member;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.valid();
+        member = Members.active();
 
         // WHEN
-        member = service.create(memberRequest);
+        memberRepository.save(member);
 
         // THEN
         Assertions.assertThat(member)
             .as("member")
+            .usingRecursiveAssertion()
+            .ignoringFields("id", "number")
             .isEqualTo(Members.inactiveWithNumber(1));
     }
 

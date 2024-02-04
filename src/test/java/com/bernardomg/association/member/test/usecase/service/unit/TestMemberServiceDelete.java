@@ -22,37 +22,62 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.integration;
+package com.bernardomg.association.member.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.usecase.service.MemberService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
-@IntegrationTest
-@DisplayName("Member service - get one - Errors")
-class ITMemberServiceGetOneError {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Member service - delete")
+class TestMemberServiceDelete {
 
-    @Autowired
-    private MemberService service;
+    @Mock
+    private MemberRepository     memberRepository;
 
-    public ITMemberServiceGetOneError() {
+    @InjectMocks
+    private DefaultMemberService service;
+
+    public TestMemberServiceDelete() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+    @DisplayName("When deleting the repository is called")
+    void testDelete_CallsRepository() {
+        // GIVEN
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.getOne(MemberConstants.NUMBER);
+        service.delete(MemberConstants.NUMBER);
+
+        // THEN
+        verify(memberRepository).delete(MemberConstants.NUMBER);
+    }
+
+    @Test
+    @DisplayName("When the member doesn't exist an exception is thrown")
+    void testDelete_NotExisting_NotRemovesEntity() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.delete(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

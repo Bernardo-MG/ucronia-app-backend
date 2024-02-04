@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,23 +30,23 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - delete")
+@DisplayName("MemberRepository - delete")
 @ValidMember
-class ITMemberServiceDelete {
+class ITMemberRepositoryDelete {
+
+    @Autowired
+    private MemberRepository       memberRepository;
 
     @Autowired
     private MemberSpringRepository repository;
 
-    @Autowired
-    private MemberService          service;
-
-    public ITMemberServiceDelete() {
+    public ITMemberRepositoryDelete() {
         super();
     }
 
@@ -54,7 +54,7 @@ class ITMemberServiceDelete {
     @DisplayName("With a valid id it removes the entity")
     void testDelete_RemovesEntity() {
         // WHEN
-        service.delete(MemberConstants.NUMBER);
+        memberRepository.delete(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(repository.count())

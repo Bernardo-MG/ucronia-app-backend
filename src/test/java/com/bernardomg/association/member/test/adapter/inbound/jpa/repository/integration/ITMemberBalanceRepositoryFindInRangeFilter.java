@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.usecase.service.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,27 +8,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
+import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberBalanceQueryRequests;
+import com.bernardomg.association.member.test.config.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
-import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member balance service - get balance - filter")
+@DisplayName("MemberBalanceRepository - find in range - filter")
 @ValidMember
-@AlternativeMember
-class ITMemberBalanceServiceFilter {
+class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Autowired
-    private FeeInitializer       feeInitializer;
+    private FeeInitializer          feeInitializer;
 
     @Autowired
-    private MemberBalanceService service;
+    private MemberBalanceRepository memberBalanceRepository;
 
     @BeforeEach
     public void initializeFees() {
@@ -40,17 +37,15 @@ class ITMemberBalanceServiceFilter {
     @Test
     @DisplayName("Can filter around the current month")
     void testGetBalance_Filter_AroundCurrent() {
-        final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        query = MemberBalanceQueryRequests.aroundCurrent();
-
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
+            MemberBalanceConstants.NEXT_MONTH, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -61,17 +56,15 @@ class ITMemberBalanceServiceFilter {
     @Test
     @DisplayName("Can filter for the previous month")
     void testGetBalance_Filter_PreviousMonth() {
-        final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        query = MemberBalanceQueryRequests.aroundPrevious();
-
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
+            MemberBalanceConstants.PREVIOUS_MONTH, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -82,17 +75,15 @@ class ITMemberBalanceServiceFilter {
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
     void testGetBalance_Filter_RangeEndBeforeStart() {
-        final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        query = MemberBalanceQueryRequests.endBeforeStart();
-
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.CURRENT_MONTH,
+            MemberBalanceConstants.PREVIOUS_MONTH, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -102,17 +93,15 @@ class ITMemberBalanceServiceFilter {
     @Test
     @DisplayName("Can filter for two months")
     void testGetBalance_Filter_TwoMonths() {
-        final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        query = MemberBalanceQueryRequests.previousAndThis();
-
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
+            MemberBalanceConstants.CURRENT_MONTH, sort);
 
         // THEN
         Assertions.assertThat(balances)
