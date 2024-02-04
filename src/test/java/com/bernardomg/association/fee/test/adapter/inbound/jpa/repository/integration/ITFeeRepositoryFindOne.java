@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
@@ -32,9 +32,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
@@ -45,15 +45,11 @@ import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - get one")
-class ITFeeServiceGetOne {
+@DisplayName("FeeRepository - get one")
+class ITFeeRepositoryFindOne {
 
     @Autowired
-    private FeeService service;
-
-    public ITFeeServiceGetOne() {
-        super();
-    }
+    private FeeRepository repository;
 
     @Test
     @DisplayName("With no surname, only the name is returned")
@@ -63,7 +59,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -78,7 +74,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -93,7 +89,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -110,7 +106,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -127,7 +123,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(MemberConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(MemberConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
