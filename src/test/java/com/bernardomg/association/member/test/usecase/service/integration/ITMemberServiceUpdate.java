@@ -38,7 +38,6 @@ import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.test.util.assertion.MemberAssertions;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -120,8 +119,8 @@ class ITMemberServiceUpdate {
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
     @ValidMember
     void testUpdate_Padded_PersistedData() {
-        final MemberChange memberRequest;
-        final MemberEntity entity;
+        final MemberChange           memberRequest;
+        final Iterable<MemberEntity> entities;
 
         // GIVEN
         memberRequest = MemberChanges.paddedWithWhitespaces();
@@ -130,18 +129,20 @@ class ITMemberServiceUpdate {
         service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
-        entity = repository.findAll()
-            .iterator()
-            .next();
-        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(MemberEntities.valid());
     }
 
     @Test
     @DisplayName("When updating a member, the change is persisted")
     @ValidMember
     void testUpdate_PersistedData() {
-        final MemberChange memberRequest;
-        final MemberEntity entity;
+        final MemberChange           memberRequest;
+        final Iterable<MemberEntity> entities;
 
         // GIVEN
         memberRequest = MemberChanges.nameChange();
@@ -150,10 +151,12 @@ class ITMemberServiceUpdate {
         service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
-        entity = repository.findAll()
-            .iterator()
-            .next();
-        MemberAssertions.isEqualTo(entity, MemberEntities.nameChange());
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(MemberEntities.nameChange());
     }
 
 }

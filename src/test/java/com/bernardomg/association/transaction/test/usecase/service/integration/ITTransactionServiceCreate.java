@@ -44,7 +44,6 @@ import com.bernardomg.association.transaction.test.config.factory.TransactionCha
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.test.util.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -108,7 +107,6 @@ class ITTransactionServiceCreate {
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     void testCreate_Padded_Persisted() {
         final TransactionChange       transactionRequest;
-        final TransactionEntity       entity;
         final List<TransactionEntity> entities;
 
         // GIVEN
@@ -121,20 +119,15 @@ class ITTransactionServiceCreate {
         entities = repository.findAll();
 
         Assertions.assertThat(entities)
-            .as("transactions")
-            .hasSize(1);
-
-        entity = entities.iterator()
-            .next();
-
-        TransactionAssertions.isEqualTo(entity, TransactionEntities.valid());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid transaction, the transaction is persisted")
     void testCreate_Persisted() {
         final TransactionChange       transactionRequest;
-        final TransactionEntity       entity;
         final List<TransactionEntity> entities;
 
         // GIVEN
@@ -147,13 +140,9 @@ class ITTransactionServiceCreate {
         entities = repository.findAll();
 
         Assertions.assertThat(entities)
-            .as("transactions")
-            .hasSize(1);
-
-        entity = entities.iterator()
-            .next();
-
-        TransactionAssertions.isEqualTo(entity, TransactionEntities.valid());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.valid());
     }
 
     @Test

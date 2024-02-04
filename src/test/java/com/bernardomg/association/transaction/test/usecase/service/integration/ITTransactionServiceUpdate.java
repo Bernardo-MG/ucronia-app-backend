@@ -38,7 +38,6 @@ import com.bernardomg.association.transaction.test.config.factory.TransactionCha
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.test.util.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -77,8 +76,8 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
     @PositiveTransaction
     void testUpdate_Decimal_PersistedData() {
-        final TransactionChange transactionRequest;
-        final TransactionEntity transaction;
+        final TransactionChange           transactionRequest;
+        final Iterable<TransactionEntity> entities;
 
         // GIVEN
         transactionRequest = TransactionChanges.decimal();
@@ -87,11 +86,12 @@ class ITTransactionServiceUpdate {
         service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
-        transaction = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        TransactionAssertions.isEqualTo(transaction, TransactionEntities.decimal());
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(TransactionEntities.decimal());
     }
 
     @Test
@@ -116,8 +116,8 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     @PositiveTransaction
     void testUpdate_Padded_PersistedData() {
-        final TransactionChange transactionRequest;
-        final TransactionEntity transaction;
+        final TransactionChange           transactionRequest;
+        final Iterable<TransactionEntity> entities;
 
         // GIVEN
         transactionRequest = TransactionChanges.paddedWithWhitespaces();
@@ -126,19 +126,20 @@ class ITTransactionServiceUpdate {
         service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
-        transaction = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        TransactionAssertions.isEqualTo(transaction, TransactionEntities.valid());
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(TransactionEntities.valid());
     }
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     @PositiveTransaction
     void testUpdate_PersistedData() {
-        final TransactionChange transactionRequest;
-        final TransactionEntity transaction;
+        final TransactionChange           transactionRequest;
+        final Iterable<TransactionEntity> entities;
 
         // GIVEN
         transactionRequest = TransactionChanges.descriptionChange();
@@ -147,11 +148,12 @@ class ITTransactionServiceUpdate {
         service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
-        transaction = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        TransactionAssertions.isEqualTo(transaction, TransactionEntities.descriptionChange());
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(TransactionEntities.descriptionChange());
     }
 
     @Test

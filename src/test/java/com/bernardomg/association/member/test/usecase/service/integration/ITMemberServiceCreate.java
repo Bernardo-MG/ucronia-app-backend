@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.member.test.usecase.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +39,6 @@ import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.test.util.assertion.MemberAssertions;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -59,8 +60,8 @@ class ITMemberServiceCreate {
     @DisplayName("With a member with no surname, the member is persisted")
     @Disabled("This is an error case, handle somehow")
     void testCreate_NoSurname_PersistedData() {
-        final MemberChange memberRequest;
-        final MemberEntity entity;
+        final MemberChange       memberRequest;
+        final List<MemberEntity> entities;
 
         // GIVEN
         memberRequest = MemberChanges.missingSurname();
@@ -69,21 +70,19 @@ class ITMemberServiceCreate {
         service.create(memberRequest);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isOne();
+        entities = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        MemberAssertions.isEqualTo(entity, MemberEntities.missingSurname());
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(MemberEntities.missingSurname());
     }
 
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberChange memberRequest;
-        final MemberEntity entity;
+        final MemberChange           memberRequest;
+        final Iterable<MemberEntity> entities;
 
         // GIVEN
         memberRequest = MemberChanges.paddedWithWhitespaces();
@@ -92,21 +91,19 @@ class ITMemberServiceCreate {
         service.create(memberRequest);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isOne();
+        entities = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(MemberEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberChange memberRequest;
-        final MemberEntity entity;
+        final MemberChange           memberRequest;
+        final Iterable<MemberEntity> entities;
 
         // GIVEN
         memberRequest = MemberChanges.valid();
@@ -115,14 +112,12 @@ class ITMemberServiceCreate {
         service.create(memberRequest);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isOne();
+        entities = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(MemberEntities.valid());
     }
 
     @Test

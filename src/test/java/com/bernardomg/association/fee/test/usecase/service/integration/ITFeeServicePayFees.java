@@ -50,7 +50,6 @@ import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
-import com.bernardomg.association.transaction.test.util.assertion.TransactionAssertions;
 import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -120,10 +119,9 @@ class ITFeeServicePayFees {
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), TransactionEntities.singleFee());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.singleFee());
     }
 
     @Test
@@ -189,10 +187,9 @@ class ITFeeServicePayFees {
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), TransactionEntities.multipleFees());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.multipleFees());
     }
 
     @Test
@@ -274,10 +271,9 @@ class ITFeeServicePayFees {
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), TransactionEntities.multipleFees());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.multipleFees());
     }
 
     @Test
@@ -381,10 +377,9 @@ class ITFeeServicePayFees {
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), TransactionEntities.singleFeeNoAmount());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.singleFeeNoAmount());
     }
 
     @Test
@@ -464,10 +459,9 @@ class ITFeeServicePayFees {
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), TransactionEntities.singleFee());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.singleFee());
     }
 
     @Test

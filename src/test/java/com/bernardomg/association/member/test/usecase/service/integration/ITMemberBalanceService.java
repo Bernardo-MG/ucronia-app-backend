@@ -13,7 +13,6 @@ import com.bernardomg.association.member.test.config.data.annotation.Alternative
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceQueryRequests;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
-import com.bernardomg.association.member.test.util.assertion.MonthlyMemberBalanceAssertions;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -198,7 +197,6 @@ class ITMemberBalanceService {
         final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
-        final MonthlyMemberBalance           balance;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
@@ -213,11 +211,7 @@ class ITMemberBalanceService {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.previousMonth());
+            .containsExactly(MonthlyMemberBalances.previousMonth());
     }
 
     @Test
