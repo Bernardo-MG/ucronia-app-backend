@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.auth.user.test.util.model;
+package com.bernardomg.association.auth.user.test.config.factory;
 
 public final class UserConstants {
 
