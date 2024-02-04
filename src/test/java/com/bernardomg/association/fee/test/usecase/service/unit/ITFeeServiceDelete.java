@@ -22,38 +22,53 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.usecase.service.FeeService;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - delete")
-class ITFeeServiceDeleteError {
+class ITFeeServiceDelete {
 
-    @Autowired
-    private FeeService service;
+    @Mock
+    private FeeRepository     feeRepository;
 
-    public ITFeeServiceDeleteError() {
+    @Mock
+    private MemberRepository  memberRepository;
+
+    @InjectMocks
+    private DefaultFeeService service;
+
+    public ITFeeServiceDelete() {
         super();
     }
 
     @Test
     @DisplayName("With a not existing fee, an exception is thrown")
-    @ValidMember
-    void testDelete_NotExistingFee_NotRemovesEntity() {
+    void testDelete_NotExistingFee() {
         final ThrowingCallable execution;
+
+        // GIVEN
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
         execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
@@ -65,8 +80,11 @@ class ITFeeServiceDeleteError {
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
-    void testDelete_NotExistingMember_NotRemovesEntity() {
+    void testDelete_NotExistingMember() {
         final ThrowingCallable execution;
+
+        // GIVEN
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
@@ -74,6 +92,20 @@ class ITFeeServiceDeleteError {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
+    }
+
+    @Test
+    @DisplayName("Calls the repository when deleting")
+    void testDelete_NotPaid_RemovesEntity() {
+        // GIVEN
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+
+        // WHEN
+        service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        verify(feeRepository).delete(MemberConstants.NUMBER, FeeConstants.DATE);
     }
 
 }

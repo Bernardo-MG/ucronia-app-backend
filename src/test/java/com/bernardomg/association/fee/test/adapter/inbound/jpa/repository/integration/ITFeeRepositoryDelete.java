@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
@@ -40,18 +40,14 @@ import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - delete")
-class ITFeeServiceDelete {
+@DisplayName("FeeRepository - delete")
+class ITFeeRepositoryDelete {
 
     @Autowired
-    private FeeSpringRepository repository;
+    private FeeSpringRepository feeSpringRepository;
 
     @Autowired
-    private FeeService          service;
-
-    public ITFeeServiceDelete() {
-        super();
-    }
+    private FeeRepository       repository;
 
     @Test
     @DisplayName("With a valid id it removes the entity")
@@ -59,10 +55,10 @@ class ITFeeServiceDelete {
     @NotPaidFee
     void testDelete_NotPaid_RemovesEntity() {
         // WHEN
-        service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        repository.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(feeSpringRepository.count())
             .as("fees")
             .isZero();
     }
@@ -74,10 +70,10 @@ class ITFeeServiceDelete {
     @Disabled("Handle relationships")
     void testDelete_Paid_RemovesEntity() {
         // WHEN
-        service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        repository.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(feeSpringRepository.count())
             .as("fees")
             .isZero();
     }
