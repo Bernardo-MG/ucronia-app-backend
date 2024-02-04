@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.usecase.service.integration;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +42,6 @@ import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.fee.test.util.assertion.FeeAssertions;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
@@ -98,10 +96,9 @@ class ITFeeServicePayFees {
         entities = feeRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.atDate());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(FeeEntities.atDate());
     }
 
     @Test
@@ -155,9 +152,8 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
-        final List<FeeEntity>     entities;
-        final Iterator<FeeEntity> entitiesItr;
-        final FeePayment          payment;
+        final List<FeeEntity> entities;
+        final FeePayment      payment;
 
         // GIVEN
         payment = FeePayments.two();
@@ -169,12 +165,9 @@ class ITFeeServicePayFees {
         entities = feeRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(2);
-
-        entitiesItr = entities.iterator();
-
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
     @Test
@@ -227,9 +220,8 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee() {
-        final List<FeeEntity>     entities;
-        final Iterator<FeeEntity> entitiesItr;
-        final FeePayment          payment;
+        final List<FeeEntity> entities;
+        final FeePayment      payment;
 
         // GIVEN
         payment = FeePayments.two();
@@ -241,12 +233,9 @@ class ITFeeServicePayFees {
         entities = feeRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(2);
-
-        entitiesItr = entities.iterator();
-
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
     @Test
@@ -315,9 +304,8 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_TwoYears_PersistedFee() {
-        final List<FeeEntity>     entities;
-        final Iterator<FeeEntity> entitiesItr;
-        final FeePayment          payment;
+        final List<FeeEntity> entities;
+        final FeePayment      payment;
 
         // GIVEN
         payment = FeePayments.twoYears();
@@ -329,12 +317,9 @@ class ITFeeServicePayFees {
         entities = feeRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(2);
-
-        entitiesItr = entities.iterator();
-
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.lastInYear());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.firstNextYear());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
     }
 
     @Test
@@ -355,10 +340,9 @@ class ITFeeServicePayFees {
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), TransactionEntities.multipleFeesSpanYears());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
+            .containsExactly(TransactionEntities.multipleFeesSpanYears());
     }
 
     @Test
@@ -421,10 +405,9 @@ class ITFeeServicePayFees {
         entities = feeRepository.findAll();
 
         Assertions.assertThat(entities)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.atDate());
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(FeeEntities.atDate());
     }
 
     @Test

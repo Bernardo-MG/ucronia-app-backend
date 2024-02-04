@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.usecase.service.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,6 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.test.config.factory.FeeMonths;
-import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
@@ -72,20 +69,9 @@ class ITFeeCalendarServiceGetYearFilterActive {
         calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.ACTIVE, sort);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final FeeCalendar calendar;
-            softly.assertThat(calendars)
-                .as("calendars")
-                .hasSize(1);
-
-            calendar = calendars.iterator()
-                .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activePaidCurrentMonth());
-
-            softly.assertThat(calendar.getMonths())
-                .as("months")
-                .containsExactly(FeeMonths.notPaidCurrent());
-        });
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.activeNotPaidCurrentMonth());
     }
 
     @Test
@@ -146,20 +132,9 @@ class ITFeeCalendarServiceGetYearFilterActive {
         calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.ACTIVE, sort);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final FeeCalendar calendar;
-            softly.assertThat(calendars)
-                .as("calendars")
-                .hasSize(1);
-
-            calendar = calendars.iterator()
-                .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activePaidCurrentMonth());
-
-            softly.assertThat(calendar.getMonths())
-                .as("months")
-                .containsExactly(FeeMonths.paidCurrent());
-        });
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.activePaidCurrentMonth());
     }
 
     @Test

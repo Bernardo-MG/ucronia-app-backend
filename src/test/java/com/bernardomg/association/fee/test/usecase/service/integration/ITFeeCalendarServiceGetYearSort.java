@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.fee.test.usecase.service.integration;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +35,6 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
-import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
@@ -85,27 +82,19 @@ class ITFeeCalendarServiceGetYearSort {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testGetYear_TwoMembers_Name_Asc() {
-        final Iterator<FeeCalendar> calendars;
+        final Iterable<FeeCalendar> calendars;
         final Sort                  sort;
-        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.by(Order.asc("fullName"));
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         // THEN
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
-
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactiveAlternative());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.inactivefullCalendar(), FeeCalendars.inactivefullCalendarAlternative());
     }
 
     @Test
@@ -115,27 +104,19 @@ class ITFeeCalendarServiceGetYearSort {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testGetYear_TwoMembers_Name_Desc() {
-        final Iterator<FeeCalendar> calendars;
+        final Iterable<FeeCalendar> calendars;
         final Sort                  sort;
-        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.by(Order.desc("fullName"));
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         // THEN
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactiveAlternative());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
-
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.inactivefullCalendarAlternative(), FeeCalendars.inactivefullCalendar());
     }
 
 }
