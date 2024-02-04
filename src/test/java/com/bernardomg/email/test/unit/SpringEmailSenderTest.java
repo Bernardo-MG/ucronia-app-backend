@@ -55,8 +55,10 @@ public class SpringEmailSenderTest {
     void testSendEmail_From() throws Exception {
         final MimeMessage mimeMessage;
 
+        // WHEN
         getSender().sendEmail("email@somewhere.com", "subject", "content");
 
+        // THEN
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
         mimeMessage = getMimeMessage();
@@ -74,8 +76,10 @@ public class SpringEmailSenderTest {
     void testSendEmail_Subject() throws Exception {
         final MimeMessage mimeMessage;
 
+        // WHEN
         getSender().sendEmail("email@somewhere.com", "subject", "content");
 
+        // THEN
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
         mimeMessage = getMimeMessage();
@@ -91,8 +95,10 @@ public class SpringEmailSenderTest {
     void testSendEmail_To() throws Exception {
         final MimeMessage mimeMessage;
 
+        // WHEN
         getSender().sendEmail("email@somewhere.com", "subject", "content");
 
+        // THEN
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
         mimeMessage = getMimeMessage();
