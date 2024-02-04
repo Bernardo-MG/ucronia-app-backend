@@ -196,7 +196,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final FeeCalendarYearsRange getRange() {
+    public final FeeCalendarYearsRange findRange() {
         final Collection<Integer> years;
 
         years = memberFeeRepository.findYears();

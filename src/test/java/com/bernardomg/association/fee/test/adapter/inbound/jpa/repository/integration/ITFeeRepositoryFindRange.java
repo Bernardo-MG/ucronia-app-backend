@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
@@ -41,16 +41,16 @@ import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee calendar service - get range")
-class ITFeeCalendarServiceGetRange {
+@DisplayName("FeeRepository - find range")
+class ITFeeRepositoryFindRange {
 
     @Autowired
-    private FeeInitializer     feeInitializer;
+    private FeeInitializer feeInitializer;
 
     @Autowired
-    private FeeCalendarService service;
+    private FeeRepository  repository;
 
-    public ITFeeCalendarServiceGetRange() {
+    public ITFeeRepositoryFindRange() {
         super();
     }
 
@@ -62,7 +62,7 @@ class ITFeeCalendarServiceGetRange {
         final FeeCalendarYearsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -80,7 +80,7 @@ class ITFeeCalendarServiceGetRange {
         final FeeCalendarYearsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -98,7 +98,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeeNextYear(false);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -116,7 +116,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeeNextYear(true);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -130,7 +130,7 @@ class ITFeeCalendarServiceGetRange {
         final FeeCalendarYearsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -145,7 +145,7 @@ class ITFeeCalendarServiceGetRange {
         final FeeCalendarYearsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -163,7 +163,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeeCurrentMonth(false);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -181,7 +181,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -199,7 +199,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeePreviousYear(false);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -217,7 +217,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeePreviousYear(true);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -236,7 +236,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -255,7 +255,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeePreviousYear(true);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())
@@ -274,7 +274,7 @@ class ITFeeCalendarServiceGetRange {
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        range = service.getRange();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.getYears())

@@ -60,7 +60,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     public final FeeCalendarYearsRange getRange() {
-        return feeRepository.getRange();
+        return feeRepository.findRange();
     }
 
     @Override

@@ -37,7 +37,7 @@ public interface FeeRepository {
 
     public Optional<Fee> findOne(final Long memberNumber, final YearMonth date);
 
-    public FeeCalendarYearsRange getRange();
+    public FeeCalendarYearsRange findRange();
 
     public void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate);
 
