@@ -23,7 +23,7 @@
  */
 
 /**
- * User member controllers.
+ * Association membership cache constants.
  */
 
-package com.bernardomg.auth.association.user.adapter.outbound.rest.controller;
+package com.bernardomg.association.auth.user.adapter.outbound.cache;

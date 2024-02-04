@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.user.test.util.model.UserConstants;
-import com.bernardomg.auth.association.user.usecase.service.UserMemberService;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
+import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

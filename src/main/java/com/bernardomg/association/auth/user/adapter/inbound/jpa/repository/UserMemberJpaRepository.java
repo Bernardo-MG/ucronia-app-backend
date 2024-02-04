@@ -24,8 +24,14 @@
 
 package com.bernardomg.association.auth.user.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.auth.user.adapter.inbound.jpa.model.UserMemberEntity;
 
-public interface UserMemberJpaRepository extends JpaRepository<UserMemberEntity, Long> {}
+public interface UserMemberJpaRepository extends JpaRepository<UserMemberEntity, Long> {
+
+    public Optional<UserMemberEntity> findByUserId(final long id);
+
+}

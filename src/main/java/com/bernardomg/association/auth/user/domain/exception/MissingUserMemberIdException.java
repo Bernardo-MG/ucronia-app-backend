@@ -22,8 +22,22 @@
  * SOFTWARE.
  */
 
-/**
- * Association membership cache constants.
- */
+package com.bernardomg.association.auth.user.domain.exception;
 
-package com.bernardomg.auth.association.user.adapter.outbound.cache;
+import com.bernardomg.exception.MissingIdException;
+
+/**
+ * Missing user member exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingUserMemberIdException extends MissingIdException {
+
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingUserMemberIdException(final String username) {
+        super("user", username);
+    }
+
+}

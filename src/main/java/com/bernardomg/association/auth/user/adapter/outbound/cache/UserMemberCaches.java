@@ -1,5 +1,5 @@
 
-package com.bernardomg.auth.association.user.adapter.outbound.cache;
+package com.bernardomg.association.auth.user.adapter.outbound.cache;
 
 public final class UserMemberCaches {
 

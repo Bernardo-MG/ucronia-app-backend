@@ -23,7 +23,7 @@
  */
 
 /**
- * User exceptions.
+ * User member controllers.
  */
 
-package com.bernardomg.auth.association.user.domain.exception;
+package com.bernardomg.association.auth.user.adapter.outbound.rest.controller;
