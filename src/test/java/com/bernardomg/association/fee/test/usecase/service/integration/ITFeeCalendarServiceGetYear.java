@@ -24,11 +24,7 @@
 
 package com.bernardomg.association.fee.test.usecase.service.integration;
 
-import java.time.Month;
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +32,6 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
-import com.bernardomg.association.fee.test.config.factory.FeeMonths;
-import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
@@ -66,7 +60,6 @@ class ITFeeCalendarServiceGetYear {
     @FeeFullYear
     void testGetYear_FullYear() {
         final Iterable<FeeCalendar> calendars;
-        final FeeCalendar           calendar;
         final Sort                  sort;
 
         // GIVEN
@@ -78,13 +71,7 @@ class ITFeeCalendarServiceGetYear {
         // THEN
         Assertions.assertThat(calendars)
             .as("calendars")
-            .hasSize(1);
-
-        calendar = calendars.iterator()
-            .next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
+            .containsExactly(FeeCalendars.inactivefullCalendar());
     }
 
     @Test
@@ -95,9 +82,7 @@ class ITFeeCalendarServiceGetYear {
     @AlternativeFeeFullYear
     void testGetYear_FullYear_TwoMembers() {
         final Iterable<FeeCalendar> calendars;
-        final Iterator<FeeCalendar> calendarsItr;
         final Sort                  sort;
-        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -108,21 +93,7 @@ class ITFeeCalendarServiceGetYear {
         // THEN
         Assertions.assertThat(calendars)
             .as("calendars")
-            .hasSize(2);
-
-        calendarsItr = calendars.iterator();
-
-        // First member
-        calendar = calendarsItr.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
-
-        // Second member
-        calendar = calendarsItr.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactiveAlternative());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
+            .containsExactly(FeeCalendars.inactivefullCalendar(), FeeCalendars.inactivefullCalendarAlternative());
     }
 
     @Test
@@ -130,22 +101,19 @@ class ITFeeCalendarServiceGetYear {
     @NoSurnameMember
     @FeeFullYear
     void testGetYear_NoSurname() {
-        final Iterator<FeeCalendar> calendars;
+        final Iterable<FeeCalendar> calendars;
         final Sort                  sort;
-        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         // THEN
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.noSurname());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.inactivefullCalendarNoSurname());
     }
 
     @Test
@@ -163,22 +131,9 @@ class ITFeeCalendarServiceGetYear {
         calendars = service.getYear(MemberCalendars.YEAR_PREVIOUS, MemberStatus.ALL, sort);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final FeeCalendar calendar;
-
-            softly.assertThat(calendars)
-                .as("calendars")
-                .hasSize(1);
-
-            calendar = calendars.iterator()
-                .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactivePreviousYear());
-
-            softly.assertThat(calendar.getMonths())
-                .as("months")
-                .containsExactly(FeeMonths.paid(2019, Month.OCTOBER.getValue()),
-                    FeeMonths.paid(2019, Month.NOVEMBER.getValue()), FeeMonths.paid(2019, Month.DECEMBER.getValue()));
-        });
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.inactiveTwoConnectedFirst());
     }
 
     @Test
@@ -196,24 +151,9 @@ class ITFeeCalendarServiceGetYear {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final FeeCalendar calendar;
-
-            softly.assertThat(calendars)
-                .as("calendars")
-                .hasSize(1);
-
-            calendar = calendars.iterator()
-                .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
-
-            softly.assertThat(calendar.getMonths())
-                .as("months")
-                .containsExactly(FeeMonths.paid(2020, Month.JANUARY.getValue()),
-                    FeeMonths.paid(2020, Month.FEBRUARY.getValue()), FeeMonths.paid(2020, Month.MARCH.getValue()),
-                    FeeMonths.paid(2020, Month.APRIL.getValue()), FeeMonths.paid(2020, Month.MAY.getValue()),
-                    FeeMonths.paid(2020, Month.JUNE.getValue()), FeeMonths.paid(2020, Month.JULY.getValue()));
-        });
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .containsExactly(FeeCalendars.inactiveTwoConnectedSecond());
     }
 
 }

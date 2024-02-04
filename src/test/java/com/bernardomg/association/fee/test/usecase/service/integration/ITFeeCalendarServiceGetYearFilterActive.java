@@ -80,7 +80,7 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
             calendar = calendars.iterator()
                 .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activeCurrentMonth());
+            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activePaidCurrentMonth());
 
             softly.assertThat(calendar.getMonths())
                 .as("months")
@@ -154,7 +154,7 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
             calendar = calendars.iterator()
                 .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activeCurrentMonth());
+            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activePaidCurrentMonth());
 
             softly.assertThat(calendar.getMonths())
                 .as("months")

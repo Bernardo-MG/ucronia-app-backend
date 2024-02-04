@@ -33,8 +33,6 @@ public final class FeeCalendarMonth {
 
     private final FeeCalendarMonthFee fee;
 
-    private final FeeCalendarMember   member;
-
     private final int                 month;
 
 }

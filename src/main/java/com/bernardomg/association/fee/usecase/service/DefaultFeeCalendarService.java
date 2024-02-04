@@ -108,7 +108,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     private final FeeCalendarMonth toFeeMonth(final Fee fee) {
         final Integer             month;
         final FeeCalendarMonthFee calendarFee;
-        final FeeCalendarMember   member;
 
         // Calendar months start at index 0, this has to be corrected
         month = fee.getDate()
@@ -119,13 +118,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .withDate(fee.getDate())
             .withPaid(fee.isPaid())
             .build();
-        member = FeeCalendarMember.builder()
-            .withNumber(fee.getMember()
-                .getNumber())
-            .build();
         return FeeCalendarMonth.builder()
             .withFee(calendarFee)
-            .withMember(member)
             .withMonth(month)
             .build();
     }
