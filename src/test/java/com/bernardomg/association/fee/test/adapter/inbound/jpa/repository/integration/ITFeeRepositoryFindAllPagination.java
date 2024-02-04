@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
 
@@ -36,25 +36,21 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - get all - pagination")
+@DisplayName("FeeRepository - find all - pagination")
 @MultipleMembers
 @MultipleFees
-class ITFeeServiceGetAllPagination {
+class ITFeeRepositoryFindAllPagination {
 
     @Autowired
-    private FeeService service;
-
-    public ITFeeServiceGetAllPagination() {
-        super();
-    }
+    private FeeRepository repository;
 
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
@@ -63,12 +59,13 @@ class ITFeeServiceGetAllPagination {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.ofSize(10);
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -83,12 +80,13 @@ class ITFeeServiceGetAllPagination {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -103,12 +101,13 @@ class ITFeeServiceGetAllPagination {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = PageRequest.of(1, 1);
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -123,12 +122,13 @@ class ITFeeServiceGetAllPagination {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)

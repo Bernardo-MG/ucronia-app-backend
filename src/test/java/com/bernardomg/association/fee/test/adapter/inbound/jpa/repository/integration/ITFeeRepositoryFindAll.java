@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
 
@@ -36,9 +36,9 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
@@ -49,31 +49,28 @@ import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - get all")
-class ITFeeServiceGetAll {
+@DisplayName("FeeRepository - find all")
+class ITFeeRepositoryFindAll {
 
     @Autowired
-    private FeeService service;
-
-    public ITFeeServiceGetAll() {
-        super();
-    }
+    private FeeRepository repository;
 
     @Test
     @DisplayName("With a full year it returns all the fees")
     @ValidMember
     @FeeFullYear
-    void testGetAll_FullYear() {
+    void testFindAll_FullYear() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 20, Direction.ASC, "date");
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -90,17 +87,18 @@ class ITFeeServiceGetAll {
     @DisplayName("With multiple fees it returns all the fees")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_Multiple() {
+    void testFindAll_Multiple() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -112,17 +110,18 @@ class ITFeeServiceGetAll {
     @Test
     @DisplayName("With no data it returns nothing")
     @ValidMember
-    void testGetAll_NoFee() {
+    void testFindAll_NoFee() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -134,17 +133,18 @@ class ITFeeServiceGetAll {
     @DisplayName("With no surname it returns only the name")
     @NoSurnameMember
     @PaidFee
-    void testGetAll_NoSurname() {
+    void testFindAll_NoSurname() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -156,17 +156,18 @@ class ITFeeServiceGetAll {
     @DisplayName("With a not paid fee it returns all the fees")
     @ValidMember
     @NotPaidFee
-    void testGetAll_NotPaid() {
+    void testFindAll_NotPaid() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -178,17 +179,18 @@ class ITFeeServiceGetAll {
     @DisplayName("With a paid fee it returns all the fees")
     @ValidMember
     @PaidFee
-    void testGetAll_Paid() {
+    void testFindAll_Paid() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
 
@@ -39,25 +39,21 @@ import org.springframework.jdbc.BadSqlGrammarException;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - get all - sort")
+@DisplayName("FeeRepository - find all - sort")
 @MultipleMembers
 @MultipleFees
-class ITFeeServiceGetAllSort {
+class ITFeeRepositoryFindAllSort {
 
     @Autowired
-    private FeeService service;
-
-    public ITFeeServiceGetAllSort() {
-        super();
-    }
+    private FeeRepository repository;
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
@@ -72,7 +68,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -94,7 +90,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -116,7 +112,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -138,7 +134,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -161,7 +157,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        executable = () -> service.getAll(feeQuery, pageable)
+        executable = () -> repository.findAll(feeQuery, pageable)
             .iterator();
 
         // THEN
@@ -182,7 +178,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -204,7 +200,7 @@ class ITFeeServiceGetAllSort {
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
@@ -35,9 +35,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.test.data.fee.annotation.FeeFullYear;
@@ -45,15 +45,11 @@ import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - get all - filter")
-class ITFeeServiceGetAllFilter {
+@DisplayName("FeeRepository - find all - filter")
+class ITFeeRepositoryGetAllFilter {
 
     @Autowired
-    private FeeService service;
-
-    public ITFeeServiceGetAllFilter() {
-        super();
-    }
+    private FeeRepository repository;
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
@@ -64,12 +60,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.FEBRUARY));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -86,12 +83,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -107,12 +105,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.MARCH));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -129,12 +128,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -151,12 +151,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.DECEMBER));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -173,12 +174,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.NOVEMBER));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -195,12 +197,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JUNE));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -217,12 +220,13 @@ class ITFeeServiceGetAllFilter {
         final FeeQuery      feeQuery;
         final Pageable      pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JULY));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pageable);
 
         // THEN
         Assertions.assertThat(fees)
