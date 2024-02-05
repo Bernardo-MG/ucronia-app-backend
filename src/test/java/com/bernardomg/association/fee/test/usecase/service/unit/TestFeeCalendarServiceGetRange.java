@@ -42,7 +42,7 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee calendar service - get range")
-class ITFeeCalendarServiceGetRange {
+class TestFeeCalendarServiceGetRange {
 
     @Mock
     private ActiveMemberRepository    activeMemberRepository;
@@ -53,7 +53,7 @@ class ITFeeCalendarServiceGetRange {
     @InjectMocks
     private DefaultFeeCalendarService service;
 
-    public ITFeeCalendarServiceGetRange() {
+    public TestFeeCalendarServiceGetRange() {
         super();
     }
 

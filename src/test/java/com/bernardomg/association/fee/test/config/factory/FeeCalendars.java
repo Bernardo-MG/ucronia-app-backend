@@ -60,7 +60,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.notPaid());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.CURRENT_DATE.getYear())
+            .withYear(MemberCalendars.YEAR_CURRENT)
             .withMonths(months)
             .build();
     }
@@ -128,7 +128,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.paid());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.CURRENT_DATE.getYear())
+            .withYear(MemberCalendars.YEAR_CURRENT)
             .withMonths(months)
             .build();
     }

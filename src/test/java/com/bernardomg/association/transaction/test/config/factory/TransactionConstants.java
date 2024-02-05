@@ -14,4 +14,6 @@ public final class TransactionConstants {
 
     public static final long      INDEX             = 10;
 
+    public static final long      INDEX_SMALL       = 1;
+
 }

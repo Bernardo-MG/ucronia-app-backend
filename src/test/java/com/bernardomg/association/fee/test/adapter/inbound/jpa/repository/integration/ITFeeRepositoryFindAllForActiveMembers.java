@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,35 +30,30 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
+import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
-import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee calendar service - get year - filter by all")
-class ITFeeCalendarServiceGetYearFilterAll {
+@DisplayName("FeeRepository - find all for active")
+class ITFeeRepositoryFindAllForActiveMembers {
 
     @Autowired
-    private FeeInitializer     feeInitializer;
+    private FeeInitializer feeInitializer;
 
     @Autowired
-    private FeeCalendarService service;
-
-    public ITFeeCalendarServiceGetYearFilterAll() {
-        super();
-    }
+    private FeeRepository  repository;
 
     @Test
     @DisplayName("With a not paid fee in the current month, it returns the calendar")
     @ValidMember
     void testGetYear_CurrentMonth_NotPaid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -66,20 +61,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.activeNotPaidCurrentMonth());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.notPaidCurrentMonth());
     }
 
     @Test
     @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_NotPaid_SearchNextYear() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -87,11 +82,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
+        Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -99,8 +94,8 @@ class ITFeeCalendarServiceGetYearFilterAll {
     @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_NotPaid_SearchPreviousYear() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -108,11 +103,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.PREVIOUS_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.PREVIOUS_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
+        Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -120,8 +115,8 @@ class ITFeeCalendarServiceGetYearFilterAll {
     @DisplayName("With a paid fee in the current month, it returns the calendar")
     @ValidMember
     void testGetYear_CurrentMonth_Paid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -129,20 +124,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.activePaidCurrentMonth());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidCurrentMonth(1));
     }
 
     @Test
     @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_Paid_SearchNextYear() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -150,11 +145,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
+        Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -162,8 +157,8 @@ class ITFeeCalendarServiceGetYearFilterAll {
     @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_Paid_SearchPreviousYear() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -171,20 +166,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.PREVIOUS_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.PREVIOUS_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
+        Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a not paid fee in the next year, it returns the calendar")
+    @DisplayName("With a not paid fee in the next year, it returns nothing")
     @ValidMember
     void testGetYear_NextYear_NotPaid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(false);
@@ -192,20 +187,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.activeNotPaidNextYear());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee in the next year, it returns the calendar")
+    @DisplayName("With a paid fee in the next year, it returns nothing")
     @ValidMember
     void testGetYear_NextYear_Paid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(true);
@@ -213,29 +208,29 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.inactivePaidNextYear());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
     @Test
     @DisplayName("With no data, it returns nothing")
     void testGetYear_NoData() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
+        Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -243,27 +238,27 @@ class ITFeeCalendarServiceGetYearFilterAll {
     @DisplayName("With no fees, it nothing")
     @ValidMember
     void testGetYear_NoFees() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
+        Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month, it returns the calendar")
+    @DisplayName("With a not paid fee in the previous month, it returns nothing")
     @ValidMember
     void testGetYear_PreviousMonth_NotPaid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
@@ -271,20 +266,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.PREVIOUS_MONTH.getYear(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.PREVIOUS_MONTH.getYear(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.inactiveNotPaidPreviousMonth());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month, it returns the calendar")
+    @DisplayName("With a paid fee in the previous month, it returns nothing")
     @ValidMember
     void testGetYear_PreviousMonth_Paid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
@@ -292,20 +287,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.PREVIOUS_MONTH.getYear(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.PREVIOUS_MONTH.getYear(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.inactivePreviousMonth());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a not paid fee two months back, it returns the calendar")
+    @DisplayName("With a not paid fee two months back, it returns nothing")
     @ValidMember
     void testGetYear_TwoMonthsBack_NotPaid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
@@ -313,20 +308,20 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.TWO_MONTHS_BACK.getYear(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.TWO_MONTHS_BACK.getYear(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.inactiveNotPaidTwoMonthsBack());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee two months back, it returns the calendar")
+    @DisplayName("With a paid fee two months back, it returns nothing")
     @ValidMember
     void testGetYear_TwoMonthsBack_Paid() {
-        final Iterable<FeeCalendar> calendars;
-        final Sort                  sort;
+        final Iterable<Fee> fees;
+        final Sort          sort;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
@@ -334,12 +329,12 @@ class ITFeeCalendarServiceGetYearFilterAll {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(FeeConstants.TWO_MONTHS_BACK.getYear(), MemberStatus.ALL, sort);
+        fees = repository.findAllForActiveMembers(FeeConstants.TWO_MONTHS_BACK.getYear(), sort);
 
         // THEN
-        Assertions.assertThat(calendars)
-            .as("calendars")
-            .containsExactly(FeeCalendars.inactivePaidTwoMonthsBack());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
 }

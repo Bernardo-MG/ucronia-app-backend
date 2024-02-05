@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.member.test.config.factory;
 
+import java.time.Year;
 import java.time.YearMonth;
 
 public final class MemberCalendars {
@@ -17,6 +18,9 @@ public final class MemberCalendars {
         .minusMonths(2);
 
     public static final int       YEAR                 = 2020;
+
+    public static final int       YEAR_CURRENT         = Year.now()
+        .getValue();
 
     public static final int       YEAR_PREVIOUS        = 2019;
 

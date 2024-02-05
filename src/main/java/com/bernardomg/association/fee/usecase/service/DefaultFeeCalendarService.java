@@ -142,6 +142,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         name = row.getMember()
             .getFullName();
 
+        // FIXME: Shouldn't be needed when filtering by active or inactive
         active = activeMemberRepository.isActive(memberNumber);
 
         member = FeeCalendarMember.builder()

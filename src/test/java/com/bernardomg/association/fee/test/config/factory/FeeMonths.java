@@ -130,7 +130,7 @@ public final class FeeMonths {
         final FeeCalendarMonthFee fee;
 
         fee = FeeCalendarMonthFee.builder()
-            .withDate(YearMonth.of(2020, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR, month))
             .withPaid(true)
             .build();
         return FeeCalendarMonth.builder()

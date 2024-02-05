@@ -46,7 +46,7 @@ import com.bernardomg.association.member.test.config.factory.MemberConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - delete")
-class ITFeeServiceDelete {
+class TestFeeServiceDelete {
 
     @Mock
     private FeeRepository     feeRepository;
@@ -57,7 +57,7 @@ class ITFeeServiceDelete {
     @InjectMocks
     private DefaultFeeService service;
 
-    public ITFeeServiceDelete() {
+    public TestFeeServiceDelete() {
         super();
     }
 
