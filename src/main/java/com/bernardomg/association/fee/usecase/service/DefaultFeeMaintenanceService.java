@@ -28,15 +28,11 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     @Override
     public final void registerMonthFees() {
-        final YearMonth       previousMonth;
         final Collection<Fee> feesToExtend;
         final Collection<Fee> feesToCreate;
 
-        previousMonth = YearMonth.now()
-            .minusMonths(1);
-
         // Find fees to extend into the current month
-        feesToExtend = feeRepository.findAllByDate(previousMonth);
+        feesToExtend = feeRepository.findAllForPreviousMonth();
 
         feesToCreate = feesToExtend.stream()
             // Prepare for the current month
@@ -52,6 +48,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean isActive(final Fee fee) {
+        // TODO: aren't all members with fees in the previous month active?
         return activeMemberRepository.isActivePreviousMonth(fee.getMember()
             .getNumber());
     }

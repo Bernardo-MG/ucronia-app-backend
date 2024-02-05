@@ -181,6 +181,19 @@ public final class Fees {
             .build();
     }
 
+    public static final Fee toCreate() {
+        final FeeMember      member;
+
+        member = FeeMember.builder()
+            .withNumber(MemberConstants.NUMBER)
+            .build();
+        return Fee.builder()
+            .withDate(FeeConstants.CURRENT_MONTH)
+            .withPaid(false)
+            .withMember(member)
+            .build();
+    }
+
     public static final Fee paidAt(final int month) {
         final FeeMember      member;
         final FeeTransaction transaction;
@@ -471,6 +484,26 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
+            .withDate(FeeConstants.TRANSACTION_DATE)
+            .build();
+        return Fee.builder()
+            .withDate(FeeConstants.PREVIOUS_MONTH)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
+            .build();
+    }
+
+    public static final Fee paidPreviousMonth() {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .withIndex(TransactionConstants.INDEX)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
         return Fee.builder()

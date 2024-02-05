@@ -4,7 +4,6 @@ package com.bernardomg.association.fee.domain.repository;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -27,11 +26,11 @@ public interface FeeRepository {
 
     public Collection<Fee> findAll(final Long memberNumber, final Collection<YearMonth> feeDates);
 
-    public List<Fee> findAllByDate(final YearMonth date);
-
     public Collection<Fee> findAllForActiveMembers(final int year, final Sort sort);
 
     public Collection<Fee> findAllForInactiveMembers(final int year, final Sort sort);
+
+    public Collection<Fee> findAllForPreviousMonth();
 
     public Collection<Fee> findAllInYear(final int year, final Sort sort);
 

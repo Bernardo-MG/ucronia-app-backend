@@ -123,14 +123,6 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final List<Fee> findAllByDate(final YearMonth date) {
-        return memberFeeRepository.findAllByDate(date)
-            .stream()
-            .map(this::toDomain)
-            .toList();
-    }
-
-    @Override
     public final Collection<Fee> findAllForActiveMembers(final int year, final Sort sort) {
         final Collection<Long> foundIds;
         final YearMonth        validStart;
@@ -167,6 +159,19 @@ public final class JpaFeeRepository implements FeeRepository {
         foundIds = activeMemberRepository.findAllInactiveIds(validStart, validEnd);
 
         return memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
+    public final Collection<Fee> findAllForPreviousMonth() {
+        final YearMonth previousMonth;
+
+        previousMonth = YearMonth.now()
+            .minusMonths(1);
+
+        return memberFeeRepository.findAllByDate(previousMonth)
             .stream()
             .map(this::toDomain)
             .toList();
