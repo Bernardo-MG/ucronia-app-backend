@@ -297,17 +297,33 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final FeeMember      member;
-        final FeeTransaction transaction;
+        final FeeMember              feeMember;
+        final FeeTransaction         feeTransaction;
+        final Optional<MemberEntity> member;
+        final String                 name;
 
-        member = FeeMember.builder()
-            .build();
-        transaction = FeeTransaction.builder()
+        member = memberRepository.findById(entity.getMemberId());
+        if (member.isEmpty()) {
+            feeMember = FeeMember.builder()
+                .build();
+        } else {
+            name = (member.get()
+                .getName() + " "
+                    + member.get()
+                        .getSurname()).trim();
+            feeMember = FeeMember.builder()
+                .withFullName(name)
+                .withNumber(member.get()
+                    .getNumber())
+                .build();
+        }
+
+        feeTransaction = FeeTransaction.builder()
             .build();
         return Fee.builder()
             .withDate(entity.getDate())
-            .withMember(member)
-            .withTransaction(transaction)
+            .withMember(feeMember)
+            .withTransaction(feeTransaction)
             .build();
     }
 

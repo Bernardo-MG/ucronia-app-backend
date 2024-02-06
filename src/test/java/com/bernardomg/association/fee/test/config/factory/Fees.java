@@ -33,6 +33,24 @@ public final class Fees {
             .build();
     }
 
+    public static final Fee newlyCreated() {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .build();
+        return Fee.builder()
+            .withDate(FeeConstants.DATE)
+            .withPaid(false)
+            .withMember(member)
+            .withTransaction(transaction)
+            .build();
+    }
+
     public static final Fee noSurname() {
         final FeeMember      member;
         final FeeTransaction transaction;
