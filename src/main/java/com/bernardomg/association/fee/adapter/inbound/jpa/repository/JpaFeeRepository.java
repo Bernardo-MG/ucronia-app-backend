@@ -165,7 +165,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public Collection<Fee> findAllInYear(final int year, final Sort sort) {
+    public final Collection<Fee> findAllInYear(final int year, final Sort sort) {
         final YearMonth start;
         final YearMonth end;
 

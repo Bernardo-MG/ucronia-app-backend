@@ -12,6 +12,13 @@ public final class FeePaymentEntities {
             .build();
     }
 
+    public static final FeePaymentEntity valid() {
+        return FeePaymentEntity.builder()
+            .withFeeId(1L)
+            .withTransactionId(1L)
+            .build();
+    }
+
     private FeePaymentEntities() {
         super();
     }
