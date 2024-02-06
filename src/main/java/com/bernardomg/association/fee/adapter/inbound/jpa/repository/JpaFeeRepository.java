@@ -102,7 +102,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAll(final Long memberNumber, final Collection<YearMonth> feeDates) {
+    public final Collection<Fee> findAllForMemberInDates(final Long memberNumber, final Collection<YearMonth> feeDates) {
         return feeRepository.findAllByMemberNumberAndDateIn(memberNumber, feeDates)
             .stream()
             .map(this::toDomain)

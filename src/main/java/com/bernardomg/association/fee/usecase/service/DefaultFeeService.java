@@ -148,7 +148,7 @@ public final class DefaultFeeService implements FeeService {
         pay(member.get(), fees, payment.getTransaction()
             .getDate());
 
-        return feeRepository.findAll(payment.getMember()
+        return feeRepository.findAllForMemberInDates(payment.getMember()
             .getNumber(), payment.getFeeDates());
     }
 
