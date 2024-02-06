@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,22 +31,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction service - delete")
+@DisplayName("TransactionRepository - delete")
 @PositiveTransaction
-class ITTransactionServiceDelete {
+class ITTransactionRepositoryDelete {
 
     @Autowired
-    private TransactionSpringRepository repository;
+    private TransactionRepository       repository;
 
     @Autowired
-    private TransactionService          service;
+    private TransactionSpringRepository springRepository;
 
-    public ITTransactionServiceDelete() {
+    public ITTransactionRepositoryDelete() {
         super();
     }
 
@@ -54,10 +54,10 @@ class ITTransactionServiceDelete {
     @DisplayName("With a valid id it removes the entity")
     void testDelete_RemovesEntity() {
         // WHEN
-        service.delete(TransactionConstants.INDEX);
+        repository.delete(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(springRepository.count())
             .as("transactions")
             .isZero();
     }

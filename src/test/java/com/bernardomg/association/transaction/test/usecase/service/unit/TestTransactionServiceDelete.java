@@ -22,39 +22,64 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - delete")
-class ITTransactionServiceDeleteError {
+@PositiveTransaction
+class TestTransactionServiceDelete {
 
-    @Autowired
-    private TransactionService service;
+    @InjectMocks
+    private DefaultTransactionService service;
 
-    public ITTransactionServiceDeleteError() {
-        super();
+    @Mock
+    private TransactionRepository     transactionRepository;
+
+    @Test
+    @DisplayName("When the transaction doesn't exist, an exception is thrown")
+    void testDelete_NotExisting() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.delete(TransactionConstants.INDEX);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingIdException.class);
     }
 
     @Test
-    @DisplayName("With an invalid id, an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
-        final ThrowingCallable execution;
+    @DisplayName("When deleting the repository is called")
+    void testDelete_RemovesEntity() {
+        // GIVEN
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
-        execution = () -> service.delete(TransactionConstants.INDEX);
+        // WHEN
+        service.delete(TransactionConstants.INDEX);
 
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
+        // THEN
+        verify(transactionRepository).delete(TransactionConstants.INDEX);
     }
 
 }
