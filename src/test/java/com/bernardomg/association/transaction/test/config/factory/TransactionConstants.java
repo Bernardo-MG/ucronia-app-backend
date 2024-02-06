@@ -19,4 +19,6 @@ public final class TransactionConstants {
 
     public static final YearMonth MONTH             = YearMonth.now();
 
+    public static final long      NEXT_INDEX        = 11;
+
 }

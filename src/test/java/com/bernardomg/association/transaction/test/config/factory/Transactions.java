@@ -8,6 +8,15 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 
 public final class Transactions {
 
+    public static final Transaction amount(final float amount) {
+        return Transaction.builder()
+            .withIndex(TransactionConstants.INDEX)
+            .withAmount(amount)
+            .withDate(TransactionConstants.DATE)
+            .withDescription(TransactionConstants.DESCRIPTION)
+            .build();
+    }
+
     public static final Transaction decimal() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
