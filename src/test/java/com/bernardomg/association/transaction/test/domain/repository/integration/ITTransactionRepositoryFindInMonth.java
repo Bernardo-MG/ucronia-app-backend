@@ -39,7 +39,7 @@ import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction calendar service - get for month")
+@DisplayName("TransactionRepository - get for month")
 class ITTransactionRepositoryFindInMonth {
 
     @Autowired

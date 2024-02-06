@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import java.time.Month;
 
@@ -41,43 +41,43 @@ import com.bernardomg.association.transaction.config.data.annotation.FullTransac
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction service - get all")
-class ITTransactionServiceGetAll {
+@DisplayName("TransactionRepository - get all")
+class ITTransactionRepositoryFindAll {
 
     @Autowired
-    private TransactionSpringRepository repository;
+    private TransactionRepository       repository;
 
     @Autowired
-    private TransactionService          service;
+    private TransactionSpringRepository springRepository;
 
-    public ITTransactionServiceGetAll() {
+    public ITTransactionRepositoryFindAll() {
         super();
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns it")
-    void testGetAll_AroundZero(final Float amount) {
+    void testFindAll_AroundZero(final Float amount) {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
-        repository.save(TransactionEntities.forAmount(amount));
+        springRepository.save(TransactionEntities.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -87,20 +87,20 @@ class ITTransactionServiceGetAll {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns it")
-    void testGetAll_Decimal(final Float amount) {
+    void testFindAll_Decimal(final Float amount) {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
-        repository.save(TransactionEntities.forAmount(amount));
+        springRepository.save(TransactionEntities.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -110,7 +110,7 @@ class ITTransactionServiceGetAll {
     @Test
     @DisplayName("With a full year, it returns all the transactions")
     @FullTransactionYear
-    void testGetAll_FullYear() {
+    void testFindAll_FullYear() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -121,7 +121,7 @@ class ITTransactionServiceGetAll {
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -136,7 +136,7 @@ class ITTransactionServiceGetAll {
     @Test
     @DisplayName("With multiple transactions in the month, it returns all the transactions")
     @MultipleTransactionsSameMonth
-    void testGetAll_Multiple() {
+    void testFindAll_Multiple() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -147,7 +147,7 @@ class ITTransactionServiceGetAll {
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)

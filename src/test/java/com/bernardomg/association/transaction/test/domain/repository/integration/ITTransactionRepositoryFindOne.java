@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import java.util.Optional;
 
@@ -39,25 +39,21 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.Tra
 import com.bernardomg.association.transaction.config.data.annotation.NegativeTransaction;
 import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction service - get one")
-class ITTransactionServiceGetOne {
+@DisplayName("TransactionRepository - find one")
+class ITTransactionRepositoryFindOne {
 
     @Autowired
-    private TransactionSpringRepository repository;
+    private TransactionRepository       repository;
 
     @Autowired
-    private TransactionService          service;
-
-    public ITTransactionServiceGetOne() {
-        super();
-    }
+    private TransactionSpringRepository springRepository;
 
     @Test
     @DisplayName("With a valid id, the related entity is returned")
@@ -66,7 +62,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // WHEN
-        transactionOptional = service.getOne(TransactionConstants.INDEX);
+        transactionOptional = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)
@@ -80,10 +76,10 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // GIVEN
-        repository.save(TransactionEntities.forAmount(amount));
+        springRepository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
-        transactionOptional = service.getOne(TransactionConstants.INDEX);
+        transactionOptional = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)
@@ -97,10 +93,10 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // GIVEN
-        repository.save(TransactionEntities.forAmount(amount));
+        springRepository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
-        transactionOptional = service.getOne(TransactionConstants.INDEX);
+        transactionOptional = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)
@@ -114,7 +110,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // WHEN
-        transactionOptional = service.getOne(TransactionConstants.INDEX);
+        transactionOptional = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)

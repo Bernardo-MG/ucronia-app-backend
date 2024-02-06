@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -37,26 +37,26 @@ import com.bernardomg.association.transaction.config.data.annotation.FullTransac
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction service - get all - filter")
-class ITTransactionServiceGetAllFilter {
+@DisplayName("TransactionRepository - get all - filtered")
+class ITTransactionRepositoryFindAllFilter {
 
     @Autowired
-    private TransactionService service;
+    private TransactionRepository repository;
 
-    public ITTransactionServiceGetAllFilter() {
+    public ITTransactionRepositoryFindAllFilter() {
         super();
     }
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @MultipleTransactionsSameMonth
-    void testGetAll_AfterDate() {
+    void testFindAll_AfterDate() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -67,7 +67,7 @@ class ITTransactionServiceGetAllFilter {
         transactionQuery = TransactionsQueries.startDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -79,7 +79,7 @@ class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @MultipleTransactionsSameMonth
-    void testGetAll_BeforeDate() {
+    void testFindAll_BeforeDate() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -90,7 +90,7 @@ class ITTransactionServiceGetAllFilter {
         transactionQuery = TransactionsQueries.endDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -101,7 +101,7 @@ class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @MultipleTransactionsSameMonth
-    void testGetAll_InDate() {
+    void testFindAll_InDate() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -112,7 +112,7 @@ class ITTransactionServiceGetAllFilter {
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -122,7 +122,7 @@ class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date for the first day of the year, the returned data is filtered")
     @FullTransactionYear
-    void testGetAll_InDate_FirstDay() {
+    void testFindAll_InDate_FirstDay() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -133,7 +133,7 @@ class ITTransactionServiceGetAllFilter {
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1));
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -143,7 +143,7 @@ class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date for the last day of the year, the returned data is filtered")
     @FullTransactionYear
-    void testGetAll_InDate_LastDay() {
+    void testFindAll_InDate_LastDay() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -155,7 +155,7 @@ class ITTransactionServiceGetAllFilter {
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.DECEMBER, 1));
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)

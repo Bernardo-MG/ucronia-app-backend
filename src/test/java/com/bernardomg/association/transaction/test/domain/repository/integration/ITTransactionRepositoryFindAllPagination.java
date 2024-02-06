@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import java.time.Month;
 
@@ -30,116 +30,103 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction service - get all - sort")
-@MultipleTransactionsSameMonth
-class ITTransactionServiceGetAllSort {
+@DisplayName("TransactionRepository - get all - filtered")
+class ITTransactionRepositoryFindAllPagination {
 
     @Autowired
-    private TransactionService service;
-
-    public ITTransactionServiceGetAllSort() {
-        super();
-    }
+    private TransactionRepository repository;
 
     @Test
-    @DisplayName("With ascending order by date it returns the ordered data")
-    void testGetAll_Date_Asc() {
+    @DisplayName("With an active pagination, the returned data is contained in a page")
+    void testFindAll_Page_Container() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "date");
+        pageable = Pageable.ofSize(10);
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
-                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
+            .as("transactions")
+            .isInstanceOf(Page.class);
     }
 
     @Test
-    @DisplayName("With descending order by date it returns the ordered data")
-    void testGetAll_Date_Desc() {
+    @DisplayName("With pagination for the first page, it returns the first page")
+    void testFindAll_Page1() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "date");
+        pageable = PageRequest.of(0, 1);
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(5, Month.JANUARY),
-                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(1, Month.JANUARY));
+            .containsExactly(Transactions.forIndex(1, Month.JANUARY));
     }
 
     @Test
-    @DisplayName("With ascending order by description it returns the ordered data")
-    void testGetAll_Description_Asc() {
+    @DisplayName("With pagination for the second page, it returns the second page")
+    void testFindAll_Page2() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "description");
+        pageable = PageRequest.of(1, 1);
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
-                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
     }
 
     @Test
-    @DisplayName("With descending order by description it returns the ordered data")
-    void testGetAll_Description_Desc() {
+    @DisplayName("With an inactive pagination, the returned data is contained in a page")
+    void testFindAll_Unpaged_Container() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "description");
+        pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(5, Month.JANUARY),
-                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(1, Month.JANUARY));
+            .isInstanceOf(Page.class);
     }
 
 }

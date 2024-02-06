@@ -22,102 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.usecase.service.unit;
 
-import java.time.Month;
+import static org.mockito.BDDMockito.given;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 
-@IntegrationTest
-@DisplayName("Transaction service - get all - pagination")
-@MultipleTransactionsSameMonth
-class ITTransactionServiceGetAllPagination {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Transaction service - get all")
+class TestTransactionServiceGetAll {
 
-    @Autowired
-    private TransactionService service;
+    @InjectMocks
+    private DefaultTransactionService service;
 
-    public ITTransactionServiceGetAllPagination() {
+    @Mock
+    private TransactionRepository     transactionRepository;
+
+    public TestTransactionServiceGetAll() {
         super();
     }
 
     @Test
-    @DisplayName("With an active pagination, the returned data is contained in a page")
-    void testGetAll_Page_Container() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        pageable = Pageable.ofSize(10);
-
-        transactionQuery = TransactionsQueries.empty();
-
-        // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .as("transactions")
-            .isInstanceOf(Page.class);
-    }
-
-    @Test
-    @DisplayName("With pagination for the first page, it returns the first page")
-    void testGetAll_Page1() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        transactionQuery = TransactionsQueries.empty();
-
-        // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndex(1, Month.JANUARY));
-    }
-
-    @Test
-    @DisplayName("With pagination for the second page, it returns the second page")
-    void testGetAll_Page2() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(1, 1);
-
-        transactionQuery = TransactionsQueries.empty();
-
-        // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
-    }
-
-    @Test
-    @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    void testGetAll_Unpaged_Container() {
+    @DisplayName("When there is data it is returned")
+    void testGetAll() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -127,12 +70,38 @@ class ITTransactionServiceGetAllPagination {
 
         transactionQuery = TransactionsQueries.empty();
 
+        given(transactionRepository.findAll(transactionQuery, pageable)).willReturn(List.of(Transactions.valid()));
+
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
-            .isInstanceOf(Page.class);
+            .as("transactions")
+            .containsExactly(Transactions.valid());
+    }
+
+    @Test
+    @DisplayName("When there is no data nothing is returned")
+    void testGetAll_NoData() {
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        transactionQuery = TransactionsQueries.empty();
+
+        given(transactionRepository.findAll(transactionQuery, pageable)).willReturn(List.of());
+
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .isEmpty();
     }
 
 }

@@ -22,34 +22,66 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.bernardomg.association.transaction.test.config.factory.Transactions;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
-@DisplayName("Transaction service - get one - errors")
-class ITTransactionServiceGetOneError {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Transaction service - get one")
+class TestTransactionServiceGetOne {
 
-    @Autowired
-    private TransactionService service;
+    @InjectMocks
+    private DefaultTransactionService service;
 
-    public ITTransactionServiceGetOneError() {
+    @Mock
+    private TransactionRepository     transactionRepository;
+
+    public TestTransactionServiceGetOne() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
+    @DisplayName("When there is data it is returned")
+    void testFindOne() {
+        final Optional<Transaction> transaction;
+
+        // GIVEN
+        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(Transactions.valid()));
+
+        // WHEN
+        transaction = service.getOne(TransactionConstants.INDEX);
+
+        // THEN
+        Assertions.assertThat(transaction)
+            .as("transaction")
+            .contains(Transactions.valid());
+    }
+
+    @Test
+    @DisplayName("When there is no data an exception is thrown")
+    void testFindOne_NoData() {
         final ThrowingCallable execution;
+
+        // GIVEN
+        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(TransactionConstants.INDEX);
