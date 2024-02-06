@@ -48,6 +48,7 @@ public class TestFeeMaintenanceService {
         // THEN
         verify(feeRepository).save(List.of(Fees.toCreate()));
     }
+
     @Test
     @DisplayName("When the fee exists nothing is saved")
     void testRegisterMonthFees_Exists() {
@@ -63,6 +64,7 @@ public class TestFeeMaintenanceService {
         // THEN
         verify(feeRepository).save(List.of());
     }
+
     @Test
     @DisplayName("When the user is not active nothing is saved")
     void testRegisterMonthFees_NotActive() {

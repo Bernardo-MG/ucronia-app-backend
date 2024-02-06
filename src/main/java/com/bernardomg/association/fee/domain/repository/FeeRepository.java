@@ -42,6 +42,4 @@ public interface FeeRepository {
 
     public Collection<Fee> save(final Collection<Fee> fees);
 
-    public Collection<Fee> save(final Long memberNumber, final Collection<YearMonth> feeDates);
-
 }

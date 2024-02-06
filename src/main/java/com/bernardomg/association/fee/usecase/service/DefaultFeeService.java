@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeePayment;
+import com.bernardomg.association.fee.domain.model.FeePaymentTransaction;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
@@ -96,9 +99,9 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final FeePayment payment) {
+        final Collection<Fee>  newFees;
         final Collection<Fee>  fees;
         final Optional<Member> member;
-        final boolean          memberExists;
 
         log.debug("Paying fees for {} in {}. Months paid: {}", payment.getMember()
             .getNumber(),
@@ -106,9 +109,9 @@ public final class DefaultFeeService implements FeeService {
                 .getDate(),
             payment.getFeeDates());
 
-        memberExists = memberRepository.exists(payment.getMember()
+        member = memberRepository.findOne(payment.getMember()
             .getNumber());
-        if (!memberExists) {
+        if (member.isEmpty()) {
             // TODO: Change exception
             throw new MissingMemberIdException(payment.getMember()
                 .getNumber());
@@ -116,15 +119,38 @@ public final class DefaultFeeService implements FeeService {
 
         validatorPay.validate(payment);
 
-        member = memberRepository.findOne(payment.getMember()
-            .getNumber());
-        fees = feeRepository.save(payment.getMember()
-            .getNumber(), payment.getFeeDates());
+        newFees = payment.getFeeDates()
+            .stream()
+            .map(d -> toFee(member.get(), payment.getTransaction(), d))
+            .toList();
+        fees = feeRepository.save(newFees);
+
         feeRepository.pay(member.get(), fees, payment.getTransaction()
             .getDate());
 
         return feeRepository.findAll(payment.getMember()
             .getNumber(), payment.getFeeDates());
+    }
+
+    private final Fee toFee(final Member member, final FeePaymentTransaction transaction, final YearMonth date) {
+        final FeeMember      feeMember;
+        final FeeTransaction feeTransaction;
+
+        feeMember = FeeMember.builder()
+            // TODO
+            .withFullName(null)
+            .withNumber(member.getNumber())
+            .build();
+        feeTransaction = FeeTransaction.builder()
+            .withDate(transaction.getDate())
+            .withIndex(null)
+            .build();
+        return Fee.builder()
+            .withMember(feeMember)
+            .withTransaction(feeTransaction)
+            .withDate(date)
+            .withPaid(false)
+            .build();
     }
 
 }

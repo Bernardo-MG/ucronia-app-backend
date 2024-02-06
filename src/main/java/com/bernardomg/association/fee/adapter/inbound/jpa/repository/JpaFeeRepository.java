@@ -7,7 +7,6 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
@@ -277,38 +276,9 @@ public final class JpaFeeRepository implements FeeRepository {
         entities = fees.stream()
             .map(this::toEntity)
             .toList();
+        entities.forEach(this::loadId);
         return feeRepository.saveAll(entities)
             .stream()
-            .map(this::toDomain)
-            .toList();
-    }
-
-    @Override
-    public final Collection<Fee> save(final Long memberNumber, final Collection<YearMonth> feeDates) {
-        final Collection<FeeEntity>          fees;
-        final Function<YearMonth, FeeEntity> toPersistentFee;
-        final Optional<MemberEntity>         member;
-        final Collection<FeeEntity>          created;
-
-        member = memberRepository.findByNumber(memberNumber);
-
-        // Register fees
-        toPersistentFee = (date) -> toEntity(member.get()
-            .getId(), date);
-        fees = feeDates.stream()
-            .map(toPersistentFee)
-            .toList();
-
-        // Update fees on fees to update
-        fees.stream()
-            .forEach(this::loadId);
-
-        created = feeRepository.saveAll(fees);
-
-        // TODO: Why?
-        feeRepository.flush();
-
-        return created.stream()
             .map(this::toDomain)
             .toList();
     }
@@ -317,6 +287,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Long                id;
         final Optional<FeeEntity> read;
 
+        // TODO: optimize to use a single query
         read = feeRepository.findOneByMemberIdAndDate(fee.getMemberId(), fee.getDate());
         if (read.isPresent()) {
             id = read.get()
@@ -390,13 +361,6 @@ public final class JpaFeeRepository implements FeeRepository {
         return FeeEntity.builder()
             .withMemberId(id)
             .withDate(fee.getDate())
-            .build();
-    }
-
-    private final FeeEntity toEntity(final Long memberId, final YearMonth date) {
-        return FeeEntity.builder()
-            .withMemberId(memberId)
-            .withDate(date)
             .build();
     }
 
