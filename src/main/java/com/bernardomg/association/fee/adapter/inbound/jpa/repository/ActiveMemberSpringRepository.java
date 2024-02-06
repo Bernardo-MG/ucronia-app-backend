@@ -81,8 +81,8 @@ public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity
      * Returns if the member is active in the received range. This means if the member has fees inside the range, both
      * extremes included.
      *
-     * @param id
-     *            id of the member to search for
+     * @param number
+     *            number of the member to search for
      * @param start
      *            starting date to search in
      * @param end
