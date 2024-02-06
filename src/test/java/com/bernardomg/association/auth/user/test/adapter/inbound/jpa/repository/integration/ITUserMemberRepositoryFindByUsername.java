@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.test.service.integration;
+package com.bernardomg.association.auth.user.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
@@ -32,35 +32,44 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.user.domain.model.UserMember;
+import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
 import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
-import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - get member")
-class ITUserMemberServiceGetMember {
+@DisplayName("UserMemberRepository - find by username")
+class ITUserMemberRepositoryFindByUsername {
 
     @Autowired
-    private UserMemberService service;
-
-    public ITUserMemberServiceGetMember() {
-        super();
-    }
+    private UserMemberRepository repository;
 
     @Test
-    @DisplayName("With a member assigned to the user, it returns the user")
+    @DisplayName("When the user exists it is returned")
     @ValidUserWithMember
     void testGetMember() {
         final Optional<UserMember> member;
 
         // WHEN
-        member = service.getMember(UserConstants.USERNAME);
+        member = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(member)
             .contains(UserMembers.valid());
+    }
+
+    @Test
+    @DisplayName("When no data exists nothing is returned")
+    void testGetMember_NoData() {
+        final Optional<UserMember> member;
+
+        // WHEN
+        member = repository.findByUsername(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEmpty();
     }
 
 }
