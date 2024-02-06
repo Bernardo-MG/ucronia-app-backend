@@ -27,14 +27,18 @@ package com.bernardomg.association.transaction.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.transaction.persistence.repository.MonthlyBalanceRepository;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.transaction.service.DefaultTransactionBalanceService;
-import com.bernardomg.association.transaction.service.DefaultTransactionCalendarService;
-import com.bernardomg.association.transaction.service.DefaultTransactionService;
-import com.bernardomg.association.transaction.service.TransactionBalanceService;
-import com.bernardomg.association.transaction.service.TransactionCalendarService;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionBalanceRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyBalanceSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 
 /**
  * Transaction configuration.
@@ -50,13 +54,25 @@ public class TransactionConfig {
     }
 
     @Bean("balanceService")
-    public TransactionBalanceService getBalanceService(final MonthlyBalanceRepository monthlyBalanceRepository) {
-        return new DefaultTransactionBalanceService(monthlyBalanceRepository);
+    public TransactionBalanceService
+            getBalanceService(final TransactionBalanceRepository transactionBalanceRepository) {
+        return new DefaultTransactionBalanceService(transactionBalanceRepository);
     }
 
     @Bean("fundsCalendarService")
     public TransactionCalendarService getFundsCalendarService(final TransactionRepository transactionRepository) {
         return new DefaultTransactionCalendarService(transactionRepository);
+    }
+
+    @Bean("transactionBalanceRepository")
+    public TransactionBalanceRepository
+            getTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
+        return new JpaTransactionBalanceRepository(monthlyBalanceRepository);
+    }
+
+    @Bean("transactionRepository")
+    public TransactionRepository getTransactionRepository(final TransactionSpringRepository transactionRepository) {
+        return new JpaTransactionRepository(transactionRepository);
     }
 
     @Bean("transactionService")

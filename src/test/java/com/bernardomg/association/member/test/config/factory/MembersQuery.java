@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.member.test.config.factory;
 
-import com.bernardomg.association.member.model.MemberQuery;
-import com.bernardomg.association.member.model.MemberStatus;
+import com.bernardomg.association.member.domain.model.MemberQuery;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 
 public final class MembersQuery {
 
     public static final MemberQuery active() {
         return MemberQuery.builder()
-            .status(MemberStatus.ACTIVE)
+            .withStatus(MemberStatus.ACTIVE)
             .build();
     }
 
@@ -19,7 +19,7 @@ public final class MembersQuery {
 
     public static final MemberQuery inactive() {
         return MemberQuery.builder()
-            .status(MemberStatus.INACTIVE)
+            .withStatus(MemberStatus.INACTIVE)
             .build();
     }
 

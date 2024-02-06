@@ -27,12 +27,14 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
-import com.bernardomg.association.member.service.DefaultMemberBalanceService;
-import com.bernardomg.association.member.service.DefaultMemberService;
-import com.bernardomg.association.member.service.MemberBalanceService;
-import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberBalanceRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MonthlyMemberBalanceSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.MemberBalanceService;
+import com.bernardomg.association.member.usecase.service.MemberService;
 
 /**
  * Member configuration.
@@ -47,10 +49,15 @@ public class MemberConfig {
         super();
     }
 
+    @Bean("memberBalanceRepository")
+    public MemberBalanceRepository
+            getMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository) {
+        return new JpaMemberBalanceRepository(monthlyMemberBalanceRepository);
+    }
+
     @Bean("memberBalanceService")
-    public MemberBalanceService
-            getMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository) {
-        return new DefaultMemberBalanceService(monthlyMemberBalanceRepository);
+    public MemberBalanceService getMemberBalanceService(final MemberBalanceRepository memberBalanceRepository) {
+        return new DefaultMemberBalanceService(memberBalanceRepository);
     }
 
     @Bean("memberService")

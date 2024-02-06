@@ -3,42 +3,42 @@ package com.bernardomg.association.member.test.config.factory;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.member.model.MonthlyMemberBalance;
+import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 
 public final class MonthlyMemberBalances {
 
     public static final MonthlyMemberBalance currentMonth() {
         return MonthlyMemberBalance.builder()
-            .date(MemberBalanceConstants.CURRENT_MONTH)
-            .total(1L)
+            .withDate(MemberBalanceConstants.CURRENT_MONTH)
+            .withTotal(1L)
             .build();
     }
 
     public static final MonthlyMemberBalance currentMonth(final Long total) {
         return MonthlyMemberBalance.builder()
-            .date(MemberBalanceConstants.CURRENT_MONTH)
-            .total(total)
+            .withDate(MemberBalanceConstants.CURRENT_MONTH)
+            .withTotal(total)
             .build();
     }
 
     public static final MonthlyMemberBalance forMonthAndTotal(final YearMonth month, final Long total) {
         return MonthlyMemberBalance.builder()
-            .date(month)
-            .total(total)
+            .withDate(month)
+            .withTotal(total)
             .build();
     }
 
     public static final MonthlyMemberBalance previousMonth() {
         return MonthlyMemberBalance.builder()
-            .date(MemberBalanceConstants.PREVIOUS_MONTH)
-            .total(1L)
+            .withDate(MemberBalanceConstants.PREVIOUS_MONTH)
+            .withTotal(1L)
             .build();
     }
 
     public static final MonthlyMemberBalance twoMonthsBack() {
         return MonthlyMemberBalance.builder()
-            .date(MemberBalanceConstants.TWO_MONTHS_BACK)
-            .total(1L)
+            .withDate(MemberBalanceConstants.TWO_MONTHS_BACK)
+            .withTotal(1L)
             .build();
     }
 

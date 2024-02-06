@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.configuration.source.PersistentConfigurationSource;
-import com.bernardomg.configuration.test.configuration.FloatConfiguration;
-import com.bernardomg.configuration.test.configuration.IntegerConfiguration;
-import com.bernardomg.configuration.test.configuration.StringConfiguration;
+import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
+import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
+import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
