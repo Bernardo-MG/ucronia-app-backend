@@ -1,13 +1,19 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.association.configuration.usecase.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
@@ -20,6 +26,8 @@ import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,17 +42,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final FeeRepository         feeRepository;
+    private final AssociationConfigurationSource configurationSource;
 
-    private final MemberRepository      memberRepository;
+    private final FeeRepository                  feeRepository;
 
-    private final Validator<FeePayment> validatorPay;
+    private final MemberRepository               memberRepository;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+    private final MessageSource                  messageSource;
+
+    private final TransactionRepository          transactionRepository;
+
+    private final Validator<FeePayment>          validatorPay;
+
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
+            final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
+            final MessageSource msgSource) {
         super();
 
         feeRepository = feeRepo;
         memberRepository = memberRepo;
+        transactionRepository = transactionRepo;
+
+        configurationSource = configSource;
+        messageSource = msgSource;
 
         // TODO: Test validation
         validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
@@ -125,11 +145,56 @@ public final class DefaultFeeService implements FeeService {
             .toList();
         fees = feeRepository.save(newFees);
 
-        feeRepository.pay(member.get(), fees, payment.getTransaction()
+        pay(member.get(), fees, payment.getTransaction()
             .getDate());
 
         return feeRepository.findAll(payment.getMember()
             .getNumber(), payment.getFeeDates());
+    }
+
+    private final void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate) {
+        final Transaction           transaction;
+        final Transaction           savedTransaction;
+        final Float                 feeAmount;
+        final String                name;
+        final String                dates;
+        final String                message;
+        final Object[]              messageArguments;
+        final Long                  index;
+        final Collection<YearMonth> feeDates;
+
+        feeDates = fees.stream()
+            .map(Fee::getDate)
+            .toList();
+
+        // Calculate amount
+        feeAmount = configurationSource.getFeeAmount() * feeDates.size();
+
+        // Register transaction
+        index = transactionRepository.findNextIndex();
+
+        name = member.getName()
+            .getFullName();
+
+        dates = feeDates.stream()
+            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
+                LocaleContextHolder.getLocale()) + " " + f.getYear())
+            .collect(Collectors.joining(", "));
+
+        messageArguments = List.of(name, dates)
+            .toArray();
+        message = messageSource.getMessage("fee.payment.message", messageArguments, LocaleContextHolder.getLocale());
+
+        transaction = Transaction.builder()
+            .withAmount(feeAmount)
+            .withDate(payDate)
+            .withDescription(message)
+            .withIndex(index)
+            .build();
+
+        savedTransaction = transactionRepository.save(transaction);
+
+        feeRepository.pay(member, fees, savedTransaction);
     }
 
     private final Fee toFee(final Member member, final FeePaymentTransaction transaction, final YearMonth date) {

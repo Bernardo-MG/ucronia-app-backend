@@ -1,22 +1,16 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.configuration.adapter.inbound.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFee;
@@ -33,32 +27,28 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.domain.model.Transaction;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class JpaFeeRepository implements FeeRepository {
 
-    private final ActiveMemberSpringRepository   activeMemberRepository;
+    private final ActiveMemberSpringRepository activeMemberRepository;
 
-    private final AssociationConfigurationSource configurationSource;
+    private final FeePaymentSpringRepository   feePaymentRepository;
 
-    private final FeePaymentSpringRepository     feePaymentRepository;
+    private final FeeSpringRepository          feeRepository;
 
-    private final FeeSpringRepository            feeRepository;
+    private final MemberFeeSpringRepository    memberFeeRepository;
 
-    private final MemberFeeSpringRepository      memberFeeRepository;
+    private final MemberSpringRepository       memberRepository;
 
-    private final MemberSpringRepository         memberRepository;
-
-    private final MessageSource                  messageSource;
-
-    private final TransactionSpringRepository    transactionRepository;
+    private final TransactionSpringRepository  transactionRepository;
 
     public JpaFeeRepository(final FeeSpringRepository feeRepo, final MemberFeeSpringRepository memberFeeRepo,
             final MemberSpringRepository memberRepo, final ActiveMemberSpringRepository activeMemberRepo,
-            final FeePaymentSpringRepository feePaymentRepo, final TransactionSpringRepository transactionRepo,
-            final AssociationConfigurationSource configurationSrc, final MessageSource messageSrc) {
+            final FeePaymentSpringRepository feePaymentRepo, final TransactionSpringRepository transactionRepo) {
         super();
 
         feeRepository = feeRepo;
@@ -67,8 +57,6 @@ public final class JpaFeeRepository implements FeeRepository {
         activeMemberRepository = activeMemberRepo;
         feePaymentRepository = feePaymentRepo;
         transactionRepository = transactionRepo;
-        configurationSource = configurationSrc;
-        messageSource = messageSrc;
     }
 
     @Override
@@ -210,14 +198,8 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate) {
-        final TransactionEntity           transaction;
-        final Float                       feeAmount;
-        final String                      name;
-        final String                      dates;
-        final String                      message;
-        final Object[]                    messageArguments;
-        final Long                        index;
+    public final void pay(final Member member, final Collection<Fee> fees, final Transaction transaction) {
+        final TransactionEntity           transactionEntity;
         final Iterable<FeePaymentEntity>  payments;
         final Collection<MemberFeeEntity> read;
         final Collection<YearMonth>       feeDates;
@@ -226,32 +208,8 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(Fee::getDate)
             .toList();
 
-        // Calculate amount
-        feeAmount = configurationSource.getFeeAmount() * feeDates.size();
-
-        // Register transaction
-        transaction = new TransactionEntity();
-        transaction.setAmount(feeAmount);
-        transaction.setDate(payDate);
-
-        index = transactionRepository.findNextIndex();
-        transaction.setIndex(index);
-
-        name = member.getName()
-            .getFullName();
-
-        dates = feeDates.stream()
-            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
-                LocaleContextHolder.getLocale()) + " " + f.getYear())
-            .collect(Collectors.joining(", "));
-
-        messageArguments = List.of(name, dates)
-            .toArray();
-        message = messageSource.getMessage("fee.payment.message", messageArguments, LocaleContextHolder.getLocale());
-        transaction.setDescription(message);
-
-        transactionRepository.save(transaction);
-
+        transactionEntity = transactionRepository.findOneByIndex(transaction.getIndex())
+            .get();
         read = memberFeeRepository.findAllByMemberNumberAndDateIn(member.getNumber(), feeDates);
 
         // Register payments
@@ -259,7 +217,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(MemberFeeEntity::getId)
             .map(id -> FeePaymentEntity.builder()
                 .withFeeId(id)
-                .withTransactionId(transaction.getId())
+                .withTransactionId(transactionEntity.getId())
                 .build())
             .toList();
         feePaymentRepository.saveAll(payments);

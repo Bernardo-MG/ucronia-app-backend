@@ -24,11 +24,9 @@
 
 package com.bernardomg.association.fee.config;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.configuration.adapter.inbound.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
@@ -92,10 +90,9 @@ public class FeeConfig {
     public FeeRepository getFeeRepository(final FeeSpringRepository feeRepo,
             final MemberFeeSpringRepository memberFeeRepo, final MemberSpringRepository memberRepo,
             final ActiveMemberSpringRepository activeMemberRepo, final FeePaymentSpringRepository feePaymentRepo,
-            final TransactionSpringRepository transactionRepo, final AssociationConfigurationSource configurationSrc,
-            final MessageSource messageSrc) {
+            final TransactionSpringRepository transactionRepo) {
         return new JpaFeeRepository(feeRepo, memberFeeRepo, memberRepo, activeMemberRepo, feePaymentRepo,
-            transactionRepo, configurationSrc, messageSrc);
+            transactionRepo);
     }
 
 }

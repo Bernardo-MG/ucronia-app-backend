@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.configuration.adapter.inbound.source;
+package com.bernardomg.association.configuration.usecase;
 
 public interface AssociationConfigurationSource {
 

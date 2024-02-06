@@ -4,6 +4,7 @@ package com.bernardomg.association.configuration.adapter.inbound.source;
 import java.util.Objects;
 
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
+import com.bernardomg.association.configuration.usecase.AssociationConfigurationSource;
 import com.bernardomg.configuration.source.ConfigurationSource;
 
 public final class CompositeAssociationConfigurationSource implements AssociationConfigurationSource {
