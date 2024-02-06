@@ -24,16 +24,21 @@
 
 package com.bernardomg.association.auth.user.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Collection;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.model.UserMemberEntity;
 import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
 import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUser;
+import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
+import com.bernardomg.association.auth.user.test.config.factory.UserMemberEntities;
 import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
@@ -50,16 +55,48 @@ class ITUserMemberRepositorySave {
     private UserMemberSpringRepository userMemberSpringRepository;
 
     @Test
-    @DisplayName("With valid data, the relationship is persisted")
-    @ValidUser
-    @ValidMember
-    void testAssignMember_PersistedData() {
+    @DisplayName("When the data exists, the relationship is persisted")
+    @ValidUserWithMember
+    void testAssignMember_Existing_PersistedData() {
+        final Collection<UserMemberEntity> members;
+
         // WHEN
         repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userMemberSpringRepository.count())
-            .isEqualTo(1);
+        members = userMemberSpringRepository.findAll();
+        Assertions.assertThat(members)
+            .containsExactly(UserMemberEntities.valid());
+    }
+
+    @Test
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUserWithMember
+    void testAssignMember_Existing_ReturnedData() {
+        final UserMember member;
+
+        // WHEN
+        member = repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
+    }
+
+    @Test
+    @DisplayName("With valid data, the relationship is persisted")
+    @ValidUser
+    @ValidMember
+    void testAssignMember_PersistedData() {
+        final Collection<UserMemberEntity> members;
+
+        // WHEN
+        repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        members = userMemberSpringRepository.findAll();
+        Assertions.assertThat(members)
+            .containsExactly(UserMemberEntities.valid());
     }
 
     @Test
