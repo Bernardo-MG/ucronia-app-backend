@@ -16,6 +16,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -27,6 +28,29 @@ class ITFeeRepositorySave {
 
     @Autowired
     private FeeSpringRepository springRepository;
+
+    @Test
+    @DisplayName("When a not paid fee exists it can be persisted")
+    @ValidMember
+    @PaidFee
+    void testSave_Existing() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        repository.save(List.of(fee));
+
+        // THEN
+        fees = springRepository.findAll();
+
+        Assertions.assertThat(fees)
+            .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(FeeEntities.atDate());
+    }
 
     @Test
     @DisplayName("Persists the data")

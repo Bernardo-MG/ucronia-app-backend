@@ -17,7 +17,9 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
 import com.bernardomg.association.test.data.fee.annotation.PaidFee;
+import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -33,9 +35,36 @@ class ITFeeRepositoryPay {
     private FeeRepository              repository;
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When the payment exists it is persisted")
     @ValidMember
     @PaidFee
+    void testSave_Existing_PersistedData() {
+        final Iterable<FeePaymentEntity> payments;
+        final Member                     member;
+        final Fee                        fee;
+        final Transaction                transaction;
+
+        // GIVEN
+        member = Members.active();
+        fee = Fees.paid();
+        transaction = Transactions.valid();
+
+        // WHEN
+        repository.pay(member, List.of(fee), transaction);
+
+        // THEN
+        payments = feePaymentSpringRepository.findAll();
+
+        Assertions.assertThat(payments)
+            .as("payments")
+            .containsExactly(FeePaymentEntities.valid());
+    }
+
+    @Test
+    @DisplayName("Persists the data")
+    @ValidMember
+    @NotPaidFee
+    @PositiveTransaction
     void testSave_PersistedData() {
         final Iterable<FeePaymentEntity> payments;
         final Member                     member;

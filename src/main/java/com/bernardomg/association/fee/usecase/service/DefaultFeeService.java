@@ -148,6 +148,7 @@ public final class DefaultFeeService implements FeeService {
         pay(member.get(), fees, payment.getTransaction()
             .getDate());
 
+        // TODO: Why can't just return the created fees?
         return feeRepository.findAllForMemberInDates(payment.getMember()
             .getNumber(), payment.getFeeDates());
     }

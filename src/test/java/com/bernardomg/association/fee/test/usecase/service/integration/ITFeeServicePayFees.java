@@ -74,6 +74,8 @@ class ITFeeServicePayFees {
 
     public ITFeeServicePayFees() {
         super();
+        
+        // TODO: make sure other tests cover these cases and use only unit tests
     }
 
     @Test
