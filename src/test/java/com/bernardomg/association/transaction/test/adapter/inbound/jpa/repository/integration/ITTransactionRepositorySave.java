@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.transaction.test.domain.repository.integration;
+package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

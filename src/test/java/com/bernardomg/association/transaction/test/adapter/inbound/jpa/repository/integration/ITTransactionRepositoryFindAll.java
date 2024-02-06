@@ -22,64 +22,95 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.domain.repository.integration;
+package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
-import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all - filtered")
-class ITTransactionRepositoryFindAllFilter {
+@DisplayName("TransactionRepository - get all")
+class ITTransactionRepositoryFindAll {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionRepository       repository;
 
-    public ITTransactionRepositoryFindAllFilter() {
+    @Autowired
+    private TransactionSpringRepository springRepository;
+
+    public ITTransactionRepositoryFindAll() {
         super();
     }
 
-    @Test
-    @DisplayName("With a filter applied to the start date, the returned data is filtered")
-    @MultipleTransactionsSameMonth
-    void testFindAll_AfterDate() {
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(AroundZeroArgumentsProvider.class)
+    @DisplayName("With a transaction with value around zero, it returns it")
+    void testFindAll_AroundZero(final Float amount) {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
         // GIVEN
+        springRepository.save(TransactionEntities.forAmount(amount));
+
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQueries.startDate(LocalDate.of(2020, Month.JANUARY, 2));
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pageable);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY),
-                Transactions.forIndexAndDay(3, Month.JANUARY), Transactions.forIndexAndDay(4, Month.JANUARY),
-                Transactions.forIndexAndDay(5, Month.JANUARY));
+            .containsExactly(Transactions.forAmount(amount));
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("With a decimal transaction, it returns it")
+    void testFindAll_Decimal(final Float amount) {
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+
+        // GIVEN
+        springRepository.save(TransactionEntities.forAmount(amount));
+
+        pageable = Pageable.unpaged();
+
+        transactionQuery = TransactionsQueries.empty();
+
+        // WHEN
+        transactions = repository.findAll(transactionQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forAmount(amount));
     }
 
     @Test
-    @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @MultipleTransactionsSameMonth
-    void testFindAll_BeforeDate() {
+    @DisplayName("With a full year, it returns all the transactions")
+    @FullTransactionYear
+    void testFindAll_FullYear() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -87,7 +118,33 @@ class ITTransactionRepositoryFindAllFilter {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQueries.endDate(LocalDate.of(2020, Month.JANUARY, 2));
+        transactionQuery = TransactionsQueries.empty();
+
+        // WHEN
+        transactions = repository.findAll(transactionQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndex(1, Month.JANUARY), Transactions.forIndex(2, Month.FEBRUARY),
+                Transactions.forIndex(3, Month.MARCH), Transactions.forIndex(4, Month.APRIL),
+                Transactions.forIndex(5, Month.MAY), Transactions.forIndex(6, Month.JUNE),
+                Transactions.forIndex(7, Month.JULY), Transactions.forIndex(8, Month.AUGUST),
+                Transactions.forIndex(9, Month.SEPTEMBER), Transactions.forIndex(10, Month.OCTOBER),
+                Transactions.forIndex(11, Month.NOVEMBER), Transactions.forIndex(12, Month.DECEMBER));
+    }
+
+    @Test
+    @DisplayName("With multiple transactions in the month, it returns all the transactions")
+    @MultipleTransactionsSameMonth
+    void testFindAll_Multiple() {
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pageable);
@@ -95,71 +152,8 @@ class ITTransactionRepositoryFindAllFilter {
         // THEN
         Assertions.assertThat(transactions)
             .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY));
-    }
-
-    @Test
-    @DisplayName("With a filter applied to the date, the returned data is filtered")
-    @MultipleTransactionsSameMonth
-    void testFindAll_InDate() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2));
-
-        // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
-    }
-
-    @Test
-    @DisplayName("With a filter applied to the date for the first day of the year, the returned data is filtered")
-    @FullTransactionYear
-    void testFindAll_InDate_FirstDay() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1));
-
-        // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY));
-    }
-
-    @Test
-    @DisplayName("With a filter applied to the date for the last day of the year, the returned data is filtered")
-    @FullTransactionYear
-    void testFindAll_InDate_LastDay() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // TODO: This is not the last day of the year
-        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.DECEMBER, 1));
-
-        // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndex(12, Month.DECEMBER));
+                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
+                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
     }
 
 }

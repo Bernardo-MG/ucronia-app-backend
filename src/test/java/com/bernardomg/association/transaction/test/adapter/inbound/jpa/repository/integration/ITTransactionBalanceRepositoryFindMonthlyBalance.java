@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.domain.repository.integration;
+package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
 import java.time.YearMonth;

@@ -22,52 +22,44 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.domain.repository.integration;
+package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - find next index")
-class ITTransactionRepositoryFindNextIndex {
+@DisplayName("TransactionRepository - delete")
+@PositiveTransaction
+class ITTransactionRepositoryDelete {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionRepository       repository;
 
-    @Test
-    @DisplayName("When there is a transaction the next index is correct")
-    @PositiveTransaction
-    void testFindNextIndex() {
-        final long index;
+    @Autowired
+    private TransactionSpringRepository springRepository;
 
-        // WHEN
-        index = repository.findNextIndex();
-
-        // THEN
-        Assertions.assertThat(index)
-            .as("index")
-            .isEqualTo(TransactionConstants.NEXT_INDEX);
+    public ITTransactionRepositoryDelete() {
+        super();
     }
 
     @Test
-    @DisplayName("When there is no transaction the next index is correct")
-    void testFindNextIndex_NoData() {
-        final long index;
-
+    @DisplayName("With a valid id it removes the entity")
+    void testDelete_RemovesEntity() {
         // WHEN
-        index = repository.findNextIndex();
+        repository.delete(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(index)
-            .as("index")
-            .isEqualTo(1);
+        Assertions.assertThat(springRepository.count())
+            .as("transactions")
+            .isZero();
     }
 
 }
