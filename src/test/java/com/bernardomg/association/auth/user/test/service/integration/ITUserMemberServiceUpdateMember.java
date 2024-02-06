@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberJpaRepository;
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
 import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
@@ -46,10 +46,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserMemberServiceUpdateMember {
 
     @Autowired
-    private UserMemberService       service;
+    private UserMemberService          service;
 
     @Autowired
-    private UserMemberJpaRepository userMemberRepository;
+    private UserMemberSpringRepository userMemberRepository;
 
     public ITUserMemberServiceUpdateMember() {
         super();

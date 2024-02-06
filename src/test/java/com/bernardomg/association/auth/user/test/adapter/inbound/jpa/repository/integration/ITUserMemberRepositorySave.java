@@ -22,45 +22,59 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.test.service.integration;
+package com.bernardomg.association.auth.user.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberJpaRepository;
-import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
+import com.bernardomg.association.auth.user.domain.model.UserMember;
+import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
-import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
+import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - delete member")
-class ITUserMemberServiceDeleteMember {
+@DisplayName("User member service - assign member")
+class ITUserMemberRepositorySave {
 
     @Autowired
-    private UserMemberService       service;
+    private UserMemberRepository       repository;
 
     @Autowired
-    private UserMemberJpaRepository userMemberRepository;
+    private UserMemberSpringRepository userMemberSpringRepository;
 
-    public ITUserMemberServiceDeleteMember() {
-        super();
+    @Test
+    @DisplayName("With valid data, the relationship is persisted")
+    @ValidUser
+    @ValidMember
+    void testAssignMember_PersistedData() {
+        // WHEN
+        repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(userMemberSpringRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithMember
-    void testDeleteMember() {
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUser
+    @ValidMember
+    void testAssignMember_ReturnedData() {
+        final UserMember member;
 
         // WHEN
-        service.deleteMember(UserConstants.USERNAME);
+        member = repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userMemberRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
     }
 
 }

@@ -22,34 +22,64 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.test.service.integration;
+package com.bernardomg.association.auth.user.test.service.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
-import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
+import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
-@IntegrationTest
-@DisplayName("User member service - delete member - errors")
-class ITUserMemberServiceDeleteMemberError {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("User member service - delete member")
+class TestUserMemberServiceDeleteMember {
 
-    @Autowired
-    private UserMemberService service;
+    @Mock
+    private MemberRepository         memberRepository;
 
-    public ITUserMemberServiceDeleteMemberError() {
-        super();
+    @InjectMocks
+    private DefaultUserMemberService service;
+
+    @Mock
+    private UserMemberRepository     userMemberRepository;
+
+    @Mock
+    private UserRepository           userRepository;
+
+    @Test
+    @DisplayName("With a member assigned to the user, it removes the member")
+    void testDeleteMember() {
+
+        // GIVEN
+        given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
+
+        // WHEN
+        service.deleteMember(UserConstants.USERNAME);
+
+        // THEN
+        verify(userMemberRepository).delete(UserConstants.USERNAME);
     }
 
     @Test
     @DisplayName("With no member, it throws an exception")
     void testDeleteMember_NoMember() {
         final ThrowingCallable execution;
+
+        // GIVEN
+        given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
         execution = () -> service.deleteMember(UserConstants.USERNAME);

@@ -25,6 +25,7 @@
 package com.bernardomg.association.auth.user.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
@@ -39,17 +40,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
 import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
 import com.bernardomg.association.auth.user.test.config.factory.Users;
 import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User member service - get member")
-class TestUserMemberServiceGetMember {
+@DisplayName("User member service - assign member")
+class TestUserMemberServiceAssignMember {
 
     @Mock
     private MemberRepository         memberRepository;
@@ -64,36 +70,72 @@ class TestUserMemberServiceGetMember {
     private UserRepository           userRepository;
 
     @Test
-    @DisplayName("With a member assigned to the user, it returns the user")
-    void testGetMember() {
-        final Optional<UserMember> member;
+    @DisplayName("With no member, it throws an exception")
+    @ValidUser
+    void testAssignMember_NoMember() {
+        final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        member = service.getMember(UserConstants.USERNAME);
+        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(member)
-            .contains(UserMembers.valid());
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberIdException.class);
     }
 
     @Test
-    @DisplayName("With no member, it throws an exception")
-    void testGetMember_NoMember() {
+    @DisplayName("With no user, it throws an exception")
+    @ValidMember
+    void testAssignMember_NoUser() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getMember(UserConstants.USERNAME);
+        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserUsernameException.class);
+    }
+
+    @Test
+    @DisplayName("With valid data, the relationship is persisted")
+    void testAssignMember_PersistedData() {
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+
+        // WHEN
+        service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        verify(userMemberRepository).save(UserConstants.USERNAME, MemberConstants.NUMBER);
+    }
+
+    @Test
+    @DisplayName("With valid data, the created relationship is returned")
+    void testAssignMember_ReturnedData() {
+        final UserMember member;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(userMemberRepository.save(UserConstants.USERNAME, MemberConstants.NUMBER))
+            .willReturn(UserMembers.valid());
+
+        // WHEN
+        member = service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
     }
 
 }

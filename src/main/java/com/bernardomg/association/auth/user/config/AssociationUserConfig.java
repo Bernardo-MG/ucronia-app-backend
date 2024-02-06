@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.JpaUserMemberRepository;
-import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberJpaRepository;
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
 import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
@@ -45,7 +45,7 @@ public class AssociationUserConfig {
     }
 
     @Bean("userMemberRepository")
-    public UserMemberRepository getUserMemberRepository(final UserMemberJpaRepository userMemberJpaRepo,
+    public UserMemberRepository getUserMemberRepository(final UserMemberSpringRepository userMemberJpaRepo,
             final UserSpringRepository userSpringRepo, final MemberSpringRepository memberSpringRepo) {
         return new JpaUserMemberRepository(userMemberJpaRepo, userSpringRepo, memberSpringRepo);
     }

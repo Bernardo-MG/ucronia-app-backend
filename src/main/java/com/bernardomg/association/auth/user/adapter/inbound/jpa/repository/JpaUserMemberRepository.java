@@ -15,13 +15,13 @@ import io.jsonwebtoken.lang.Strings;
 
 public final class JpaUserMemberRepository implements UserMemberRepository {
 
-    public final MemberSpringRepository  memberSpringRepository;
+    public final MemberSpringRepository     memberSpringRepository;
 
-    public final UserMemberJpaRepository userMemberJpaRepository;
+    public final UserMemberSpringRepository userMemberJpaRepository;
 
-    public final UserSpringRepository    userSpringRepository;
+    public final UserSpringRepository       userSpringRepository;
 
-    public JpaUserMemberRepository(final UserMemberJpaRepository userMemberJpaRepo,
+    public JpaUserMemberRepository(final UserMemberSpringRepository userMemberJpaRepo,
             final UserSpringRepository userSpringRepo, final MemberSpringRepository memberSpringRepo) {
         super();
 
