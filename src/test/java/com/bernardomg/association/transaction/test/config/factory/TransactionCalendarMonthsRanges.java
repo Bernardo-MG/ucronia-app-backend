@@ -5,6 +5,8 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.List;
 
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+
 public final class TransactionCalendarMonthsRanges {
 
     public static final List<YearMonth> CONSECUTIVE_FULL_YEAR_MONTHS     = List.of(YearMonth.of(2020, Month.JANUARY),
@@ -32,6 +34,18 @@ public final class TransactionCalendarMonthsRanges {
         YearMonth.of(2022, Month.MAY), YearMonth.of(2022, Month.JUNE), YearMonth.of(2022, Month.JULY),
         YearMonth.of(2022, Month.AUGUST), YearMonth.of(2022, Month.SEPTEMBER), YearMonth.of(2022, Month.OCTOBER),
         YearMonth.of(2022, Month.NOVEMBER), YearMonth.of(2022, Month.DECEMBER));
+
+    public static final TransactionCalendarMonthsRange empty() {
+        return TransactionCalendarMonthsRange.builder()
+            .withMonths(FULL_YEAR_MONTHS)
+            .build();
+    }
+
+    public static final TransactionCalendarMonthsRange fullYear() {
+        return TransactionCalendarMonthsRange.builder()
+            .withMonths(FULL_YEAR_MONTHS)
+            .build();
+    }
 
     private TransactionCalendarMonthsRanges() {
         super();

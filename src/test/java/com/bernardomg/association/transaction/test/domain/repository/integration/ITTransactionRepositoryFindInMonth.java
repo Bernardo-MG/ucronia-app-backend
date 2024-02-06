@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
@@ -34,20 +34,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Transaction calendar service - get for month")
-class ITTransactionCalendarServiceGetYearMonth {
+class ITTransactionRepositoryFindInMonth {
 
     @Autowired
-    private TransactionCalendarService service;
-
-    public ITTransactionCalendarServiceGetYearMonth() {
-        super();
-    }
+    private TransactionRepository repository;
 
     @Test
     @DisplayName("Only the data for the month is returned")
@@ -60,7 +56,7 @@ class ITTransactionCalendarServiceGetYearMonth {
         month = YearMonth.of(2020, Month.FEBRUARY);
 
         // WHEN
-        calendar = service.getForMonth(month);
+        calendar = repository.findInMonth(month);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -84,7 +80,7 @@ class ITTransactionCalendarServiceGetYearMonth {
         month = YearMonth.of(2019, Month.DECEMBER);
 
         // WHEN
-        calendar = service.getForMonth(month);
+        calendar = repository.findInMonth(month);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -107,7 +103,7 @@ class ITTransactionCalendarServiceGetYearMonth {
         month = YearMonth.of(2020, Month.FEBRUARY);
 
         // WHEN
-        calendar = service.getForMonth(month);
+        calendar = repository.findInMonth(month);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {

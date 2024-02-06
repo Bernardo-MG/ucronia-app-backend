@@ -24,11 +24,11 @@ public interface FeeRepository {
 
     public Iterable<Fee> findAll(final FeeQuery query, final Pageable pageable);
 
-    public Collection<Fee> findAllForMemberInDates(final Long memberNumber, final Collection<YearMonth> feeDates);
-
     public Collection<Fee> findAllForActiveMembers(final int year, final Sort sort);
 
     public Collection<Fee> findAllForInactiveMembers(final int year, final Sort sort);
+
+    public Collection<Fee> findAllForMemberInDates(final Long memberNumber, final Collection<YearMonth> feeDates);
 
     public Collection<Fee> findAllForPreviousMonth();
 

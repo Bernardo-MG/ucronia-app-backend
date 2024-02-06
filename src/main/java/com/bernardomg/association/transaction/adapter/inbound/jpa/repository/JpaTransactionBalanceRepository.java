@@ -66,7 +66,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
+    public final Collection<TransactionMonthlyBalance> findMonthlyBalance(final TransactionBalanceQuery query,
             final Sort sort) {
         final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
         final Specification<MonthlyBalanceEntity>           limitSpec;

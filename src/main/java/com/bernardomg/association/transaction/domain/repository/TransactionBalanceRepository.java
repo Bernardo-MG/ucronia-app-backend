@@ -14,7 +14,7 @@ public interface TransactionBalanceRepository {
 
     public Optional<TransactionCurrentBalance> findCurrent();
 
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
+    public Collection<TransactionMonthlyBalance> findMonthlyBalance(final TransactionBalanceQuery query,
             final Sort sort);
 
 }

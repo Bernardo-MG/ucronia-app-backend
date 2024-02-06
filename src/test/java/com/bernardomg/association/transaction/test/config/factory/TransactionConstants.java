@@ -3,6 +3,7 @@ package com.bernardomg.association.transaction.test.config.factory;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.YearMonth;
 
 public final class TransactionConstants {
 
@@ -15,5 +16,7 @@ public final class TransactionConstants {
     public static final long      INDEX             = 10;
 
     public static final long      INDEX_SMALL       = 1;
+
+    public static final YearMonth MONTH             = YearMonth.now();
 
 }

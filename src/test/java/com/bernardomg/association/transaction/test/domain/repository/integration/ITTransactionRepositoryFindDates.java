@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.integration;
+package com.bernardomg.association.transaction.test.domain.repository.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
@@ -38,18 +38,18 @@ import com.bernardomg.association.transaction.config.data.annotation.FullTransac
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameDay;
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionCalendarMonthsRanges;
-import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction calendar service - get range")
-class ITTransactionCalendarServiceGetRange {
+@DisplayName("TransactionRepository - find dates")
+class ITTransactionRepositoryFindDates {
 
     @Autowired
-    private TransactionCalendarService service;
+    private TransactionRepository repository;
 
-    public ITTransactionCalendarServiceGetRange() {
+    public ITTransactionRepositoryFindDates() {
         super();
     }
 
@@ -60,7 +60,7 @@ class ITTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findDates();
 
         // THEN
         Assertions.assertThat(range.getMonths())
@@ -76,7 +76,7 @@ class ITTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findDates();
 
         // THEN
         Assertions.assertThat(range.getMonths())
@@ -92,7 +92,7 @@ class ITTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findDates();
 
         // THEN
         Assertions.assertThat(range.getMonths())
@@ -108,7 +108,7 @@ class ITTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findDates();
 
         // THEN
         Assertions.assertThat(range.getMonths())
@@ -123,7 +123,7 @@ class ITTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findDates();
 
         // THEN
         Assertions.assertThat(range.getMonths())
@@ -138,7 +138,7 @@ class ITTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = service.getRange();
+        range = repository.findDates();
 
         // THEN
         Assertions.assertThat(range.getMonths())

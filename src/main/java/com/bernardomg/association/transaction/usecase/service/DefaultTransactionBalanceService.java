@@ -73,7 +73,7 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
     @Override
     public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
             final Sort sort) {
-        return transactionBalanceRepository.getMonthlyBalance(query, sort);
+        return transactionBalanceRepository.findMonthlyBalance(query, sort);
     }
 
 }

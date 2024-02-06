@@ -102,14 +102,6 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllForMemberInDates(final Long memberNumber, final Collection<YearMonth> feeDates) {
-        return feeRepository.findAllByMemberNumberAndDateIn(memberNumber, feeDates)
-            .stream()
-            .map(this::toDomain)
-            .toList();
-    }
-
-    @Override
     public final Collection<Fee> findAllForActiveMembers(final int year, final Sort sort) {
         final Collection<Long> foundIds;
         final YearMonth        validStart;
@@ -146,6 +138,15 @@ public final class JpaFeeRepository implements FeeRepository {
         foundIds = activeMemberRepository.findAllInactiveIds(validStart, validEnd);
 
         return memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
+    public final Collection<Fee> findAllForMemberInDates(final Long memberNumber,
+            final Collection<YearMonth> feeDates) {
+        return feeRepository.findAllByMemberNumberAndDateIn(memberNumber, feeDates)
             .stream()
             .map(this::toDomain)
             .toList();
