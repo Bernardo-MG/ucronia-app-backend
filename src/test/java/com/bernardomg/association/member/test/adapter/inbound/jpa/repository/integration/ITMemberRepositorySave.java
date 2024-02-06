@@ -76,19 +76,18 @@ class ITMemberRepositorySave {
     @DisplayName("With a valid member, the created member is returned")
     void testCreate_ReturnedData() {
         final Member member;
+        final Member saved;
 
         // GIVEN
         member = Members.active();
 
         // WHEN
-        memberRepository.save(member);
+        saved = memberRepository.save(member);
 
         // THEN
-        Assertions.assertThat(member)
+        Assertions.assertThat(saved)
             .as("member")
-            .usingRecursiveAssertion()
-            .ignoringFields("id", "number")
-            .isEqualTo(Members.inactiveWithNumber(1));
+            .isEqualTo(Members.inactive());
     }
 
 }

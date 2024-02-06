@@ -75,7 +75,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaid());
+            .containsExactly(Fees.notPaidPreviousMonth());
     }
 
     @Test
@@ -93,7 +93,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paid());
+            .containsExactly(Fees.paidPreviousMonthNew());
     }
 
 }

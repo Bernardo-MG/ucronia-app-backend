@@ -36,6 +36,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
 
+import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -44,7 +45,8 @@ import com.bernardomg.association.transaction.test.config.factory.TransactionsQu
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all - filtered")
+@DisplayName("TransactionRepository - get all - sorted")
+@MultipleTransactionsSameMonth
 class ITTransactionRepositoryFindAllSort {
 
     @Autowired

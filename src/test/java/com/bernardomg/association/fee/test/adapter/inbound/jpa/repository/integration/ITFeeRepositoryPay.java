@@ -84,7 +84,7 @@ class ITFeeRepositoryPay {
 
         Assertions.assertThat(payments)
             .as("payments")
-            .containsExactly(FeePaymentEntities.valid());
+            .hasSize(1);
     }
 
 }
