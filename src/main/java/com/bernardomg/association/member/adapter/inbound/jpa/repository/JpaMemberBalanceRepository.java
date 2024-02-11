@@ -13,6 +13,9 @@ import com.bernardomg.association.member.adapter.inbound.jpa.specification.Month
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class JpaMemberBalanceRepository implements MemberBalanceRepository {
 
     private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository;
@@ -30,6 +33,9 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         final Specification<MonthlyMemberBalanceEntity>           limitSpec;
         final Specification<MonthlyMemberBalanceEntity>           spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
+        final Iterable<MonthlyMemberBalance>                      monthlyBalances;
+
+        log.debug("Finding balance in from {} to {} sorted by {}", startDate, endDate, sort);
 
         // Specification from the request
         requestSpec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
@@ -47,9 +53,13 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
 
         balances = monthlyMemberBalanceRepository.findAll(spec, sort);
 
-        return balances.stream()
+        monthlyBalances = balances.stream()
             .map(this::toDomain)
             .toList();
+
+        log.debug("Found balance in from {} to {}: {}", startDate, endDate, monthlyBalances);
+
+        return monthlyBalances;
     }
 
     private final MonthlyMemberBalance toDomain(final MonthlyMemberBalanceEntity entity) {

@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -95,8 +94,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Page<Member> members;
-        final Pageable     pagination;
+        final Iterable<Member> members;
+        final Pageable         pagination;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 

@@ -16,6 +16,9 @@ import com.bernardomg.association.transaction.domain.model.TransactionCurrentBal
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class JpaTransactionBalanceRepository implements TransactionBalanceRepository {
 
     private final MonthlyBalanceSpringRepository monthlyBalanceRepository;
@@ -33,6 +36,8 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         final Optional<TransactionCurrentBalance> currentBalance;
         final LocalDate                           balanceDate;
         final float                               results;
+
+        log.debug("Finding current balance");
 
         // Find latest monthly balance
         // Ignore future balances
@@ -62,6 +67,8 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
                 .build());
         }
 
+        log.debug("Found current balance: {}", currentBalance);
+
         return currentBalance;
     }
 
@@ -72,6 +79,9 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         final Specification<MonthlyBalanceEntity>           limitSpec;
         final Specification<MonthlyBalanceEntity>           spec;
         final Collection<MonthlyBalanceEntity>              balance;
+        final Collection<TransactionMonthlyBalance>         monthlyBalance;
+
+        log.debug("Finding monthly balance");
 
         // Specification from the request
         requestSpec = MonthlyBalanceSpecifications.fromQuery(query);
@@ -89,9 +99,13 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
 
         balance = monthlyBalanceRepository.findAll(spec, sort);
 
-        return balance.stream()
+        monthlyBalance = balance.stream()
             .map(this::toDomain)
             .toList();
+
+        log.debug("Found monthly balance {}", monthlyBalance);
+
+        return monthlyBalance;
     }
 
     private final TransactionMonthlyBalance toDomain(final MonthlyBalanceEntity entity) {

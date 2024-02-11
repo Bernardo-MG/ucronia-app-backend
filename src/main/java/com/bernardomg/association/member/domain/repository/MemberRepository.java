@@ -3,7 +3,6 @@ package com.bernardomg.association.member.domain.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
@@ -14,11 +13,11 @@ public interface MemberRepository {
 
     public boolean exists(final long number);
 
-    public Page<Member> findActive(final Pageable pageable);
+    public Iterable<Member> findActive(final Pageable pageable);
 
-    public Page<Member> findAll(final Pageable pageable);
+    public Iterable<Member> findAll(final Pageable pageable);
 
-    public Page<Member> findInactive(final Pageable pageable);
+    public Iterable<Member> findInactive(final Pageable pageable);
 
     public long findNextNumber();
 
