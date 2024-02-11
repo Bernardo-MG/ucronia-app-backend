@@ -27,11 +27,15 @@ package com.bernardomg.association.auth.user.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.JpaUserMemberRepository;
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
+import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 @Configuration
 public class AssociationUserConfig {
@@ -40,8 +44,14 @@ public class AssociationUserConfig {
         super();
     }
 
+    @Bean("userMemberRepository")
+    public UserMemberRepository getUserMemberRepository(final UserMemberSpringRepository userMemberJpaRepo,
+            final UserSpringRepository userSpringRepo, final MemberSpringRepository memberSpringRepo) {
+        return new JpaUserMemberRepository(userMemberJpaRepo, userSpringRepo, memberSpringRepo);
+    }
+
     @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
+    public UserMemberService getUserMemberService(final UserRepository userRepository,
             final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
         return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
     }

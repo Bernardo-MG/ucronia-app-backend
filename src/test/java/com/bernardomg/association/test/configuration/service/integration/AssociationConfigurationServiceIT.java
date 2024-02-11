@@ -6,13 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.configuration.AssociationConfigurationKey;
-import com.bernardomg.association.configuration.model.AssociationConfiguration;
-import com.bernardomg.association.configuration.service.AssociationConfigurationService;
+import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
+import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
+import com.bernardomg.association.configuration.usecase.service.AssociationConfigurationService;
 import com.bernardomg.association.test.configuration.config.factory.AssociationConfigurations;
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
-import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
+import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -62,5 +62,10 @@
             Returns full member name as a variable.
          </action>
       </release>
+      <release version="0.3.0" date="2024-02-11" description="Clean architecture">
+         <action dev="bmg" type="update">
+            Moving closer to clean architecture.
+         </action>
+      </release>
    </body>
 </document>
