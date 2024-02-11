@@ -37,25 +37,38 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
     public final void delete(final long number) {
         final Optional<MemberEntity> member;
 
-        log.debug("Deleting member {}", number);
+        log.debug("Deleting fee {}", number);
 
         member = memberSpringRepository.findByNumber(number);
 
         memberSpringRepository.deleteById(member.get()
             .getId());
+
+        log.debug("Deleted fee {}", number);
     }
 
     @Override
     public final boolean exists(final long number) {
-        return memberSpringRepository.existsByNumber(number);
+        final boolean exists;
+
+        log.debug("Checking if fee {} exists", number);
+
+        exists = memberSpringRepository.existsByNumber(number);
+
+        log.debug("Fee {} exists: {}", number, exists);
+
+        return exists;
     }
 
     @Override
-    public final Page<Member> findActive(final Pageable pageable) {
+    public final Iterable<Member> findActive(final Pageable pageable) {
         final Page<MemberEntity>       members;
         final Function<Member, Member> activeMapper;
         final YearMonth                validStart;
         final YearMonth                validEnd;
+        final Iterable<Member>         found;
+
+        log.debug("Finding active users");
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
@@ -66,17 +79,24 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
             return m;
         };
 
-        return members.map(this::toDomain)
+        found = members.map(this::toDomain)
             .map(activeMapper);
+
+        log.debug("Found active users {}", found);
+
+        return found;
     }
 
     @Override
-    public final Page<Member> findAll(final Pageable pageable) {
+    public final Iterable<Member> findAll(final Pageable pageable) {
         final Page<MemberEntity>       members;
         final Function<Member, Member> activeMapper;
         final YearMonth                validStart;
         final YearMonth                validEnd;
         final Collection<Long>         activeNumbers;
+        final Iterable<Member>         found;
+
+        log.debug("Finding all the members");
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
@@ -91,16 +111,23 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
             return m;
         };
 
-        return members.map(this::toDomain)
+        found = members.map(this::toDomain)
             .map(activeMapper);
+
+        log.debug("Found all the members: {}", found);
+
+        return found;
     }
 
     @Override
-    public final Page<Member> findInactive(final Pageable pageable) {
+    public final Iterable<Member> findInactive(final Pageable pageable) {
         final Page<MemberEntity>       members;
         final Function<Member, Member> activeMapper;
         final YearMonth                validStart;
         final YearMonth                validEnd;
+        final Iterable<Member>         found;
+
+        log.debug("Finding inactive users");
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
@@ -111,19 +138,39 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
             return m;
         };
 
-        return members.map(this::toDomain)
+        found = members.map(this::toDomain)
             .map(activeMapper);
+
+        log.debug("Found active users {}", found);
+
+        return found;
     }
 
     @Override
     public final long findNextNumber() {
-        return memberSpringRepository.findNextNumber();
+        final long number;
+
+        log.debug("Finding next number for the transactions");
+
+        number = memberSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the transactions: {}", number);
+
+        return number;
     }
 
     @Override
     public final Optional<Member> findOne(final Long number) {
-        return memberSpringRepository.findByNumber(number)
+        final Optional<Member> member;
+
+        log.debug("Finding member with number {}", number);
+
+        member = memberSpringRepository.findByNumber(number)
             .map(this::toActive);
+
+        log.debug("Found member with number {}: {}", number, member);
+
+        return member;
     }
 
     @Override
@@ -131,6 +178,7 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
         final Optional<MemberEntity> existing;
         final MemberEntity           entity;
         final MemberEntity           created;
+        final Member                 saved;
 
         log.debug("Saving member {}", member);
 
@@ -144,9 +192,13 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
 
         created = activeMemberRepository.save(entity);
 
-        return memberSpringRepository.findByNumber(created.getNumber())
+        saved = memberSpringRepository.findByNumber(created.getNumber())
             .map(this::toActive)
             .get();
+
+        log.debug("Saved member {}", saved);
+
+        return saved;
     }
 
     private final Member toActive(final MemberEntity member) {

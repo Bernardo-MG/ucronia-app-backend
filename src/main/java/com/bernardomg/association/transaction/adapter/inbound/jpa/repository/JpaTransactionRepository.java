@@ -34,25 +34,36 @@ public final class JpaTransactionRepository implements TransactionRepository {
     public final void delete(final long index) {
         final Optional<TransactionEntity> member;
 
-        log.debug("Deleting member {}", index);
+        log.debug("Deleting transaction {}", index);
 
         member = transactionRepository.findOneByIndex(index);
 
         transactionRepository.deleteById(member.get()
             .getId());
+
+        log.debug("Deleted transaction {}", index);
     }
 
     @Override
     public final boolean exists(final long index) {
-        return transactionRepository.existsByIndex(index);
+        final boolean exists;
+
+        log.debug("Checking if transaction {} exists", index);
+
+        exists = transactionRepository.existsByIndex(index);
+
+        log.debug("Transaction {} exists: {}", index, exists);
+
+        return exists;
     }
 
     @Override
     public final Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable) {
         final Page<TransactionEntity>                    page;
         final Optional<Specification<TransactionEntity>> spec;
+        final Iterable<Transaction>                      read;
 
-        log.debug("Reading members with sample {} and pagination {}", query, pageable);
+        log.debug("Finding transactions with sample {} and pagination {}", query, pageable);
 
         spec = TransactionSpecifications.fromQuery(query);
 
@@ -62,23 +73,32 @@ public final class JpaTransactionRepository implements TransactionRepository {
             page = transactionRepository.findAll(spec.get(), pageable);
         }
 
-        return page.map(this::toDomain);
+        read = page.map(this::toDomain);
+
+        log.debug("Found transactions {}", read);
+
+        return read;
     }
 
     @Override
     public final TransactionCalendarMonthsRange findDates() {
-        final Collection<YearMonth> months;
+        final Collection<YearMonth>          months;
+        final TransactionCalendarMonthsRange dates;
 
-        log.debug("Reading the transactions range");
+        log.debug("Finding the transactions range");
 
         months = transactionRepository.findMonths()
             .stream()
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
 
-        return TransactionCalendarMonthsRange.builder()
+        dates = TransactionCalendarMonthsRange.builder()
             .withMonths(months)
             .build();
+
+        log.debug("Found the transactions range: {}", dates);
+
+        return dates;
     }
 
     @Override
@@ -86,6 +106,9 @@ public final class JpaTransactionRepository implements TransactionRepository {
         final Specification<TransactionEntity> spec;
         final Collection<TransactionEntity>    read;
         final Collection<Transaction>          transactions;
+        final TransactionCalendarMonth         monthCalendar;
+
+        log.debug("Finding all the transactions for the month {}", date);
 
         spec = TransactionSpecifications.on(date);
         read = transactionRepository.findAll(spec);
@@ -93,21 +116,41 @@ public final class JpaTransactionRepository implements TransactionRepository {
         transactions = read.stream()
             .map(this::toDomain)
             .toList();
-        return TransactionCalendarMonth.builder()
+        monthCalendar = TransactionCalendarMonth.builder()
             .withDate(date)
             .withTransactions(transactions)
             .build();
+
+        log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
+
+        return monthCalendar;
     }
 
     @Override
     public final long findNextIndex() {
-        return transactionRepository.findNextIndex();
+        final long index;
+
+        log.debug("Finding next index for the transactions");
+
+        index = transactionRepository.findNextIndex();
+
+        log.debug("Found index {}", index);
+
+        return index;
     }
 
     @Override
     public final Optional<Transaction> findOne(final Long index) {
-        return transactionRepository.findOneByIndex(index)
+        final Optional<Transaction> transaction;
+
+        log.debug("Finding transaction with index {}", index);
+
+        transaction = transactionRepository.findOneByIndex(index)
             .map(this::toDomain);
+
+        log.debug("Found transaction with index {}: {}", index, transaction);
+
+        return transaction;
     }
 
     @Override
@@ -115,6 +158,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         final Optional<TransactionEntity> existing;
         final TransactionEntity           entity;
         final TransactionEntity           created;
+        final Transaction                 saved;
 
         log.debug("Saving transaction {}", transaction);
 
@@ -128,9 +172,13 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         created = transactionRepository.save(entity);
 
-        return transactionRepository.findOneByIndex(created.getIndex())
+        saved = transactionRepository.findOneByIndex(created.getIndex())
             .map(this::toDomain)
             .get();
+
+        log.debug("Saved transaction {}", saved);
+
+        return saved;
     }
 
     private final Transaction toDomain(final TransactionEntity transaction) {
