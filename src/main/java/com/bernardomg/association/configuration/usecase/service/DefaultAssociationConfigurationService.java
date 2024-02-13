@@ -4,20 +4,20 @@ package com.bernardomg.association.configuration.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.bernardomg.association.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
-import com.bernardomg.association.configuration.adapter.inbound.jpa.repository.ConfigurationSpringRepository;
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
+import com.bernardomg.association.configuration.domain.model.Configuration;
+import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.usecase.ConfigurationSource;
 
 public final class DefaultAssociationConfigurationService implements AssociationConfigurationService {
 
-    private final ConfigurationSpringRepository configurationRepository;
+    private final ConfigurationRepository configurationRepository;
 
-    private final ConfigurationSource           configurationSource;
+    private final ConfigurationSource     configurationSource;
 
     public DefaultAssociationConfigurationService(final ConfigurationSource configSource,
-            final ConfigurationSpringRepository configRepository) {
+            final ConfigurationRepository configRepository) {
         super();
 
         configurationSource = Objects.requireNonNull(configSource);
@@ -37,15 +37,15 @@ public final class DefaultAssociationConfigurationService implements Association
 
     @Override
     public final void update(final AssociationConfiguration request) {
-        final ConfigurationEntity           config;
-        final Optional<ConfigurationEntity> found;
+        final Configuration           config;
+        final Optional<Configuration> found;
 
-        found = configurationRepository.findOneByKey(AssociationConfigurationKey.FEE_AMOUNT);
+        found = configurationRepository.findOne(AssociationConfigurationKey.FEE_AMOUNT);
         if (found.isPresent()) {
             config = found.get();
             config.setValue(String.valueOf(request.getFeeAmount()));
         } else {
-            config = ConfigurationEntity.builder()
+            config = Configuration.builder()
                 .withKey(AssociationConfigurationKey.FEE_AMOUNT)
                 .withValue(String.valueOf(request.getFeeAmount()))
                 .build();
