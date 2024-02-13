@@ -8,11 +8,11 @@ import com.bernardomg.association.configuration.adapter.inbound.jpa.repository.C
 import com.bernardomg.association.configuration.adapter.inbound.jpa.repository.JpaConfigurationRepository;
 import com.bernardomg.association.configuration.adapter.inbound.source.CompositeAssociationConfigurationSource;
 import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
-import com.bernardomg.association.configuration.usecase.AssociationConfigurationSource;
-import com.bernardomg.association.configuration.usecase.ConfigurationSource;
-import com.bernardomg.association.configuration.usecase.PersistentConfigurationSource;
 import com.bernardomg.association.configuration.usecase.service.AssociationConfigurationService;
 import com.bernardomg.association.configuration.usecase.service.DefaultAssociationConfigurationService;
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.PersistentConfigurationSource;
 
 @Configuration
 public class AssociationConfigurationConfig {

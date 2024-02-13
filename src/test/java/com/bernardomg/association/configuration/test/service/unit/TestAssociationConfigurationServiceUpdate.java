@@ -14,8 +14,8 @@ import com.bernardomg.association.configuration.domain.model.AssociationConfigur
 import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.association.configuration.test.config.factory.AssociationConfigurations;
 import com.bernardomg.association.configuration.test.config.factory.Configurations;
-import com.bernardomg.association.configuration.usecase.ConfigurationSource;
 import com.bernardomg.association.configuration.usecase.service.DefaultAssociationConfigurationService;
+import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Association configuration service - update")

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.configuration.usecase;
+package com.bernardomg.association.configuration.usecase.source;
 
 import java.util.Objects;
 import java.util.Optional;

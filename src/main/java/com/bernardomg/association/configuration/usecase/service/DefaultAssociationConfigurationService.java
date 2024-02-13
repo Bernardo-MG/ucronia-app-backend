@@ -7,7 +7,7 @@ import com.bernardomg.association.configuration.domain.model.AssociationConfigur
 import com.bernardomg.association.configuration.domain.model.Configuration;
 import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
-import com.bernardomg.association.configuration.usecase.ConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
 
 public final class DefaultAssociationConfigurationService implements AssociationConfigurationService {
 
