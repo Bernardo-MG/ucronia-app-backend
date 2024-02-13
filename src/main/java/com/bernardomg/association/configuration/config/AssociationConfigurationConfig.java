@@ -12,7 +12,7 @@ import com.bernardomg.association.configuration.usecase.service.AssociationConfi
 import com.bernardomg.association.configuration.usecase.service.DefaultAssociationConfigurationService;
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
-import com.bernardomg.association.configuration.usecase.source.PersistentConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.DefaultConfigurationSource;
 
 @Configuration
 public class AssociationConfigurationConfig {
@@ -24,8 +24,8 @@ public class AssociationConfigurationConfig {
     }
 
     @Bean("configurationSource")
-    public ConfigurationSource configurationSource(final ConfigurationSpringRepository configurationRepository) {
-        return new PersistentConfigurationSource(configurationRepository);
+    public ConfigurationSource configurationSource(final ConfigurationRepository configurationRepository) {
+        return new DefaultConfigurationSource(configurationRepository);
     }
 
     @Bean("associationConfigurationService")

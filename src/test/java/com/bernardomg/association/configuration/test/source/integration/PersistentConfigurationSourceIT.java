@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.configuration.usecase.source.PersistentConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.DefaultConfigurationSource;
 import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
 import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
 import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
@@ -17,7 +17,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 public class PersistentConfigurationSourceIT {
 
     @Autowired
-    private PersistentConfigurationSource source;
+    private DefaultConfigurationSource source;
 
     @Test
     @DisplayName("Getting the float for an existing float returns its value as text")

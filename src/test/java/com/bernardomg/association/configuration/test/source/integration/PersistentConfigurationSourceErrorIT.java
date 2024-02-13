@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.association.configuration.usecase.source.PersistentConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.DefaultConfigurationSource;
 import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -17,7 +17,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 public class PersistentConfigurationSourceErrorIT {
 
     @Autowired
-    private PersistentConfigurationSource source;
+    private DefaultConfigurationSource source;
 
     @Test
     @WithMockUser(username = "admin")
