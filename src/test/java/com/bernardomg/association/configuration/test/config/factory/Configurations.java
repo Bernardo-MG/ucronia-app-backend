@@ -9,7 +9,28 @@ public final class Configurations {
     public static final Configuration amount() {
         return Configuration.builder()
             .withKey(AssociationConfigurationKey.FEE_AMOUNT)
-            .withValue("1")
+            .withValue("1.0")
+            .build();
+    }
+
+    public static final Configuration floatValue() {
+        return Configuration.builder()
+            .withKey(ConfigurationConstants.KEY)
+            .withValue("10.1")
+            .build();
+    }
+
+    public static final Configuration intValue() {
+        return Configuration.builder()
+            .withKey(ConfigurationConstants.KEY)
+            .withValue("10")
+            .build();
+    }
+
+    public static final Configuration stringValue() {
+        return Configuration.builder()
+            .withKey(ConfigurationConstants.KEY)
+            .withValue("value")
             .build();
     }
 

@@ -9,7 +9,7 @@ public final class ConfigurationEntities {
     public static final ConfigurationEntity amount() {
         return ConfigurationEntity.builder()
             .withKey(AssociationConfigurationKey.FEE_AMOUNT)
-            .withValue("1")
+            .withValue("1.0")
             .build();
     }
 
