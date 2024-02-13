@@ -37,15 +37,15 @@ import org.springframework.data.domain.Sort.Direction;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.test.data.fee.annotation.FeeFullYear;
-import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
-import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
-import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

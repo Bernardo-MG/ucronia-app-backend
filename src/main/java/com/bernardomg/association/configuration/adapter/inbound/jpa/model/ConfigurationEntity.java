@@ -1,5 +1,5 @@
 
-package com.bernardomg.configuration.persistence.model;
+package com.bernardomg.association.configuration.adapter.inbound.jpa.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class PersistentConfiguration {
+public class ConfigurationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

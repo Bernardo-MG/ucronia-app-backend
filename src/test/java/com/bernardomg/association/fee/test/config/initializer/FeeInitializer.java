@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.data.fee.initializer;
+package com.bernardomg.association.fee.test.config.initializer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

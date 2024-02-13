@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.configuration.persistence.repository;
+package com.bernardomg.association.configuration.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
+import com.bernardomg.association.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
 
-public interface ConfigurationRepository extends JpaRepository<PersistentConfiguration, Long> {
+public interface ConfigurationSpringRepository extends JpaRepository<ConfigurationEntity, Long> {
 
-    public Optional<PersistentConfiguration> findOneByKey(final String key);
+    public Optional<ConfigurationEntity> findOneByKey(final String key);
 
 }

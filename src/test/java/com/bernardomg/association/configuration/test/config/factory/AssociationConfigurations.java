@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.configuration.config.factory;
+package com.bernardomg.association.configuration.test.config.factory;
 
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
 

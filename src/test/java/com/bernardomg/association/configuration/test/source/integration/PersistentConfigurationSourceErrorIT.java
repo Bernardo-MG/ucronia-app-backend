@@ -1,5 +1,5 @@
 
-package com.bernardomg.configuration.test.source.integration;
+package com.bernardomg.association.configuration.test.source.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.configuration.source.PersistentConfigurationSource;
+import com.bernardomg.association.configuration.usecase.PersistentConfigurationSource;
 import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -1,12 +1,12 @@
 
-package com.bernardomg.configuration.test.source.integration;
+package com.bernardomg.association.configuration.test.source.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.configuration.source.PersistentConfigurationSource;
+import com.bernardomg.association.configuration.usecase.PersistentConfigurationSource;
 import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
 import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
 import com.bernardomg.configuration.test.data.annotation.StringConfiguration;

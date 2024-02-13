@@ -1,17 +1,17 @@
 
-package com.bernardomg.association.test.configuration.service.integration;
+package com.bernardomg.association.configuration.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
+import com.bernardomg.association.configuration.adapter.inbound.jpa.repository.ConfigurationSpringRepository;
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
+import com.bernardomg.association.configuration.test.config.factory.AssociationConfigurations;
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.usecase.service.AssociationConfigurationService;
-import com.bernardomg.association.test.configuration.config.factory.AssociationConfigurations;
-import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
-import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
 import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -20,7 +20,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 public class AssociationConfigurationServiceIT {
 
     @Autowired
-    private ConfigurationRepository         repository;
+    private ConfigurationSpringRepository         repository;
 
     @Autowired
     private AssociationConfigurationService service;
@@ -30,7 +30,7 @@ public class AssociationConfigurationServiceIT {
     @FeeAmountConfiguration
     void testUpdate_FeeAmount() {
         final AssociationConfiguration configurationRequest;
-        final PersistentConfiguration  configuration;
+        final ConfigurationEntity  configuration;
 
         // GIVEN
         configurationRequest = AssociationConfigurations.amount();
@@ -56,7 +56,7 @@ public class AssociationConfigurationServiceIT {
     @DisplayName("When updating the fee amount and with no existing configuration, the configuration is persisted")
     void testUpdate_NoData_FeeAmount() {
         final AssociationConfiguration configurationRequest;
-        final PersistentConfiguration  configuration;
+        final ConfigurationEntity  configuration;
 
         // GIVEN
         configurationRequest = AssociationConfigurations.amount();

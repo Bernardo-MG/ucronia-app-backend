@@ -1,5 +1,5 @@
 
-package com.bernardomg.configuration.source;
+package com.bernardomg.association.configuration.usecase;
 
 public interface ConfigurationSource {
 

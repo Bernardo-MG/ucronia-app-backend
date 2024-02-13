@@ -1,17 +1,17 @@
 
-package com.bernardomg.configuration.source;
+package com.bernardomg.association.configuration.usecase;
 
 import java.util.Objects;
 import java.util.Optional;
 
-import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
-import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
+import com.bernardomg.association.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
+import com.bernardomg.association.configuration.adapter.inbound.jpa.repository.ConfigurationSpringRepository;
 
 public final class PersistentConfigurationSource implements ConfigurationSource {
 
-    private final ConfigurationRepository configurationRepository;
+    private final ConfigurationSpringRepository configurationRepository;
 
-    public PersistentConfigurationSource(final ConfigurationRepository configurationRepo) {
+    public PersistentConfigurationSource(final ConfigurationSpringRepository configurationRepo) {
         super();
 
         configurationRepository = Objects.requireNonNull(configurationRepo);
@@ -19,9 +19,9 @@ public final class PersistentConfigurationSource implements ConfigurationSource 
 
     @Override
     public final Float getFloat(final String key) {
-        final Optional<PersistentConfiguration> read;
-        final String                            text;
-        final Float                             value;
+        final Optional<ConfigurationEntity> read;
+        final String                        text;
+        final Float                         value;
 
         read = configurationRepository.findOneByKey(key);
         if (read.isPresent()) {
@@ -37,8 +37,8 @@ public final class PersistentConfigurationSource implements ConfigurationSource 
 
     @Override
     public final String getString(final String key) {
-        final Optional<PersistentConfiguration> read;
-        final String                            value;
+        final Optional<ConfigurationEntity> read;
+        final String                        value;
 
         read = configurationRepository.findOneByKey(key);
         if (read.isPresent()) {

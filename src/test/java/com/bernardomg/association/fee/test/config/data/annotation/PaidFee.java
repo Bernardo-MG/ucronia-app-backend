@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.data.fee.annotation;
+package com.bernardomg.association.fee.test.config.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
