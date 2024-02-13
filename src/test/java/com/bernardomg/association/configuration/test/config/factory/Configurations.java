@@ -9,7 +9,7 @@ public final class Configurations {
     public static final Configuration amount() {
         return Configuration.builder()
             .withKey(AssociationConfigurationKey.FEE_AMOUNT)
-            .withValue("2.0")
+            .withValue("1")
             .build();
     }
 
