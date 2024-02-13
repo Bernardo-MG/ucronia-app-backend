@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
-import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

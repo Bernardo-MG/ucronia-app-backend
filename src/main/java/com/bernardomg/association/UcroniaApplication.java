@@ -28,7 +28,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.bernardomg.configuration.config.ConfigurationConfig;
 import com.bernardomg.email.config.EmailConfig;
 
 /**
@@ -38,7 +37,7 @@ import com.bernardomg.email.config.EmailConfig;
  *
  */
 @SpringBootApplication
-@Import({ ConfigurationConfig.class, EmailConfig.class })
+@Import({ EmailConfig.class })
 public class UcroniaApplication {
 
     /**
