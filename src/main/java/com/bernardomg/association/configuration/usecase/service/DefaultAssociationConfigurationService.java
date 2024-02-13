@@ -36,21 +36,21 @@ public final class DefaultAssociationConfigurationService implements Association
     }
 
     @Override
-    public final void update(final AssociationConfiguration request) {
-        final Configuration           config;
+    public final void update(final AssociationConfiguration configuration) {
+        final Configuration           toSave;
         final Optional<Configuration> found;
 
         found = configurationRepository.findOne(AssociationConfigurationKey.FEE_AMOUNT);
         if (found.isPresent()) {
-            config = found.get();
-            config.setValue(String.valueOf(request.getFeeAmount()));
+            toSave = found.get();
+            toSave.setValue(String.valueOf(configuration.getFeeAmount()));
         } else {
-            config = Configuration.builder()
+            toSave = Configuration.builder()
                 .withKey(AssociationConfigurationKey.FEE_AMOUNT)
-                .withValue(String.valueOf(request.getFeeAmount()))
+                .withValue(String.valueOf(configuration.getFeeAmount()))
                 .build();
         }
-        configurationRepository.save(config);
+        configurationRepository.save(toSave);
     }
 
 }
