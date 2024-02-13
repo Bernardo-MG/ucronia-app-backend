@@ -2,13 +2,12 @@
 package com.bernardomg.association.configuration.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
+import com.bernardomg.association.configuration.domain.model.Configuration;
+import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
-import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
-import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
-import com.bernardomg.configuration.source.ConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
 
 public final class DefaultAssociationConfigurationService implements AssociationConfigurationService {
 
@@ -36,21 +35,17 @@ public final class DefaultAssociationConfigurationService implements Association
     }
 
     @Override
-    public final void update(final AssociationConfiguration request) {
-        final PersistentConfiguration           config;
-        final Optional<PersistentConfiguration> found;
+    public final void update(final AssociationConfiguration configuration) {
+        final Configuration toSave;
 
-        found = configurationRepository.findOneByKey(AssociationConfigurationKey.FEE_AMOUNT);
-        if (found.isPresent()) {
-            config = found.get();
-            config.setValue(String.valueOf(request.getFeeAmount()));
-        } else {
-            config = PersistentConfiguration.builder()
-                .withKey(AssociationConfigurationKey.FEE_AMOUNT)
-                .withValue(String.valueOf(request.getFeeAmount()))
-                .build();
-        }
-        configurationRepository.save(config);
+        // TODO: Should verify it exists?
+
+        toSave = Configuration.builder()
+            .withKey(AssociationConfigurationKey.FEE_AMOUNT)
+            .withValue(String.valueOf(configuration.getFeeAmount()))
+            .build();
+
+        configurationRepository.save(toSave);
     }
 
 }
