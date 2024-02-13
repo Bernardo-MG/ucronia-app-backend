@@ -2,7 +2,6 @@
 package com.bernardomg.association.configuration.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.domain.model.Configuration;
@@ -37,19 +36,15 @@ public final class DefaultAssociationConfigurationService implements Association
 
     @Override
     public final void update(final AssociationConfiguration configuration) {
-        final Configuration           toSave;
-        final Optional<Configuration> found;
+        final Configuration toSave;
 
-        found = configurationRepository.findOne(AssociationConfigurationKey.FEE_AMOUNT);
-        if (found.isPresent()) {
-            toSave = found.get();
-            toSave.setValue(String.valueOf(configuration.getFeeAmount()));
-        } else {
-            toSave = Configuration.builder()
-                .withKey(AssociationConfigurationKey.FEE_AMOUNT)
-                .withValue(String.valueOf(configuration.getFeeAmount()))
-                .build();
-        }
+        // TODO: Should verify it exists?
+
+        toSave = Configuration.builder()
+            .withKey(AssociationConfigurationKey.FEE_AMOUNT)
+            .withValue(String.valueOf(configuration.getFeeAmount()))
+            .build();
+
         configurationRepository.save(toSave);
     }
 
