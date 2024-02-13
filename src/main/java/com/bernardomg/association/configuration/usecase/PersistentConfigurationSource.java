@@ -23,7 +23,7 @@ public final class PersistentConfigurationSource implements ConfigurationSource 
         final String                        text;
         final Float                         value;
 
-        read = configurationRepository.findOneByKey(key);
+        read = configurationRepository.findByKey(key);
         if (read.isPresent()) {
             text = read.get()
                 .getValue();
@@ -40,7 +40,7 @@ public final class PersistentConfigurationSource implements ConfigurationSource 
         final Optional<ConfigurationEntity> read;
         final String                        value;
 
-        read = configurationRepository.findOneByKey(key);
+        read = configurationRepository.findByKey(key);
         if (read.isPresent()) {
             value = read.get()
                 .getValue();

@@ -18,8 +18,8 @@ import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ConfigurationRepository - update")
-public class ITConfigurationRepositoryUpdate {
+@DisplayName("ConfigurationRepository - save")
+public class ITConfigurationRepositorySave {
 
     @Autowired
     private ConfigurationSpringRepository configurationSpringRepository;
@@ -28,72 +28,65 @@ public class ITConfigurationRepositoryUpdate {
     private ConfigurationRepository       repository;
 
     @Test
-    @DisplayName("When updating the fee amount and with no existing configuration, the configuration is persisted")
-    void testUpdate_NoData_Persisted() {
+    @DisplayName("When saving the fee amount and with no existing configuration, the configuration is persisted")
+    void testSave_NoData_Persisted() {
         final Configuration                   configuration;
         final Collection<ConfigurationEntity> configurations;
 
         // GIVEN
-        configuration = Configurations.valid();
+        configuration = Configurations.amount();
 
         // WHEN
         repository.save(configuration);
 
         // THEN
-        Assertions.assertThat(configurationSpringRepository.count())
-            .isOne();
-
         configurations = configurationSpringRepository.findAll();
 
         Assertions.assertThat(configurations)
             .as("configurations")
-            .containsExactly(ConfigurationEntities.valid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(ConfigurationEntities.amount());
     }
 
     @Test
-    @DisplayName("When updating the fee amount, the configuration is persisted")
+    @DisplayName("When saving the fee amount, the configuration is persisted")
     @FeeAmountConfiguration
-    void testUpdate_Persisted() {
+    void testSave_Persisted() {
         final Configuration                   configuration;
         final Collection<ConfigurationEntity> configurations;
 
         // GIVEN
-        configuration = Configurations.valid();
+        configuration = Configurations.amount();
 
         // WHEN
         repository.save(configuration);
 
         // THEN
-        Assertions.assertThat(configurationSpringRepository.count())
-            .isOne();
-
         configurations = configurationSpringRepository.findAll();
 
         Assertions.assertThat(configurations)
             .as("configurations")
-            .containsExactly(ConfigurationEntities.valid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(ConfigurationEntities.amount());
     }
 
     @Test
-    @DisplayName("When updating the fee amount, the configuration is returned")
+    @DisplayName("When saving the fee amount, the configuration is returned")
     @FeeAmountConfiguration
-    void testUpdate_Returned() {
+    void testSave_Returned() {
         final Configuration configuration;
         final Configuration created;
 
         // GIVEN
-        configuration = Configurations.valid();
+        configuration = Configurations.amount();
 
         // WHEN
         created = repository.save(configuration);
 
         // THEN
-        Assertions.assertThat(configurationSpringRepository.count())
-            .isOne();
-
         Assertions.assertThat(created)
             .as("created")
-            .isEqualTo(Configurations.valid());
+            .isEqualTo(Configurations.amount());
     }
 
 }

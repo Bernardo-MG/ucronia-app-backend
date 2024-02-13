@@ -32,6 +32,6 @@ import com.bernardomg.association.configuration.adapter.inbound.jpa.model.Config
 
 public interface ConfigurationSpringRepository extends JpaRepository<ConfigurationEntity, Long> {
 
-    public Optional<ConfigurationEntity> findOneByKey(final String key);
+    public Optional<ConfigurationEntity> findByKey(final String key);
 
 }
