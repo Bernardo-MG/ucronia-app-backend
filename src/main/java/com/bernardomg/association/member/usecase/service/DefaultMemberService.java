@@ -164,6 +164,7 @@ public final class DefaultMemberService implements MemberService {
                 .getLastName())
             .build();
         toUpdate = Member.builder()
+            .withNumber(member.getNumber())
             .withIdentifier(member.getIdentifier())
             .withName(memberName)
             .withPhone(member.getPhone())
