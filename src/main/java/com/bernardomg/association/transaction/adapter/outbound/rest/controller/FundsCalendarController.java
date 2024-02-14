@@ -22,73 +22,74 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import java.util.Collection;
+import java.time.YearMonth;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Balance REST controller.
+ * Funds calendar REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/funds/balance")
+@RequestMapping("/funds/calendar")
 @AllArgsConstructor
 @Transactional
-public class BalanceController {
+public class FundsCalendarController {
 
     /**
-     * Balance service
+     * Funds calendar service.
      */
-    private final TransactionBalanceService service;
+    private final TransactionCalendarService service;
 
     /**
-     * Returns the current balance.
+     * Returns all the fund changes for a month.
      *
-     * @return the current balance
+     * @param year
+     *            year to read
+     * @param month
+     *            month to read
+     * @return all the fund changes for the month
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.BALANCE)
-    public TransactionCurrentBalance readBalance() {
-        return service.getBalance();
+    @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.CALENDAR)
+    public TransactionCalendarMonth readMonth(@PathVariable("year") final Integer year,
+            @PathVariable("month") final Integer month) {
+        final YearMonth date;
+
+        date = YearMonth.of(year, month);
+        return service.getForMonth(date);
     }
 
     /**
-     * Returns the monthly balance.
+     * Returns the range of available months.
      *
-     * @param balance
-     *            query to filter balances
-     * @param sort
-     *            sorting to apply
-     * @return the monthly balance
+     * @return the range of available months
      */
-    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
-    public Collection<? extends TransactionMonthlyBalance>
-            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sort sort) {
-        return service.getMonthlyBalance(balance, sort);
+    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.CALENDAR_RANGE)
+    public TransactionCalendarMonthsRange readRange() {
+        return service.getRange();
     }
 
 }

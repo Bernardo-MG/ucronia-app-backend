@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -44,8 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.cache.FeeCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;

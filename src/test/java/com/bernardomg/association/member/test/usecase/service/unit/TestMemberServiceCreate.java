@@ -37,9 +37,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
@@ -62,15 +60,15 @@ class TestMemberServiceCreate {
     @DisplayName("With a member with no surname, the member is persisted")
     @Disabled("This is an error case, handle somehow")
     void testCreate_NoSurname_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.missingSurname();
+        member = Members.missingSurname();
 
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(memberRequest);
+        service.create(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -79,15 +77,15 @@ class TestMemberServiceCreate {
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.paddedWithWhitespaces();
+        member = Members.paddedWithWhitespaces();
 
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(memberRequest);
+        service.create(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -96,15 +94,15 @@ class TestMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.valid();
+        member = Members.active();
 
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(memberRequest);
+        service.create(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -113,20 +111,20 @@ class TestMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testCreate_ReturnedData() {
-        final MemberChange memberRequest;
-        final Member       member;
+        final Member member;
+        final Member created;
 
         // GIVEN
-        memberRequest = MemberChanges.valid();
+        member = Members.active();
 
         given(memberRepository.save(Members.inactive())).willReturn(Members.inactive());
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        member = service.create(memberRequest);
+        created = service.create(member);
 
         // THEN
-        Assertions.assertThat(member)
+        Assertions.assertThat(created)
             .as("member")
             .isEqualTo(Members.inactive());
     }

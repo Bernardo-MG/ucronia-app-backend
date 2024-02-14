@@ -32,20 +32,28 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final Transaction create(final Transaction transaction) {
-        final Long index;
+        final Long        index;
+        final Transaction toCreate;
 
         log.debug("Creating transaction {}", transaction);
 
+        toCreate = Transaction.builder()
+            .withIndex(transaction.getIndex())
+            .withAmount(transaction.getAmount())
+            .withDate(transaction.getDate())
+            .withDescription(transaction.getDescription())
+            .build();
+
         // Set index
         index = transactionRepository.findNextIndex();
-        transaction.setIndex(index);
+        toCreate.setIndex(index);
 
         // Trim strings
         // TODO: should be done by the model
-        transaction.setDescription(transaction.getDescription()
+        toCreate.setDescription(toCreate.getDescription()
             .trim());
 
-        return transactionRepository.save(transaction);
+        return transactionRepository.save(toCreate);
     }
 
     @Override

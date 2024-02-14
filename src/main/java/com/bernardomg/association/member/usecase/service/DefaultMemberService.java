@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -41,17 +40,28 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member create(final MemberChange member) {
-        final Member toCreate;
-        final Long   index;
-        final String fullName;
+    public final Member create(final Member member) {
+        final Member     toCreate;
+        final Long       index;
+        final String     fullName;
+        final MemberName memberName;
 
         log.debug("Creating member {}", member);
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        toCreate = toDomain(member);
+        memberName = MemberName.builder()
+            .withFirstName(member.getName()
+                .getFirstName())
+            .withLastName(member.getName()
+                .getLastName())
+            .build();
+        toCreate = Member.builder()
+            .withIdentifier(member.getIdentifier())
+            .withName(memberName)
+            .withPhone(member.getPhone())
+            .build();
 
         // Set number
         index = memberRepository.findNextNumber();
@@ -131,25 +141,33 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member update(final long number, final MemberChange change) {
-        final boolean exists;
-        final Member  toUpdate;
-        final String  fullName;
+    public final Member update(final Member member) {
+        final boolean    exists;
+        final Member     toUpdate;
+        final String     fullName;
+        final MemberName memberName;
 
-        log.debug("Updating member {} using data {}", number, change);
+        log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
 
-        exists = memberRepository.exists(number);
+        exists = memberRepository.exists(member.getNumber());
         if (!exists) {
             // TODO: change name
-            throw new MissingMemberIdException(number);
+            throw new MissingMemberIdException(member.getNumber());
         }
 
-        toUpdate = toDomain(change);
-
-        // Set number
-        toUpdate.setNumber(number);
+        memberName = MemberName.builder()
+            .withFirstName(member.getName()
+                .getFirstName())
+            .withLastName(member.getName()
+                .getLastName())
+            .build();
+        toUpdate = Member.builder()
+            .withIdentifier(member.getIdentifier())
+            .withName(memberName)
+            .withPhone(member.getPhone())
+            .build();
 
         // TODO: the model should do this
         // Trim strings
@@ -212,29 +230,6 @@ public final class DefaultMemberService implements MemberService {
         orders.addAll(validOrders);
 
         return Sort.by(orders);
-    }
-
-    private final Member toDomain(final MemberChange data) {
-        final MemberName memberName;
-        final String     fullName;
-
-        // TODO: the model should return this automatically
-        fullName = Strings.trimWhitespace(data.getName()
-            .getFirstName() + " "
-                + data.getName()
-                    .getLastName());
-        memberName = MemberName.builder()
-            .withFirstName(data.getName()
-                .getFirstName())
-            .withLastName(data.getName()
-                .getLastName())
-            .withFullName(fullName)
-            .build();
-        return Member.builder()
-            .withIdentifier(data.getIdentifier())
-            .withName(memberName)
-            .withPhone(data.getPhone())
-            .build();
     }
 
 }
