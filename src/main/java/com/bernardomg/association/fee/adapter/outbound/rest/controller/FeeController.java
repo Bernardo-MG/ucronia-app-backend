@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.outbound.controller;
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -44,9 +44,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayment;
 import com.bernardomg.association.fee.cache.FeeCaches;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
@@ -87,7 +87,10 @@ public class FeeController {
             MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR, MembersCaches.CALENDAR_RANGE },
             allEntries = true) })
     public Collection<Fee> create(@Valid @RequestBody final FeePayment payment) {
-        return service.payFees(payment);
+        return service.payFees(payment.getFeeDates(), payment.getMember()
+            .getNumber(),
+            payment.getTransaction()
+                .getDate());
     }
 
     @DeleteMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
