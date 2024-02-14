@@ -23,7 +23,7 @@
  */
 
 /**
- * Association fee controllers.
+ * Association transaction controllers.
  */
 
-package com.bernardomg.association.fee.adapter.outbound.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller;

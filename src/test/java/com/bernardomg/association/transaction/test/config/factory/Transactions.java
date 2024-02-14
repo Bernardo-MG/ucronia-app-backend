@@ -81,6 +81,15 @@ public final class Transactions {
             .build();
     }
 
+    public static final Transaction paddedWithWhitespaces() {
+        return Transaction.builder()
+            .withIndex(TransactionConstants.INDEX)
+            .withDescription(" Transaction ")
+            .withAmount(1F)
+            .withDate(TransactionConstants.DATE)
+            .build();
+    }
+
     public static final Transaction valid() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)

@@ -13,6 +13,7 @@ public final class MemberName {
 
     private String firstName;
 
+    // TODO: should be generated automatically
     private String fullName;
 
     private String lastName;

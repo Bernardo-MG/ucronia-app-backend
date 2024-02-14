@@ -22,22 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+/**
+ * Association fee controllers.
+ */
 
-import com.bernardomg.association.member.domain.model.MemberStatus;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class FeeCalendarQuery {
-
-    @Builder.Default
-    private MemberStatus status = MemberStatus.ALL;
-
-}
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;

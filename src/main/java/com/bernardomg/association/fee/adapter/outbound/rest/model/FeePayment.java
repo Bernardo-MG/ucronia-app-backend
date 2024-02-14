@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
 import java.time.YearMonth;
 import java.util.Collection;

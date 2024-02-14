@@ -38,15 +38,15 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
-import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
@@ -85,13 +85,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_Existing_NotPaid_PersistedFee() {
         final List<FeeEntity> entities;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -109,13 +105,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_Existing_NotPaid_PersistedTransaction() {
         final List<TransactionEntity> entities;
-        final FeePayment              payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -133,13 +125,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_Existing_NotPaid_ReturnedData() {
         final Collection<Fee> fees;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        fees = service.payFees(payment);
+        fees = service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -153,13 +141,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
         final List<FeeEntity> entities;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -177,13 +162,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
         final List<TransactionEntity> entities;
-        final FeePayment              payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -201,13 +183,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_OneExisting_NotPaid_ReturnedData() {
         final Collection<Fee> fees;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        fees = service.payFees(payment);
+        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -220,13 +199,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee() {
         final List<FeeEntity> entities;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -242,13 +218,10 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedRelationship() {
-        final FeePayment payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(feePaymentRepository.count())
@@ -261,13 +234,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedTransaction() {
         final List<TransactionEntity> entities;
-        final FeePayment              payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -284,13 +254,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_ReturnedData() {
         final Collection<Fee> fees;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.two();
 
         // WHEN
-        fees = service.payFees(payment);
+        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -303,13 +270,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_TwoYears_PersistedFee() {
         final List<FeeEntity> entities;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.twoYears();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -326,13 +290,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_TwoYears_PersistedTransaction() {
         final List<TransactionEntity> entities;
-        final FeePayment              payment;
-
-        // GIVEN
-        payment = FeePayments.twoYears();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE), MemberConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -349,13 +310,10 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_MultipleDates_TwoYears_ReturnedData() {
         final Collection<Fee> fees;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.twoYears();
 
         // WHEN
-        fees = service.payFees(payment);
+        fees = service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE),
+            MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -367,13 +325,9 @@ class ITFeeServicePayFees {
     @ValidMember
     void testCreate_NoAmount_PersistedTransaction() {
         final List<TransactionEntity> entities;
-        final FeePayment              payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -390,13 +344,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_PersistedFee() {
         final List<FeeEntity> entities;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -412,16 +362,12 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedRelationship() {
-        final FeePayment        payment;
         final FeePaymentEntity  relationship;
         final FeeEntity         fee;
         final TransactionEntity transaction;
 
-        // GIVEN
-        payment = FeePayments.single();
-
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(feePaymentRepository.count())
@@ -449,13 +395,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction() {
         final List<TransactionEntity> entities;
-        final FeePayment              payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -473,14 +415,12 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction_IncreaseIndex() {
         final Optional<TransactionEntity> entity;
-        final FeePayment                  payment;
 
         // GIVEN
-        payment = FeePayments.alternative();
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.NEXT_DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entity = transactionRepository.findOneByIndex(2);
@@ -495,13 +435,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction_InitialIndex() {
         final Optional<TransactionEntity> entity;
-        final FeePayment                  payment;
-
-        // GIVEN
-        payment = FeePayments.alternative();
 
         // WHEN
-        service.payFees(payment);
+        service.payFees(List.of(FeeConstants.NEXT_DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entity = transactionRepository.findOneByIndex(1);
@@ -516,13 +452,9 @@ class ITFeeServicePayFees {
     @FeeAmountConfiguration
     void testCreate_ReturnedData() {
         final Collection<Fee> fees;
-        final FeePayment      payment;
-
-        // GIVEN
-        payment = FeePayments.single();
 
         // WHEN
-        fees = service.payFees(payment);
+        fees = service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)

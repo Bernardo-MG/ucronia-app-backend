@@ -1,10 +1,11 @@
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
 import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,16 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeePaymentTransaction {
+public final class TransactionChange {
+
+    @NotNull
+    private Float     amount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate date;
+
+    @NotEmpty
+    private String    description;
 
 }
