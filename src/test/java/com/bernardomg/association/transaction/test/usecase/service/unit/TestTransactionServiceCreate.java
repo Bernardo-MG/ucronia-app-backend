@@ -30,19 +30,18 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionChanges;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - create")
 class TestTransactionServiceCreate {
 
@@ -55,15 +54,15 @@ class TestTransactionServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final TransactionChange transactionChange;
+        final Transaction transaction;
 
         // GIVEN
-        transactionChange = TransactionChanges.paddedWithWhitespaces();
+        transaction = Transactions.paddedWithWhitespaces();
 
         given(transactionRepository.findNextIndex()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(transactionChange);
+        service.create(transaction);
 
         // THEN
         verify(transactionRepository).save(Transactions.valid());
@@ -72,15 +71,15 @@ class TestTransactionServiceCreate {
     @Test
     @DisplayName("With a valid transaction, it is persisted")
     void testCreate_PersistedData() {
-        final TransactionChange transactionChange;
+        final Transaction transaction;
 
         // GIVEN
-        transactionChange = TransactionChanges.valid();
+        transaction = Transactions.valid();
 
         given(transactionRepository.findNextIndex()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(transactionChange);
+        service.create(transaction);
 
         // THEN
         verify(transactionRepository).save(Transactions.valid());
@@ -89,20 +88,20 @@ class TestTransactionServiceCreate {
     @Test
     @DisplayName("With a valid transaction, it is returned")
     void testCreate_ReturnedData() {
-        final TransactionChange transactionChange;
-        final Transaction       transaction;
+        final Transaction transaction;
+        final Transaction created;
 
         // GIVEN
-        transactionChange = TransactionChanges.valid();
+        transaction = Transactions.valid();
 
         given(transactionRepository.save(Transactions.valid())).willReturn(Transactions.valid());
         given(transactionRepository.findNextIndex()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        transaction = service.create(transactionChange);
+        created = service.create(transaction);
 
         // THEN
-        Assertions.assertThat(transaction)
+        Assertions.assertThat(created)
             .as("transaction")
             .isEqualTo(Transactions.valid());
     }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -44,8 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.cache.FeeCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -74,7 +74,7 @@ public class TransactionController {
     /**
      * Creates a transaction.
      *
-     * @param transaction
+     * @param creation
      *            transaction to add
      * @return the new transaction
      */
@@ -91,7 +91,14 @@ public class TransactionController {
                     TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public Transaction create(@Valid @RequestBody final TransactionChange transaction) {
+    public Transaction create(@Valid @RequestBody final TransactionChange creation) {
+        final Transaction transaction;
+
+        transaction = Transaction.builder()
+            .withAmount(creation.getAmount())
+            .withDate(creation.getDate())
+            .withDescription(creation.getDescription())
+            .build();
         return service.create(transaction);
     }
 
@@ -153,7 +160,7 @@ public class TransactionController {
      *
      * @param index
      *            index of the transaction to update
-     * @param transaction
+     * @param change
      *            updated transaction data
      * @return the updated transaction
      */
@@ -170,8 +177,16 @@ public class TransactionController {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public Transaction update(@PathVariable("index") final long index,
-            @Valid @RequestBody final TransactionChange transaction) {
-        return service.update(index, transaction);
+            @Valid @RequestBody final TransactionChange change) {
+        final Transaction transaction;
+
+        transaction = Transaction.builder()
+            .withIndex(index)
+            .withAmount(change.getAmount())
+            .withDate(change.getDate())
+            .withDescription(change.getDescription())
+            .build();
+        return service.update(transaction);
     }
 
 }

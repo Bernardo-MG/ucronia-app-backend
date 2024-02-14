@@ -36,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
@@ -44,7 +43,6 @@ import com.bernardomg.exception.MissingIdException;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - delete")
-@PositiveTransaction
 class TestTransactionServiceDelete {
 
     @InjectMocks

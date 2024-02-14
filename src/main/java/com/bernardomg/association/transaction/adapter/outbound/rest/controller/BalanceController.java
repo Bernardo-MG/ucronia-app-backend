@@ -22,74 +22,73 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import java.time.YearMonth;
+import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
-import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
+import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Funds calendar REST controller.
+ * Balance REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/funds/calendar")
+@RequestMapping("/funds/balance")
 @AllArgsConstructor
 @Transactional
-public class FundsCalendarController {
+public class BalanceController {
 
     /**
-     * Funds calendar service.
+     * Balance service
      */
-    private final TransactionCalendarService service;
+    private final TransactionBalanceService service;
 
     /**
-     * Returns all the fund changes for a month.
+     * Returns the current balance.
      *
-     * @param year
-     *            year to read
-     * @param month
-     *            month to read
-     * @return all the fund changes for the month
+     * @return the current balance
      */
-    @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.CALENDAR)
-    public TransactionCalendarMonth readMonth(@PathVariable("year") final Integer year,
-            @PathVariable("month") final Integer month) {
-        final YearMonth date;
-
-        date = YearMonth.of(year, month);
-        return service.getForMonth(date);
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.BALANCE)
+    public TransactionCurrentBalance readBalance() {
+        return service.getBalance();
     }
 
     /**
-     * Returns the range of available months.
+     * Returns the monthly balance.
      *
-     * @return the range of available months
+     * @param balance
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly balance
      */
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.CALENDAR_RANGE)
-    public TransactionCalendarMonthsRange readRange() {
-        return service.getRange();
+    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
+    public Collection<? extends TransactionMonthlyBalance>
+            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sort sort) {
+        return service.getMonthlyBalance(balance, sort);
     }
 
 }

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionIdException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
@@ -32,23 +31,29 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Transaction create(final TransactionChange change) {
-        final Transaction transaction;
+    public final Transaction create(final Transaction transaction) {
         final Long        index;
+        final Transaction toCreate;
 
-        log.debug("Creating transaction {}", change);
+        log.debug("Creating transaction {}", transaction);
 
-        transaction = toDomain(change);
+        toCreate = Transaction.builder()
+            .withIndex(transaction.getIndex())
+            .withAmount(transaction.getAmount())
+            .withDate(transaction.getDate())
+            .withDescription(transaction.getDescription())
+            .build();
 
         // Set index
         index = transactionRepository.findNextIndex();
-        transaction.setIndex(index);
+        toCreate.setIndex(index);
 
         // Trim strings
-        transaction.setDescription(transaction.getDescription()
+        // TODO: should be done by the model
+        toCreate.setDescription(toCreate.getDescription()
             .trim());
 
-        return transactionRepository.save(transaction);
+        return transactionRepository.save(toCreate);
     }
 
     @Override
@@ -86,22 +91,24 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Transaction update(final long index, final TransactionChange transaction) {
+    public final Transaction update(final Transaction transaction) {
         final boolean     exists;
         final Transaction toUpdate;
 
-        log.debug("Updating transaction with index {} using data {}", index, transaction);
+        log.debug("Updating transaction with index {} using data {}", transaction.getIndex(), transaction);
 
-        exists = transactionRepository.exists(index);
+        exists = transactionRepository.exists(transaction.getIndex());
         if (!exists) {
             // TODO: change exception name
-            throw new MissingTransactionIdException(index);
+            throw new MissingTransactionIdException(transaction.getIndex());
         }
 
-        toUpdate = toDomain(transaction);
-
-        // Set index
-        toUpdate.setIndex(index);
+        toUpdate = Transaction.builder()
+            .withIndex(transaction.getIndex())
+            .withAmount(transaction.getAmount())
+            .withDate(transaction.getDate())
+            .withDescription(transaction.getDescription())
+            .build();
 
         // TODO: the model should do this
         // Trim strings
@@ -109,14 +116,6 @@ public final class DefaultTransactionService implements TransactionService {
             .trim());
 
         return transactionRepository.save(toUpdate);
-    }
-
-    private final Transaction toDomain(final TransactionChange transaction) {
-        return Transaction.builder()
-            .withDate(transaction.getDate())
-            .withDescription(transaction.getDescription())
-            .withAmount(transaction.getAmount())
-            .build();
     }
 
 }

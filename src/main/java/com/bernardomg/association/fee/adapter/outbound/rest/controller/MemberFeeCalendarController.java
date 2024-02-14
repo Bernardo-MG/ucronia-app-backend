@@ -22,73 +22,75 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.controller;
-
-import java.util.Collection;
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarQuery;
+import com.bernardomg.association.fee.domain.model.FeeCalendar;
+import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
+import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Balance REST controller.
+ * Member fee calendar REST controller.
+ *
+ * TODO: rework this model
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/funds/balance")
+@RequestMapping("/fee/calendar")
 @AllArgsConstructor
 @Transactional
-public class BalanceController {
+public class MemberFeeCalendarController {
 
     /**
-     * Balance service
+     * Member fee calendar service.
      */
-    private final TransactionBalanceService service;
+    private final FeeCalendarService service;
 
     /**
-     * Returns the current balance.
+     * Returns the range of available years.
      *
-     * @return the current balance
+     * @return the range of available years
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.BALANCE)
-    public TransactionCurrentBalance readBalance() {
-        return service.getBalance();
+    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.CALENDAR_RANGE)
+    public FeeCalendarYearsRange readRange() {
+        return service.getRange();
     }
 
     /**
-     * Returns the monthly balance.
+     * Returns all the member fees for a year.
      *
-     * @param balance
-     *            query to filter balances
+     * @param year
+     *            year to read
+     * @param request
+     *            request data
      * @param sort
      *            sorting to apply
-     * @return the monthly balance
+     * @return all the member fees for a year
      */
-    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
-    public Collection<? extends TransactionMonthlyBalance>
-            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sort sort) {
-        return service.getMonthlyBalance(balance, sort);
+    @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.CALENDAR)
+    public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
+            final Sort sort) {
+        return service.getYear(year, request.getStatus(), sort);
     }
 
 }
