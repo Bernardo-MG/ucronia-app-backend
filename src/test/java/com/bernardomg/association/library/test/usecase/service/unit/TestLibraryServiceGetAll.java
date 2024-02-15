@@ -217,8 +217,8 @@ class TestLibraryServiceGetAll {
     @Test
     @DisplayName("When there are no game systems, nothing is returned")
     void testGetAllGameSystems_NoData() {
-        final Pageable           pageable;
-        final Iterable<BookType> systems;
+        final Pageable             pageable;
+        final Iterable<GameSystem> systems;
 
         // GIVEN
         pageable = Pageable.unpaged();
@@ -226,7 +226,7 @@ class TestLibraryServiceGetAll {
         given(gameSystemRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
-        systems = service.getAllBookTypes(pageable);
+        systems = service.getAllGameSystems(pageable);
 
         // THEN
         Assertions.assertThat(systems)
