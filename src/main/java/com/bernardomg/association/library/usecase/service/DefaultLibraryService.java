@@ -50,24 +50,4 @@ public final class DefaultLibraryService implements LibraryService {
         return systemRepository.save(system);
     }
 
-    @Override
-    public final Author updateAuthor(final Author author) {
-        return authorRepository.save(author);
-    }
-
-    @Override
-    public final Book updateBook(final Book book) {
-        return bookRepository.save(book);
-    }
-
-    @Override
-    public final BookType updateBookType(final BookType type) {
-        return bookTypeRepository.save(type);
-    }
-
-    @Override
-    public final GameSystem updateSystem(final GameSystem system) {
-        return systemRepository.save(system);
-    }
-
 }

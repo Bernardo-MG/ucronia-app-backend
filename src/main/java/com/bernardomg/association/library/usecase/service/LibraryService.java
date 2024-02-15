@@ -16,12 +16,4 @@ public interface LibraryService {
 
     public GameSystem createGameSystem(final GameSystem system);
 
-    public Author updateAuthor(final Author author);
-
-    public Book updateBook(final Book book);
-
-    public BookType updateBookType(final BookType type);
-
-    public GameSystem updateSystem(final GameSystem system);
-
 }
