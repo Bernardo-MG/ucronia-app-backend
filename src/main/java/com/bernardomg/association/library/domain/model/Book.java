@@ -12,14 +12,14 @@ public final class Book {
 
     private Collection<Author> authors;
 
+    private BookType           bookType;
+
+    private GameSystem         gameSystem;
+
     private String             isbn;
 
     private String             language;
 
-    private GameSystem         system;
-
     private String             title;
-
-    private BookType           type;
 
 }

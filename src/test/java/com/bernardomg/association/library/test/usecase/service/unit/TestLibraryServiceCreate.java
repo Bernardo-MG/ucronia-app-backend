@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +36,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.library.domain.exception.MissingAuthorException;
+import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
+import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;
@@ -43,9 +47,12 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.association.library.test.config.factory.Authors;
+import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypes;
 import com.bernardomg.association.library.test.config.factory.Books;
+import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.association.library.test.config.factory.GameSystems;
 import com.bernardomg.association.library.usecase.service.DefaultLibraryService;
 
@@ -107,12 +114,76 @@ class TestLibraryServiceCreate {
     }
 
     @Test
+    @DisplayName("When persisting a book for a not existing author, an exception is thrown")
+    void testCreateBook_NoAuthor_Exception() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.createBook(book);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingAuthorException.class);
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing book type, an exception is thrown")
+    void testCreateBook_NoBookType_Exception() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.createBook(book);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingBookTypeException.class);
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing game system, an exception is thrown")
+    void testCreateBook_NoGameSystem_Exception() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.createBook(book);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingGameSystemException.class);
+    }
+
+    @Test
     @DisplayName("With a valid book, the book is persisted")
     void testCreateBook_PersistedData() {
         final Book book;
 
         // GIVEN
         book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
         // WHEN
         service.createBook(book);
@@ -129,6 +200,10 @@ class TestLibraryServiceCreate {
 
         // GIVEN
         book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
         given(bookRepository.save(Books.valid())).willReturn(Books.valid());
 
