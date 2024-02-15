@@ -14,6 +14,8 @@ public final class Book {
 
     private String             isbn;
 
+    private String             language;
+
     private GameSystem         system;
 
     private String             title;

@@ -37,6 +37,9 @@ public class BookEntity implements Serializable {
     @Column(name = "isbn", nullable = false)
     private String            isbn;
 
+    @Column(name = "language", nullable = false)
+    private String            language;
+
     @Column(name = "title", nullable = false)
     private String            title;
 
