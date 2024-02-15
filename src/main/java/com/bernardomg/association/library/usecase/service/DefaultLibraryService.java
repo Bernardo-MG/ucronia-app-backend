@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import org.springframework.data.domain.Pageable;
+
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
@@ -80,6 +82,26 @@ public final class DefaultLibraryService implements LibraryService {
     @Override
     public final GameSystem createGameSystem(final GameSystem system) {
         return gameSystemRepository.save(system);
+    }
+
+    @Override
+    public final Iterable<Author> getAllAuthors(final Pageable pageable) {
+        return authorRepository.findAll(pageable);
+    }
+
+    @Override
+    public final Iterable<Book> getAllBooks(final Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    @Override
+    public final Iterable<BookType> getAllBookTypes(final Pageable pageable) {
+        return bookTypeRepository.findAll(pageable);
+    }
+
+    @Override
+    public final Iterable<GameSystem> getAllGameSystems(final Pageable pageable) {
+        return gameSystemRepository.findAll(pageable);
     }
 
 }
