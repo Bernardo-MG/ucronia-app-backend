@@ -3,8 +3,6 @@ package com.bernardomg.association.library.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import com.bernardomg.association.library.domain.model.System;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

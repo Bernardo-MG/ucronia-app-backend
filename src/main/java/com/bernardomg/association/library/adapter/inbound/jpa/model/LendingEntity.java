@@ -30,12 +30,12 @@ public class LendingEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate         date;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
-
-    @Column(name = "date", nullable = false)
-    private LocalDate         date;
 
 }
