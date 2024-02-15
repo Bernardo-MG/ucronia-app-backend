@@ -4,6 +4,7 @@ package com.bernardomg.association.library.usecase.service;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;
+import com.bernardomg.association.library.domain.model.GameSystem;
 
 public interface LibraryService {
 
@@ -13,7 +14,7 @@ public interface LibraryService {
 
     public BookType createBookType(final BookType type);
 
-    public System createSystem(final System system);
+    public GameSystem createGameSystem(final GameSystem system);
 
     public Author updateAuthor(final Author author);
 
@@ -21,6 +22,6 @@ public interface LibraryService {
 
     public BookType updateBookType(final BookType type);
 
-    public System updateSystem(final System system);
+    public GameSystem updateSystem(final GameSystem system);
 
 }

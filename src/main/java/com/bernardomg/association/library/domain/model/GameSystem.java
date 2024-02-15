@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder(setterPrefix = "with")
-public final class System {
+public final class GameSystem {
 
     private String name;
 
