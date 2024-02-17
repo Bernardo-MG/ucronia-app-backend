@@ -50,6 +50,19 @@ class ITMemberRepositoryFindOne {
     private MemberRepository memberRepository;
 
     @Test
+    @DisplayName("With no member, nothing is returned")
+    void testGetOne_NoData() {
+        final Optional<Member> memberOptional;
+
+        // WHEN
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With a member having no fee in the current month, a not active member is returned")
     @ValidMember
     void testGetOne_NoFee() {

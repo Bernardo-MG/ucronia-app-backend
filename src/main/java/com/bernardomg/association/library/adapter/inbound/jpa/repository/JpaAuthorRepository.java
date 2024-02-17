@@ -1,12 +1,18 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class JpaAuthorRepository implements AuthorRepository {
 
     private final AuthorSpringRepository authorSpringRepository;
@@ -19,26 +25,64 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
     @Override
     public final boolean exists(final String name) {
-        return authorSpringRepository.existsByName(name);
+        final boolean exists;
+
+        log.debug("Checking if author {} exists", name);
+
+        exists = authorSpringRepository.existsByName(name);
+
+        log.debug("Author {} exists: {}", name, exists);
+
+        return exists;
     }
 
     @Override
     public final Iterable<Author> findAll(final Pageable pageable) {
-        return authorSpringRepository.findAll(pageable)
-            .stream()
-            .map(this::toDomain)
-            .toList();
+        final Page<AuthorEntity> page;
+        final Iterable<Author>   read;
+
+        log.debug("Finding authors with pagination {}", pageable);
+
+        page = authorSpringRepository.findAll(pageable);
+
+        read = page.map(this::toDomain);
+
+        log.debug("Found authors {}", read);
+
+        return read;
     }
 
     @Override
-    public final Author save(final Author book) {
+    public final Optional<Author> findOne(final String name) {
+        final Optional<Author> author;
+
+        log.debug("Finding author with name {}", name);
+
+        author = authorSpringRepository.findOneByName(name)
+            .map(this::toDomain);
+
+        log.debug("Found author with name {}: {}", name, author);
+
+        return author;
+    }
+
+    @Override
+    public final Author save(final Author author) {
         final AuthorEntity toCreate;
         final AuthorEntity created;
+        final Author       saved;
 
-        toCreate = toEntity(book);
+        log.debug("Saving author {}", author);
+
+        toCreate = toEntity(author);
+
         created = authorSpringRepository.save(toCreate);
 
-        return toDomain(created);
+        saved = toDomain(created);
+
+        log.debug("Saved author {}", saved);
+
+        return saved;
     }
 
     private final Author toDomain(final AuthorEntity entity) {

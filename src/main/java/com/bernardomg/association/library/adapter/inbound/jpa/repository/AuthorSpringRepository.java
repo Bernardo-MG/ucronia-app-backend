@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
@@ -31,5 +33,7 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity
 public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long> {
 
     public boolean existsByName(final String name);
+
+    public Optional<AuthorEntity> findOneByName(final String name);
 
 }

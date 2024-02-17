@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEntity;
@@ -31,5 +33,7 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEnti
 public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, Long> {
 
     public boolean existsByName(final String name);
+
+    public Optional<BookTypeEntity> findOneByName(final String name);
 
 }

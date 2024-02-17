@@ -47,6 +47,7 @@ databaseChangeLog:
                   name: name
                   type: varchar(100)
                   constraints:
+                    unique: true
                     nullable: false
         - addAutoIncrement:
             tableName: authors
@@ -67,6 +68,7 @@ databaseChangeLog:
                   name: name
                   type: varchar(100)
                   constraints:
+                    unique: true
                     nullable: false
         - addAutoIncrement:
             tableName: game_systems
@@ -87,6 +89,7 @@ databaseChangeLog:
                   name: name
                   type: varchar(100)
                   constraints:
+                    unique: true
                     nullable: false
         - addAutoIncrement:
             tableName: book_types

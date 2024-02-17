@@ -24,10 +24,14 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 
 public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
+
+    public Optional<BookEntity> findOneByIsbn(final String isbn);
 
 }

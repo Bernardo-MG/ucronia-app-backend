@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.domain.model.Author;
@@ -25,5 +27,13 @@ public interface LibraryService {
     public Iterable<BookType> getAllBookTypes(final Pageable pageable);
 
     public Iterable<GameSystem> getAllGameSystems(final Pageable pageable);
+
+    public Optional<Author> getOneAuthor(final String name);
+
+    public Optional<Book> getOneBook(final String isbn);
+
+    public Optional<BookType> getOneBookType(final String name);
+
+    public Optional<GameSystem> getOneGameSystem(final String name);
 
 }

@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEntity;
@@ -31,5 +33,7 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEn
 public interface GameSystemSpringRepository extends JpaRepository<GameSystemEntity, Long> {
 
     public boolean existsByName(final String name);
+
+    public Optional<GameSystemEntity> findOneByName(final String name);
 
 }

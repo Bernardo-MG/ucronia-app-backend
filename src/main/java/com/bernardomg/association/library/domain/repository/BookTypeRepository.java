@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.library.domain.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.domain.model.BookType;
@@ -11,6 +13,8 @@ public interface BookTypeRepository {
 
     public Iterable<BookType> findAll(final Pageable pageable);
 
-    public BookType save(final BookType book);
+    public Optional<BookType> findOne(final String name);
+
+    public BookType save(final BookType bookType);
 
 }
