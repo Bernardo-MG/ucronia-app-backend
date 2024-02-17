@@ -30,4 +30,6 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEnti
 
 public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, Long> {
 
+    public boolean existsByName(final String name);
+
 }

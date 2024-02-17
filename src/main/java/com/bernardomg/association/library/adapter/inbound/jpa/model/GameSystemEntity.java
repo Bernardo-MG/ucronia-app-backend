@@ -15,13 +15,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "System")
-@Table(name = "systems")
+@Entity(name = "GameSystem")
+@Table(name = "game_systems")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class SystemEntity implements Serializable {
+public class GameSystemEntity implements Serializable {
 
     /**
      * Serialization ID.

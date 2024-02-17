@@ -23,6 +23,11 @@ databaseChangeLog:
                   type: varchar(100)
                   constraints:
                     nullable: false
+              - column:
+                  name: language
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
         - addAutoIncrement:
             tableName: books
             columnName: id
@@ -50,7 +55,7 @@ databaseChangeLog:
             incrementBy: 1
             startWith: 1
         - createTable:
-            tableName: systems
+            tableName: game_systems
             columns:
               - column:
                   name: id
@@ -64,7 +69,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addAutoIncrement:
-            tableName: systems
+            tableName: game_systems
             columnName: id
             columnDataType: bigint
             incrementBy: 1

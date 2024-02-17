@@ -30,4 +30,6 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity
 
 public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long> {
 
+    public boolean existsByName(final String name);
+
 }
