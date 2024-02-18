@@ -24,6 +24,15 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
+    public final void delete(final String name) {
+        log.debug("Deleting game system {}", name);
+
+        gameSystemRepository.deleteByName(name);
+
+        log.debug("Deleted game system {}", name);
+    }
+
+    @Override
     public final boolean exists(final String name) {
         final boolean exists;
 

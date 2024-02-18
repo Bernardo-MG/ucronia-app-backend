@@ -62,18 +62,18 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final void delete(final Long memberNumber, final YearMonth date) {
         final Optional<MemberEntity> member;
-        final Optional<FeeEntity>    fee;
 
         log.debug("Deleting fee for member {} in date {}", memberNumber, date);
 
         member = memberRepository.findByNumber(memberNumber);
-        fee = feeRepository.findOneByMemberIdAndDate(member.get()
-            .getId(), date);
+        if (member.isPresent()) {
+            feeRepository.deleteByMemberIdAndDate(member.get()
+                .getId(), date);
 
-        feeRepository.deleteById(fee.get()
-            .getId());
-
-        log.debug("Deleted fee for member {} in date {}", memberNumber, date);
+            log.debug("Deleted fee for member {} in date {}", memberNumber, date);
+        } else {
+            log.debug("Couldn't delete fee for member {} in date {}, as the member doesn't exist", memberNumber, date);
+        }
     }
 
     @Override

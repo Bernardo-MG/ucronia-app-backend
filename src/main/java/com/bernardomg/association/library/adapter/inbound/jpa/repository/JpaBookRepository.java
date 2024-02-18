@@ -24,6 +24,28 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
+    public final void delete(final String isbn) {
+        log.debug("Deleting book {}", isbn);
+
+        bookSpringRepository.deleteByIsbn(isbn);
+
+        log.debug("Deleted book {}", isbn);
+    }
+
+    @Override
+    public final boolean exists(final String isbn) {
+        final boolean exists;
+
+        log.debug("Checking if book {} exists", isbn);
+
+        exists = bookSpringRepository.existsByIsbn(isbn);
+
+        log.debug("Book {} exists: {}", isbn, exists);
+
+        return exists;
+    }
+
+    @Override
     public Iterable<Book> findAll(final Pageable pageable) {
         final Page<BookEntity> page;
         final Iterable<Book>   read;

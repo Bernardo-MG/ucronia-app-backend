@@ -24,6 +24,15 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
+    public final void delete(final String name) {
+        log.debug("Deleting author {}", name);
+
+        authorSpringRepository.deleteByName(name);
+
+        log.debug("Deleted author {}", name);
+    }
+
+    @Override
     public final boolean exists(final String name) {
         final boolean exists;
 

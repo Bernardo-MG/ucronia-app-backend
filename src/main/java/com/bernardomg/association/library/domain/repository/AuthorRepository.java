@@ -9,6 +9,8 @@ import com.bernardomg.association.library.domain.model.Author;
 
 public interface AuthorRepository {
 
+    public void delete(final String name);
+
     public boolean exists(final String name);
 
     public Iterable<Author> findAll(final Pageable pageable);

@@ -51,8 +51,19 @@ class ITMemberRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
-    void testDelete_RemovesEntity() {
+    @DisplayName("When deleting a member, it is removed")
+    void testDelete() {
+        // WHEN
+        memberRepository.delete(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(repository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is removed")
+    void testDelete_noData() {
         // WHEN
         memberRepository.delete(MemberConstants.NUMBER);
 

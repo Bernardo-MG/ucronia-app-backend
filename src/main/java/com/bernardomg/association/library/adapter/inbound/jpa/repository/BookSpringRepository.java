@@ -32,6 +32,10 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 
 public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
 
+    public void deleteByIsbn(final String isbn);
+
+    public boolean existsByIsbn(final String isbn);
+
     public Optional<BookEntity> findOneByIsbn(final String isbn);
 
 }

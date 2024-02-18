@@ -32,6 +32,8 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEn
 
 public interface GameSystemSpringRepository extends JpaRepository<GameSystemEntity, Long> {
 
+    public boolean deleteByName(final String name);
+
     public boolean existsByName(final String name);
 
     public Optional<GameSystemEntity> findOneByName(final String name);

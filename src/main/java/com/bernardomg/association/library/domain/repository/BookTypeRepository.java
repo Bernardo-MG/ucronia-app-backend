@@ -9,6 +9,8 @@ import com.bernardomg.association.library.domain.model.BookType;
 
 public interface BookTypeRepository {
 
+    public void delete(final String name);
+
     public boolean exists(final String name);
 
     public Iterable<BookType> findAll(final Pageable pageable);

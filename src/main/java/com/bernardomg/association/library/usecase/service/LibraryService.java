@@ -20,6 +20,14 @@ public interface LibraryService {
 
     public GameSystem createGameSystem(final GameSystem system);
 
+    public void deleteAuthor(final String name);
+
+    public void deleteBook(final String isbn);
+
+    public void deleteBookType(final String name);
+
+    public void deleteGameSystem(final String name);
+
     public Iterable<Author> getAllAuthors(final Pageable pageable);
 
     public Iterable<Book> getAllBooks(final Pageable pageable);

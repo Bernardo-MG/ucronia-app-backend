@@ -9,6 +9,8 @@ import com.bernardomg.association.library.domain.model.GameSystem;
 
 public interface GameSystemRepository {
 
+    public void delete(final String name);
+
     public boolean exists(final String name);
 
     public Iterable<GameSystem> findAll(final Pageable pageable);

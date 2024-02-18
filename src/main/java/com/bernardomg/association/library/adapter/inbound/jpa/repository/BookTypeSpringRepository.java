@@ -32,6 +32,8 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEnti
 
 public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, Long> {
 
+    public boolean deleteByName(final String name);
+
     public boolean existsByName(final String name);
 
     public Optional<BookTypeEntity> findOneByName(final String name);

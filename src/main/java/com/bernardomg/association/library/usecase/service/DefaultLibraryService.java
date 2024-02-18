@@ -91,6 +91,54 @@ public final class DefaultLibraryService implements LibraryService {
     }
 
     @Override
+    public final void deleteAuthor(final String name) {
+
+        log.debug("Deleting author {}", name);
+
+        if (!authorRepository.exists(name)) {
+            throw new MissingAuthorException(name);
+        }
+
+        authorRepository.delete(name);
+    }
+
+    @Override
+    public final void deleteBook(final String isbn) {
+
+        log.debug("Deleting book {}", isbn);
+
+        if (!bookRepository.exists(isbn)) {
+            throw new MissingBookException(isbn);
+        }
+
+        bookRepository.delete(isbn);
+    }
+
+    @Override
+    public final void deleteBookType(final String name) {
+
+        log.debug("Deleting book type {}", name);
+
+        if (!bookTypeRepository.exists(name)) {
+            throw new MissingBookTypeException(name);
+        }
+
+        bookTypeRepository.delete(name);
+    }
+
+    @Override
+    public final void deleteGameSystem(final String name) {
+
+        log.debug("Deleting game system {}", name);
+
+        if (!gameSystemRepository.exists(name)) {
+            throw new MissingGameSystemException(name);
+        }
+
+        gameSystemRepository.delete(name);
+    }
+
+    @Override
     public final Iterable<Author> getAllAuthors(final Pageable pageable) {
         return authorRepository.findAll(pageable);
     }

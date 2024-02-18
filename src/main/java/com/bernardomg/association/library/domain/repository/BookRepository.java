@@ -9,6 +9,10 @@ import com.bernardomg.association.library.domain.model.Book;
 
 public interface BookRepository {
 
+    public void delete(final String isbn);
+
+    public boolean exists(final String isbn);
+
     public Iterable<Book> findAll(final Pageable pageable);
 
     public Optional<Book> findOne(final String isbn);

@@ -32,6 +32,8 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity
 
 public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long> {
 
+    public void deleteByName(final String name);
+
     public boolean existsByName(final String name);
 
     public Optional<AuthorEntity> findOneByName(final String name);

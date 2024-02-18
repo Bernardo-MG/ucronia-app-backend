@@ -24,6 +24,15 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
+    public final void delete(final String name) {
+        log.debug("Deleting book type {}", name);
+
+        bookTypeSpringRepository.deleteByName(name);
+
+        log.debug("Deleted book type {}", name);
+    }
+
+    @Override
     public final boolean exists(final String name) {
         final boolean exists;
 
