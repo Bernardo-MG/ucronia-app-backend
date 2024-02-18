@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: membership
+      id: library
       author: Bernardo
       changes:
         - createTable:
@@ -112,6 +112,77 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: library_relationships
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: book_book_types
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_book_types_book
+                    references: books(id)
+                    deleteCascade: true
+              - column:
+                  name: book_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_book_types_book_type
+                    references: book_types(id)
+                    deleteCascade: true
+        - createTable:
+            tableName: book_game_systems
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_game_systems_book
+                    references: books(id)
+                    deleteCascade: true
+              - column:
+                  name: game_system_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_game_systems_game_system
+                    references: game_systems(id)
+                    deleteCascade: true
+        - createTable:
+            tableName: book_game_authors
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_game_authors_book
+                    references: books(id)
+                    deleteCascade: true
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_game_authors_author
+                    references: authors(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            constraintName: book_game_authors_key
+            tableName: book_game_authors
+            columnNames: 'book_id, author_id'
       modifySql:
         - append:
             dbms: mysql
