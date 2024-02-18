@@ -22,56 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
+import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - delete")
-class ITTransactionRepositoryDelete {
+@DisplayName("AuthorRepository - exists")
+class ITAuthorRepositoryExists {
 
     @Autowired
-    private TransactionRepository       repository;
+    private AuthorRepository repository;
 
-    @Autowired
-    private TransactionSpringRepository springRepository;
+    @Test
+    @DisplayName("With an author, it exists")
+    @ValidAuthor
+    void testExists() {
+        final boolean exists;
 
-    public ITTransactionRepositoryDelete() {
-        super();
+        // WHEN
+        exists = repository.exists(AuthorConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When there is no data nothing is deleted")
-    void testDelete_NoData() {
+    @DisplayName("With no data, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
+
         // WHEN
-        repository.delete(TransactionConstants.INDEX);
+        exists = repository.exists(AuthorConstants.NAME);
 
         // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("transactions")
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When the transaction exists, it is removed")
-    @PositiveTransaction
-    void testDelete_RemovesEntity() {
-        // WHEN
-        repository.delete(TransactionConstants.INDEX);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("transactions")
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }
