@@ -24,53 +24,50 @@
 
 package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.domain.model.Book;
-import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBook;
-import com.bernardomg.association.library.test.config.factory.BookConstants;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.AuthorSpringRepository;
+import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find one")
-class ITBookRepositoryFindOne {
+@DisplayName("AuthorRepository - delete")
+class ITAuthorRepositoryDelete {
 
     @Autowired
-    private BookRepository repository;
+    private AuthorRepository       repository;
+
+    @Autowired
+    private AuthorSpringRepository springRepository;
 
     @Test
-    @DisplayName("With a book, it is returned")
-    @ValidBook
+    @DisplayName("With an author, it is deleted")
+    @ValidAuthor
     void testGetOne() {
-        final Optional<Book> book;
-
         // WHEN
-        book = repository.findOne(BookConstants.ISBN);
+        repository.delete(AuthorConstants.NAME);
 
         // THEN
-        Assertions.assertThat(book)
-            .as("book")
-            .isEmpty();
+        Assertions.assertThat(springRepository.count())
+            .as("authors")
+            .isZero();
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
+    @DisplayName("With no data, nothing is deleted")
     void testGetOne_NoData() {
-        final Optional<Book> book;
-
         // WHEN
-        book = repository.findOne(BookConstants.ISBN);
+        repository.delete(AuthorConstants.NAME);
 
         // THEN
-        Assertions.assertThat(book)
-            .as("book")
-            .isEmpty();
+        Assertions.assertThat(springRepository.count())
+            .as("authors")
+            .isZero();
     }
 
 }

@@ -24,53 +24,50 @@
 
 package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.domain.model.Book;
-import com.bernardomg.association.library.domain.repository.BookRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.GameSystemSpringRepository;
+import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBook;
-import com.bernardomg.association.library.test.config.factory.BookConstants;
+import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find one")
-class ITBookRepositoryFindOne {
+@DisplayName("GameSystemRepository - delete")
+class ITGameSystemRepositoryDelete {
 
     @Autowired
-    private BookRepository repository;
+    private GameSystemRepository       repository;
+
+    @Autowired
+    private GameSystemSpringRepository springRepository;
 
     @Test
-    @DisplayName("With a book, it is returned")
+    @DisplayName("With an author, it is deleted")
     @ValidBook
     void testGetOne() {
-        final Optional<Book> book;
-
         // WHEN
-        book = repository.findOne(BookConstants.ISBN);
+        repository.delete(GameSystemConstants.NAME);
 
         // THEN
-        Assertions.assertThat(book)
-            .as("book")
-            .isEmpty();
+        Assertions.assertThat(springRepository.count())
+            .as("game systems")
+            .isZero();
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
+    @DisplayName("With no data, nothing is deleted")
     void testGetOne_NoData() {
-        final Optional<Book> book;
-
         // WHEN
-        book = repository.findOne(BookConstants.ISBN);
+        repository.delete(GameSystemConstants.NAME);
 
         // THEN
-        Assertions.assertThat(book)
-            .as("book")
-            .isEmpty();
+        Assertions.assertThat(springRepository.count())
+            .as("game systems")
+            .isZero();
     }
 
 }

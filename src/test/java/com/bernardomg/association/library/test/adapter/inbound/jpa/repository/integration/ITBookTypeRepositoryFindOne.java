@@ -55,6 +55,7 @@ class ITBookTypeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(bookType)
+            .as("book type")
             .isEmpty();
     }
 
@@ -68,6 +69,7 @@ class ITBookTypeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(bookType)
+            .as("book type")
             .isEmpty();
     }
 

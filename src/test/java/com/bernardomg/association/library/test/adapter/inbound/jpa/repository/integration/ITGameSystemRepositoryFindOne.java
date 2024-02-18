@@ -55,6 +55,7 @@ class ITGameSystemRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(gameSystem)
+            .as("game system")
             .isEmpty();
     }
 
@@ -68,6 +69,7 @@ class ITGameSystemRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(gameSystem)
+            .as("game system")
             .isEmpty();
     }
 

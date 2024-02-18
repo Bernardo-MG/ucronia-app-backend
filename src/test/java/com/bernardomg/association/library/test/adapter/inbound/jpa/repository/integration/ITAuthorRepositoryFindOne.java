@@ -56,6 +56,7 @@ class ITAuthorRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(author)
+            .as("author")
             .contains(Authors.valid());
     }
 
@@ -69,6 +70,7 @@ class ITAuthorRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(author)
+            .as("author")
             .isEmpty();
     }
 
