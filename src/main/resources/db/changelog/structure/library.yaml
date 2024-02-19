@@ -161,14 +161,14 @@ databaseChangeLog:
                     references: game_systems(id)
                     deleteCascade: true
         - createTable:
-            tableName: book_game_authors
+            tableName: book_authors
             columns:
               - column:
                   name: book_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_game_authors_book
+                    foreignKeyName: fk_book_authors_book
                     references: books(id)
                     deleteCascade: true
               - column:
@@ -176,12 +176,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_game_authors_author
+                    foreignKeyName: fk_book_authors_author
                     references: authors(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_game_authors_key
-            tableName: book_game_authors
+            constraintName: book_authors_key
+            tableName: book_authors
             columnNames: 'book_id, author_id'
       modifySql:
         - append:

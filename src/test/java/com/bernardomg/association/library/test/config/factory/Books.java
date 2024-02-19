@@ -10,6 +10,8 @@ public final class Books {
     public static final Book valid() {
         return Book.builder()
             .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())

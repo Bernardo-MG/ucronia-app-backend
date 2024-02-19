@@ -44,7 +44,7 @@ public final class DefaultLibraryService implements LibraryService {
     @Override
     public final Author createAuthor(final Author author) {
         log.debug("Creating author {}", author);
-        
+
         return authorRepository.save(author);
     }
 
@@ -87,14 +87,14 @@ public final class DefaultLibraryService implements LibraryService {
     @Override
     public final BookType createBookType(final BookType type) {
         log.debug("Creating book type {}", type);
-        
+
         return bookTypeRepository.save(type);
     }
 
     @Override
     public final GameSystem createGameSystem(final GameSystem system) {
         log.debug("Creating game system {}", system);
-        
+
         return gameSystemRepository.save(system);
     }
 

@@ -1,13 +1,20 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
+import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEntity;
+import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEntity;
+import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
+import com.bernardomg.association.library.domain.model.BookType;
+import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +53,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public Iterable<Book> findAll(final Pageable pageable) {
+    public final Iterable<Book> findAll(final Pageable pageable) {
         final Page<BookEntity> page;
         final Iterable<Book>   read;
 
@@ -94,11 +101,50 @@ public final class JpaBookRepository implements BookRepository {
         return saved;
     }
 
+    private final Author toDomain(final AuthorEntity entity) {
+        return Author.builder()
+            .withName(entity.getName())
+            .build();
+    }
+
     private final Book toDomain(final BookEntity entity) {
+        final GameSystem         gameSystem;
+        final BookType           bookType;
+        final Collection<Author> authors;
+
+        if (entity.getGameSystem() == null) {
+            gameSystem = null;
+        } else {
+            gameSystem = toDomain(entity.getGameSystem());
+        }
+        if (entity.getBookType() == null) {
+            bookType = null;
+        } else {
+            bookType = toDomain(entity.getBookType());
+        }
+        authors = entity.getAuthors()
+            .stream()
+            .map(this::toDomain)
+            .toList();
         return Book.builder()
             .withIsbn(entity.getIsbn())
             .withTitle(entity.getTitle())
             .withLanguage(entity.getLanguage())
+            .withGameSystem(gameSystem)
+            .withBookType(bookType)
+            .withAuthors(authors)
+            .build();
+    }
+
+    private final BookType toDomain(final BookTypeEntity entity) {
+        return BookType.builder()
+            .withName(entity.getName())
+            .build();
+    }
+
+    private final GameSystem toDomain(final GameSystemEntity entity) {
+        return GameSystem.builder()
+            .withName(entity.getName())
             .build();
     }
 
