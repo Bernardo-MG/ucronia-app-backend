@@ -32,7 +32,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBook;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -45,7 +45,7 @@ class ITBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there are books, they are returned")
-    @ValidBook
+    @FullBook
     void testFindAll() {
         final Iterable<Book> books;
         final Pageable       pageable;

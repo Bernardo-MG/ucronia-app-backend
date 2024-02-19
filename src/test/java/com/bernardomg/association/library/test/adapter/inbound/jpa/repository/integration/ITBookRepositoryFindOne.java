@@ -33,8 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBook;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
+import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +47,7 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With a book, it is returned")
-    @ValidBook
+    @FullBook
     void testGetOne() {
         final Optional<Book> book;
 
@@ -56,7 +57,7 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .isEmpty();
+            .contains(Books.valid());
     }
 
     @Test

@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBook;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -47,7 +47,7 @@ class ITBookTypeRepositoryDelete {
 
     @Test
     @DisplayName("With an author, it is deleted")
-    @ValidBook
+    @FullBook
     void testGetOne() {
         // WHEN
         repository.delete(BookTypeConstants.NAME);

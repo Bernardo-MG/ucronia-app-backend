@@ -34,38 +34,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.test.config.data.annotation.ValidGameSystem;
-import com.bernardomg.association.library.test.config.factory.AuthorConstants;
+import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
+import com.bernardomg.association.library.test.config.factory.GameSystems;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("AuthorRepository - find one")
+@DisplayName("GameSystemRepository - find one")
 class ITGameSystemRepositoryFindOne {
 
     @Autowired
     private GameSystemRepository repository;
 
     @Test
-    @DisplayName("With an author, it is returned")
+    @DisplayName("With a game system, it is returned")
     @ValidGameSystem
     void testGetOne() {
         final Optional<GameSystem> gameSystem;
 
         // WHEN
-        gameSystem = repository.findOne(AuthorConstants.NAME);
+        gameSystem = repository.findOne(GameSystemConstants.NAME);
 
         // THEN
         Assertions.assertThat(gameSystem)
             .as("game system")
-            .isEmpty();
+            .contains(GameSystems.valid());
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
+    @DisplayName("With no game system, nothing is returned")
     void testGetOne_NoData() {
         final Optional<GameSystem> gameSystem;
 
         // WHEN
-        gameSystem = repository.findOne(AuthorConstants.NAME);
+        gameSystem = repository.findOne(GameSystemConstants.NAME);
 
         // THEN
         Assertions.assertThat(gameSystem)

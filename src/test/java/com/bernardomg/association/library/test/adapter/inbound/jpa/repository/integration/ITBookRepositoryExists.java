@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBook;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -43,7 +43,7 @@ class ITBookRepositoryExists {
 
     @Test
     @DisplayName("With a book, it exists")
-    @ValidBook
+    @FullBook
     void testExists() {
         final boolean exists;
 

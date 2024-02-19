@@ -34,11 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
-import com.bernardomg.association.library.test.config.factory.AuthorConstants;
+import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
+import com.bernardomg.association.library.test.config.factory.BookTypes;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("AuthorRepository - find one")
+@DisplayName("BookTypeRepository - find one")
 class ITBookTypeRepositoryFindOne {
 
     @Autowired
@@ -51,12 +52,12 @@ class ITBookTypeRepositoryFindOne {
         final Optional<BookType> bookType;
 
         // WHEN
-        bookType = repository.findOne(AuthorConstants.NAME);
+        bookType = repository.findOne(BookTypeConstants.NAME);
 
         // THEN
         Assertions.assertThat(bookType)
             .as("book type")
-            .isEmpty();
+            .contains(BookTypes.valid());
     }
 
     @Test
@@ -65,7 +66,7 @@ class ITBookTypeRepositoryFindOne {
         final Optional<BookType> bookType;
 
         // WHEN
-        bookType = repository.findOne(AuthorConstants.NAME);
+        bookType = repository.findOne(BookTypeConstants.NAME);
 
         // THEN
         Assertions.assertThat(bookType)
