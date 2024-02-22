@@ -21,28 +21,28 @@ import com.tngtech.archunit.lang.ArchRule;
 public class CodingRulesArchitectureTest {
 
     @ArchTest
-    public static final ArchRule no_access_to_standard_streams          = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
+    static final ArchRule  no_access_to_standard_streams          = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 
     @ArchTest
-    public static final ArchRule no_accesses_to_upper_package           = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
+    static final ArchRule  no_accesses_to_upper_package           = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
 
     @ArchTest
-    public static final ArchRule no_deprecated_api_calls                = DEPRECATED_API_SHOULD_NOT_BE_USED;
+    static final ArchRule  no_deprecated_api_calls                = DEPRECATED_API_SHOULD_NOT_BE_USED;
 
     @ArchTest
-    public static final ArchRule no_field_injection                     = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+    static final ArchRule  no_field_injection                     = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
 
     @ArchTest
-    public static final ArchRule no_generic_exceptions                  = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+    static final ArchRule  no_generic_exceptions                  = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
 
     @ArchTest
-    public static final ArchRule no_java_util_logging                   = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+    static final ArchRule  no_java_util_logging                   = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
 
     @ArchTest
-    public static final ArchRule no_jodatime                            = NO_CLASSES_SHOULD_USE_JODATIME;
+    static final ArchRule  no_jodatime                            = NO_CLASSES_SHOULD_USE_JODATIME;
 
     @ArchTest
-    private final ArchRule       loggers_should_be_private_static_final = fields().that()
+    private final ArchRule loggers_should_be_private_static_final = fields().that()
         .haveRawType(Logger.class)
         .should()
         .bePrivate()
