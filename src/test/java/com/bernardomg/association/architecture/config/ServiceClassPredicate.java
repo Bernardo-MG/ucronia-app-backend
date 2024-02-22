@@ -26,6 +26,7 @@ public final class ServiceClassPredicate extends DescribedPredicate<JavaClass> {
     public final boolean test(final JavaClass javaClass) {
         final boolean service;
 
+        // FIXME: this complex requirement makes the tests meaningless
         if (!isSynthetic(javaClass) && !javaClass.getFullName()
             .endsWith("package-info.java")) {
             service = javaClass.getPackageName()

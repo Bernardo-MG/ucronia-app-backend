@@ -16,7 +16,7 @@ public class RepositoryArchitectureRulesTest {
     static final ArchRule spring_repositories_should_be_in_repository_package = classes()
         .that(areSpringRepositoryClasses())
         .should()
-        .resideInAPackage("..jpa.repository..");
+        .resideInAPackage("..adapter.inbound.jpa.repository..");
 
     @ArchTest
     static final ArchRule spring_repositories_should_be_suffixed              = classes()
