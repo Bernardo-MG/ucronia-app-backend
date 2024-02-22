@@ -3,7 +3,12 @@ package com.bernardomg.association.architecture.test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.DependencyRules.NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
+import static com.tngtech.archunit.library.GeneralCodingRules.DEPRECATED_API_SHOULD_NOT_BE_USED;
+import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +22,28 @@ import com.tngtech.archunit.lang.ArchRule;
 public class CodingRulesArchitectureTest {
 
     @ArchTest
-    static final ArchRule  controllers_should_be_suffixed = classes().that()
-        .areAnnotatedWith(RestController.class)
-        .should()
-        .haveSimpleNameEndingWith("Controller");
+    public static final ArchRule no_access_to_standard_streams  = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 
     @ArchTest
-    static final ArchRule  no_accesses_to_upper_package   = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
+    public static final ArchRule no_accesses_to_upper_package   = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
 
     @ArchTest
-    static final ArchRule  services_should_be_suffixed    = classes().that()
+    public static final ArchRule no_deprecated_api_calls        = DEPRECATED_API_SHOULD_NOT_BE_USED;
+
+    @ArchTest
+    public static final ArchRule no_field_injection             = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+
+    @ArchTest
+    public static final ArchRule no_generic_exceptions          = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+
+    @ArchTest
+    public static final ArchRule no_java_util_logging           = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+
+    @ArchTest
+    public static final ArchRule no_jodatime                    = NO_CLASSES_SHOULD_USE_JODATIME;
+
+    @ArchTest
+    public static final ArchRule services_should_be_suffixed    = classes().that()
         .resideInAPackage("..service..")
         .and()
         .doNotHaveModifier(JavaModifier.SYNTHETIC)
@@ -36,6 +53,8 @@ public class CodingRulesArchitectureTest {
         .haveSimpleNameEndingWith("Service");
 
     @ArchTest
-    private final ArchRule no_generic_exceptions          = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
-
+    static final ArchRule        controllers_should_be_suffixed = classes().that()
+        .areAnnotatedWith(RestController.class)
+        .should()
+        .haveSimpleNameEndingWith("Controller");
 }
