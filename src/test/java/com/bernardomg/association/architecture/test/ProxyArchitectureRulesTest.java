@@ -12,7 +12,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.ProxyRules;
 
 @AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
-public class ProxyRulesArchitectureTest {
+public class ProxyArchitectureRulesTest {
 
     @ArchTest
     static final ArchRule no_direct_calls_to_cacheable_method     = ProxyRules
