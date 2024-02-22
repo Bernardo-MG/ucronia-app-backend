@@ -57,4 +57,5 @@ public class CodingRulesArchitectureTest {
         .areAnnotatedWith(RestController.class)
         .should()
         .haveSimpleNameEndingWith("Controller");
+
 }
