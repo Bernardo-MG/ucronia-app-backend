@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest;
+package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;

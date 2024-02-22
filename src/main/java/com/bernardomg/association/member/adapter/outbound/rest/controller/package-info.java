@@ -26,4 +26,4 @@
  * Association member controllers.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest;
+package com.bernardomg.association.member.adapter.outbound.rest.controller;
