@@ -26,4 +26,4 @@
  * Configuration controller.
  */
 
-package com.bernardomg.association.configuration.adapter.outbound.controller;
+package com.bernardomg.association.configuration.adapter.outbound.rest.controller;

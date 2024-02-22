@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.configuration.adapter.outbound.controller;
+package com.bernardomg.association.configuration.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
