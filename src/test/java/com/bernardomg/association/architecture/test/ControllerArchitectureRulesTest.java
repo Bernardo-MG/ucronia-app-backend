@@ -15,7 +15,7 @@ public class ControllerArchitectureRulesTest {
     @ArchTest
     static final ArchRule controllers_should_be_in_controller_package = classes().that(areControllerClasses())
         .should()
-        .resideInAPackage("..controller..");
+        .resideInAPackage("..rest.controller..");
 
     @ArchTest
     static final ArchRule controllers_should_be_suffixed              = classes().that(areControllerClasses())
