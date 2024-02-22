@@ -13,8 +13,13 @@ import com.tngtech.archunit.lang.ArchRule;
 public class ServiceRulesArchitectureTest {
 
     @ArchTest
-    public static final ArchRule services_should_be_suffixed = classes().that(areServiceClasses())
+    public static final ArchRule services_should_be_suffixed           = classes().that(areServiceClasses())
         .should()
         .haveSimpleNameEndingWith("Service");
+
+    @ArchTest
+    static final ArchRule        services_should_be_in_service_package = classes().that(areServiceClasses())
+        .should()
+        .resideInAPackage("..service..");
 
 }
