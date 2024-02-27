@@ -37,65 +37,55 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
-import com.bernardomg.association.library.domain.exception.MissingBookException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
+import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
-import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
+import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
-import com.bernardomg.association.library.usecase.service.DefaultLibraryService;
+import com.bernardomg.association.library.usecase.service.DefaultBookService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("LibraryService - delete")
-class TestLibraryServiceDelete {
+@DisplayName("BookService - create")
+class TestBookServiceCreate {
 
     @Mock
-    private AuthorRepository      authorRepository;
+    private AuthorRepository     authorRepository;
 
     @Mock
-    private BookRepository        bookRepository;
+    private BookRepository       bookRepository;
 
     @Mock
-    private BookTypeRepository    bookTypeRepository;
+    private BookTypeRepository   bookTypeRepository;
 
     @Mock
-    private GameSystemRepository  gameSystemRepository;
+    private GameSystemRepository gameSystemRepository;
 
     @InjectMocks
-    private DefaultLibraryService service;
+    private DefaultBookService   service;
 
-    public TestLibraryServiceDelete() {
+    public TestBookServiceCreate() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting an author, the repository is called")
-    void testDeleteAuthor_CallsRepository() {
-        // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-
-        // WHEN
-        service.deleteAuthor(AuthorConstants.NAME);
-
-        // THEN
-        verify(authorRepository).delete(AuthorConstants.NAME);
-    }
-
-    @Test
-    @DisplayName("When the author doesn't exist, an exception is thrown")
-    void testDeleteAuthor_NotExisting_NotRemovesEntity() {
+    @DisplayName("When persisting a book for a not existing author, an exception is thrown")
+    void testCreateBook_NoAuthor_Exception() {
+        final Book             book;
         final ThrowingCallable execution;
 
         // GIVEN
+        book = Books.valid();
+
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteAuthor(AuthorConstants.NAME);
+        execution = () -> service.createBook(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -103,57 +93,20 @@ class TestLibraryServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting a book, the repository is called")
-    void testDeleteBook_CallsRepository() {
-        // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
-
-        // WHEN
-        service.deleteBook(BookConstants.ISBN);
-
-        // THEN
-        verify(bookRepository).delete(BookConstants.ISBN);
-    }
-
-    @Test
-    @DisplayName("When the book doesn't exist, an exception is thrown")
-    void testDeleteBook_NotExisting_NotRemovesEntity() {
+    @DisplayName("When persisting a book for a not existing book type, an exception is thrown")
+    void testCreateBook_NoBookType_Exception() {
+        final Book             book;
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(false);
+        book = Books.valid();
 
-        // WHEN
-        execution = () -> service.deleteBook(BookConstants.ISBN);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingBookException.class);
-    }
-
-    @Test
-    @DisplayName("When deleting a book type, the repository is called")
-    void testDeleteBookType_CallsRepository() {
-        // GIVEN
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
-
-        // WHEN
-        service.deleteBookType(BookTypeConstants.NAME);
-
-        // THEN
-        verify(bookTypeRepository).delete(BookTypeConstants.NAME);
-    }
-
-    @Test
-    @DisplayName("When the book type doesn't exist, an exception is thrown")
-    void testDeleteBookType_NotExisting_NotRemovesEntity() {
-        final ThrowingCallable execution;
-
-        // GIVEN
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteBookType(BookTypeConstants.NAME);
+        execution = () -> service.createBook(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -161,32 +114,65 @@ class TestLibraryServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting a game system, the repository is called")
-    void testDeleteGameSystem_CallsRepository() {
-        // GIVEN
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-
-        // WHEN
-        service.deleteGameSystem(GameSystemConstants.NAME);
-
-        // THEN
-        verify(gameSystemRepository).delete(GameSystemConstants.NAME);
-    }
-
-    @Test
-    @DisplayName("When the game system doesn't exist, an exception is thrown")
-    void testDeleteGameSystem_NotExisting_NotRemovesEntity() {
+    @DisplayName("When persisting a book for a not existing game system, an exception is thrown")
+    void testCreateBook_NoGameSystem_Exception() {
+        final Book             book;
         final ThrowingCallable execution;
 
         // GIVEN
+        book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteGameSystem(GameSystemConstants.NAME);
+        execution = () -> service.createBook(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingGameSystemException.class);
+    }
+
+    @Test
+    @DisplayName("With a valid book, the book is persisted")
+    void testCreateBook_PersistedData() {
+        final Book book;
+
+        // GIVEN
+        book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        // WHEN
+        service.createBook(book);
+
+        // THEN
+        verify(bookRepository).save(Books.valid());
+    }
+
+    @Test
+    @DisplayName("With a valid book, the created book is returned")
+    void testCreateBook_ReturnedData() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        given(bookRepository.save(Books.valid())).willReturn(Books.valid());
+
+        // WHEN
+        created = service.createBook(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .isEqualTo(Books.valid());
     }
 
 }

@@ -39,8 +39,14 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.usecase.service.DefaultLibraryService;
-import com.bernardomg.association.library.usecase.service.LibraryService;
+import com.bernardomg.association.library.usecase.service.AuthorService;
+import com.bernardomg.association.library.usecase.service.BookService;
+import com.bernardomg.association.library.usecase.service.BookTypeService;
+import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
+import com.bernardomg.association.library.usecase.service.DefaultBookService;
+import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
+import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
+import com.bernardomg.association.library.usecase.service.GameSystemService;
 
 /**
  * Library configuration.
@@ -60,9 +66,20 @@ public class LibraryConfig {
         return new JpaAuthorRepository(authorSpringRepo);
     }
 
+    @Bean("authorService")
+    public AuthorService getAuthorService(final AuthorRepository authorRepo) {
+        return new DefaultAuthorService(authorRepo);
+    }
+
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepo) {
         return new JpaBookRepository(bookSpringRepo);
+    }
+
+    @Bean("bookService")
+    public BookService getBookService(final AuthorRepository authorRepo, final BookRepository bookRepo,
+            final BookTypeRepository bookTypeRepo, final GameSystemRepository gameSystemRepo) {
+        return new DefaultBookService(authorRepo, bookRepo, bookTypeRepo, gameSystemRepo);
     }
 
     @Bean("bookTypeRepository")
@@ -70,15 +87,19 @@ public class LibraryConfig {
         return new JpaBookTypeRepository(bookTypeSpringRepo);
     }
 
+    @Bean("bookTypeService")
+    public BookTypeService getBookTypeService(final BookTypeRepository bookTypeRepo) {
+        return new DefaultBookTypeService(bookTypeRepo);
+    }
+
     @Bean("gameSystemRepository")
     public GameSystemRepository getGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
         return new JpaGameSystemRepository(gameSystemRepo);
     }
 
-    @Bean("libraryService")
-    public LibraryService getLibraryService(final AuthorRepository authorRepo, final BookRepository bookRepo,
-            final BookTypeRepository bookTypeRepo, final GameSystemRepository gameSystemRepo) {
-        return new DefaultLibraryService(authorRepo, bookRepo, bookTypeRepo, gameSystemRepo);
+    @Bean("gameSystemService")
+    public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepo) {
+        return new DefaultGameSystemService(gameSystemRepo);
     }
 
 }
