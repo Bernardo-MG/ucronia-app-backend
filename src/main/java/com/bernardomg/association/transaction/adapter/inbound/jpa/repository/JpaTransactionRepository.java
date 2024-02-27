@@ -37,11 +37,15 @@ public final class JpaTransactionRepository implements TransactionRepository {
         log.debug("Deleting transaction {}", index);
 
         transaction = transactionRepository.findOneByIndex(index);
+        if (transaction.isPresent()) {
+            transactionRepository.deleteById(transaction.get()
+                .getId());
 
-        transactionRepository.deleteById(transaction.get()
-            .getId());
-
-        log.debug("Deleted transaction {}", index);
+            log.debug("Deleted transaction {}", index);
+        } else {
+            // TODO: shouldn't throw an exception?
+            log.debug("Couldn't delete transaction {} as it doesn't exist", index);
+        }
     }
 
     @Override

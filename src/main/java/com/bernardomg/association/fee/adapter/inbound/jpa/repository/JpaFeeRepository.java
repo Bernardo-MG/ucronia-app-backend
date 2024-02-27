@@ -72,6 +72,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
             log.debug("Deleted fee for member {} in date {}", memberNumber, date);
         } else {
+            // TODO: shouldn't throw an exception?
             log.debug("Couldn't delete fee for member {} in date {}, as the member doesn't exist", memberNumber, date);
         }
     }
