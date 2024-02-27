@@ -32,9 +32,14 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
     @Override
     public final void delete(final long index) {
+        final Optional<TransactionEntity> transaction;
+
         log.debug("Deleting transaction {}", index);
 
-        transactionRepository.deleteById(index);
+        transaction = transactionRepository.findOneByIndex(index);
+
+        transactionRepository.deleteById(transaction.get()
+            .getId());
 
         log.debug("Deleted transaction {}", index);
     }
