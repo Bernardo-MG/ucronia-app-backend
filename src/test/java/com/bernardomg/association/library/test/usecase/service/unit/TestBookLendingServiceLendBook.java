@@ -24,8 +24,11 @@
 
 package com.bernardomg.association.library.test.usecase.service.unit;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,10 +36,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.library.domain.exception.MissingBookException;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
+import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
+import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,21 +53,61 @@ class TestBookLendingServiceLendBook {
     @Mock
     private BookLendingRepository     bookLendingRepository;
 
+    @Mock
+    private BookRepository            bookRepository;
+
+    @Mock
+    private MemberRepository          memberRepository;
+
     @InjectMocks
     private DefaultBookLendingService service;
-
-    public TestBookLendingServiceLendBook() {
-        super();
-    }
 
     @Test
     @DisplayName("When lending a book, it is persisted with the current date")
     void testLendBook() {
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+
         // WHEN
         service.lendBook(BookConstants.ISBN, MemberConstants.NUMBER);
 
         // THEN
         verify(bookLendingRepository).create(BookLendings.lentNow());
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing book, an exception is thrown")
+    void testLendBook_NoBook_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.ISBN)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.ISBN, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingBookException.class);
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing member, an exception is thrown")
+    void testLendBook_NoMember_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.ISBN, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberIdException.class);
     }
 
 }

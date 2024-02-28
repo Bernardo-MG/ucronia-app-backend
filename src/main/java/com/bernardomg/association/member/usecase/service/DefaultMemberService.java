@@ -87,12 +87,9 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final void delete(final long number) {
-        final boolean exists;
-
         log.debug("Deleting member {}", number);
 
-        exists = memberRepository.exists(number);
-        if (!exists) {
+        if (!memberRepository.exists(number)) {
             // TODO: change name
             throw new MissingMemberIdException(number);
         }
