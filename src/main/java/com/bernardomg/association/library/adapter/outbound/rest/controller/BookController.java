@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.adapter.outbound.rest.controller;
 
+import java.util.Collection;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -42,7 +44,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.cache.LibraryCaches;
+import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
+import com.bernardomg.association.library.domain.model.BookType;
+import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.usecase.service.BookService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -72,10 +77,30 @@ public class BookController {
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS, LibraryCaches.BOOK }, allEntries = true) })
     public Book create(@Valid @RequestBody final BookCreation request) {
-        final Book book;
+        final Book               book;
+        final Collection<Author> authors;
+        final BookType           bookType;
+        final GameSystem         gameSystem;
 
+        authors = request.getAuthors()
+            .stream()
+            .map(a -> Author.builder()
+                .withName(a)
+                .build())
+            .toList();
+        bookType = BookType.builder()
+            .withName(request.getBookType())
+            .build();
+        gameSystem = GameSystem.builder()
+            .withName(request.getGameSystem())
+            .build();
         book = Book.builder()
             .withTitle(request.getTitle())
+            .withIsbn(request.getIsbn())
+            .withLanguage(request.getLanguage())
+            .withAuthors(authors)
+            .withBookType(bookType)
+            .withGameSystem(gameSystem)
             .build();
         return service.create(book);
     }
