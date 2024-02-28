@@ -9,12 +9,12 @@ import com.bernardomg.association.library.domain.model.BookType;
 
 public interface BookTypeService {
 
-    public BookType createBookType(final BookType type);
+    public BookType create(final BookType type);
 
-    public void deleteBookType(final String name);
+    public void delete(final String name);
 
-    public Iterable<BookType> getAllBookTypes(final Pageable pageable);
+    public Iterable<BookType> getAll(final Pageable pageable);
 
-    public Optional<BookType> getOneBookType(final String name);
+    public Optional<BookType> getOne(final String name);
 
 }

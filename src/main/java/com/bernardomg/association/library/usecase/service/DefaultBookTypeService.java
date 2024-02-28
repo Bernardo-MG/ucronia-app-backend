@@ -23,14 +23,14 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final BookType createBookType(final BookType type) {
+    public final BookType create(final BookType type) {
         log.debug("Creating book type {}", type);
 
         return bookTypeRepository.save(type);
     }
 
     @Override
-    public final void deleteBookType(final String name) {
+    public final void delete(final String name) {
 
         log.debug("Deleting book type {}", name);
 
@@ -42,12 +42,12 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final Iterable<BookType> getAllBookTypes(final Pageable pageable) {
+    public final Iterable<BookType> getAll(final Pageable pageable) {
         return bookTypeRepository.findAll(pageable);
     }
 
     @Override
-    public final Optional<BookType> getOneBookType(final String name) {
+    public final Optional<BookType> getOne(final String name) {
         final Optional<BookType> bookType;
 
         log.debug("Reading book type {}", name);

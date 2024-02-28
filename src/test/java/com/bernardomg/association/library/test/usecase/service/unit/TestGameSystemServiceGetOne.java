@@ -67,7 +67,7 @@ class TestGameSystemServiceGetOne {
         given(gameSystemRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(GameSystems.valid()));
 
         // WHEN
-        gameSystem = service.getOneGameSystem(AuthorConstants.NAME);
+        gameSystem = service.getOne(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThat(gameSystem)
@@ -83,7 +83,7 @@ class TestGameSystemServiceGetOne {
         given(gameSystemRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOneGameSystem(AuthorConstants.NAME);
+        execution = () -> service.getOne(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

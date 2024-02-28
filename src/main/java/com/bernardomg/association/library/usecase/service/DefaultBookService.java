@@ -39,7 +39,7 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Book createBook(final Book book) {
+    public final Book create(final Book book) {
         final boolean gameSystemExists;
         final boolean bookTypeExists;
 
@@ -75,7 +75,7 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final void deleteBook(final String isbn) {
+    public final void delete(final String isbn) {
 
         log.debug("Deleting book {}", isbn);
 
@@ -87,12 +87,12 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Iterable<Book> getAllBooks(final Pageable pageable) {
+    public final Iterable<Book> getAll(final Pageable pageable) {
         return bookRepository.findAll(pageable);
     }
 
     @Override
-    public final Optional<Book> getOneBook(final String isbn) {
+    public final Optional<Book> getOne(final String isbn) {
         final Optional<Book> book;
 
         log.debug("Reading book {}", isbn);

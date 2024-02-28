@@ -9,12 +9,12 @@ import com.bernardomg.association.library.domain.model.GameSystem;
 
 public interface GameSystemService {
 
-    public GameSystem createGameSystem(final GameSystem system);
+    public GameSystem create(final GameSystem system);
 
-    public void deleteGameSystem(final String name);
+    public void delete(final String name);
 
-    public Iterable<GameSystem> getAllGameSystems(final Pageable pageable);
+    public Iterable<GameSystem> getAll(final Pageable pageable);
 
-    public Optional<GameSystem> getOneGameSystem(final String name);
+    public Optional<GameSystem> getOne(final String name);
 
 }

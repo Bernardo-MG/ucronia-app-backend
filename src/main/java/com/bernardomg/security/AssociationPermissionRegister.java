@@ -42,18 +42,30 @@ public final class AssociationPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
+        // TODO: Use constants
+        return List.of(
+            // Member
+            ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
             ResourcePermissionPair.of("MEMBER", "UPDATE"), ResourcePermissionPair.of("MEMBER", "DELETE"),
+            // Fee
             ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
             ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
+            // Transaction
             ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
             ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
+            // Library author
+            ResourcePermissionPair.of("LIBRARY_AUTHOR", "CREATE"), ResourcePermissionPair.of("LIBRARY_AUTHOR", "READ"),
+            ResourcePermissionPair.of("LIBRARY_AUTHOR", "UPDATE"),
+            ResourcePermissionPair.of("LIBRARY_AUTHOR", "DELETE"),
+            // Configuration
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "CREATE"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "READ"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "UPDATE"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "DELETE"),
-            ResourcePermissionPair.of("BALANCE", "READ"), ResourcePermissionPair.of("FUNDS", "VIEW"),
-            ResourcePermissionPair.of("MEMBERSHIP", "VIEW"),
+            // Balance
+            ResourcePermissionPair.of("BALANCE", "READ"),
+            // Views
+            ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBERSHIP", "VIEW"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
     }
 

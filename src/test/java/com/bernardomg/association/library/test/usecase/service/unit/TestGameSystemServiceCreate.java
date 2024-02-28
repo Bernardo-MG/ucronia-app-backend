@@ -63,7 +63,7 @@ class TestGameSystemServiceCreate {
         book = GameSystems.valid();
 
         // WHEN
-        service.createGameSystem(book);
+        service.create(book);
 
         // THEN
         verify(gameSystemRepository).save(GameSystems.valid());
@@ -81,7 +81,7 @@ class TestGameSystemServiceCreate {
         given(gameSystemRepository.save(GameSystems.valid())).willReturn(GameSystems.valid());
 
         // WHEN
-        created = service.createGameSystem(book);
+        created = service.create(book);
 
         // THEN
         Assertions.assertThat(created)

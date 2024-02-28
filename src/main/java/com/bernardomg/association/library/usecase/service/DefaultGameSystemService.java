@@ -23,14 +23,14 @@ public final class DefaultGameSystemService implements GameSystemService {
     }
 
     @Override
-    public final GameSystem createGameSystem(final GameSystem system) {
+    public final GameSystem create(final GameSystem system) {
         log.debug("Creating game system {}", system);
 
         return gameSystemRepository.save(system);
     }
 
     @Override
-    public final void deleteGameSystem(final String name) {
+    public final void delete(final String name) {
 
         log.debug("Deleting game system {}", name);
 
@@ -42,12 +42,12 @@ public final class DefaultGameSystemService implements GameSystemService {
     }
 
     @Override
-    public final Iterable<GameSystem> getAllGameSystems(final Pageable pageable) {
+    public final Iterable<GameSystem> getAll(final Pageable pageable) {
         return gameSystemRepository.findAll(pageable);
     }
 
     @Override
-    public final Optional<GameSystem> getOneGameSystem(final String name) {
+    public final Optional<GameSystem> getOne(final String name) {
         final Optional<GameSystem> gameSystem;
 
         log.debug("Reading game system {}", name);

@@ -85,7 +85,7 @@ class TestBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.createBook(book);
+        execution = () -> service.create(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -106,7 +106,7 @@ class TestBookServiceCreate {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.createBook(book);
+        execution = () -> service.create(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -126,7 +126,7 @@ class TestBookServiceCreate {
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.createBook(book);
+        execution = () -> service.create(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -146,7 +146,7 @@ class TestBookServiceCreate {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
         // WHEN
-        service.createBook(book);
+        service.create(book);
 
         // THEN
         verify(bookRepository).save(Books.valid());
@@ -168,7 +168,7 @@ class TestBookServiceCreate {
         given(bookRepository.save(Books.valid())).willReturn(Books.valid());
 
         // WHEN
-        created = service.createBook(book);
+        created = service.create(book);
 
         // THEN
         Assertions.assertThat(created)

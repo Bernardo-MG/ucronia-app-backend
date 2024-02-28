@@ -68,7 +68,7 @@ class TestGameSystemServiceGetAll {
         given(gameSystemRepository.findAll(pageable)).willReturn(List.of(GameSystems.valid()));
 
         // WHEN
-        systems = service.getAllGameSystems(pageable);
+        systems = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(systems)
@@ -88,7 +88,7 @@ class TestGameSystemServiceGetAll {
         given(gameSystemRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
-        systems = service.getAllGameSystems(pageable);
+        systems = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(systems)

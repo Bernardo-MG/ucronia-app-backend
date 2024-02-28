@@ -9,12 +9,12 @@ import com.bernardomg.association.library.domain.model.Author;
 
 public interface AuthorService {
 
-    public Author createAuthor(final Author author);
+    public Author create(final Author author);
 
-    public void deleteAuthor(final String name);
+    public void delete(final String name);
 
-    public Iterable<Author> getAllAuthors(final Pageable pageable);
+    public Iterable<Author> getAll(final Pageable pageable);
 
-    public Optional<Author> getOneAuthor(final String name);
+    public Optional<Author> getOne(final String name);
 
 }

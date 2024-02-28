@@ -67,7 +67,7 @@ class TestAuthorServiceGetOne {
         given(authorRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(Authors.valid()));
 
         // WHEN
-        author = service.getOneAuthor(AuthorConstants.NAME);
+        author = service.getOne(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThat(author)
@@ -83,7 +83,7 @@ class TestAuthorServiceGetOne {
         given(authorRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOneAuthor(AuthorConstants.NAME);
+        execution = () -> service.getOne(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

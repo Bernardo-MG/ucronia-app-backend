@@ -62,7 +62,7 @@ class TestAuthorServiceDelete {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
 
         // WHEN
-        service.deleteAuthor(AuthorConstants.NAME);
+        service.delete(AuthorConstants.NAME);
 
         // THEN
         verify(authorRepository).delete(AuthorConstants.NAME);
@@ -77,7 +77,7 @@ class TestAuthorServiceDelete {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteAuthor(AuthorConstants.NAME);
+        execution = () -> service.delete(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

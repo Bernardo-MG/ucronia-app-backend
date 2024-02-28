@@ -62,7 +62,7 @@ class TestBookTypeServiceDelete {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
         // WHEN
-        service.deleteBookType(BookTypeConstants.NAME);
+        service.delete(BookTypeConstants.NAME);
 
         // THEN
         verify(bookTypeRepository).delete(BookTypeConstants.NAME);
@@ -77,7 +77,7 @@ class TestBookTypeServiceDelete {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteBookType(BookTypeConstants.NAME);
+        execution = () -> service.delete(BookTypeConstants.NAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

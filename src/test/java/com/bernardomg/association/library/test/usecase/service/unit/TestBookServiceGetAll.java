@@ -80,7 +80,7 @@ class TestBookServiceGetAll {
         given(bookRepository.findAll(pageable)).willReturn(List.of(Books.valid()));
 
         // WHEN
-        books = service.getAllBooks(pageable);
+        books = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(books)
@@ -100,7 +100,7 @@ class TestBookServiceGetAll {
         given(bookRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
-        books = service.getAllBooks(pageable);
+        books = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(books)

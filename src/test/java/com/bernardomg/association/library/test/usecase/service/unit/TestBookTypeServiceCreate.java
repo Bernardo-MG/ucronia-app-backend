@@ -63,7 +63,7 @@ class TestBookTypeServiceCreate {
         book = BookTypes.valid();
 
         // WHEN
-        service.createBookType(book);
+        service.create(book);
 
         // THEN
         verify(bookTypeRepository).save(BookTypes.valid());
@@ -81,7 +81,7 @@ class TestBookTypeServiceCreate {
         given(bookTypeRepository.save(BookTypes.valid())).willReturn(BookTypes.valid());
 
         // WHEN
-        created = service.createBookType(book);
+        created = service.create(book);
 
         // THEN
         Assertions.assertThat(created)

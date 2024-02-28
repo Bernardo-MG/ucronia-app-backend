@@ -9,12 +9,12 @@ import com.bernardomg.association.library.domain.model.Book;
 
 public interface BookService {
 
-    public Book createBook(final Book book);
+    public Book create(final Book book);
 
-    public void deleteBook(final String isbn);
+    public void delete(final String isbn);
 
-    public Iterable<Book> getAllBooks(final Pageable pageable);
+    public Iterable<Book> getAll(final Pageable pageable);
 
-    public Optional<Book> getOneBook(final String isbn);
+    public Optional<Book> getOne(final String isbn);
 
 }

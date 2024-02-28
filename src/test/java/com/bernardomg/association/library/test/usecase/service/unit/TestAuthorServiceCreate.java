@@ -63,7 +63,7 @@ class TestAuthorServiceCreate {
         author = Authors.valid();
 
         // WHEN
-        service.createAuthor(author);
+        service.create(author);
 
         // THEN
         verify(authorRepository).save(Authors.valid());
@@ -81,7 +81,7 @@ class TestAuthorServiceCreate {
         given(authorRepository.save(Authors.valid())).willReturn(Authors.valid());
 
         // WHEN
-        created = service.createAuthor(author);
+        created = service.create(author);
 
         // THEN
         Assertions.assertThat(created)

@@ -68,7 +68,7 @@ class TestBookTypeServiceGetAll {
         given(bookTypeRepository.findAll(pageable)).willReturn(List.of(BookTypes.valid()));
 
         // WHEN
-        types = service.getAllBookTypes(pageable);
+        types = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(types)
@@ -88,7 +88,7 @@ class TestBookTypeServiceGetAll {
         given(bookTypeRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
-        types = service.getAllBookTypes(pageable);
+        types = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(types)

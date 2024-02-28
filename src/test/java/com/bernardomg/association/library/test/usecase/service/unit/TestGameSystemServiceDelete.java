@@ -62,7 +62,7 @@ class TestGameSystemServiceDelete {
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
 
         // WHEN
-        service.deleteGameSystem(GameSystemConstants.NAME);
+        service.delete(GameSystemConstants.NAME);
 
         // THEN
         verify(gameSystemRepository).delete(GameSystemConstants.NAME);
@@ -77,7 +77,7 @@ class TestGameSystemServiceDelete {
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteGameSystem(GameSystemConstants.NAME);
+        execution = () -> service.delete(GameSystemConstants.NAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

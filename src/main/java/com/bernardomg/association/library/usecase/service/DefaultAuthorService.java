@@ -23,14 +23,14 @@ public final class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public final Author createAuthor(final Author author) {
+    public final Author create(final Author author) {
         log.debug("Creating author {}", author);
 
         return authorRepository.save(author);
     }
 
     @Override
-    public final void deleteAuthor(final String name) {
+    public final void delete(final String name) {
 
         log.debug("Deleting author {}", name);
 
@@ -42,12 +42,12 @@ public final class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public final Iterable<Author> getAllAuthors(final Pageable pageable) {
+    public final Iterable<Author> getAll(final Pageable pageable) {
         return authorRepository.findAll(pageable);
     }
 
     @Override
-    public final Optional<Author> getOneAuthor(final String name) {
+    public final Optional<Author> getOne(final String name) {
         final Optional<Author> author;
 
         log.debug("Reading author {}", name);

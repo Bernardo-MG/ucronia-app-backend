@@ -68,7 +68,7 @@ class TestAuthorServiceGetAll {
         given(authorRepository.findAll(pageable)).willReturn(List.of(Authors.valid()));
 
         // WHEN
-        authors = service.getAllAuthors(pageable);
+        authors = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(authors)
@@ -88,7 +88,7 @@ class TestAuthorServiceGetAll {
         given(authorRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
-        authors = service.getAllAuthors(pageable);
+        authors = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(authors)

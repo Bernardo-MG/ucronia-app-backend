@@ -74,7 +74,7 @@ class TestBookServiceDelete {
         given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
 
         // WHEN
-        service.deleteBook(BookConstants.ISBN);
+        service.delete(BookConstants.ISBN);
 
         // THEN
         verify(bookRepository).delete(BookConstants.ISBN);
@@ -89,7 +89,7 @@ class TestBookServiceDelete {
         given(bookRepository.exists(BookConstants.ISBN)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteBook(BookConstants.ISBN);
+        execution = () -> service.delete(BookConstants.ISBN);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

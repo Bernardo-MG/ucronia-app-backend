@@ -79,7 +79,7 @@ class TestBookServiceGetOne {
         given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.of(Books.valid()));
 
         // WHEN
-        book = service.getOneBook(BookConstants.ISBN);
+        book = service.getOne(BookConstants.ISBN);
 
         // THEN
         Assertions.assertThat(book)
@@ -95,7 +95,7 @@ class TestBookServiceGetOne {
         given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOneBook(BookConstants.ISBN);
+        execution = () -> service.getOne(BookConstants.ISBN);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
