@@ -28,7 +28,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public void lendBook(final String isbn, final long member) {
+    public final void lendBook(final String isbn, final long member) {
         final BookLending lending;
         final YearMonth   now;
 
