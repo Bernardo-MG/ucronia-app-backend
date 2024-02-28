@@ -69,8 +69,9 @@ public class GameSystemController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.AUTHORS, LibraryCaches.AUTHOR }, allEntries = true) })
+    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { LibraryCaches.GAME_SYSTEMS, LibraryCaches.GAME_SYSTEM }, allEntries = true) })
     public GameSystem create(@Valid @RequestBody final GameSystemCreation request) {
         final GameSystem author;
 
@@ -81,23 +82,23 @@ public class GameSystemController {
     }
 
     @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.AUTHOR }),
-            @CacheEvict(cacheNames = { LibraryCaches.AUTHORS }, allEntries = true) })
+    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.GAME_SYSTEM }),
+            @CacheEvict(cacheNames = { LibraryCaches.GAME_SYSTEMS }, allEntries = true) })
     public void delete(@PathVariable("name") final String name) {
         service.delete(name);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.AUTHORS)
+    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryCaches.GAME_SYSTEMS)
     public Iterable<GameSystem> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.AUTHOR)
+    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryCaches.GAME_SYSTEM)
     public GameSystem readOne(@PathVariable("name") final String name) {
         return service.getOne(name)
             .orElse(null);
