@@ -97,21 +97,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createTable:
-            tableName: lendings
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: date
-                  type: datetime
-                  constraints:
-                    nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
       modifySql:
         - append:
             dbms: mysql
@@ -187,3 +172,53 @@ databaseChangeLog:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: library_lending
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: book_lendings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_lending_book
+                    references: books(id)
+                    deleteCascade: true
+              - column:
+                  name: member_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_lending_member
+                    references: members(id)
+                    deleteCascade: true
+              - column:
+                  name: lending_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: return_date
+                  type: datetime
+        - addAutoIncrement:
+            tableName: book_lendings
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - addUniqueConstraint:
+            constraintName: book_lendings_unique_date
+            tableName: fees
+            columnNames: 'book_id, member_id, lending_date'
