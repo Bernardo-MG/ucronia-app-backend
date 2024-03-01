@@ -62,7 +62,7 @@ class ITBookLendingRepositoryFindOne {
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.lentNow());
+            .contains(BookLendings.inPast());
     }
 
     @Test
