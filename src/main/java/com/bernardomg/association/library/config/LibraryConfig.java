@@ -28,14 +28,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.AuthorSpringRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaAuthorRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaBookLendingRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaBookRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaBookTypeRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaGameSystemRepository;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
@@ -47,6 +50,7 @@ import com.bernardomg.association.library.usecase.service.DefaultBookService;
 import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
 import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
 import com.bernardomg.association.library.usecase.service.GameSystemService;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 
 /**
  * Library configuration.
@@ -69,6 +73,12 @@ public class LibraryConfig {
     @Bean("authorService")
     public AuthorService getAuthorService(final AuthorRepository authorRepo) {
         return new DefaultAuthorService(authorRepo);
+    }
+
+    @Bean("bookLendingRepository")
+    public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
+            final BookSpringRepository bookSpringRepo, final MemberSpringRepository memberSpringRepo) {
+        return new JpaBookLendingRepository(bookLendingSpringRepo, bookSpringRepo, memberSpringRepo);
     }
 
     @Bean("bookRepository")

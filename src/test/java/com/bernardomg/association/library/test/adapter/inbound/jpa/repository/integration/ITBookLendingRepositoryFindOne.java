@@ -33,8 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
@@ -50,7 +50,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With a lending, it is returned")
-    @ValidBookType
+    @FullBook
     @ValidMember
     @LentBookLending
     void testGetOne() {

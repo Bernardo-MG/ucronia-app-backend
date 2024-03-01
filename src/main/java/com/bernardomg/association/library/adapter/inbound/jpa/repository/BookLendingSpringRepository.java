@@ -24,10 +24,14 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
 
 public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, Long> {
+
+    public Optional<BookLendingEntity> findOneByBookIdAndMemberId(final long book, final long member);
 
 }

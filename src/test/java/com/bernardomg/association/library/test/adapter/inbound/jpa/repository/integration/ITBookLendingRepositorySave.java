@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.factory.BookLendingEntities;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
@@ -68,7 +68,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the member doesnt exist, nothing is persisted")
-    @ValidBookType
+    @FullBook
     void testSave_NoMember() {
         final BookLending lending;
 
@@ -86,7 +86,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the book and member exist, a lending is persisted")
-    @ValidBookType
+    @FullBook
     @ValidMember
     void testSave_Persisted() {
         final BookLending lending;
@@ -106,7 +106,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the book and member exist, the persisted lending is returned")
-    @ValidBookType
+    @FullBook
     @ValidMember
     void testSave_Returned() {
         final BookLending lending;
