@@ -77,7 +77,13 @@
             Updated dependencies.
          </action>
       </release>
-      <release version="1.0.0" date="2024-02-12" description="">
+      <release version="0.3.3" date="2024-03-01" description="Small fixes">
+         <action dev="bmg" type="fix">
+            Added member balance to cache cleanup.
+         </action>
+         <action dev="bmg" type="update">
+            Cleaned up model.
+         </action>
       </release>
    </body>
 </document>
