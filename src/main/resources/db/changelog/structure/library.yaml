@@ -220,5 +220,5 @@ databaseChangeLog:
             startWith: 1
         - addUniqueConstraint:
             constraintName: book_lendings_unique_date
-            tableName: fees
+            tableName: book_lendings
             columnNames: 'book_id, member_id, lending_date'
