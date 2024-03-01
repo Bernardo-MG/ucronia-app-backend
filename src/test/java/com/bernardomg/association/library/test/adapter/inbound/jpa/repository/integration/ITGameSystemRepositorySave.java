@@ -32,10 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.factory.GameSystemEntities;
 import com.bernardomg.association.library.test.config.factory.GameSystems;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,8 +48,6 @@ class ITGameSystemRepositorySave {
 
     @Test
     @DisplayName("When saving, an author is persisted")
-    @ValidBookType
-    @ValidMember
     void testSave_Persisted() {
         final GameSystem gameSystem;
 
@@ -64,13 +60,12 @@ class ITGameSystemRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("game systems")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .contains(GameSystemEntities.valid());
     }
 
     @Test
     @DisplayName("When saving, the persisted author is returned")
-    @ValidBookType
-    @ValidMember
     void testSave_Returned() {
         final GameSystem gameSystem;
         final GameSystem created;

@@ -89,7 +89,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
         saved = toDomain(created);
 
-        log.debug("Saved book type {}", bookType);
+        log.debug("Saved book type {}", saved);
 
         return saved;
     }

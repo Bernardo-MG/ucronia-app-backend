@@ -100,6 +100,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .contains(BookLendingEntities.lentNow());
     }
 

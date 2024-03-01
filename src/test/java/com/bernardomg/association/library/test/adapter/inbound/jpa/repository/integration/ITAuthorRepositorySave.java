@@ -32,10 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.factory.AuthorEntities;
 import com.bernardomg.association.library.test.config.factory.Authors;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,8 +48,6 @@ class ITAuthorRepositorySave {
 
     @Test
     @DisplayName("When saving, an author is persisted")
-    @ValidBookType
-    @ValidMember
     void testSave_Persisted() {
         final Author author;
 
@@ -64,13 +60,12 @@ class ITAuthorRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("authors")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .contains(AuthorEntities.valid());
     }
 
     @Test
     @DisplayName("When saving, the persisted author is returned")
-    @ValidBookType
-    @ValidMember
     void testSave_Returned() {
         final Author author;
         final Author created;
