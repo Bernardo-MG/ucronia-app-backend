@@ -72,7 +72,10 @@
             Added repository logs.
          </action>
       </release>
-      <release version="1.0.0" date="2024-02-11" description="">
+      <release version="0.3.2" date="2024-02-12" description="Updated dependencies">
+         <action dev="bmg" type="update">
+            Updated dependencies.
+         </action>
       </release>
    </body>
 </document>
