@@ -57,7 +57,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/library/book")
+@RequestMapping("/library/bookType")
 @AllArgsConstructor
 @Transactional
 public class BookTypeController {

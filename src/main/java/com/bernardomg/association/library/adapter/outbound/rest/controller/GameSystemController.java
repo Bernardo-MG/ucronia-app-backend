@@ -57,7 +57,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/library/author")
+@RequestMapping("/library/gameSystem")
 @AllArgsConstructor
 @Transactional
 public class GameSystemController {
