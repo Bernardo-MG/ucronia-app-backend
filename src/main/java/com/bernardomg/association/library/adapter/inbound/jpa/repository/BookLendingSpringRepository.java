@@ -26,8 +26,8 @@ package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.library.adapter.inbound.jpa.model.LendingEntity;
+import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
 
-public interface LendingSpringRepository extends JpaRepository<LendingEntity, Long> {
+public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, Long> {
 
 }

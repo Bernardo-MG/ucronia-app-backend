@@ -15,12 +15,14 @@ public final class BookLendings {
             .withLendingDate(YearMonth.now())
             .build();
     }
+
     public static final BookLending returnedNow() {
         return BookLending.builder()
             .withIsbn(BookConstants.ISBN)
             .withMember(MemberConstants.NUMBER)
             .withLendingDate(YearMonth.now())
-            .withReturnDate(YearMonth.now())            .build();
+            .withReturnDate(YearMonth.now())
+            .build();
     }
 
 }

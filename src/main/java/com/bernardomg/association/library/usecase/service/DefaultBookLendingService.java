@@ -54,7 +54,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public void returnBook(final String isbn, final long member) {
+    public final void returnBook(final String isbn, final long member) {
         final Optional<BookLending> read;
         final BookLending           toSave;
 

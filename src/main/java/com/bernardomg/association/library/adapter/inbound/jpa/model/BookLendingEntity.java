@@ -2,9 +2,12 @@
 package com.bernardomg.association.library.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.YearMonth;
+
+import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,13 +19,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Lending")
-@Table(name = "lendings")
+@Entity(name = "BookLending")
+@Table(name = "book_lendings")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class LendingEntity implements Serializable {
+public class BookLendingEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -30,12 +33,23 @@ public class LendingEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "date", nullable = false)
-    private LocalDate         date;
+    @Column(name = "book_id", nullable = false)
+    private Long              bookId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
+
+    @Column(name = "lending_date", nullable = false)
+    @Convert(converter = YearMonthDateAttributeConverter.class)
+    private YearMonth         lendingDate;
+
+    @Column(name = "member_id", nullable = false)
+    private Long              memberId;
+
+    @Column(name = "return_date", nullable = false)
+    @Convert(converter = YearMonthDateAttributeConverter.class)
+    private YearMonth         returnDate;
 
 }
