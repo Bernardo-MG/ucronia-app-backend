@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -122,10 +123,14 @@ public final class JpaBookRepository implements BookRepository {
         } else {
             bookType = toDomain(entity.getBookType());
         }
-        authors = entity.getAuthors()
-            .stream()
-            .map(this::toDomain)
-            .toList();
+        if (entity.getAuthors() == null) {
+            authors = List.of();
+        } else {
+            authors = entity.getAuthors()
+                .stream()
+                .map(this::toDomain)
+                .toList();
+        }
         return Book.builder()
             .withIsbn(entity.getIsbn())
             .withTitle(entity.getTitle())
