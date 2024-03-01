@@ -92,7 +92,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             .withIsbn(bookEntity.getIsbn())
             .withMember(memberEntity.getNumber())
             .withLendingDate(entity.getLendingDate())
-            .withReturnDate(entity.getLendingDate())
+            .withReturnDate(entity.getReturnDate())
             .build();
     }
 
@@ -102,7 +102,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             .withBookId(bookEntity.getId())
             .withMemberId(memberEntity.getId())
             .withLendingDate(domain.getLendingDate())
-            .withReturnDate(domain.getLendingDate())
+            .withReturnDate(domain.getReturnDate())
             .build();
     }
 
