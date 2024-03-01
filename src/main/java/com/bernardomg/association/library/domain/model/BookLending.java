@@ -12,13 +12,13 @@ import lombok.Data;
 @Builder(setterPrefix = "with")
 public class BookLending {
 
-    private String          isbn;
+    private String    isbn;
 
     @JsonFormat(pattern = "yyyy-MM")
-    private final YearMonth lendingDate;
+    private YearMonth lendingDate;
 
-    private long            member;
+    private long      member;
 
     @JsonFormat(pattern = "yyyy-MM")
-    private final YearMonth returnDate;
+    private YearMonth returnDate;
 }

@@ -27,6 +27,8 @@ package com.bernardomg.association.library.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -36,19 +38,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.library.domain.exception.MissingBookException;
+import com.bernardomg.association.library.domain.exception.MissingBookLendingException;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookLendingService - lend book")
-class TestBookLendingServiceLendBook {
+@DisplayName("BookLendingService - return book")
+class TestBookLendingServiceReturnBook {
 
     @Mock
     private BookLendingRepository     bookLendingRepository;
@@ -63,51 +64,34 @@ class TestBookLendingServiceLendBook {
     private DefaultBookLendingService service;
 
     @Test
-    @DisplayName("When lending a book, it is persisted with the current date")
+    @DisplayName("When returning a book, it is persisted with the current returned date")
     void testLendBook() {
 
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(bookLendingRepository.findOne(BookConstants.ISBN, MemberConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lentNow()));
 
         // WHEN
-        service.lendBook(BookConstants.ISBN, MemberConstants.NUMBER);
+        service.returnBook(BookConstants.ISBN, MemberConstants.NUMBER);
 
         // THEN
-        verify(bookLendingRepository).save(BookLendings.lentNow());
+        verify(bookLendingRepository).save(BookLendings.returnedNow());
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing book, an exception is thrown")
-    void testLendBook_NoBook_Exception() {
+    @DisplayName("When returning a book for a not existing lending, an exception is thrown")
+    void testLendBook_NoLending_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(false);
+        given(bookLendingRepository.findOne(BookConstants.ISBN, MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.ISBN, MemberConstants.NUMBER);
+        execution = () -> service.returnBook(BookConstants.ISBN, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingBookException.class);
-    }
-
-    @Test
-    @DisplayName("When persisting a book for a not existing member, an exception is thrown")
-    void testLendBook_NoMember_Exception() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.lendBook(BookConstants.ISBN, MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+            .isInstanceOf(MissingBookLendingException.class);
     }
 
 }

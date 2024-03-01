@@ -2,8 +2,10 @@
 package com.bernardomg.association.library.usecase.service;
 
 import java.time.YearMonth;
+import java.util.Optional;
 
 import com.bernardomg.association.library.domain.exception.MissingBookException;
+import com.bernardomg.association.library.domain.exception.MissingBookLendingException;
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
@@ -32,8 +34,6 @@ public final class DefaultBookLendingService implements BookLendingService {
         final BookLending lending;
         final YearMonth   now;
 
-        // TODO: check the book and member exist
-
         if (!bookRepository.exists(isbn)) {
             throw new MissingBookException(isbn);
         }
@@ -50,7 +50,23 @@ public final class DefaultBookLendingService implements BookLendingService {
             .withLendingDate(now)
             .build();
 
-        bookLendingRepository.create(lending);
+        bookLendingRepository.save(lending);
+    }
+
+    @Override
+    public void returnBook(final String isbn, final long member) {
+        final Optional<BookLending> read;
+        final BookLending           toSave;
+
+        read = bookLendingRepository.findOne(isbn, member);
+        if (read.isEmpty()) {
+            throw new MissingBookLendingException(isbn + "-" + member);
+        }
+
+        toSave = read.get();
+        toSave.setReturnDate(YearMonth.now());
+
+        bookLendingRepository.save(toSave);
     }
 
 }
