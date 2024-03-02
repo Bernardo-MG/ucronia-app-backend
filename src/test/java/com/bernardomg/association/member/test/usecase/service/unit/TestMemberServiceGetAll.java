@@ -49,7 +49,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - get all")
-class TestMemberServiceGetAllFilter {
+class TestMemberServiceGetAll {
 
     @Mock
     private MemberRepository     memberRepository;
@@ -57,7 +57,7 @@ class TestMemberServiceGetAllFilter {
     @InjectMocks
     private DefaultMemberService service;
 
-    public TestMemberServiceGetAllFilter() {
+    public TestMemberServiceGetAll() {
         super();
     }
 
@@ -84,6 +84,31 @@ class TestMemberServiceGetAllFilter {
         Assertions.assertThat(members)
             .as("members")
             .isEqualTo(readMembers);
+    }
+
+    @Test
+    @DisplayName("When filtering with the default filter, and there is no data, it returns nothing")
+    void testGetAll_FilterDefault_NoData() {
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        final Page<Member>     readMembers;
+
+        // GIVEN
+        readMembers = new PageImpl<>(List.of());
+        given(memberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+
+        pageable = Pageable.unpaged();
+
+        memberQuery = MembersQuery.empty();
+
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .as("members")
+            .isEmpty();
     }
 
     @Test

@@ -58,7 +58,7 @@ class TestMemberServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
+    @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final Member           member;
         final ThrowingCallable execution;

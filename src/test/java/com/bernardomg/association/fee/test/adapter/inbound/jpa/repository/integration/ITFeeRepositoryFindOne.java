@@ -52,6 +52,19 @@ class ITFeeRepositoryFindOne {
     private FeeRepository repository;
 
     @Test
+    @DisplayName("With no data, nothing is returned")
+    void testGetOne_NoData() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = repository.findOne(MemberConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With no surname, only the name is returned")
     @NoSurnameMember
     @PaidFee
@@ -67,7 +80,7 @@ class ITFeeRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a valid id, and a not paid fee, the related entity is returned")
+    @DisplayName("With a fee, and a not paid fee, the related entity is returned")
     @ValidMember
     @NotPaidFee
     void testGetOne_NotPaid() {
@@ -82,7 +95,7 @@ class ITFeeRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a valid id, and a paid fee, the related entity is returned")
+    @DisplayName("With a fee, and a paid fee, the related entity is returned")
     @ValidMember
     @PaidFee
     void testGetOne_Paid() {
@@ -97,7 +110,7 @@ class ITFeeRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a valid id, and two members with paid fees, the first entity is returned")
+    @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
     @ValidMember
     @AlternativeMember
     @PaidFee
@@ -114,7 +127,7 @@ class ITFeeRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a valid id, and two members with paid fees, the alternative entity is returned")
+    @DisplayName("With a fee, and two members with paid fees, the alternative entity is returned")
     @ValidMember
     @AlternativeMember
     @PaidFee

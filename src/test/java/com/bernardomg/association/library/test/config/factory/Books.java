@@ -1,0 +1,30 @@
+
+package com.bernardomg.association.library.test.config.factory;
+
+import java.util.List;
+
+import com.bernardomg.association.library.domain.model.Book;
+
+public final class Books {
+
+    public static final Book full() {
+        return Book.builder()
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withGameSystem(GameSystems.valid())
+            .withBookType(BookTypes.valid())
+            .build();
+    }
+
+    public static final Book minimal() {
+        return Book.builder()
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of())
+            .build();
+    }
+
+}
