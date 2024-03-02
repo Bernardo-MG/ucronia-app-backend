@@ -43,14 +43,17 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.usecase.service.AuthorService;
+import com.bernardomg.association.library.usecase.service.BookLendingService;
 import com.bernardomg.association.library.usecase.service.BookService;
 import com.bernardomg.association.library.usecase.service.BookTypeService;
 import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
+import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
 import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
 import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
 import com.bernardomg.association.library.usecase.service.GameSystemService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 /**
  * Library configuration.
@@ -79,6 +82,12 @@ public class LibraryConfig {
     public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
             final BookSpringRepository bookSpringRepo, final MemberSpringRepository memberSpringRepo) {
         return new JpaBookLendingRepository(bookLendingSpringRepo, bookSpringRepo, memberSpringRepo);
+    }
+
+    @Bean("bookLendingService")
+    public BookLendingService getBookLendingService(final BookLendingRepository bookLendingRepo,
+            final BookRepository bookRepo, final MemberRepository memberRepo) {
+        return new DefaultBookLendingService(bookLendingRepo, bookRepo, memberRepo);
     }
 
     @Bean("bookRepository")
