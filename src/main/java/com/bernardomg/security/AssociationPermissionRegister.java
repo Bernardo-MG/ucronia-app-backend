@@ -67,6 +67,10 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "READ"),
             ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "DELETE"),
+            ResourcePermissionPair.of("LIBRARY_LENDING", "CREATE"),
+            ResourcePermissionPair.of("LIBRARY_LENDING", "READ"),
+            ResourcePermissionPair.of("LIBRARY_LENDING", "UPDATE"),
+            ResourcePermissionPair.of("LIBRARY_LENDING", "DELETE"),
             // Configuration
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "CREATE"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "READ"),
