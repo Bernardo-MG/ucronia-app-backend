@@ -32,6 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
+import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
+import com.bernardomg.association.library.test.config.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.test.config.factory.BookEntities;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -48,6 +51,9 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When saving, the persisted author is returned")
+    @ValidAuthor
+    @ValidBookType
+    @ValidGameSystem
     void testSave_Full_Returned() {
         final Book book;
         final Book created;

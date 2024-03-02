@@ -23,12 +23,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class JpaBookRepository implements BookRepository {
 
-    private final BookSpringRepository bookSpringRepository;
+    private final AuthorSpringRepository     authorSpringRepository;
 
-    public JpaBookRepository(final BookSpringRepository bookSpringRepo) {
+    private final BookSpringRepository       bookSpringRepository;
+
+    private final BookTypeSpringRepository   bookTypeSpringRepository;
+
+    private final GameSystemSpringRepository gameSystemSpringRepository;
+
+    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final AuthorSpringRepository authorSpringRepo,
+            final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo) {
         super();
 
         bookSpringRepository = bookSpringRepo;
+        authorSpringRepository = authorSpringRepo;
+        bookTypeSpringRepository = bookTypeSpringRepo;
+        gameSystemSpringRepository = gameSystemSpringRepo;
     }
 
     @Override
@@ -154,10 +164,37 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookEntity toEntity(final Book domain) {
+        final Optional<BookTypeEntity>   bookType;
+        final Optional<GameSystemEntity> gameSystem;
+        final Collection<String>         authorNames;
+        final Collection<AuthorEntity>   authors;
+
+        if (domain.getBookType() == null) {
+            bookType = Optional.empty();
+        } else {
+            bookType = bookTypeSpringRepository.findOneByName(domain.getBookType()
+                .getName());
+        }
+        if (domain.getGameSystem() == null) {
+            gameSystem = Optional.empty();
+        } else {
+            gameSystem = gameSystemSpringRepository.findOneByName(domain.getGameSystem()
+                .getName());
+        }
+
+        authorNames = domain.getAuthors()
+            .stream()
+            .map(Author::getName)
+            .toList();
+        authors = authorSpringRepository.findAllByNameIn(authorNames);
+
         return BookEntity.builder()
             .withIsbn(domain.getIsbn())
             .withTitle(domain.getTitle())
             .withLanguage(domain.getLanguage())
+            .withBookType(bookType.orElse(null))
+            .withGameSystem(gameSystem.orElse(null))
+            .withAuthors(authors)
             .build();
     }
 

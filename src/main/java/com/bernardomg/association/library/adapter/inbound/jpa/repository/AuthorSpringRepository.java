@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,6 +36,8 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
     public void deleteByName(final String name);
 
     public boolean existsByName(final String name);
+
+    public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);
 
     public Optional<AuthorEntity> findOneByName(final String name);
 
