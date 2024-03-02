@@ -2,7 +2,6 @@
 package com.bernardomg.association.config;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +28,13 @@ import com.bernardomg.async.LoggingAsyncExceptionHandler;
 @EnableConfigurationProperties(AsyncProperties.class)
 public class AsyncConfig implements AsyncConfigurer {
 
-    @Autowired
-    private AsyncProperties asyncProperties;
+    private final AsyncProperties asyncProperties;
+
+    public AsyncConfig(final AsyncProperties asyncProps) {
+        super();
+        
+        asyncProperties = asyncProps;
+    }
 
     @Override
     @Bean("SchedulingTaskExecutor")
