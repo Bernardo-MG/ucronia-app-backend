@@ -77,7 +77,7 @@ class TestBookServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(bookRepository.findAll(pageable)).willReturn(List.of(Books.valid()));
+        given(bookRepository.findAll(pageable)).willReturn(List.of(Books.full()));
 
         // WHEN
         books = service.getAll(pageable);
@@ -85,7 +85,7 @@ class TestBookServiceGetAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.valid());
+            .containsExactly(Books.full());
     }
 
     @Test

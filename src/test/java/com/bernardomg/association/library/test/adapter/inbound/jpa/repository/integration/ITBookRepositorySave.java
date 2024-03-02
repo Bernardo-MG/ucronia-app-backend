@@ -47,15 +47,33 @@ class ITBookRepositorySave {
     private BookSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving, an author is persisted")
-    void testSave_Persisted() {
-        final Book author;
+    @DisplayName("When saving, the persisted author is returned")
+    void testSave_Full_Returned() {
+        final Book book;
+        final Book created;
 
         // GIVEN
-        author = Books.valid();
+        book = Books.full();
 
         // WHEN
-        repository.save(author);
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("author")
+            .isEqualTo(Books.full());
+    }
+
+    @Test
+    @DisplayName("When saving, an author is persisted")
+    void testSave_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        repository.save(book);
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
@@ -67,19 +85,19 @@ class ITBookRepositorySave {
     @Test
     @DisplayName("When saving, the persisted author is returned")
     void testSave_Returned() {
-        final Book author;
+        final Book book;
         final Book created;
 
         // GIVEN
-        author = Books.valid();
+        book = Books.minimal();
 
         // WHEN
-        created = repository.save(author);
+        created = repository.save(book);
 
         // THEN
         Assertions.assertThat(created)
             .as("author")
-            .isEqualTo(Books.valid());
+            .isEqualTo(Books.minimal());
     }
 
 }

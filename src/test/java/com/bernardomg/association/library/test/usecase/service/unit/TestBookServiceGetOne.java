@@ -76,14 +76,14 @@ class TestBookServiceGetOne {
         final Optional<Book> book;
 
         // GIVEN
-        given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.of(Books.valid()));
+        given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.of(Books.full()));
 
         // WHEN
         book = service.getOne(BookConstants.ISBN);
 
         // THEN
         Assertions.assertThat(book)
-            .contains(Books.valid());
+            .contains(Books.full());
     }
 
     @Test

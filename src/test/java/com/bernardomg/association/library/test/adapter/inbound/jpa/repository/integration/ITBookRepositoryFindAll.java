@@ -59,7 +59,7 @@ class ITBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.valid());
+            .containsExactly(Books.full());
     }
 
     @Test

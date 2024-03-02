@@ -80,7 +80,7 @@ class TestBookServiceCreate {
         final ThrowingCallable execution;
 
         // GIVEN
-        book = Books.valid();
+        book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
 
@@ -99,7 +99,7 @@ class TestBookServiceCreate {
         final ThrowingCallable execution;
 
         // GIVEN
-        book = Books.valid();
+        book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
@@ -120,7 +120,7 @@ class TestBookServiceCreate {
         final ThrowingCallable execution;
 
         // GIVEN
-        book = Books.valid();
+        book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
@@ -139,7 +139,7 @@ class TestBookServiceCreate {
         final Book book;
 
         // GIVEN
-        book = Books.valid();
+        book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
@@ -149,7 +149,7 @@ class TestBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(Books.valid());
+        verify(bookRepository).save(Books.full());
     }
 
     @Test
@@ -159,20 +159,20 @@ class TestBookServiceCreate {
         final Book created;
 
         // GIVEN
-        book = Books.valid();
+        book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
-        given(bookRepository.save(Books.valid())).willReturn(Books.valid());
+        given(bookRepository.save(Books.full())).willReturn(Books.full());
 
         // WHEN
         created = service.create(book);
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Books.valid());
+            .isEqualTo(Books.full());
     }
 
 }
