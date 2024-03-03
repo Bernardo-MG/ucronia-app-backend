@@ -79,13 +79,13 @@ public class FeeController {
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
-            FeeCaches.FEES, FeeCaches.FEE, MembersCaches.MONTHLY_BALANCE,
+            FeeCaches.FEES, FeeCaches.FEE,
             // Funds caches
             TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
             TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
             // Member caches
-            MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR, MembersCaches.CALENDAR_RANGE },
-            allEntries = true) })
+            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR,
+            MembersCaches.CALENDAR_RANGE }, allEntries = true) })
     public Collection<Fee> create(@Valid @RequestBody final FeePayment payment) {
         return service.payFees(payment.getFeeDates(), payment.getMember()
             .getNumber(),

@@ -20,14 +20,18 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.association.transaction..")
         .layer("Fees")
         .definedBy("com.bernardomg.association.fee..")
+        .layer("Library")
+        .definedBy("com.bernardomg.association.library..")
         .layer("Users")
         .definedBy("com.bernardomg.association.auth.user..")
 
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Users")
+        .mayOnlyBeAccessedByLayers("Fees", "Users", "Library")
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Library")
         .mayNotBeAccessedByAnyLayer();
 
 }

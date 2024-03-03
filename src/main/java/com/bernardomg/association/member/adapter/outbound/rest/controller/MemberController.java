@@ -74,8 +74,8 @@ public class MemberController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = MembersCaches.MEMBERS, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") }, evict = {
+            @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE }, allEntries = true) })
     public Member create(@Valid @RequestBody final MemberChange change) {
         final MemberName memberName;
         final Member     member;
@@ -97,7 +97,7 @@ public class MemberController {
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }),
-            @CacheEvict(cacheNames = { MembersCaches.MEMBERS }, allEntries = true) })
+            @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }

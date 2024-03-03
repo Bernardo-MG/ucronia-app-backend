@@ -35,14 +35,9 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
 
     @Override
     public final void delete(final long number) {
-        final Optional<MemberEntity> member;
-
         log.debug("Deleting fee {}", number);
 
-        member = memberSpringRepository.findByNumber(number);
-
-        memberSpringRepository.deleteById(member.get()
-            .getId());
+        memberSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted fee {}", number);
     }
