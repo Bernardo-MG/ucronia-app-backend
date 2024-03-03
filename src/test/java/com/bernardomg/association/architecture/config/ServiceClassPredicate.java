@@ -7,7 +7,7 @@ import com.tngtech.archunit.core.domain.JavaModifier;
 
 public final class ServiceClassPredicate extends DescribedPredicate<JavaClass> {
 
-    private static final String PACKAGE = "service";
+    private static final String PACKAGE = ".service";
 
     public static final ServiceClassPredicate areServiceClasses() {
         return new ServiceClassPredicate();
@@ -24,20 +24,8 @@ public final class ServiceClassPredicate extends DescribedPredicate<JavaClass> {
 
     @Override
     public final boolean test(final JavaClass javaClass) {
-        final boolean service;
-
-        // FIXME: this complex requirement makes the tests meaningless
-        if (!isSynthetic(javaClass) && !javaClass.getFullName()
-            .endsWith("package-info.java")) {
-            service = javaClass.getPackageName()
-                .endsWith(PACKAGE)
-                    && javaClass.getSimpleName()
-                        .endsWith("Service");
-        } else {
-            service = false;
-        }
-
-        return service;
+        return (javaClass.getPackageName()
+            .endsWith(PACKAGE)) && (!isSynthetic(javaClass));
     }
 
 }
