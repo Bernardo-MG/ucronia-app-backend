@@ -4,6 +4,7 @@ package com.bernardomg.association.library.usecase.service;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookException;
@@ -18,6 +19,7 @@ import com.bernardomg.association.library.domain.repository.GameSystemRepository
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class DefaultBookService implements BookService {
 
     private final AuthorRepository     authorRepository;

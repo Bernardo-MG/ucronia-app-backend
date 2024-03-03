@@ -4,6 +4,8 @@ package com.bernardomg.association.library.usecase.service;
 import java.time.YearMonth;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.library.domain.exception.MissingBookException;
 import com.bernardomg.association.library.domain.exception.MissingBookLendingException;
 import com.bernardomg.association.library.domain.model.BookLending;
@@ -12,6 +14,7 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
+@Transactional
 public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookLendingRepository bookLendingRepository;

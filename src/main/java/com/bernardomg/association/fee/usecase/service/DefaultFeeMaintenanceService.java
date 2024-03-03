@@ -5,6 +5,8 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
@@ -13,6 +15,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
 
     private final ActiveMemberRepository activeMemberRepository;

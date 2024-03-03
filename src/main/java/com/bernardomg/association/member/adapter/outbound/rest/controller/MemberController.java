@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest;
+package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -31,7 +31,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +62,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/member")
 @AllArgsConstructor
-@Transactional
 public class MemberController {
 
     /**

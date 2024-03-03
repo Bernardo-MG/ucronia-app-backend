@@ -4,6 +4,7 @@ package com.bernardomg.association.library.usecase.service;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.domain.model.GameSystem;
@@ -12,6 +13,7 @@ import com.bernardomg.association.library.domain.repository.GameSystemRepository
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class DefaultGameSystemService implements GameSystemService {
 
     private final GameSystemRepository gameSystemRepository;

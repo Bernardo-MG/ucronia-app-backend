@@ -33,6 +33,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
@@ -45,6 +46,7 @@ import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 
+@Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final ActiveMemberRepository activeMemberRepository;

@@ -9,7 +9,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
-public class ModulesArchitectureTest {
+public class ModulesArchitectureRulesTest {
 
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
@@ -26,7 +26,7 @@ public class ModulesArchitectureTest {
         .definedBy("com.bernardomg.association.auth.user..")
 
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Library", "Users")
+        .mayOnlyBeAccessedByLayers("Fees", "Users", "Library")
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")
