@@ -4,6 +4,8 @@ package com.bernardomg.association.architecture.test;
 import static com.bernardomg.association.architecture.config.ControllerClassPredicate.areControllerClasses;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -21,5 +23,10 @@ public class ControllerArchitectureRulesTest {
     static final ArchRule controllers_should_be_suffixed              = classes().that(areControllerClasses())
         .should()
         .haveSimpleNameEndingWith("Controller");
+
+    @ArchTest
+    static final ArchRule controllers_should_not_be_transactional              = classes().that(areControllerClasses())
+        .should()
+        .notBeAnnotatedWith(Transactional.class);
 
 }

@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionIdException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultTransactionService implements TransactionService {
 
     private final TransactionRepository transactionRepository;

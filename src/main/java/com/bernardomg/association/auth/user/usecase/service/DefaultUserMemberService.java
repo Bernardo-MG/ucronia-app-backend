@@ -3,6 +3,8 @@ package com.bernardomg.association.auth.user.usecase.service;
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
@@ -12,6 +14,7 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserU
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
+@Transactional
 public final class DefaultUserMemberService implements UserMemberService {
 
     private final MemberRepository     memberRepository;

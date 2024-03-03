@@ -32,7 +32,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
     public AsyncConfig(final AsyncProperties asyncProps) {
         super();
-        
+
         asyncProperties = asyncProps;
     }
 

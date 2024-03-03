@@ -3,12 +3,15 @@ package com.bernardomg.association.configuration.usecase.service;
 
 import java.util.Objects;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.domain.model.Configuration;
 import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
 
+@Transactional
 public final class DefaultAssociationConfigurationService implements AssociationConfigurationService {
 
     private final ConfigurationRepository configurationRepository;
