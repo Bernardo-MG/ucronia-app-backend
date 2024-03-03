@@ -80,12 +80,14 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("BALANCE", "READ"),
             // Views
             ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBERSHIP", "VIEW"),
+            ResourcePermissionPair.of("LIBRARY", "VIEW"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER", "FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS", "MEMBERSHIP");
+        return List.of("MEMBER", "FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS", "MEMBERSHIP",
+            "LIBRARY_AUTHOR", "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
     }
 
 }
