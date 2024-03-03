@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.cache;
+package com.bernardomg.association.fee.adapter.outbound.cache;
 
 public final class FeeCaches {
 

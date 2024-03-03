@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.cache;
+package com.bernardomg.association.library.adapter.outbound.cache;
 
 public final class LibraryCaches {
 
