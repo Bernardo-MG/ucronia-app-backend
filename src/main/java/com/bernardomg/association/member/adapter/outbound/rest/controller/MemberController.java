@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberChange;
@@ -74,7 +75,7 @@ public class MemberController {
     @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
             evict = { @CacheEvict(
-                    cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, MembersCaches.CALENDAR },
+                    cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
                     allEntries = true) })
     public Member create(@Valid @RequestBody final MemberChange change) {
         final MemberName memberName;
@@ -97,7 +98,7 @@ public class MemberController {
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }),
-            @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, MembersCaches.CALENDAR },
+            @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
                     allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
@@ -121,7 +122,7 @@ public class MemberController {
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.CALENDAR }, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, FeeCaches.CALENDAR }, allEntries = true) })
     public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange change) {
         final MemberName memberName;
         final Member     member;

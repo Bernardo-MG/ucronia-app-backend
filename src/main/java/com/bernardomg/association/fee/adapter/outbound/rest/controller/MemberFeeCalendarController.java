@@ -32,11 +32,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarQuery;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -67,7 +67,7 @@ public class MemberFeeCalendarController {
      */
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.CALENDAR_RANGE)
+    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
     public FeeCalendarYearsRange readRange() {
         return service.getRange();
     }
@@ -85,7 +85,7 @@ public class MemberFeeCalendarController {
      */
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.CALENDAR)
+    @Cacheable(cacheNames = FeeCaches.CALENDAR)
     public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
             final Sort sort) {
         return service.getYear(year, request.getStatus(), sort);

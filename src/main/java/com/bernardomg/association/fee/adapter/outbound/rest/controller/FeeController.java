@@ -82,8 +82,8 @@ public class FeeController {
             TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
             TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
             // Member caches
-            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR,
-            MembersCaches.CALENDAR_RANGE }, allEntries = true) })
+            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER, FeeCaches.CALENDAR,
+            FeeCaches.CALENDAR_RANGE }, allEntries = true) })
     public Collection<Fee> create(@Valid @RequestBody final FeePayment payment) {
         return service.payFees(payment.getFeeDates(), payment.getMember()
             .getNumber(),
@@ -100,7 +100,7 @@ public class FeeController {
                     // Funds caches
                     MembersCaches.MONTHLY_BALANCE,
                     // Member caches
-                    MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR, MembersCaches.CALENDAR_RANGE },
+                    MembersCaches.MEMBERS, MembersCaches.MEMBER, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE },
                     allEntries = true) })
     public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
