@@ -19,13 +19,13 @@ import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class AssignedFeeActiveMemberRepository implements MemberRepository {
+public final class JpaAssignedFeeActiveMemberRepository implements MemberRepository {
 
     private final ActiveMemberSpringRepository activeMemberRepository;
 
     private final MemberSpringRepository       memberSpringRepository;
 
-    public AssignedFeeActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo,
+    public JpaAssignedFeeActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo,
             final MemberSpringRepository memberSpringRepo) {
         super();
 

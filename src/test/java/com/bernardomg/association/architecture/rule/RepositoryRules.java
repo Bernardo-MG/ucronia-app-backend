@@ -10,6 +10,22 @@ import com.tngtech.archunit.lang.ArchRule;
 public class RepositoryRules {
 
     @ArchTest
+    static final ArchRule jpa_repositories_should_be_prefixed                            = classes()
+        .that(Predicates.areRepositoryClasses())
+        .and()
+        .resideInAPackage("..adapter.inbound.jpa.repository..")
+        .should()
+        .haveSimpleNameStartingWith("Jpa");
+
+    @ArchTest
+    static final ArchRule jpa_repositories_should_implement_repository_interface         = classes()
+        .that(Predicates.areRepositoryClasses())
+        .and()
+        .resideInAPackage("..adapter.inbound.jpa.repository..")
+        .should()
+        .implement(Predicates.areRepositoryClasses());
+
+    @ArchTest
     static final ArchRule repositories_interfaces_should_be_in_domain_repository_package = classes()
         .that(Predicates.areRepositoryClasses())
         .and()
@@ -18,7 +34,7 @@ public class RepositoryRules {
         .resideInAPackage("..domain.repository..");
 
     @ArchTest
-    static final ArchRule spring_repositories_should_be_in_jpa_repository_package            = classes()
+    static final ArchRule spring_repositories_should_be_in_jpa_repository_package        = classes()
         .that(Predicates.areSpringRepositoryClasses())
         .should()
         .resideInAPackage("..adapter.inbound.jpa.repository..");
