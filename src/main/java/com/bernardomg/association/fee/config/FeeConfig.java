@@ -30,10 +30,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaActiveMemberRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaAssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.schedule.FeeMaintenanceScheduleTask;
@@ -71,7 +71,7 @@ public class FeeConfig {
     @Bean("assignedFeeActiveMemberSource")
     public MemberRepository getActiveMemberSource(final ActiveMemberSpringRepository activeMemberRepo,
             final MemberSpringRepository memberSpringRepo) {
-        return new AssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo);
+        return new JpaAssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo);
     }
 
     @Bean("feeCalendarService")
