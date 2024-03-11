@@ -1,18 +1,15 @@
 
-package com.bernardomg.association.architecture.test;
+package com.bernardomg.association.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.architecture.predicate.Predicates;
-import com.tngtech.archunit.core.importer.ImportOption;
-import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-@AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
-public class ServiceArchitectureRulesTest {
+public class ServiceRules {
 
     @ArchTest
     static final ArchRule services_should_be_in_service_package      = classes().that(Predicates.areServiceClasses())
