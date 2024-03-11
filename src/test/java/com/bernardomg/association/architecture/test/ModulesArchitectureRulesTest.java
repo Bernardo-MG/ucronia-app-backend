@@ -32,6 +32,8 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Fees")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Library")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Users")
         .mayNotBeAccessedByAnyLayer();
 
 }
