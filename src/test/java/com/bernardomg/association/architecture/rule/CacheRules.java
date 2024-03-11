@@ -11,7 +11,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.ProxyRules;
 
-public final class CacheArchitectureRules {
+public final class CacheRules {
 
     @ArchTest
     static final ArchRule cache_configuration_should_be_outbound                 = classes().that()
