@@ -9,7 +9,7 @@ import com.bernardomg.association.architecture.predicate.Predicates;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-public class RepositoryRules {
+public final class RepositoryRules {
 
     @ArchTest
     static final ArchRule jpa_repositories_should_be_prefixed                            = classes()

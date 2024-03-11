@@ -1,19 +1,16 @@
 
-package com.bernardomg.association.architecture.test;
+package com.bernardomg.association.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.architecture.predicate.Predicates;
-import com.tngtech.archunit.core.importer.ImportOption;
-import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.ProxyRules;
 
-@AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
-public class TransactionalArchitectureRulesTest {
+public final class TransactionalRules {
 
     @ArchTest
     static final ArchRule controllers_should_not_be_transactional = classes().that(Predicates.areControllerClasses())
