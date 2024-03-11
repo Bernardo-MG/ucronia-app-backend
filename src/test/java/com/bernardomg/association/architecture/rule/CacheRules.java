@@ -41,4 +41,12 @@ public final class CacheRules {
         .no_classes_should_directly_call_other_methods_declared_in_the_same_class_that(
             are(Predicates.areCachedMethod()));
 
+    @ArchTest
+    static final ArchRule services_should_not_be_cached                          = classes()
+        .that(Predicates.areServiceClasses())
+        .and()
+        .areNotInterfaces()
+        .should()
+        .notBeAnnotatedWith(Predicates.areCachingAnnotation());
+
 }
