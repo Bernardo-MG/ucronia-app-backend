@@ -15,7 +15,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.junit.ArchTests;
 
 @AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
-public class AssociationArchitectureRulesTest {
+public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests cacheRules         = ArchTests.in(CacheRules.class);
