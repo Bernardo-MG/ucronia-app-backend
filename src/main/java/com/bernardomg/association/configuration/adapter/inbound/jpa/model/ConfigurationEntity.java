@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.configuration.adapter.inbound.jpa.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,17 +20,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class ConfigurationEntity {
+public class ConfigurationEntity implements Serializable {
+
+    private static final long serialVersionUID = -8109295491346275297L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long   id;
+    private Long              id;
 
     @Column(name = "property", nullable = false)
-    private String key;
+    private String            key;
 
     @Column(name = "data", nullable = false)
-    private String value;
+    private String            value;
 
 }
