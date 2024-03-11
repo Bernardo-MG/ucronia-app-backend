@@ -11,6 +11,10 @@ public class Predicates {
         return new CachingAnnotationPredicate();
     }
 
+    public static final ConfigurationClassPredicate areConfigurationClasses() {
+        return new ConfigurationClassPredicate();
+    }
+
     public static final ControllerClassPredicate areControllerClasses() {
         return new ControllerClassPredicate();
     }

@@ -3,6 +3,7 @@ package com.bernardomg.association.architecture.test;
 
 import com.bernardomg.association.architecture.rule.CacheRules;
 import com.bernardomg.association.architecture.rule.CodingRules;
+import com.bernardomg.association.architecture.rule.ConfigurationRules;
 import com.bernardomg.association.architecture.rule.ControllerRules;
 import com.bernardomg.association.architecture.rule.JpaEntityRules;
 import com.bernardomg.association.architecture.rule.RepositoryRules;
@@ -22,6 +23,9 @@ public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests codingRules        = ArchTests.in(CodingRules.class);
+
+    @ArchTest
+    static final ArchTests configurationRules = ArchTests.in(ConfigurationRules.class);
 
     @ArchTest
     static final ArchTests controllerRules    = ArchTests.in(ControllerRules.class);
