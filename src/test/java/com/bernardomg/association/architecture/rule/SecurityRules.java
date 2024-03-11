@@ -1,17 +1,14 @@
 
-package com.bernardomg.association.architecture.test;
+package com.bernardomg.association.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 import com.bernardomg.association.architecture.predicate.Predicates;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.tngtech.archunit.core.importer.ImportOption;
-import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-@AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
-public class SecuredArchitectureRulesTest {
+public class SecurityRules {
 
     @ArchTest
     static final ArchRule controllers_methods_should_be_secured = methods().that()
