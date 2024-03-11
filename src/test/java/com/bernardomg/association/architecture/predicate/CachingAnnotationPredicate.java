@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.config;
+package com.bernardomg.association.architecture.predicate;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -11,11 +11,7 @@ import com.tngtech.archunit.core.domain.JavaAnnotation;
 
 public final class CachingAnnotationPredicate extends DescribedPredicate<JavaAnnotation<?>> {
 
-    public static final CachingAnnotationPredicate areCachingAnnotation() {
-        return new CachingAnnotationPredicate();
-    }
-
-    private CachingAnnotationPredicate() {
+    public CachingAnnotationPredicate() {
         super("caching annotations");
     }
 

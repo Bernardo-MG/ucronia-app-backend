@@ -1,11 +1,11 @@
 
 package com.bernardomg.association.architecture.test;
 
-import static com.bernardomg.association.architecture.config.ServiceClassPredicate.areServiceClasses;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.association.architecture.predicate.Predicates;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -15,17 +15,17 @@ import com.tngtech.archunit.lang.ArchRule;
 public class ServiceArchitectureRulesTest {
 
     @ArchTest
-    static final ArchRule services_should_be_in_service_package      = classes().that(areServiceClasses())
+    static final ArchRule services_should_be_in_service_package      = classes().that(Predicates.areServiceClasses())
         .should()
         .resideInAPackage("..service..");
 
     @ArchTest
-    static final ArchRule services_should_be_suffixed                = classes().that(areServiceClasses())
+    static final ArchRule services_should_be_suffixed                = classes().that(Predicates.areServiceClasses())
         .should()
         .haveSimpleNameEndingWith("Service");
 
     @ArchTest
-    static final ArchRule services_should_not_use_service_annotation = classes().that(areServiceClasses())
+    static final ArchRule services_should_not_use_service_annotation = classes().that(Predicates.areServiceClasses())
         .and()
         .areNotInterfaces()
         .should()

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.config;
+package com.bernardomg.association.architecture.predicate;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,11 +8,7 @@ import com.tngtech.archunit.core.domain.JavaClass;
 
 public final class ControllerClassPredicate extends DescribedPredicate<JavaClass> {
 
-    public static final ControllerClassPredicate areControllerClasses() {
-        return new ControllerClassPredicate();
-    }
-
-    private ControllerClassPredicate() {
+    public ControllerClassPredicate() {
         super("controller classes");
     }
 

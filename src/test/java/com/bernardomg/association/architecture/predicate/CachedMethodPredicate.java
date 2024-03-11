@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.config;
+package com.bernardomg.association.architecture.predicate;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -11,11 +11,7 @@ import com.tngtech.archunit.core.domain.AccessTarget.MethodCallTarget;
 
 public final class CachedMethodPredicate extends DescribedPredicate<MethodCallTarget> {
 
-    public static final CachedMethodPredicate areCachedMethod() {
-        return new CachedMethodPredicate();
-    }
-
-    private CachedMethodPredicate() {
+    public CachedMethodPredicate() {
         super("cached methods");
     }
 

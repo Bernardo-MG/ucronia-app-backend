@@ -1,13 +1,11 @@
 
 package com.bernardomg.association.architecture.test;
 
-import static com.bernardomg.association.architecture.config.CachedMethodPredicate.areCachedMethod;
-import static com.bernardomg.association.architecture.config.CachingAnnotationPredicate.areCachingAnnotation;
-import static com.bernardomg.association.architecture.config.ControllerClassPredicate.areControllerClasses;
 import static com.tngtech.archunit.lang.conditions.ArchPredicates.are;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
+import com.bernardomg.association.architecture.predicate.Predicates;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
@@ -27,22 +25,23 @@ public class CacheArchitectureRulesTest {
 
     @ArchTest
     static final ArchRule classes_which_are_not_controllers_should_not_be_cached = methods().that()
-        .areDeclaredInClassesThat(DescribedPredicate.not(areControllerClasses()))
+        .areDeclaredInClassesThat(DescribedPredicate.not(Predicates.areControllerClasses()))
         .should()
-        .notBeAnnotatedWith(areCachingAnnotation())
+        .notBeAnnotatedWith(Predicates.areCachingAnnotation())
         .because("caching should be applied only on controllers");
 
     @ArchTest
     static final ArchRule controllers_methods_should_be_cached                   = methods().that()
-        .areDeclaredInClassesThat(areControllerClasses())
+        .areDeclaredInClassesThat(Predicates.areControllerClasses())
         .and()
         .arePublic()
         .should()
-        .beAnnotatedWith(areCachingAnnotation())
+        .beAnnotatedWith(Predicates.areCachingAnnotation())
         .because("controller methods should be cached");
 
     @ArchTest
     static final ArchRule no_direct_calls_to_cacheable_method                    = ProxyRules
-        .no_classes_should_directly_call_other_methods_declared_in_the_same_class_that(are(areCachedMethod()));
+        .no_classes_should_directly_call_other_methods_declared_in_the_same_class_that(
+            are(Predicates.areCachedMethod()));
 
 }

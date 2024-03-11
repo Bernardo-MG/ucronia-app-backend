@@ -1,12 +1,11 @@
 
 package com.bernardomg.association.architecture.test;
 
-import static com.bernardomg.association.architecture.config.ControllerClassPredicate.areControllerClasses;
-import static com.bernardomg.association.architecture.config.ServiceClassPredicate.areServiceClasses;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.architecture.predicate.Predicates;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -17,7 +16,7 @@ import com.tngtech.archunit.library.ProxyRules;
 public class TransactionalArchitectureRulesTest {
 
     @ArchTest
-    static final ArchRule controllers_should_not_be_transactional = classes().that(areControllerClasses())
+    static final ArchRule controllers_should_not_be_transactional = classes().that(Predicates.areControllerClasses())
         .should()
         .notBeAnnotatedWith(Transactional.class);
 
@@ -27,7 +26,7 @@ public class TransactionalArchitectureRulesTest {
             Transactional.class);
 
     @ArchTest
-    static final ArchRule services_should_be_transactional        = classes().that(areServiceClasses())
+    static final ArchRule services_should_be_transactional        = classes().that(Predicates.areServiceClasses())
         .and()
         .areNotInterfaces()
         .should()
