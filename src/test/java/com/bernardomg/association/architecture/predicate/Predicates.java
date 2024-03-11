@@ -19,6 +19,10 @@ public class Predicates {
         return new JpaEntityClassPredicate();
     }
 
+    public static final RepositoryClassPredicate areRepositoryClasses() {
+        return new RepositoryClassPredicate();
+    }
+
     public static final ServiceClassPredicate areServiceClasses() {
         return new ServiceClassPredicate();
     }
