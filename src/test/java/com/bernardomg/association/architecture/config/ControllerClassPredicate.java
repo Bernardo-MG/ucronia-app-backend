@@ -13,7 +13,7 @@ public final class ControllerClassPredicate extends DescribedPredicate<JavaClass
     }
 
     private ControllerClassPredicate() {
-        super("are controller classes");
+        super("controller classes");
     }
 
     @Override

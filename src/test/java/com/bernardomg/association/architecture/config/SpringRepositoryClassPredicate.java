@@ -13,7 +13,7 @@ public final class SpringRepositoryClassPredicate extends DescribedPredicate<Jav
     }
 
     private SpringRepositoryClassPredicate() {
-        super("are Spring repository classes");
+        super("Spring repository classes");
     }
 
     @Override

@@ -19,7 +19,7 @@ public final class ServiceClassPredicate extends DescribedPredicate<JavaClass> {
     }
 
     private ServiceClassPredicate() {
-        super("are service classes");
+        super("service classes");
     }
 
     @Override

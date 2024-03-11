@@ -13,7 +13,7 @@ public final class JpaEntityClassPredicate extends DescribedPredicate<JavaClass>
     }
 
     private JpaEntityClassPredicate() {
-        super("are JPA entities classes");
+        super("JPA entities classes");
     }
 
     @Override
