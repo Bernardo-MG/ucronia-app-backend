@@ -3,6 +3,8 @@ package com.bernardomg.association.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
+import org.springframework.stereotype.Repository;
+
 import com.bernardomg.association.architecture.predicate.Predicates;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
@@ -32,6 +34,14 @@ public class RepositoryRules {
         .areInterfaces()
         .should()
         .resideInAPackage("..domain.repository..");
+
+    @ArchTest
+    static final ArchRule repositories_should_not_use_autoscan                           = classes()
+        .that(Predicates.areRepositoryClasses())
+        .and()
+        .areNotInterfaces()
+        .should()
+        .notBeAnnotatedWith(Repository.class);
 
     @ArchTest
     static final ArchRule spring_repositories_should_be_in_jpa_repository_package        = classes()
