@@ -75,7 +75,7 @@ class TestBookServiceCreate {
 
     @Test
     @DisplayName("When persisting a book for a not existing author, an exception is thrown")
-    void testCreateBook_NoAuthor_Exception() {
+    void testCreateBook_NoAuthor() {
         final Book             book;
         final ThrowingCallable execution;
 
@@ -94,7 +94,7 @@ class TestBookServiceCreate {
 
     @Test
     @DisplayName("When persisting a book for a not existing book type, an exception is thrown")
-    void testCreateBook_NoBookType_Exception() {
+    void testCreateBook_NoBookType() {
         final Book             book;
         final ThrowingCallable execution;
 
@@ -115,7 +115,7 @@ class TestBookServiceCreate {
 
     @Test
     @DisplayName("When persisting a book for a not existing game system, an exception is thrown")
-    void testCreateBook_NoGameSystem_Exception() {
+    void testCreateBook_NoGameSystem() {
         final Book             book;
         final ThrowingCallable execution;
 
@@ -150,6 +150,21 @@ class TestBookServiceCreate {
 
         // THEN
         verify(bookRepository).save(Books.full());
+    }
+
+    @Test
+    @DisplayName("With a valid book, which has no relationships, the book is persisted")
+    void testCreateBook_NoRelationship_PersistedData() {
+        final Book book;
+
+        // GIVEN
+        book = Books.noRelationships();
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository).save(Books.noRelationships());
     }
 
     @Test

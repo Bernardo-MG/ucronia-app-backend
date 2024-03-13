@@ -59,18 +59,22 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
-        gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
-            .getName());
-        if (!gameSystemExists) {
-            throw new MissingGameSystemException(book.getGameSystem()
+        if (book.getGameSystem().getName() != null) {
+            gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
                 .getName());
+            if (!gameSystemExists) {
+                throw new MissingGameSystemException(book.getGameSystem()
+                    .getName());
+            }
         }
 
-        bookTypeExists = bookTypeRepository.exists(book.getBookType()
-            .getName());
-        if (!bookTypeExists) {
-            throw new MissingBookTypeException(book.getBookType()
+        if (book.getBookType().getName() != null) {
+            bookTypeExists = bookTypeRepository.exists(book.getBookType()
                 .getName());
+            if (!bookTypeExists) {
+                throw new MissingBookTypeException(book.getBookType()
+                    .getName());
+            }
         }
 
         return bookRepository.save(book);
