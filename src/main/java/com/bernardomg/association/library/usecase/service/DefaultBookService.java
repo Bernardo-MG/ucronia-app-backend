@@ -67,7 +67,6 @@ public final class DefaultBookService implements BookService {
                     .getName());
             }
         }
-
         if (book.getBookType().getName() != null) {
             bookTypeExists = bookTypeRepository.exists(book.getBookType()
                 .getName());
