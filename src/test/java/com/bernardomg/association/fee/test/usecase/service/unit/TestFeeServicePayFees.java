@@ -120,6 +120,26 @@ class TestFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("With no fees nothing is saved")
+    @ValidMember
+    void testPayFees_EmptyList() {
+        final Collection<Fee> fees;
+
+        // GIVEN
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of());
+        given(feeRepository.findAllForMemberInDates(MemberConstants.NUMBER, List.of())).willReturn(List.of());
+
+        // WHEN
+        fees = service.payFees(List.of(), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With the fee already paid, it throws an exception")
     @ValidMember
     @PaidFee
