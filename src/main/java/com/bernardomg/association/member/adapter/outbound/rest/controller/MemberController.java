@@ -43,8 +43,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.adapter.outbound.model.MemberChange;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.usecase.service.MemberService;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.adapter.outbound.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
