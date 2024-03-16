@@ -73,7 +73,8 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
-            .withFirstName(" ").withLastName(MemberConstants.SURNAME)
+            .withFirstName(" ")
+            .withLastName(MemberConstants.SURNAME)
             .build()));
     }
 

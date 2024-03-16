@@ -35,4 +35,8 @@ public class Predicates {
         return new SpringRepositoryClassPredicate();
     }
 
+    public static final ValidatorClassPredicate areValidatorClasses() {
+        return new ValidatorClassPredicate();
+    }
+
 }

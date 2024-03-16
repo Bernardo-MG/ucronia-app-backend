@@ -19,7 +19,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.validator.CreateMemberValidator;
+import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
 
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
