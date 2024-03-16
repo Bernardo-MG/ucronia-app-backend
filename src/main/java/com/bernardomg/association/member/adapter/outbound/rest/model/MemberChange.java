@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.adapter.outbound.model;
+package com.bernardomg.association.member.adapter.outbound.rest.model;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
