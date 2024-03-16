@@ -60,11 +60,11 @@ class TestAuthorServiceGetOne {
 
     @Test
     @DisplayName("When there is an author, it is returned")
-    void testGetOneAuthor() {
+    void testGetOne() {
         final Optional<Author> author;
 
         // GIVEN
-        given(authorRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(Authors.valid()));
+        given(authorRepository.getOne(AuthorConstants.NAME)).willReturn(Optional.of(Authors.valid()));
 
         // WHEN
         author = service.getOne(AuthorConstants.NAME);
@@ -76,11 +76,11 @@ class TestAuthorServiceGetOne {
 
     @Test
     @DisplayName("When there are no authors, an exception is thrown")
-    void testGetOneAuthor_NotExisting() {
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(authorRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
+        given(authorRepository.getOne(AuthorConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(AuthorConstants.NAME);

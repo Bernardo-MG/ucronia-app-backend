@@ -69,7 +69,7 @@ class TestBookServiceDelete {
 
     @Test
     @DisplayName("When deleting a book, the repository is called")
-    void testDeleteBook_CallsRepository() {
+    void testDelete_CallsRepository() {
         // GIVEN
         given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
 
@@ -82,7 +82,7 @@ class TestBookServiceDelete {
 
     @Test
     @DisplayName("When the book doesn't exist, an exception is thrown")
-    void testDeleteBook_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN

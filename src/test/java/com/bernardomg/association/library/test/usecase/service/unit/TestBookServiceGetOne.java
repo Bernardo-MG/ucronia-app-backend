@@ -76,7 +76,7 @@ class TestBookServiceGetOne {
         final Optional<Book> book;
 
         // GIVEN
-        given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.of(Books.full()));
+        given(bookRepository.getOne(BookConstants.ISBN)).willReturn(Optional.of(Books.full()));
 
         // WHEN
         book = service.getOne(BookConstants.ISBN);
@@ -92,7 +92,7 @@ class TestBookServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.empty());
+        given(bookRepository.getOne(BookConstants.ISBN)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(BookConstants.ISBN);

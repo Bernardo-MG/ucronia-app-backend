@@ -45,7 +45,7 @@ public final class DefaultGameSystemService implements GameSystemService {
 
     @Override
     public final Iterable<GameSystem> getAll(final Pageable pageable) {
-        return gameSystemRepository.findAll(pageable);
+        return gameSystemRepository.getAll(pageable);
     }
 
     @Override

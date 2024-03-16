@@ -46,7 +46,21 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Iterable<GameSystem> findAll(final Pageable pageable) {
+    public final Optional<GameSystem> findOne(final String name) {
+        final Optional<GameSystem> gameSystem;
+
+        log.debug("Finding game system with name {}", name);
+
+        gameSystem = gameSystemRepository.findOneByName(name)
+            .map(this::toDomain);
+
+        log.debug("Found game system with name {}: {}", name, gameSystem);
+
+        return gameSystem;
+    }
+
+    @Override
+    public final Iterable<GameSystem> getAll(final Pageable pageable) {
         final Page<GameSystemEntity> page;
         final Iterable<GameSystem>   read;
 
@@ -59,20 +73,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         log.debug("Found game systems {}", read);
 
         return read;
-    }
-
-    @Override
-    public final Optional<GameSystem> findOne(final String name) {
-        final Optional<GameSystem> gameSystem;
-
-        log.debug("Finding game system with name {}", name);
-
-        gameSystem = gameSystemRepository.findOneByName(name)
-            .map(this::toDomain);
-
-        log.debug("Found game system with name {}: {}", name, gameSystem);
-
-        return gameSystem;
     }
 
     @Override

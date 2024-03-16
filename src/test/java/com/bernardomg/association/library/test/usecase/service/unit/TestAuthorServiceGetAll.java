@@ -58,14 +58,14 @@ class TestAuthorServiceGetAll {
 
     @Test
     @DisplayName("When there are authors, they are returned")
-    void testGetAllAuthors() {
+    void testGetAll() {
         final Pageable         pageable;
         final Iterable<Author> authors;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(authorRepository.findAll(pageable)).willReturn(List.of(Authors.valid()));
+        given(authorRepository.getAll(pageable)).willReturn(List.of(Authors.valid()));
 
         // WHEN
         authors = service.getAll(pageable);
@@ -78,14 +78,14 @@ class TestAuthorServiceGetAll {
 
     @Test
     @DisplayName("When there are no authors, nothing is returned")
-    void testGetAllAuthors_NoData() {
+    void testGetAll_NoData() {
         final Pageable         pageable;
         final Iterable<Author> authors;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(authorRepository.findAll(pageable)).willReturn(List.of());
+        given(authorRepository.getAll(pageable)).willReturn(List.of());
 
         // WHEN
         authors = service.getAll(pageable);

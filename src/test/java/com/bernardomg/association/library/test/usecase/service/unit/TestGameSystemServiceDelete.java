@@ -57,7 +57,7 @@ class TestGameSystemServiceDelete {
 
     @Test
     @DisplayName("When deleting a game system, the repository is called")
-    void testDeleteGameSystem_CallsRepository() {
+    void testDelete_CallsRepository() {
         // GIVEN
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
 
@@ -70,7 +70,7 @@ class TestGameSystemServiceDelete {
 
     @Test
     @DisplayName("When the game system doesn't exist, an exception is thrown")
-    void testDeleteGameSystem_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN

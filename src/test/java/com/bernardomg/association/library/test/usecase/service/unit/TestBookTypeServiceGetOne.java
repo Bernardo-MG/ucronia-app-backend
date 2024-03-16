@@ -60,11 +60,11 @@ class TestBookTypeServiceGetOne {
 
     @Test
     @DisplayName("When there is a book type, it is returned")
-    void testGetOneBookType() {
+    void testGetOne() {
         final Optional<BookType> bookType;
 
         // GIVEN
-        given(bookTypeRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(BookTypes.valid()));
+        given(bookTypeRepository.getOne(AuthorConstants.NAME)).willReturn(Optional.of(BookTypes.valid()));
 
         // WHEN
         bookType = service.getOne(AuthorConstants.NAME);
@@ -76,11 +76,11 @@ class TestBookTypeServiceGetOne {
 
     @Test
     @DisplayName("When there are no book types, an exception is thrown")
-    void testGetOneBookType_NotExisting() {
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookTypeRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
+        given(bookTypeRepository.getOne(AuthorConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(AuthorConstants.NAME);

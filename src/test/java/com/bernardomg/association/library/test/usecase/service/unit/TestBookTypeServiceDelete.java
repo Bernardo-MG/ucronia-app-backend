@@ -57,7 +57,7 @@ class TestBookTypeServiceDelete {
 
     @Test
     @DisplayName("When deleting a book type, the repository is called")
-    void testDeleteBookType_CallsRepository() {
+    void testDelete_CallsRepository() {
         // GIVEN
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
@@ -70,7 +70,7 @@ class TestBookTypeServiceDelete {
 
     @Test
     @DisplayName("When the book type doesn't exist, an exception is thrown")
-    void testDeleteBookType_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN

@@ -15,20 +15,13 @@ public final class Books {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
-            .withGameSystem(GameSystem.builder().build())
-            .withBookType(BookType.builder().build())
+            .withGameSystem(GameSystem.builder()
+                .build())
+            .withBookType(BookType.builder()
+                .build())
             .build();
     }
-    public static final Book noRelationships() {
-        return Book.builder()
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of())
-            .withGameSystem(GameSystem.builder().build())
-            .withBookType(BookType.builder().build())
-            .build();
-    }
+
     public static final Book full() {
         return Book.builder()
             .withTitle(BookConstants.TITLE)
@@ -46,6 +39,19 @@ public final class Books {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
+            .build();
+    }
+
+    public static final Book noRelationships() {
+        return Book.builder()
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of())
+            .withGameSystem(GameSystem.builder()
+                .build())
+            .withBookType(BookType.builder()
+                .build())
             .build();
     }
 

@@ -13,9 +13,9 @@ public interface BookRepository {
 
     public boolean exists(final String isbn);
 
-    public Iterable<Book> findAll(final Pageable pageable);
+    public Iterable<Book> getAll(final Pageable pageable);
 
-    public Optional<Book> findOne(final String isbn);
+    public Optional<Book> getOne(final String isbn);
 
     public Book save(final Book book);
 

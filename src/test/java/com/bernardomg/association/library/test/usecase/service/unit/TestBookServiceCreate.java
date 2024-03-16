@@ -49,10 +49,6 @@ import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -77,6 +73,22 @@ class TestBookServiceCreate {
 
     public TestBookServiceCreate() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a book with an empty name, an exception is thrown")
+    void testCreate_EmptyTitle() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.emptyTitle();
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", " "));
     }
 
     @Test
@@ -140,20 +152,20 @@ class TestBookServiceCreate {
     }
 
     @Test
-    @DisplayName("With a book with an empty name, an exception is thrown")
-    void testCreate_EmptyTitle() {
-        final ThrowingCallable execution;
+    @DisplayName("With a valid book, which has no relationships, the book is persisted")
+    void testCreate_NoRelationship_PersistedData() {
         final Book book;
 
         // GIVEN
-        book = Books.emptyTitle();
+        book = Books.noRelationships();
 
         // WHEN
-        execution = () -> service.create(book);
+        service.create(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", " "));
+        verify(bookRepository).save(Books.noRelationships());
     }
+
     @Test
     @DisplayName("With a valid book, the book is persisted")
     void testCreate_PersistedData() {
@@ -171,21 +183,6 @@ class TestBookServiceCreate {
 
         // THEN
         verify(bookRepository).save(Books.full());
-    }
-
-    @Test
-    @DisplayName("With a valid book, which has no relationships, the book is persisted")
-    void testCreate_NoRelationship_PersistedData() {
-        final Book book;
-
-        // GIVEN
-        book = Books.noRelationships();
-
-        // WHEN
-        service.create(book);
-
-        // THEN
-        verify(bookRepository).save(Books.noRelationships());
     }
 
     @Test

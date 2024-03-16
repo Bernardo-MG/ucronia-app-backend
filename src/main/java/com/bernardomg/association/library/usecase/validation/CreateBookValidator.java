@@ -6,7 +6,6 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.association.library.domain.model.Book;
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 

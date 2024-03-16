@@ -54,7 +54,7 @@ class ITAuthorRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        authors = repository.findAll(pageable);
+        authors = repository.getAll(pageable);
 
         // THEN
         Assertions.assertThat(authors)
@@ -72,7 +72,7 @@ class ITAuthorRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        authors = repository.findAll(pageable);
+        authors = repository.getAll(pageable);
 
         // THEN
         Assertions.assertThat(authors)

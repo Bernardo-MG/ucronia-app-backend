@@ -56,7 +56,7 @@ class TestAuthorServiceCreate {
 
     @Test
     @DisplayName("With a valid author, the author is persisted")
-    void testCreateAuthor_PersistedData() {
+    void testCreate_PersistedData() {
         final Author author;
 
         // GIVEN
@@ -71,7 +71,7 @@ class TestAuthorServiceCreate {
 
     @Test
     @DisplayName("With a valid author, the created author is returned")
-    void testCreateAuthor_ReturnedData() {
+    void testCreate_ReturnedData() {
         final Author author;
         final Author created;
 

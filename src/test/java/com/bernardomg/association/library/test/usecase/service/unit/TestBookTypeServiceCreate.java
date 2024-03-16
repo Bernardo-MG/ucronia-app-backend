@@ -56,7 +56,7 @@ class TestBookTypeServiceCreate {
 
     @Test
     @DisplayName("With a valid book type, the book is persisted")
-    void testCreateBookType_PersistedData() {
+    void testCreate_PersistedData() {
         final BookType book;
 
         // GIVEN
@@ -71,7 +71,7 @@ class TestBookTypeServiceCreate {
 
     @Test
     @DisplayName("With a valid book type, the created book is returned")
-    void testCreateBookType_ReturnedData() {
+    void testCreate_ReturnedData() {
         final BookType book;
         final BookType created;
 

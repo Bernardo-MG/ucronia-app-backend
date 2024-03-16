@@ -46,7 +46,7 @@ import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookService - get all")
+@DisplayName("BookService - find all")
 class TestBookServiceGetAll {
 
     @Mock
@@ -70,14 +70,14 @@ class TestBookServiceGetAll {
 
     @Test
     @DisplayName("When there are books, they are returned")
-    void testGetAllBooks() {
+    void testFindAll() {
         final Pageable       pageable;
         final Iterable<Book> books;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(bookRepository.findAll(pageable)).willReturn(List.of(Books.full()));
+        given(bookRepository.getAll(pageable)).willReturn(List.of(Books.full()));
 
         // WHEN
         books = service.getAll(pageable);
@@ -90,14 +90,14 @@ class TestBookServiceGetAll {
 
     @Test
     @DisplayName("When there are no books, nothing is returned")
-    void testGetAllBooks_NoData() {
+    void testFindAll_NoData() {
         final Pageable       pageable;
         final Iterable<Book> books;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(bookRepository.findAll(pageable)).willReturn(List.of());
+        given(bookRepository.getAll(pageable)).willReturn(List.of());
 
         // WHEN
         books = service.getAll(pageable);

@@ -56,7 +56,7 @@ class TestGameSystemServiceCreate {
 
     @Test
     @DisplayName("With a valid game system, the game system is persisted")
-    void testCreateSystem_PersistedData() {
+    void testCreate_PersistedData() {
         final GameSystem book;
 
         // GIVEN
@@ -71,7 +71,7 @@ class TestGameSystemServiceCreate {
 
     @Test
     @DisplayName("With a valid game system, the created game system is returned")
-    void testCreateSystem_ReturnedData() {
+    void testCreate_ReturnedData() {
         final GameSystem book;
         final GameSystem created;
 

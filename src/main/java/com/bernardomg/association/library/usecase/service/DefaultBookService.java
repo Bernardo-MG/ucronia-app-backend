@@ -29,9 +29,9 @@ public final class DefaultBookService implements BookService {
 
     private final BookTypeRepository   bookTypeRepository;
 
+    private final CreateBookValidator  createBookValidator = new CreateBookValidator();
+
     private final GameSystemRepository gameSystemRepository;
-    
-    private final CreateBookValidator createBookValidator = new CreateBookValidator();
 
     public DefaultBookService(final AuthorRepository authorRepo, final BookRepository bookRepo,
             final BookTypeRepository bookTypeRepo, final GameSystemRepository gameSystemRepo) {
@@ -62,7 +62,8 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
-        if (book.getGameSystem().getName() != null) {
+        if (book.getGameSystem()
+            .getName() != null) {
             gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
                 .getName());
             if (!gameSystemExists) {
@@ -70,7 +71,8 @@ public final class DefaultBookService implements BookService {
                     .getName());
             }
         }
-        if (book.getBookType().getName() != null) {
+        if (book.getBookType()
+            .getName() != null) {
             bookTypeExists = bookTypeRepository.exists(book.getBookType()
                 .getName());
             if (!bookTypeExists) {
@@ -78,7 +80,7 @@ public final class DefaultBookService implements BookService {
                     .getName());
             }
         }
-        
+
         createBookValidator.validate(book);
 
         return bookRepository.save(book);
@@ -98,7 +100,7 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
-        return bookRepository.findAll(pageable);
+        return bookRepository.getAll(pageable);
     }
 
     @Override
@@ -107,7 +109,7 @@ public final class DefaultBookService implements BookService {
 
         log.debug("Reading book {}", isbn);
 
-        book = bookRepository.findOne(isbn);
+        book = bookRepository.getOne(isbn);
         if (book.isEmpty()) {
             throw new MissingBookException(isbn);
         }

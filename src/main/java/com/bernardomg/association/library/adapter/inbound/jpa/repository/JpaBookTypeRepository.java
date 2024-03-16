@@ -62,7 +62,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final Optional<BookType> findOne(final String name) {
+    public final Optional<BookType> getOne(final String name) {
         final Optional<BookType> bookType;
 
         log.debug("Finding book type with name {}", name);

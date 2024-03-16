@@ -58,14 +58,14 @@ class TestGameSystemServiceGetAll {
 
     @Test
     @DisplayName("When there are game systems, they are returned")
-    void testGetAllGameSystems() {
+    void testGetAll() {
         final Pageable             pageable;
         final Iterable<GameSystem> systems;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(gameSystemRepository.findAll(pageable)).willReturn(List.of(GameSystems.valid()));
+        given(gameSystemRepository.getAll(pageable)).willReturn(List.of(GameSystems.valid()));
 
         // WHEN
         systems = service.getAll(pageable);
@@ -78,14 +78,14 @@ class TestGameSystemServiceGetAll {
 
     @Test
     @DisplayName("When there are no game systems, nothing is returned")
-    void testGetAllGameSystems_NoData() {
+    void testGetAll_NoData() {
         final Pageable             pageable;
         final Iterable<GameSystem> systems;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(gameSystemRepository.findAll(pageable)).willReturn(List.of());
+        given(gameSystemRepository.getAll(pageable)).willReturn(List.of());
 
         // WHEN
         systems = service.getAll(pageable);

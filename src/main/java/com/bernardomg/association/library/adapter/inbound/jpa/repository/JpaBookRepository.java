@@ -64,7 +64,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final Iterable<Book> findAll(final Pageable pageable) {
+    public final Iterable<Book> getAll(final Pageable pageable) {
         final Page<BookEntity> page;
         final Iterable<Book>   read;
 
@@ -80,7 +80,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final Optional<Book> findOne(final String isbn) {
+    public final Optional<Book> getOne(final String isbn) {
         final Optional<Book> book;
 
         log.debug("Finding book with isbn {}", isbn);
