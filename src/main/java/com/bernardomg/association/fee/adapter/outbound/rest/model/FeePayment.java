@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +19,7 @@ import lombok.NoArgsConstructor;
 public final class FeePayment {
 
     @DateTimeFormat(pattern = "yyyy-MM")
-    @NotEmpty
+    @NotNull
     private Collection<@NotNull YearMonth> feeDates;
 
     @NotNull

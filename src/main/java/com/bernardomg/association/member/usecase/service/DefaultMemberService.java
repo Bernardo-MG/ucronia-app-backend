@@ -19,6 +19,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.usecase.validator.CreateMemberValidator;
 
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultMemberService implements MemberService {
 
-    private final MemberRepository memberRepository;
+    private final CreateMemberValidator createMemberValidator = new CreateMemberValidator();
+
+    private final MemberRepository      memberRepository;
 
     public DefaultMemberService(final MemberRepository memberRepo) {
         super();
@@ -64,6 +67,8 @@ public final class DefaultMemberService implements MemberService {
             .withName(memberName)
             .withPhone(member.getPhone())
             .build();
+
+        createMemberValidator.validate(toCreate);
 
         // Set number
         index = memberRepository.findNextNumber();

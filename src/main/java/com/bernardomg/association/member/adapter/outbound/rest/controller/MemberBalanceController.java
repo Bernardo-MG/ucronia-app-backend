@@ -62,7 +62,7 @@ public class MemberBalanceController {
     /**
      * Returns the monthly membership balance.
      *
-     * @param balance
+     * @param query
      *            query to filter balances
      * @param sort
      *            sorting to apply
@@ -71,8 +71,8 @@ public class MemberBalanceController {
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery balance, final Sort sort) {
-        return service.getMonthlyBalance(balance, sort);
+    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery query, final Sort sort) {
+        return service.getMonthlyBalance(query, sort);
     }
 
 }
