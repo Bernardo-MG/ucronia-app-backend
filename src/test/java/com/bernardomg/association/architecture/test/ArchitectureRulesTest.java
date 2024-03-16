@@ -10,6 +10,7 @@ import com.bernardomg.association.architecture.rule.RepositoryRules;
 import com.bernardomg.association.architecture.rule.SecurityRules;
 import com.bernardomg.association.architecture.rule.ServiceRules;
 import com.bernardomg.association.architecture.rule.TransactionalRules;
+import com.bernardomg.association.architecture.rule.ValidationRules;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -44,5 +45,8 @@ public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests transactionalRules = ArchTests.in(TransactionalRules.class);
+
+    @ArchTest
+    static final ArchTests validationRules    = ArchTests.in(ValidationRules.class);
 
 }

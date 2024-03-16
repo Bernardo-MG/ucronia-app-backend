@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.usecase.validator;
+package com.bernardomg.association.member.usecase.validation;
 
 import java.util.Collection;
 
