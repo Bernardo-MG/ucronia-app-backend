@@ -15,6 +15,7 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.usecase.validation.CreateBookValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +30,8 @@ public final class DefaultBookService implements BookService {
     private final BookTypeRepository   bookTypeRepository;
 
     private final GameSystemRepository gameSystemRepository;
+    
+    private final CreateBookValidator createBookValidator = new CreateBookValidator();
 
     public DefaultBookService(final AuthorRepository authorRepo, final BookRepository bookRepo,
             final BookTypeRepository bookTypeRepo, final GameSystemRepository gameSystemRepo) {
@@ -75,6 +78,8 @@ public final class DefaultBookService implements BookService {
                     .getName());
             }
         }
+        
+        createBookValidator.validate(book);
 
         return bookRepository.save(book);
     }

@@ -9,6 +9,16 @@ import com.bernardomg.association.library.domain.model.GameSystem;
 
 public final class Books {
 
+    public static final Book emptyTitle() {
+        return Book.builder()
+            .withTitle(" ")
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of())
+            .withGameSystem(GameSystem.builder().build())
+            .withBookType(BookType.builder().build())
+            .build();
+    }
     public static final Book noRelationships() {
         return Book.builder()
             .withTitle(BookConstants.TITLE)
