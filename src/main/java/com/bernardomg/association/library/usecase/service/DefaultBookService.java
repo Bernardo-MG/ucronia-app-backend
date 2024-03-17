@@ -29,7 +29,7 @@ public final class DefaultBookService implements BookService {
 
     private final BookTypeRepository   bookTypeRepository;
 
-    private final CreateBookValidator  createBookValidator = new CreateBookValidator();
+    private final CreateBookValidator  createBookValidator;
 
     private final GameSystemRepository gameSystemRepository;
 
@@ -41,6 +41,8 @@ public final class DefaultBookService implements BookService {
         bookRepository = bookRepo;
         bookTypeRepository = bookTypeRepo;
         gameSystemRepository = gameSystemRepo;
+
+        createBookValidator = new CreateBookValidator(bookRepository);
     }
 
     @Override

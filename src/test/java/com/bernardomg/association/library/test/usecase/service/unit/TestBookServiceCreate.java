@@ -45,6 +45,7 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
+import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
@@ -89,6 +90,28 @@ class TestBookServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a book with an empty name, an exception is thrown")
+    void testCreate_ExistingIsbn() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.full();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("isbn", "existing", BookConstants.ISBN));
     }
 
     @Test

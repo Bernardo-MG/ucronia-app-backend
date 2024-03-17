@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.association.library.domain.model.Book;
+import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -14,13 +15,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class CreateBookValidator extends AbstractValidator<Book> {
 
-    public CreateBookValidator() {
+    private final BookRepository bookRepository;
+
+    public CreateBookValidator(final BookRepository bookRepo) {
         super();
+
+        bookRepository = bookRepo;
     }
 
     @Override
     protected final void checkRules(final Book book, final Collection<FieldFailure> failures) {
         FieldFailure failure;
+
+        if (bookRepository.exists(book.getIsbn())) {
+            log.error("Existing ISBN {}", book.getIsbn());
+            failure = FieldFailure.of("isbn", "existing", book.getIsbn());
+            failures.add(failure);
+        }
 
         if (StringUtils.isBlank(book.getTitle())) {
             log.error("Empty title");
