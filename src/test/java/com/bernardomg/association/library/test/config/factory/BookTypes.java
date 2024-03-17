@@ -5,6 +5,12 @@ import com.bernardomg.association.library.domain.model.BookType;
 
 public final class BookTypes {
 
+    public static final BookType emptyName() {
+        return BookType.builder()
+            .withName(" ")
+            .build();
+    }
+
     public static final BookType valid() {
         return BookType.builder()
             .withName(BookTypeConstants.NAME)

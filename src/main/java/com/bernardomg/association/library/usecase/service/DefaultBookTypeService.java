@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
+import com.bernardomg.association.library.usecase.validation.CreateBookTypeValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultBookTypeService implements BookTypeService {
 
-    private final BookTypeRepository bookTypeRepository;
+    private final BookTypeRepository      bookTypeRepository;
+
+    private final CreateBookTypeValidator createBookTypeValidator = new CreateBookTypeValidator();
 
     public DefaultBookTypeService(final BookTypeRepository bookTypeRepo) {
         super();
@@ -27,6 +30,8 @@ public final class DefaultBookTypeService implements BookTypeService {
     @Override
     public final BookType create(final BookType type) {
         log.debug("Creating book type {}", type);
+
+        createBookTypeValidator.validate(type);
 
         return bookTypeRepository.save(type);
     }

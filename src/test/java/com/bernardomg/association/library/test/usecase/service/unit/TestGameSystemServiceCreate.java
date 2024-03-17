@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,8 @@ import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.test.config.factory.GameSystems;
 import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("GameSystemService - create")
@@ -55,15 +58,31 @@ class TestGameSystemServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid game system, the game system is persisted")
-    void testCreate_PersistedData() {
-        final GameSystem book;
+    @DisplayName("With a game system with an empty name, an exception is thrown")
+    void testCreate_EmptyName() {
+        final ThrowingCallable execution;
+        final GameSystem       gameSystem;
 
         // GIVEN
-        book = GameSystems.valid();
+        gameSystem = GameSystems.emptyName();
 
         // WHEN
-        service.create(book);
+        execution = () -> service.create(gameSystem);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a valid game system, the game system is persisted")
+    void testCreate_PersistedData() {
+        final GameSystem gameSystem;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        // WHEN
+        service.create(gameSystem);
 
         // THEN
         verify(gameSystemRepository).save(GameSystems.valid());
@@ -72,16 +91,16 @@ class TestGameSystemServiceCreate {
     @Test
     @DisplayName("With a valid game system, the created game system is returned")
     void testCreate_ReturnedData() {
-        final GameSystem book;
+        final GameSystem gameSystem;
         final GameSystem created;
 
         // GIVEN
-        book = GameSystems.valid();
+        gameSystem = GameSystems.valid();
 
         given(gameSystemRepository.save(GameSystems.valid())).willReturn(GameSystems.valid());
 
         // WHEN
-        created = service.create(book);
+        created = service.create(gameSystem);
 
         // THEN
         Assertions.assertThat(created)

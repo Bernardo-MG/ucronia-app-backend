@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,8 @@ import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.test.config.factory.Authors;
 import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AuthorService - create")
@@ -52,6 +55,22 @@ class TestAuthorServiceCreate {
 
     public TestAuthorServiceCreate() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a book type with an empty name, an exception is thrown")
+    void testCreate_EmptyName() {
+        final ThrowingCallable execution;
+        final Author           author;
+
+        // GIVEN
+        author = Authors.emptyName();
+
+        // WHEN
+        execution = () -> service.create(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
     }
 
     @Test

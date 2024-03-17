@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.usecase.validation.CreateAuthorValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultAuthorService implements AuthorService {
 
-    private final AuthorRepository authorRepository;
+    private final AuthorRepository      authorRepository;
+
+    private final CreateAuthorValidator createAuthorValidator = new CreateAuthorValidator();
 
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
@@ -27,6 +30,8 @@ public final class DefaultAuthorService implements AuthorService {
     @Override
     public final Author create(final Author author) {
         log.debug("Creating author {}", author);
+
+        createAuthorValidator.validate(author);
 
         return authorRepository.save(author);
     }

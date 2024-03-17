@@ -77,7 +77,7 @@ class TestBookServiceCreate {
     }
 
     @Test
-    @DisplayName("With a book with an empty name, an exception is thrown")
+    @DisplayName("With a book with an empty title, an exception is thrown")
     void testCreate_EmptyTitle() {
         final ThrowingCallable execution;
         final Book             book;
