@@ -33,7 +33,7 @@ public final class CreateBookValidator extends AbstractValidator<Book> {
             failures.add(failure);
         }
 
-        if (bookRepository.exists(book.getIsbn())) {
+        if ((!StringUtils.isBlank(book.getIsbn())) && (bookRepository.exists(book.getIsbn()))) {
             log.error("Existing ISBN {}", book.getIsbn());
             failure = FieldFailure.of("isbn", "existing", book.getIsbn());
             failures.add(failure);

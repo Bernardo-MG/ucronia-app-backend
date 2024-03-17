@@ -33,7 +33,7 @@ public final class CreateGameSystemValidator extends AbstractValidator<GameSyste
             failures.add(failure);
         }
 
-        if (gameSystemRepository.exists(gameSystem.getName())) {
+        if ((!StringUtils.isBlank(gameSystem.getName())) && (gameSystemRepository.exists(gameSystem.getName()))) {
             log.error("Existing name {}", gameSystem.getName());
             failure = FieldFailure.of("name", "existing", gameSystem.getName());
             failures.add(failure);

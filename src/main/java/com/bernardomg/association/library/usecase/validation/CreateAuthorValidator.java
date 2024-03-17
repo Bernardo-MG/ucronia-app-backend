@@ -33,7 +33,7 @@ public final class CreateAuthorValidator extends AbstractValidator<Author> {
             failures.add(failure);
         }
 
-        if (authorRepository.exists(author.getName())) {
+        if ((!StringUtils.isBlank(author.getName())) && (authorRepository.exists(author.getName()))) {
             log.error("Existing name {}", author.getName());
             failure = FieldFailure.of("name", "existing", author.getName());
             failures.add(failure);
