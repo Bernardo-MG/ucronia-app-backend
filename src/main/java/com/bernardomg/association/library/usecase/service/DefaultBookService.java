@@ -3,6 +3,7 @@ package com.bernardomg.association.library.usecase.service;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,8 +65,8 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
-        if (book.getGameSystem()
-            .getName() != null) {
+        if (StringUtils.isNotBlank(book.getGameSystem()
+            .getName())) {
             gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
                 .getName());
             if (!gameSystemExists) {
@@ -73,8 +74,8 @@ public final class DefaultBookService implements BookService {
                     .getName());
             }
         }
-        if (book.getBookType()
-            .getName() != null) {
+        if (StringUtils.isNotBlank(book.getBookType()
+            .getName())) {
             bookTypeExists = bookTypeRepository.exists(book.getBookType()
                 .getName());
             if (!bookTypeExists) {

@@ -87,10 +87,10 @@ public class BookController {
                 .build())
             .toList();
         bookType = BookType.builder()
-            .withName(request.getBookType())
+            .withName(request.getBookType().getName())
             .build();
         gameSystem = GameSystem.builder()
-            .withName(request.getGameSystem())
+            .withName(request.getGameSystem().getName())
             .build();
         book = Book.builder()
             .withTitle(request.getTitle())

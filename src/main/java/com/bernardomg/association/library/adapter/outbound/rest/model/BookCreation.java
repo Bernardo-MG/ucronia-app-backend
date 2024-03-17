@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 public class BookCreation {
 
     @Builder.Default
-    private Collection<String> authors = List.of();
+    private Collection<String>     authors = List.of();
 
-    private String             bookType;
+    private BookCreationBookType   bookType;
 
-    private String             gameSystem;
+    private BookCreationGameSystem gameSystem;
 
-    private String             isbn;
+    private String                 isbn;
 
-    private String             language;
+    private String                 language;
 
-    private String             title;
+    private String                 title;
 
 }
