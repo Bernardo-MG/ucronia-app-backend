@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023 the original author or Publishers.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,7 +16,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * Publishers OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
@@ -36,94 +36,94 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.library.domain.model.Author;
-import com.bernardomg.association.library.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.test.config.factory.AuthorConstants;
-import com.bernardomg.association.library.test.config.factory.Authors;
-import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
+import com.bernardomg.association.library.domain.model.Publisher;
+import com.bernardomg.association.library.domain.repository.PublisherRepository;
+import com.bernardomg.association.library.test.config.factory.PublisherConstants;
+import com.bernardomg.association.library.test.config.factory.Publishers;
+import com.bernardomg.association.library.usecase.service.DefaultPublisherService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthorService - create")
-class TestAuthorServiceCreate {
+@DisplayName("PublisherService - create")
+class TestPublisherServiceCreate {
 
     @Mock
-    private AuthorRepository     authorRepository;
+    private PublisherRepository     publisherRepository;
 
     @InjectMocks
-    private DefaultAuthorService service;
+    private DefaultPublisherService service;
 
-    public TestAuthorServiceCreate() {
+    public TestPublisherServiceCreate() {
         super();
     }
 
     @Test
-    @DisplayName("With an author with an empty name, an exception is thrown")
+    @DisplayName("With a publisher with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;
-        final Author           author;
+        final Publisher        publisher;
 
         // GIVEN
-        author = Authors.emptyName();
+        publisher = Publishers.emptyName();
 
         // WHEN
-        execution = () -> service.create(author);
+        execution = () -> service.create(publisher);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
     }
 
     @Test
-    @DisplayName("With an author with an existing name, an exception is thrown")
+    @DisplayName("With a publisher with an existing name, an exception is thrown")
     void testCreate_Existing() {
         final ThrowingCallable execution;
-        final Author           author;
+        final Publisher        publisher;
 
         // GIVEN
-        author = Authors.valid();
+        publisher = Publishers.valid();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(author);
+        execution = () -> service.create(publisher);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", PublisherConstants.NAME));
     }
 
     @Test
-    @DisplayName("With a valid author, the author is persisted")
+    @DisplayName("With a valid publisher, the publisher is persisted")
     void testCreate_PersistedData() {
-        final Author author;
+        final Publisher publisher;
 
         // GIVEN
-        author = Authors.valid();
+        publisher = Publishers.valid();
 
         // WHEN
-        service.create(author);
+        service.create(publisher);
 
         // THEN
-        verify(authorRepository).save(Authors.valid());
+        verify(publisherRepository).save(Publishers.valid());
     }
 
     @Test
-    @DisplayName("With a valid author, the created author is returned")
+    @DisplayName("With a valid publisher, the created publisher is returned")
     void testCreate_ReturnedData() {
-        final Author author;
-        final Author created;
+        final Publisher publisher;
+        final Publisher created;
 
         // GIVEN
-        author = Authors.valid();
+        publisher = Publishers.valid();
 
-        given(authorRepository.save(Authors.valid())).willReturn(Authors.valid());
+        given(publisherRepository.save(Publishers.valid())).willReturn(Publishers.valid());
 
         // WHEN
-        created = service.create(author);
+        created = service.create(publisher);
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Authors.valid());
+            .isEqualTo(Publishers.valid());
     }
 
 }
