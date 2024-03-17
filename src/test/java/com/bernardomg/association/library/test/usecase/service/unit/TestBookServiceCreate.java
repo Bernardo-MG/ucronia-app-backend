@@ -32,8 +32,10 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
@@ -77,6 +79,25 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With a book with an empty ISBN, the unique check is not applied")
+    void testCreate_EmptyIsbn_IgnoreUnique() {
+        final Book book;
+
+        // GIVEN
+        book = Books.emptyIsbn();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository, Mockito.never()).exists(ArgumentMatchers.anyString());
+    }
+
+    @Test
     @DisplayName("With a book with an empty title, an exception is thrown")
     void testCreate_EmptyTitle() {
         final ThrowingCallable execution;
@@ -93,7 +114,7 @@ class TestBookServiceCreate {
     }
 
     @Test
-    @DisplayName("With a book with an empty name, an exception is thrown")
+    @DisplayName("With a book with an existing ISBN, an exception is thrown")
     void testCreate_ExistingIsbn() {
         final ThrowingCallable execution;
         final Book             book;

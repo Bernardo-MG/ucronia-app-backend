@@ -27,7 +27,6 @@ databaseChangeLog:
                   name: isbn
                   type: varchar(13)
                   constraints:
-                    unique: true
                     nullable: false
               - column:
                   name: title
