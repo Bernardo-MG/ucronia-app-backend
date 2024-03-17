@@ -38,6 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.association.library.test.config.factory.Authors;
 import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -58,7 +59,7 @@ class TestAuthorServiceCreate {
     }
 
     @Test
-    @DisplayName("With a book type with an empty name, an exception is thrown")
+    @DisplayName("With am author with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;
         final Author           author;
@@ -71,6 +72,24 @@ class TestAuthorServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With an author with an existing name, an exception is thrown")
+    void testCreate_Existing() {
+        final ThrowingCallable execution;
+        final Author           author;
+
+        // GIVEN
+        author = Authors.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
     }
 
     @Test

@@ -38,6 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.association.library.test.config.factory.GameSystems;
 import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -71,6 +72,25 @@ class TestGameSystemServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a game system with an existing name, an exception is thrown")
+    void testCreate_ExistingName() {
+        final ThrowingCallable execution;
+        final GameSystem       gameSystem;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(gameSystem);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", GameSystemConstants.NAME));
     }
 
     @Test

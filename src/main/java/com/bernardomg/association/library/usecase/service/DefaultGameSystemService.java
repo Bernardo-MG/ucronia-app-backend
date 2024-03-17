@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultGameSystemService implements GameSystemService {
 
-    private final CreateGameSystemValidator createGameSystemValidator = new CreateGameSystemValidator();
+    private final CreateGameSystemValidator createGameSystemValidator;
 
     private final GameSystemRepository      gameSystemRepository;
 
@@ -25,6 +25,8 @@ public final class DefaultGameSystemService implements GameSystemService {
         super();
 
         gameSystemRepository = gameSystemRepo;
+
+        createGameSystemValidator = new CreateGameSystemValidator(gameSystemRepository);
     }
 
     @Override

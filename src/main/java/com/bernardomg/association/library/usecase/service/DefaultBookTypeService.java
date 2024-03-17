@@ -19,12 +19,14 @@ public final class DefaultBookTypeService implements BookTypeService {
 
     private final BookTypeRepository      bookTypeRepository;
 
-    private final CreateBookTypeValidator createBookTypeValidator = new CreateBookTypeValidator();
+    private final CreateBookTypeValidator createBookTypeValidator;
 
     public DefaultBookTypeService(final BookTypeRepository bookTypeRepo) {
         super();
 
         bookTypeRepository = bookTypeRepo;
+
+        createBookTypeValidator = new CreateBookTypeValidator(bookTypeRepository);
     }
 
     @Override

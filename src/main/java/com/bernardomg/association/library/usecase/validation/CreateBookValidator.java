@@ -27,15 +27,15 @@ public final class CreateBookValidator extends AbstractValidator<Book> {
     protected final void checkRules(final Book book, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
-        if (bookRepository.exists(book.getIsbn())) {
-            log.error("Existing ISBN {}", book.getIsbn());
-            failure = FieldFailure.of("isbn", "existing", book.getIsbn());
-            failures.add(failure);
-        }
-
         if (StringUtils.isBlank(book.getTitle())) {
             log.error("Empty title");
             failure = FieldFailure.of("title", "empty", book.getTitle());
+            failures.add(failure);
+        }
+
+        if (bookRepository.exists(book.getIsbn())) {
+            log.error("Existing ISBN {}", book.getIsbn());
+            failure = FieldFailure.of("isbn", "existing", book.getIsbn());
             failures.add(failure);
         }
     }

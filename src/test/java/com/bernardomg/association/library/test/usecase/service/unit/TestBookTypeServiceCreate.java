@@ -38,6 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
+import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypes;
 import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -71,6 +72,25 @@ class TestBookTypeServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a book type with an existing name, an exception is thrown")
+    void testCreate_ExistingName() {
+        final ThrowingCallable execution;
+        final BookType         bookType;
+
+        // GIVEN
+        bookType = BookTypes.valid();
+
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(bookType);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", BookTypeConstants.NAME));
     }
 
     @Test

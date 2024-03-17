@@ -19,12 +19,14 @@ public final class DefaultAuthorService implements AuthorService {
 
     private final AuthorRepository      authorRepository;
 
-    private final CreateAuthorValidator createAuthorValidator = new CreateAuthorValidator();
+    private final CreateAuthorValidator createAuthorValidator;
 
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
 
         authorRepository = authorRepo;
+
+        createAuthorValidator = new CreateAuthorValidator(authorRepository);
     }
 
     @Override
