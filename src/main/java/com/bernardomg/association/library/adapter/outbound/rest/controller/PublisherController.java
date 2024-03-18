@@ -52,7 +52,7 @@ import lombok.AllArgsConstructor;
 /**
  * Publisher REST controller.
  *
- * @publisher Bernardo Mart&iacute;nez Garrido
+ * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
