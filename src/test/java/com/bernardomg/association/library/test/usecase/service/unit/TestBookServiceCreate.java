@@ -203,7 +203,7 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.noRelationships();
 
-        given(bookRepository.findNextIndex()).willReturn(BookConstants.INDEX);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -223,7 +223,7 @@ class TestBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
-        given(bookRepository.findNextIndex()).willReturn(BookConstants.INDEX);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -244,7 +244,7 @@ class TestBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
-        given(bookRepository.findNextIndex()).willReturn(BookConstants.INDEX);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         given(bookRepository.save(Books.full())).willReturn(Books.full());
 

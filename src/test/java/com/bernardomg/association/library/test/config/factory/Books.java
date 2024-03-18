@@ -11,7 +11,7 @@ public final class Books {
 
     public static final Book emptyIsbn() {
         return Book.builder()
-            .withIndex(BookConstants.INDEX)
+            .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)
             .withIsbn("")
             .withLanguage(BookConstants.LANGUAGE)
@@ -23,7 +23,7 @@ public final class Books {
 
     public static final Book emptyTitle() {
         return Book.builder()
-            .withIndex(BookConstants.INDEX)
+            .withNumber(BookConstants.NUMBER)
             .withTitle(" ")
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
@@ -37,7 +37,7 @@ public final class Books {
 
     public static final Book full() {
         return Book.builder()
-            .withIndex(BookConstants.INDEX)
+            .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
@@ -49,7 +49,7 @@ public final class Books {
 
     public static final Book minimal() {
         return Book.builder()
-            .withIndex(BookConstants.INDEX)
+            .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
@@ -59,7 +59,7 @@ public final class Books {
 
     public static final Book noRelationships() {
         return Book.builder()
-            .withIndex(BookConstants.INDEX)
+            .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)

@@ -15,7 +15,7 @@ public interface BookRepository {
 
     public boolean existsByIsbn(final String isbn);
 
-    public long findNextIndex();
+    public long findNextNumber();
 
     public Iterable<Book> getAll(final Pageable pageable);
 

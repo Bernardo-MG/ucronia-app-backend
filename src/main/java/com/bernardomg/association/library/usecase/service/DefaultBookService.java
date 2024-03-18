@@ -51,7 +51,7 @@ public final class DefaultBookService implements BookService {
         final boolean gameSystemExists;
         final boolean bookTypeExists;
         final Book    toCreate;
-        final Long    index;
+        final Long    number;
 
         log.debug("Creating book {}", book);
 
@@ -96,8 +96,8 @@ public final class DefaultBookService implements BookService {
             .build();
 
         // Set index
-        index = bookRepository.findNextIndex();
-        toCreate.setIndex(index);
+        number = bookRepository.findNextNumber();
+        toCreate.setNumber(number);
 
         createBookValidator.validate(toCreate);
 

@@ -33,15 +33,15 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 
 public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
 
-    public void deleteByIndex(final long index);
-
-    public boolean existsByIndex(final long index);
+    public void deleteByNumber(final long index);
 
     public boolean existsByIsbn(final String isbn);
 
-    @Query("SELECT COALESCE(MAX(b.index), 0) + 1 FROM Book b")
-    public Long findNextIndex();
+    public boolean existsByNumber(final long index);
 
-    public Optional<BookEntity> findOneByIndex(final long index);
+    @Query("SELECT COALESCE(MAX(b.number), 0) + 1 FROM Book b")
+    public Long findNextNumber();
+
+    public Optional<BookEntity> findOneByNumber(final long index);
 
 }

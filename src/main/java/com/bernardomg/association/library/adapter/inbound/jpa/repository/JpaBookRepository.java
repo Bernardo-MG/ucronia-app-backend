@@ -45,7 +45,7 @@ public final class JpaBookRepository implements BookRepository {
     public final void delete(final long index) {
         log.debug("Deleting book {}", index);
 
-        bookSpringRepository.deleteByIndex(index);
+        bookSpringRepository.deleteByNumber(index);
 
         log.debug("Deleted book {}", index);
     }
@@ -56,7 +56,7 @@ public final class JpaBookRepository implements BookRepository {
 
         log.debug("Checking if book {} exists", index);
 
-        exists = bookSpringRepository.existsByIndex(index);
+        exists = bookSpringRepository.existsByNumber(index);
 
         log.debug("Book {} exists: {}", index, exists);
 
@@ -77,16 +77,16 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final long findNextIndex() {
-        final long index;
+    public final long findNextNumber() {
+        final long number;
 
         log.debug("Finding next index for the books");
 
-        index = bookSpringRepository.findNextIndex();
+        number = bookSpringRepository.findNextNumber();
 
-        log.debug("Found index {}", index);
+        log.debug("Found index {}", number);
 
-        return index;
+        return number;
     }
 
     @Override
@@ -111,7 +111,7 @@ public final class JpaBookRepository implements BookRepository {
 
         log.debug("Finding book {}", index);
 
-        book = bookSpringRepository.findOneByIndex(index)
+        book = bookSpringRepository.findOneByNumber(index)
             .map(this::toDomain);
 
         log.debug("Found book {}: {}", index, book);
@@ -168,7 +168,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
         return Book.builder()
-            .withIndex(entity.getIndex())
+            .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
             .withTitle(entity.getTitle())
             .withLanguage(entity.getLanguage())
@@ -216,7 +216,7 @@ public final class JpaBookRepository implements BookRepository {
         authors = authorSpringRepository.findAllByNameIn(authorNames);
 
         return BookEntity.builder()
-            .withIndex(domain.getIndex())
+            .withNumber(domain.getNumber())
             .withIsbn(domain.getIsbn())
             .withTitle(domain.getTitle())
             .withLanguage(domain.getLanguage())

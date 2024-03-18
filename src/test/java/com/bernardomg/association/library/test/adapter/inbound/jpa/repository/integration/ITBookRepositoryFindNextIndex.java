@@ -48,12 +48,12 @@ class ITBookRepositoryFindNextIndex {
         final long index;
 
         // WHEN
-        index = repository.findNextIndex();
+        index = repository.findNextNumber();
 
         // THEN
         Assertions.assertThat(index)
             .as("index")
-            .isEqualTo(BookConstants.NEXT_INDEX);
+            .isEqualTo(BookConstants.NEXT_NUMBER);
     }
 
     @Test
@@ -62,7 +62,7 @@ class ITBookRepositoryFindNextIndex {
         final long index;
 
         // WHEN
-        index = repository.findNextIndex();
+        index = repository.findNextNumber();
 
         // THEN
         Assertions.assertThat(index)

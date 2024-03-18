@@ -38,7 +38,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Finding book lending for book {} and member {}", index, member);
 
-        bookEntity = bookSpringRepository.findOneByIndex(index);
+        bookEntity = bookSpringRepository.findOneByNumber(index);
         memberEntity = memberSpringRepository.findByNumber(member);
 
         if ((bookEntity.isPresent()) && (memberEntity.isPresent())) {
@@ -67,7 +67,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Saving book lending {}", lending);
 
-        bookEntity = bookSpringRepository.findOneByIndex(lending.getIndex());
+        bookEntity = bookSpringRepository.findOneByNumber(lending.getNumber());
         memberEntity = memberSpringRepository.findByNumber(lending.getMember());
 
         if ((bookEntity.isPresent()) && (memberEntity.isPresent())) {
@@ -89,7 +89,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
             final MemberEntity memberEntity) {
         return BookLending.builder()
-            .withIndex(bookEntity.getIndex())
+            .withNumber(bookEntity.getNumber())
             .withMember(memberEntity.getNumber())
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
