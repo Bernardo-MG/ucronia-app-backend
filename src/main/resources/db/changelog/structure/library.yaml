@@ -29,6 +29,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: index
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: title
                   type: varchar(100)
                   constraints:

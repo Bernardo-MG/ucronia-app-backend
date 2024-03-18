@@ -9,6 +9,7 @@ public final class BookEntities {
 
     public static final BookEntity valid() {
         return BookEntity.builder()
+            .withIndex(BookConstants.INDEX)
             .withTitle(BookConstants.TITLE)
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)

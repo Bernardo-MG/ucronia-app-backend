@@ -50,6 +50,8 @@ public final class DefaultBookService implements BookService {
     public final Book create(final Book book) {
         final boolean gameSystemExists;
         final boolean bookTypeExists;
+        final Book    toCreate;
+        final Long    index;
 
         log.debug("Creating book {}", book);
 
@@ -84,9 +86,22 @@ public final class DefaultBookService implements BookService {
             }
         }
 
-        createBookValidator.validate(book);
+        toCreate = Book.builder()
+            .withAuthors(book.getAuthors())
+            .withBookType(book.getBookType())
+            .withGameSystem(book.getGameSystem())
+            .withIsbn(book.getIsbn())
+            .withLanguage(book.getLanguage())
+            .withTitle(book.getTitle())
+            .build();
 
-        return bookRepository.save(book);
+        // Set index
+        index = bookRepository.findNextIndex();
+        toCreate.setIndex(index);
+
+        createBookValidator.validate(toCreate);
+
+        return bookRepository.save(toCreate);
     }
 
     @Override

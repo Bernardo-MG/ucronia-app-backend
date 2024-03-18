@@ -64,6 +64,19 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
+    public final long findNextIndex() {
+        final long index;
+
+        log.debug("Finding next index for the books");
+
+        index = bookSpringRepository.findNextIndex();
+
+        log.debug("Found index {}", index);
+
+        return index;
+    }
+
+    @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
         final Page<BookEntity> page;
         final Iterable<Book>   read;
@@ -142,6 +155,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
         return Book.builder()
+            .withIndex(entity.getIndex())
             .withIsbn(entity.getIsbn())
             .withTitle(entity.getTitle())
             .withLanguage(entity.getLanguage())
@@ -189,6 +203,7 @@ public final class JpaBookRepository implements BookRepository {
         authors = authorSpringRepository.findAllByNameIn(authorNames);
 
         return BookEntity.builder()
+            .withIndex(domain.getIndex())
             .withIsbn(domain.getIsbn())
             .withTitle(domain.getTitle())
             .withLanguage(domain.getLanguage())

@@ -1,5 +1,5 @@
-INSERT INTO library.books (id, title, isbn, language) VALUES
-   (1, 'Title', 'isbn', 'english');
+INSERT INTO library.books (id, index, title, isbn, language) VALUES
+   (1, 1, 'Title', 'isbn', 'english');
 
 INSERT INTO library.book_types (id, name) VALUES
    (1, 'Book type');

@@ -13,6 +13,8 @@ public interface BookRepository {
 
     public boolean exists(final String isbn);
 
+    public long findNextIndex();
+
     public Iterable<Book> getAll(final Pageable pageable);
 
     public Optional<Book> getOne(final String isbn);

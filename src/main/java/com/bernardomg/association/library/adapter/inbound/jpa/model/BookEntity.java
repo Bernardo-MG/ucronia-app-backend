@@ -58,6 +58,9 @@ public class BookEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long                     id;
 
+    @Column(name = "index", nullable = false, unique = true)
+    private Long                     index;
+
     @Column(name = "isbn", nullable = false)
     private String                   isbn;
 
