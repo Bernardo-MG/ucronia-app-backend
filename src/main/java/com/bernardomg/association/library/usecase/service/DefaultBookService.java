@@ -105,15 +105,15 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final void delete(final String isbn) {
+    public final void delete(final long index) {
 
-        log.debug("Deleting book {}", isbn);
+        log.debug("Deleting book {}", index);
 
-        if (!bookRepository.exists(isbn)) {
-            throw new MissingBookException(isbn);
+        if (!bookRepository.exists(index)) {
+            throw new MissingBookException(index);
         }
 
-        bookRepository.delete(isbn);
+        bookRepository.delete(index);
     }
 
     @Override
@@ -122,14 +122,14 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Optional<Book> getOne(final String isbn) {
+    public final Optional<Book> getOne(final long index) {
         final Optional<Book> book;
 
-        log.debug("Reading book {}", isbn);
+        log.debug("Reading book {}", index);
 
-        book = bookRepository.getOne(isbn);
+        book = bookRepository.getOne(index);
         if (book.isEmpty()) {
-            throw new MissingBookException(isbn);
+            throw new MissingBookException(index);
         }
 
         return book;

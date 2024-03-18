@@ -11,7 +11,7 @@ public final class BookLendings {
 
     public static final BookLending inPast() {
         return BookLending.builder()
-            .withIsbn(BookConstants.ISBN)
+            .withIndex(BookConstants.INDEX)
             .withMember(MemberConstants.NUMBER)
             .withLendingDate(YearMonth.of(2020, Month.JANUARY))
             .build();
@@ -19,7 +19,7 @@ public final class BookLendings {
 
     public static final BookLending lentNow() {
         return BookLending.builder()
-            .withIsbn(BookConstants.ISBN)
+            .withIndex(BookConstants.INDEX)
             .withMember(MemberConstants.NUMBER)
             .withLendingDate(YearMonth.now())
             .build();
@@ -27,7 +27,7 @@ public final class BookLendings {
 
     public static final BookLending returnedNow() {
         return BookLending.builder()
-            .withIsbn(BookConstants.ISBN)
+            .withIndex(BookConstants.INDEX)
             .withMember(MemberConstants.NUMBER)
             .withLendingDate(YearMonth.now())
             .withReturnDate(YearMonth.now())

@@ -7,7 +7,7 @@ import com.bernardomg.association.library.domain.model.BookLending;
 
 public interface BookLendingRepository {
 
-    public Optional<BookLending> findOne(final String isbn, final long member);
+    public Optional<BookLending> findOne(final long index, final long member);
 
     public BookLending save(final BookLending lending);
 

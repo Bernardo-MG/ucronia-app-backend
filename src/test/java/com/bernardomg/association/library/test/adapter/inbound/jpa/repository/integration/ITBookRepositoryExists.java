@@ -48,7 +48,7 @@ class ITBookRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(BookConstants.ISBN);
+        exists = repository.exists(BookConstants.INDEX);
 
         // THEN
         Assertions.assertThat(exists)
@@ -62,7 +62,7 @@ class ITBookRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(BookConstants.ISBN);
+        exists = repository.exists(BookConstants.INDEX);
 
         // THEN
         Assertions.assertThat(exists)

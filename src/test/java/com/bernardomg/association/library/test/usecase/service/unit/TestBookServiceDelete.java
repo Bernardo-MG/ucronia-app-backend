@@ -71,13 +71,13 @@ class TestBookServiceDelete {
     @DisplayName("When deleting a book, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
+        given(bookRepository.exists(BookConstants.INDEX)).willReturn(true);
 
         // WHEN
-        service.delete(BookConstants.ISBN);
+        service.delete(BookConstants.INDEX);
 
         // THEN
-        verify(bookRepository).delete(BookConstants.ISBN);
+        verify(bookRepository).delete(BookConstants.INDEX);
     }
 
     @Test
@@ -86,10 +86,10 @@ class TestBookServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(false);
+        given(bookRepository.exists(BookConstants.INDEX)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(BookConstants.ISBN);
+        execution = () -> service.delete(BookConstants.INDEX);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

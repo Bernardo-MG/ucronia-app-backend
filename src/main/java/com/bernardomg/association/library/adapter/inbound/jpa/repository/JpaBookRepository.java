@@ -42,16 +42,29 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final void delete(final String isbn) {
-        log.debug("Deleting book {}", isbn);
+    public final void delete(final long index) {
+        log.debug("Deleting book {}", index);
 
-        bookSpringRepository.deleteByIsbn(isbn);
+        bookSpringRepository.deleteByIndex(index);
 
-        log.debug("Deleted book {}", isbn);
+        log.debug("Deleted book {}", index);
     }
 
     @Override
-    public final boolean exists(final String isbn) {
+    public final boolean exists(final long index) {
+        final boolean exists;
+
+        log.debug("Checking if book {} exists", index);
+
+        exists = bookSpringRepository.existsByIndex(index);
+
+        log.debug("Book {} exists: {}", index, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIsbn(final String isbn) {
         final boolean exists;
 
         log.debug("Checking if book {} exists", isbn);
@@ -93,15 +106,15 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final Optional<Book> getOne(final String isbn) {
+    public final Optional<Book> getOne(final long index) {
         final Optional<Book> book;
 
-        log.debug("Finding book with isbn {}", isbn);
+        log.debug("Finding book {}", index);
 
-        book = bookSpringRepository.findOneByIsbn(isbn)
+        book = bookSpringRepository.findOneByIndex(index)
             .map(this::toDomain);
 
-        log.debug("Found book with isbn {}: {}", isbn, book);
+        log.debug("Found book {}: {}", index, book);
 
         return book;
     }

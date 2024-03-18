@@ -57,7 +57,7 @@ class ITBookLendingRepositoryFindOne {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.ISBN, MemberConstants.NUMBER);
+        lendings = repository.findOne(BookConstants.INDEX, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)
@@ -71,7 +71,7 @@ class ITBookLendingRepositoryFindOne {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.ISBN, MemberConstants.NUMBER);
+        lendings = repository.findOne(BookConstants.INDEX, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)

@@ -105,12 +105,12 @@ public class BookController {
         return service.create(book);
     }
 
-    @DeleteMapping(path = "/{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOK }),
             @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
-    public void delete(@PathVariable("isbn") final String isbn) {
-        service.delete(isbn);
+    public void delete(@PathVariable("index") final long index) {
+        service.delete(index);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -120,11 +120,11 @@ public class BookController {
         return service.getAll(pageable);
     }
 
-    @GetMapping(path = "/{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryCaches.BOOK)
-    public Book readOne(@PathVariable("isbn") final String isbn) {
-        return service.getOne(isbn)
+    public Book readOne(@PathVariable("index") final long index) {
+        return service.getOne(index)
             .orElse(null);
     }
 

@@ -68,11 +68,11 @@ class TestBookLendingServiceReturnBook {
     void testLendBook() {
 
         // GIVEN
-        given(bookLendingRepository.findOne(BookConstants.ISBN, MemberConstants.NUMBER))
+        given(bookLendingRepository.findOne(BookConstants.INDEX, MemberConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lentNow()));
 
         // WHEN
-        service.returnBook(BookConstants.ISBN, MemberConstants.NUMBER);
+        service.returnBook(BookConstants.INDEX, MemberConstants.NUMBER);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.returnedNow());
@@ -84,10 +84,10 @@ class TestBookLendingServiceReturnBook {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookLendingRepository.findOne(BookConstants.ISBN, MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(bookLendingRepository.findOne(BookConstants.INDEX, MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.ISBN, MemberConstants.NUMBER);
+        execution = () -> service.returnBook(BookConstants.INDEX, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -94,7 +94,7 @@ class TestBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository, Mockito.never()).exists(ArgumentMatchers.anyString());
+        verify(bookRepository, Mockito.never()).exists(ArgumentMatchers.anyLong());
     }
 
     @Test
@@ -126,7 +126,7 @@ class TestBookServiceCreate {
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
+        given(bookRepository.existsByIsbn(BookConstants.ISBN)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(book);
