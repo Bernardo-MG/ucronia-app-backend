@@ -89,7 +89,8 @@ class TestPublisherServiceCreate {
         execution = () -> service.create(publisher);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", PublisherConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", PublisherConstants.NAME));
     }
 
     @Test

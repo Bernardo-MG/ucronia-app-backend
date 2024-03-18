@@ -37,11 +37,14 @@ import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaBook
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaBookRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaBookTypeRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaGameSystemRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.JpaPublisherRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.usecase.service.AuthorService;
 import com.bernardomg.association.library.usecase.service.BookLendingService;
 import com.bernardomg.association.library.usecase.service.BookService;
@@ -51,7 +54,9 @@ import com.bernardomg.association.library.usecase.service.DefaultBookLendingServ
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
 import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
 import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
+import com.bernardomg.association.library.usecase.service.DefaultPublisherService;
 import com.bernardomg.association.library.usecase.service.GameSystemService;
+import com.bernardomg.association.library.usecase.service.PublisherService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
@@ -121,6 +126,16 @@ public class LibraryConfig {
     @Bean("gameSystemService")
     public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepo) {
         return new DefaultGameSystemService(gameSystemRepo);
+    }
+
+    @Bean("publisherRepository")
+    public PublisherRepository getPublisherRepository(final PublisherSpringRepository publisherSpringRepo) {
+        return new JpaPublisherRepository(publisherSpringRepo);
+    }
+
+    @Bean("publisherService")
+    public PublisherService getPublisherService(final PublisherRepository publisherRepository) {
+        return new DefaultPublisherService(publisherRepository);
     }
 
 }
