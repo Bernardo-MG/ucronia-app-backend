@@ -19,6 +19,10 @@ public final class LibraryCaches {
 
     public static final String GAME_SYSTEMS = "game_systems";
 
+    public static final String PUBLISHER    = "publisher";
+
+    public static final String PUBLISHERS   = "publishers";
+
     private LibraryCaches() {
         super();
     }

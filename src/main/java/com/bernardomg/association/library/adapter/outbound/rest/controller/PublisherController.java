@@ -16,7 +16,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * PUBLISHERS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
@@ -67,8 +67,9 @@ public class PublisherController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.AUTHORS, LibraryCaches.AUTHOR }, allEntries = true) })
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { LibraryCaches.PUBLISHERS, LibraryCaches.PUBLISHER }, allEntries = true) })
     public Publisher create(@Valid @RequestBody final PublisherCreation request) {
         final Publisher publisher;
 
@@ -79,23 +80,23 @@ public class PublisherController {
     }
 
     @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.AUTHOR }),
-            @CacheEvict(cacheNames = { LibraryCaches.AUTHORS }, allEntries = true) })
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.PUBLISHER }),
+            @CacheEvict(cacheNames = { LibraryCaches.PUBLISHERS }, allEntries = true) })
     public void delete(@PathVariable("name") final String name) {
         service.delete(name);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.AUTHORS)
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryCaches.PUBLISHERS)
     public Iterable<Publisher> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.AUTHOR)
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryCaches.PUBLISHER)
     public Publisher readOne(@PathVariable("name") final String name) {
         return service.getOne(name)
             .orElse(null);
