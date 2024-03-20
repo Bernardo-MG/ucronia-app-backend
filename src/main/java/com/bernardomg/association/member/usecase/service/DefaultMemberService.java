@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
@@ -98,7 +98,7 @@ public final class DefaultMemberService implements MemberService {
 
         if (!memberRepository.exists(number)) {
             // TODO: change name
-            throw new MissingMemberIdException(number);
+            throw new MissingMemberException(number);
         }
 
         // TODO: Forbid deleting when there are relationships
@@ -138,7 +138,7 @@ public final class DefaultMemberService implements MemberService {
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {
             // TODO: change name
-            throw new MissingMemberIdException(number);
+            throw new MissingMemberException(number);
         }
 
         return member;
@@ -158,7 +158,7 @@ public final class DefaultMemberService implements MemberService {
         exists = memberRepository.exists(member.getNumber());
         if (!exists) {
             // TODO: change name
-            throw new MissingMemberIdException(member.getNumber());
+            throw new MissingMemberException(member.getNumber());
         }
 
         memberName = MemberName.builder()

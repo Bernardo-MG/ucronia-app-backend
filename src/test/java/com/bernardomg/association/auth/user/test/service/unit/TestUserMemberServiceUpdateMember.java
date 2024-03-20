@@ -45,7 +45,7 @@ import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
 import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
 import com.bernardomg.association.auth.user.test.config.factory.Users;
 import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
@@ -84,7 +84,7 @@ class TestUserMemberServiceUpdateMember {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
     @Test

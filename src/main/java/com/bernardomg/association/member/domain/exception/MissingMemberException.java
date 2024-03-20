@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
-
-import java.io.Serializable;
+package com.bernardomg.association.member.domain.exception;
 
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing transaction id exception.
+ * Missing member exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingTransactionIdException extends MissingIdException {
+public final class MissingMemberException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingTransactionIdException(final Serializable id) {
-        super("transaction", id);
+    public MissingMemberException(final long number) {
+        super("member", number);
     }
 
 }

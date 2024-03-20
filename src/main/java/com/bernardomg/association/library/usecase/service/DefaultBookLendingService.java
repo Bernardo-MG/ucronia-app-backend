@@ -11,7 +11,7 @@ import com.bernardomg.association.library.domain.exception.MissingBookLendingExc
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @Transactional
@@ -43,7 +43,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         if (!memberRepository.exists(member)) {
             // TODO: change name
-            throw new MissingMemberIdException(member);
+            throw new MissingMemberException(member);
         }
 
         now = YearMonth.now();

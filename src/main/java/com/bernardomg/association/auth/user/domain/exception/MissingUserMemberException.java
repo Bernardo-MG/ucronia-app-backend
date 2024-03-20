@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.exception;
+package com.bernardomg.association.auth.user.domain.exception;
 
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing role by id exception.
+ * Missing user member exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingFeeIdException extends MissingIdException {
+public final class MissingUserMemberException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingFeeIdException(final String name) {
-        super("fee", name);
+    public MissingUserMemberException(final String username) {
+        super("user", username);
     }
 
 }

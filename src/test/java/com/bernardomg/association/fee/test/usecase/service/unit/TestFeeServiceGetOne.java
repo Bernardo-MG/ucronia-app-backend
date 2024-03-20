@@ -37,13 +37,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 
@@ -112,7 +112,7 @@ class TestFeeServiceGetOne {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeIdException.class);
+            .isInstanceOf(MissingFeeException.class);
     }
 
     @Test
@@ -128,7 +128,7 @@ class TestFeeServiceGetOne {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
 }

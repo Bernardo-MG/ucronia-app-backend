@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.transaction.domain.exception.MissingTransactionIdException;
+import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -65,7 +65,7 @@ public final class DefaultTransactionService implements TransactionService {
 
         if (!transactionRepository.exists(index)) {
             // TODO: change exception name
-            throw new MissingTransactionIdException(index);
+            throw new MissingTransactionException(index);
         }
 
         // TODO: Check this deletes on cascade
@@ -86,7 +86,7 @@ public final class DefaultTransactionService implements TransactionService {
         transaction = transactionRepository.findOne(index);
         if (transaction.isEmpty()) {
             // TODO: change exception name
-            throw new MissingTransactionIdException(index);
+            throw new MissingTransactionException(index);
         }
 
         return transaction;
@@ -102,7 +102,7 @@ public final class DefaultTransactionService implements TransactionService {
         exists = transactionRepository.exists(transaction.getIndex());
         if (!exists) {
             // TODO: change exception name
-            throw new MissingTransactionIdException(transaction.getIndex());
+            throw new MissingTransactionException(transaction.getIndex());
         }
 
         toUpdate = Transaction.builder()

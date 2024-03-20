@@ -14,14 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
-import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -78,12 +78,12 @@ public final class DefaultFeeService implements FeeService {
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
             // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
+            throw new MissingMemberException(memberNumber);
         }
 
         feeExists = feeRepository.exists(memberNumber, date);
         if (!feeExists) {
-            throw new MissingFeeIdException(memberNumber + " " + date.toString());
+            throw new MissingFeeException(memberNumber + " " + date.toString());
         }
 
         feeRepository.delete(memberNumber, date);
@@ -104,12 +104,12 @@ public final class DefaultFeeService implements FeeService {
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
             // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
+            throw new MissingMemberException(memberNumber);
         }
 
         feeExists = feeRepository.exists(memberNumber, date);
         if (!feeExists) {
-            throw new MissingFeeIdException(memberNumber + " " + date.toString());
+            throw new MissingFeeException(memberNumber + " " + date.toString());
         }
 
         return feeRepository.findOne(memberNumber, date);
@@ -127,7 +127,7 @@ public final class DefaultFeeService implements FeeService {
         member = memberRepository.findOne(memberNumber);
         if (member.isEmpty()) {
             // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
+            throw new MissingMemberException(memberNumber);
         }
 
         newFees = feeDates.stream()
