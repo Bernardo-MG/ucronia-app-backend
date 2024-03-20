@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,8 +38,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
+import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypes;
 import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookTypeService - create")
@@ -55,8 +59,43 @@ class TestBookTypeServiceCreate {
     }
 
     @Test
+    @DisplayName("With a book type with an empty name, an exception is thrown")
+    void testCreate_EmptyName() {
+        final ThrowingCallable execution;
+        final BookType         bookType;
+
+        // GIVEN
+        bookType = BookTypes.emptyName();
+
+        // WHEN
+        execution = () -> service.create(bookType);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a book type with an existing name, an exception is thrown")
+    void testCreate_ExistingName() {
+        final ThrowingCallable execution;
+        final BookType         bookType;
+
+        // GIVEN
+        bookType = BookTypes.valid();
+
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(bookType);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", BookTypeConstants.NAME));
+    }
+
+    @Test
     @DisplayName("With a valid book type, the book is persisted")
-    void testCreateBookType_PersistedData() {
+    void testCreate_PersistedData() {
         final BookType book;
 
         // GIVEN
@@ -71,7 +110,7 @@ class TestBookTypeServiceCreate {
 
     @Test
     @DisplayName("With a valid book type, the created book is returned")
-    void testCreateBookType_ReturnedData() {
+    void testCreate_ReturnedData() {
         final BookType book;
         final BookType created;
 

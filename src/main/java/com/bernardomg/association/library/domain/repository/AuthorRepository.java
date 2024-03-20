@@ -13,9 +13,9 @@ public interface AuthorRepository {
 
     public boolean exists(final String name);
 
-    public Iterable<Author> findAll(final Pageable pageable);
+    public Iterable<Author> getAll(final Pageable pageable);
 
-    public Optional<Author> findOne(final String name);
+    public Optional<Author> getOne(final String name);
 
     public Author save(final Author author);
 

@@ -11,10 +11,10 @@ public interface BookService {
 
     public Book create(final Book book);
 
-    public void delete(final String isbn);
+    public void delete(final long index);
 
     public Iterable<Book> getAll(final Pageable pageable);
 
-    public Optional<Book> getOne(final String isbn);
+    public Optional<Book> getOne(final long index);
 
 }

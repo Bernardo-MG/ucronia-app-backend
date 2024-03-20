@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.usecase.validation.CreateAuthorValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,17 +17,23 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultAuthorService implements AuthorService {
 
-    private final AuthorRepository authorRepository;
+    private final AuthorRepository      authorRepository;
+
+    private final CreateAuthorValidator createAuthorValidator;
 
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
 
         authorRepository = authorRepo;
+
+        createAuthorValidator = new CreateAuthorValidator(authorRepository);
     }
 
     @Override
     public final Author create(final Author author) {
         log.debug("Creating author {}", author);
+
+        createAuthorValidator.validate(author);
 
         return authorRepository.save(author);
     }
@@ -45,7 +52,7 @@ public final class DefaultAuthorService implements AuthorService {
 
     @Override
     public final Iterable<Author> getAll(final Pageable pageable) {
-        return authorRepository.findAll(pageable);
+        return authorRepository.getAll(pageable);
     }
 
     @Override
@@ -54,7 +61,7 @@ public final class DefaultAuthorService implements AuthorService {
 
         log.debug("Reading author {}", name);
 
-        author = authorRepository.findOne(name);
+        author = authorRepository.getOne(name);
         if (author.isEmpty()) {
             throw new MissingAuthorException(name);
         }

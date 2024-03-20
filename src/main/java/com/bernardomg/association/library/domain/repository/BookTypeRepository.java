@@ -15,7 +15,7 @@ public interface BookTypeRepository {
 
     public Iterable<BookType> findAll(final Pageable pageable);
 
-    public Optional<BookType> findOne(final String name);
+    public Optional<BookType> getOne(final String name);
 
     public BookType save(final BookType bookType);
 

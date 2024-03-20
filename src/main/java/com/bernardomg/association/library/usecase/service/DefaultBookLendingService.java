@@ -33,12 +33,12 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void lendBook(final String isbn, final long member) {
+    public final void lendBook(final long number, final long member) {
         final BookLending lending;
         final YearMonth   now;
 
-        if (!bookRepository.exists(isbn)) {
-            throw new MissingBookException(isbn);
+        if (!bookRepository.exists(number)) {
+            throw new MissingBookException(number);
         }
 
         if (!memberRepository.exists(member)) {
@@ -48,7 +48,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         now = YearMonth.now();
         lending = BookLending.builder()
-            .withIsbn(isbn)
+            .withNumber(number)
             .withMember(member)
             .withLendingDate(now)
             .build();
@@ -57,13 +57,13 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void returnBook(final String isbn, final long member) {
+    public final void returnBook(final long index, final long member) {
         final Optional<BookLending> read;
         final BookLending           toSave;
 
-        read = bookLendingRepository.findOne(isbn, member);
+        read = bookLendingRepository.findOne(index, member);
         if (read.isEmpty()) {
-            throw new MissingBookLendingException(isbn + "-" + member);
+            throw new MissingBookLendingException(index + "-" + member);
         }
 
         toSave = read.get();

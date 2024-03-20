@@ -27,15 +27,21 @@ package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 
 public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
 
-    public void deleteByIsbn(final String isbn);
+    public void deleteByNumber(final long index);
 
     public boolean existsByIsbn(final String isbn);
 
-    public Optional<BookEntity> findOneByIsbn(final String isbn);
+    public boolean existsByNumber(final long index);
+
+    @Query("SELECT COALESCE(MAX(b.number), 0) + 1 FROM Book b")
+    public Long findNextNumber();
+
+    public Optional<BookEntity> findOneByNumber(final long index);
 
 }

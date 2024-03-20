@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.usecase.validation.CreateGameSystemValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,17 +17,23 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultGameSystemService implements GameSystemService {
 
-    private final GameSystemRepository gameSystemRepository;
+    private final CreateGameSystemValidator createGameSystemValidator;
+
+    private final GameSystemRepository      gameSystemRepository;
 
     public DefaultGameSystemService(final GameSystemRepository gameSystemRepo) {
         super();
 
         gameSystemRepository = gameSystemRepo;
+
+        createGameSystemValidator = new CreateGameSystemValidator(gameSystemRepository);
     }
 
     @Override
     public final GameSystem create(final GameSystem system) {
         log.debug("Creating game system {}", system);
+
+        createGameSystemValidator.validate(system);
 
         return gameSystemRepository.save(system);
     }
@@ -45,7 +52,7 @@ public final class DefaultGameSystemService implements GameSystemService {
 
     @Override
     public final Iterable<GameSystem> getAll(final Pageable pageable) {
-        return gameSystemRepository.findAll(pageable);
+        return gameSystemRepository.getAll(pageable);
     }
 
     @Override

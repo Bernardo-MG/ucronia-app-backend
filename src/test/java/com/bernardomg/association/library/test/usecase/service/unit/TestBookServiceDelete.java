@@ -69,27 +69,27 @@ class TestBookServiceDelete {
 
     @Test
     @DisplayName("When deleting a book, the repository is called")
-    void testDeleteBook_CallsRepository() {
+    void testDelete_CallsRepository() {
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(true);
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.delete(BookConstants.ISBN);
+        service.delete(BookConstants.NUMBER);
 
         // THEN
-        verify(bookRepository).delete(BookConstants.ISBN);
+        verify(bookRepository).delete(BookConstants.NUMBER);
     }
 
     @Test
     @DisplayName("When the book doesn't exist, an exception is thrown")
-    void testDeleteBook_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.exists(BookConstants.ISBN)).willReturn(false);
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(BookConstants.ISBN);
+        execution = () -> service.delete(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

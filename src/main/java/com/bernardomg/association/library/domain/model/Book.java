@@ -20,6 +20,8 @@ public final class Book {
 
     private String             language;
 
+    private Long               number;
+
     private String             title;
 
 }

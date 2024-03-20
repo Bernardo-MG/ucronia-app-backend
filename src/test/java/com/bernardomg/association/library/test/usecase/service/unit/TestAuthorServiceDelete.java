@@ -57,7 +57,7 @@ class TestAuthorServiceDelete {
 
     @Test
     @DisplayName("When deleting an author, the repository is called")
-    void testDeleteAuthor_CallsRepository() {
+    void testDelete_CallsRepository() {
         // GIVEN
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
 
@@ -70,7 +70,7 @@ class TestAuthorServiceDelete {
 
     @Test
     @DisplayName("When the author doesn't exist, an exception is thrown")
-    void testDeleteAuthor_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN

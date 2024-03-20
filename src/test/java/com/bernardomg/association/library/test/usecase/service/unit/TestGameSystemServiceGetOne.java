@@ -60,7 +60,7 @@ class TestGameSystemServiceGetOne {
 
     @Test
     @DisplayName("When there is a game system, it is returned")
-    void testGetOneGameSystem() {
+    void testGetOne() {
         final Optional<GameSystem> gameSystem;
 
         // GIVEN
@@ -76,7 +76,7 @@ class TestGameSystemServiceGetOne {
 
     @Test
     @DisplayName("When there are no game systems, an exception is thrown")
-    void testGetOneGameSystem_NotExisting() {
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN

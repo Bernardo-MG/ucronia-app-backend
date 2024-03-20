@@ -3,6 +3,7 @@ package com.bernardomg.association.library.usecase.service;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.usecase.validation.CreateBookValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +30,8 @@ public final class DefaultBookService implements BookService {
 
     private final BookTypeRepository   bookTypeRepository;
 
+    private final CreateBookValidator  createBookValidator;
+
     private final GameSystemRepository gameSystemRepository;
 
     public DefaultBookService(final AuthorRepository authorRepo, final BookRepository bookRepo,
@@ -38,12 +42,16 @@ public final class DefaultBookService implements BookService {
         bookRepository = bookRepo;
         bookTypeRepository = bookTypeRepo;
         gameSystemRepository = gameSystemRepo;
+
+        createBookValidator = new CreateBookValidator(bookRepository);
     }
 
     @Override
     public final Book create(final Book book) {
         final boolean gameSystemExists;
         final boolean bookTypeExists;
+        final Book    toCreate;
+        final Long    number;
 
         log.debug("Creating book {}", book);
 
@@ -59,49 +67,69 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
-        gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
-            .getName());
-        if (!gameSystemExists) {
-            throw new MissingGameSystemException(book.getGameSystem()
+        if (StringUtils.isNotBlank(book.getGameSystem()
+            .getName())) {
+            gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
                 .getName());
+            if (!gameSystemExists) {
+                throw new MissingGameSystemException(book.getGameSystem()
+                    .getName());
+            }
+        }
+        if (StringUtils.isNotBlank(book.getBookType()
+            .getName())) {
+            bookTypeExists = bookTypeRepository.exists(book.getBookType()
+                .getName());
+            if (!bookTypeExists) {
+                throw new MissingBookTypeException(book.getBookType()
+                    .getName());
+            }
         }
 
-        bookTypeExists = bookTypeRepository.exists(book.getBookType()
-            .getName());
-        if (!bookTypeExists) {
-            throw new MissingBookTypeException(book.getBookType()
-                .getName());
-        }
+        toCreate = Book.builder()
+            .withAuthors(book.getAuthors())
+            .withBookType(book.getBookType())
+            .withGameSystem(book.getGameSystem())
+            .withIsbn(book.getIsbn())
+            .withLanguage(book.getLanguage())
+            .withTitle(book.getTitle())
+            .build();
 
-        return bookRepository.save(book);
+        // Set index
+        number = bookRepository.findNextNumber();
+        toCreate.setNumber(number);
+
+        createBookValidator.validate(toCreate);
+
+        return bookRepository.save(toCreate);
     }
 
     @Override
-    public final void delete(final String isbn) {
+    public final void delete(final long index) {
 
-        log.debug("Deleting book {}", isbn);
+        log.debug("Deleting book {}", index);
 
-        if (!bookRepository.exists(isbn)) {
-            throw new MissingBookException(isbn);
+        if (!bookRepository.exists(index)) {
+            throw new MissingBookException(index);
         }
 
-        bookRepository.delete(isbn);
+        bookRepository.delete(index);
     }
 
     @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
-        return bookRepository.findAll(pageable);
+        return bookRepository.getAll(pageable);
     }
 
     @Override
-    public final Optional<Book> getOne(final String isbn) {
+    public final Optional<Book> getOne(final long index) {
         final Optional<Book> book;
 
-        log.debug("Reading book {}", isbn);
+        log.debug("Reading book {}", index);
 
-        book = bookRepository.findOne(isbn);
+        book = bookRepository.getOne(index);
         if (book.isEmpty()) {
-            throw new MissingBookException(isbn);
+            throw new MissingBookException(index);
         }
 
         return book;

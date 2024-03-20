@@ -54,7 +54,7 @@ class ITBookRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.getAll(pageable);
 
         // THEN
         Assertions.assertThat(books)
@@ -72,7 +72,7 @@ class ITBookRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.getAll(pageable);
 
         // THEN
         Assertions.assertThat(books)

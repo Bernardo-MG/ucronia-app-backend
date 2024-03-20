@@ -50,7 +50,7 @@ class ITBookRepositoryDelete {
     @FullBook
     void testGetOne() {
         // WHEN
-        repository.delete(BookConstants.ISBN);
+        repository.delete(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -62,7 +62,7 @@ class ITBookRepositoryDelete {
     @DisplayName("With no data, nothing is deleted")
     void testGetOne_NoData() {
         // WHEN
-        repository.delete(BookConstants.ISBN);
+        repository.delete(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

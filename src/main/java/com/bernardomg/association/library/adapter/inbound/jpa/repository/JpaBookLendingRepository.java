@@ -31,14 +31,14 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findOne(final String isbn, final long member) {
+    public final Optional<BookLending> findOne(final long index, final long member) {
         final Optional<BookLending>  lending;
         final Optional<BookEntity>   bookEntity;
         final Optional<MemberEntity> memberEntity;
 
-        log.debug("Finding book lending for book {} and member {}", isbn, member);
+        log.debug("Finding book lending for book {} and member {}", index, member);
 
-        bookEntity = bookSpringRepository.findOneByIsbn(isbn);
+        bookEntity = bookSpringRepository.findOneByNumber(index);
         memberEntity = memberSpringRepository.findByNumber(member);
 
         if ((bookEntity.isPresent()) && (memberEntity.isPresent())) {
@@ -48,9 +48,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
                     .getId())
                 .map(m -> toDomain(m, bookEntity.get(), memberEntity.get()));
 
-            log.debug("Found book lending for book {} and member {}: {}", isbn, member, lending);
+            log.debug("Found book lending for book {} and member {}: {}", index, member, lending);
         } else {
-            log.debug("No book lending found for book {} and member {}:", isbn, member);
+            log.debug("No book lending found for book {} and member {}:", index, member);
             lending = Optional.empty();
         }
 
@@ -67,7 +67,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Saving book lending {}", lending);
 
-        bookEntity = bookSpringRepository.findOneByIsbn(lending.getIsbn());
+        bookEntity = bookSpringRepository.findOneByNumber(lending.getNumber());
         memberEntity = memberSpringRepository.findByNumber(lending.getMember());
 
         if ((bookEntity.isPresent()) && (memberEntity.isPresent())) {
@@ -89,7 +89,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
             final MemberEntity memberEntity) {
         return BookLending.builder()
-            .withIsbn(bookEntity.getIsbn())
+            .withNumber(bookEntity.getNumber())
             .withMember(memberEntity.getNumber())
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())

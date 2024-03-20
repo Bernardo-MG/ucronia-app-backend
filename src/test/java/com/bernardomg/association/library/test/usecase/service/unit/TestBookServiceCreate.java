@@ -32,8 +32,10 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
@@ -45,10 +47,13 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
+import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - create")
@@ -74,8 +79,65 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With a book with an empty ISBN, the unique check is not applied")
+    void testCreate_EmptyIsbn_IgnoreUnique() {
+        final Book book;
+
+        // GIVEN
+        book = Books.emptyIsbn();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository, Mockito.never()).exists(ArgumentMatchers.anyLong());
+    }
+
+    @Test
+    @DisplayName("With a book with an empty title, an exception is thrown")
+    void testCreate_EmptyTitle() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.emptyTitle();
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a book with an existing ISBN, an exception is thrown")
+    void testCreate_ExistingIsbn() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.full();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        given(bookRepository.existsByIsbn(BookConstants.ISBN)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("isbn", "existing", BookConstants.ISBN));
+    }
+
+    @Test
     @DisplayName("When persisting a book for a not existing author, an exception is thrown")
-    void testCreateBook_NoAuthor_Exception() {
+    void testCreate_NoAuthor() {
         final Book             book;
         final ThrowingCallable execution;
 
@@ -94,7 +156,7 @@ class TestBookServiceCreate {
 
     @Test
     @DisplayName("When persisting a book for a not existing book type, an exception is thrown")
-    void testCreateBook_NoBookType_Exception() {
+    void testCreate_NoBookType() {
         final Book             book;
         final ThrowingCallable execution;
 
@@ -115,7 +177,7 @@ class TestBookServiceCreate {
 
     @Test
     @DisplayName("When persisting a book for a not existing game system, an exception is thrown")
-    void testCreateBook_NoGameSystem_Exception() {
+    void testCreate_NoGameSystem() {
         final Book             book;
         final ThrowingCallable execution;
 
@@ -134,8 +196,25 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With a valid book, which has no relationships, the book is persisted")
+    void testCreate_NoRelationship_PersistedData() {
+        final Book book;
+
+        // GIVEN
+        book = Books.noRelationships();
+
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository).save(Books.noRelationships());
+    }
+
+    @Test
     @DisplayName("With a valid book, the book is persisted")
-    void testCreateBook_PersistedData() {
+    void testCreate_PersistedData() {
         final Book book;
 
         // GIVEN
@@ -144,6 +223,7 @@ class TestBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -154,7 +234,7 @@ class TestBookServiceCreate {
 
     @Test
     @DisplayName("With a valid book, the created book is returned")
-    void testCreateBook_ReturnedData() {
+    void testCreate_ReturnedData() {
         final Book book;
         final Book created;
 
@@ -164,6 +244,7 @@ class TestBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         given(bookRepository.save(Books.full())).willReturn(Books.full());
 

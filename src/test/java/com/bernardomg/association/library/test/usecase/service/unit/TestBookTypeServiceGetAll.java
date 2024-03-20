@@ -58,7 +58,7 @@ class TestBookTypeServiceGetAll {
 
     @Test
     @DisplayName("When there are book types, they are returned")
-    void testGetAllBookTypes() {
+    void testGetAll() {
         final Pageable           pageable;
         final Iterable<BookType> types;
 
@@ -78,7 +78,7 @@ class TestBookTypeServiceGetAll {
 
     @Test
     @DisplayName("When there are no book types, nothing is returned")
-    void testGetAllBookTypes_NoData() {
+    void testGetAll_NoData() {
         final Pageable           pageable;
         final Iterable<BookType> types;
 

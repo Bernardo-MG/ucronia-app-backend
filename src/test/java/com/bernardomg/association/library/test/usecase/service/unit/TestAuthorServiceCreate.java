@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,8 +38,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.association.library.test.config.factory.Authors;
 import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AuthorService - create")
@@ -55,8 +59,42 @@ class TestAuthorServiceCreate {
     }
 
     @Test
+    @DisplayName("With an author with an empty name, an exception is thrown")
+    void testCreate_EmptyName() {
+        final ThrowingCallable execution;
+        final Author           author;
+
+        // GIVEN
+        author = Authors.emptyName();
+
+        // WHEN
+        execution = () -> service.create(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With an author with an existing name, an exception is thrown")
+    void testCreate_Existing() {
+        final ThrowingCallable execution;
+        final Author           author;
+
+        // GIVEN
+        author = Authors.valid();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
+    }
+
+    @Test
     @DisplayName("With a valid author, the author is persisted")
-    void testCreateAuthor_PersistedData() {
+    void testCreate_PersistedData() {
         final Author author;
 
         // GIVEN
@@ -71,7 +109,7 @@ class TestAuthorServiceCreate {
 
     @Test
     @DisplayName("With a valid author, the created author is returned")
-    void testCreateAuthor_ReturnedData() {
+    void testCreate_ReturnedData() {
         final Author author;
         final Author created;
 

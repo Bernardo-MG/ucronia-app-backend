@@ -61,7 +61,7 @@ class TestMemberServiceCreate {
 
     @Test
     @DisplayName("With a member with an empty name, an exception is thrown")
-    void testCreate_EmptyName_Exception() {
+    void testCreate_EmptyName() {
         final ThrowingCallable execution;
         final Member           member;
 
@@ -80,7 +80,7 @@ class TestMemberServiceCreate {
 
     @Test
     @DisplayName("With a member with no name, an exception is thrown")
-    void testCreate_NoName_Exception() {
+    void testCreate_NoName() {
         final ThrowingCallable execution;
         final Member           member;
 

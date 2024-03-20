@@ -46,7 +46,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public final Iterable<Author> findAll(final Pageable pageable) {
+    public final Iterable<Author> getAll(final Pageable pageable) {
         final Page<AuthorEntity> page;
         final Iterable<Author>   read;
 
@@ -62,7 +62,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public final Optional<Author> findOne(final String name) {
+    public final Optional<Author> getOne(final String name) {
         final Optional<Author> author;
 
         log.debug("Finding author with name {}", name);

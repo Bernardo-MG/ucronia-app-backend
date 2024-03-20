@@ -76,10 +76,10 @@ class TestBookServiceGetOne {
         final Optional<Book> book;
 
         // GIVEN
-        given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.of(Books.full()));
+        given(bookRepository.getOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
 
         // WHEN
-        book = service.getOne(BookConstants.ISBN);
+        book = service.getOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -92,10 +92,10 @@ class TestBookServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.findOne(BookConstants.ISBN)).willReturn(Optional.empty());
+        given(bookRepository.getOne(BookConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(BookConstants.ISBN);
+        execution = () -> service.getOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
