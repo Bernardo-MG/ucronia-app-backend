@@ -48,7 +48,7 @@ class ITAuthorRepositoryDelete {
     @Test
     @DisplayName("With an author, it is deleted")
     @ValidAuthor
-    void testGetOne() {
+    void testDelete() {
         // WHEN
         repository.delete(AuthorConstants.NAME);
 
@@ -60,7 +60,7 @@ class ITAuthorRepositoryDelete {
 
     @Test
     @DisplayName("With no data, nothing is deleted")
-    void testGetOne_NoData() {
+    void testDelete_NoData() {
         // WHEN
         repository.delete(AuthorConstants.NAME);
 

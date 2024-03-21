@@ -48,7 +48,7 @@ class ITGameSystemRepositoryDelete {
     @Test
     @DisplayName("With an author, it is deleted")
     @FullBook
-    void testGetOne() {
+    void testDelete() {
         // WHEN
         repository.delete(GameSystemConstants.NAME);
 
@@ -60,7 +60,7 @@ class ITGameSystemRepositoryDelete {
 
     @Test
     @DisplayName("With no data, nothing is deleted")
-    void testGetOne_NoData() {
+    void testDelete_NoData() {
         // WHEN
         repository.delete(GameSystemConstants.NAME);
 

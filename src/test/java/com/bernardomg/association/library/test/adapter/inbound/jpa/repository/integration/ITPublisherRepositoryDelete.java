@@ -48,7 +48,7 @@ class ITPublisherRepositoryDelete {
     @Test
     @DisplayName("With an publisher, it is deleted")
     @ValidPublisher
-    void testGetOne() {
+    void testDelete() {
         // WHEN
         repository.delete(PublisherConstants.NAME);
 
@@ -60,7 +60,7 @@ class ITPublisherRepositoryDelete {
 
     @Test
     @DisplayName("With no data, nothing is deleted")
-    void testGetOne_NoData() {
+    void testDelete_NoData() {
         // WHEN
         repository.delete(PublisherConstants.NAME);
 
