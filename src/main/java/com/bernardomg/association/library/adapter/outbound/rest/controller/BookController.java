@@ -147,7 +147,7 @@ public class BookController {
             .orElse(null);
     }
 
-    @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
