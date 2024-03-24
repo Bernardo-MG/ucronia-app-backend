@@ -59,16 +59,6 @@ public final class Books {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
-            .build();
-    }
-
-    public static final Book noRelationships() {
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of())
             .withPublisher(Publisher.builder()
                 .build())
             .withGameSystem(GameSystem.builder()

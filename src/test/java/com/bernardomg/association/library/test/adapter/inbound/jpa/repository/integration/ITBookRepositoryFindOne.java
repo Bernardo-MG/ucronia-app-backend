@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -46,9 +47,9 @@ class ITBookRepositoryFindOne {
     private BookRepository repository;
 
     @Test
-    @DisplayName("With a book, it is returned")
+    @DisplayName("With a full book, it is returned")
     @FullBook
-    void testGetOne() {
+    void testGetOne_Full() {
         final Optional<Book> book;
 
         // WHEN
@@ -58,6 +59,21 @@ class ITBookRepositoryFindOne {
         Assertions.assertThat(book)
             .as("book")
             .contains(Books.full());
+    }
+
+    @Test
+    @DisplayName("With a minimal book, it is returned")
+    @MinimalBook
+    void testGetOne_Minimal() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.getOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.minimal());
     }
 
     @Test

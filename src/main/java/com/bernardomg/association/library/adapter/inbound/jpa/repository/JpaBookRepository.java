@@ -157,17 +157,20 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<Author> authors;
 
         if (entity.getPublisher() == null) {
-            publisher = null;
+            publisher = Publisher.builder()
+                .build();
         } else {
             publisher = toDomain(entity.getPublisher());
         }
         if (entity.getGameSystem() == null) {
-            gameSystem = null;
+            gameSystem = GameSystem.builder()
+                .build();
         } else {
             gameSystem = toDomain(entity.getGameSystem());
         }
         if (entity.getBookType() == null) {
-            bookType = null;
+            bookType = BookType.builder()
+                .build();
         } else {
             bookType = toDomain(entity.getBookType());
         }

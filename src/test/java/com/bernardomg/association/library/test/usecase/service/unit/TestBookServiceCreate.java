@@ -231,7 +231,7 @@ class TestBookServiceCreate {
         final Book book;
 
         // GIVEN
-        book = Books.noRelationships();
+        book = Books.minimal();
 
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
@@ -239,7 +239,7 @@ class TestBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(Books.noRelationships());
+        verify(bookRepository).save(Books.minimal());
     }
 
     @Test
