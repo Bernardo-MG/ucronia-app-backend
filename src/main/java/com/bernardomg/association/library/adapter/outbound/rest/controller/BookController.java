@@ -47,6 +47,7 @@ import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
+import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.usecase.service.BookService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -77,28 +78,43 @@ public class BookController {
     public Book create(@Valid @RequestBody final BookCreation request) {
         final Book               book;
         final Collection<Author> authors;
+        final Publisher          publisher;
         final BookType           bookType;
         final GameSystem         gameSystem;
 
+        // Authors
         authors = request.getAuthors()
             .stream()
             .map(a -> Author.builder()
                 .withName(a)
                 .build())
             .toList();
+
+        // Publisher
+        publisher = Publisher.builder()
+            .withName(request.getBookType()
+                .getName())
+            .build();
+
+        // Book type
         bookType = BookType.builder()
             .withName(request.getBookType()
                 .getName())
             .build();
+
+        // Game system
         gameSystem = GameSystem.builder()
             .withName(request.getGameSystem()
                 .getName())
             .build();
+
+        // Book
         book = Book.builder()
             .withTitle(request.getTitle())
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withAuthors(authors)
+            .withPublisher(publisher)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
             .build();

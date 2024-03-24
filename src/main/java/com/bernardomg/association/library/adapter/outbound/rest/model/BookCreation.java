@@ -26,6 +26,8 @@ public class BookCreation {
 
     private String                 language;
 
+    private String                 publisher;
+
     private String                 title;
 
 }
