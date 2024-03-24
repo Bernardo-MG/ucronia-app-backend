@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BUILD STAGE
 # -----------------------------------------------------------------------------
-FROM maven:3.8.5-openjdk-17-slim as build
+FROM maven:3.9.6 as build
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -17,7 +17,7 @@ RUN mvn clean package -DskipTests
 # -----------------------------------------------------------------------------
 # DEPLOYMENT STAGE
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:17-jre-alpine as deployment
+FROM eclipse-temurin:21.0.2_13-jre-alpine as deployment
 
 WORKDIR /app
 
