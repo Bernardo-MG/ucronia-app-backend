@@ -92,7 +92,7 @@ public class BookController {
 
         // Publisher
         publisher = Publisher.builder()
-            .withName(request.getBookType()
+            .withName(request.getPublisher()
                 .getName())
             .build();
 
