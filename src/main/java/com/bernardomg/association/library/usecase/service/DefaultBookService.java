@@ -19,6 +19,7 @@ import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.usecase.validation.CreateBookValidator;
+import com.bernardomg.association.library.usecase.validation.UpdateBookValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +39,8 @@ public final class DefaultBookService implements BookService {
 
     private final PublisherRepository  publisherRepository;
 
+    private final UpdateBookValidator  updateBookValidator;
+
     public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
             final GameSystemRepository gameSystemRepo) {
@@ -50,6 +53,7 @@ public final class DefaultBookService implements BookService {
         gameSystemRepository = gameSystemRepo;
 
         createBookValidator = new CreateBookValidator(bookRepository);
+        updateBookValidator = new UpdateBookValidator(bookRepository);
     }
 
     @Override
@@ -124,15 +128,15 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final void delete(final long index) {
+    public final void delete(final long number) {
 
-        log.debug("Deleting book {}", index);
+        log.debug("Deleting book {}", number);
 
-        if (!bookRepository.exists(index)) {
-            throw new MissingBookException(index);
+        if (!bookRepository.exists(number)) {
+            throw new MissingBookException(number);
         }
 
-        bookRepository.delete(index);
+        bookRepository.delete(number);
     }
 
     @Override
@@ -141,17 +145,77 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Optional<Book> getOne(final long index) {
+    public final Optional<Book> getOne(final long number) {
         final Optional<Book> book;
 
-        log.debug("Reading book {}", index);
+        log.debug("Reading book {}", number);
 
-        book = bookRepository.getOne(index);
+        book = bookRepository.getOne(number);
         if (book.isEmpty()) {
-            throw new MissingBookException(index);
+            throw new MissingBookException(number);
         }
 
         return book;
+    }
+
+    @Override
+    public final Book update(final long number, final Book book) {
+        final boolean publisherExists;
+        final boolean gameSystemExists;
+        final boolean bookTypeExists;
+
+        log.debug("Updating book with number {} using data {}", number, book);
+
+        // TODO: verify the language is a valid code
+        // TODO: validate isbn
+
+        if (!bookRepository.exists(number)) {
+            throw new MissingBookException(number);
+        }
+
+        book.getAuthors()
+            .forEach(a -> {
+                final boolean authorExists;
+
+                authorExists = authorRepository.exists(a.getName());
+                if (!authorExists) {
+                    throw new MissingAuthorException(a.getName());
+                }
+            });
+
+        if (StringUtils.isNotBlank(book.getPublisher()
+            .getName())) {
+            publisherExists = publisherRepository.exists(book.getPublisher()
+                .getName());
+            if (!publisherExists) {
+                throw new MissingPublisherException(book.getPublisher()
+                    .getName());
+            }
+        }
+
+        if (StringUtils.isNotBlank(book.getGameSystem()
+            .getName())) {
+            gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
+                .getName());
+            if (!gameSystemExists) {
+                throw new MissingGameSystemException(book.getGameSystem()
+                    .getName());
+            }
+        }
+
+        if (StringUtils.isNotBlank(book.getBookType()
+            .getName())) {
+            bookTypeExists = bookTypeRepository.exists(book.getBookType()
+                .getName());
+            if (!bookTypeExists) {
+                throw new MissingBookTypeException(book.getBookType()
+                    .getName());
+            }
+        }
+
+        updateBookValidator.validate(book);
+
+        return bookRepository.save(book);
     }
 
 }

@@ -101,7 +101,7 @@ class TestBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository, Mockito.never()).exists(ArgumentMatchers.anyLong());
+        verify(bookRepository, Mockito.never()).existsByIsbn(ArgumentMatchers.anyString());
     }
 
     @Test

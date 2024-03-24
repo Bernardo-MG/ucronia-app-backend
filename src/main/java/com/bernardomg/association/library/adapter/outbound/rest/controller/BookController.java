@@ -27,6 +27,7 @@ package com.bernardomg.association.library.adapter.outbound.rest.controller;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -74,7 +76,8 @@ public class BookController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS, LibraryCaches.BOOK }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
     public Book create(@Valid @RequestBody final BookCreation request) {
         final Book               book;
         final Collection<Author> authors;
@@ -142,6 +145,56 @@ public class BookController {
     public Book readOne(@PathVariable("number") final long number) {
         return service.getOne(number)
             .orElse(null);
+    }
+
+    @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
+    public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookCreation request) {
+        final Book               book;
+        final Collection<Author> authors;
+        final Publisher          publisher;
+        final BookType           bookType;
+        final GameSystem         gameSystem;
+
+        // Authors
+        authors = request.getAuthors()
+            .stream()
+            .map(a -> Author.builder()
+                .withName(a)
+                .build())
+            .toList();
+
+        // Publisher
+        publisher = Publisher.builder()
+            .withName(request.getPublisher()
+                .getName())
+            .build();
+
+        // Book type
+        bookType = BookType.builder()
+            .withName(request.getBookType()
+                .getName())
+            .build();
+
+        // Game system
+        gameSystem = GameSystem.builder()
+            .withName(request.getGameSystem()
+                .getName())
+            .build();
+
+        // Book
+        book = Book.builder()
+            .withTitle(request.getTitle())
+            .withIsbn(request.getIsbn())
+            .withLanguage(request.getLanguage())
+            .withAuthors(authors)
+            .withPublisher(publisher)
+            .withBookType(bookType)
+            .withGameSystem(gameSystem)
+            .build();
+        return service.update(number, book);
     }
 
 }

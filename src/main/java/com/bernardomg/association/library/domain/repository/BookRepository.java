@@ -13,6 +13,8 @@ public interface BookRepository {
 
     public boolean exists(final long index);
 
+    public boolean existsByIsbn(final Long number, final String isbn);
+
     public boolean existsByIsbn(final String isbn);
 
     public long findNextNumber();
