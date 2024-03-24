@@ -47,6 +47,8 @@ public final class DefaultGameSystemService implements GameSystemService {
             throw new MissingGameSystemException(name);
         }
 
+        // TODO: validate there are no relationships
+
         gameSystemRepository.delete(name);
     }
 

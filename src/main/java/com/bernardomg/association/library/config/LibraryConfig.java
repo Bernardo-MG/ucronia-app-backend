@@ -97,15 +97,17 @@ public class LibraryConfig {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepo,
-            final AuthorSpringRepository authorSpringRepo, final BookTypeSpringRepository bookTypeSpringRepo,
-            final GameSystemSpringRepository gameSystemSpringRepo) {
-        return new JpaBookRepository(bookSpringRepo, authorSpringRepo, bookTypeSpringRepo, gameSystemSpringRepo);
+            final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepository,
+            final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo) {
+        return new JpaBookRepository(bookSpringRepo, authorSpringRepo, publisherSpringRepository, bookTypeSpringRepo,
+            gameSystemSpringRepo);
     }
 
     @Bean("bookService")
-    public BookService getBookService(final AuthorRepository authorRepo, final BookRepository bookRepo,
-            final BookTypeRepository bookTypeRepo, final GameSystemRepository gameSystemRepo) {
-        return new DefaultBookService(authorRepo, bookRepo, bookTypeRepo, gameSystemRepo);
+    public BookService getBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
+            final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
+            final GameSystemRepository gameSystemRepo) {
+        return new DefaultBookService(bookRepo, authorRepo, publisherRepo, bookTypeRepo, gameSystemRepo);
     }
 
     @Bean("bookTypeRepository")

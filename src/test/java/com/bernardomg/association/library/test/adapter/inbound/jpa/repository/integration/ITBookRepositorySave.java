@@ -35,6 +35,7 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.data.annotation.ValidGameSystem;
+import com.bernardomg.association.library.test.config.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.test.config.factory.BookEntities;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -52,6 +53,7 @@ class ITBookRepositorySave {
     @Test
     @DisplayName("When saving, the persisted author is returned")
     @ValidAuthor
+    @ValidPublisher
     @ValidBookType
     @ValidGameSystem
     void testSave_Full_Returned() {

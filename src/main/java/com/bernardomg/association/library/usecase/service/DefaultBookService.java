@@ -11,11 +11,13 @@ import com.bernardomg.association.library.domain.exception.MissingAuthorExceptio
 import com.bernardomg.association.library.domain.exception.MissingBookException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
+import com.bernardomg.association.library.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.usecase.validation.CreateBookValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +36,16 @@ public final class DefaultBookService implements BookService {
 
     private final GameSystemRepository gameSystemRepository;
 
-    public DefaultBookService(final AuthorRepository authorRepo, final BookRepository bookRepo,
-            final BookTypeRepository bookTypeRepo, final GameSystemRepository gameSystemRepo) {
+    private final PublisherRepository  publisherRepository;
+
+    public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
+            final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
+            final GameSystemRepository gameSystemRepo) {
         super();
 
-        authorRepository = authorRepo;
         bookRepository = bookRepo;
+        authorRepository = authorRepo;
+        publisherRepository = publisherRepo;
         bookTypeRepository = bookTypeRepo;
         gameSystemRepository = gameSystemRepo;
 
@@ -48,6 +54,7 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Book create(final Book book) {
+        final boolean publisherExists;
         final boolean gameSystemExists;
         final boolean bookTypeExists;
         final Book    toCreate;
@@ -67,6 +74,16 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
+        if (StringUtils.isNotBlank(book.getPublisher()
+            .getName())) {
+            publisherExists = publisherRepository.exists(book.getPublisher()
+                .getName());
+            if (!publisherExists) {
+                throw new MissingPublisherException(book.getPublisher()
+                    .getName());
+            }
+        }
+
         if (StringUtils.isNotBlank(book.getGameSystem()
             .getName())) {
             gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
@@ -76,6 +93,7 @@ public final class DefaultBookService implements BookService {
                     .getName());
             }
         }
+
         if (StringUtils.isNotBlank(book.getBookType()
             .getName())) {
             bookTypeExists = bookTypeRepository.exists(book.getBookType()
@@ -88,6 +106,7 @@ public final class DefaultBookService implements BookService {
 
         toCreate = Book.builder()
             .withAuthors(book.getAuthors())
+            .withPublisher(book.getPublisher())
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
             .withIsbn(book.getIsbn())
@@ -95,7 +114,7 @@ public final class DefaultBookService implements BookService {
             .withTitle(book.getTitle())
             .build();
 
-        // Set index
+        // Set number
         number = bookRepository.findNextNumber();
         toCreate.setNumber(number);
 

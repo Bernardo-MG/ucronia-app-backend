@@ -67,6 +67,12 @@ public class BookEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true)
     private Long                     number;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(schema = "library", name = "book_publishers",
+            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "publisher_id", referencedColumnName = "id") })
+    private PublisherEntity          publisher;
+
     @Column(name = "title", nullable = false)
     private String                   title;
 

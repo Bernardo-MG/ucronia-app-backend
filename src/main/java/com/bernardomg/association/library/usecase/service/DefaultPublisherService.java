@@ -47,6 +47,8 @@ public final class DefaultPublisherService implements PublisherService {
             throw new MissingAuthorException(name);
         }
 
+        // TODO: validate there are no relationships
+
         publisherRepository.delete(name);
     }
 

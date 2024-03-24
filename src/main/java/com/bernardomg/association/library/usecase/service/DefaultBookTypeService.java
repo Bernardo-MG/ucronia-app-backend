@@ -47,6 +47,8 @@ public final class DefaultBookTypeService implements BookTypeService {
             throw new MissingBookTypeException(name);
         }
 
+        // TODO: validate there are no relationships
+
         bookTypeRepository.delete(name);
     }
 

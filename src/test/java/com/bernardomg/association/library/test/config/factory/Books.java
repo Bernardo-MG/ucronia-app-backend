@@ -6,6 +6,7 @@ import java.util.List;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
+import com.bernardomg.association.library.domain.model.Publisher;
 
 public final class Books {
 
@@ -16,6 +17,7 @@ public final class Books {
             .withIsbn("")
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
+            .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
             .build();
@@ -28,6 +30,8 @@ public final class Books {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
+            .withPublisher(Publisher.builder()
+                .build())
             .withGameSystem(GameSystem.builder()
                 .build())
             .withBookType(BookType.builder()
@@ -42,6 +46,7 @@ public final class Books {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
+            .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
             .build();
@@ -64,6 +69,8 @@ public final class Books {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
+            .withPublisher(Publisher.builder()
+                .build())
             .withGameSystem(GameSystem.builder()
                 .build())
             .withBookType(BookType.builder()

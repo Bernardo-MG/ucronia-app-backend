@@ -47,6 +47,8 @@ public final class DefaultAuthorService implements AuthorService {
             throw new MissingAuthorException(name);
         }
 
+        // TODO: validate there are no relationships
+
         authorRepository.delete(name);
     }
 

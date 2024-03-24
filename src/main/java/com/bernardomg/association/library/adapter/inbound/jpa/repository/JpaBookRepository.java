@@ -12,10 +12,12 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEntity;
+import com.bernardomg.association.library.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
+import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +33,16 @@ public final class JpaBookRepository implements BookRepository {
 
     private final GameSystemSpringRepository gameSystemSpringRepository;
 
+    private final PublisherSpringRepository  publisherSpringRepository;
+
     public JpaBookRepository(final BookSpringRepository bookSpringRepo, final AuthorSpringRepository authorSpringRepo,
-            final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo) {
+            final PublisherSpringRepository publisherSpringRepo, final BookTypeSpringRepository bookTypeSpringRepo,
+            final GameSystemSpringRepository gameSystemSpringRepo) {
         super();
 
         bookSpringRepository = bookSpringRepo;
         authorSpringRepository = authorSpringRepo;
+        publisherSpringRepository = publisherSpringRepo;
         bookTypeSpringRepository = bookTypeSpringRepo;
         gameSystemSpringRepository = gameSystemSpringRepo;
     }
@@ -145,10 +151,16 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Book toDomain(final BookEntity entity) {
+        final Publisher          publisher;
         final GameSystem         gameSystem;
         final BookType           bookType;
         final Collection<Author> authors;
 
+        if (entity.getPublisher() == null) {
+            publisher = null;
+        } else {
+            publisher = toDomain(entity.getPublisher());
+        }
         if (entity.getGameSystem() == null) {
             gameSystem = null;
         } else {
@@ -172,9 +184,10 @@ public final class JpaBookRepository implements BookRepository {
             .withIsbn(entity.getIsbn())
             .withTitle(entity.getTitle())
             .withLanguage(entity.getLanguage())
+            .withAuthors(authors)
+            .withPublisher(publisher)
             .withGameSystem(gameSystem)
             .withBookType(bookType)
-            .withAuthors(authors)
             .build();
     }
 
@@ -190,12 +203,25 @@ public final class JpaBookRepository implements BookRepository {
             .build();
     }
 
+    private final Publisher toDomain(final PublisherEntity entity) {
+        return Publisher.builder()
+            .withName(entity.getName())
+            .build();
+    }
+
     private final BookEntity toEntity(final Book domain) {
+        final Collection<String>         authorNames;
+        final Optional<PublisherEntity>  publisher;
         final Optional<BookTypeEntity>   bookType;
         final Optional<GameSystemEntity> gameSystem;
-        final Collection<String>         authorNames;
         final Collection<AuthorEntity>   authors;
 
+        if (domain.getPublisher() == null) {
+            publisher = Optional.empty();
+        } else {
+            publisher = publisherSpringRepository.findOneByName(domain.getPublisher()
+                .getName());
+        }
         if (domain.getBookType() == null) {
             bookType = Optional.empty();
         } else {
@@ -220,9 +246,10 @@ public final class JpaBookRepository implements BookRepository {
             .withIsbn(domain.getIsbn())
             .withTitle(domain.getTitle())
             .withLanguage(domain.getLanguage())
+            .withAuthors(authors)
+            .withPublisher(publisher.orElse(null))
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
-            .withAuthors(authors)
             .build();
     }
 

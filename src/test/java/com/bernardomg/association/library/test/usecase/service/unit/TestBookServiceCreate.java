@@ -41,16 +41,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
+import com.bernardomg.association.library.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
+import com.bernardomg.association.library.test.config.factory.PublisherConstants;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -71,6 +74,9 @@ class TestBookServiceCreate {
     @Mock
     private GameSystemRepository gameSystemRepository;
 
+    @Mock
+    private PublisherRepository  publisherRepository;
+
     @InjectMocks
     private DefaultBookService   service;
 
@@ -87,6 +93,7 @@ class TestBookServiceCreate {
         book = Books.emptyIsbn();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
@@ -123,6 +130,7 @@ class TestBookServiceCreate {
         book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
 
@@ -164,6 +172,7 @@ class TestBookServiceCreate {
         book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(false);
 
@@ -185,6 +194,7 @@ class TestBookServiceCreate {
         book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
 
         // WHEN
@@ -193,6 +203,26 @@ class TestBookServiceCreate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingGameSystemException.class);
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing publisher, an exception is thrown")
+    void testCreate_NoPublisher() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.full();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingPublisherException.class);
     }
 
     @Test
@@ -221,6 +251,7 @@ class TestBookServiceCreate {
         book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
@@ -242,6 +273,7 @@ class TestBookServiceCreate {
         book = Books.full();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);

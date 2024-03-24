@@ -22,6 +22,8 @@ public final class Book {
 
     private Long               number;
 
+    private Publisher          publisher;
+
     private String             title;
 
 }
