@@ -186,6 +186,7 @@ public class BookController {
 
         // Book
         book = Book.builder()
+            .withNumber(number)
             .withTitle(request.getTitle())
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())

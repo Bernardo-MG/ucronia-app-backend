@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
+import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.data.annotation.ValidGameSystem;
@@ -51,7 +52,7 @@ class ITBookRepositorySave {
     private BookSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving, the persisted author is returned")
+    @DisplayName("When there are relationships the persisted author is returned")
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -68,12 +69,50 @@ class ITBookRepositorySave {
 
         // THEN
         Assertions.assertThat(created)
-            .as("author")
+            .as("book")
             .isEqualTo(Books.full());
     }
 
     @Test
-    @DisplayName("When saving, an author is persisted")
+    @DisplayName("When the book exists it is persisted")
+    @MinimalBook
+    void testSave_Existing_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(BookEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When the book exists it is returned")
+    @MinimalBook
+    void testSave_Existing_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.minimal();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.minimal());
+    }
+
+    @Test
+    @DisplayName("When the book is saved it is persisted")
     void testSave_Persisted() {
         final Book book;
 
@@ -85,13 +124,13 @@ class ITBookRepositorySave {
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
-            .as("authors")
+            .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .contains(BookEntities.valid());
     }
 
     @Test
-    @DisplayName("When saving, the persisted author is returned")
+    @DisplayName("When the book is saved it is returned")
     void testSave_Returned() {
         final Book book;
         final Book created;
@@ -104,7 +143,7 @@ class ITBookRepositorySave {
 
         // THEN
         Assertions.assertThat(created)
-            .as("author")
+            .as("book")
             .isEqualTo(Books.minimal());
     }
 

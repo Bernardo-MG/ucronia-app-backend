@@ -140,15 +140,22 @@ public final class JpaBookRepository implements BookRepository {
 
     @Override
     public final Book save(final Book book) {
-        final BookEntity toCreate;
-        final BookEntity created;
-        final Book       saved;
+        final Optional<BookEntity> existing;
+        final BookEntity           entity;
+        final BookEntity           created;
+        final Book                 saved;
 
         log.debug("Saving book {}", book);
 
-        toCreate = toEntity(book);
+        entity = toEntity(book);
 
-        created = bookSpringRepository.save(toCreate);
+        existing = bookSpringRepository.findOneByNumber(book.getNumber());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = bookSpringRepository.save(entity);
 
         saved = toDomain(created);
 
