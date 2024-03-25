@@ -52,28 +52,6 @@ class ITBookRepositorySave {
     private BookSpringRepository springRepository;
 
     @Test
-    @DisplayName("When there are relationships the persisted author is returned")
-    @ValidAuthor
-    @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
-    void testSave_Full_Returned() {
-        final Book book;
-        final Book created;
-
-        // GIVEN
-        book = Books.full();
-
-        // WHEN
-        created = repository.save(book);
-
-        // THEN
-        Assertions.assertThat(created)
-            .as("book")
-            .isEqualTo(Books.full());
-    }
-
-    @Test
     @DisplayName("When the book exists it is persisted")
     @MinimalBook
     void testSave_Existing_Persisted() {
@@ -109,6 +87,28 @@ class ITBookRepositorySave {
         Assertions.assertThat(created)
             .as("book")
             .isEqualTo(Books.minimal());
+    }
+
+    @Test
+    @DisplayName("When there are relationships the persisted author is returned")
+    @ValidAuthor
+    @ValidPublisher
+    @ValidBookType
+    @ValidGameSystem
+    void testSave_Full_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.full());
     }
 
     @Test
