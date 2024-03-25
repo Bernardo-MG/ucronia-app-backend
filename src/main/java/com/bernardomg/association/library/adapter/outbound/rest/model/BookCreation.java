@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class BookCreation {
 
     @Builder.Default
-    private Collection<String>     authors = List.of();
+    private Collection<BookCreationAuthor>     authors = List.of();
 
     private BookCreationBookType   bookType;
 

@@ -89,7 +89,7 @@ public class BookController {
         authors = request.getAuthors()
             .stream()
             .map(a -> Author.builder()
-                .withName(a)
+                .withName(a.getName())
                 .build())
             .toList();
 
@@ -162,7 +162,7 @@ public class BookController {
         authors = request.getAuthors()
             .stream()
             .map(a -> Author.builder()
-                .withName(a)
+                .withName(a.getName())
                 .build())
             .toList();
 
