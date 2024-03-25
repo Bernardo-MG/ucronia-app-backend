@@ -28,11 +28,11 @@ public final class CreateFeeValidator extends AbstractValidator<Collection<Fee>>
 
     @Override
     protected final void checkRules(final Collection<Fee> fees, final Collection<FieldFailure> failures) {
-        final Long   uniqueDates;
+        final long   uniqueDates;
         final int    totalDates;
-        final Long   existing;
-        final Long   duplicates;
-        final Long   number;
+        final long   existing;
+        final long   duplicates;
+        final long   number;
         final Member member;
         FieldFailure failure;
 
@@ -44,7 +44,7 @@ public final class CreateFeeValidator extends AbstractValidator<Collection<Fee>>
         totalDates = fees.size();
         if (uniqueDates < totalDates) {
             duplicates = (totalDates - uniqueDates);
-            log.error("Received {} fees, but {} are duplicates", fees.size(), duplicates);
+            log.error("Received {} fee dates, but {} are duplicates", totalDates, duplicates);
             failure = FieldFailure.of("feeDates[]", "duplicated", duplicates);
             failures.add(failure);
         }

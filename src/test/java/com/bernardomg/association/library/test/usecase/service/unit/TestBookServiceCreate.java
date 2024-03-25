@@ -85,6 +85,28 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With a book with a duplicated author, an exception is thrown")
+    void testCreate_DuplicatedAuthor() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.duplicatedAuthor();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("authors[].duplicated", "authors[]", "duplicated", 1L));
+    }
+
+    @Test
     @DisplayName("With a book with an empty ISBN, the unique check is not applied")
     void testCreate_EmptyIsbn_IgnoreUnique() {
         final Book book;

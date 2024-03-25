@@ -39,6 +39,19 @@ public final class Books {
             .build();
     }
 
+    public static final Book duplicatedAuthor() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid(),Authors.valid()))
+            .withPublisher(Publishers.valid())
+            .withGameSystem(GameSystems.valid())
+            .withBookType(BookTypes.valid())
+            .build();
+    }
+
     public static final Book full() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
