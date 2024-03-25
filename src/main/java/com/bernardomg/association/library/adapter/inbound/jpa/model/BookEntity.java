@@ -4,7 +4,6 @@ package com.bernardomg.association.library.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Collection;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,19 +34,19 @@ public class BookEntity implements Serializable {
     @Transient
     private static final long        serialVersionUID = 1328776989450853491L;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinTable(schema = "library", name = "book_authors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "author_id", referencedColumnName = "id") })
     private Collection<AuthorEntity> authors;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinTable(schema = "library", name = "book_book_types",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "book_type_id", referencedColumnName = "id") })
     private BookTypeEntity           bookType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinTable(schema = "library", name = "book_game_systems",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "game_system_id", referencedColumnName = "id") })
@@ -67,7 +66,7 @@ public class BookEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true)
     private Long                     number;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinTable(schema = "library", name = "book_publishers",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "publisher_id", referencedColumnName = "id") })

@@ -25,11 +25,16 @@
 package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookSpringRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookTypeSpringRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.GameSystemSpringRepository;
+import com.bernardomg.association.library.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
@@ -40,13 +45,25 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITBookRepositoryDelete {
 
     @Autowired
-    private BookRepository       repository;
+    private AuthorSpringRepository     authorSpringRepository;
 
     @Autowired
-    private BookSpringRepository springRepository;
+    private BookTypeSpringRepository   bookTypeSpringRepository;
+
+    @Autowired
+    private GameSystemSpringRepository gameSystemSpringRepository;
+
+    @Autowired
+    private PublisherSpringRepository  publisherSpringRepository;
+
+    @Autowired
+    private BookRepository             repository;
+
+    @Autowired
+    private BookSpringRepository       springRepository;
 
     @Test
-    @DisplayName("With an author, it is deleted")
+    @DisplayName("With an book, it is deleted")
     @FullBook
     void testDelete() {
         // WHEN
@@ -68,6 +85,30 @@ class ITBookRepositoryDelete {
         Assertions.assertThat(springRepository.count())
             .as("books")
             .isZero();
+    }
+
+    @Test
+    @DisplayName("When the book is deleted, the related entities are kept")
+    @FullBook
+    void testDelete_Relationships() {
+        // WHEN
+        repository.delete(BookConstants.NUMBER);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(authorSpringRepository.count())
+                .as("authors")
+                .isNotZero();
+            softly.assertThat(bookTypeSpringRepository.count())
+                .as("book types")
+                .isNotZero();
+            softly.assertThat(gameSystemSpringRepository.count())
+                .as("game systems")
+                .isNotZero();
+            softly.assertThat(publisherSpringRepository.count())
+                .as("publishers")
+                .isNotZero();
+        });
     }
 
 }
