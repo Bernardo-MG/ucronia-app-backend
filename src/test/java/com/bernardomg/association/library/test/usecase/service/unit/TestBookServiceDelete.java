@@ -82,7 +82,7 @@ class TestBookServiceDelete {
 
     @Test
     @DisplayName("When the book doesn't exist, an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN

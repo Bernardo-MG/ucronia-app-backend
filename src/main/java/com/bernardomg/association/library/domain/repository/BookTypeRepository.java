@@ -17,6 +17,8 @@ public interface BookTypeRepository {
 
     public Optional<BookType> getOne(final String name);
 
+    public boolean hasRelationships(final String name);
+
     public BookType save(final BookType bookType);
 
 }

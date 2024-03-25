@@ -36,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.library.domain.exception.AuthorHasRelationshipsException;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
@@ -60,6 +61,7 @@ class TestAuthorServiceDelete {
     void testDelete_CallsRepository() {
         // GIVEN
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(authorRepository.hasRelationships(AuthorConstants.NAME)).willReturn(false);
 
         // WHEN
         service.delete(AuthorConstants.NAME);
@@ -70,7 +72,7 @@ class TestAuthorServiceDelete {
 
     @Test
     @DisplayName("When the author doesn't exist, an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
@@ -82,6 +84,23 @@ class TestAuthorServiceDelete {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingAuthorException.class);
+    }
+
+    @Test
+    @DisplayName("When the author has relationships, an exception is thrown")
+    void testDelete_Relationship_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(authorRepository.hasRelationships(AuthorConstants.NAME)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.delete(AuthorConstants.NAME);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(AuthorHasRelationshipsException.class);
     }
 
 }

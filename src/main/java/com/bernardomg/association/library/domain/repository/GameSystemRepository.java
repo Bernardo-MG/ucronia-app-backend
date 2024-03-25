@@ -17,6 +17,8 @@ public interface GameSystemRepository {
 
     public Iterable<GameSystem> getAll(final Pageable pageable);
 
+    public boolean hasRelationships(final String name);
+
     public GameSystem save(final GameSystem gameSystem);
 
 }

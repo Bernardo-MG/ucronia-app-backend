@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
+import com.bernardomg.association.library.domain.exception.PublisherHasRelationshipsException;
 import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.usecase.validation.CreatePublisherValidator;
@@ -47,7 +48,9 @@ public final class DefaultPublisherService implements PublisherService {
             throw new MissingAuthorException(name);
         }
 
-        // TODO: validate there are no relationships
+        if (publisherRepository.hasRelationships(name)) {
+            throw new PublisherHasRelationshipsException(name);
+        }
 
         publisherRepository.delete(name);
     }

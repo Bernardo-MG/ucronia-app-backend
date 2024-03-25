@@ -27,6 +27,8 @@ package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEntity;
 
@@ -35,6 +37,9 @@ public interface GameSystemSpringRepository extends JpaRepository<GameSystemEnti
     public void deleteByName(final String name);
 
     public boolean existsByName(final String name);
+
+    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.gameSystem g WHERE g.name = :name")
+    public boolean existsInBook(@Param("name") final String name);
 
     public Optional<GameSystemEntity> findOneByName(final String name);
 

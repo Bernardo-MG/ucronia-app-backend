@@ -27,7 +27,7 @@ package com.bernardomg.association.library.domain.exception;
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing member by id exception.
+ * Missing book type exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

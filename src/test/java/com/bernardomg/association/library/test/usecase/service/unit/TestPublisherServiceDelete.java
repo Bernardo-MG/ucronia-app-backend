@@ -70,7 +70,7 @@ class TestPublisherServiceDelete {
 
     @Test
     @DisplayName("When the publisher doesn't exist, an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN

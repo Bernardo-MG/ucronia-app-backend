@@ -25,69 +25,97 @@
 package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 
-import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookTypeRepository - delete")
-class ITBookTypeRepositoryDelete {
+@DisplayName("BookTypeRepository - has relationships")
+class ITBookTypeRepositoryHasRelationships {
 
     @Autowired
-    private BookTypeRepository       repository;
-
-    @Autowired
-    private BookTypeSpringRepository springRepository;
+    private BookTypeRepository repository;
 
     @Test
-    @DisplayName("With a book type, it is deleted")
+    @DisplayName("With no relationship, it has no relationships")
     @ValidBookType
-    void testDelete() {
+    void testExists() {
+        final boolean exists;
+
         // WHEN
-        repository.delete(BookTypeConstants.NAME);
+        exists = repository.hasRelationships(BookTypeConstants.NAME);
 
         // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("book types")
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
     @Test
-    @DisplayName("When the book type is assigned to a book, an exception is thrown")
+    @DisplayName("With a book but no realationship, it has no relationships")
+    @MinimalBook
+    @ValidBookType
+    void testExists_Book() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.hasRelationships("abc");
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With no data, it has no relationships")
+    void testExists_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(BookTypeConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With a relationship, it has relationships")
     @FullBook
-    void testDelete_InBook() {
-        final ThrowingCallable execution;
+    void testExists_Relationships() {
+        final boolean exists;
 
         // WHEN
-        execution = () -> {
-            repository.delete(BookTypeConstants.NAME);
-            springRepository.flush();
-        };
+        exists = repository.hasRelationships(BookTypeConstants.NAME);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(DataIntegrityViolationException.class);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("With no data, nothing is deleted")
-    void testDelete_NoData() {
+    @DisplayName("With a relationship, but searching for the wrong name, it has no relationships")
+    @FullBook
+    void testExists_Relationships_WrongName() {
+        final boolean exists;
+
         // WHEN
-        repository.delete(BookTypeConstants.NAME);
+        exists = repository.hasRelationships("abc");
 
         // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("book types")
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

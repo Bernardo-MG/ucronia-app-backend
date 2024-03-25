@@ -24,19 +24,19 @@
 
 package com.bernardomg.association.library.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.exception.HasRelationshipException;
 
 /**
- * Missing author exception.
+ * Author has relationships.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingAuthorException extends MissingIdException {
+public final class AuthorHasRelationshipsException extends HasRelationshipException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingAuthorException(final String name) {
+    public AuthorHasRelationshipsException(final String name) {
         super("author", name);
     }
 

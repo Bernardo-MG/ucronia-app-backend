@@ -17,6 +17,8 @@ public interface AuthorRepository {
 
     public Optional<Author> getOne(final String name);
 
+    public boolean hasRelationships(final String name);
+
     public Author save(final Author author);
 
 }

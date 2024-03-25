@@ -17,6 +17,8 @@ public interface PublisherRepository {
 
     public Optional<Publisher> getOne(final String name);
 
+    public boolean hasRelationships(final String name);
+
     public Publisher save(final Publisher publisher);
 
 }

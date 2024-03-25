@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 
@@ -36,6 +38,9 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
     public void deleteByName(final String name);
 
     public boolean existsByName(final String name);
+
+    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.authors a WHERE a.name = :name")
+    public boolean existsInBook(@Param("name") final String name);
 
     public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);
 

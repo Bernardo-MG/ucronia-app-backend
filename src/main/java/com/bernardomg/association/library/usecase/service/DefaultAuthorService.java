@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.library.domain.exception.AuthorHasRelationshipsException;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
@@ -47,7 +48,9 @@ public final class DefaultAuthorService implements AuthorService {
             throw new MissingAuthorException(name);
         }
 
-        // TODO: validate there are no relationships
+        if (authorRepository.hasRelationships(name)) {
+            throw new AuthorHasRelationshipsException(name);
+        }
 
         authorRepository.delete(name);
     }

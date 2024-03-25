@@ -76,6 +76,19 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
+    public final boolean hasRelationships(final String name) {
+        final boolean exists;
+
+        log.debug("Checking if book type {} has relationships", name);
+
+        exists = bookTypeSpringRepository.existsInBook(name);
+
+        log.debug("Book type {} has relationships: {}", name, exists);
+
+        return exists;
+    }
+
+    @Override
     public final BookType save(final BookType bookType) {
         final BookTypeEntity toCreate;
         final BookTypeEntity created;

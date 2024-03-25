@@ -162,7 +162,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_authors_book
                     references: library.books(id)
-                    deleteCascade: true
               - column:
                   name: author_id
                   type: bigint
@@ -170,7 +169,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_authors_author
                     references: library.authors(id)
-                    deleteCascade: true
         - addPrimaryKey:
             constraintName: book_authors_key
             schemaName: library
@@ -187,7 +185,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_publishers_book
                     references: library.books(id)
-                    deleteCascade: true
               - column:
                   name: publisher_id
                   type: bigint
@@ -195,7 +192,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_publishers_publisher
                     references: library.publishers(id)
-                    deleteCascade: true
         - addPrimaryKey:
             constraintName: book_publishers_key
             schemaName: library
@@ -213,7 +209,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_book_types_book
                     references: library.books(id)
-                    deleteCascade: true
               - column:
                   name: book_type_id
                   type: bigint
@@ -221,7 +216,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_book_types_book_type
                     references: library.book_types(id)
-                    deleteCascade: true
         - createTable:
             schemaName: library
             tableName: book_game_systems
@@ -242,7 +236,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_game_systems_game_system
                     references: library.game_systems(id)
-                    deleteCascade: true
       modifySql:
         - append:
             dbms: mysql
@@ -269,7 +262,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_lending_book
                     references: library.books(id)
-                    deleteCascade: true
               - column:
                   name: member_id
                   type: bigint
@@ -278,7 +270,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_lending_member
                     references: members(id)
-                    deleteCascade: true
               - column:
                   name: lending_date
                   type: datetime
