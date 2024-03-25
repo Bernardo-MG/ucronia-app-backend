@@ -79,8 +79,8 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             // Balance
             ResourcePermissionPair.of("BALANCE", "READ"),
             // Views
-            ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBERSHIP", "VIEW"),
-            ResourcePermissionPair.of("LIBRARY", "VIEW"),
+            ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBERS", "VIEW"),
+            ResourcePermissionPair.of("MEMBERSHIP", "VIEW"), ResourcePermissionPair.of("LIBRARY", "VIEW"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
     }
 
