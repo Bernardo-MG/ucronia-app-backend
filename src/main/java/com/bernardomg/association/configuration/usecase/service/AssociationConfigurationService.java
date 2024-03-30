@@ -7,6 +7,6 @@ public interface AssociationConfigurationService {
 
     public AssociationConfiguration read();
 
-    public void update(final AssociationConfiguration request);
+    public void update(final AssociationConfiguration configuration);
 
 }

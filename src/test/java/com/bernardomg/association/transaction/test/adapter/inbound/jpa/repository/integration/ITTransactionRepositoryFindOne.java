@@ -56,7 +56,7 @@ class ITTransactionRepositoryFindOne {
     private TransactionSpringRepository springRepository;
 
     @Test
-    @DisplayName("With a valid id, the related entity is returned")
+    @DisplayName("With an existing transaction, it is returned")
     @PositiveTransaction
     void testGetOne() {
         final Optional<Transaction> transactionOptional;
@@ -115,6 +115,19 @@ class ITTransactionRepositoryFindOne {
         // THEN
         Assertions.assertThat(transactionOptional)
             .contains(Transactions.forAmount(-1F));
+    }
+
+    @Test
+    @DisplayName("With no transaction, nothing is returned")
+    void testGetOne_NoData() {
+        final Optional<Transaction> transactionOptional;
+
+        // WHEN
+        transactionOptional = repository.findOne(TransactionConstants.INDEX);
+
+        // THEN
+        Assertions.assertThat(transactionOptional)
+            .isEmpty();
     }
 
 }

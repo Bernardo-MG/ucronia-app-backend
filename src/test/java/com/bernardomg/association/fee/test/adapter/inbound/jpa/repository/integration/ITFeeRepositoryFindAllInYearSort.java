@@ -37,12 +37,12 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.AlternativeFeeFullYear;
+import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.test.data.fee.annotation.AlternativeFeeFullYear;
-import com.bernardomg.association.test.data.fee.annotation.FeeFullYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

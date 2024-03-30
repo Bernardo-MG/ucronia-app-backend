@@ -36,11 +36,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
@@ -60,36 +58,36 @@ class TestMemberServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
+    @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final MemberChange     memberRequest;
+        final Member           member;
         final ThrowingCallable execution;
 
         // GIVEN
-        memberRequest = MemberChanges.nameChange();
+        member = Members.nameChange();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(MemberConstants.NUMBER, memberRequest);
+        execution = () -> service.update(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.paddedWithWhitespaces();
+        member = Members.paddedWithWhitespaces();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(MemberConstants.NUMBER, memberRequest);
+        service.update(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -98,15 +96,15 @@ class TestMemberServiceUpdate {
     @Test
     @DisplayName("When updating a member, the change is persisted")
     void testUpdate_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.nameChange();
+        member = Members.nameChange();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(MemberConstants.NUMBER, memberRequest);
+        service.update(member);
 
         // THEN
         verify(memberRepository).save(Members.nameChange());
@@ -115,20 +113,20 @@ class TestMemberServiceUpdate {
     @Test
     @DisplayName("When updating an active member, the change is returned")
     void testUpdate_ReturnedData() {
-        final MemberChange memberRequest;
-        final Member       member;
+        final Member member;
+        final Member updated;
 
         // GIVEN
-        memberRequest = MemberChanges.nameChange();
+        member = Members.nameChange();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
-        member = service.update(MemberConstants.NUMBER, memberRequest);
+        updated = service.update(member);
 
         // THEN
-        Assertions.assertThat(member)
+        Assertions.assertThat(updated)
             .as("member")
             .isEqualTo(Members.nameChange());
     }

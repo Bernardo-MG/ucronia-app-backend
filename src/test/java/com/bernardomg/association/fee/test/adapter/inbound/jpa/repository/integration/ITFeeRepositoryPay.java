@@ -12,13 +12,13 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeePaymentEntities;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
-import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;

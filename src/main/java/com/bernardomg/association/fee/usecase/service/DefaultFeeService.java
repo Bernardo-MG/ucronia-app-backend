@@ -11,19 +11,17 @@ import java.util.stream.Collectors;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.configuration.usecase.AssociationConfigurationSource;
-import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
+import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeePayment;
-import com.bernardomg.association.fee.domain.model.FeePaymentTransaction;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -38,8 +36,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Service
 @Slf4j
+@Transactional
 public final class DefaultFeeService implements FeeService {
 
     private final AssociationConfigurationSource configurationSource;
@@ -52,7 +50,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final TransactionRepository          transactionRepository;
 
-    private final Validator<FeePayment>          validatorPay;
+    private final Validator<Collection<Fee>>     validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
             final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
@@ -80,12 +78,12 @@ public final class DefaultFeeService implements FeeService {
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
             // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
+            throw new MissingMemberException(memberNumber);
         }
 
         feeExists = feeRepository.exists(memberNumber, date);
         if (!feeExists) {
-            throw new MissingFeeIdException(memberNumber + " " + date.toString());
+            throw new MissingFeeException(memberNumber + " " + date.toString());
         }
 
         feeRepository.delete(memberNumber, date);
@@ -106,51 +104,44 @@ public final class DefaultFeeService implements FeeService {
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
             // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
+            throw new MissingMemberException(memberNumber);
         }
 
         feeExists = feeRepository.exists(memberNumber, date);
         if (!feeExists) {
-            throw new MissingFeeIdException(memberNumber + " " + date.toString());
+            throw new MissingFeeException(memberNumber + " " + date.toString());
         }
 
         return feeRepository.findOne(memberNumber, date);
     }
 
     @Override
-    public final Collection<Fee> payFees(final FeePayment payment) {
+    public final Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long memberNumber,
+            final LocalDate transactionDate) {
         final Collection<Fee>  newFees;
         final Collection<Fee>  fees;
         final Optional<Member> member;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", payment.getMember()
-            .getNumber(),
-            payment.getTransaction()
-                .getDate(),
-            payment.getFeeDates());
+        log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, feeDates, transactionDate);
 
-        member = memberRepository.findOne(payment.getMember()
-            .getNumber());
+        member = memberRepository.findOne(memberNumber);
         if (member.isEmpty()) {
             // TODO: Change exception
-            throw new MissingMemberIdException(payment.getMember()
-                .getNumber());
+            throw new MissingMemberException(memberNumber);
         }
 
-        validatorPay.validate(payment);
-
-        newFees = payment.getFeeDates()
-            .stream()
-            .map(d -> toFee(member.get(), payment.getTransaction(), d))
+        newFees = feeDates.stream()
+            .map(d -> toFee(member.get(), transactionDate, d))
             .toList();
+
+        validatorPay.validate(newFees);
+
         fees = feeRepository.save(newFees);
 
-        pay(member.get(), fees, payment.getTransaction()
-            .getDate());
+        pay(member.get(), fees, transactionDate);
 
         // TODO: Why can't just return the created fees?
-        return feeRepository.findAllForMemberInDates(payment.getMember()
-            .getNumber(), payment.getFeeDates());
+        return feeRepository.findAllForMemberInDates(memberNumber, feeDates);
     }
 
     private final void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate) {
@@ -198,7 +189,7 @@ public final class DefaultFeeService implements FeeService {
         feeRepository.pay(member, fees, savedTransaction);
     }
 
-    private final Fee toFee(final Member member, final FeePaymentTransaction transaction, final YearMonth date) {
+    private final Fee toFee(final Member member, final LocalDate transaction, final YearMonth date) {
         final FeeMember      feeMember;
         final FeeTransaction feeTransaction;
 
@@ -208,7 +199,7 @@ public final class DefaultFeeService implements FeeService {
             .withNumber(member.getNumber())
             .build();
         feeTransaction = FeeTransaction.builder()
-            .withDate(transaction.getDate())
+            .withDate(transaction)
             .withIndex(null)
             .build();
         return Fee.builder()

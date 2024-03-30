@@ -31,12 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,6 +48,19 @@ class ITMemberRepositoryFindOne {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Test
+    @DisplayName("With no member, nothing is returned")
+    void testGetOne_NoData() {
+        final Optional<Member> memberOptional;
+
+        // WHEN
+        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .isEmpty();
+    }
 
     @Test
     @DisplayName("With a member having no fee in the current month, a not active member is returned")

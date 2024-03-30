@@ -30,13 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaAssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
-import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,10 +44,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITAssignedFeeActiveMemberRepositoryFindAll {
 
     @Autowired
-    private FeeInitializer                    feeInitializer;
+    private FeeInitializer                       feeInitializer;
 
     @Autowired
-    private AssignedFeeActiveMemberRepository service;
+    private JpaAssignedFeeActiveMemberRepository service;
 
     public ITAssignedFeeActiveMemberRepositoryFindAll() {
         super();

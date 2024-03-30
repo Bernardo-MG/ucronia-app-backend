@@ -32,11 +32,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaAssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +46,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITAssignedFeeActiveMemberRepositoryFindAllSort {
 
     @Autowired
-    private AssignedFeeActiveMemberRepository service;
+    private JpaAssignedFeeActiveMemberRepository service;
 
     public ITAssignedFeeActiveMemberRepositoryFindAllSort() {
         super();

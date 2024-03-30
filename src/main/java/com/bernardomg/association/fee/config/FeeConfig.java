@@ -24,14 +24,16 @@
 
 package com.bernardomg.association.fee.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaActiveMemberRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaAssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.schedule.FeeMaintenanceScheduleTask;
@@ -39,11 +41,14 @@ import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 /**
  * Fee configuration.
@@ -66,7 +71,7 @@ public class FeeConfig {
     @Bean("assignedFeeActiveMemberSource")
     public MemberRepository getActiveMemberSource(final ActiveMemberSpringRepository activeMemberRepo,
             final MemberSpringRepository memberSpringRepo) {
-        return new AssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo);
+        return new JpaAssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo);
     }
 
     @Bean("feeCalendarService")
@@ -93,6 +98,13 @@ public class FeeConfig {
             final TransactionSpringRepository transactionRepo) {
         return new JpaFeeRepository(feeRepo, memberFeeRepo, memberRepo, activeMemberRepo, feePaymentRepo,
             transactionRepo);
+    }
+
+    @Bean("feeService")
+    public FeeService getFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
+            final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
+            final MessageSource msgSource) {
+        return new DefaultFeeService(feeRepo, memberRepo, transactionRepo, configSource, msgSource);
     }
 
 }

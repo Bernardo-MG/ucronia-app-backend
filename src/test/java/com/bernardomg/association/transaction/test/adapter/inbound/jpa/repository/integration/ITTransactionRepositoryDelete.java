@@ -37,7 +37,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionRepository - delete")
-@PositiveTransaction
 class ITTransactionRepositoryDelete {
 
     @Autowired
@@ -51,7 +50,20 @@ class ITTransactionRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
+    @DisplayName("When there is no data nothing is deleted")
+    void testDelete_NoData() {
+        // WHEN
+        repository.delete(TransactionConstants.INDEX);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("transactions")
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When the transaction exists, it is removed")
+    @PositiveTransaction
     void testDelete_RemovesEntity() {
         // WHEN
         repository.delete(TransactionConstants.INDEX);

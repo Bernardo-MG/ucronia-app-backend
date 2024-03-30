@@ -31,20 +31,19 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionChanges;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - update")
 class TestTransactionServiceUpdate {
 
@@ -57,15 +56,15 @@ class TestTransactionServiceUpdate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final TransactionChange transactionChange;
+        final Transaction transaction;
 
         // GIVEN
-        transactionChange = TransactionChanges.paddedWithWhitespaces();
+        transaction = Transactions.paddedWithWhitespaces();
 
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
-        service.update(TransactionConstants.INDEX, transactionChange);
+        service.update(transaction);
 
         // THEN
         verify(transactionRepository).save(Transactions.valid());
@@ -74,15 +73,15 @@ class TestTransactionServiceUpdate {
     @Test
     @DisplayName("With a valid transaction, it is persisted")
     void testCreate_PersistedData() {
-        final TransactionChange transactionChange;
+        final Transaction transaction;
 
         // GIVEN
-        transactionChange = TransactionChanges.valid();
+        transaction = Transactions.valid();
 
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
-        service.update(TransactionConstants.INDEX, transactionChange);
+        service.update(transaction);
 
         // THEN
         verify(transactionRepository).save(Transactions.valid());
@@ -91,20 +90,20 @@ class TestTransactionServiceUpdate {
     @Test
     @DisplayName("With a valid transaction, it is returned")
     void testCreate_ReturnedData() {
-        final TransactionChange transactionChange;
-        final Transaction       transaction;
+        final Transaction transaction;
+        final Transaction updated;
 
         // GIVEN
-        transactionChange = TransactionChanges.valid();
+        transaction = Transactions.valid();
 
         given(transactionRepository.save(Transactions.valid())).willReturn(Transactions.valid());
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
-        transaction = service.update(TransactionConstants.INDEX, transactionChange);
+        updated = service.update(transaction);
 
         // THEN
-        Assertions.assertThat(transaction)
+        Assertions.assertThat(updated)
             .as("transaction")
             .isEqualTo(Transactions.valid());
     }
@@ -112,16 +111,16 @@ class TestTransactionServiceUpdate {
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final TransactionChange transactionRequest;
-        final ThrowingCallable  execution;
+        final Transaction      transaction;
+        final ThrowingCallable execution;
 
         // GIVEN
-        transactionRequest = TransactionChanges.valid();
+        transaction = Transactions.valid();
 
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(TransactionConstants.INDEX, transactionRequest);
+        execution = () -> service.update(transaction);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -8,6 +8,9 @@ databaseChangeLog:
   - include:
       file: structure/membership.yaml
       relativeToChangelogFile: true
+  - include:
+      file: structure/library.yaml
+      relativeToChangelogFile: true
   # Security
   - include:
       file: classpath:db/changelog/auth/initialize.yaml

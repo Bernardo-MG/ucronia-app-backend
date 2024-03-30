@@ -19,7 +19,7 @@ public final class JpaActiveMemberRepository implements ActiveMemberRepository {
     }
 
     @Override
-    public boolean isActive(final long number) {
+    public final boolean isActive(final long number) {
         final YearMonth validStart;
         final YearMonth validEnd;
         final boolean   active;
@@ -36,7 +36,7 @@ public final class JpaActiveMemberRepository implements ActiveMemberRepository {
     }
 
     @Override
-    public boolean isActivePreviousMonth(final long number) {
+    public final boolean isActivePreviousMonth(final long number) {
         final YearMonth validStart;
         final YearMonth validEnd;
         final boolean   active;

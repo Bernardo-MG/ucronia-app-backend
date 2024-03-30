@@ -1,0 +1,293 @@
+databaseChangeLog:
+  - changeSet:
+      id: library_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_library_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: library
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: library
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: isbn
+                  type: varchar(13)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: language
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: library
+            tableName: books
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: library
+            tableName: authors
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: library
+            tableName: authors
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: library
+            tableName: publishers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: library
+            tableName: publishers
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: library
+            tableName: game_systems
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: library
+            tableName: game_systems
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: library
+            tableName: book_types
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: library
+            tableName: book_types
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: library_relationships
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: library
+            tableName: book_authors
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_authors_book
+                    references: library.books(id)
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_authors_author
+                    references: library.authors(id)
+        - addPrimaryKey:
+            constraintName: book_authors_key
+            schemaName: library
+            tableName: book_authors
+            columnNames: 'book_id, author_id'
+        - createTable:
+            schemaName: library
+            tableName: book_publishers
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_publishers_book
+                    references: library.books(id)
+              - column:
+                  name: publisher_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_publishers_publisher
+                    references: library.publishers(id)
+        - addPrimaryKey:
+            constraintName: book_publishers_key
+            schemaName: library
+            tableName: book_publishers
+            columnNames: 'book_id, publisher_id'
+        - createTable:
+            schemaName: library
+            tableName: book_book_types
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_book_types_book
+                    references: library.books(id)
+              - column:
+                  name: book_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_book_types_book_type
+                    references: library.book_types(id)
+        - createTable:
+            schemaName: library
+            tableName: book_game_systems
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_game_systems_book
+                    references: library.books(id)
+                    deleteCascade: true
+              - column:
+                  name: game_system_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_game_systems_game_system
+                    references: library.game_systems(id)
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: library_lending
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: library
+            tableName: book_lendings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_lending_book
+                    references: library.books(id)
+              - column:
+                  name: member_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_book_lending_member
+                    references: members(id)
+              - column:
+                  name: lending_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: return_date
+                  type: datetime
+        - addAutoIncrement:
+            schemaName: library
+            tableName: book_lendings
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - addUniqueConstraint:
+            constraintName: book_lendings_unique_date
+            schemaName: library
+            tableName: book_lendings
+            columnNames: 'book_id, member_id, lending_date'

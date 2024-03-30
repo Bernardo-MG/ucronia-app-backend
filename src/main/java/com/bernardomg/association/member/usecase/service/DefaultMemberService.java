@@ -12,13 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
 
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +31,12 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultMemberService implements MemberService {
 
-    private final MemberRepository memberRepository;
+    private final CreateMemberValidator createMemberValidator = new CreateMemberValidator();
+
+    private final MemberRepository      memberRepository;
 
     public DefaultMemberService(final MemberRepository memberRepo) {
         super();
@@ -41,17 +45,30 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member create(final MemberChange member) {
-        final Member toCreate;
-        final Long   index;
-        final String fullName;
+    public final Member create(final Member member) {
+        final Member     toCreate;
+        final Long       index;
+        final String     fullName;
+        final MemberName memberName;
 
         log.debug("Creating member {}", member);
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        toCreate = toDomain(member);
+        memberName = MemberName.builder()
+            .withFirstName(member.getName()
+                .getFirstName())
+            .withLastName(member.getName()
+                .getLastName())
+            .build();
+        toCreate = Member.builder()
+            .withIdentifier(member.getIdentifier())
+            .withName(memberName)
+            .withPhone(member.getPhone())
+            .build();
+
+        createMemberValidator.validate(toCreate);
 
         // Set number
         index = memberRepository.findNextNumber();
@@ -77,14 +94,11 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final void delete(final long number) {
-        final boolean exists;
-
         log.debug("Deleting member {}", number);
 
-        exists = memberRepository.exists(number);
-        if (!exists) {
+        if (!memberRepository.exists(number)) {
             // TODO: change name
-            throw new MissingMemberIdException(number);
+            throw new MissingMemberException(number);
         }
 
         // TODO: Forbid deleting when there are relationships
@@ -124,32 +138,41 @@ public final class DefaultMemberService implements MemberService {
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {
             // TODO: change name
-            throw new MissingMemberIdException(number);
+            throw new MissingMemberException(number);
         }
 
         return member;
     }
 
     @Override
-    public final Member update(final long number, final MemberChange change) {
-        final boolean exists;
-        final Member  toUpdate;
-        final String  fullName;
+    public final Member update(final Member member) {
+        final boolean    exists;
+        final Member     toUpdate;
+        final String     fullName;
+        final MemberName memberName;
 
-        log.debug("Updating member {} using data {}", number, change);
+        log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
 
-        exists = memberRepository.exists(number);
+        exists = memberRepository.exists(member.getNumber());
         if (!exists) {
             // TODO: change name
-            throw new MissingMemberIdException(number);
+            throw new MissingMemberException(member.getNumber());
         }
 
-        toUpdate = toDomain(change);
-
-        // Set number
-        toUpdate.setNumber(number);
+        memberName = MemberName.builder()
+            .withFirstName(member.getName()
+                .getFirstName())
+            .withLastName(member.getName()
+                .getLastName())
+            .build();
+        toUpdate = Member.builder()
+            .withNumber(member.getNumber())
+            .withIdentifier(member.getIdentifier())
+            .withName(memberName)
+            .withPhone(member.getPhone())
+            .build();
 
         // TODO: the model should do this
         // Trim strings
@@ -212,29 +235,6 @@ public final class DefaultMemberService implements MemberService {
         orders.addAll(validOrders);
 
         return Sort.by(orders);
-    }
-
-    private final Member toDomain(final MemberChange data) {
-        final MemberName memberName;
-        final String     fullName;
-
-        // TODO: the model should return this automatically
-        fullName = Strings.trimWhitespace(data.getName()
-            .getFirstName() + " "
-                + data.getName()
-                    .getLastName());
-        memberName = MemberName.builder()
-            .withFirstName(data.getName()
-                .getFirstName())
-            .withLastName(data.getName()
-                .getLastName())
-            .withFullName(fullName)
-            .build();
-        return Member.builder()
-            .withIdentifier(data.getIdentifier())
-            .withName(memberName)
-            .withPhone(data.getPhone())
-            .build();
     }
 
 }

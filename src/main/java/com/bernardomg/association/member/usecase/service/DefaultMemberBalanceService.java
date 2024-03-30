@@ -27,6 +27,7 @@ package com.bernardomg.association.member.usecase.service;
 import java.util.Objects;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
@@ -38,6 +39,7 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Transactional
 public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     private final MemberBalanceRepository memberBalanceRepository;

@@ -32,11 +32,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
-import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,10 +50,8 @@ class ITFeeRepositoryDelete {
     private FeeRepository       repository;
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
-    @ValidMember
-    @NotPaidFee
-    void testDelete_NotPaid_RemovesEntity() {
+    @DisplayName("When there is no data, nothing is removed")
+    void testDelete_NoData() {
         // WHEN
         repository.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 
@@ -64,11 +62,25 @@ class ITFeeRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
+    @DisplayName("When a not paid entity is deleted, it is removed")
+    @ValidMember
+    @NotPaidFee
+    void testDelete_NotPaid() {
+        // WHEN
+        repository.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(feeSpringRepository.count())
+            .as("fees")
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When a paid entity is deleted, it is removed")
     @ValidMember
     @PaidFee
     @Disabled("Handle relationships")
-    void testDelete_Paid_RemovesEntity() {
+    void testDelete_Paid() {
         // WHEN
         repository.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 

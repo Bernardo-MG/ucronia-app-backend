@@ -4,7 +4,7 @@ package com.bernardomg.association.transaction.test.config.factory;
 import java.time.LocalDate;
 import java.time.Month;
 
-import com.bernardomg.association.transaction.domain.model.TransactionChange;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionChange;
 
 public final class TransactionChanges {
 

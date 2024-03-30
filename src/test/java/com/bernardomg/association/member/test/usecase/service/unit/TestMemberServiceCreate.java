@@ -28,7 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,12 +37,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberChange;
+import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - create")
@@ -59,35 +60,71 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With a member with no surname, the member is persisted")
-    @Disabled("This is an error case, handle somehow")
-    void testCreate_NoSurname_PersistedData() {
-        final MemberChange memberRequest;
+    @DisplayName("With a member with an empty name, an exception is thrown")
+    void testCreate_EmptyName() {
+        final ThrowingCallable execution;
+        final Member           member;
 
         // GIVEN
-        memberRequest = MemberChanges.missingSurname();
+        member = Members.emptyName();
+
+        // WHEN
+        execution = () -> service.create(member);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
+            .withFirstName(" ")
+            .withLastName(MemberConstants.SURNAME)
+            .build()));
+    }
+
+    @Test
+    @DisplayName("With a member with no name, an exception is thrown")
+    void testCreate_NoName() {
+        final ThrowingCallable execution;
+        final Member           member;
+
+        // GIVEN
+        member = Members.missingName();
+
+        // WHEN
+        execution = () -> service.create(member);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
+            .withLastName(MemberConstants.SURNAME)
+            .build()));
+    }
+
+    @Test
+    @DisplayName("With a member with no surname, the member is persisted")
+    void testCreate_NoSurname_PersistedData() {
+        final Member member;
+
+        // GIVEN
+        member = Members.missingSurname();
 
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(memberRequest);
+        service.create(member);
 
         // THEN
-        verify(memberRepository).save(Members.inactive());
+        verify(memberRepository).save(Members.missingSurname());
     }
 
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.paddedWithWhitespaces();
+        member = Members.paddedWithWhitespaces();
 
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(memberRequest);
+        service.create(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -96,15 +133,15 @@ class TestMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberChange memberRequest;
+        final Member member;
 
         // GIVEN
-        memberRequest = MemberChanges.valid();
+        member = Members.active();
 
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        service.create(memberRequest);
+        service.create(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -113,20 +150,20 @@ class TestMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testCreate_ReturnedData() {
-        final MemberChange memberRequest;
-        final Member       member;
+        final Member member;
+        final Member created;
 
         // GIVEN
-        memberRequest = MemberChanges.valid();
+        member = Members.active();
 
         given(memberRepository.save(Members.inactive())).willReturn(Members.inactive());
         given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
 
         // WHEN
-        member = service.create(memberRequest);
+        created = service.create(member);
 
         // THEN
-        Assertions.assertThat(member)
+        Assertions.assertThat(created)
             .as("member")
             .isEqualTo(Members.inactive());
     }
