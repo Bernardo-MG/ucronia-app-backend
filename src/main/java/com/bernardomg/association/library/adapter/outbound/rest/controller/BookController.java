@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.adapter.outbound.rest.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -79,48 +80,11 @@ public class BookController {
     @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
     public Book create(@Valid @RequestBody final BookCreation request) {
-        final Book               book;
-        final Collection<Author> authors;
-        final Publisher          publisher;
-        final BookType           bookType;
-        final GameSystem         gameSystem;
-
-        // Authors
-        authors = request.getAuthors()
-            .stream()
-            .map(a -> Author.builder()
-                .withName(a.getName())
-                .build())
-            .toList();
-
-        // Publisher
-        publisher = Publisher.builder()
-            .withName(request.getPublisher()
-                .getName())
-            .build();
-
-        // Book type
-        bookType = BookType.builder()
-            .withName(request.getBookType()
-                .getName())
-            .build();
-
-        // Game system
-        gameSystem = GameSystem.builder()
-            .withName(request.getGameSystem()
-                .getName())
-            .build();
+        final Book book;
 
         // Book
-        book = Book.builder()
-            .withTitle(request.getTitle())
-            .withIsbn(request.getIsbn())
-            .withLanguage(request.getLanguage())
-            .withAuthors(authors)
-            .withPublisher(publisher)
-            .withBookType(bookType)
-            .withGameSystem(gameSystem)
-            .build();
+        book = toBook(request);
+
         return service.create(book);
     }
 
@@ -152,41 +116,68 @@ public class BookController {
     @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
     public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookCreation request) {
-        final Book               book;
+        final Book book;
+
+        // Book
+        book = toBook(request);
+        book.setNumber(number);
+
+        return service.update(number, book);
+    }
+
+    private final Book toBook(final BookCreation request) {
         final Collection<Author> authors;
         final Publisher          publisher;
         final BookType           bookType;
         final GameSystem         gameSystem;
 
         // Authors
-        authors = request.getAuthors()
-            .stream()
-            .map(a -> Author.builder()
-                .withName(a.getName())
-                .build())
-            .toList();
+        if (request.getAuthors() == null) {
+            authors = List.of();
+        } else {
+            authors = request.getAuthors()
+                .stream()
+                .map(a -> Author.builder()
+                    .withName(a.getName())
+                    .build())
+                .toList();
+        }
 
         // Publisher
-        publisher = Publisher.builder()
-            .withName(request.getPublisher()
-                .getName())
-            .build();
+        if (request.getPublisher() == null) {
+            publisher = Publisher.builder()
+                .build();
+        } else {
+            publisher = Publisher.builder()
+                .withName(request.getPublisher()
+                    .getName())
+                .build();
+        }
 
         // Book type
-        bookType = BookType.builder()
-            .withName(request.getBookType()
-                .getName())
-            .build();
+        if (request.getBookType() == null) {
+            bookType = BookType.builder()
+                .build();
+        } else {
+            bookType = BookType.builder()
+                .withName(request.getBookType()
+                    .getName())
+                .build();
+        }
 
         // Game system
-        gameSystem = GameSystem.builder()
-            .withName(request.getGameSystem()
-                .getName())
-            .build();
+        if (request.getGameSystem() == null) {
+            gameSystem = GameSystem.builder()
+                .build();
+        } else {
+            gameSystem = GameSystem.builder()
+                .withName(request.getGameSystem()
+                    .getName())
+                .build();
+        }
 
         // Book
-        book = Book.builder()
-            .withNumber(number)
+        return Book.builder()
             .withTitle(request.getTitle())
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
@@ -195,7 +186,6 @@ public class BookController {
             .withBookType(bookType)
             .withGameSystem(gameSystem)
             .build();
-        return service.update(number, book);
     }
 
 }
