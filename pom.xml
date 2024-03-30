@@ -185,7 +185,7 @@
       <archunit.version>1.2.1</archunit.version>
       <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.3</bernardomg.framework.ws.version>
-      <bernardomg.framework.ws.security.version>0.2.2</bernardomg.framework.ws.security.version>
+      <bernardomg.framework.ws.security.version>0.2.3</bernardomg.framework.ws.security.version>
       <lombok.version>1.18.30</lombok.version>
       <micrometer.version>1.12.2</micrometer.version>
       <spring.boot.version>3.2.2</spring.boot.version>
