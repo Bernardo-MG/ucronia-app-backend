@@ -40,7 +40,7 @@ import com.bernardomg.association.auth.user.domain.repository.UserMemberReposito
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
 import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -86,7 +86,7 @@ class TestUserMemberServiceDeleteMember {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
+            .isInstanceOf(MissingUserException.class);
     }
 
 }
