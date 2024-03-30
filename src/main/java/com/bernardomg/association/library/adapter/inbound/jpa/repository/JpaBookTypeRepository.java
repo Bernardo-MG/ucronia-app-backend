@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.domain.model.BookType;
@@ -13,6 +14,7 @@ import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class JpaBookTypeRepository implements BookTypeRepository {
 
     private final BookTypeSpringRepository bookTypeSpringRepository;

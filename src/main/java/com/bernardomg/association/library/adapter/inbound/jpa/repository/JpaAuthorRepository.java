@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.domain.model.Author;
@@ -13,6 +14,7 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class JpaAuthorRepository implements AuthorRepository {
 
     private final AuthorSpringRepository authorSpringRepository;

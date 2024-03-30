@@ -87,5 +87,10 @@
             Updated security dependency due to security errors.
          </action>
       </release>
+      <release version="0.4.2" date="2024-02-12" description="Transactional repositories">
+         <action dev="bmg" type="fix">
+            Transactional repositories.
+         </action>
+      </release>
    </body>
 </document>

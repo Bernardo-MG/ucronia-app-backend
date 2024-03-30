@@ -3,6 +3,8 @@ package com.bernardomg.association.auth.user.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.auth.user.adapter.inbound.jpa.model.UserMemberEntity;
 import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
@@ -13,6 +15,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 
 import io.jsonwebtoken.lang.Strings;
 
+@Transactional
 public final class JpaUserMemberRepository implements UserMemberRepository {
 
     public final MemberSpringRepository     memberSpringRepository;

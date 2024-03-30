@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.domain.model.GameSystem;
@@ -13,6 +14,7 @@ import com.bernardomg.association.library.domain.repository.GameSystemRepository
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class JpaGameSystemRepository implements GameSystemRepository {
 
     private final GameSystemSpringRepository gameSystemRepository;

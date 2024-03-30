@@ -3,11 +3,14 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
 import java.time.YearMonth;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class JpaActiveMemberRepository implements ActiveMemberRepository {
 
     private final ActiveMemberSpringRepository activeMemberRepository;

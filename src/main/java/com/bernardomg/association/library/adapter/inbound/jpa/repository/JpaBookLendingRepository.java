@@ -3,6 +3,8 @@ package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.domain.model.BookLending;
@@ -13,6 +15,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookLendingSpringRepository bookLendingSpringRepository;

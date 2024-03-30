@@ -23,6 +23,13 @@ public final class TransactionalRules {
             Transactional.class);
 
     @ArchTest
+    static final ArchRule repositories_should_be_transactional    = classes().that(Predicates.areRepositoryClasses())
+        .and()
+        .areNotInterfaces()
+        .should()
+        .beAnnotatedWith(Transactional.class);
+
+    @ArchTest
     static final ArchRule services_should_be_transactional        = classes().that(Predicates.areServiceClasses())
         .and()
         .areNotInterfaces()
