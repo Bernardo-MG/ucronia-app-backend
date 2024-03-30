@@ -32,9 +32,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaAssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -46,7 +46,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITAssignedFeeActiveMemberRepositoryAllPagination {
 
     @Autowired
-    private JpaAssignedFeeActiveMemberRepository service;
+    private MemberRepository repository;
 
     public ITAssignedFeeActiveMemberRepositoryAllPagination() {
         super();
@@ -62,7 +62,7 @@ class ITAssignedFeeActiveMemberRepositoryAllPagination {
         pageable = Pageable.ofSize(10);
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -79,7 +79,7 @@ class ITAssignedFeeActiveMemberRepositoryAllPagination {
         pageable = PageRequest.of(0, 1);
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -96,7 +96,7 @@ class ITAssignedFeeActiveMemberRepositoryAllPagination {
         pageable = PageRequest.of(1, 1);
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -113,7 +113,7 @@ class ITAssignedFeeActiveMemberRepositoryAllPagination {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
