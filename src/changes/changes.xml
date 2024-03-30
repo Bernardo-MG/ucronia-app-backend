@@ -77,9 +77,14 @@
             Updated dependencies.
          </action>
       </release>
-      <release version="0.4.0" date="2024-02-12" description="">
+      <release version="0.4.0" date="2024-03-30" description="Library management">
          <action dev="bmg" type="add">
             Library management.
+         </action>
+      </release>
+      <release version="0.4.1" date="2024-02-12" description="Updated security dependency">
+         <action dev="bmg" type="fix">
+            Updated security dependency due to security errors.
          </action>
       </release>
    </body>

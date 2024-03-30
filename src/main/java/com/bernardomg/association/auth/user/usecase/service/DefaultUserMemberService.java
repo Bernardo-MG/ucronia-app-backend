@@ -10,7 +10,7 @@ import com.bernardomg.association.auth.user.domain.repository.UserMemberReposito
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
@@ -39,7 +39,7 @@ public final class DefaultUserMemberService implements UserMemberService {
 
         readUser = userRepository.findOne(username);
         if (readUser.isEmpty()) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         readMember = memberRepository.findOne(memberNumber);
@@ -60,7 +60,7 @@ public final class DefaultUserMemberService implements UserMemberService {
 
         exists = userRepository.exists(username);
         if (!exists) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         userMemberRepository.delete(username);
@@ -72,7 +72,7 @@ public final class DefaultUserMemberService implements UserMemberService {
 
         readUser = userRepository.findOne(username);
         if (readUser.isEmpty()) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         return userMemberRepository.findByUsername(username);
@@ -85,7 +85,7 @@ public final class DefaultUserMemberService implements UserMemberService {
 
         readUser = userRepository.findOne(username);
         if (readUser.isEmpty()) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         readMember = memberRepository.findOne(memberNumber);
