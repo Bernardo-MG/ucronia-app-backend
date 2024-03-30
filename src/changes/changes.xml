@@ -82,7 +82,10 @@
             Library management.
          </action>
       </release>
-      <release version="1.0.0" date="2024-02-12" description="">
+      <release version="0.4.1" date="2024-02-12" description="Updated security dependency">
+         <action dev="bmg" type="fix">
+            Updated security dependency due to security errors.
+         </action>
       </release>
    </body>
 </document>
