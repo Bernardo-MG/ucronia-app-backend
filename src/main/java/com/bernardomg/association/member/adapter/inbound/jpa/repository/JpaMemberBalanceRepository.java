@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MonthlyMemberBalanceSpecifications;
@@ -16,6 +17,7 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 public final class JpaMemberBalanceRepository implements MemberBalanceRepository {
 
     private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository;

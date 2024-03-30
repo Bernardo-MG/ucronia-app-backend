@@ -3,10 +3,13 @@ package com.bernardomg.association.configuration.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
 import com.bernardomg.association.configuration.domain.model.Configuration;
 import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 
+@Transactional
 public final class JpaConfigurationRepository implements ConfigurationRepository {
 
     private final ConfigurationSpringRepository configurationSpringRepository;
