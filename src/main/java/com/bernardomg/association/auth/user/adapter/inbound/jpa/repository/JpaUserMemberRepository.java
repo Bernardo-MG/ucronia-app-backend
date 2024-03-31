@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.auth.user.adapter.inbound.jpa.model.UserMemberEntity;
 import com.bernardomg.association.auth.user.domain.model.UserMember;
+import com.bernardomg.association.auth.user.domain.model.UserMemberName;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
@@ -92,14 +93,19 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     private final UserMember toDto(final UserEntity user, final MemberEntity member) {
-        final String fullName;
+        final String         fullName;
+        final UserMemberName name;
 
         // TODO: change model
         fullName = Strings.trimWhitespace(member.getName() + " " + member.getSurname());
+        name = UserMemberName.builder()
+            .withFirstName(member.getName())
+            .withLastName(member.getSurname())
+            .withFullName(fullName)
+            .build();
         return UserMember.builder()
             .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withFullName(fullName)
+            .withName(name)
             .withNumber(member.getNumber())
             .build();
     }
