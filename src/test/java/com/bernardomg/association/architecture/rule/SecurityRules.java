@@ -5,6 +5,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 import com.bernardomg.association.architecture.predicate.Predicates;
 import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.Unsecured;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
@@ -16,7 +17,9 @@ public class SecurityRules {
         .and()
         .arePublic()
         .should()
-        .beAnnotatedWith(RequireResourceAccess.class);
+        .beAnnotatedWith(RequireResourceAccess.class)
+        .orShould()
+        .beAnnotatedWith(Unsecured.class);
 
     @ArchTest
     static final ArchRule service_methods_should_not_be_secured = methods().that()
