@@ -82,14 +82,19 @@
             Library management.
          </action>
       </release>
-      <release version="0.4.1" date="2024-02-12" description="Updated security dependency">
+      <release version="0.4.1" date="2024-03-12" description="Updated security dependency">
          <action dev="bmg" type="fix">
             Updated security dependency due to security errors.
          </action>
       </release>
-      <release version="0.4.2" date="2024-02-12" description="Transactional repositories">
+      <release version="0.4.2" date="2024-03-12" description="Transactional repositories">
          <action dev="bmg" type="fix">
             Transactional repositories.
+         </action>
+      </release>
+      <release version="0.4.3" date="2024-04-01" description="Updated security dependency">
+         <action dev="bmg" type="fix">
+            Updated security dependency due to security errors.
          </action>
       </release>
    </body>
