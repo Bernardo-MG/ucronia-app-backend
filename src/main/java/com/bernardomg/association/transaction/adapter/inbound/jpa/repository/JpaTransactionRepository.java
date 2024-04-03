@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,11 +114,15 @@ public final class JpaTransactionRepository implements TransactionRepository {
         final Collection<TransactionEntity>    read;
         final Collection<Transaction>          transactions;
         final TransactionCalendarMonth         monthCalendar;
+        final Sort                             sort;
 
         log.debug("Finding all the transactions for the month {}", date);
 
+        // TODO: test that the data is sorted
+        sort = Sort.by("date", "amount", "description");
+
         spec = TransactionSpecifications.on(date);
-        read = transactionRepository.findAll(spec);
+        read = transactionRepository.findAll(spec, sort);
 
         transactions = read.stream()
             .map(this::toDomain)
