@@ -62,6 +62,11 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     @Override
+    public final boolean existsByMember(final long number) {
+        return userMemberJpaRepository.existsByMemberNumber(number);
+    }
+
+    @Override
     public final Optional<Member> findByUsername(final String username) {
         final Optional<UserEntity>       user;
         final Optional<UserMemberEntity> userMember;
@@ -87,7 +92,7 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     @Override
-    public final Member save(final String username, final Long number) {
+    public final Member save(final String username, final long number) {
         final UserMemberEntity       userMember;
         final Optional<UserEntity>   user;
         final Optional<MemberEntity> member;

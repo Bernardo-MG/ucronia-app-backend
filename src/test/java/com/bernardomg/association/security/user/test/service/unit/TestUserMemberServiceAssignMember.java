@@ -71,6 +71,26 @@ class TestUserMemberServiceAssignMember {
     private UserRepository           userRepository;
 
     @Test
+    @DisplayName("When the member has already been assigned, it throws an exception")
+    @ValidMember
+    void testAssignMember_ExistingMember() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+
+        given(userMemberRepository.existsByMember(MemberConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+    }
+
+    @Test
     @DisplayName("When the user already has a member, it throws an exception")
     @ValidMember
     void testAssignMember_ExistingUser() {

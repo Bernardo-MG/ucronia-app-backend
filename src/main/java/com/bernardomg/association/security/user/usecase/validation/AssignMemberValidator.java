@@ -26,8 +26,14 @@ public final class AssignMemberValidator extends AbstractValidator<UserMember> {
         FieldFailure failure;
 
         if (userMemberRepository.exists(member.getUsername())) {
-            log.error("Member already assigned to username username {}", member.getUsername());
+            log.error("User {} already assigned to a member", member.getUsername());
             failure = FieldFailure.of("username", "existing", member.getUsername());
+            failures.add(failure);
+        }
+
+        if (userMemberRepository.existsByMember(member.getNumber())) {
+            log.error("Member {} already assigned to a user", member.getNumber());
+            failure = FieldFailure.of("member", "existing", member.getNumber());
             failures.add(failure);
         }
     }

@@ -11,8 +11,10 @@ public interface UserMemberRepository {
 
     public boolean exists(final String username);
 
+    public boolean existsByMember(final long number);
+
     public Optional<Member> findByUsername(final String username);
 
-    public Member save(final String username, final Long number);
+    public Member save(final String username, final long number);
 
 }

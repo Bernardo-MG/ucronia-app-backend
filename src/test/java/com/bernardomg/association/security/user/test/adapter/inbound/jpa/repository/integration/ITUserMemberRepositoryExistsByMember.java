@@ -29,26 +29,26 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
-import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("UserMemberRepository - exists")
-class ITUserMemberRepositoryExists {
+class ITUserMemberRepositoryExistsByMember {
 
     @Autowired
     private UserMemberRepository repository;
 
     @Test
-    @DisplayName("When the user is assigned it exists")
+    @DisplayName("When the member is assigned it exists")
     @ValidUserWithMember
-    void testExists() {
+    void testExistsByMember() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(UserConstants.USERNAME);
+        exists = repository.existsByMember(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -57,11 +57,11 @@ class ITUserMemberRepositoryExists {
 
     @Test
     @DisplayName("When no data exists it doesn't exist")
-    void testExists_NoData() {
+    void testExistsByMember_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(UserConstants.USERNAME);
+        exists = repository.existsByMember(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

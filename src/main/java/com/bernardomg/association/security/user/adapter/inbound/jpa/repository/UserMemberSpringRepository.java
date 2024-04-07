@@ -27,12 +27,22 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
 
 public interface UserMemberSpringRepository extends JpaRepository<UserMemberEntity, Long> {
 
     public void deleteByUserId(final long id);
+
+    @Query("""
+               SELECT CASE WHEN COUNT(um) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM UserMember um
+                 JOIN um.member u
+               WHERE u.number = :number
+            """)
+    public boolean existsByMemberNumber(@Param("number") final long number);
 
     public boolean existsByUserId(final long id);
 
