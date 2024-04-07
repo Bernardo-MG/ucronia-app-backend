@@ -13,6 +13,4 @@ public interface UserMemberService {
 
     public void unassignMember(final String username);
 
-    public Member updateMember(final String username, final long memberId);
-
 }

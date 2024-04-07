@@ -91,28 +91,4 @@ public final class DefaultUserMemberService implements UserMemberService {
         userMemberRepository.delete(username);
     }
 
-    @Override
-    public final Member updateMember(final String username, final long memberNumber) {
-        final Optional<User>   readUser;
-        final Optional<Member> readMember;
-
-        readUser = userRepository.findOne(username);
-        if (readUser.isEmpty()) {
-            throw new MissingUserException(username);
-        }
-
-        readMember = memberRepository.findOne(memberNumber);
-        if (readMember.isEmpty()) {
-            // FIXME: correct name
-            throw new MissingMemberException(memberNumber);
-        }
-
-        userMemberRepository.save(readUser.get()
-            .getUsername(),
-            readMember.get()
-                .getNumber());
-
-        return readMember.get();
-    }
-
 }

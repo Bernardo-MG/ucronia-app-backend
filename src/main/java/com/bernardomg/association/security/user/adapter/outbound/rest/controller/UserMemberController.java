@@ -33,11 +33,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.security.user.adapter.outbound.cache.UserMemberCaches;
 import com.bernardomg.association.security.user.usecase.service.UserMemberService;
@@ -105,23 +103,6 @@ public class UserMemberController {
     @Caching(evict = { @CacheEvict(cacheNames = { UserMemberCaches.USER_MEMBER }) })
     public void unassign(@PathVariable("username") final String username) {
         service.unassignMember(username);
-    }
-
-    /**
-     * Updates the member assigned to a user.
-     *
-     * @param username
-     *            username of the user to assign the member
-     * @param memberNumber
-     *            member to assign
-     * @return added permission
-     */
-    @PutMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.username") })
-    public Member update(@PathVariable("username") final String username,
-            @PathVariable("memberNumber") final long memberNumber) {
-        return service.updateMember(username, memberNumber);
     }
 
 }
