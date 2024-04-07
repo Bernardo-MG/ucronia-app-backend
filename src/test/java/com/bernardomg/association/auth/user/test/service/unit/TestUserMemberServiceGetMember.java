@@ -37,13 +37,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
-import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
 import com.bernardomg.association.auth.user.test.config.factory.Users;
 import com.bernardomg.association.auth.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
@@ -66,18 +66,18 @@ class TestUserMemberServiceGetMember {
     @Test
     @DisplayName("With a member assigned to the user, it returns the user")
     void testGetMember() {
-        final Optional<UserMember> member;
+        final Optional<Member> member;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserMembers.valid()));
+        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         member = service.getMember(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(UserMembers.valid());
+            .contains(Members.active());
     }
 
     @Test

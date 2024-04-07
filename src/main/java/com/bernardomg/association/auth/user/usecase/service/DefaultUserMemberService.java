@@ -67,7 +67,7 @@ public final class DefaultUserMemberService implements UserMemberService {
     }
 
     @Override
-    public final Optional<UserMember> getMember(final String username) {
+    public final Optional<Member> getMember(final String username) {
         final Optional<User> readUser;
 
         readUser = userRepository.findOne(username);

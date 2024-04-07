@@ -31,11 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.auth.user.test.config.factory.UserConstants;
-import com.bernardomg.association.auth.user.test.config.factory.UserMembers;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,20 +50,34 @@ class ITUserMemberRepositoryFindByUsername {
     @DisplayName("When the user exists it is returned")
     @ValidUserWithMember
     void testGetMember() {
-        final Optional<UserMember> member;
+        final Optional<Member> member;
 
         // WHEN
         member = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(UserMembers.valid());
+            .contains(Members.inactive());
     }
 
     @Test
     @DisplayName("When no data exists nothing is returned")
     void testGetMember_NoData() {
-        final Optional<UserMember> member;
+        final Optional<Member> member;
+
+        // WHEN
+        member = repository.findByUsername(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the member doesn't exist nothing is returned")
+    @ValidUser
+    void testGetMember_NoMember() {
+        final Optional<Member> member;
 
         // WHEN
         member = repository.findByUsername(UserConstants.USERNAME);

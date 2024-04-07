@@ -11,6 +11,8 @@ import com.bernardomg.association.auth.user.domain.model.UserMemberName;
 import com.bernardomg.association.auth.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
@@ -49,20 +51,25 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     @Override
-    public final Optional<UserMember> findByUsername(final String username) {
+    public final Optional<Member> findByUsername(final String username) {
         final Optional<UserEntity>       user;
         final Optional<MemberEntity>     member;
         final Optional<UserMemberEntity> userMember;
-        final Optional<UserMember>       result;
+        final Optional<Member>           result;
 
         user = userSpringRepository.findOneByUsername(username);
         if (user.isPresent()) {
+            // TODO: Simplify this, use JPA relationships
             userMember = userMemberJpaRepository.findByUserId(user.get()
                 .getId());
-            member = memberSpringRepository.findById(userMember.get()
-                .getMemberId());
-            if (member.isPresent()) {
-                result = Optional.of(toDto(user.get(), member.get()));
+            if (userMember.isPresent()) {
+                member = memberSpringRepository.findById(userMember.get()
+                    .getMemberId());
+                if (member.isPresent()) {
+                    result = Optional.of(toDomain(member.get()));
+                } else {
+                    result = Optional.empty();
+                }
             } else {
                 result = Optional.empty();
             }
@@ -90,6 +97,25 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
         userMemberJpaRepository.save(userMember);
 
         return toDto(user.get(), member.get());
+    }
+
+    private final Member toDomain(final MemberEntity entity) {
+        final MemberName memberName;
+        final String     fullName;
+
+        // TODO: the model should return this automatically
+        fullName = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
+        memberName = MemberName.builder()
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
+            .withFullName(fullName)
+            .build();
+        return Member.builder()
+            .withNumber(entity.getNumber())
+            .withIdentifier(entity.getIdentifier())
+            .withName(memberName)
+            .withPhone(entity.getPhone())
+            .build();
     }
 
     private final UserMember toDto(final UserEntity user, final MemberEntity member) {

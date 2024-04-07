@@ -41,6 +41,7 @@ import com.bernardomg.association.auth.user.adapter.outbound.cache.UserMemberCac
 import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -102,7 +103,7 @@ public class UserMemberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserMemberCaches.USER_MEMBER)
-    public UserMember read(@PathVariable("username") final String username) {
+    public Member read(@PathVariable("username") final String username) {
         return service.getMember(username)
             .orElse(null);
     }
