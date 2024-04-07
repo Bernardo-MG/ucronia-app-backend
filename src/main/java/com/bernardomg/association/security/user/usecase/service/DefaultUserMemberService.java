@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.security.user.domain.model.UserMember;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
@@ -33,7 +32,7 @@ public final class DefaultUserMemberService implements UserMemberService {
     }
 
     @Override
-    public final UserMember assignMember(final String username, final long memberNumber) {
+    public final Member assignMember(final String username, final long memberNumber) {
         final Optional<User>   readUser;
         final Optional<Member> readMember;
 
@@ -48,10 +47,12 @@ public final class DefaultUserMemberService implements UserMemberService {
             throw new MissingMemberException(memberNumber);
         }
 
-        return userMemberRepository.save(readUser.get()
+        userMemberRepository.save(readUser.get()
             .getUsername(),
             readMember.get()
                 .getNumber());
+
+        return readMember.get();
     }
 
     @Override
@@ -79,7 +80,7 @@ public final class DefaultUserMemberService implements UserMemberService {
     }
 
     @Override
-    public final UserMember updateMember(final String username, final long memberNumber) {
+    public final Member updateMember(final String username, final long memberNumber) {
         final Optional<User>   readUser;
         final Optional<Member> readMember;
 
@@ -94,10 +95,12 @@ public final class DefaultUserMemberService implements UserMemberService {
             throw new MissingMemberException(memberNumber);
         }
 
-        return userMemberRepository.save(readUser.get()
+        userMemberRepository.save(readUser.get()
             .getUsername(),
             readMember.get()
                 .getNumber());
+
+        return readMember.get();
     }
 
 }

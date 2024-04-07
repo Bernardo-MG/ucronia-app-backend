@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.security.user.adapter.outbound.cache.UserMemberCaches;
-import com.bernardomg.association.security.user.domain.model.UserMember;
 import com.bernardomg.association.security.user.usecase.service.UserMemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -75,7 +74,7 @@ public class UserMemberController {
     @Caching(put = { @CachePut(cacheNames = UserMemberCaches.USER_MEMBER, key = "#result.username") })
     @PostMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public UserMember assign(@PathVariable("username") final String username,
+    public Member assign(@PathVariable("username") final String username,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.assignMember(username, memberNumber);
     }
@@ -120,7 +119,7 @@ public class UserMemberController {
     @PutMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.username") })
-    public UserMember update(@PathVariable("username") final String username,
+    public Member update(@PathVariable("username") final String username,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.updateMember(username, memberNumber);
     }
