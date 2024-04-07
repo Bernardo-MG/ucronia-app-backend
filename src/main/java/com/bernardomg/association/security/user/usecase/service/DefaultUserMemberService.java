@@ -50,7 +50,6 @@ public final class DefaultUserMemberService implements UserMemberService {
 
         readMember = memberRepository.findOne(memberNumber);
         if (readMember.isEmpty()) {
-            // FIXME: correct name
             throw new MissingMemberException(memberNumber);
         }
 
