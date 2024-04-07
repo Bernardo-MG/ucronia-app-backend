@@ -135,7 +135,7 @@ class TestUserMemberServiceAssignMember {
 
         // THEN
         Assertions.assertThat(member)
-            .isEqualTo(UserMembers.valid());
+            .isEqualTo(Members.active());
     }
 
 }

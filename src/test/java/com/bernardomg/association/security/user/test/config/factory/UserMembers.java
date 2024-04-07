@@ -7,21 +7,6 @@ import com.bernardomg.association.security.user.domain.model.UserMemberName;
 
 public final class UserMembers {
 
-    public static final UserMember alternative() {
-        final UserMemberName name;
-
-        name = UserMemberName.builder()
-            .withFirstName(MemberConstants.ALTERNATIVE_NAME)
-            .withLastName(MemberConstants.ALTERNATIVE_SURNAME)
-            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
-            .build();
-        return UserMember.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(name)
-            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
-            .build();
-    }
-
     public static final UserMember valid() {
         final UserMemberName name;
 

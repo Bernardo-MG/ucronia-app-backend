@@ -38,22 +38,18 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
 
     @Override
     public final void delete(final String username) {
-        final Optional<UserEntity>       user;
-        final Optional<UserMemberEntity> userMember;
+        final Optional<UserEntity> user;
 
         user = userSpringRepository.findOneByUsername(username);
         if (user.isPresent()) {
-            userMember = userMemberJpaRepository.findByUserId(user.get()
+            userMemberJpaRepository.deleteByUserId(user.get()
                 .getId());
-            userMemberJpaRepository.deleteById(userMember.get()
-                .getUserId());
         }
     }
 
     @Override
     public final Optional<Member> findByUsername(final String username) {
         final Optional<UserEntity>       user;
-        final Optional<MemberEntity>     member;
         final Optional<UserMemberEntity> userMember;
         final Optional<Member>           result;
 
@@ -62,14 +58,10 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
             // TODO: Simplify this, use JPA relationships
             userMember = userMemberJpaRepository.findByUserId(user.get()
                 .getId());
-            if (userMember.isPresent()) {
-                member = memberSpringRepository.findById(userMember.get()
-                    .getMemberId());
-                if (member.isPresent()) {
-                    result = Optional.of(toDomain(member.get()));
-                } else {
-                    result = Optional.empty();
-                }
+            if ((userMember.isPresent()) && (userMember.get()
+                .getMember() != null)) {
+                result = Optional.of(toDomain(userMember.get()
+                    .getMember()));
             } else {
                 result = Optional.empty();
             }
@@ -88,13 +80,15 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
 
         user = userSpringRepository.findOneByUsername(username);
         member = memberSpringRepository.findByNumber(number);
-        userMember = UserMemberEntity.builder()
-            .withMemberId(member.get()
-                .getId())
-            .withUserId(user.get()
-                .getId())
-            .build();
-        userMemberJpaRepository.save(userMember);
+        if ((user.isPresent()) && (member.isPresent())) {
+            userMember = UserMemberEntity.builder()
+                .withUserId(member.get()
+                    .getId())
+                .withMember(member.get())
+                .withUser(user.get())
+                .build();
+            userMemberJpaRepository.save(userMember);
+        }
 
         return toDto(user.get(), member.get());
     }

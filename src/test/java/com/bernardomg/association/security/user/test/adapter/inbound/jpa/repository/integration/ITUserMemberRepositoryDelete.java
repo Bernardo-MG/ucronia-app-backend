@@ -36,7 +36,7 @@ import com.bernardomg.association.security.user.test.config.factory.UserConstant
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - delete member")
+@DisplayName("UserMemberRepository - delete member")
 class ITUserMemberRepositoryDelete {
 
     @Autowired

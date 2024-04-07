@@ -32,6 +32,8 @@ import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMe
 
 public interface UserMemberSpringRepository extends JpaRepository<UserMemberEntity, Long> {
 
+    public void deleteByUserId(final long id);
+
     public Optional<UserMemberEntity> findByUserId(final long id);
 
 }

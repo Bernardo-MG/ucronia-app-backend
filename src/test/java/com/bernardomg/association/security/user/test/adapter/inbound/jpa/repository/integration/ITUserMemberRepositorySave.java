@@ -27,6 +27,7 @@ package com.bernardomg.association.security.user.test.adapter.inbound.jpa.reposi
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,11 @@ import com.bernardomg.association.security.user.domain.repository.UserMemberRepo
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
-import com.bernardomg.association.security.user.test.config.factory.UserMemberEntities;
 import com.bernardomg.association.security.user.test.config.factory.UserMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - assign member")
+@DisplayName("UserMemberRepository - assign member")
 class ITUserMemberRepositorySave {
 
     @Autowired
@@ -55,7 +55,7 @@ class ITUserMemberRepositorySave {
     private UserMemberSpringRepository userMemberSpringRepository;
 
     @Test
-    @DisplayName("When the data exists, the relationship is persisted")
+    @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithMember
     void testAssignMember_Existing_PersistedData() {
         final Collection<UserMemberEntity> members;
@@ -65,8 +65,27 @@ class ITUserMemberRepositorySave {
 
         // THEN
         members = userMemberSpringRepository.findAll();
-        Assertions.assertThat(members)
-            .containsExactly(UserMemberEntities.valid());
+        SoftAssertions.assertSoftly(softly -> {
+            final UserMemberEntity member;
+
+            softly.assertThat(members)
+                .as("members")
+                .hasSize(1);
+
+            member = members.iterator()
+                .next();
+            softly.assertThat(member.getUserId())
+                .as("user id")
+                .isNotNull();
+            softly.assertThat(member.getMember()
+                .getNumber())
+                .as("member number")
+                .isEqualTo(MemberConstants.NUMBER);
+            softly.assertThat(member.getUser()
+                .getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -95,8 +114,27 @@ class ITUserMemberRepositorySave {
 
         // THEN
         members = userMemberSpringRepository.findAll();
-        Assertions.assertThat(members)
-            .containsExactly(UserMemberEntities.valid());
+        SoftAssertions.assertSoftly(softly -> {
+            final UserMemberEntity member;
+
+            softly.assertThat(members)
+                .as("members")
+                .hasSize(1);
+
+            member = members.iterator()
+                .next();
+            softly.assertThat(member.getUserId())
+                .as("user id")
+                .isNotNull();
+            softly.assertThat(member.getMember()
+                .getNumber())
+                .as("member number")
+                .isEqualTo(MemberConstants.NUMBER);
+            softly.assertThat(member.getUser()
+                .getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
