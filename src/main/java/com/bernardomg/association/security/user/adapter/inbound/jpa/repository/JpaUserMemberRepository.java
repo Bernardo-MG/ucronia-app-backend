@@ -10,8 +10,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
-import com.bernardomg.association.security.user.domain.model.UserMember;
-import com.bernardomg.association.security.user.domain.model.UserMemberName;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -21,11 +19,11 @@ import io.jsonwebtoken.lang.Strings;
 @Transactional
 public final class JpaUserMemberRepository implements UserMemberRepository {
 
-    public final MemberSpringRepository     memberSpringRepository;
+    private final MemberSpringRepository     memberSpringRepository;
 
-    public final UserMemberSpringRepository userMemberJpaRepository;
+    private final UserMemberSpringRepository userMemberJpaRepository;
 
-    public final UserSpringRepository       userSpringRepository;
+    private final UserSpringRepository       userSpringRepository;
 
     public JpaUserMemberRepository(final UserMemberSpringRepository userMemberJpaRepo,
             final UserSpringRepository userSpringRepo, final MemberSpringRepository memberSpringRepo) {
@@ -45,6 +43,22 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
             userMemberJpaRepository.deleteByUserId(user.get()
                 .getId());
         }
+    }
+
+    @Override
+    public final boolean exists(final String username) {
+        final Optional<UserEntity> user;
+        final boolean              exists;
+
+        user = userSpringRepository.findOneByUsername(username);
+        if (user.isPresent()) {
+            exists = userMemberJpaRepository.existsByUserId(user.get()
+                .getId());
+        } else {
+            exists = false;
+        }
+
+        return exists;
     }
 
     @Override
@@ -73,10 +87,11 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     @Override
-    public final UserMember save(final String username, final Long number) {
+    public final Member save(final String username, final Long number) {
         final UserMemberEntity       userMember;
         final Optional<UserEntity>   user;
         final Optional<MemberEntity> member;
+        final Member                 result;
 
         user = userSpringRepository.findOneByUsername(username);
         member = memberSpringRepository.findByNumber(number);
@@ -88,9 +103,12 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
                 .withUser(user.get())
                 .build();
             userMemberJpaRepository.save(userMember);
+            result = toDomain(member.get());
+        } else {
+            result = null;
         }
 
-        return toDto(user.get(), member.get());
+        return result;
     }
 
     private final Member toDomain(final MemberEntity entity) {
@@ -109,24 +127,6 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
             .withIdentifier(entity.getIdentifier())
             .withName(memberName)
             .withPhone(entity.getPhone())
-            .build();
-    }
-
-    private final UserMember toDto(final UserEntity user, final MemberEntity member) {
-        final String         fullName;
-        final UserMemberName name;
-
-        // TODO: change model
-        fullName = Strings.trimWhitespace(member.getName() + " " + member.getSurname());
-        name = UserMemberName.builder()
-            .withFirstName(member.getName())
-            .withLastName(member.getSurname())
-            .withFullName(fullName)
-            .build();
-        return UserMember.builder()
-            .withUsername(user.getUsername())
-            .withName(name)
-            .withNumber(member.getNumber())
             .build();
     }
 

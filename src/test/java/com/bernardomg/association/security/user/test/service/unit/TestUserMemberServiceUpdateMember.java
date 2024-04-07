@@ -47,7 +47,6 @@ import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
-import com.bernardomg.association.security.user.test.config.factory.UserMembers;
 import com.bernardomg.association.security.user.test.config.factory.Users;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
@@ -127,8 +126,7 @@ class TestUserMemberServiceUpdateMember {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(userMemberRepository.save(UserConstants.USERNAME, MemberConstants.NUMBER))
-            .willReturn(UserMembers.valid());
+        given(userMemberRepository.save(UserConstants.USERNAME, MemberConstants.NUMBER)).willReturn(Members.active());
 
         // WHEN
         member = service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);

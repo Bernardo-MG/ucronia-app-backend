@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.security.user.domain.model.UserMember;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.usecase.validation.AssignMemberValidator;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
@@ -16,11 +18,13 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 @Transactional
 public final class DefaultUserMemberService implements UserMemberService {
 
-    private final MemberRepository     memberRepository;
+    private final AssignMemberValidator assignMemberValidator;
 
-    private final UserMemberRepository userMemberRepository;
+    private final MemberRepository      memberRepository;
 
-    private final UserRepository       userRepository;
+    private final UserMemberRepository  userMemberRepository;
+
+    private final UserRepository        userRepository;
 
     public DefaultUserMemberService(final UserRepository userRepo, final MemberRepository memberRepo,
             final UserMemberRepository userMemberRepo) {
@@ -29,12 +33,15 @@ public final class DefaultUserMemberService implements UserMemberService {
         userRepository = userRepo;
         memberRepository = memberRepo;
         userMemberRepository = userMemberRepo;
+
+        assignMemberValidator = new AssignMemberValidator(userMemberRepository);
     }
 
     @Override
     public final Member assignMember(final String username, final long memberNumber) {
         final Optional<User>   readUser;
         final Optional<Member> readMember;
+        final UserMember       userMember;
 
         readUser = userRepository.findOne(username);
         if (readUser.isEmpty()) {
@@ -47,24 +54,18 @@ public final class DefaultUserMemberService implements UserMemberService {
             throw new MissingMemberException(memberNumber);
         }
 
+        userMember = UserMember.builder()
+            .withUsername(username)
+            .withNumber(memberNumber)
+            .build();
+        assignMemberValidator.validate(userMember);
+
         userMemberRepository.save(readUser.get()
             .getUsername(),
             readMember.get()
                 .getNumber());
 
         return readMember.get();
-    }
-
-    @Override
-    public final void deleteMember(final String username) {
-        final boolean exists;
-
-        exists = userRepository.exists(username);
-        if (!exists) {
-            throw new MissingUserException(username);
-        }
-
-        userMemberRepository.delete(username);
     }
 
     @Override
@@ -77,6 +78,18 @@ public final class DefaultUserMemberService implements UserMemberService {
         }
 
         return userMemberRepository.findByUsername(username);
+    }
+
+    @Override
+    public final void unassignMember(final String username) {
+        final boolean exists;
+
+        exists = userRepository.exists(username);
+        if (!exists) {
+            throw new MissingUserException(username);
+        }
+
+        userMemberRepository.delete(username);
     }
 
     @Override

@@ -9,9 +9,9 @@ public interface UserMemberService {
 
     public Member assignMember(final String username, final long memberId);
 
-    public void deleteMember(final String username);
-
     public Optional<Member> getMember(final String username);
+
+    public void unassignMember(final String username);
 
     public Member updateMember(final String username, final long memberId);
 

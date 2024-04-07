@@ -80,19 +80,6 @@ public class UserMemberController {
     }
 
     /**
-     * Removes the member assigned to a user.
-     *
-     * @param username
-     *            username of the user to delete the member
-     */
-    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { UserMemberCaches.USER_MEMBER }) })
-    public void delete(@PathVariable("username") final String username) {
-        service.deleteMember(username);
-    }
-
-    /**
      * Reads the member assigned to a user.
      *
      * @param username
@@ -105,6 +92,19 @@ public class UserMemberController {
     public Member read(@PathVariable("username") final String username) {
         return service.getMember(username)
             .orElse(null);
+    }
+
+    /**
+     * Removes the member assigned to a user.
+     *
+     * @param username
+     *            username of the user to delete the member
+     */
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @Caching(evict = { @CacheEvict(cacheNames = { UserMemberCaches.USER_MEMBER }) })
+    public void unassign(@PathVariable("username") final String username) {
+        service.unassignMember(username);
     }
 
     /**

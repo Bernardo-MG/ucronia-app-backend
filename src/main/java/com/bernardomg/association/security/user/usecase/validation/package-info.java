@@ -22,20 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
+/**
+ * User validators.
+ */
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
-
-public interface UserMemberSpringRepository extends JpaRepository<UserMemberEntity, Long> {
-
-    public void deleteByUserId(final long id);
-
-    public boolean existsByUserId(final long id);
-
-    public Optional<UserMemberEntity> findByUserId(final long id);
-
-}
+package com.bernardomg.association.security.user.usecase.validation;

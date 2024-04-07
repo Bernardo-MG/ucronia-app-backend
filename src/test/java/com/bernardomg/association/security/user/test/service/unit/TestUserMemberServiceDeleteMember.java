@@ -67,7 +67,7 @@ class TestUserMemberServiceDeleteMember {
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        service.deleteMember(UserConstants.USERNAME);
+        service.unassignMember(UserConstants.USERNAME);
 
         // THEN
         verify(userMemberRepository).delete(UserConstants.USERNAME);
@@ -82,7 +82,7 @@ class TestUserMemberServiceDeleteMember {
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.deleteMember(UserConstants.USERNAME);
+        execution = () -> service.unassignMember(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
