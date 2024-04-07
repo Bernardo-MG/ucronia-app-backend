@@ -41,11 +41,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.association.security.user.test.config.factory.Users;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
@@ -72,7 +70,6 @@ class TestUserMemberServiceAssignMember {
 
     @Test
     @DisplayName("When the member has already been assigned, it throws an exception")
-    @ValidMember
     void testAssignMember_ExistingMember() {
         final ThrowingCallable execution;
 
@@ -80,7 +77,8 @@ class TestUserMemberServiceAssignMember {
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
-        given(userMemberRepository.existsByMember(MemberConstants.NUMBER)).willReturn(true);
+        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER))
+            .willReturn(true);
 
         // WHEN
         execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
@@ -92,7 +90,6 @@ class TestUserMemberServiceAssignMember {
 
     @Test
     @DisplayName("When the user already has a member, it throws an exception")
-    @ValidMember
     void testAssignMember_ExistingUser() {
         final ThrowingCallable execution;
 
@@ -100,7 +97,8 @@ class TestUserMemberServiceAssignMember {
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
-        given(userMemberRepository.exists(UserConstants.USERNAME)).willReturn(true);
+        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER))
+            .willReturn(true);
 
         // WHEN
         execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
@@ -112,7 +110,6 @@ class TestUserMemberServiceAssignMember {
 
     @Test
     @DisplayName("With no member, it throws an exception")
-    @ValidUser
     void testAssignMember_NoMember() {
         final ThrowingCallable execution;
 
@@ -132,7 +129,6 @@ class TestUserMemberServiceAssignMember {
 
     @Test
     @DisplayName("With no user, it throws an exception")
-    @ValidMember
     void testAssignMember_NoUser() {
         final ThrowingCallable execution;
 

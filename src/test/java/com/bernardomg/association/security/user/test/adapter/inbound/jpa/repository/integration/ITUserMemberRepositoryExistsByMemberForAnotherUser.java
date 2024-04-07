@@ -32,11 +32,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - exists")
-class ITUserMemberRepositoryExistsByMember {
+@DisplayName("UserMemberRepository - exists by member for another user")
+class ITUserMemberRepositoryExistsByMemberForAnotherUser {
 
     @Autowired
     private UserMemberRepository repository;
@@ -48,7 +49,7 @@ class ITUserMemberRepositoryExistsByMember {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByMember(MemberConstants.NUMBER);
+        exists = repository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -61,7 +62,7 @@ class ITUserMemberRepositoryExistsByMember {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByMember(MemberConstants.NUMBER);
+        exists = repository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

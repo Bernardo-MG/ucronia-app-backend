@@ -39,10 +39,12 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
     @Query("""
                SELECT CASE WHEN COUNT(um) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM UserMember um
-                 JOIN um.member u
-               WHERE u.number = :number
+                 JOIN um.member m
+                 JOIN um.user u
+               WHERE m.number = :number AND u.username != :username
             """)
-    public boolean existsByMemberNumber(@Param("number") final long number);
+    public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,
+            @Param("number") final long number);
 
     public boolean existsByUserId(final long id);
 

@@ -46,24 +46,8 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     @Override
-    public final boolean exists(final String username) {
-        final Optional<UserEntity> user;
-        final boolean              exists;
-
-        user = userSpringRepository.findOneByUsername(username);
-        if (user.isPresent()) {
-            exists = userMemberJpaRepository.existsByUserId(user.get()
-                .getId());
-        } else {
-            exists = false;
-        }
-
-        return exists;
-    }
-
-    @Override
-    public final boolean existsByMember(final long number) {
-        return userMemberJpaRepository.existsByMemberNumber(number);
+    public final boolean existsByMemberForAnotherUser(final String username, final long number) {
+        return userMemberJpaRepository.existsByNotUsernameAndMemberNumber(username, number);
     }
 
     @Override

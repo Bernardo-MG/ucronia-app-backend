@@ -9,9 +9,7 @@ public interface UserMemberRepository {
 
     public void delete(final String username);
 
-    public boolean exists(final String username);
-
-    public boolean existsByMember(final long number);
+    public boolean existsByMemberForAnotherUser(final String username, final long number);
 
     public Optional<Member> findByUsername(final String username);
 
