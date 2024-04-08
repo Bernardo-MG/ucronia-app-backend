@@ -26,10 +26,13 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
 
 public interface UserMemberSpringRepository extends JpaRepository<UserMemberEntity, Long> {
@@ -47,6 +50,23 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
             @Param("number") final long number);
 
     public boolean existsByUserId(final long id);
+
+    /**
+     * Returns all the permissions available to a role, in a paginated form.
+     *
+     * @param roleId
+     *            role id
+     * @param page
+     *            pagination to apply
+     * @return a page with the permissions
+     */
+    @Query("""
+               SELECT m
+               FROM Member m
+                 LEFT JOIN UserMember um ON m.number = um.member.number AND um.user.id = :userId
+               WHERE um.member IS NULL
+            """)
+    public Page<MemberEntity> findAllAvailableToUser(@Param("userId") final Long userId, final Pageable page);
 
     public Optional<UserMemberEntity> findByUserId(final long id);
 

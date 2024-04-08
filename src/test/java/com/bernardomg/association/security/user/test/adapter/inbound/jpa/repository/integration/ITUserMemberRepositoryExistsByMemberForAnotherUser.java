@@ -45,7 +45,7 @@ class ITUserMemberRepositoryExistsByMemberForAnotherUser {
     @Test
     @DisplayName("When the member is assigned it exists")
     @ValidUserWithMember
-    void testExistsByMember() {
+    void testExistsByMemberForAnotherUser() {
         final boolean exists;
 
         // WHEN
@@ -58,7 +58,7 @@ class ITUserMemberRepositoryExistsByMemberForAnotherUser {
 
     @Test
     @DisplayName("When no data exists it doesn't exist")
-    void testExistsByMember_NoData() {
+    void testExistsByMemberForAnotherUser_NoData() {
         final boolean exists;
 
         // WHEN

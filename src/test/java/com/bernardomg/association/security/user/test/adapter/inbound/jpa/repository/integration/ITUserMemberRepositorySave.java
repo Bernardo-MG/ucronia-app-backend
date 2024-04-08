@@ -45,7 +45,7 @@ import com.bernardomg.association.security.user.test.config.factory.UserConstant
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - assign member")
+@DisplayName("UserMemberRepository - save")
 class ITUserMemberRepositorySave {
 
     @Autowired
@@ -57,7 +57,7 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithMember
-    void testAssignMember_Existing_PersistedData() {
+    void testSave_Existing_PersistedData() {
         final Collection<UserMemberEntity> members;
 
         // WHEN
@@ -91,7 +91,7 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUserWithMember
-    void testAssignMember_Existing_ReturnedData() {
+    void testSave_Existing_ReturnedData() {
         final Member member;
 
         // WHEN
@@ -106,7 +106,7 @@ class ITUserMemberRepositorySave {
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
     @ValidMember
-    void testAssignMember_PersistedData() {
+    void testSave_PersistedData() {
         final Collection<UserMemberEntity> members;
 
         // WHEN
@@ -141,7 +141,7 @@ class ITUserMemberRepositorySave {
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
     @ValidMember
-    void testAssignMember_ReturnedData() {
+    void testSave_ReturnedData() {
         final Member member;
 
         // WHEN

@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.security.user.usecase.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -15,7 +17,10 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserE
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Transactional
+@Slf4j
 public final class DefaultUserMemberService implements UserMemberService {
 
     private final AssignMemberValidator assignMemberValidator;
@@ -43,6 +48,8 @@ public final class DefaultUserMemberService implements UserMemberService {
         final Optional<Member> readMember;
         final UserMember       userMember;
 
+        log.debug("Assigning member {} to {}", memberNumber, username);
+
         readUser = userRepository.findOne(username);
         if (readUser.isEmpty()) {
             throw new MissingUserException(username);
@@ -68,8 +75,24 @@ public final class DefaultUserMemberService implements UserMemberService {
     }
 
     @Override
+    public final Collection<Member> getAvailableMembers(final String username, final Pageable pageable) {
+        final boolean exists;
+
+        log.debug("Reading available members for {}", username);
+
+        exists = userRepository.exists(username);
+        if (!exists) {
+            throw new MissingUserException(username);
+        }
+
+        return userMemberRepository.findAvailableMembers(username, pageable);
+    }
+
+    @Override
     public final Optional<Member> getMember(final String username) {
         final Optional<User> readUser;
+
+        log.debug("Reading member for {}", username);
 
         readUser = userRepository.findOne(username);
         if (readUser.isEmpty()) {
@@ -82,6 +105,8 @@ public final class DefaultUserMemberService implements UserMemberService {
     @Override
     public final void unassignMember(final String username) {
         final boolean exists;
+
+        log.debug("Unassigning member to {}", username);
 
         exists = userRepository.exists(username);
         if (!exists) {

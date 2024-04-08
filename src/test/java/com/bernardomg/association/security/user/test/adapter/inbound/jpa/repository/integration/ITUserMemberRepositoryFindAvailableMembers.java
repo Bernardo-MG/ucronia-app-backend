@@ -24,52 +24,84 @@
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Collection;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - delete")
-class ITUserMemberRepositoryDelete {
+@DisplayName("UserMemberRepository - find available members")
+class ITUserMemberRepositoryFindAvailableMembers {
 
     @Autowired
-    private UserMemberRepository       repository;
-
-    @Autowired
-    private UserMemberSpringRepository userMemberSpringRepository;
+    private UserMemberRepository repository;
 
     @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithMember
-    void testDeleteMember() {
+    @DisplayName("When the member is not assigned, it is returned")
+    @ValidUser
+    @ValidMember
+    void testFindAvailableMembers() {
+        final Collection<Member> members;
 
         // WHEN
-        repository.delete(UserConstants.USERNAME);
+        members = repository.findAvailableMembers(UserConstants.USERNAME, Pageable.unpaged());
 
         // THEN
-        Assertions.assertThat(userMemberSpringRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(members)
+            .containsExactly(Members.inactive());
     }
 
     @Test
-    @DisplayName("With no member assigned to the user, it does nothing")
-    void testDeleteMember_NoData() {
+    @DisplayName("When the member is assigned, nothing is returned")
+    @ValidUserWithMember
+    void testFindAvailableMembers_Assigned() {
+        final Collection<Member> members;
 
         // WHEN
-        repository.delete(UserConstants.USERNAME);
+        members = repository.findAvailableMembers(UserConstants.USERNAME, Pageable.unpaged());
 
         // THEN
-        Assertions.assertThat(userMemberSpringRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(members)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When no data exists, nothing is returned")
+    void testFindAvailableMembers_NoData() {
+        final Collection<Member> members;
+
+        // WHEN
+        members = repository.findAvailableMembers(UserConstants.USERNAME, Pageable.unpaged());
+
+        // THEN
+        Assertions.assertThat(members)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there are no members, nothing is returned")
+    @ValidUser
+    void testFindAvailableMembers_NoMember() {
+        final Collection<Member> members;
+
+        // WHEN
+        members = repository.findAvailableMembers(UserConstants.USERNAME, Pageable.unpaged());
+
+        // THEN
+        Assertions.assertThat(members)
+            .isEmpty();
     }
 
 }

@@ -1,8 +1,11 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
@@ -15,7 +18,9 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 import io.jsonwebtoken.lang.Strings;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 public final class JpaUserMemberRepository implements UserMemberRepository {
 
@@ -48,6 +53,30 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     @Override
     public final boolean existsByMemberForAnotherUser(final String username, final long number) {
         return userMemberJpaRepository.existsByNotUsernameAndMemberNumber(username, number);
+    }
+
+    @Override
+    public final Collection<Member> findAvailableMembers(final String username, final Pageable pageable) {
+        final Optional<UserEntity> user;
+        final UserEntity           userEntity;
+        final Collection<Member>   members;
+
+        log.debug("Reading available permissions for {}", username);
+
+        user = userSpringRepository.findOneByUsername(username);
+
+        if (user.isPresent()) {
+            userEntity = user.get();
+            members = userMemberJpaRepository.findAllAvailableToUser(userEntity.getId(), pageable)
+                .stream()
+                .map(this::toDomain)
+                .toList();
+        } else {
+            log.warn("Member {} doesn't exist. Can't find available permissions", username);
+            members = List.of();
+        }
+
+        return members;
     }
 
     @Override

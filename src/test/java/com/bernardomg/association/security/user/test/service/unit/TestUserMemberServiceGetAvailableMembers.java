@@ -22,69 +22,65 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.security.user.test.service.unit;
 
-import java.util.Optional;
+import static org.mockito.BDDMockito.given;
+
+import java.util.Collection;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
-@IntegrationTest
-@DisplayName("UserMemberRepository - find by username")
-class ITUserMemberRepositoryFindByUsername {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("User member service - get available members")
+class TestUserMemberServiceGetAvailableMembers {
 
-    @Autowired
-    private UserMemberRepository repository;
+    @Mock
+    private MemberRepository         memberRepository;
 
-    @Test
-    @DisplayName("When the user exists it is returned")
-    @ValidUserWithMember
-    void testFindByUsername() {
-        final Optional<Member> member;
+    @InjectMocks
+    private DefaultUserMemberService service;
 
-        // WHEN
-        member = repository.findByUsername(UserConstants.USERNAME);
+    @Mock
+    private UserMemberRepository     userMemberRepository;
 
-        // THEN
-        Assertions.assertThat(member)
-            .contains(Members.inactive());
-    }
+    @Mock
+    private UserRepository           userRepository;
 
     @Test
-    @DisplayName("When no data exists nothing is returned")
-    void testFindByUsername_NoData() {
-        final Optional<Member> member;
+    @DisplayName("With available members, they are returned")
+    void testGetAvailableMembers() {
+        final Collection<Member> members;
+        final Pageable           pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
+        given(userMemberRepository.findAvailableMembers(UserConstants.USERNAME, pageable))
+            .willReturn(List.of(Members.active()));
 
         // WHEN
-        member = repository.findByUsername(UserConstants.USERNAME);
+        members = service.getAvailableMembers(UserConstants.USERNAME, pageable);
 
         // THEN
-        Assertions.assertThat(member)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When the member doesn't exist nothing is returned")
-    @ValidUser
-    void testFindByUsername_NoMember() {
-        final Optional<Member> member;
-
-        // WHEN
-        member = repository.findByUsername(UserConstants.USERNAME);
-
-        // THEN
-        Assertions.assertThat(member)
-            .isEmpty();
+        Assertions.assertThat(members)
+            .contains(Members.active());
     }
 
 }
