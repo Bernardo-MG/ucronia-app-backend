@@ -1,11 +1,8 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
@@ -26,7 +23,7 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
 
     private final MemberSpringRepository     memberSpringRepository;
 
-    private final UserMemberSpringRepository userMemberJpaRepository;
+    private final UserMemberSpringRepository userMemberSpringRepository;
 
     private final UserSpringRepository       userSpringRepository;
 
@@ -34,7 +31,7 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
             final UserSpringRepository userSpringRepo, final MemberSpringRepository memberSpringRepo) {
         super();
 
-        userMemberJpaRepository = userMemberJpaRepo;
+        userMemberSpringRepository = userMemberJpaRepo;
         userSpringRepository = userSpringRepo;
         memberSpringRepository = memberSpringRepo;
     }
@@ -45,38 +42,14 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
 
         user = userSpringRepository.findOneByUsername(username);
         if (user.isPresent()) {
-            userMemberJpaRepository.deleteByUserId(user.get()
+            userMemberSpringRepository.deleteByUserId(user.get()
                 .getId());
         }
     }
 
     @Override
     public final boolean existsByMemberForAnotherUser(final String username, final long number) {
-        return userMemberJpaRepository.existsByNotUsernameAndMemberNumber(username, number);
-    }
-
-    @Override
-    public final Collection<Member> findAvailableMembers(final String username, final Pageable pageable) {
-        final Optional<UserEntity> user;
-        final UserEntity           userEntity;
-        final Collection<Member>   members;
-
-        log.debug("Reading available permissions for {}", username);
-
-        user = userSpringRepository.findOneByUsername(username);
-
-        if (user.isPresent()) {
-            userEntity = user.get();
-            members = userMemberJpaRepository.findAllAvailableToUser(userEntity.getId(), pageable)
-                .stream()
-                .map(this::toDomain)
-                .toList();
-        } else {
-            log.warn("Member {} doesn't exist. Can't find available permissions", username);
-            members = List.of();
-        }
-
-        return members;
+        return userMemberSpringRepository.existsByNotUsernameAndMemberNumber(username, number);
     }
 
     @Override
@@ -88,7 +61,7 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
         user = userSpringRepository.findOneByUsername(username);
         if (user.isPresent()) {
             // TODO: Simplify this, use JPA relationships
-            userMember = userMemberJpaRepository.findByUserId(user.get()
+            userMember = userMemberSpringRepository.findByUserId(user.get()
                 .getId());
             if ((userMember.isPresent()) && (userMember.get()
                 .getMember() != null)) {
@@ -120,7 +93,7 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
                 .withMember(member.get())
                 .withUser(user.get())
                 .build();
-            userMemberJpaRepository.save(userMember);
+            userMemberSpringRepository.save(userMember);
             result = toDomain(member.get());
         } else {
             result = null;

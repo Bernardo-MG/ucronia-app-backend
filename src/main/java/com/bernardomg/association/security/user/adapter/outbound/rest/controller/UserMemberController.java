@@ -24,11 +24,6 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.security.user.adapter.outbound.cache.UserMemberCaches;
 import com.bernardomg.association.security.user.usecase.service.UserMemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -72,7 +66,6 @@ public class UserMemberController {
      */
     @PostMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserMemberCaches.USER_MEMBER, key = "#result.username") })
     public Member assign(@PathVariable("username") final String username,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.assignMember(username, memberNumber);
@@ -87,26 +80,9 @@ public class UserMemberController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = UserMemberCaches.USER_MEMBER)
     public Member read(@PathVariable("username") final String username) {
         return service.getMember(username)
             .orElse(null);
-    }
-
-    /**
-     * Returns all the members available to a user. That is, those which haven't been assigned to any user.
-     *
-     * @param username
-     *            username of the user to assign the member
-     * @param page
-     *            pagination to apply
-     * @return a page with the available permissions
-     */
-    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Iterable<Member> readAvailable(@PathVariable("username") final String username, final Pageable page) {
-        // TODO: apply cache
-        return service.getAvailableMembers(username, page);
     }
 
     /**
@@ -117,7 +93,6 @@ public class UserMemberController {
      */
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { UserMemberCaches.USER_MEMBER }) })
     public void unassign(@PathVariable("username") final String username) {
         service.unassignMember(username);
     }

@@ -1,10 +1,8 @@
 
 package com.bernardomg.association.security.user.usecase.service;
 
-import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -72,20 +70,6 @@ public final class DefaultUserMemberService implements UserMemberService {
                 .getNumber());
 
         return readMember.get();
-    }
-
-    @Override
-    public final Collection<Member> getAvailableMembers(final String username, final Pageable pageable) {
-        final boolean exists;
-
-        log.debug("Reading available members for {}", username);
-
-        exists = userRepository.exists(username);
-        if (!exists) {
-            throw new MissingUserException(username);
-        }
-
-        return userMemberRepository.findAvailableMembers(username, pageable);
     }
 
     @Override
