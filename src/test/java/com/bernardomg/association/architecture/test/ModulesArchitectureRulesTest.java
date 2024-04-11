@@ -23,10 +23,12 @@ public class ModulesArchitectureRulesTest {
         .layer("Library")
         .definedBy("com.bernardomg.association.library..")
         .layer("Users")
-        .definedBy("com.bernardomg.association.auth.user..")
+        .definedBy("com.bernardomg.association.security.user..")
+        .layer("Account")
+        .definedBy("com.bernardomg.association.security.account..")
 
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Users", "Library")
+        .mayOnlyBeAccessedByLayers("Fees", "Users", "Library", "Account")
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")
@@ -34,6 +36,6 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Library")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Users")
-        .mayNotBeAccessedByAnyLayer();
+        .mayOnlyBeAccessedByLayers("Account");
 
 }
