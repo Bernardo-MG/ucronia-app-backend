@@ -105,7 +105,7 @@ class TestUserMemberServiceAssignMember {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("username", "existing", UserConstants.USERNAME));
+            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
     }
 
     @Test

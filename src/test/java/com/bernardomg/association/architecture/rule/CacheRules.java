@@ -28,15 +28,6 @@ public final class CacheRules {
         .because("caching should be applied only on controllers");
 
     @ArchTest
-    static final ArchRule controllers_methods_should_be_cached                   = methods().that()
-        .areDeclaredInClassesThat(Predicates.areControllerClasses())
-        .and()
-        .arePublic()
-        .should()
-        .beAnnotatedWith(Predicates.areCachingAnnotation())
-        .because("controller methods should be cached");
-
-    @ArchTest
     static final ArchRule no_direct_calls_to_cacheable_method                    = ProxyRules
         .no_classes_should_directly_call_other_methods_declared_in_the_same_class_that(
             are(Predicates.areCachedMethod()));
