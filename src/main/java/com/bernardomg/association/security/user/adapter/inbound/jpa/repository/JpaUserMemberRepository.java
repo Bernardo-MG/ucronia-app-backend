@@ -15,9 +15,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 import io.jsonwebtoken.lang.Strings;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Transactional
 public final class JpaUserMemberRepository implements UserMemberRepository {
 
