@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.Year;
+
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
@@ -57,6 +59,6 @@ public interface FeeCalendarService {
      *            sorting to apply
      * @return all the member fees for a year
      */
-    public Iterable<FeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort);
+    public Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sort sort);
 
 }

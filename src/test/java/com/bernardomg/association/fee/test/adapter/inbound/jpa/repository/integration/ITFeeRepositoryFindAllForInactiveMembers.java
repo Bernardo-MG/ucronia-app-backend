@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Year;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,7 +63,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -82,7 +84,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -103,7 +105,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.PREVIOUS_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.PREVIOUS_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -124,7 +126,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -145,7 +147,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -166,7 +168,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.PREVIOUS_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.PREVIOUS_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -187,7 +189,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -208,7 +210,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -226,7 +228,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -245,7 +247,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -266,7 +268,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.PREVIOUS_MONTH.getYear(), sort);
+        fees = repository.findAllForInactiveMembers(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -287,7 +289,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.PREVIOUS_MONTH.getYear(), sort);
+        fees = repository.findAllForInactiveMembers(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -308,7 +310,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.TWO_MONTHS_BACK.getYear(), sort);
+        fees = repository.findAllForInactiveMembers(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -329,7 +331,7 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.TWO_MONTHS_BACK.getYear(), sort);
+        fees = repository.findAllForInactiveMembers(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)

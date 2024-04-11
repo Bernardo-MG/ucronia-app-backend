@@ -312,7 +312,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(MemberCalendars.YEAR_PREVIOUS, month))
+            .withDate(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month))
             .withPaid(true)
             .withMember(member)
             .withTransaction(transaction)
@@ -332,7 +332,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(MemberCalendars.YEAR_PREVIOUS, month))
+            .withDate(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month))
             .withPaid(true)
             .withMember(member)
             .withTransaction(transaction)

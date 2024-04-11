@@ -38,7 +38,7 @@ class ITFeeRepositoryPay {
     @DisplayName("When the payment exists it is persisted")
     @ValidMember
     @PaidFee
-    void testSave_Existing_PersistedData() {
+    void testPay_Existing_PersistedData() {
         final Iterable<FeePaymentEntity> payments;
         final Member                     member;
         final Fee                        fee;
@@ -65,7 +65,7 @@ class ITFeeRepositoryPay {
     @ValidMember
     @NotPaidFee
     @PositiveTransaction
-    void testSave_PersistedData() {
+    void testPay_PersistedData() {
         final Iterable<FeePaymentEntity> payments;
         final Member                     member;
         final Fee                        fee;

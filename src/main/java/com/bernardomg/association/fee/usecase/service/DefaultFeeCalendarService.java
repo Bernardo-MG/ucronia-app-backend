@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -66,7 +67,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    public final Iterable<FeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort) {
+    public final Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sort sort) {
         final Collection<Fee>         readFees;
         final Map<Object, List<Fee>>  memberFees;
         final Collection<FeeCalendar> years;
@@ -126,7 +127,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .build();
     }
 
-    private final FeeCalendar toFeeYear(final Long memberNumber, final Integer year, final Collection<Fee> fees) {
+    private final FeeCalendar toFeeYear(final Long memberNumber, final Year year, final Collection<Fee> fees) {
         final Collection<FeeCalendarMonth> months;
         final Fee                          row;
         final String                       name;
@@ -155,7 +156,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         return FeeCalendar.builder()
             .withMember(member)
             .withMonths(months)
-            .withYear(year)
+            .withYear(year.getValue())
             .build();
     }
 

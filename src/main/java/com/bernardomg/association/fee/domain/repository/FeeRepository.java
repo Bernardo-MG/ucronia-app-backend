@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.domain.repository;
 
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
@@ -24,15 +25,17 @@ public interface FeeRepository {
 
     public Iterable<Fee> findAll(final FeeQuery query, final Pageable pageable);
 
-    public Collection<Fee> findAllForActiveMembers(final int year, final Sort sort);
+    public Collection<Fee> findAllForActiveMembers(final Year year, final Sort sort);
 
-    public Collection<Fee> findAllForInactiveMembers(final int year, final Sort sort);
+    public Collection<Fee> findAllForInactiveMembers(final Year year, final Sort sort);
 
     public Collection<Fee> findAllForMemberInDates(final Long memberNumber, final Collection<YearMonth> feeDates);
 
     public Collection<Fee> findAllForPreviousMonth();
 
-    public Collection<Fee> findAllInYear(final int year, final Sort sort);
+    public Collection<Fee> findAllInMonth(final YearMonth date);
+
+    public Collection<Fee> findAllInYear(final Year year, final Sort sort);
 
     public Optional<Fee> findOne(final Long memberNumber, final YearMonth date);
 

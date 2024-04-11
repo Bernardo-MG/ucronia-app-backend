@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
+import java.time.Year;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -88,7 +90,7 @@ public class FeeCalendarController {
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
     public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
             final Sort sort) {
-        return service.getYear(year, request.getStatus(), sort);
+        return service.getYear(Year.of(year), request.getStatus(), sort);
     }
 
 }

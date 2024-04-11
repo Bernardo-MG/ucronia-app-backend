@@ -26,7 +26,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.paidAlternative());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(months)
             .build();
     }
@@ -60,7 +60,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.notPaid());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR_CURRENT)
+            .withYear(MemberCalendars.YEAR_CURRENT.getValue())
             .withMonths(months)
             .build();
     }
@@ -128,7 +128,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.paid());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR_CURRENT)
+            .withYear(MemberCalendars.YEAR_CURRENT.getValue())
             .withMonths(months)
             .build();
     }
@@ -226,7 +226,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.notPaid());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(months)
             .build();
     }
@@ -243,7 +243,7 @@ public final class FeeCalendars {
         months = List.of(FeeMonths.notPaidAlternative());
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(months)
             .build();
     }
@@ -258,7 +258,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
                 FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
                 FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
@@ -276,7 +276,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
                 FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
                 FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
@@ -294,7 +294,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
                 FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
                 FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
@@ -312,7 +312,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
                 FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
                 FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
@@ -432,7 +432,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR_PREVIOUS)
+            .withYear(MemberCalendars.YEAR_PREVIOUS.getValue())
             .build();
     }
 
@@ -446,10 +446,10 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR_PREVIOUS)
-            .withMonths(List.of(FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS, Month.OCTOBER.getValue()),
-                FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS, Month.NOVEMBER.getValue()),
-                FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS, Month.DECEMBER.getValue())))
+            .withYear(MemberCalendars.YEAR_PREVIOUS.getValue())
+            .withMonths(List.of(FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.OCTOBER.getValue()),
+                FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.NOVEMBER.getValue()),
+                FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.DECEMBER.getValue())))
             .build();
     }
 
@@ -463,7 +463,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .withMonths(List.of(FeeMonths.paid(2020, Month.JANUARY.getValue()),
                 FeeMonths.paid(2020, Month.FEBRUARY.getValue()), FeeMonths.paid(2020, Month.MARCH.getValue()),
                 FeeMonths.paid(2020, Month.APRIL.getValue()), FeeMonths.paid(2020, Month.MAY.getValue()),
@@ -481,7 +481,7 @@ public final class FeeCalendars {
             .build();
         return FeeCalendar.builder()
             .withMember(member)
-            .withYear(MemberCalendars.YEAR)
+            .withYear(MemberCalendars.YEAR.getValue())
             .build();
     }
 

@@ -54,7 +54,7 @@ class ITFeeRepositoryFindAllPagination {
 
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
-    void testGetAll_Page_Container() {
+    void testFindAll_Page_Container() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -75,7 +75,7 @@ class ITFeeRepositoryFindAllPagination {
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
-    void testGetAll_Page1() {
+    void testFindAll_Page1() {
         final FeeQuery      feeQuery;
         final Iterable<Fee> fees;
         final Pageable      pageable;
@@ -96,7 +96,7 @@ class ITFeeRepositoryFindAllPagination {
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
-    void testGetAll_Page2() {
+    void testFindAll_Page2() {
         final FeeQuery      feeQuery;
         final Iterable<Fee> fees;
         final Pageable      pageable;
@@ -117,7 +117,7 @@ class ITFeeRepositoryFindAllPagination {
 
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    void testGetAll_Unpaged_Container() {
+    void testFindAll_Unpaged_Container() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
