@@ -97,5 +97,7 @@
             Updated security dependency due to security errors.
          </action>
       </release>
+      <release version="1.0.0" date="2024-04-01" description="">
+      </release>
    </body>
 </document>
