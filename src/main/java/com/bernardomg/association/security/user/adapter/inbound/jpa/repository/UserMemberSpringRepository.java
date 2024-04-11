@@ -52,13 +52,13 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
     public boolean existsByUserId(final long id);
 
     /**
-     * Returns all the permissions available to a role, in a paginated form.
+     * Returns all the members available to a user, in a paginated form.
      *
-     * @param roleId
-     *            role id
+     * @param userId
+     *            user id
      * @param page
      *            pagination to apply
-     * @return a page with the permissions
+     * @return a page with the members
      */
     @Query("""
                SELECT m
