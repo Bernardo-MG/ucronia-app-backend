@@ -53,7 +53,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/fee/calendar")
 @AllArgsConstructor
-public class MemberFeeCalendarController {
+public class FeeCalendarController {
 
     /**
      * Member fee calendar service.
