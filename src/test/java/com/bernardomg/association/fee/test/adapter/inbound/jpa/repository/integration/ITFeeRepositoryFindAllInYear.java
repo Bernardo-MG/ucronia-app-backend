@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.time.Year;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -57,9 +58,9 @@ class ITFeeRepositoryFindAllInYear {
     private FeeRepository  repository;
 
     @Test
-    @DisplayName("With a not paid fee in the current month, it returns the calendar")
+    @DisplayName("With a not paid fee in the current month, it returns them")
     @ValidMember
-    void testGetYear_CurrentMonth_NotPaid() {
+    void testFindAllInYear_CurrentMonth_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -69,7 +70,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -80,7 +81,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
-    void testGetYear_CurrentMonth_NotPaid_SearchNextYear() {
+    void testFindAllInYear_CurrentMonth_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -90,7 +91,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -101,7 +102,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
-    void testGetYear_CurrentMonth_NotPaid_SearchPreviousYear() {
+    void testFindAllInYear_CurrentMonth_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -111,7 +112,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -120,9 +121,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month, it returns the calendar")
+    @DisplayName("With a paid fee in the current month, it returns them")
     @ValidMember
-    void testGetYear_CurrentMonth_Paid() {
+    void testFindAllInYear_CurrentMonth_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -132,7 +133,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -143,7 +144,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
-    void testGetYear_CurrentMonth_Paid_SearchNextYear() {
+    void testFindAllInYear_CurrentMonth_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -153,7 +154,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -164,7 +165,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
-    void testGetYear_CurrentMonth_Paid_SearchPreviousYear() {
+    void testFindAllInYear_CurrentMonth_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -174,7 +175,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -186,7 +187,7 @@ class ITFeeRepositoryFindAllInYear {
     @DisplayName("With a full year it returns all data")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FullYear() {
+    void testFindAllInYear_FullYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -213,7 +214,7 @@ class ITFeeRepositoryFindAllInYear {
     @AlternativeMember
     @FeeFullYear
     @AlternativeFeeFullYear
-    void testGetYear_FullYear_TwoMembers() {
+    void testFindAllInYear_FullYear_TwoMembers() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -241,9 +242,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the next year, it returns the calendar")
+    @DisplayName("With a not paid fee in the next year, it returns them")
     @ValidMember
-    void testGetYear_NextYear_NotPaid() {
+    void testFindAllInYear_NextYear_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -253,7 +254,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -262,9 +263,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a paid fee in the next year, it returns the calendar")
+    @DisplayName("With a paid fee in the next year, it returns them")
     @ValidMember
-    void testGetYear_NextYear_Paid() {
+    void testFindAllInYear_NextYear_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -274,7 +275,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -284,7 +285,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With no data, it returns nothing")
-    void testGetYear_NoData() {
+    void testFindAllInYear_NoData() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -292,7 +293,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -303,7 +304,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With no fees, it nothing")
     @ValidMember
-    void testGetYear_NoFees() {
+    void testFindAllInYear_NoFees() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -311,7 +312,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR.getValue(), sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -323,7 +324,7 @@ class ITFeeRepositoryFindAllInYear {
     @DisplayName("With user without surname it returns all data")
     @NoSurnameMember
     @FeeFullYear
-    void testGetYear_NoSurname() {
+    void testFindAllInYear_NoSurname() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -346,9 +347,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month, it returns the calendar")
+    @DisplayName("With a not paid fee in the previous month, it returns them")
     @ValidMember
-    void testGetYear_PreviousMonth_NotPaid() {
+    void testFindAllInYear_PreviousMonth_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -358,7 +359,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_MONTH.getYear(), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -367,9 +368,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month, it returns the calendar")
+    @DisplayName("With a paid fee in the previous month, it returns them")
     @ValidMember
-    void testGetYear_PreviousMonth_Paid() {
+    void testFindAllInYear_PreviousMonth_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -379,7 +380,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_MONTH.getYear(), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -391,7 +392,7 @@ class ITFeeRepositoryFindAllInYear {
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
     @ValidMember
     @TwoFeeYearsConnected
-    void testGetYear_TwoConnectedYears_First() {
+    void testFindAllInYear_TwoConnectedYears_First() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -413,7 +414,7 @@ class ITFeeRepositoryFindAllInYear {
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
     @ValidMember
     @TwoFeeYearsConnected
-    void testGetYear_TwoConnectedYears_Second() {
+    void testFindAllInYear_TwoConnectedYears_Second() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -433,9 +434,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a not paid fee two months back, it returns the calendar")
+    @DisplayName("With a not paid fee two months back, it returns them")
     @ValidMember
-    void testGetYear_TwoMonthsBack_NotPaid() {
+    void testFindAllInYear_TwoMonthsBack_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -445,7 +446,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.TWO_MONTHS_BACK.getYear(), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)
@@ -454,9 +455,9 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a paid fee two months back, it returns the calendar")
+    @DisplayName("With a paid fee two months back, it returns them")
     @ValidMember
-    void testGetYear_TwoMonthsBack_Paid() {
+    void testFindAllInYear_TwoMonthsBack_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -466,7 +467,7 @@ class ITFeeRepositoryFindAllInYear {
         sort = Sort.unsorted();
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.TWO_MONTHS_BACK.getYear(), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
 
         // THEN
         Assertions.assertThat(fees)

@@ -41,9 +41,11 @@ import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeReportService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -89,6 +91,11 @@ public class FeeConfig {
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
             final ActiveMemberRepository activeMemberRepository) {
         return new DefaultFeeMaintenanceService(feeRepo, activeMemberRepository);
+    }
+
+    @Bean("FeeReportService")
+    public FeeReportService getFeeReportService(final FeeRepository feeRepo) {
+        return new DefaultFeeReportService(feeRepo);
     }
 
     @Bean("feeRepository")

@@ -22,20 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import java.util.Collection;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.association.fee.domain.model.FeePaymentReport;
+import com.bernardomg.association.fee.usecase.service.FeeReportService;
+import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
-@Value
-@Builder(setterPrefix = "with")
-public final class FeeCalendarYearsRange {
+import lombok.AllArgsConstructor;
 
-    /**
-     * TODO: user Year
-     */
-    private final Collection<Integer> years;
+/**
+ * Member fee report REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+@RequestMapping("/fee")
+@AllArgsConstructor
+public class FeeReportController {
+
+    private final FeeReportService service;
+
+    @GetMapping(path = "/payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    public FeePaymentReport readRange() {
+        return service.getPaymentReport();
+    }
 
 }

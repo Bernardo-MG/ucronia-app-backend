@@ -57,7 +57,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
-    void testGetAll_Date_Asc() {
+    void testFindAll_Date_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -79,7 +79,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
-    void testGetAll_Date_Desc() {
+    void testFindAll_Date_Desc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -101,7 +101,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    void testGetAll_Name_Asc() {
+    void testFindAll_Name_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -123,7 +123,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    void testGetAll_Name_Desc() {
+    void testFindAll_Name_Desc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -146,7 +146,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
-    void testGetAll_NotExisting() {
+    void testFindAll_NotExisting() {
         final FeeQuery         feeQuery;
         final Pageable         pageable;
         final ThrowingCallable executable;
@@ -167,7 +167,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
-    void testGetAll_Paid_Asc() {
+    void testFindAll_Paid_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -189,7 +189,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
-    void testGetAll_Paid_Desc() {
+    void testFindAll_Paid_Desc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;

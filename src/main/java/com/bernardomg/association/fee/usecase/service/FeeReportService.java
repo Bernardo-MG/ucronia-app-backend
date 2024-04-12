@@ -22,20 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.usecase.service;
 
-import java.util.Collection;
+import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 
-import lombok.Builder;
-import lombok.Value;
+/**
+ * Fee report service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface FeeReportService {
 
-@Value
-@Builder(setterPrefix = "with")
-public final class FeeCalendarYearsRange {
-
-    /**
-     * TODO: user Year
-     */
-    private final Collection<Integer> years;
+    public FeePaymentReport getPaymentReport();
 
 }
