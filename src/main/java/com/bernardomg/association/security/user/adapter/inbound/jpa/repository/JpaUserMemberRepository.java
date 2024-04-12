@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
@@ -48,6 +50,14 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     @Override
     public final boolean existsByMemberForAnotherUser(final String username, final long number) {
         return userMemberSpringRepository.existsByNotUsernameAndMemberNumber(username, number);
+    }
+
+    @Override
+    public final Collection<Member> findAllNotAssigned(final Pageable page) {
+        return userMemberSpringRepository.findAllNotAssigned(page)
+            .stream()
+            .map(this::toDomain)
+            .toList();
     }
 
     @Override

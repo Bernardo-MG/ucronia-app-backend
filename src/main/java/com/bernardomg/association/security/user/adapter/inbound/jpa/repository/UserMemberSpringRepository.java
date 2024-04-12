@@ -52,21 +52,19 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
     public boolean existsByUserId(final long id);
 
     /**
-     * Returns all the members available to a user, in a paginated form.
+     * Returns all the members not assigned to a user, in a paginated form.
      *
-     * @param userId
-     *            user id
      * @param page
      *            pagination to apply
-     * @return a page with the members
+     * @return a page with the members not assigned to a user
      */
     @Query("""
                SELECT m
                FROM Member m
-                 LEFT JOIN UserMember um ON m.number = um.member.number AND um.user.id = :userId
+                 LEFT JOIN UserMember um ON m.number = um.member.number
                WHERE um.member IS NULL
             """)
-    public Page<MemberEntity> findAllAvailableToUser(@Param("userId") final Long userId, final Pageable page);
+    public Page<MemberEntity> findAllNotAssigned(final Pageable page);
 
     public Optional<UserMemberEntity> findByUserId(final long id);
 

@@ -24,6 +24,9 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.controller;
 
+import java.util.Collection;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,13 +79,24 @@ public class UserMemberController {
      *
      * @param username
      *            username of the user to read the member
-     * @return added permission
+     * @return member assigned to the user
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     public Member read(@PathVariable("username") final String username) {
         return service.getMember(username)
             .orElse(null);
+    }
+
+    /**
+     * Reads members available to assign.
+     *
+     * @return members available to assign
+     */
+    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "USER", action = Actions.READ)
+    public Collection<Member> readAvailable(final Pageable pageable) {
+        return service.getAvailableMembers(pageable);
     }
 
     /**
