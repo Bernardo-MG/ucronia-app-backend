@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.usecase.service.FeeReportService;
+import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
@@ -48,6 +50,7 @@ public class FeeReportController {
     private final FeeReportService service;
 
     @GetMapping(path = "/payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     public FeePaymentReport readRange() {
         return service.getPaymentReport();
     }

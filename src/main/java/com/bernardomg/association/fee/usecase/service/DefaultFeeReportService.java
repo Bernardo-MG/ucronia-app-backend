@@ -6,10 +6,13 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 
+@Transactional
 public final class DefaultFeeReportService implements FeeReportService {
 
     private final FeeRepository feeRepository;
