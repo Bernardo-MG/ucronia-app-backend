@@ -35,21 +35,19 @@ import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import lombok.AllArgsConstructor;
 
 /**
- * Member fee calendar REST controller.
- *
- * TODO: rework this model
+ * Member fee report REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/fee/calendar")
+@RequestMapping("/fee")
 @AllArgsConstructor
 public class FeeReportController {
 
     private final FeeReportService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/payment", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeePaymentReport readRange() {
         return service.getPaymentReport();
     }
