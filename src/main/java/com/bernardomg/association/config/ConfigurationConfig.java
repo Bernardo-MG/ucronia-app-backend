@@ -1,5 +1,5 @@
 
-package com.bernardomg.configuration.config;
+package com.bernardomg.association.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
