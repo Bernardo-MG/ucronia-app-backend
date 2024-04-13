@@ -34,3 +34,13 @@ databaseChangeLog:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: initial_configuration
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/initial_configuration.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
