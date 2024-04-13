@@ -1,6 +1,7 @@
 
 package com.bernardomg.configuration.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,14 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
         super();
 
         configurationSpringRepository = configurationSpringRepo;
+    }
+
+    @Override
+    public final Collection<Configuration> findAll() {
+        return configurationSpringRepository.findAll()
+            .stream()
+            .map(this::toDomain)
+            .toList();
     }
 
     @Override

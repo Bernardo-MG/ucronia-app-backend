@@ -1,6 +1,7 @@
 
 package com.bernardomg.configuration.usecase.service;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,6 +20,11 @@ public final class DefaultConfigurationService implements ConfigurationService {
         super();
 
         configurationRepository = Objects.requireNonNull(configRepository);
+    }
+
+    @Override
+    public final Collection<Configuration> getAll() {
+        return configurationRepository.findAll();
     }
 
     @Override

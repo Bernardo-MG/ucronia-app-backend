@@ -1,11 +1,14 @@
 
 package com.bernardomg.configuration.domain.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.configuration.domain.model.Configuration;
 
 public interface ConfigurationRepository {
+
+    public Collection<Configuration> findAll();
 
     public Optional<Configuration> findOne(final String key);
 

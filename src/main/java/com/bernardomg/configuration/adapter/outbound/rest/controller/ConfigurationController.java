@@ -24,6 +24,8 @@
 
 package com.bernardomg.configuration.adapter.outbound.rest.controller;
 
+import java.util.Collection;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +51,12 @@ import lombok.AllArgsConstructor;
 public class ConfigurationController {
 
     private final ConfigurationService service;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key")
+    public Collection<Configuration> readAll() {
+        return service.getAll();
+    }
 
     @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key")
