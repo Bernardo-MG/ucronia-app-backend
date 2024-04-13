@@ -22,6 +22,11 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     }
 
     @Override
+    public final boolean exists(final String key) {
+        return configurationSpringRepository.existsByKey(key);
+    }
+
+    @Override
     public final Collection<Configuration> findAll() {
         return configurationSpringRepository.findAll()
             .stream()

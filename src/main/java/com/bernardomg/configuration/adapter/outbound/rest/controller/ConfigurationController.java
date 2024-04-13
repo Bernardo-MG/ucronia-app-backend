@@ -26,10 +26,15 @@ package com.bernardomg.configuration.adapter.outbound.rest.controller;
 
 import java.util.Collection;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +42,7 @@ import com.bernardomg.association.configuration.adapter.outbound.cache.Configura
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -64,6 +70,14 @@ public class ConfigurationController {
         // TODO: improve security, not all the configuration can be read by everybody
         return service.getOne(key)
             .orElse(null);
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Caching(put = { @CachePut(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key") },
+            evict = { @CacheEvict(cacheNames = { ConfigurationCaches.CONFIGURATIONS }, allEntries = true) })
+    public Configuration update(@PathVariable("key") final String key,
+            @Valid @RequestBody final Configuration configuration) {
+        return service.update(key, configuration);
     }
 
 }

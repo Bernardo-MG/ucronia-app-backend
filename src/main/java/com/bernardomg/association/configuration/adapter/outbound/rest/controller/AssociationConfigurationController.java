@@ -24,10 +24,6 @@
 
 package com.bernardomg.association.configuration.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.configuration.adapter.outbound.cache.ConfigurationCaches;
 import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.usecase.service.AssociationConfigurationService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -59,15 +54,12 @@ public class AssociationConfigurationController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.READ)
-    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATIONS)
     public AssociationConfiguration read() {
         return service.getAll();
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key") },
-            evict = { @CacheEvict(cacheNames = { ConfigurationCaches.CONFIGURATIONS }, allEntries = true) })
     public void update(@Valid @RequestBody final AssociationConfiguration config) {
         service.update(config);
     }
