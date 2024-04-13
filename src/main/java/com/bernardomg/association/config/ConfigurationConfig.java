@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.config;
 
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,7 @@ import com.bernardomg.configuration.usecase.service.ConfigurationService;
 import com.bernardomg.configuration.usecase.service.DefaultConfigurationService;
 
 @Configuration
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.configuration.adapter.inbound.jpa" })
 public class ConfigurationConfig {
 
     @Bean("configurationRepository")
