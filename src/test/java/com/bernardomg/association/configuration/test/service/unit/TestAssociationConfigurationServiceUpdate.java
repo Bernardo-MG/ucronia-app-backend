@@ -15,7 +15,6 @@ import com.bernardomg.association.configuration.test.config.factory.AssociationC
 import com.bernardomg.association.configuration.usecase.service.DefaultAssociationConfigurationService;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.configuration.test.config.factory.Configurations;
-import com.bernardomg.configuration.usecase.source.ConfigurationSource;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Association configuration service - update")
@@ -23,9 +22,6 @@ public class TestAssociationConfigurationServiceUpdate {
 
     @Mock
     private ConfigurationRepository                configurationRepository;
-
-    @Mock
-    private ConfigurationSource                    configurationSource;
 
     @InjectMocks
     private DefaultAssociationConfigurationService service;

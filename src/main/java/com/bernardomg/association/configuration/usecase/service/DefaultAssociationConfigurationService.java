@@ -9,20 +9,15 @@ import com.bernardomg.association.configuration.domain.model.AssociationConfigur
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
-import com.bernardomg.configuration.usecase.source.ConfigurationSource;
 
 @Transactional
 public final class DefaultAssociationConfigurationService implements AssociationConfigurationService {
 
     private final ConfigurationRepository configurationRepository;
 
-    private final ConfigurationSource     configurationSource;
-
-    public DefaultAssociationConfigurationService(final ConfigurationSource configSource,
-            final ConfigurationRepository configRepository) {
+    public DefaultAssociationConfigurationService(final ConfigurationRepository configRepository) {
         super();
 
-        configurationSource = Objects.requireNonNull(configSource);
         configurationRepository = Objects.requireNonNull(configRepository);
     }
 
@@ -30,7 +25,7 @@ public final class DefaultAssociationConfigurationService implements Association
     public final AssociationConfiguration getAll() {
         final float feeAmount;
 
-        feeAmount = configurationSource.getFloat(AssociationConfigurationKey.FEE_AMOUNT);
+        feeAmount = configurationRepository.getFloat(AssociationConfigurationKey.FEE_AMOUNT);
 
         return AssociationConfiguration.builder()
             .withFeeAmount(feeAmount)

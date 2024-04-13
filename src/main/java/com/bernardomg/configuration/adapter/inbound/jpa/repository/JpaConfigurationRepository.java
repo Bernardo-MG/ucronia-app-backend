@@ -41,6 +41,25 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     }
 
     @Override
+    public final Float getFloat(final String key) {
+        final Optional<Configuration> read;
+        final String                  text;
+        final Float                   value;
+
+        read = configurationSpringRepository.findByKey(key)
+            .map(this::toDomain);
+        if (read.isPresent()) {
+            text = read.get()
+                .getValue();
+            value = Float.valueOf(text);
+        } else {
+            value = 0f;
+        }
+
+        return value;
+    }
+
+    @Override
     public final Configuration save(final Configuration configuration) {
         final ConfigurationEntity           entity;
         final ConfigurationEntity           saved;

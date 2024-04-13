@@ -9,8 +9,6 @@ import com.bernardomg.configuration.adapter.inbound.jpa.repository.JpaConfigurat
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
 import com.bernardomg.configuration.usecase.service.DefaultConfigurationService;
-import com.bernardomg.configuration.usecase.source.ConfigurationSource;
-import com.bernardomg.configuration.usecase.source.DefaultConfigurationSource;
 
 @Configuration
 public class ConfigurationConfig {
@@ -19,11 +17,6 @@ public class ConfigurationConfig {
     public ConfigurationRepository
             configurationRepository(final ConfigurationSpringRepository configurationSpringRepo) {
         return new JpaConfigurationRepository(configurationSpringRepo);
-    }
-
-    @Bean("configurationSource")
-    public ConfigurationSource configurationSource(final ConfigurationRepository configurationRepository) {
-        return new DefaultConfigurationSource(configurationRepository);
     }
 
     @Bean("configurationService")
