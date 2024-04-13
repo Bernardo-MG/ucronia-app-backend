@@ -2,6 +2,7 @@
 package com.bernardomg.association.configuration.usecase.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,7 @@ public final class DefaultAssociationConfigurationService implements Association
     }
 
     @Override
-    public final AssociationConfiguration read() {
+    public final AssociationConfiguration getAll() {
         final float feeAmount;
 
         feeAmount = configurationSource.getFloat(AssociationConfigurationKey.FEE_AMOUNT);
@@ -35,6 +36,11 @@ public final class DefaultAssociationConfigurationService implements Association
         return AssociationConfiguration.builder()
             .withFeeAmount(feeAmount)
             .build();
+    }
+
+    @Override
+    public final Optional<Configuration> getOne(final String key) {
+        return configurationRepository.findOne(key);
     }
 
     @Override
