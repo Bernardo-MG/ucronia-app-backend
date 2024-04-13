@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import com.bernardomg.association.configuration.usecase.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
-import com.bernardomg.association.configuration.usecase.source.ConfigurationSource;
+import com.bernardomg.configuration.usecase.source.ConfigurationSource;
 
 public final class CompositeAssociationConfigurationSource implements AssociationConfigurationSource {
 
