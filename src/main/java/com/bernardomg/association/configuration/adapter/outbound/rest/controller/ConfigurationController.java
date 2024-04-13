@@ -24,24 +24,17 @@
 
 package com.bernardomg.association.configuration.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.configuration.adapter.outbound.cache.ConfigurationCaches;
-import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
+import com.bernardomg.association.configuration.domain.model.Configuration;
 import com.bernardomg.association.configuration.usecase.service.AssociationConfigurationService;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -51,25 +44,18 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/configuration/association")
+@RequestMapping("/configuration")
 @AllArgsConstructor
-public class AssociationConfigurationController {
+public class ConfigurationController {
 
     private final AssociationConfigurationService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.READ)
-    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATIONS)
-    public AssociationConfiguration read() {
-        return service.getAll();
-    }
-
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key") },
-            evict = { @CacheEvict(cacheNames = { ConfigurationCaches.CONFIGURATIONS }, allEntries = true) })
-    public void update(@Valid @RequestBody final AssociationConfiguration config) {
-        service.update(config);
+    @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key")
+    public Configuration readOne(@PathVariable("key") final String key) {
+        // TODO: improve security, not all the configuration can be read by everybody
+        return service.getOne(key)
+            .orElse(null);
     }
 
 }
