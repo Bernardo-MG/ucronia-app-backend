@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.configuration.domain.exception.MissingConfigurationException;
 import com.bernardomg.association.configuration.domain.model.Configuration;
 import com.bernardomg.association.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.association.configuration.test.config.factory.ConfigurationConstants;
@@ -54,18 +56,18 @@ public class TestAssociationConfigurationGetOne {
     @Test
     @DisplayName("When the configuration doesn't exist, nothing is returned")
     void testGetOne_NotExisting() {
-        final Optional<Configuration> configuration;
+        final ThrowingCallable execution;
 
         // GIVEN
         given(configurationRepository.findOne(ConfigurationConstants.KEY)).willReturn(Optional.empty());
 
         // WHEN
-        configuration = service.getOne(ConfigurationConstants.KEY);
+        execution = () -> service.getOne(ConfigurationConstants.KEY);
 
         // THEN
-        Assertions.assertThat(configuration)
-            .as("configuration")
-            .isEmpty();
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingConfigurationException.class);
+
     }
 
 }
