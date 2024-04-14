@@ -59,7 +59,7 @@ public class ConfigurationController {
     private final ConfigurationService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.key")
+    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATIONS)
     public Collection<Configuration> readAll() {
         return service.getAll();
     }

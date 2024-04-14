@@ -3,6 +3,7 @@ package com.bernardomg.association.config;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.configuration.adapter.inbound.jpa.repository.ConfigurationSpringRepository;
@@ -12,6 +13,7 @@ import com.bernardomg.configuration.usecase.service.ConfigurationService;
 import com.bernardomg.configuration.usecase.service.DefaultConfigurationService;
 
 @Configuration
+@ComponentScan({ "com.bernardomg.configuration.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.configuration.adapter.inbound.jpa" })
 public class ConfigurationConfig {
 
