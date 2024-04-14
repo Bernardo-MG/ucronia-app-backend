@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.configuration.adapter.outbound.cache.ConfigurationCaches;
+import com.bernardomg.configuration.adapter.outbound.cache.ConfigurationCaches;
 import com.bernardomg.configuration.adapter.outbound.rest.model.ConfigurationChange;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
