@@ -28,29 +28,29 @@ public final class DefaultConfigurationService implements ConfigurationService {
     }
 
     @Override
-    public final Optional<Configuration> getOne(final String key) {
+    public final Optional<Configuration> getOne(final String code) {
         final Optional<Configuration> configuration;
 
-        configuration = configurationRepository.findOne(key);
+        configuration = configurationRepository.findOne(code);
         if (configuration.isEmpty()) {
-            throw new MissingConfigurationException(key);
+            throw new MissingConfigurationException(code);
         }
 
         return configuration;
     }
 
     @Override
-    public final Configuration update(final String key, final Configuration configuration) {
+    public final Configuration update(final String code, final Configuration configuration) {
         final Configuration toSave;
         final Optional<Configuration> existing;
 
-        existing = configurationRepository.findOne(key);
+        existing = configurationRepository.findOne(code);
         if (existing.isEmpty()) {
-            throw new MissingConfigurationException(key);
+            throw new MissingConfigurationException(code);
         }
 
         toSave = Configuration.builder()
-            .withCode(configuration.getCode())
+            .withCode(code)
             .withType(existing.get().getType())
             .withValue(configuration.getValue())
             .build();

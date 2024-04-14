@@ -64,20 +64,20 @@ public class ConfigurationController {
         return service.getAll();
     }
 
-    @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.code")
-    public Configuration readOne(@PathVariable("key") final String key) {
+    public Configuration readOne(@PathVariable("code") final String code) {
         // TODO: improve security, not all the configuration can be read by everybody
-        return service.getOne(key)
+        return service.getOne(code)
             .orElse(null);
     }
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Caching(put = { @CachePut(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.code") },
             evict = { @CacheEvict(cacheNames = { ConfigurationCaches.CONFIGURATIONS }, allEntries = true) })
-    public Configuration update(@PathVariable("key") final String key,
+    public Configuration update(@PathVariable("code") final String code,
             @Valid @RequestBody final Configuration configuration) {
-        return service.update(key, configuration);
+        return service.update(code, configuration);
     }
 
 }

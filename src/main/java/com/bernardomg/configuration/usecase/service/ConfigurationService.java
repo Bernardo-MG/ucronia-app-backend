@@ -10,8 +10,8 @@ public interface ConfigurationService {
 
     public Collection<Configuration> getAll();
 
-    public Optional<Configuration> getOne(final String key);
+    public Optional<Configuration> getOne(final String code);
 
-    public Configuration update(final String key, final Configuration configuration);
+    public Configuration update(final String code, final Configuration configuration);
 
 }
