@@ -4,6 +4,8 @@ package com.bernardomg.configuration.test.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +35,8 @@ public class TestConfigurationUpdate {
     @DisplayName("When the configuration exists, it is returned")
     void testUpdate_Existing() {
         // GIVEN
-        given(configurationRepository.exists(ConfigurationConstants.KEY)).willReturn(true);
+        given(configurationRepository.findOne(ConfigurationConstants.KEY))
+            .willReturn(Optional.of(Configurations.intValue()));
 
         // WHEN
         service.update(ConfigurationConstants.KEY, Configurations.intValue());
@@ -48,7 +51,8 @@ public class TestConfigurationUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(configurationRepository.exists(ConfigurationConstants.KEY)).willReturn(false);
+        given(configurationRepository.findOne(ConfigurationConstants.KEY))
+            .willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.update(ConfigurationConstants.KEY, Configurations.intValue());

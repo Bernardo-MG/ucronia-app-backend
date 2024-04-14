@@ -8,36 +8,41 @@ public final class Configurations {
 
     public static final Configuration amount() {
         return Configuration.builder()
-            .withKey(AssociationConfigurationKey.FEE_AMOUNT)
+            .withCode(AssociationConfigurationKey.FEE_AMOUNT)
             .withValue("1.0")
+            .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
     }
 
     public static final Configuration floatValue() {
         return Configuration.builder()
-            .withKey(ConfigurationConstants.KEY)
+            .withCode(ConfigurationConstants.KEY)
             .withValue("10.1")
+            .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
     }
 
     public static final Configuration intValue() {
         return Configuration.builder()
-            .withKey(ConfigurationConstants.KEY)
+            .withCode(ConfigurationConstants.KEY)
             .withValue("10")
+            .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
     }
 
     public static final Configuration stringValue() {
         return Configuration.builder()
-            .withKey(ConfigurationConstants.KEY)
-            .withValue("value")
+            .withCode(ConfigurationConstants.KEY)
+            .withValue(ConfigurationConstants.STRING_VALUE)
+            .withType(ConfigurationConstants.STRING_TYPE)
             .build();
     }
 
     public static final Configuration valid() {
         return Configuration.builder()
-            .withKey(ConfigurationConstants.KEY)
-            .withValue(ConfigurationConstants.VALUE)
+            .withCode(ConfigurationConstants.KEY)
+            .withValue(ConfigurationConstants.STRING_VALUE)
+            .withType(ConfigurationConstants.STRING_TYPE)
             .build();
     }
 

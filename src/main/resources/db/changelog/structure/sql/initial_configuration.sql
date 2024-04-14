@@ -1,3 +1,3 @@
-INSERT INTO configurations (property, data) VALUES
-  ('fee.amount', '0'),
-  ('social.teamup.id', '');
+INSERT INTO configurations (code, config_value, value_type) VALUES
+  ('fee.amount', '0', 'number'),
+  ('social.teamup.id', '', 'string');

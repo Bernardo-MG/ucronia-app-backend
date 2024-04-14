@@ -14,6 +14,7 @@ import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.configuration.test.config.factory.ConfigurationEntities;
 import com.bernardomg.configuration.test.config.factory.Configurations;
+import com.bernardomg.configuration.test.data.annotation.CleanConfiguration;
 import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -29,6 +30,7 @@ public class ITConfigurationRepositorySave {
 
     @Test
     @DisplayName("When saving the fee amount and with no existing configuration, the configuration is persisted")
+    @CleanConfiguration
     void testSave_NoData_Persisted() {
         final Configuration                   configuration;
         final Collection<ConfigurationEntity> configurations;
@@ -50,6 +52,7 @@ public class ITConfigurationRepositorySave {
 
     @Test
     @DisplayName("When saving the fee amount, the configuration is persisted")
+    @CleanConfiguration
     @FeeAmountConfiguration
     void testSave_Persisted() {
         final Configuration                   configuration;

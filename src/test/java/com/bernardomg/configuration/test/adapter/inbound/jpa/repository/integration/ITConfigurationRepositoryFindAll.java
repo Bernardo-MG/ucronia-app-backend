@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
 import com.bernardomg.configuration.test.config.factory.Configurations;
+import com.bernardomg.configuration.test.data.annotation.CleanConfiguration;
 import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
 import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
 import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
@@ -25,6 +26,7 @@ public class ITConfigurationRepositoryFindAll {
 
     @Test
     @DisplayName("When reading a float configuration, it is returned")
+    @CleanConfiguration
     @FloatConfiguration
     void testRead_Float() {
         final Collection<Configuration> configurations;
@@ -40,6 +42,7 @@ public class ITConfigurationRepositoryFindAll {
 
     @Test
     @DisplayName("When reading a integer configuration, it is returned")
+    @CleanConfiguration
     @IntegerConfiguration
     void testRead_Integer() {
         final Collection<Configuration> configurations;
@@ -55,6 +58,7 @@ public class ITConfigurationRepositoryFindAll {
 
     @Test
     @DisplayName("When reading with no data, nothing is returned")
+    @CleanConfiguration
     void testRead_NoData() {
         final Collection<Configuration> configurations;
 
@@ -69,6 +73,7 @@ public class ITConfigurationRepositoryFindAll {
 
     @Test
     @DisplayName("When reading a string configuration, it is returned")
+    @CleanConfiguration
     @StringConfiguration
     void testRead_String() {
         final Collection<Configuration> configurations;

@@ -42,13 +42,16 @@ public final class DefaultConfigurationService implements ConfigurationService {
     @Override
     public final Configuration update(final String key, final Configuration configuration) {
         final Configuration toSave;
+        final Optional<Configuration> existing;
 
-        if (!configurationRepository.exists(key)) {
+        existing = configurationRepository.findOne(key);
+        if (existing.isEmpty()) {
             throw new MissingConfigurationException(key);
         }
 
         toSave = Configuration.builder()
-            .withKey(configuration.getKey())
+            .withCode(configuration.getCode())
+            .withType(existing.get().getType())
             .withValue(configuration.getValue())
             .build();
 

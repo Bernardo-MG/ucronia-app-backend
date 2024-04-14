@@ -8,15 +8,17 @@ public final class ConfigurationEntities {
 
     public static final ConfigurationEntity amount() {
         return ConfigurationEntity.builder()
-            .withKey(AssociationConfigurationKey.FEE_AMOUNT)
+            .withCode(AssociationConfigurationKey.FEE_AMOUNT)
             .withValue("1.0")
+            .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
     }
 
     public static final ConfigurationEntity valid() {
         return ConfigurationEntity.builder()
-            .withKey(ConfigurationConstants.KEY)
-            .withValue(ConfigurationConstants.VALUE)
+            .withCode(ConfigurationConstants.KEY)
+            .withValue(ConfigurationConstants.STRING_VALUE)
+            .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
     }
 

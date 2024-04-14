@@ -24,15 +24,18 @@ public class ConfigurationEntity implements Serializable {
 
     private static final long serialVersionUID = -8109295491346275297L;
 
+    @Column(name = "code", nullable = false)
+    private String            code;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "property", nullable = false)
-    private String            key;
+    @Column(name = "value_type", nullable = false)
+    private String            type;
 
-    @Column(name = "data", nullable = false)
+    @Column(name = "config_value", nullable = false)
     private String            value;
 
 }

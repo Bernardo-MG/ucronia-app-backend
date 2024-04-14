@@ -22,11 +22,6 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     }
 
     @Override
-    public final boolean exists(final String key) {
-        return configurationSpringRepository.existsByKey(key);
-    }
-
-    @Override
     public final Collection<Configuration> findAll() {
         return configurationSpringRepository.findAll()
             .stream()
@@ -36,7 +31,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
 
     @Override
     public final Optional<Configuration> findOne(final String key) {
-        return configurationSpringRepository.findByKey(key)
+        return configurationSpringRepository.findByCode(key)
             .map(this::toDomain);
     }
 
@@ -46,7 +41,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
         final String                  text;
         final Float                   value;
 
-        read = configurationSpringRepository.findByKey(key)
+        read = configurationSpringRepository.findByCode(key)
             .map(this::toDomain);
         if (read.isPresent()) {
             text = read.get()
@@ -67,7 +62,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
 
         entity = toEntity(configuration);
 
-        existing = configurationSpringRepository.findByKey(configuration.getKey());
+        existing = configurationSpringRepository.findByCode(configuration.getCode());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -80,15 +75,17 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
 
     private final Configuration toDomain(final ConfigurationEntity entity) {
         return Configuration.builder()
-            .withKey(entity.getKey())
+            .withCode(entity.getCode())
             .withValue(entity.getValue())
+            .withType(entity.getType())
             .build();
     }
 
-    private final ConfigurationEntity toEntity(final Configuration entity) {
+    private final ConfigurationEntity toEntity(final Configuration model) {
         return ConfigurationEntity.builder()
-            .withKey(entity.getKey())
-            .withValue(entity.getValue())
+            .withCode(model.getCode())
+            .withValue(model.getValue())
+            .withType(model.getType())
             .build();
     }
 

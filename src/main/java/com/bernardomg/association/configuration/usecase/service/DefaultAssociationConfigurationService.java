@@ -39,8 +39,9 @@ public final class DefaultAssociationConfigurationService implements Association
         // TODO: Should verify it exists?
 
         toSave = Configuration.builder()
-            .withKey(AssociationConfigurationKey.FEE_AMOUNT)
+            .withCode(AssociationConfigurationKey.FEE_AMOUNT)
             .withValue(String.valueOf(configuration.getFeeAmount()))
+            .withType("number")
             .build();
 
         configurationRepository.save(toSave);

@@ -32,8 +32,8 @@ import com.bernardomg.configuration.adapter.inbound.jpa.model.ConfigurationEntit
 
 public interface ConfigurationSpringRepository extends JpaRepository<ConfigurationEntity, Long> {
 
-    public boolean existsByKey(final String key);
+    public boolean existsByCode(final String code);
 
-    public Optional<ConfigurationEntity> findByKey(final String key);
+    public Optional<ConfigurationEntity> findByCode(final String code);
 
 }
