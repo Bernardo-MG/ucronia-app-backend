@@ -40,8 +40,8 @@ public final class DefaultConfigurationService implements ConfigurationService {
     }
 
     @Override
-    public final Configuration update(final String code, final Configuration configuration) {
-        final Configuration toSave;
+    public final Configuration update(final String code, final String value) {
+        final Configuration           toSave;
         final Optional<Configuration> existing;
 
         existing = configurationRepository.findOne(code);
@@ -51,8 +51,9 @@ public final class DefaultConfigurationService implements ConfigurationService {
 
         toSave = Configuration.builder()
             .withCode(code)
-            .withType(existing.get().getType())
-            .withValue(configuration.getValue())
+            .withType(existing.get()
+                .getType())
+            .withValue(value)
             .build();
 
         return configurationRepository.save(toSave);

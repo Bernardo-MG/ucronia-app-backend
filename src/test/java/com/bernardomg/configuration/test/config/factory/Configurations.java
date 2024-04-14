@@ -16,7 +16,7 @@ public final class Configurations {
 
     public static final Configuration floatValue() {
         return Configuration.builder()
-            .withCode(ConfigurationConstants.KEY)
+            .withCode(ConfigurationConstants.CODE)
             .withValue("10.1")
             .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
@@ -24,15 +24,15 @@ public final class Configurations {
 
     public static final Configuration intValue() {
         return Configuration.builder()
-            .withCode(ConfigurationConstants.KEY)
-            .withValue("10")
+            .withCode(ConfigurationConstants.CODE)
+            .withValue(ConfigurationConstants.NUMBER_VALUE)
             .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();
     }
 
     public static final Configuration stringValue() {
         return Configuration.builder()
-            .withCode(ConfigurationConstants.KEY)
+            .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.STRING_VALUE)
             .withType(ConfigurationConstants.STRING_TYPE)
             .build();
@@ -40,7 +40,7 @@ public final class Configurations {
 
     public static final Configuration valid() {
         return Configuration.builder()
-            .withCode(ConfigurationConstants.KEY)
+            .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.STRING_VALUE)
             .withType(ConfigurationConstants.STRING_TYPE)
             .build();

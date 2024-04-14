@@ -12,6 +12,6 @@ public interface ConfigurationService {
 
     public Optional<Configuration> getOne(final String code);
 
-    public Configuration update(final String code, final Configuration configuration);
+    public Configuration update(final String code, final String value);
 
 }

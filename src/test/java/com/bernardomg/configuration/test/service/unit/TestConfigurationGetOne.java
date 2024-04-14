@@ -37,11 +37,11 @@ public class TestConfigurationGetOne {
         final Optional<Configuration> configuration;
 
         // GIVEN
-        given(configurationRepository.findOne(ConfigurationConstants.KEY))
+        given(configurationRepository.findOne(ConfigurationConstants.CODE))
             .willReturn(Optional.of(Configurations.stringValue()));
 
         // WHEN
-        configuration = service.getOne(ConfigurationConstants.KEY);
+        configuration = service.getOne(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -55,10 +55,10 @@ public class TestConfigurationGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(configurationRepository.findOne(ConfigurationConstants.KEY)).willReturn(Optional.empty());
+        given(configurationRepository.findOne(ConfigurationConstants.CODE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ConfigurationConstants.KEY);
+        execution = () -> service.getOne(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

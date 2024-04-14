@@ -31,7 +31,7 @@ public class ITConfigurationRepositoryFindOne {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.KEY);
+        configuration = repository.findOne(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -46,7 +46,7 @@ public class ITConfigurationRepositoryFindOne {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.KEY);
+        configuration = repository.findOne(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -60,7 +60,7 @@ public class ITConfigurationRepositoryFindOne {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.KEY);
+        configuration = repository.findOne(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -75,7 +75,7 @@ public class ITConfigurationRepositoryFindOne {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.KEY);
+        configuration = repository.findOne(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)

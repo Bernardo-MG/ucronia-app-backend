@@ -16,7 +16,7 @@ public final class ConfigurationEntities {
 
     public static final ConfigurationEntity valid() {
         return ConfigurationEntity.builder()
-            .withCode(ConfigurationConstants.KEY)
+            .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.STRING_VALUE)
             .withType(ConfigurationConstants.NUMBER_TYPE)
             .build();

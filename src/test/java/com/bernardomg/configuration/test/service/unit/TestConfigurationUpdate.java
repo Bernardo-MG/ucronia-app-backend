@@ -35,11 +35,11 @@ public class TestConfigurationUpdate {
     @DisplayName("When the configuration exists, it is returned")
     void testUpdate_Existing() {
         // GIVEN
-        given(configurationRepository.findOne(ConfigurationConstants.KEY))
+        given(configurationRepository.findOne(ConfigurationConstants.CODE))
             .willReturn(Optional.of(Configurations.intValue()));
 
         // WHEN
-        service.update(ConfigurationConstants.KEY, Configurations.intValue());
+        service.update(ConfigurationConstants.CODE, ConfigurationConstants.NUMBER_VALUE);
 
         // THEN
         verify(configurationRepository).save(Configurations.intValue());
@@ -51,11 +51,10 @@ public class TestConfigurationUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(configurationRepository.findOne(ConfigurationConstants.KEY))
-            .willReturn(Optional.empty());
+        given(configurationRepository.findOne(ConfigurationConstants.CODE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(ConfigurationConstants.KEY, Configurations.intValue());
+        execution = () -> service.update(ConfigurationConstants.CODE, ConfigurationConstants.NUMBER_VALUE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.configuration.adapter.outbound.cache.ConfigurationCaches;
+import com.bernardomg.configuration.adapter.outbound.rest.model.ConfigurationChange;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
 
@@ -76,8 +77,8 @@ public class ConfigurationController {
     @Caching(put = { @CachePut(cacheNames = ConfigurationCaches.CONFIGURATION, key = "#result.code") },
             evict = { @CacheEvict(cacheNames = { ConfigurationCaches.CONFIGURATIONS }, allEntries = true) })
     public Configuration update(@PathVariable("code") final String code,
-            @Valid @RequestBody final Configuration configuration) {
-        return service.update(code, configuration);
+            @Valid @RequestBody final ConfigurationChange configuration) {
+        return service.update(code, configuration.getValue());
     }
 
 }
