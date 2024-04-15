@@ -66,6 +66,8 @@ public final class DefaultConfigurationService implements ConfigurationService {
             .withType(existing.get()
                 .getType())
             .withValue(value)
+            .withRestricted(existing.get()
+                .isRestricted())
             .build();
 
         return configurationRepository.save(toSave);

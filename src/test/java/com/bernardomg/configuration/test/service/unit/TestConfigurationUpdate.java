@@ -32,7 +32,7 @@ public class TestConfigurationUpdate {
     private DefaultConfigurationService service;
 
     @Test
-    @DisplayName("When the configuration exists, it is returned")
+    @DisplayName("When the configuration exists, it is updated")
     void testUpdate_Existing() {
         // GIVEN
         given(configurationRepository.findOne(ConfigurationConstants.CODE))
@@ -46,7 +46,21 @@ public class TestConfigurationUpdate {
     }
 
     @Test
-    @DisplayName("When the configuration doesn't exist, nothing is returned")
+    @DisplayName("When the configuration exists and is restricted, it is updated")
+    void testUpdate_Existing_Restricted() {
+        // GIVEN
+        given(configurationRepository.findOne(ConfigurationConstants.CODE))
+            .willReturn(Optional.of(Configurations.restricted()));
+
+        // WHEN
+        service.update(ConfigurationConstants.CODE, ConfigurationConstants.NUMBER_VALUE);
+
+        // THEN
+        verify(configurationRepository).save(Configurations.restricted());
+    }
+
+    @Test
+    @DisplayName("When the configuration doesn't exist, nothing is updated")
     void testUpdate_NotExisting() {
         final ThrowingCallable execution;
 
