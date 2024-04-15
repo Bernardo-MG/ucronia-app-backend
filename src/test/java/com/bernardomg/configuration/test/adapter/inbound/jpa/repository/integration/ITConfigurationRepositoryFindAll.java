@@ -28,7 +28,7 @@ public class ITConfigurationRepositoryFindAll {
     @DisplayName("When reading a float configuration, it is returned")
     @CleanConfiguration
     @FloatConfiguration
-    void testRead_Float() {
+    void testFindAll_Float() {
         final Collection<Configuration> configurations;
 
         // WHEN
@@ -44,7 +44,7 @@ public class ITConfigurationRepositoryFindAll {
     @DisplayName("When reading a integer configuration, it is returned")
     @CleanConfiguration
     @IntegerConfiguration
-    void testRead_Integer() {
+    void testFindAll_Integer() {
         final Collection<Configuration> configurations;
 
         // WHEN
@@ -59,7 +59,7 @@ public class ITConfigurationRepositoryFindAll {
     @Test
     @DisplayName("When reading with no data, nothing is returned")
     @CleanConfiguration
-    void testRead_NoData() {
+    void testFindAll_NoData() {
         final Collection<Configuration> configurations;
 
         // WHEN
@@ -75,7 +75,7 @@ public class ITConfigurationRepositoryFindAll {
     @DisplayName("When reading a string configuration, it is returned")
     @CleanConfiguration
     @StringConfiguration
-    void testRead_String() {
+    void testFindAll_String() {
         final Collection<Configuration> configurations;
 
         // WHEN

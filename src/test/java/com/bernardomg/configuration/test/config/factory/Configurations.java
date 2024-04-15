@@ -33,6 +33,15 @@ public final class Configurations {
             .build();
     }
 
+    public static final Configuration restricted() {
+        return Configuration.builder()
+            .withCode(ConfigurationConstants.CODE)
+            .withValue(ConfigurationConstants.STRING_VALUE)
+            .withType(ConfigurationConstants.STRING_TYPE)
+            .withRestricted(true)
+            .build();
+    }
+
     public static final Configuration stringValue() {
         return Configuration.builder()
             .withCode(ConfigurationConstants.CODE)

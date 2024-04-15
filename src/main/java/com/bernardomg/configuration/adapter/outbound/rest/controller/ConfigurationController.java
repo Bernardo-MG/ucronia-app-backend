@@ -66,6 +66,13 @@ public class ConfigurationController {
             .orElse(null);
     }
 
+    @GetMapping(path = "/{code}/public", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Configuration readOnePublic(@PathVariable("code") final String code) {
+        // TODO: improve security, not all the configuration can be read by everybody
+        return service.getOnePublic(code)
+            .orElse(null);
+    }
+
     @PutMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Configuration update(@PathVariable("code") final String code,
             @Valid @RequestBody final ConfigurationChange configuration) {

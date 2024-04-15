@@ -36,6 +36,12 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     }
 
     @Override
+    public final Optional<Configuration> findOnePublic(final String key) {
+        return configurationSpringRepository.findByCodeAndRestrictedFalse(key)
+            .map(this::toDomain);
+    }
+
+    @Override
     public final Float getFloat(final String key) {
         final Optional<Configuration> read;
         final String                  text;
