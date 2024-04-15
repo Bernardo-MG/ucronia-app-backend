@@ -11,6 +11,7 @@ public final class Configurations {
             .withCode(AssociationConfigurationKey.FEE_AMOUNT)
             .withValue("1.0")
             .withType(ConfigurationConstants.NUMBER_TYPE)
+            .withRestricted(false)
             .build();
     }
 
@@ -19,6 +20,7 @@ public final class Configurations {
             .withCode(ConfigurationConstants.CODE)
             .withValue("10.1")
             .withType(ConfigurationConstants.NUMBER_TYPE)
+            .withRestricted(false)
             .build();
     }
 
@@ -27,6 +29,7 @@ public final class Configurations {
             .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.NUMBER_VALUE)
             .withType(ConfigurationConstants.NUMBER_TYPE)
+            .withRestricted(false)
             .build();
     }
 
@@ -35,6 +38,7 @@ public final class Configurations {
             .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.STRING_VALUE)
             .withType(ConfigurationConstants.STRING_TYPE)
+            .withRestricted(false)
             .build();
     }
 
@@ -43,6 +47,7 @@ public final class Configurations {
             .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.STRING_VALUE)
             .withType(ConfigurationConstants.STRING_TYPE)
+            .withRestricted(false)
             .build();
     }
 
