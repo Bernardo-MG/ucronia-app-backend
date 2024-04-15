@@ -22,20 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.configuration.adapter.inbound.jpa.repository;
+package com.bernardomg.configuration.adapter.outbound.rest.controller;
 
-import java.util.Optional;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.configuration.domain.model.Configuration;
+import com.bernardomg.configuration.usecase.service.ConfigurationService;
 
-import com.bernardomg.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
+import lombok.AllArgsConstructor;
 
-public interface ConfigurationSpringRepository extends JpaRepository<ConfigurationEntity, Long> {
+/**
+ * Configuration REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+@RequestMapping("/configuration/public")
+@AllArgsConstructor
+public class PublicConfigurationController {
 
-    public boolean existsByCode(final String code);
+    private final ConfigurationService service;
 
-    public Optional<ConfigurationEntity> findByCode(final String code);
-
-    public Optional<ConfigurationEntity> findByCodeAndRestrictedFalse(final String code);
+    @GetMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Configuration readOnePublic(@PathVariable("code") final String code) {
+        // TODO: improve security, not all the configuration can be read by everybody
+        return service.getOnePublic(code)
+            .orElse(null);
+    }
 
 }

@@ -40,6 +40,18 @@ public final class DefaultConfigurationService implements ConfigurationService {
     }
 
     @Override
+    public final Optional<Configuration> getOnePublic(final String code) {
+        final Optional<Configuration> configuration;
+
+        configuration = configurationRepository.findOnePublic(code);
+        if (configuration.isEmpty()) {
+            throw new MissingConfigurationException(code);
+        }
+
+        return configuration;
+    }
+
+    @Override
     public final Configuration update(final String code, final String value) {
         final Configuration           toSave;
         final Optional<Configuration> existing;
@@ -54,6 +66,8 @@ public final class DefaultConfigurationService implements ConfigurationService {
             .withType(existing.get()
                 .getType())
             .withValue(value)
+            .withRestricted(existing.get()
+                .isRestricted())
             .build();
 
         return configurationRepository.save(toSave);

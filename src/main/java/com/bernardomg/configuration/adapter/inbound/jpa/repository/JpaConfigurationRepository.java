@@ -36,6 +36,12 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     }
 
     @Override
+    public final Optional<Configuration> findOnePublic(final String key) {
+        return configurationSpringRepository.findByCodeAndRestrictedFalse(key)
+            .map(this::toDomain);
+    }
+
+    @Override
     public final Float getFloat(final String key) {
         final Optional<Configuration> read;
         final String                  text;
@@ -78,6 +84,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
             .withCode(entity.getCode())
             .withValue(entity.getValue())
             .withType(entity.getType())
+            .withRestricted(entity.isRestricted())
             .build();
     }
 
@@ -86,6 +93,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
             .withCode(model.getCode())
             .withValue(model.getValue())
             .withType(model.getType())
+            .withRestricted(model.isRestricted())
             .build();
     }
 

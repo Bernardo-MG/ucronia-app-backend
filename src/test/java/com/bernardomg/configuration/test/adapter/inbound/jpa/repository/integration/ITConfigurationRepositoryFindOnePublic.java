@@ -20,7 +20,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("ConfigurationRepository - find one")
-public class ITConfigurationRepositoryFindOne {
+public class ITConfigurationRepositoryFindOnePublic {
 
     @Autowired
     private ConfigurationRepository repository;
@@ -28,11 +28,11 @@ public class ITConfigurationRepositoryFindOne {
     @Test
     @DisplayName("When reading a float configuration, it is returned")
     @FloatConfiguration
-    void testFindOne_Float() {
+    void testFindOnePublic_Float() {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.CODE);
+        configuration = repository.findOnePublic(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -43,11 +43,11 @@ public class ITConfigurationRepositoryFindOne {
     @Test
     @DisplayName("When reading a integer configuration, it is returned")
     @IntegerConfiguration
-    void testFindOne_Integer() {
+    void testFindOnePublic_Integer() {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.CODE);
+        configuration = repository.findOnePublic(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -57,11 +57,11 @@ public class ITConfigurationRepositoryFindOne {
 
     @Test
     @DisplayName("When reading with no data, nothing is returned")
-    void testFindOne_NoData() {
+    void testFindOnePublic_NoData() {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.CODE);
+        configuration = repository.findOnePublic(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
@@ -70,28 +70,28 @@ public class ITConfigurationRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When reading a restricted configuration, it is returned")
+    @DisplayName("When reading with no public data, nothing is returned")
     @RestrictedConfiguration
-    void testFindOne_Restricted() {
+    void testFindOnePublic_Restricted() {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.CODE);
+        configuration = repository.findOnePublic(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)
             .as("configuration")
-            .contains(Configurations.restricted());
+            .isEmpty();
     }
 
     @Test
     @DisplayName("When reading a string configuration, it is returned")
     @StringConfiguration
-    void testFindOne_String() {
+    void testFindOnePublic_String() {
         final Optional<Configuration> configuration;
 
         // WHEN
-        configuration = repository.findOne(ConfigurationConstants.CODE);
+        configuration = repository.findOnePublic(ConfigurationConstants.CODE);
 
         // THEN
         Assertions.assertThat(configuration)

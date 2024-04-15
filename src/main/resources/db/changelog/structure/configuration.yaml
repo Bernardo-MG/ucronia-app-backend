@@ -30,6 +30,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: 'string'
+              - column:
+                  name: restricted
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: 'true'
         - addAutoIncrement:
             tableName: configurations
             columnName: id
