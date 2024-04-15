@@ -55,7 +55,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_EndDate() {
+    void testFindAll_EndDate() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -78,7 +78,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_EndDate_NotInRange() {
+    void testFindAll_EndDate_NotInRange() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -100,7 +100,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_InDate() {
+    void testFindAll_InDate() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -123,7 +123,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
     @ValidMember
     @FeeFullYear
-    void testGetAll_InDate_FirstDay_Data() {
+    void testFindAll_InDate_FirstDay_Data() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -146,7 +146,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
     @ValidMember
     @FeeFullYear
-    void testGetAll_InDate_LastDay_Data() {
+    void testFindAll_InDate_LastDay_Data() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -169,7 +169,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_InDate_NotExisting() {
+    void testFindAll_InDate_NotExisting() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -192,7 +192,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_StartDate() {
+    void testFindAll_StartDate() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;
@@ -215,7 +215,7 @@ class ITFeeRepositoryGetAllFilter {
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
     @MultipleMembers
     @MultipleFees
-    void testGetAll_StartDate_NotInRange() {
+    void testFindAll_StartDate_NotInRange() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
         final Pageable      pageable;

@@ -58,7 +58,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a full year, the year range is returned")
     @ValidMember
     @FeeFullYear
-    void testGetRange_FullYear() {
+    void testFindRange_FullYear() {
         final FeeCalendarYearsRange range;
 
         // WHEN
@@ -67,7 +67,7 @@ class ITFeeRepositoryFindRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(MemberCalendars.YEAR);
+            .containsOnly(MemberCalendars.YEAR.getValue());
     }
 
     @Test
@@ -76,7 +76,7 @@ class ITFeeRepositoryFindRange {
     @AlternativeMember
     @FeeFullYear
     @AlternativeFeeFullYear
-    void testGetRange_FullYear_TwoMembers() {
+    void testFindRange_FullYear_TwoMembers() {
         final FeeCalendarYearsRange range;
 
         // WHEN
@@ -85,13 +85,13 @@ class ITFeeRepositoryFindRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(MemberCalendars.YEAR);
+            .containsOnly(MemberCalendars.YEAR.getValue());
     }
 
     @Test
     @DisplayName("With a not paid fee for the next year, nothing is returned")
     @ValidMember
-    void testGetRange_NextYear_NotPaid() {
+    void testFindRange_NextYear_NotPaid() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -109,7 +109,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a paid fee for the next year, nothing is returned")
     @ValidMember
-    void testGetRange_NextYear_Paid() {
+    void testFindRange_NextYear_Paid() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -126,7 +126,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With no data, the range is empty")
-    void testGetRange_NoData() {
+    void testFindRange_NoData() {
         final FeeCalendarYearsRange range;
 
         // WHEN
@@ -141,7 +141,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With no fees, the range is empty")
     @ValidMember
-    void testGetRange_NoFees() {
+    void testFindRange_NoFees() {
         final FeeCalendarYearsRange range;
 
         // WHEN
@@ -156,7 +156,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
     @ValidMember
-    void testGetRange_NotPaid() {
+    void testFindRange_NotPaid() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -174,7 +174,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a paid fee, the year range is returned")
     @ValidMember
-    void testGetRange_Paid() {
+    void testFindRange_Paid() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -192,7 +192,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
     @ValidMember
-    void testGetRange_PreviousYear_NotPaid() {
+    void testFindRange_PreviousYear_NotPaid() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -210,7 +210,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a paid fee, the year range is returned")
     @ValidMember
-    void testGetRange_PreviousYear_Paid() {
+    void testFindRange_PreviousYear_Paid() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -228,7 +228,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With two years connected, the year range is returned")
     @ValidMember
-    void testGetRange_TwoConnectedYears() {
+    void testFindRange_TwoConnectedYears() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -247,7 +247,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With two years connected and not in order, the year range is returned")
     @ValidMember
-    void testGetRange_TwoConnectedYears_NotInOrder() {
+    void testFindRange_TwoConnectedYears_NotInOrder() {
         final FeeCalendarYearsRange range;
 
         // GIVEN
@@ -266,7 +266,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With two years with a gap, the year range is returned")
     @ValidMember
-    void testGetRange_TwoYearsWithGap() {
+    void testFindRange_TwoYearsWithGap() {
         final FeeCalendarYearsRange range;
 
         // GIVEN

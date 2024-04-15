@@ -137,7 +137,6 @@ public final class DefaultMemberService implements MemberService {
 
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {
-            // TODO: change name
             throw new MissingMemberException(number);
         }
 

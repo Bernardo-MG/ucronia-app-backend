@@ -13,17 +13,29 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: property
+                  name: code
                   type: varchar(60)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: data
+                  name: config_value
                   type: varchar(60)
                   constraints:
                     nullable: false
                   defaultValue: ''
+              - column:
+                  name: value_type
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                  defaultValue: 'string'
+              - column:
+                  name: restricted
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: 'true'
         - addAutoIncrement:
             tableName: configurations
             columnName: id
@@ -34,3 +46,13 @@ databaseChangeLog:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: initial_configuration
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/initial_configuration.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

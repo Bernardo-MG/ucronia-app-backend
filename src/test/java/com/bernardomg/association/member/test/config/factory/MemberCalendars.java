@@ -17,12 +17,11 @@ public final class MemberCalendars {
     public static final YearMonth TWO_MONTHS_BACK_DATE = YearMonth.now()
         .minusMonths(2);
 
-    public static final int       YEAR                 = 2020;
+    public static final Year      YEAR                 = Year.of(2020);
 
-    public static final int       YEAR_CURRENT         = Year.now()
-        .getValue();
+    public static final Year      YEAR_CURRENT         = Year.now();
 
-    public static final int       YEAR_PREVIOUS        = 2019;
+    public static final Year      YEAR_PREVIOUS        = Year.of(2019);
 
     private MemberCalendars() {
         super();

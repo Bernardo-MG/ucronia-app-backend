@@ -33,6 +33,9 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class FeeCalendarYearsRange {
 
+    /**
+     * TODO: user Year
+     */
     private final Collection<Integer> years;
 
 }

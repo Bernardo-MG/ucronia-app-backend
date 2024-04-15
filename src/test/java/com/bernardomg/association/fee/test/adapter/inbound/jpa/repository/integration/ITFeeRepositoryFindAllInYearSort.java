@@ -54,7 +54,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
-    void testGetYear_NotExisting() {
+    void testFindAllInYear_NotExisting() {
         final Sort             sort;
         final ThrowingCallable execution;
 
@@ -76,7 +76,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @AlternativeMember
     @FeeFullYear
     @AlternativeFeeFullYear
-    void testGetYear_TwoMembers_Name_Asc() {
+    void testFindAllInYear_TwoMembers_Name_Asc() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -109,7 +109,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @AlternativeMember
     @FeeFullYear
     @AlternativeFeeFullYear
-    void testGetYear_TwoMembers_Name_Desc() {
+    void testFindAllInYear_TwoMembers_Name_Desc() {
         final Iterable<Fee> fees;
         final Sort          sort;
 

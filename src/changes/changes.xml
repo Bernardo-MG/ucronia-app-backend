@@ -97,5 +97,16 @@
             Updated security dependency due to security errors.
          </action>
       </release>
+      <release version="0.4.4" date="2024-04-15" description="Configuration and user member">
+         <action dev="bmg" type="add">
+            Can register members to users.
+         </action>
+         <action dev="bmg" type="add">
+            Fee payments report.
+         </action>
+         <action dev="bmg" type="update">
+            Reworked configuration to be more usable.
+         </action>
+      </release>
    </body>
 </document>

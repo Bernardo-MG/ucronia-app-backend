@@ -1,2 +1,2 @@
-INSERT INTO configurations (property, data) VALUES
-   ('key', 'value');
+INSERT INTO configurations (code, config_value, value_type, restricted) VALUES
+   ('code', 'value', 'string', false);

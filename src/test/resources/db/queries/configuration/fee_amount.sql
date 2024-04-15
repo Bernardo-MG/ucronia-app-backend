@@ -1,2 +1,3 @@
-INSERT INTO configurations (property, data) VALUES
-   ('fee.amount', '1');
+UPDATE configurations
+   SET config_value = '1'
+   WHERE code = 'fee.amount';

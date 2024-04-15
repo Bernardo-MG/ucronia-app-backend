@@ -53,7 +53,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<Fee> fee;
 
         // WHEN
@@ -68,7 +68,7 @@ class ITFeeRepositoryFindOne {
     @DisplayName("With no surname, only the name is returned")
     @NoSurnameMember
     @PaidFee
-    void testGetOne_NoSurname() {
+    void testFindOne_NoSurname() {
         final Optional<Fee> fee;
 
         // WHEN
@@ -83,7 +83,7 @@ class ITFeeRepositoryFindOne {
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
     @ValidMember
     @NotPaidFee
-    void testGetOne_NotPaid() {
+    void testFindOne_NotPaid() {
         final Optional<Fee> fee;
 
         // WHEN
@@ -98,7 +98,7 @@ class ITFeeRepositoryFindOne {
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
     @ValidMember
     @PaidFee
-    void testGetOne_Paid() {
+    void testFindOne_Paid() {
         final Optional<Fee> fee;
 
         // WHEN
@@ -115,7 +115,7 @@ class ITFeeRepositoryFindOne {
     @AlternativeMember
     @PaidFee
     @AlternativePaidFee
-    void testGetOne_Paid_TwoMembers() {
+    void testFindOne_Paid_TwoMembers() {
         final Optional<Fee> fee;
 
         // WHEN
@@ -132,7 +132,7 @@ class ITFeeRepositoryFindOne {
     @AlternativeMember
     @PaidFee
     @AlternativePaidFee
-    void testGetOne_Paid_TwoMembers_Alternative() {
+    void testFindOne_Paid_TwoMembers_Alternative() {
         final Optional<Fee> fee;
 
         // WHEN

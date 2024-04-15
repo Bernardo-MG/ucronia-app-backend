@@ -125,6 +125,23 @@ public final class Members {
             .build();
     }
 
+    public static final Member inactiveAlternative() {
+        final MemberName memberName;
+
+        memberName = MemberName.builder()
+            .withFirstName(MemberConstants.ALTERNATIVE_NAME)
+            .withLastName(MemberConstants.ALTERNATIVE_SURNAME)
+            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
+            .build();
+        return Member.builder()
+            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(false)
+            .build();
+    }
+
     public static final Member inactiveWithNumber(final long number) {
         final MemberName memberName;
 
