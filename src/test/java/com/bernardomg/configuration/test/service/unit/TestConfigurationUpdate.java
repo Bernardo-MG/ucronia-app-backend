@@ -56,7 +56,7 @@ public class TestConfigurationUpdate {
         service.update(ConfigurationConstants.CODE, ConfigurationConstants.NUMBER_VALUE);
 
         // THEN
-        verify(configurationRepository).save(Configurations.restricted());
+        verify(configurationRepository).save(Configurations.restrictedUpdated());
     }
 
     @Test

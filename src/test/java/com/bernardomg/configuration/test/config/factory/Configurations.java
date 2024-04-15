@@ -42,6 +42,15 @@ public final class Configurations {
             .build();
     }
 
+    public static final Configuration restrictedUpdated() {
+        return Configuration.builder()
+            .withCode(ConfigurationConstants.CODE)
+            .withValue(ConfigurationConstants.NUMBER_VALUE)
+            .withType(ConfigurationConstants.STRING_TYPE)
+            .withRestricted(true)
+            .build();
+    }
+
     public static final Configuration stringValue() {
         return Configuration.builder()
             .withCode(ConfigurationConstants.CODE)
