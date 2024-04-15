@@ -14,6 +14,7 @@ import com.bernardomg.configuration.test.config.factory.Configurations;
 import com.bernardomg.configuration.test.data.annotation.CleanConfiguration;
 import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
 import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
+import com.bernardomg.configuration.test.data.annotation.MultipleConfiguration;
 import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -54,6 +55,22 @@ public class ITConfigurationRepositoryFindAll {
         Assertions.assertThat(configurations)
             .as("configurations")
             .containsExactly(Configurations.intValue());
+    }
+
+    @Test
+    @DisplayName("When reading a string configuration, it is returned")
+    @CleanConfiguration
+    @MultipleConfiguration
+    void testFindAll_Multiple() {
+        final Collection<Configuration> configurations;
+
+        // WHEN
+        configurations = repository.findAll();
+
+        // THEN
+        Assertions.assertThat(configurations)
+            .as("configurations")
+            .containsExactly(Configurations.first(), Configurations.second());
     }
 
     @Test

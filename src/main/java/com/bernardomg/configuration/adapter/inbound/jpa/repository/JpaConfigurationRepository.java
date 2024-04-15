@@ -4,6 +4,7 @@ package com.bernardomg.configuration.adapter.inbound.jpa.repository;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.configuration.adapter.inbound.jpa.model.ConfigurationEntity;
@@ -23,7 +24,10 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
 
     @Override
     public final Collection<Configuration> findAll() {
-        return configurationSpringRepository.findAll()
+        final Sort sort;
+
+        sort = Sort.by("code");
+        return configurationSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
             .toList();
