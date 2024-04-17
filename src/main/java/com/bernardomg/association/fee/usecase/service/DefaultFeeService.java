@@ -100,7 +100,6 @@ public final class DefaultFeeService implements FeeService {
 
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
-            // TODO: Change exception
             throw new MissingMemberException(memberNumber);
         }
 
@@ -126,7 +125,6 @@ public final class DefaultFeeService implements FeeService {
 
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
-            // TODO: Change exception
             throw new MissingMemberException(memberNumber);
         }
 
@@ -149,7 +147,6 @@ public final class DefaultFeeService implements FeeService {
 
         member = memberRepository.findOne(memberNumber);
         if (member.isEmpty()) {
-            // TODO: Change exception
             throw new MissingMemberException(memberNumber);
         }
 
