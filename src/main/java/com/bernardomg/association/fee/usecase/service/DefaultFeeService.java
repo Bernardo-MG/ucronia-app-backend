@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -79,12 +80,12 @@ public final class DefaultFeeService implements FeeService {
             final MessageSource msgSource) {
         super();
 
-        feeRepository = feeRepo;
-        memberRepository = memberRepo;
-        transactionRepository = transactionRepo;
+        feeRepository = Objects.requireNonNull(feeRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
+        transactionRepository = Objects.requireNonNull(transactionRepo);
 
-        configurationSource = configSource;
-        messageSource = msgSource;
+        configurationSource = Objects.requireNonNull(configSource);
+        messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
         validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
