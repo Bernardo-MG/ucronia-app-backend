@@ -28,6 +28,14 @@ databaseChangeLog:
                   type: varchar(100)
                   constraints:
                     nullable: false
+              - column:
+                  name: member
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: fk_donors_member
+                    references: members(id)
         - addAutoIncrement:
             schemaName: inventory
             tableName: donors
