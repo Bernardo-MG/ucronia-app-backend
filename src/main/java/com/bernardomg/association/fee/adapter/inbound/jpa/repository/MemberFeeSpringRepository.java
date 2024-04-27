@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -53,6 +55,8 @@ public interface MemberFeeSpringRepository
      * @return all the fees in the date
      */
     public List<MemberFeeEntity> findAllByDate(final YearMonth date);
+
+    public Page<MemberFeeEntity> findAllByMemberNumber(final Long memberNumber, final Pageable pageable);
 
     public Collection<MemberFeeEntity> findAllByMemberNumberAndDateIn(final Long memberNumber,
             final Collection<YearMonth> feeDates);

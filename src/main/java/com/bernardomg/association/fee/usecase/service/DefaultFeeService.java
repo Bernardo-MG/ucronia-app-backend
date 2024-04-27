@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.fee.usecase.service;
 
@@ -5,6 +28,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,7 +58,6 @@ import lombok.extern.slf4j.Slf4j;
  * Default implementation of the fee service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
 @Slf4j
 @Transactional
@@ -57,12 +80,12 @@ public final class DefaultFeeService implements FeeService {
             final MessageSource msgSource) {
         super();
 
-        feeRepository = feeRepo;
-        memberRepository = memberRepo;
-        transactionRepository = transactionRepo;
+        feeRepository = Objects.requireNonNull(feeRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
+        transactionRepository = Objects.requireNonNull(transactionRepo);
 
-        configurationSource = configSource;
-        messageSource = msgSource;
+        configurationSource = Objects.requireNonNull(configSource);
+        messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
         validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
@@ -77,7 +100,6 @@ public final class DefaultFeeService implements FeeService {
 
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
-            // TODO: Change exception
             throw new MissingMemberException(memberNumber);
         }
 
@@ -103,7 +125,6 @@ public final class DefaultFeeService implements FeeService {
 
         memberExists = memberRepository.exists(memberNumber);
         if (!memberExists) {
-            // TODO: Change exception
             throw new MissingMemberException(memberNumber);
         }
 
@@ -126,7 +147,6 @@ public final class DefaultFeeService implements FeeService {
 
         member = memberRepository.findOne(memberNumber);
         if (member.isEmpty()) {
-            // TODO: Change exception
             throw new MissingMemberException(memberNumber);
         }
 

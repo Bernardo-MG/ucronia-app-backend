@@ -34,6 +34,11 @@ import com.bernardomg.association.fee.domain.model.FeePaymentReport;
  */
 public interface FeeReportService {
 
+    /**
+     * Returns the fee payments report.
+     *
+     * @return the fee payments report
+     */
     public FeePaymentReport getPaymentReport();
 
 }

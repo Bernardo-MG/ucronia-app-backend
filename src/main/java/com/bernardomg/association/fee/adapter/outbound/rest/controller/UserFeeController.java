@@ -22,53 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.service;
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import java.time.YearMonth;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.function.Predicate;
-
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePaymentReport;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.usecase.service.UserFeeService;
+import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.authorization.permission.constant.Actions;
+
+import lombok.AllArgsConstructor;
 
 /**
- * Default implementation of the fee report service.
+ * User fee REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-@Transactional
-public final class DefaultFeeReportService implements FeeReportService {
+@RestController
+@RequestMapping("/user/fee")
+@AllArgsConstructor
+public class UserFeeController {
 
-    private final FeeRepository feeRepository;
+    /**
+     * User fee service.
+     */
+    private final UserFeeService service;
 
-    public DefaultFeeReportService(final FeeRepository feeRepo) {
-        super();
-
-        feeRepository = Objects.requireNonNull(feeRepo);
-    }
-
-    @Override
-    public final FeePaymentReport getPaymentReport() {
-        final Collection<Fee> fees;
-        final long            paid;
-        final long            unpaid;
-
-        fees = feeRepository.findAllInMonth(YearMonth.now());
-        paid = fees.stream()
-            .filter(Fee::isPaid)
-            .count();
-        unpaid = fees.stream()
-            .filter(Predicate.not(Fee::isPaid))
-            .count();
-
-        return FeePaymentReport.builder()
-            .withPaid(paid)
-            .withUnpaid(unpaid)
-            .build();
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "USER_FEE", action = Actions.READ)
+    public Iterable<Fee> readAll(final Pageable pageable) {
+        return service.getAllForUserInSession(pageable);
     }
 
 }

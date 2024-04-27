@@ -50,6 +50,8 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             // Fee
             ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
             ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
+            // User fee
+            ResourcePermissionPair.of("USER_FEE", "READ"),
             // Transaction
             ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
             ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
@@ -80,15 +82,15 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("BALANCE", "READ"),
             // Views
             ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBER", "VIEW"),
-            ResourcePermissionPair.of("FEE", "VIEW"), ResourcePermissionPair.of("LIBRARY", "VIEW"),
-            ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"),
+            ResourcePermissionPair.of("FEE", "VIEW"), ResourcePermissionPair.of("USER_FEE", "VIEW"),
+            ResourcePermissionPair.of("LIBRARY", "VIEW"), ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER", "FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS", "LIBRARY",
-            "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE",
+        return List.of("MEMBER", "FEE", "USER_FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS",
+            "LIBRARY", "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE",
             "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
     }
 

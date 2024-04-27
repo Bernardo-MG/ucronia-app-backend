@@ -35,10 +35,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -46,19 +46,29 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get all")
 class TestFeeServiceGetAll {
 
     @Mock
-    private FeeRepository     feeRepository;
+    private AssociationConfigurationSource configurationSource;
 
     @Mock
-    private MemberRepository  memberRepository;
+    private FeeRepository                  feeRepository;
+
+    @Mock
+    private MemberRepository               memberRepository;
+
+    @Mock
+    private MessageSource                  messageSource;
 
     @InjectMocks
-    private DefaultFeeService service;
+    private DefaultFeeService              service;
+
+    @Mock
+    private TransactionRepository          transactionRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -68,7 +78,7 @@ class TestFeeServiceGetAll {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 20, Direction.ASC, "date");
+        pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 
@@ -91,7 +101,7 @@ class TestFeeServiceGetAll {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 20, Direction.ASC, "date");
+        pageable = Pageable.unpaged();
 
         feeQuery = FeesQuery.empty();
 

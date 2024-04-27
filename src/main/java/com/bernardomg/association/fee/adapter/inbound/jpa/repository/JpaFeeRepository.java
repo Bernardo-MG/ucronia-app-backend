@@ -190,6 +190,22 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
+    public final Iterable<Fee> findAllForMember(final Long memberNumber, final Pageable pageable) {
+        final Page<MemberFeeEntity> page;
+        final Iterable<Fee>         found;
+
+        log.debug("Finding all fees for member {} and pagination {}", memberNumber, pageable);
+
+        page = memberFeeSpringRepository.findAllByMemberNumber(memberNumber, pageable);
+
+        found = page.map(this::toDomain);
+
+        log.debug("Found all fees for member {} and pagination {}: {}", memberNumber, pageable, found);
+
+        return found;
+    }
+
+    @Override
     public final Collection<Fee> findAllForMemberInDates(final Long memberNumber,
             final Collection<YearMonth> feeDates) {
         final Collection<Fee> fees;

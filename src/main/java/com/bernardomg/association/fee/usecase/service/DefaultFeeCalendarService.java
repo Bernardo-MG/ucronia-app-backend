@@ -47,6 +47,11 @@ import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 
+/**
+ * Default implementation of the fee calendar service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 @Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
