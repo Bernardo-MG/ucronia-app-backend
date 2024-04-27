@@ -1,26 +1,26 @@
-INSERT INTO library.books (id, number, title, isbn, language) VALUES
+INSERT INTO inventory.books (id, number, title, isbn, language) VALUES
    (1, 1, 'Title', 'isbn', 'english');
 
-INSERT INTO library.authors (id, name) VALUES
+INSERT INTO inventory.authors (id, name) VALUES
    (1, 'Author');
 
-INSERT INTO library.publishers (id, name) VALUES
+INSERT INTO inventory.publishers (id, name) VALUES
    (1, 'Publisher');
 
-INSERT INTO library.book_types (id, name) VALUES
+INSERT INTO inventory.book_types (id, name) VALUES
    (1, 'Book type');
 
-INSERT INTO library.game_systems (id, name) VALUES
+INSERT INTO inventory.game_systems (id, name) VALUES
    (1, 'Game system');
 
-INSERT INTO library.book_authors (book_id, author_id) VALUES
+INSERT INTO inventory.book_authors (book_id, author_id) VALUES
    (1, 1);
 
-INSERT INTO library.book_publishers (book_id, publisher_id) VALUES
+INSERT INTO inventory.book_publishers (book_id, publisher_id) VALUES
    (1, 1);
 
-INSERT INTO library.book_book_types (book_id, book_type_id) VALUES
+INSERT INTO inventory.book_book_types (book_id, book_type_id) VALUES
    (1, 1);
 
-INSERT INTO library.book_game_systems (book_id, game_system_id) VALUES
+INSERT INTO inventory.book_game_systems (book_id, game_system_id) VALUES
    (1, 1);

@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Book")
-@Table(schema = "library", name = "books")
+@Table(schema = "inventory", name = "books")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,19 +35,19 @@ public class BookEntity implements Serializable {
     private static final long        serialVersionUID = 1328776989450853491L;
 
     @OneToMany
-    @JoinTable(schema = "library", name = "book_authors",
+    @JoinTable(schema = "inventory", name = "book_authors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "author_id", referencedColumnName = "id") })
     private Collection<AuthorEntity> authors;
 
     @OneToOne
-    @JoinTable(schema = "library", name = "book_book_types",
+    @JoinTable(schema = "inventory", name = "book_book_types",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "book_type_id", referencedColumnName = "id") })
     private BookTypeEntity           bookType;
 
     @OneToOne
-    @JoinTable(schema = "library", name = "book_game_systems",
+    @JoinTable(schema = "inventory", name = "book_game_systems",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "game_system_id", referencedColumnName = "id") })
     private GameSystemEntity         gameSystem;
@@ -67,7 +67,7 @@ public class BookEntity implements Serializable {
     private Long                     number;
 
     @OneToOne
-    @JoinTable(schema = "library", name = "book_publishers",
+    @JoinTable(schema = "inventory", name = "book_publishers",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "publisher_id", referencedColumnName = "id") })
     private PublisherEntity          publisher;
