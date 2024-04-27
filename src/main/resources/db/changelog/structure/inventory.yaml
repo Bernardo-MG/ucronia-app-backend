@@ -15,7 +15,7 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: inventory
-            tableName: donor
+            tableName: donors
             columns:
               - column:
                   name: id
@@ -30,7 +30,7 @@ databaseChangeLog:
                     nullable: false
         - addAutoIncrement:
             schemaName: inventory
-            tableName: donor
+            tableName: donors
             columnName: id
             columnDataType: bigint
             incrementBy: 1
