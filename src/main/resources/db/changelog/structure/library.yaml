@@ -231,6 +231,32 @@ databaseChangeLog:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
   - changeSet:
+      id: library_donors
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: inventory
+            tableName: book_donors
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_donors_book
+                    references: inventory.books(id)
+              - column:
+                  name: donor_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_donors_donor
+                    references: inventory.donors(id)
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
       id: library_lending
       author: Bernardo
       changes:
