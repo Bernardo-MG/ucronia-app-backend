@@ -16,7 +16,6 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
-import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -215,14 +214,10 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
     private final Member toDomain(final MemberEntity entity) {
         final MemberName memberName;
-        final String     fullName;
 
-        // TODO: the model should return this automatically
-        fullName = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
         memberName = MemberName.builder()
             .withFirstName(entity.getName())
             .withLastName(entity.getSurname())
-            .withFullName(fullName)
             .build();
         return Member.builder()
             .withNumber(entity.getNumber())

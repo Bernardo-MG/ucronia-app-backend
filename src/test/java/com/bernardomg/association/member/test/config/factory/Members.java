@@ -12,7 +12,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName(MemberConstants.NAME)
             .withLastName(MemberConstants.SURNAME)
-            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -29,7 +28,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName("Member " + index)
             .withLastName("Surname " + index)
-            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -46,7 +44,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName(" ")
             .withLastName(MemberConstants.SURNAME)
-            .withFullName(MemberConstants.SURNAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -63,7 +60,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName("Member " + index)
             .withLastName("Surname " + index)
-            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
             .withNumber(index)
@@ -80,7 +76,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName("Member " + index)
             .withLastName("Surname " + index)
-            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
             .withNumber(index * 10)
@@ -97,7 +92,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName(MemberConstants.NAME)
             .withLastName(MemberConstants.SURNAME)
-            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -114,7 +108,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName("Member " + index)
             .withLastName("Surname " + index)
-            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -131,7 +124,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName(MemberConstants.ALTERNATIVE_NAME)
             .withLastName(MemberConstants.ALTERNATIVE_SURNAME)
-            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
@@ -148,7 +140,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName(MemberConstants.NAME)
             .withLastName(MemberConstants.SURNAME)
-            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
             .withNumber(number)
@@ -164,7 +155,6 @@ public final class Members {
 
         memberName = MemberName.builder()
             .withLastName(MemberConstants.SURNAME)
-            .withFullName(MemberConstants.SURNAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -180,7 +170,6 @@ public final class Members {
 
         memberName = MemberName.builder()
             .withFirstName(MemberConstants.NAME)
-            .withFullName(MemberConstants.NAME + " null")
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -197,7 +186,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName("Member 123")
             .withLastName("Surname")
-            .withFullName("Member 123 Surname")
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -214,7 +202,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName("Member 123")
             .withLastName("Surname")
-            .withFullName("Member 123 Surname")
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)
@@ -231,7 +218,6 @@ public final class Members {
         memberName = MemberName.builder()
             .withFirstName(" " + MemberConstants.NAME + " ")
             .withLastName(" " + MemberConstants.SURNAME + " ")
-            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
             .withNumber(MemberConstants.NUMBER)

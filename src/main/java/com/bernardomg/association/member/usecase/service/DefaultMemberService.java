@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,7 +20,6 @@ import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
 
-import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -48,7 +46,6 @@ public final class DefaultMemberService implements MemberService {
     public final Member create(final Member member) {
         final Member     toCreate;
         final Long       index;
-        final String     fullName;
         final MemberName memberName;
 
         log.debug("Creating member {}", member);
@@ -74,21 +71,6 @@ public final class DefaultMemberService implements MemberService {
         index = memberRepository.findNextNumber();
         toCreate.setNumber(index);
 
-        // TODO: the model should do this
-        // Trim strings
-        toCreate.getName()
-            .setFirstName(StringUtils.trim(toCreate.getName()
-                .getFirstName()));
-        toCreate.getName()
-            .setLastName(StringUtils.trim(toCreate.getName()
-                .getLastName()));
-        fullName = Strings.trimWhitespace(toCreate.getName()
-            .getFirstName() + " "
-                + toCreate.getName()
-                    .getLastName());
-        toCreate.getName()
-            .setFullName(fullName);
-
         return memberRepository.save(toCreate);
     }
 
@@ -97,7 +79,6 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Deleting member {}", number);
 
         if (!memberRepository.exists(number)) {
-            // TODO: change name
             throw new MissingMemberException(number);
         }
 
@@ -147,7 +128,6 @@ public final class DefaultMemberService implements MemberService {
     public final Member update(final Member member) {
         final boolean    exists;
         final Member     toUpdate;
-        final String     fullName;
         final MemberName memberName;
 
         log.debug("Updating member {} using data {}", member.getNumber(), member);
@@ -156,7 +136,6 @@ public final class DefaultMemberService implements MemberService {
 
         exists = memberRepository.exists(member.getNumber());
         if (!exists) {
-            // TODO: change name
             throw new MissingMemberException(member.getNumber());
         }
 
@@ -172,21 +151,6 @@ public final class DefaultMemberService implements MemberService {
             .withName(memberName)
             .withPhone(member.getPhone())
             .build();
-
-        // TODO: the model should do this
-        // Trim strings
-        toUpdate.getName()
-            .setFirstName(StringUtils.trim(toUpdate.getName()
-                .getFirstName()));
-        toUpdate.getName()
-            .setLastName(StringUtils.trim(toUpdate.getName()
-                .getLastName()));
-        fullName = Strings.trimWhitespace(toUpdate.getName()
-            .getFirstName() + " "
-                + toUpdate.getName()
-                    .getLastName());
-        toUpdate.getName()
-            .setFullName(fullName);
 
         return memberRepository.save(toUpdate);
     }
