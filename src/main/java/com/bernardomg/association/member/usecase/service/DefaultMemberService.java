@@ -44,12 +44,12 @@ public final class DefaultMemberService implements MemberService {
     @Override
     public final Member create(final Member member) {
         final Member toCreate;
-        final Long   index;
+        final Long   number;
 
         log.debug("Creating member {}", member);
 
         // Set number
-        index = memberRepository.findNextNumber();
+        number = memberRepository.findNextNumber();
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
@@ -58,7 +58,7 @@ public final class DefaultMemberService implements MemberService {
             .withIdentifier(member.getIdentifier())
             .withName(member.getName())
             .withPhone(member.getPhone())
-            .withNumber(index)
+            .withNumber(number)
             .build();
 
         createMemberValidator.validate(toCreate);

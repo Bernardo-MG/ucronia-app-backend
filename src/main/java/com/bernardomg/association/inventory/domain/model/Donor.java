@@ -12,4 +12,6 @@ public final class Donor {
 
     private final String name;
 
+    private final long   number;
+
 }

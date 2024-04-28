@@ -45,8 +45,8 @@ import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DonorService - create")
-class TestDonorServiceCreate {
+@DisplayName("DonorService - update")
+class TestDonorServiceUpdate {
 
     @Mock
     private DonorRepository     donorRepository;
@@ -54,21 +54,23 @@ class TestDonorServiceCreate {
     @InjectMocks
     private DefaultDonorService service;
 
-    public TestDonorServiceCreate() {
+    public TestDonorServiceUpdate() {
         super();
     }
 
     @Test
     @DisplayName("With a donor with an empty name, an exception is thrown")
-    void testCreate_EmptyName() {
+    void testUpdate_EmptyName() {
         final ThrowingCallable execution;
         final Donor            author;
 
         // GIVEN
         author = Donors.emptyName();
 
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+
         // WHEN
-        execution = () -> service.create(author);
+        execution = () -> service.update(author);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
@@ -76,17 +78,18 @@ class TestDonorServiceCreate {
 
     @Test
     @DisplayName("With a donor with an existing name, an exception is thrown")
-    void testCreate_Existing() {
+    void testUpdate_Existing() {
         final ThrowingCallable execution;
         final Donor            author;
 
         // GIVEN
         author = Donors.valid();
 
-        given(donorRepository.existsName(DonorConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+        given(donorRepository.existsNameForAnother(DonorConstants.NAME, DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(author);
+        execution = () -> service.update(author);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", DonorConstants.NAME));
@@ -94,16 +97,16 @@ class TestDonorServiceCreate {
 
     @Test
     @DisplayName("With a valid donor, the donor is persisted")
-    void testCreate_PersistedData() {
+    void testUpdate_PersistedData() {
         final Donor author;
 
         // GIVEN
         author = Donors.valid();
 
-        given(donorRepository.findNextNumber()).willReturn(DonorConstants.NUMBER);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.create(author);
+        service.update(author);
 
         // THEN
         verify(donorRepository).save(Donors.valid());
@@ -111,18 +114,18 @@ class TestDonorServiceCreate {
 
     @Test
     @DisplayName("With a valid donor, the created donor is returned")
-    void testCreate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final Donor author;
         final Donor created;
 
         // GIVEN
         author = Donors.valid();
 
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(donorRepository.save(Donors.valid())).willReturn(Donors.valid());
-        given(donorRepository.findNextNumber()).willReturn(DonorConstants.NUMBER);
 
         // WHEN
-        created = service.create(author);
+        created = service.update(author);
 
         // THEN
         Assertions.assertThat(created)

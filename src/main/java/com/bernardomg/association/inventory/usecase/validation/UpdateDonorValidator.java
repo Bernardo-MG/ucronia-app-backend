@@ -14,11 +14,11 @@ import com.bernardomg.validation.failure.FieldFailure;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateDonorValidator extends AbstractValidator<Donor> {
+public final class UpdateDonorValidator extends AbstractValidator<Donor> {
 
     private final DonorRepository donorRepository;
 
-    public CreateDonorValidator(final DonorRepository donorRepo) {
+    public UpdateDonorValidator(final DonorRepository donorRepo) {
         super();
 
         donorRepository = Objects.requireNonNull(donorRepo);
@@ -36,7 +36,7 @@ public final class CreateDonorValidator extends AbstractValidator<Donor> {
         }
 
         // The name shouldn't exist
-        if (donorRepository.existsName(donor.getName())) {
+        if (donorRepository.existsNameForAnother(donor.getName(), donor.getNumber())) {
             log.error("Existing name {}", donor.getName());
             failure = FieldFailure.of("name", "existing", donor.getName());
             failures.add(failure);
