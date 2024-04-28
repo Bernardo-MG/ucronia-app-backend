@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
@@ -44,32 +43,25 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member create(final Member member) {
-        final Member     toCreate;
-        final Long       index;
-        final MemberName memberName;
+        final Member toCreate;
+        final Long   index;
 
         log.debug("Creating member {}", member);
+
+        // Set number
+        index = memberRepository.findNextNumber();
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        memberName = MemberName.builder()
-            .withFirstName(member.getName()
-                .getFirstName())
-            .withLastName(member.getName()
-                .getLastName())
-            .build();
         toCreate = Member.builder()
             .withIdentifier(member.getIdentifier())
-            .withName(memberName)
+            .withName(member.getName())
             .withPhone(member.getPhone())
+            .withNumber(index)
             .build();
 
         createMemberValidator.validate(toCreate);
-
-        // Set number
-        index = memberRepository.findNextNumber();
-        toCreate.setNumber(index);
 
         return memberRepository.save(toCreate);
     }
@@ -126,9 +118,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final Member member) {
-        final boolean    exists;
-        final Member     toUpdate;
-        final MemberName memberName;
+        final boolean exists;
 
         log.debug("Updating member {} using data {}", member.getNumber(), member);
 
@@ -139,20 +129,7 @@ public final class DefaultMemberService implements MemberService {
             throw new MissingMemberException(member.getNumber());
         }
 
-        memberName = MemberName.builder()
-            .withFirstName(member.getName()
-                .getFirstName())
-            .withLastName(member.getName()
-                .getLastName())
-            .build();
-        toUpdate = Member.builder()
-            .withNumber(member.getNumber())
-            .withIdentifier(member.getIdentifier())
-            .withName(memberName)
-            .withPhone(member.getPhone())
-            .build();
-
-        return memberRepository.save(toUpdate);
+        return memberRepository.save(member);
     }
 
     private final Pageable correctPagination(final Pageable pageable) {

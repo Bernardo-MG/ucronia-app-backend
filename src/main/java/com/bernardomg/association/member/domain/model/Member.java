@@ -2,23 +2,23 @@
 package com.bernardomg.association.member.domain.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * TODO: Try to make this immutable.
  */
-@Data
+@Value
 @Builder(setterPrefix = "with")
 public final class Member {
 
-    private boolean    active;
+    private final boolean    active;
 
-    private String     identifier;
+    private final String     identifier;
 
-    private MemberName name;
+    private final MemberName name;
 
-    private long       number;
+    private final long       number;
 
-    private String     phone;
+    private final String     phone;
 
 }
