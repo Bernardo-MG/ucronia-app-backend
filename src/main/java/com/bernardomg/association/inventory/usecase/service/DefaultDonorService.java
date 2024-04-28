@@ -3,10 +3,13 @@ package com.bernardomg.association.inventory.usecase.service;
 
 import java.util.Objects;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.usecase.validation.CreateDonorValidator;
 
+@Transactional
 public final class DefaultDonorService implements DonorService {
 
     private final CreateDonorValidator createDonorValidator;
