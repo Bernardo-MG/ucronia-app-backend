@@ -27,6 +27,8 @@ package com.bernardomg.association.member.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +68,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.update(member);
@@ -84,13 +86,13 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.paddedWithWhitespaces();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         service.update(member);
 
         // THEN
-        verify(memberRepository).save(Members.inactive());
+        verify(memberRepository).save(Members.active());
     }
 
     @Test
@@ -101,7 +103,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         service.update(member);
@@ -119,7 +121,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN

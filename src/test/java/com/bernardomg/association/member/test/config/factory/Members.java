@@ -192,7 +192,7 @@ public final class Members {
             .withName(memberName)
             .withPhone("12345")
             .withIdentifier("6789")
-            .withActive(false)
+            .withActive(true)
             .build();
     }
 

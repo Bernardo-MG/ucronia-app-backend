@@ -66,7 +66,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
         members = activeMemberRepository.findAllActive(pageable, validStart, validEnd)
-            .map(this::toActiveDomain);
+            .map(m -> toDomain(true, m));
 
         log.debug("Found active users {}", members);
 
@@ -105,7 +105,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
         members = activeMemberRepository.findAllInactive(pageable, validStart, validEnd)
-            .map(this::toActiveDomain);
+            .map(m -> toDomain(false, m));
 
         log.debug("Found active users {}", members);
 
@@ -209,7 +209,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .build();
     }
 
-    private final Member toActiveDomain(final MemberEntity entity) {
+    private final Member toDomain(final boolean active, final MemberEntity entity) {
         final MemberName memberName;
 
         memberName = MemberName.builder()
@@ -221,7 +221,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .withIdentifier(entity.getIdentifier())
             .withName(memberName)
             .withPhone(entity.getPhone())
-            .withActive(true)
+            .withActive(active)
             .build();
     }
 

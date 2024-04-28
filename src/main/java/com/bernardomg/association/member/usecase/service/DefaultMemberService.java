@@ -118,18 +118,28 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final Member member) {
-        final boolean exists;
+        final Optional<Member> existing;
+        final Member           toUpdate;
 
         log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
 
-        exists = memberRepository.exists(member.getNumber());
-        if (!exists) {
+        existing = memberRepository.findOne(member.getNumber());
+        if (existing.isEmpty()) {
             throw new MissingMemberException(member.getNumber());
         }
 
-        return memberRepository.save(member);
+        toUpdate = Member.builder()
+            .withNumber(member.getNumber())
+            .withIdentifier(member.getIdentifier())
+            .withName(member.getName())
+            .withPhone(member.getPhone())
+            .withActive(existing.get()
+                .isActive())
+            .build();
+
+        return memberRepository.save(toUpdate);
     }
 
     private final Pageable correctPagination(final Pageable pageable) {
