@@ -7,4 +7,6 @@ public interface DonorService {
 
     public Donor create(final Donor donor);
 
+    public Donor update(final Donor donor);
+
 }

@@ -153,6 +153,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
+        // TODO: Apply the creation validations
 
         exists = memberRepository.exists(member.getNumber());
         if (!exists) {
