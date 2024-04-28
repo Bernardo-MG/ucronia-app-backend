@@ -5,6 +5,8 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 
 public interface DonorRepository {
 
+    public void delete(final long number);
+
     public boolean exists(final long number);
 
     public boolean existsName(final String name);

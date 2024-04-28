@@ -11,6 +11,9 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.usecase.validation.CreateDonorValidator;
 import com.bernardomg.association.inventory.usecase.validation.UpdateDonorValidator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class DefaultDonorService implements DonorService {
 
@@ -34,6 +37,8 @@ public final class DefaultDonorService implements DonorService {
         final Donor toCreate;
         final Long  number;
 
+        log.debug("Creating donor {}", donor);
+
         createDonorValidator.validate(donor);
 
         // Set number
@@ -53,11 +58,24 @@ public final class DefaultDonorService implements DonorService {
     }
 
     @Override
-    public final Donor update(final Donor donor) {
-        final boolean exists;
+    public final void delete(final long number) {
+        log.debug("Deleting donor {}", number);
 
-        exists = donorRepository.exists(donor.getNumber());
-        if (!exists) {
+        if (!donorRepository.exists(number)) {
+            throw new MissingDonorException(number);
+        }
+
+        // TODO: Forbid deleting when there are relationships
+
+        donorRepository.delete(number);
+    }
+
+    @Override
+    public final Donor update(final Donor donor) {
+
+        log.debug("Updating donor {} using data {}", donor.getNumber(), donor);
+
+        if (!donorRepository.exists(donor.getNumber())) {
             throw new MissingDonorException(donor.getNumber());
         }
 
