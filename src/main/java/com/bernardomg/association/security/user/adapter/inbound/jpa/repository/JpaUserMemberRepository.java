@@ -16,8 +16,6 @@ import com.bernardomg.association.security.user.domain.repository.UserMemberRepo
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
-import io.jsonwebtoken.lang.Strings;
-
 @Transactional
 public final class JpaUserMemberRepository implements UserMemberRepository {
 
@@ -112,14 +110,10 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
 
     private final Member toDomain(final MemberEntity entity) {
         final MemberName memberName;
-        final String     fullName;
 
-        // TODO: the model should return this automatically
-        fullName = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
         memberName = MemberName.builder()
             .withFirstName(entity.getName())
             .withLastName(entity.getSurname())
-            .withFullName(fullName)
             .build();
         return Member.builder()
             .withNumber(entity.getNumber())
