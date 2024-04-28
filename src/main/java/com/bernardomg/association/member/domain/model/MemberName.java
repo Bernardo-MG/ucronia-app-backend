@@ -4,12 +4,12 @@ package com.bernardomg.association.member.domain.model;
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * TODO: Try to make this immutable.
  */
-@Data
+@Value
 @Builder(setterPrefix = "with")
 public final class MemberName {
 

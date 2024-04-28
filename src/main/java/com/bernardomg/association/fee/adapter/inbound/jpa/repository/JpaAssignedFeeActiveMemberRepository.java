@@ -4,7 +4,6 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,88 +57,59 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
     @Override
     public final Iterable<Member> findActive(final Pageable pageable) {
-        final Page<MemberEntity>       members;
-        final Function<Member, Member> activeMapper;
-        final YearMonth                validStart;
-        final YearMonth                validEnd;
-        final Iterable<Member>         found;
+        final Page<Member> members;
+        final YearMonth    validStart;
+        final YearMonth    validEnd;
 
         log.debug("Finding active users");
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        members = activeMemberRepository.findAllActive(pageable, validStart, validEnd);
+        members = activeMemberRepository.findAllActive(pageable, validStart, validEnd)
+            .map(m -> toDomain(true, m));
 
-        activeMapper = m -> {
-            m.setActive(true);
-            return m;
-        };
+        log.debug("Found active users {}", members);
 
-        found = members.map(this::toDomain)
-            .map(activeMapper);
-
-        log.debug("Found active users {}", found);
-
-        return found;
+        return members;
     }
 
     @Override
     public final Iterable<Member> findAll(final Pageable pageable) {
-        final Page<MemberEntity>       members;
-        final Function<Member, Member> activeMapper;
-        final YearMonth                validStart;
-        final YearMonth                validEnd;
-        final Collection<Long>         activeNumbers;
-        final Iterable<Member>         found;
+        final Page<Member>     members;
+        final YearMonth        validStart;
+        final YearMonth        validEnd;
+        final Collection<Long> activeNumbers;
 
         log.debug("Finding all the members");
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        members = activeMemberRepository.findAll(pageable);
-
         activeNumbers = activeMemberRepository.findAllActiveNumbersInRange(validStart, validEnd);
-        activeMapper = m -> {
-            final boolean active;
 
-            active = activeNumbers.contains(m.getNumber());
-            m.setActive(active);
-            return m;
-        };
+        members = activeMemberRepository.findAll(pageable)
+            .map(m -> toActiveByNumberDomain(activeNumbers, m));
 
-        found = members.map(this::toDomain)
-            .map(activeMapper);
+        log.debug("Found all the members: {}", members);
 
-        log.debug("Found all the members: {}", found);
-
-        return found;
+        return members;
     }
 
     @Override
     public final Iterable<Member> findInactive(final Pageable pageable) {
-        final Page<MemberEntity>       members;
-        final Function<Member, Member> activeMapper;
-        final YearMonth                validStart;
-        final YearMonth                validEnd;
-        final Iterable<Member>         found;
+        final Page<Member> members;
+        final YearMonth    validStart;
+        final YearMonth    validEnd;
 
         log.debug("Finding inactive users");
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        members = activeMemberRepository.findAllInactive(pageable, validStart, validEnd);
+        members = activeMemberRepository.findAllInactive(pageable, validStart, validEnd)
+            .map(m -> toDomain(false, m));
 
-        activeMapper = m -> {
-            m.setActive(false);
-            return m;
-        };
+        log.debug("Found active users {}", members);
 
-        found = members.map(this::toDomain)
-            .map(activeMapper);
-
-        log.debug("Found active users {}", found);
-
-        return found;
+        return members;
     }
 
     @Override
@@ -197,22 +167,49 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         return saved;
     }
 
-    private final Member toActive(final MemberEntity member) {
-        final boolean   active;
-        final YearMonth validStart;
-        final YearMonth validEnd;
-        final Member    domain;
+    private final Member toActive(final MemberEntity entity) {
+        final boolean    active;
+        final YearMonth  validStart;
+        final YearMonth  validEnd;
+        final MemberName memberName;
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        active = activeMemberRepository.isActive(member.getNumber(), validStart, validEnd);
+        active = activeMemberRepository.isActive(entity.getNumber(), validStart, validEnd);
 
-        domain = toDomain(member);
-        domain.setActive(active);
-        return domain;
+        memberName = MemberName.builder()
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
+            .build();
+        return Member.builder()
+            .withNumber(entity.getNumber())
+            .withIdentifier(entity.getIdentifier())
+            .withName(memberName)
+            .withPhone(entity.getPhone())
+            .withActive(active)
+            .build();
     }
 
-    private final Member toDomain(final MemberEntity entity) {
+    private final Member toActiveByNumberDomain(final Collection<Long> activeNumbers, final MemberEntity entity) {
+        final MemberName memberName;
+        final boolean    active;
+
+        active = activeNumbers.contains(entity.getNumber());
+
+        memberName = MemberName.builder()
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
+            .build();
+        return Member.builder()
+            .withNumber(entity.getNumber())
+            .withIdentifier(entity.getIdentifier())
+            .withName(memberName)
+            .withPhone(entity.getPhone())
+            .withActive(active)
+            .build();
+    }
+
+    private final Member toDomain(final boolean active, final MemberEntity entity) {
         final MemberName memberName;
 
         memberName = MemberName.builder()
@@ -224,6 +221,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .withIdentifier(entity.getIdentifier())
             .withName(memberName)
             .withPhone(entity.getPhone())
+            .withActive(active)
             .build();
     }
 
