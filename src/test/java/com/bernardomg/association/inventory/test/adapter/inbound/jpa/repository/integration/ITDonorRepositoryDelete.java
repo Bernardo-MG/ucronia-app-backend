@@ -22,53 +22,55 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.inventory.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
+import com.bernardomg.association.inventory.domain.repository.DonorRepository;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - delete")
-class ITMemberRepositoryDelete {
+@DisplayName("DonorRepository - delete")
+class ITDonorRepositoryDelete {
 
     @Autowired
-    private MemberRepository       memberRepository;
+    private DonorRepository       repository;
 
     @Autowired
-    private MemberSpringRepository repository;
+    private DonorSpringRepository springRepository;
 
-    public ITMemberRepositoryDelete() {
+    public ITDonorRepositoryDelete() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting a member, it is removed")
-    @ValidMember
-    void testDelete() {
+    @DisplayName("When there is no data nothing is deleted")
+    void testDelete_NoData() {
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        repository.delete(DonorConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(springRepository.count())
+            .as("transactions")
             .isZero();
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_noData() {
+    @DisplayName("When the donor exists, it is removed")
+    @DonorNoMember
+    void testDelete_RemovesEntity() {
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        repository.delete(DonorConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(springRepository.count())
+            .as("transactions")
             .isZero();
     }
 

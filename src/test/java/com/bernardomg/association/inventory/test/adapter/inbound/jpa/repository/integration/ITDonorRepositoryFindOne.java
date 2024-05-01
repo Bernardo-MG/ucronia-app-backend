@@ -22,77 +22,53 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.inventory.test.usecase.service.unit;
+package com.bernardomg.association.inventory.test.adapter.inbound.jpa.repository.integration;
 
-import static org.mockito.BDDMockito.given;
-
-import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
-import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("DonorService - get all")
-class TestDonorServiceGetAll {
+@IntegrationTest
+@DisplayName("DonorRepository - find one")
+class ITDonorRepositoryFindOne {
 
-    @Mock
-    private DonorRepository     donorRepository;
+    @Autowired
+    private DonorRepository repository;
 
-    @InjectMocks
-    private DefaultDonorService service;
+    @Test
+    @DisplayName("With an existing donor, it is returned")
+    @DonorNoMember
+    void testGetOne() {
+        final Optional<Donor> donor;
 
-    public TestDonorServiceGetAll() {
-        super();
+        // WHEN
+        donor = repository.findOne(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(donor)
+            .contains(Donors.noMember());
     }
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testGetAll() {
-        final Iterable<Donor> donors;
-        final Pageable        pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        given(donorRepository.findAll(pageable)).willReturn(List.of(Donors.noMember()));
+    @DisplayName("With no donor, nothing is returned")
+    void testGetOne_NoData() {
+        final Optional<Donor> donor;
 
         // WHEN
-        donors = service.getAll(pageable);
+        donor = repository.findOne(DonorConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(donors)
-            .as("donors")
-            .containsExactly(Donors.noMember());
-    }
-
-    @Test
-    @DisplayName("When there is no data nothing is returned")
-    void testGetAll_NoData() {
-        final Iterable<Donor> donors;
-        final Pageable        pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        given(donorRepository.findAll(pageable)).willReturn(List.of());
-
-        // WHEN
-        donors = service.getAll(pageable);
-
-        // THEN
-        Assertions.assertThat(donors)
-            .as("donors")
+        Assertions.assertThat(donor)
             .isEmpty();
     }
 

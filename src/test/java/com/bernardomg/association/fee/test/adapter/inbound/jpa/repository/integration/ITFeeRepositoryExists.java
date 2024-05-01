@@ -22,54 +22,72 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - delete")
-class ITMemberRepositoryDelete {
+@DisplayName("FeeRepository - exists")
+class ITFeeRepositoryExists {
 
     @Autowired
-    private MemberRepository       memberRepository;
+    private FeeRepository repository;
 
-    @Autowired
-    private MemberSpringRepository repository;
+    @Test
+    @DisplayName("With no data, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
 
-    public ITMemberRepositoryDelete() {
-        super();
+        // WHEN
+        exists = repository.exists(MemberConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
     @Test
-    @DisplayName("When deleting a member, it is removed")
+    @DisplayName("With an existing not paid, it exists")
     @ValidMember
-    void testDelete() {
+    @NotPaidFee
+    void testExists_NotPaid() {
+        final boolean exists;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        exists = repository.exists(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_noData() {
+    @DisplayName("With an existing not paid, it exists")
+    @ValidMember
+    @PaidFee
+    void testExists_Paid() {
+        final boolean exists;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        exists = repository.exists(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
 }

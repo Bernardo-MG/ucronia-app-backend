@@ -29,47 +29,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - delete")
-class ITMemberRepositoryDelete {
+@DisplayName("MemberRepository - exists")
+class ITMemberRepositoryFindNextNumber {
 
     @Autowired
-    private MemberRepository       memberRepository;
-
-    @Autowired
-    private MemberSpringRepository repository;
-
-    public ITMemberRepositoryDelete() {
-        super();
-    }
+    private MemberRepository repository;
 
     @Test
-    @DisplayName("When deleting a member, it is removed")
+    @DisplayName("With an existing member, it returns the next number")
     @ValidMember
-    void testDelete() {
+    void testFindNextNumber() {
+        final long number;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        number = repository.findNextNumber();
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(number)
+            .as("number")
+            .isEqualTo(MemberConstants.NUMBER + 1);
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_noData() {
+    @DisplayName("With no member, it returns the initial number")
+    void testFindNextNumber_NoData() {
+        final long number;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        number = repository.findNextNumber();
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(number)
+            .as("number")
+            .isEqualTo(1);
     }
 
 }

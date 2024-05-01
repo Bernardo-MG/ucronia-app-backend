@@ -22,54 +22,67 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.inventory.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.inventory.domain.repository.DonorRepository;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - delete")
-class ITMemberRepositoryDelete {
+@DisplayName("DonorRepository - exists name")
+class ITDonorRepositoryExistsName {
 
     @Autowired
-    private MemberRepository       memberRepository;
+    private DonorRepository repository;
 
-    @Autowired
-    private MemberSpringRepository repository;
+    @Test
+    @DisplayName("With an existing donor, it exists by name")
+    @DonorNoMember
+    void testExistsName() {
+        final boolean exists;
 
-    public ITMemberRepositoryDelete() {
-        super();
+        // WHEN
+        exists = repository.existsName(DonorConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When deleting a member, it is removed")
-    @ValidMember
-    void testDelete() {
+    @DisplayName("With no donor, nothing exists")
+    void testExistsName_NoData() {
+        final boolean exists;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        exists = repository.existsName(DonorConstants.NAME);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_noData() {
+    @DisplayName("With an existing donor, but a not existing nane, nothing exists")
+    @DonorNoMember
+    void testExistsName_WrongName() {
+        final boolean exists;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        exists = repository.existsName("abc");
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

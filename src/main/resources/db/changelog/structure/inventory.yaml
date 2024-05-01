@@ -24,6 +24,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: name
                   type: varchar(100)
                   constraints:
@@ -32,7 +38,7 @@ databaseChangeLog:
                   name: member
                   type: bigint
                   constraints:
-                    nullable: false
+                    nullable: true
                     unique: true
                     foreignKeyName: fk_donors_member
                     references: members(id)

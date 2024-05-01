@@ -29,47 +29,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - delete")
-class ITMemberRepositoryDelete {
+@DisplayName("MemberRepository - exists")
+class ITMemberRepositoryExists {
 
     @Autowired
-    private MemberRepository       memberRepository;
-
-    @Autowired
-    private MemberSpringRepository repository;
-
-    public ITMemberRepositoryDelete() {
-        super();
-    }
+    private MemberRepository repository;
 
     @Test
-    @DisplayName("When deleting a member, it is removed")
+    @DisplayName("With an existing member, it exists")
     @ValidMember
-    void testDelete() {
+    void testExists() {
+        final boolean exists;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        exists = repository.exists(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_noData() {
+    @DisplayName("With no member, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
+
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        exists = repository.exists(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

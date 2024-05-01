@@ -81,7 +81,7 @@ class TestDonorServiceCreate {
         final Donor            author;
 
         // GIVEN
-        author = Donors.valid();
+        author = Donors.noMember();
 
         given(donorRepository.existsName(DonorConstants.NAME)).willReturn(true);
 
@@ -98,7 +98,7 @@ class TestDonorServiceCreate {
         final Donor author;
 
         // GIVEN
-        author = Donors.valid();
+        author = Donors.noMember();
 
         given(donorRepository.findNextNumber()).willReturn(DonorConstants.NUMBER);
 
@@ -106,7 +106,7 @@ class TestDonorServiceCreate {
         service.create(author);
 
         // THEN
-        verify(donorRepository).save(Donors.valid());
+        verify(donorRepository).save(Donors.noMember());
     }
 
     @Test
@@ -116,9 +116,9 @@ class TestDonorServiceCreate {
         final Donor created;
 
         // GIVEN
-        author = Donors.valid();
+        author = Donors.noMember();
 
-        given(donorRepository.save(Donors.valid())).willReturn(Donors.valid());
+        given(donorRepository.save(Donors.noMember())).willReturn(Donors.noMember());
         given(donorRepository.findNextNumber()).willReturn(DonorConstants.NUMBER);
 
         // WHEN
@@ -126,7 +126,7 @@ class TestDonorServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Donors.valid());
+            .isEqualTo(Donors.noMember());
     }
 
 }
