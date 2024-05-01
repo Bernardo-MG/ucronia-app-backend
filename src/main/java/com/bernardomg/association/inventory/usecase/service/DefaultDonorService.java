@@ -28,6 +28,8 @@ public final class DefaultDonorService implements DonorService {
     public DefaultDonorService(final DonorRepository donorRepo) {
         super();
 
+        // TODO: return member, if it exists
+
         donorRepository = Objects.requireNonNull(donorRepo);
 
         createDonorValidator = new CreateDonorValidator(donorRepo);

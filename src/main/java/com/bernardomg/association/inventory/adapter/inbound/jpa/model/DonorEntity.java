@@ -3,11 +3,15 @@ package com.bernardomg.association.inventory.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,8 +33,9 @@ public class DonorEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "member")
-    private Long              member;
+    @OneToOne
+    @JoinColumn(name = "member", referencedColumnName = "id")
+    private MemberEntity      member;
 
     @Column(name = "name", nullable = false)
     private String            name;

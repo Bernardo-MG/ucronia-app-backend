@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.inventory.domain.model;
 
+import com.bernardomg.association.member.domain.model.Member;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -8,7 +10,7 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Donor {
 
-    private final long   member;
+    private final Member member;
 
     private final String name;
 

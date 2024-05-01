@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,12 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaDonorRepository implements DonorRepository {
 
-    private final DonorSpringRepository donorSpringRepository;
+    private final DonorSpringRepository  donorSpringRepository;
 
-    public JpaDonorRepository(final DonorSpringRepository donorSpringRepo) {
+    private final MemberSpringRepository memberSpringRepository;
+
+    public JpaDonorRepository(final DonorSpringRepository donorSpringRepo,
+            final MemberSpringRepository memberSpringRepo) {
         super();
 
         donorSpringRepository = donorSpringRepo;
+        memberSpringRepository = memberSpringRepo;
     }
 
     @Override
@@ -151,12 +159,13 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     private final Donor toDomain(final DonorEntity donor) {
-        final long member;
+        final Member member;
 
         if (donor.getMember() == null) {
-            member = -1;
+            member = Member.builder()
+                .build();
         } else {
-            member = donor.getMember();
+            member = toDomain(donor.getMember());
         }
 
         return Donor.builder()
@@ -166,14 +175,28 @@ public final class JpaDonorRepository implements DonorRepository {
             .build();
     }
 
-    private final DonorEntity toEntity(final Donor donor) {
-        final Long member;
+    private final Member toDomain(final MemberEntity entity) {
+        final MemberName memberName;
 
-        if (donor.getMember() >= 0) {
-            member = donor.getMember();
-        } else {
-            member = null;
-        }
+        memberName = MemberName.builder()
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
+            .build();
+        return Member.builder()
+            .withNumber(entity.getNumber())
+            .withIdentifier(entity.getIdentifier())
+            .withName(memberName)
+            .withPhone(entity.getPhone())
+            .withActive(true)
+            .build();
+    }
+
+    private final DonorEntity toEntity(final Donor donor) {
+        final MemberEntity member;
+
+        member = memberSpringRepository.findByNumber(donor.getMember()
+            .getNumber())
+            .orElse(null);
 
         return DonorEntity.builder()
             .withNumber(donor.getNumber())
