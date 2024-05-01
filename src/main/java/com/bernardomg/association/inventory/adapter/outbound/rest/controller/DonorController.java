@@ -65,7 +65,7 @@ public class DonorController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "DONOR", action = Actions.CREATE)
+    @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.CREATE)
     public Donor create(@Valid @RequestBody final DonorCreation creation) {
         final Member member;
         final Donor  donor;
@@ -81,26 +81,26 @@ public class DonorController {
     }
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "DONOR", action = Actions.DELETE)
+    @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.DELETE)
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "DONOR", action = Actions.READ)
+    @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.READ)
     public Iterable<Donor> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "DONOR", action = Actions.READ)
+    @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.READ)
     public Donor readOne(@PathVariable("number") final Long number) {
         return service.getOne(number)
             .orElse(null);
     }
 
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "DONOR", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.UPDATE)
     public Donor update(@PathVariable("number") final long number, @Valid @RequestBody final DonorCreation change) {
         final Member member;
         final Donor  donor;
