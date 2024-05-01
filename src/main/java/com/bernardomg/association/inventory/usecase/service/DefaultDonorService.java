@@ -2,6 +2,7 @@
 package com.bernardomg.association.inventory.usecase.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,6 +69,20 @@ public final class DefaultDonorService implements DonorService {
         // TODO: Forbid deleting when there are relationships
 
         donorRepository.delete(number);
+    }
+
+    @Override
+    public final Optional<Donor> getOne(final long number) {
+        final Optional<Donor> donor;
+
+        log.debug("Reading donor {}", number);
+
+        donor = donorRepository.findOne(number);
+        if (donor.isEmpty()) {
+            throw new MissingDonorException(number);
+        }
+
+        return donor;
     }
 
     @Override

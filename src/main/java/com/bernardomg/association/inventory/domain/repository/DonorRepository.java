@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.inventory.domain.repository;
 
+import java.util.Optional;
+
 import com.bernardomg.association.inventory.domain.model.Donor;
 
 public interface DonorRepository {
@@ -14,6 +16,8 @@ public interface DonorRepository {
     public boolean existsNameForAnother(final String name, final long number);
 
     public long findNextNumber();
+
+    public Optional<Donor> findOne(long number);
 
     public Donor save(final Donor donor);
 
