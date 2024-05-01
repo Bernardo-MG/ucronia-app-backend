@@ -3,6 +3,8 @@ package com.bernardomg.association.inventory.domain.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+
 import com.bernardomg.association.inventory.domain.model.Donor;
 
 public interface DonorRepository {
@@ -14,6 +16,8 @@ public interface DonorRepository {
     public boolean existsName(final String name);
 
     public boolean existsNameForAnother(final String name, final long number);
+
+    public Iterable<Donor> findAll(Pageable pageable);
 
     public long findNextNumber();
 

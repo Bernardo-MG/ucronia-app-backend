@@ -4,6 +4,7 @@ package com.bernardomg.association.inventory.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
@@ -69,6 +70,11 @@ public final class DefaultDonorService implements DonorService {
         // TODO: Forbid deleting when there are relationships
 
         donorRepository.delete(number);
+    }
+
+    @Override
+    public final Iterable<Donor> getAll(final Pageable pageable) {
+        return donorRepository.findAll(pageable);
     }
 
     @Override

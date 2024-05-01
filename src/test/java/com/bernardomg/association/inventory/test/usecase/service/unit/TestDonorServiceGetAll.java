@@ -26,27 +26,25 @@ package com.bernardomg.association.inventory.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DonorService - get one")
-class TestDonorServiceGetOne {
+@DisplayName("DonorService - get all")
+class TestDonorServiceGetAll {
 
     @Mock
     private DonorRepository     donorRepository;
@@ -54,41 +52,48 @@ class TestDonorServiceGetOne {
     @InjectMocks
     private DefaultDonorService service;
 
-    public TestDonorServiceGetOne() {
+    public TestDonorServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testDelete_CallsRepository() {
-        final Optional<Donor> donor;
+    void testGetAll() {
+        final Iterable<Donor> donors;
+        final Pageable        pageable;
 
         // GIVEN
-        given(donorRepository.findOne(DonorConstants.NUMBER)).willReturn(Optional.of(Donors.valid()));
+        pageable = Pageable.unpaged();
+
+        given(donorRepository.findAll(pageable)).willReturn(List.of(Donors.valid()));
 
         // WHEN
-        donor = service.getOne(DonorConstants.NUMBER);
+        donors = service.getAll(pageable);
 
         // THEN
-        Assertions.assertThat(donor)
-            .as("donor")
-            .contains(Donors.valid());
+        Assertions.assertThat(donors)
+            .as("donors")
+            .containsExactly(Donors.valid());
     }
 
     @Test
-    @DisplayName("When the donor doesn't exist an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
-        final ThrowingCallable execution;
+    @DisplayName("When there is no data nothing is returned")
+    void testGetAll_NoData() {
+        final Iterable<Donor> donors;
+        final Pageable        pageable;
 
         // GIVEN
-        given(donorRepository.findOne(DonorConstants.NUMBER)).willReturn(Optional.empty());
+        pageable = Pageable.unpaged();
+
+        given(donorRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
-        execution = () -> service.getOne(DonorConstants.NUMBER);
+        donors = service.getAll(pageable);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingDonorException.class);
+        Assertions.assertThat(donors)
+            .as("donors")
+            .isEmpty();
     }
 
 }
