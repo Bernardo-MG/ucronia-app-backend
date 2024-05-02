@@ -67,22 +67,9 @@ public class DonorController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.CREATE)
     public Donor create(@Valid @RequestBody final DonorCreation creation) {
-        final Member member;
-        final Donor  donor;
-        final long   memberNumber;
+        final Donor donor;
 
-        if (creation.getMember() == null) {
-            memberNumber = -1;
-        } else {
-            memberNumber = creation.getMember();
-        }
-        member = Member.builder()
-            .withNumber(memberNumber)
-            .build();
-        donor = Donor.builder()
-            .withName(creation.getName())
-            .withMember(member)
-            .build();
+        donor = toDomain(creation, -1);
         return service.create(donor);
     }
 
@@ -108,24 +95,29 @@ public class DonorController {
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "INVENTORY_DONOR", action = Actions.UPDATE)
     public Donor update(@PathVariable("number") final long number, @Valid @RequestBody final DonorCreation change) {
+        final Donor donor;
+
+        donor = toDomain(change, number);
+        return service.update(donor);
+    }
+
+    private final Donor toDomain(final DonorCreation data, final long number) {
         final Member member;
-        final Donor  donor;
         final long   memberNumber;
 
-        if (change.getMember() == null) {
+        if (data.getMember() == null) {
             memberNumber = -1;
         } else {
-            memberNumber = change.getMember();
+            memberNumber = data.getMember();
         }
         member = Member.builder()
             .withNumber(memberNumber)
             .build();
-        donor = Donor.builder()
+        return Donor.builder()
             .withNumber(number)
-            .withName(change.getName())
+            .withName(data.getName())
             .withMember(member)
             .build();
-        return service.update(donor);
     }
 
 }

@@ -84,7 +84,7 @@ public class BookController {
         final Book book;
 
         // Book
-        book = toBook(request);
+        book = toDomain(request);
 
         return service.create(book);
     }
@@ -120,13 +120,13 @@ public class BookController {
         final Book book;
 
         // Book
-        book = toBook(request);
+        book = toDomain(request);
         book.setNumber(number);
 
         return service.update(number, book);
     }
 
-    private final Book toBook(final BookCreation request) {
+    private final Book toDomain(final BookCreation request) {
         final Collection<Author> authors;
         final Publisher          publisher;
         final BookType           bookType;
