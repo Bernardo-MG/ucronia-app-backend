@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
+import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEntity;
@@ -20,6 +22,9 @@ import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.domain.repository.BookRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -176,6 +181,7 @@ public final class JpaBookRepository implements BookRepository {
         final Publisher          publisher;
         final GameSystem         gameSystem;
         final BookType           bookType;
+        final Donor              donor;
         final Collection<Author> authors;
 
         if (entity.getPublisher() == null) {
@@ -204,6 +210,12 @@ public final class JpaBookRepository implements BookRepository {
                 .map(this::toDomain)
                 .toList();
         }
+        if (entity.getDonor() == null) {
+            donor = Donor.builder()
+                .build();
+        } else {
+            donor = toDomain(entity.getDonor());
+        }
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
@@ -213,6 +225,7 @@ public final class JpaBookRepository implements BookRepository {
             .withPublisher(publisher)
             .withGameSystem(gameSystem)
             .withBookType(bookType)
+            .withDonor(donor)
             .build();
     }
 
@@ -222,9 +235,35 @@ public final class JpaBookRepository implements BookRepository {
             .build();
     }
 
+    private final Donor toDomain(final DonorEntity entity) {
+        final Member member;
+
+        member = toDomain(entity.getMember());
+        return Donor.builder()
+            .withNumber(entity.getNumber())
+            .withName(entity.getName())
+            .withMember(member)
+            .build();
+    }
+
     private final GameSystem toDomain(final GameSystemEntity entity) {
         return GameSystem.builder()
             .withName(entity.getName())
+            .build();
+    }
+
+    private final Member toDomain(final MemberEntity entity) {
+        final MemberName memberName;
+
+        memberName = MemberName.builder()
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
+            .build();
+        return Member.builder()
+            .withNumber(entity.getNumber())
+            .withIdentifier(entity.getIdentifier())
+            .withName(memberName)
+            .withPhone(entity.getPhone())
             .build();
     }
 

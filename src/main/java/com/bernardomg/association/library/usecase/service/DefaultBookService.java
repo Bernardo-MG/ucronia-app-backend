@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
+import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
@@ -35,6 +37,8 @@ public final class DefaultBookService implements BookService {
 
     private final CreateBookValidator  createBookValidator;
 
+    private final DonorRepository      donorRepository;
+
     private final GameSystemRepository gameSystemRepository;
 
     private final PublisherRepository  publisherRepository;
@@ -43,7 +47,7 @@ public final class DefaultBookService implements BookService {
 
     public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
-            final GameSystemRepository gameSystemRepo) {
+            final GameSystemRepository gameSystemRepo, final DonorRepository donorRepo) {
         super();
 
         bookRepository = bookRepo;
@@ -51,6 +55,7 @@ public final class DefaultBookService implements BookService {
         publisherRepository = publisherRepo;
         bookTypeRepository = bookTypeRepo;
         gameSystemRepository = gameSystemRepo;
+        donorRepository = donorRepo;
 
         createBookValidator = new CreateBookValidator(bookRepository);
         updateBookValidator = new UpdateBookValidator(bookRepository);
@@ -61,6 +66,7 @@ public final class DefaultBookService implements BookService {
         final boolean publisherExists;
         final boolean gameSystemExists;
         final boolean bookTypeExists;
+        final boolean donorExists;
         final Book    toCreate;
         final Long    number;
 
@@ -68,6 +74,7 @@ public final class DefaultBookService implements BookService {
 
         // TODO: verify the language is a valid code
 
+        // Check authors exist
         book.getAuthors()
             .forEach(a -> {
                 final boolean authorExists;
@@ -78,6 +85,7 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
+        // Check publisher exist
         if (StringUtils.isNotBlank(book.getPublisher()
             .getName())) {
             publisherExists = publisherRepository.exists(book.getPublisher()
@@ -88,6 +96,7 @@ public final class DefaultBookService implements BookService {
             }
         }
 
+        // Check game system exist
         if (StringUtils.isNotBlank(book.getGameSystem()
             .getName())) {
             gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
@@ -98,6 +107,7 @@ public final class DefaultBookService implements BookService {
             }
         }
 
+        // Check book type exist
         if (StringUtils.isNotBlank(book.getBookType()
             .getName())) {
             bookTypeExists = bookTypeRepository.exists(book.getBookType()
@@ -108,21 +118,33 @@ public final class DefaultBookService implements BookService {
             }
         }
 
+        // Check donor exist
+        if (book.getDonor()
+            .getNumber() >= 0) {
+            donorExists = donorRepository.exists(book.getDonor()
+                .getNumber());
+            if (!donorExists) {
+                throw new MissingDonorException(book.getDonor()
+                    .getNumber());
+            }
+        }
+
+        // Get number
+        number = bookRepository.findNextNumber();
+
         toCreate = Book.builder()
+            .withNumber(number)
             .withAuthors(book.getAuthors())
             .withPublisher(book.getPublisher())
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
+            .withDonor(book.getDonor())
             .withIsbn(book.getIsbn())
             .withLanguage(book.getLanguage())
             .withTitle(book.getTitle())
             .build();
 
-        // Set number
-        number = bookRepository.findNextNumber();
-        toCreate.setNumber(number);
-
-        createBookValidator.validate(toCreate);
+        createBookValidator.validate(book);
 
         return bookRepository.save(toCreate);
     }

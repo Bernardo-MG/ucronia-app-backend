@@ -4,6 +4,8 @@ package com.bernardomg.association.library.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Collection;
 
+import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,6 +47,12 @@ public class BookEntity implements Serializable {
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "book_type_id", referencedColumnName = "id") })
     private BookTypeEntity           bookType;
+
+    @OneToOne
+    @JoinTable(schema = "inventory", name = "book_donors",
+            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "donor_id", referencedColumnName = "id") })
+    private DonorEntity              donor;
 
     @OneToOne
     @JoinTable(schema = "inventory", name = "book_game_systems",

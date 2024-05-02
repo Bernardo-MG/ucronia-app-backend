@@ -3,6 +3,8 @@ package com.bernardomg.association.library.domain.model;
 
 import java.util.Collection;
 
+import com.bernardomg.association.inventory.domain.model.Donor;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +15,8 @@ public final class Book {
     private Collection<Author> authors;
 
     private BookType           bookType;
+
+    private Donor              donor;
 
     private GameSystem         gameSystem;
 
