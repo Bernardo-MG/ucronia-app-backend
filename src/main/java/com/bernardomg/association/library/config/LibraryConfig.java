@@ -27,6 +27,7 @@ package com.bernardomg.association.library.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookLendingSpringRepository;
@@ -99,9 +100,10 @@ public class LibraryConfig {
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepository,
-            final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo) {
+            final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
+            final DonorSpringRepository donorSpringRepo) {
         return new JpaBookRepository(bookSpringRepo, authorSpringRepo, publisherSpringRepository, bookTypeSpringRepo,
-            gameSystemSpringRepo);
+            gameSystemSpringRepo, donorSpringRepo);
     }
 
     @Bean("bookService")

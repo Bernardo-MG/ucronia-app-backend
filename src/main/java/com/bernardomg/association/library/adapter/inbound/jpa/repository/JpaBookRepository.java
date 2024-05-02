@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
+import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
@@ -38,13 +39,15 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookTypeSpringRepository   bookTypeSpringRepository;
 
+    private final DonorSpringRepository      donorSpringRepository;
+
     private final GameSystemSpringRepository gameSystemSpringRepository;
 
     private final PublisherSpringRepository  publisherSpringRepository;
 
     public JpaBookRepository(final BookSpringRepository bookSpringRepo, final AuthorSpringRepository authorSpringRepo,
             final PublisherSpringRepository publisherSpringRepo, final BookTypeSpringRepository bookTypeSpringRepo,
-            final GameSystemSpringRepository gameSystemSpringRepo) {
+            final GameSystemSpringRepository gameSystemSpringRepo, final DonorSpringRepository donorSpringRepo) {
         super();
 
         bookSpringRepository = bookSpringRepo;
@@ -52,6 +55,7 @@ public final class JpaBookRepository implements BookRepository {
         publisherSpringRepository = publisherSpringRepo;
         bookTypeSpringRepository = bookTypeSpringRepo;
         gameSystemSpringRepository = gameSystemSpringRepo;
+        donorSpringRepository = donorSpringRepo;
     }
 
     @Override
@@ -238,7 +242,12 @@ public final class JpaBookRepository implements BookRepository {
     private final Donor toDomain(final DonorEntity entity) {
         final Member member;
 
-        member = toDomain(entity.getMember());
+        if (entity.getMember() == null) {
+            member = Member.builder()
+                .build();
+        } else {
+            member = toDomain(entity.getMember());
+        }
         return Donor.builder()
             .withNumber(entity.getNumber())
             .withName(entity.getName())
@@ -278,6 +287,7 @@ public final class JpaBookRepository implements BookRepository {
         final Optional<PublisherEntity>  publisher;
         final Optional<BookTypeEntity>   bookType;
         final Optional<GameSystemEntity> gameSystem;
+        final Optional<DonorEntity>      donor;
         final Collection<AuthorEntity>   authors;
 
         if (domain.getPublisher() == null) {
@@ -298,6 +308,12 @@ public final class JpaBookRepository implements BookRepository {
             gameSystem = gameSystemSpringRepository.findOneByName(domain.getGameSystem()
                 .getName());
         }
+        if (domain.getDonor() == null) {
+            donor = Optional.empty();
+        } else {
+            donor = donorSpringRepository.findOneByNumber(domain.getDonor()
+                .getNumber());
+        }
 
         authorNames = domain.getAuthors()
             .stream()
@@ -314,6 +330,7 @@ public final class JpaBookRepository implements BookRepository {
             .withPublisher(publisher.orElse(null))
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
+            .withDonor(donor.orElse(null))
             .build();
     }
 

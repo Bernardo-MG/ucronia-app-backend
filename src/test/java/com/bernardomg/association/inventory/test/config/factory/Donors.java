@@ -9,18 +9,18 @@ public final class Donors {
 
     public static final Donor emptyName() {
         return Donor.builder()
+            .withNumber(DonorConstants.NUMBER)
             .withName(" ")
             .withMember(Members.active())
-            .withNumber(DonorConstants.NUMBER)
             .build();
     }
 
     public static final Donor noMember() {
         return Donor.builder()
+            .withNumber(DonorConstants.NUMBER)
             .withName(DonorConstants.NAME)
             .withMember(Member.builder()
                 .build())
-            .withNumber(DonorConstants.NUMBER)
             .build();
     }
 
