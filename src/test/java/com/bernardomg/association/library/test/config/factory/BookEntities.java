@@ -7,7 +7,7 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 
 public final class BookEntities {
 
-    public static final BookEntity valid() {
+    public static final BookEntity noRelationships() {
         return BookEntity.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)

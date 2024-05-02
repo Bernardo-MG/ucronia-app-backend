@@ -67,7 +67,7 @@ class ITBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookEntities.valid());
+            .contains(BookEntities.noRelationships());
     }
 
     @Test
@@ -126,7 +126,7 @@ class ITBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookEntities.valid());
+            .contains(BookEntities.noRelationships());
     }
 
     @Test
