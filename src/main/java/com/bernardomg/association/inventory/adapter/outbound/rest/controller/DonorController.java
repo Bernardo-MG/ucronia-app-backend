@@ -69,15 +69,15 @@ public class DonorController {
     public Donor create(@Valid @RequestBody final DonorCreation creation) {
         final Member member;
         final Donor  donor;
-        final long   number;
+        final long   memberNumber;
 
         if (creation.getMember() == null) {
-            number = -1;
+            memberNumber = -1;
         } else {
-            number = creation.getMember();
+            memberNumber = creation.getMember();
         }
         member = Member.builder()
-            .withNumber(number)
+            .withNumber(memberNumber)
             .build();
         donor = Donor.builder()
             .withName(creation.getName())
@@ -110,12 +110,17 @@ public class DonorController {
     public Donor update(@PathVariable("number") final long number, @Valid @RequestBody final DonorCreation change) {
         final Member member;
         final Donor  donor;
+        final long   memberNumber;
 
+        if (change.getMember() == null) {
+            memberNumber = -1;
+        } else {
+            memberNumber = change.getMember();
+        }
         member = Member.builder()
-            .withNumber(change.getMember())
+            .withNumber(memberNumber)
             .build();
         donor = Donor.builder()
-            .withNumber(number)
             .withName(change.getName())
             .withMember(member)
             .build();
