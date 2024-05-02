@@ -63,16 +63,90 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Book create(final Book book) {
-        final boolean publisherExists;
-        final boolean gameSystemExists;
-        final boolean bookTypeExists;
-        final boolean donorExists;
-        final Book    toCreate;
-        final Long    number;
+        final Book toCreate;
+        final Long number;
 
         log.debug("Creating book {}", book);
 
         // TODO: verify the language is a valid code
+
+        validateRelationships(book);
+
+        // Get number
+        number = bookRepository.findNextNumber();
+
+        toCreate = Book.builder()
+            .withNumber(number)
+            .withAuthors(book.getAuthors())
+            .withPublisher(book.getPublisher())
+            .withBookType(book.getBookType())
+            .withGameSystem(book.getGameSystem())
+            .withDonor(book.getDonor())
+            .withIsbn(book.getIsbn())
+            .withLanguage(book.getLanguage())
+            .withTitle(book.getTitle())
+            .build();
+
+        createBookValidator.validate(book);
+
+        return bookRepository.save(toCreate);
+    }
+
+    @Override
+    public final void delete(final long number) {
+
+        log.debug("Deleting book {}", number);
+
+        if (!bookRepository.exists(number)) {
+            throw new MissingBookException(number);
+        }
+
+        bookRepository.delete(number);
+    }
+
+    @Override
+    public final Iterable<Book> getAll(final Pageable pageable) {
+        return bookRepository.getAll(pageable);
+    }
+
+    @Override
+    public final Optional<Book> getOne(final long number) {
+        final Optional<Book> book;
+
+        log.debug("Reading book {}", number);
+
+        book = bookRepository.getOne(number);
+        if (book.isEmpty()) {
+            throw new MissingBookException(number);
+        }
+
+        return book;
+    }
+
+    @Override
+    public final Book update(final long number, final Book book) {
+        log.debug("Updating book with number {} using data {}", number, book);
+
+        // TODO: verify the language is a valid code
+        // TODO: validate isbn
+
+        // Check book exists
+        if (!bookRepository.exists(number)) {
+            throw new MissingBookException(number);
+        }
+
+        validateRelationships(book);
+
+        updateBookValidator.validate(book);
+
+        return bookRepository.save(book);
+    }
+
+    private final void validateRelationships(final Book book) {
+        final boolean publisherExists;
+        final boolean gameSystemExists;
+        final boolean bookTypeExists;
+        final boolean donorExists;
 
         // Check authors exist
         book.getAuthors()
@@ -129,115 +203,6 @@ public final class DefaultBookService implements BookService {
             }
         }
 
-        // Get number
-        number = bookRepository.findNextNumber();
-
-        toCreate = Book.builder()
-            .withNumber(number)
-            .withAuthors(book.getAuthors())
-            .withPublisher(book.getPublisher())
-            .withBookType(book.getBookType())
-            .withGameSystem(book.getGameSystem())
-            .withDonor(book.getDonor())
-            .withIsbn(book.getIsbn())
-            .withLanguage(book.getLanguage())
-            .withTitle(book.getTitle())
-            .build();
-
-        createBookValidator.validate(book);
-
-        return bookRepository.save(toCreate);
-    }
-
-    @Override
-    public final void delete(final long number) {
-
-        log.debug("Deleting book {}", number);
-
-        if (!bookRepository.exists(number)) {
-            throw new MissingBookException(number);
-        }
-
-        bookRepository.delete(number);
-    }
-
-    @Override
-    public final Iterable<Book> getAll(final Pageable pageable) {
-        return bookRepository.getAll(pageable);
-    }
-
-    @Override
-    public final Optional<Book> getOne(final long number) {
-        final Optional<Book> book;
-
-        log.debug("Reading book {}", number);
-
-        book = bookRepository.getOne(number);
-        if (book.isEmpty()) {
-            throw new MissingBookException(number);
-        }
-
-        return book;
-    }
-
-    @Override
-    public final Book update(final long number, final Book book) {
-        final boolean publisherExists;
-        final boolean gameSystemExists;
-        final boolean bookTypeExists;
-
-        log.debug("Updating book with number {} using data {}", number, book);
-
-        // TODO: verify the language is a valid code
-        // TODO: validate isbn
-
-        if (!bookRepository.exists(number)) {
-            throw new MissingBookException(number);
-        }
-
-        book.getAuthors()
-            .forEach(a -> {
-                final boolean authorExists;
-
-                authorExists = authorRepository.exists(a.getName());
-                if (!authorExists) {
-                    throw new MissingAuthorException(a.getName());
-                }
-            });
-
-        if (StringUtils.isNotBlank(book.getPublisher()
-            .getName())) {
-            publisherExists = publisherRepository.exists(book.getPublisher()
-                .getName());
-            if (!publisherExists) {
-                throw new MissingPublisherException(book.getPublisher()
-                    .getName());
-            }
-        }
-
-        if (StringUtils.isNotBlank(book.getGameSystem()
-            .getName())) {
-            gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
-                .getName());
-            if (!gameSystemExists) {
-                throw new MissingGameSystemException(book.getGameSystem()
-                    .getName());
-            }
-        }
-
-        if (StringUtils.isNotBlank(book.getBookType()
-            .getName())) {
-            bookTypeExists = bookTypeRepository.exists(book.getBookType()
-                .getName());
-            if (!bookTypeExists) {
-                throw new MissingBookTypeException(book.getBookType()
-                    .getName());
-            }
-        }
-
-        updateBookValidator.validate(book);
-
-        return bookRepository.save(book);
     }
 
 }
