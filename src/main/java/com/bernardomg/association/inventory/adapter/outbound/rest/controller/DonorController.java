@@ -54,7 +54,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/donor")
+@RequestMapping("/inventory/donor")
 @AllArgsConstructor
 public class DonorController {
 
