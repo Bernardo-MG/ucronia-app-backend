@@ -121,6 +121,7 @@ public class DonorController {
             .withNumber(memberNumber)
             .build();
         donor = Donor.builder()
+            .withNumber(number)
             .withName(change.getName())
             .withMember(member)
             .build();
