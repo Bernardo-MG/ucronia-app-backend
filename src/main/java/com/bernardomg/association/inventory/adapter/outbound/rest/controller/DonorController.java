@@ -69,9 +69,15 @@ public class DonorController {
     public Donor create(@Valid @RequestBody final DonorCreation creation) {
         final Member member;
         final Donor  donor;
+        final long   number;
 
+        if (creation.getMember() == null) {
+            number = -1;
+        } else {
+            number = creation.getMember();
+        }
         member = Member.builder()
-            .withNumber(creation.getMember())
+            .withNumber(number)
             .build();
         donor = Donor.builder()
             .withName(creation.getName())
