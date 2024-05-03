@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public final class DefaultPublisherService implements PublisherService {
     public DefaultPublisherService(final PublisherRepository publisherRepo) {
         super();
 
-        publisherRepository = publisherRepo;
+        publisherRepository = Objects.requireNonNull(publisherRepo);
 
         createPublisherValidator = new CreatePublisherValidator(publisherRepository);
     }

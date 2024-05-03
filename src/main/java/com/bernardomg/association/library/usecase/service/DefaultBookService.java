@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,12 +51,12 @@ public final class DefaultBookService implements BookService {
             final GameSystemRepository gameSystemRepo, final DonorRepository donorRepo) {
         super();
 
-        bookRepository = bookRepo;
-        authorRepository = authorRepo;
-        publisherRepository = publisherRepo;
-        bookTypeRepository = bookTypeRepo;
-        gameSystemRepository = gameSystemRepo;
-        donorRepository = donorRepo;
+        bookRepository = Objects.requireNonNull(bookRepo);
+        authorRepository = Objects.requireNonNull(authorRepo);
+        publisherRepository = Objects.requireNonNull(publisherRepo);
+        bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
+        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
+        donorRepository = Objects.requireNonNull(donorRepo);
 
         createBookValidator = new CreateBookValidator(bookRepository);
         updateBookValidator = new UpdateBookValidator(bookRepository);

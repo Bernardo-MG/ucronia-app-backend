@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             final BookSpringRepository bookSpringRepo, final MemberSpringRepository memberSpringRepo) {
         super();
 
-        bookLendingSpringRepository = bookLendingSpringRepo;
-        bookSpringRepository = bookSpringRepo;
-        memberSpringRepository = memberSpringRepo;
+        bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
+        bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -50,12 +51,12 @@ public final class JpaBookRepository implements BookRepository {
             final GameSystemSpringRepository gameSystemSpringRepo, final DonorSpringRepository donorSpringRepo) {
         super();
 
-        bookSpringRepository = bookSpringRepo;
-        authorSpringRepository = authorSpringRepo;
-        publisherSpringRepository = publisherSpringRepo;
-        bookTypeSpringRepository = bookTypeSpringRepo;
-        gameSystemSpringRepository = gameSystemSpringRepo;
-        donorSpringRepository = donorSpringRepo;
+        bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
+        authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
+        publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
+        bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
+        gameSystemSpringRepository = Objects.requireNonNull(gameSystemSpringRepo);
+        donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
     }
 
     @Override

@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.usecase.service;
 
 import java.time.YearMonth;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +28,9 @@ public final class DefaultBookLendingService implements BookLendingService {
             final MemberRepository memberRepo) {
         super();
 
-        bookLendingRepository = bookLendingRepo;
-        bookRepository = bookRepo;
-        memberRepository = memberRepo;
+        bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
+        bookRepository = Objects.requireNonNull(bookRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
