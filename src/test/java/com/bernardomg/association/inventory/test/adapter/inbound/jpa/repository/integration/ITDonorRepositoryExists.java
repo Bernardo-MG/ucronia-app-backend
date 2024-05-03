@@ -30,7 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -40,21 +41,6 @@ class ITDonorRepositoryExists {
 
     @Autowired
     private DonorRepository repository;
-
-    @Test
-    @DisplayName("With an existing donor, it exists")
-    @DonorNoMember
-    void testExists() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(DonorConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
 
     @Test
     @DisplayName("With no donor, nothing exists")
@@ -68,6 +54,36 @@ class ITDonorRepositoryExists {
         Assertions.assertThat(exists)
             .as("exists")
             .isFalse();
+    }
+
+    @Test
+    @DisplayName("With an existing donor with member, it exists")
+    @DonorWithMember
+    void testExists_WithMember() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("With an existing donor without member, it exists")
+    @DonorWithoutMember
+    void testExists_WithoutMember() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
 }

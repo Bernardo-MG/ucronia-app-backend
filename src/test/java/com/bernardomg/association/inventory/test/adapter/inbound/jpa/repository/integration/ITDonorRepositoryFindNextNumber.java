@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -43,7 +43,7 @@ class ITDonorRepositoryFindNextNumber {
 
     @Test
     @DisplayName("With an existing donor, it returns the next number")
-    @DonorNoMember
+    @DonorWithoutMember
     void testFindNextNumber() {
         final long number;
 

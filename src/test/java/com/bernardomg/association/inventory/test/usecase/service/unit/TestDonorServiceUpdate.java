@@ -83,7 +83,7 @@ class TestDonorServiceUpdate {
         final Donor            author;
 
         // GIVEN
-        author = Donors.noMember();
+        author = Donors.withoutMember();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(donorRepository.existsNameForAnother(DonorConstants.NAME, DonorConstants.NUMBER)).willReturn(true);
@@ -101,7 +101,7 @@ class TestDonorServiceUpdate {
         final Donor author;
 
         // GIVEN
-        author = Donors.noMember();
+        author = Donors.withoutMember();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
@@ -109,7 +109,7 @@ class TestDonorServiceUpdate {
         service.update(author);
 
         // THEN
-        verify(donorRepository).save(Donors.noMember());
+        verify(donorRepository).save(Donors.withoutMember());
     }
 
     @Test
@@ -119,17 +119,17 @@ class TestDonorServiceUpdate {
         final Donor created;
 
         // GIVEN
-        author = Donors.noMember();
+        author = Donors.withoutMember();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(donorRepository.save(Donors.noMember())).willReturn(Donors.noMember());
+        given(donorRepository.save(Donors.withoutMember())).willReturn(Donors.withoutMember());
 
         // WHEN
         created = service.update(author);
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Donors.noMember());
+            .isEqualTo(Donors.withoutMember());
     }
 
 }

@@ -15,6 +15,8 @@ public final class MemberConstants {
 
     public static final String NAME                  = "Member 1";
 
+    public static final String NAME_WITH_MEMBER      = MemberConstants.NAME + " " + MemberConstants.SURNAME;
+
     public static final long   NUMBER                = 10;
 
     public static final String SURNAME               = "Surname 1";

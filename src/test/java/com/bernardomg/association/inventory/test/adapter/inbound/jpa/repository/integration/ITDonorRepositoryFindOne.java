@@ -33,7 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -46,20 +47,6 @@ class ITDonorRepositoryFindOne {
     private DonorRepository repository;
 
     @Test
-    @DisplayName("With an existing donor, it is returned")
-    @DonorNoMember
-    void testFindOne() {
-        final Optional<Donor> donor;
-
-        // WHEN
-        donor = repository.findOne(DonorConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(donor)
-            .contains(Donors.noMember());
-    }
-
-    @Test
     @DisplayName("With no donor, nothing is returned")
     void testFindOne_NoData() {
         final Optional<Donor> donor;
@@ -70,6 +57,34 @@ class ITDonorRepositoryFindOne {
         // THEN
         Assertions.assertThat(donor)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With an existing donor with a member, it is returned")
+    @DonorWithMember
+    void testFindOne_WithMember() {
+        final Optional<Donor> donor;
+
+        // WHEN
+        donor = repository.findOne(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(donor)
+            .contains(Donors.withMember());
+    }
+
+    @Test
+    @DisplayName("With an existing donor without member, it is returned")
+    @DonorWithoutMember
+    void testFindOne_WithoutMember() {
+        final Optional<Donor> donor;
+
+        // WHEN
+        donor = repository.findOne(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(donor)
+            .contains(Donors.withoutMember());
     }
 
 }

@@ -22,7 +22,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.noMember())
+            .withDonor(Donors.withoutMember())
             .build();
     }
 
@@ -36,7 +36,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.noMember())
+            .withDonor(Donors.withoutMember())
             .build();
     }
 
@@ -68,7 +68,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.noMember())
+            .withDonor(Donors.withoutMember())
             .build();
     }
 

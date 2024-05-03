@@ -31,7 +31,7 @@ class ITDonorRepositorySave {
         final Donor                 transaction;
 
         // GIVEN
-        transaction = Donors.noMember();
+        transaction = Donors.withoutMember();
 
         // WHEN
         repository.save(transaction);
@@ -52,7 +52,7 @@ class ITDonorRepositorySave {
         final Donor donor;
 
         // GIVEN
-        donor = Donors.noMember();
+        donor = Donors.withoutMember();
 
         // WHEN
         created = repository.save(donor);
@@ -60,7 +60,7 @@ class ITDonorRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
-            .isEqualTo(Donors.noMember());
+            .isEqualTo(Donors.withoutMember());
     }
 
 }

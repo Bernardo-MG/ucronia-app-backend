@@ -32,12 +32,13 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("DonorRepository - get all")
+@DisplayName("DonorRepository - find all")
 class ITDonorRepositoryFindAll {
 
     @Autowired
@@ -45,25 +46,6 @@ class ITDonorRepositoryFindAll {
 
     public ITDonorRepositoryFindAll() {
         super();
-    }
-
-    @Test
-    @DisplayName("With a donor, it is returned")
-    @DonorNoMember
-    void testFindAll() {
-        final Iterable<Donor> donors;
-        final Pageable        pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        donors = repository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(donors)
-            .as("donors")
-            .containsExactly(Donors.noMember());
     }
 
     @Test
@@ -82,6 +64,44 @@ class ITDonorRepositoryFindAll {
         Assertions.assertThat(donors)
             .as("donors")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a donor with member, it is returned")
+    @DonorWithMember
+    void testFindAll_WithMember() {
+        final Iterable<Donor> donors;
+        final Pageable        pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        donors = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(donors)
+            .as("donors")
+            .containsExactly(Donors.withMember());
+    }
+
+    @Test
+    @DisplayName("With a donor without member, it is returned")
+    @DonorWithoutMember
+    void testFindAll_WithoutMember() {
+        final Iterable<Donor> donors;
+        final Pageable        pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        donors = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(donors)
+            .as("donors")
+            .containsExactly(Donors.withoutMember());
     }
 
 }

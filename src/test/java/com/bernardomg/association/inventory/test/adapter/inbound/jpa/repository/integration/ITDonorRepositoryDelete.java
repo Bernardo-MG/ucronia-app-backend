@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -62,9 +63,22 @@ class ITDonorRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When the donor exists, it is removed")
-    @DonorNoMember
-    void testDelete_RemovesEntity() {
+    @DisplayName("When a donor with member exists, it is removed")
+    @DonorWithMember
+    void testDelete_WithMember_RemovesEntity() {
+        // WHEN
+        repository.delete(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("transactions")
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When a donor without member exists, it is removed")
+    @DonorWithoutMember
+    void testDelete_WithoutMember_RemovesEntity() {
         // WHEN
         repository.delete(DonorConstants.NUMBER);
 

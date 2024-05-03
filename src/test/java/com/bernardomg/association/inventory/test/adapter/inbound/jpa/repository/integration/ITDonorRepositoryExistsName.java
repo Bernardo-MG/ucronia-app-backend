@@ -30,8 +30,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -40,21 +41,6 @@ class ITDonorRepositoryExistsName {
 
     @Autowired
     private DonorRepository repository;
-
-    @Test
-    @DisplayName("With an existing donor, it exists by name")
-    @DonorNoMember
-    void testExistsName() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsName(DonorConstants.NAME);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
 
     @Test
     @DisplayName("With no donor, nothing exists")
@@ -71,8 +57,38 @@ class ITDonorRepositoryExistsName {
     }
 
     @Test
+    @DisplayName("With an existing donor with member, it doesn't exist by name")
+    @DonorWithoutMember
+    void testExistsName_WithMember() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsName(MemberConstants.NAME_WITH_MEMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With an existing donor without member, it exists by name")
+    @DonorWithoutMember
+    void testExistsName_WithoutMember() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsName(DonorConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
     @DisplayName("With an existing donor, but a not existing nane, nothing exists")
-    @DonorNoMember
+    @DonorWithoutMember
     void testExistsName_WrongName() {
         final boolean exists;
 

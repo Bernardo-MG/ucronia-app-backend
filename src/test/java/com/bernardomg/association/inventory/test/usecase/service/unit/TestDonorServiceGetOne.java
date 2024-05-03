@@ -64,7 +64,7 @@ class TestDonorServiceGetOne {
         final Optional<Donor> donor;
 
         // GIVEN
-        given(donorRepository.findOne(DonorConstants.NUMBER)).willReturn(Optional.of(Donors.noMember()));
+        given(donorRepository.findOne(DonorConstants.NUMBER)).willReturn(Optional.of(Donors.withoutMember()));
 
         // WHEN
         donor = service.getOne(DonorConstants.NUMBER);
@@ -72,7 +72,7 @@ class TestDonorServiceGetOne {
         // THEN
         Assertions.assertThat(donor)
             .as("donor")
-            .contains(Donors.noMember());
+            .contains(Donors.withoutMember());
     }
 
     @Test

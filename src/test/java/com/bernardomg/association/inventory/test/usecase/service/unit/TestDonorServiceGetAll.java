@@ -65,7 +65,7 @@ class TestDonorServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(donorRepository.findAll(pageable)).willReturn(List.of(Donors.noMember()));
+        given(donorRepository.findAll(pageable)).willReturn(List.of(Donors.withoutMember()));
 
         // WHEN
         donors = service.getAll(pageable);
@@ -73,7 +73,7 @@ class TestDonorServiceGetAll {
         // THEN
         Assertions.assertThat(donors)
             .as("donors")
-            .containsExactly(Donors.noMember());
+            .containsExactly(Donors.withoutMember());
     }
 
     @Test

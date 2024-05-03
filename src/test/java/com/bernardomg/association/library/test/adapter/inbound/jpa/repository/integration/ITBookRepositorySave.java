@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorNoMember;
+import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
@@ -96,7 +96,7 @@ class ITBookRepositorySave {
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
-    @DonorNoMember
+    @DonorWithoutMember
     void testSave_Full_Returned() {
         final Book book;
         final Book created;
