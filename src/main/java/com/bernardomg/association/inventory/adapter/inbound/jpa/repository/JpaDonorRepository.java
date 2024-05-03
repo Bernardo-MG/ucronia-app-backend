@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.inventory.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -28,8 +29,8 @@ public final class JpaDonorRepository implements DonorRepository {
             final MemberSpringRepository memberSpringRepo) {
         super();
 
-        donorSpringRepository = donorSpringRepo;
-        memberSpringRepository = memberSpringRepo;
+        donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
