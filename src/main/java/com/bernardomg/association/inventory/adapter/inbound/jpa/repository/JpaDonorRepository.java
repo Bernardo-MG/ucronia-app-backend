@@ -159,18 +159,22 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     private final Donor toDomain(final DonorEntity donor) {
+        final String name;
         final Member member;
 
         if (donor.getMember() == null) {
             member = Member.builder()
                 .build();
+            name = donor.getName();
         } else {
             member = toDomain(donor.getMember());
+            name = member.getName()
+                .getFullName();
         }
 
         return Donor.builder()
             .withNumber(donor.getNumber())
-            .withName(donor.getName())
+            .withName(name)
             .withMember(member)
             .build();
     }

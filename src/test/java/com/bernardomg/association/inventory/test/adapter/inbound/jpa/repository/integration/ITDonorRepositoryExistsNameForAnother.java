@@ -33,6 +33,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -72,7 +73,8 @@ class ITDonorRepositoryExistsNameForAnother {
     }
 
     @Test
-    @DisplayName("With another number and a donor with member, the name exists")
+    @DisplayName("With another number and a donor with member, the name doesn't exist")
+    @ValidMember
     @DonorWithMember
     void testExistsNameForAnother_WithMember_AnotherNumber() {
         final boolean exists;
@@ -83,7 +85,7 @@ class ITDonorRepositoryExistsNameForAnother {
         // THEN
         Assertions.assertThat(exists)
             .as("exists")
-            .isTrue();
+            .isFalse();
     }
 
     @Test

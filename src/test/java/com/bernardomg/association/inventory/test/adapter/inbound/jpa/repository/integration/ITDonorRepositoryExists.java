@@ -33,6 +33,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,6 +59,7 @@ class ITDonorRepositoryExists {
 
     @Test
     @DisplayName("With an existing donor with member, it exists")
+    @ValidMember
     @DonorWithMember
     void testExists_WithMember() {
         final boolean exists;

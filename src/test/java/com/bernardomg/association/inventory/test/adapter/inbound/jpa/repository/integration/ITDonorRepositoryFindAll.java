@@ -35,6 +35,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -68,6 +69,7 @@ class ITDonorRepositoryFindAll {
 
     @Test
     @DisplayName("With a donor with member, it is returned")
+    @ValidMember
     @DonorWithMember
     void testFindAll_WithMember() {
         final Iterable<Donor> donors;

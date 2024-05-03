@@ -34,6 +34,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -64,6 +65,7 @@ class ITDonorRepositoryDelete {
 
     @Test
     @DisplayName("When a donor with member exists, it is removed")
+    @ValidMember
     @DonorWithMember
     void testDelete_WithMember_RemovesEntity() {
         // WHEN
