@@ -48,7 +48,7 @@ class ITDonorRepositoryFindOne {
     @Test
     @DisplayName("With an existing donor, it is returned")
     @DonorNoMember
-    void testGetOne() {
+    void testFindOne() {
         final Optional<Donor> donor;
 
         // WHEN
@@ -61,7 +61,7 @@ class ITDonorRepositoryFindOne {
 
     @Test
     @DisplayName("With no donor, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<Donor> donor;
 
         // WHEN

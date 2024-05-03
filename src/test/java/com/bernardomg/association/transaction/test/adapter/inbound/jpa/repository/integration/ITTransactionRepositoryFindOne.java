@@ -58,7 +58,7 @@ class ITTransactionRepositoryFindOne {
     @Test
     @DisplayName("With an existing transaction, it is returned")
     @PositiveTransaction
-    void testGetOne() {
+    void testFindOne() {
         final Optional<Transaction> transactionOptional;
 
         // WHEN
@@ -72,7 +72,7 @@ class ITTransactionRepositoryFindOne {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a value around zero, the related entity is returned")
-    void testGetOne_AroundZero(final Float amount) {
+    void testFindOne_AroundZero(final Float amount) {
         final Optional<Transaction> transactionOptional;
 
         // GIVEN
@@ -89,7 +89,7 @@ class ITTransactionRepositoryFindOne {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the related entity is returned")
-    void testGetOne_Decimal(final Float amount) {
+    void testFindOne_Decimal(final Float amount) {
         final Optional<Transaction> transactionOptional;
 
         // GIVEN
@@ -106,7 +106,7 @@ class ITTransactionRepositoryFindOne {
     @Test
     @DisplayName("Returns the correct data when reading a negative value")
     @NegativeTransaction
-    void testGetOne_Negative() {
+    void testFindOne_Negative() {
         final Optional<Transaction> transactionOptional;
 
         // WHEN
@@ -119,7 +119,7 @@ class ITTransactionRepositoryFindOne {
 
     @Test
     @DisplayName("With no transaction, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<Transaction> transactionOptional;
 
         // WHEN

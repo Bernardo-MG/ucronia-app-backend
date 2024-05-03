@@ -48,7 +48,7 @@ class ITAuthorRepositoryFindOne {
     @Test
     @DisplayName("With an author, it is returned")
     @ValidAuthor
-    void testGetOne() {
+    void testFindOne() {
         final Optional<Author> author;
 
         // WHEN
@@ -62,7 +62,7 @@ class ITAuthorRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<Author> author;
 
         // WHEN

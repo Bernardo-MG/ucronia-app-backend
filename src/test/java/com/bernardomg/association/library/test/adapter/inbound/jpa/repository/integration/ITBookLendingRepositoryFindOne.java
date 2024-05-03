@@ -53,7 +53,7 @@ class ITBookLendingRepositoryFindOne {
     @FullBook
     @ValidMember
     @LentBookLending
-    void testGetOne() {
+    void testFindOne() {
         final Optional<BookLending> lendings;
 
         // WHEN
@@ -67,7 +67,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<BookLending> lendings;
 
         // WHEN

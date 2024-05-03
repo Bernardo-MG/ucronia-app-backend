@@ -60,7 +60,7 @@ class TestDonorServiceGetOne {
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testDelete_CallsRepository() {
+    void testGetOne_CallsRepository() {
         final Optional<Donor> donor;
 
         // GIVEN
@@ -77,7 +77,7 @@ class TestDonorServiceGetOne {
 
     @Test
     @DisplayName("When the donor doesn't exist an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
+    void testGetOne_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN

@@ -49,7 +49,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a full book, it is returned")
     @FullBook
-    void testGetOne_Full() {
+    void _Full() {
         final Optional<Book> book;
 
         // WHEN
@@ -64,7 +64,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a minimal book, it is returned")
     @MinimalBook
-    void testGetOne_Minimal() {
+    void _Minimal() {
         final Optional<Book> book;
 
         // WHEN
@@ -78,7 +78,7 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void _NoData() {
         final Optional<Book> book;
 
         // WHEN

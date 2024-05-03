@@ -48,7 +48,7 @@ class ITGameSystemRepositoryFindOne {
     @Test
     @DisplayName("With a game system, it is returned")
     @ValidGameSystem
-    void testGetOne() {
+    void testFindOne() {
         final Optional<GameSystem> gameSystem;
 
         // WHEN
@@ -62,7 +62,7 @@ class ITGameSystemRepositoryFindOne {
 
     @Test
     @DisplayName("With no game system, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<GameSystem> gameSystem;
 
         // WHEN
