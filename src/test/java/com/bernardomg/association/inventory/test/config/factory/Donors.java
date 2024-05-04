@@ -29,6 +29,7 @@ public final class Donors {
             .withNumber(DonorConstants.NUMBER)
             .withName(DonorConstants.NAME)
             .withMember(Member.builder()
+                .withNumber(-1)
                 .build())
             .build();
     }

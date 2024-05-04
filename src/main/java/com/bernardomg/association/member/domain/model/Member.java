@@ -17,7 +17,8 @@ public final class Member {
 
     private final MemberName name;
 
-    private final long       number;
+    @Builder.Default
+    private final long       number = -1L;
 
     private final String     phone;
 

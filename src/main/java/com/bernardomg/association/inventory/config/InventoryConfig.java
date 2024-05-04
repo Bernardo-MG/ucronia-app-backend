@@ -33,6 +33,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 /**
  * Transaction configuration.
@@ -54,8 +55,9 @@ public class InventoryConfig {
     }
 
     @Bean("donorService")
-    public DonorService getDonorService(final DonorRepository donorRepository) {
-        return new DefaultDonorService(donorRepository);
+    public DonorService getDonorService(final DonorRepository donorRepository,
+            final MemberRepository memberRepository) {
+        return new DefaultDonorService(donorRepository, memberRepository);
     }
 
 }

@@ -43,6 +43,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DonorService - get one")
@@ -50,6 +51,9 @@ class TestDonorServiceGetOne {
 
     @Mock
     private DonorRepository     donorRepository;
+
+    @Mock
+    private MemberRepository    memberRepository;
 
     @InjectMocks
     private DefaultDonorService service;

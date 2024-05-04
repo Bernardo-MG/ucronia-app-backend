@@ -41,6 +41,9 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -50,6 +53,9 @@ class TestDonorServiceCreate {
 
     @Mock
     private DonorRepository     donorRepository;
+
+    @Mock
+    private MemberRepository    memberRepository;
 
     @InjectMocks
     private DefaultDonorService service;
@@ -66,6 +72,8 @@ class TestDonorServiceCreate {
 
         // GIVEN
         author = Donors.emptyName();
+
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(author);
@@ -93,8 +101,47 @@ class TestDonorServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid donor, the donor is persisted")
-    void testCreate_PersistedData() {
+    @DisplayName("With a valid donor with member, the donor is persisted")
+    void testCreate_WithMember_PersistedData() {
+        final Donor author;
+
+        // GIVEN
+        author = Donors.withMember();
+
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(donorRepository.findNextNumber()).willReturn(DonorConstants.NUMBER);
+
+        // WHEN
+        service.create(author);
+
+        // THEN
+        verify(donorRepository).save(Donors.withMember());
+    }
+
+    @Test
+    @DisplayName("With a valid donor with member, the created donor is returned")
+    void testCreate_WithMember_ReturnedData() {
+        final Donor author;
+        final Donor created;
+
+        // GIVEN
+        author = Donors.withMember();
+
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(donorRepository.findNextNumber()).willReturn(DonorConstants.NUMBER);
+        given(donorRepository.save(Donors.withMember())).willReturn(Donors.withMember());
+
+        // WHEN
+        created = service.create(author);
+
+        // THEN
+        Assertions.assertThat(created)
+            .isEqualTo(Donors.withMember());
+    }
+
+    @Test
+    @DisplayName("With a valid donor without member, the donor is persisted")
+    void testCreate_WithoutMember_PersistedData() {
         final Donor author;
 
         // GIVEN
@@ -110,8 +157,8 @@ class TestDonorServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid donor, the created donor is returned")
-    void testCreate_ReturnedData() {
+    @DisplayName("With a valid donor without member, the created donor is returned")
+    void testCreate_WithoutMember_ReturnedData() {
         final Donor author;
         final Donor created;
 
@@ -127,6 +174,25 @@ class TestDonorServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .isEqualTo(Donors.withoutMember());
+    }
+
+    @Test
+    @DisplayName("With a not existing member, an exception is thrown")
+    void testUpdate_NotExistingMember_Exception() {
+        final ThrowingCallable execution;
+        final Donor            donor;
+
+        // GIVEN
+        donor = Donors.withMember();
+
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(donor);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberException.class);
     }
 
 }
