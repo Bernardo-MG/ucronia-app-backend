@@ -36,9 +36,20 @@ public final class CreateDonorValidator extends AbstractValidator<Donor> {
         }
 
         // The name shouldn't exist
-        if (donorRepository.existsName(donor.getName())) {
+        if (donorRepository.existsByName(donor.getName())) {
             log.error("Existing name {}", donor.getName());
             failure = FieldFailure.of("name", "existing", donor.getName());
+            failures.add(failure);
+        }
+
+        // The member shouldn't exist
+        if ((donor.getMember()
+            .getNumber() >= 0) && donorRepository.existsByMember(donor.getMember()
+                .getNumber())) {
+            log.error("Existing member {}", donor.getMember()
+                .getNumber());
+            failure = FieldFailure.of("member", "existing", donor.getMember()
+                .getNumber());
             failures.add(failure);
         }
     }

@@ -28,10 +28,37 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
 
 public interface DonorSpringRepository extends JpaRepository<DonorEntity, Long> {
+
+    @Query("""
+            SELECT
+                CASE
+                    WHEN COUNT(d) > 0 THEN TRUE
+                    ELSE FALSE
+                END AS exists
+            FROM
+                Donor d
+            WHERE
+                d.member.number IS NOT NULL AND d.member.number = :member
+            """)
+    public boolean existsByMember(@Param("member") final long member);
+
+    @Query("""
+            SELECT
+                CASE
+                    WHEN COUNT(d) > 0 THEN TRUE
+                    ELSE FALSE
+                END AS exists
+            FROM
+                Donor d
+            WHERE
+                d.number != :number AND d.member.number IS NOT NULL AND d.member.number = :member
+            """)
+    public boolean existsByMemberAndNumberNot(@Param("member") final long member, @Param("number") final long number);
 
     public boolean existsByName(final String name);
 

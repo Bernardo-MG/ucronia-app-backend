@@ -85,6 +85,27 @@ class TestDonorServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a donor with an existing member, an exception is thrown")
+    void testUpdate_ExistingMember() {
+        final ThrowingCallable execution;
+        final Donor            author;
+
+        // GIVEN
+        author = Donors.withMember();
+
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(donorRepository.existsByMemberForAnother(MemberConstants.NUMBER, DonorConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+    }
+
+    @Test
     @DisplayName("With a donor with an existing name, an exception is thrown")
     void testUpdate_ExistingName() {
         final ThrowingCallable execution;
@@ -94,7 +115,7 @@ class TestDonorServiceUpdate {
         donor = Donors.withoutMember();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(donorRepository.existsNameForAnother(DonorConstants.NAME, DonorConstants.NUMBER)).willReturn(true);
+        given(donorRepository.existsByNameForAnother(DonorConstants.NAME, DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(donor);

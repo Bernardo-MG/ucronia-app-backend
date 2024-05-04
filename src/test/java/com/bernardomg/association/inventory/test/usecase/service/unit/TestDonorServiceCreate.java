@@ -83,6 +83,26 @@ class TestDonorServiceCreate {
     }
 
     @Test
+    @DisplayName("With a donor with an existing member, an exception is thrown")
+    void testCreate_ExistingMember() {
+        final ThrowingCallable execution;
+        final Donor            author;
+
+        // GIVEN
+        author = Donors.withMember();
+
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(donorRepository.existsByMember(MemberConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+    }
+
+    @Test
     @DisplayName("With a donor with an existing name, an exception is thrown")
     void testCreate_ExistingName() {
         final ThrowingCallable execution;
@@ -91,13 +111,32 @@ class TestDonorServiceCreate {
         // GIVEN
         author = Donors.withoutMember();
 
-        given(donorRepository.existsName(DonorConstants.NAME)).willReturn(true);
+        given(donorRepository.existsByName(DonorConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(author);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", DonorConstants.NAME));
+    }
+
+    @Test
+    @DisplayName("With a not existing member, an exception is thrown")
+    void testCreate_NotExistingMember_Exception() {
+        final ThrowingCallable execution;
+        final Donor            donor;
+
+        // GIVEN
+        donor = Donors.withMember();
+
+        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(donor);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberException.class);
     }
 
     @Test
@@ -174,25 +213,6 @@ class TestDonorServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .isEqualTo(Donors.withoutMember());
-    }
-
-    @Test
-    @DisplayName("With a not existing member, an exception is thrown")
-    void testUpdate_NotExistingMember_Exception() {
-        final ThrowingCallable execution;
-        final Donor            donor;
-
-        // GIVEN
-        donor = Donors.withMember();
-
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.create(donor);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
     }
 
 }

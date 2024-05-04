@@ -65,7 +65,33 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     @Override
-    public final boolean existsName(final String name) {
+    public final boolean existsByMember(final long member) {
+        final boolean exists;
+
+        log.debug("Checking if donor member {} exists", member);
+
+        exists = donorSpringRepository.existsByMember(member);
+
+        log.debug("Donor member {} exists: {}", member, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByMemberForAnother(final long member, final long number) {
+        final boolean exists;
+
+        log.debug("Checking if donor member {} for a donor distinct of {} exists", member, number);
+
+        exists = donorSpringRepository.existsByMemberAndNumberNot(member, number);
+
+        log.debug("Donor member {} for a donor distinct of {} exists: {}", member, number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByName(final String name) {
         final boolean exists;
 
         log.debug("Checking if donor name {} exists", name);
@@ -78,7 +104,7 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     @Override
-    public final boolean existsNameForAnother(final String name, final long number) {
+    public final boolean existsByNameForAnother(final String name, final long number) {
         final boolean exists;
 
         log.debug("Checking if donor name {} for a donor distinct of {} exists", name, number);

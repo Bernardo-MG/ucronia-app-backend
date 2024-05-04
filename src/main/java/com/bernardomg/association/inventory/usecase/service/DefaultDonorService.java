@@ -59,10 +59,6 @@ public final class DefaultDonorService implements DonorService {
         // Set number
         number = donorRepository.findNextNumber();
 
-        // TODO: this has two paths:
-        // Save a member donor
-        // Save a not member donor
-
         toCreate = Donor.builder()
             .withName(donor.getName())
             .withMember(donor.getMember())
@@ -122,10 +118,6 @@ public final class DefaultDonorService implements DonorService {
         }
 
         updateDonorValidator.validate(donor);
-
-        // TODO: this has two paths:
-        // Save a member donor
-        // Save a not member donor
 
         return donorRepository.save(donor);
     }

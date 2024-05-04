@@ -34,37 +34,23 @@ import com.bernardomg.association.inventory.test.config.data.annotation.DonorWit
 import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("DonorRepository - exists name for another")
-class ITDonorRepositoryExistsNameForAnother {
+@DisplayName("DonorRepository - exists by name")
+class ITDonorRepositoryExistsByName {
 
     @Autowired
     private DonorRepository repository;
 
     @Test
-    @DisplayName("With a single existing donor, nothing exists")
-    @DonorWithoutMember
-    void testExistsNameForAnother() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsNameForAnother(DonorConstants.NAME, DonorConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
     @DisplayName("With no donor, nothing exists")
-    void testExistsNameForAnother_NoData() {
+    void testExistsByName_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsName(DonorConstants.NAME);
+        exists = repository.existsByName(DonorConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)
@@ -73,14 +59,14 @@ class ITDonorRepositoryExistsNameForAnother {
     }
 
     @Test
-    @DisplayName("With another number and a donor with member, the name doesn't exist")
+    @DisplayName("With an existing donor with member, it doesn't exist by name")
     @ValidMember
     @DonorWithMember
-    void testExistsNameForAnother_WithMember_AnotherNumber() {
+    void testExistsByName_WithMember() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsNameForAnother(DonorConstants.NAME, DonorConstants.ALTERNATIVE_NUMBER);
+        exists = repository.existsByName(MemberConstants.NAME_WITH_MEMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -89,13 +75,13 @@ class ITDonorRepositoryExistsNameForAnother {
     }
 
     @Test
-    @DisplayName("With another number and a donor without member, the name exists")
+    @DisplayName("With an existing donor without member, it exists by name")
     @DonorWithoutMember
-    void testExistsNameForAnother_WithoutMember_AnotherNumber() {
+    void testExistsByName_WithoutMember() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsNameForAnother(DonorConstants.NAME, DonorConstants.ALTERNATIVE_NUMBER);
+        exists = repository.existsByName(DonorConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)
@@ -104,13 +90,13 @@ class ITDonorRepositoryExistsNameForAnother {
     }
 
     @Test
-    @DisplayName("With an existing donor, but a not existing nane, nothing exists")
+    @DisplayName("With an existing donor, but a not existing name, nothing exists")
     @DonorWithoutMember
-    void testExistsNameForAnother_WrongName() {
+    void testExistsByName_WrongName() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsName("abc");
+        exists = repository.existsByName("abc");
 
         // THEN
         Assertions.assertThat(exists)
