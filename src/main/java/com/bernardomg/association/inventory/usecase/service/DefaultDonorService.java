@@ -28,8 +28,6 @@ public final class DefaultDonorService implements DonorService {
     public DefaultDonorService(final DonorRepository donorRepo) {
         super();
 
-        // TODO: return member, if it exists
-
         donorRepository = Objects.requireNonNull(donorRepo);
 
         createDonorValidator = new CreateDonorValidator(donorRepo);
@@ -42,6 +40,8 @@ public final class DefaultDonorService implements DonorService {
         final Long  number;
 
         log.debug("Creating donor {}", donor);
+
+        // TODO: check the member exists
 
         createDonorValidator.validate(donor);
 
@@ -97,6 +97,8 @@ public final class DefaultDonorService implements DonorService {
     public final Donor update(final Donor donor) {
 
         log.debug("Updating donor {} using data {}", donor.getNumber(), donor);
+
+        // TODO: check the member exists
 
         if (!donorRepository.exists(donor.getNumber())) {
             throw new MissingDonorException(donor.getNumber());

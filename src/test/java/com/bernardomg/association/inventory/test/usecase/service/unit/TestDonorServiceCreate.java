@@ -76,7 +76,7 @@ class TestDonorServiceCreate {
 
     @Test
     @DisplayName("With a donor with an existing name, an exception is thrown")
-    void testCreate_Existing() {
+    void testCreate_ExistingName() {
         final ThrowingCallable execution;
         final Donor            author;
 

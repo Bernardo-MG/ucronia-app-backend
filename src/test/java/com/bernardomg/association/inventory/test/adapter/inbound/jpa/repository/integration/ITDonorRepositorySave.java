@@ -12,6 +12,7 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorEntities;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -25,8 +26,49 @@ class ITDonorRepositorySave {
     private DonorSpringRepository springRepository;
 
     @Test
-    @DisplayName("Persists the data")
-    void testSave_PersistedData() {
+    @DisplayName("Persists a donor with member")
+    @ValidMember
+    void testSave_WithMember_PersistedData() {
+        final Iterable<DonorEntity> donors;
+        final Donor                 transaction;
+
+        // GIVEN
+        transaction = Donors.withMember();
+
+        // WHEN
+        repository.save(transaction);
+
+        // THEN
+        donors = springRepository.findAll();
+
+        Assertions.assertThat(donors)
+            .as("donors")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id")
+            .containsExactly(DonorEntities.withMember());
+    }
+
+    @Test
+    @DisplayName("Returns the created data after persisting a donor with member")
+    @ValidMember
+    void testSave_WithMember_ReturnedData() {
+        final Donor created;
+        final Donor donor;
+
+        // GIVEN
+        donor = Donors.withMember();
+
+        // WHEN
+        created = repository.save(donor);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .isEqualTo(Donors.withMember());
+    }
+
+    @Test
+    @DisplayName("Persists a donor without member")
+    void testSave_WithoutMember_PersistedData() {
         final Iterable<DonorEntity> donors;
         final Donor                 transaction;
 
@@ -42,12 +84,12 @@ class ITDonorRepositorySave {
         Assertions.assertThat(donors)
             .as("donors")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(DonorEntities.noMember());
+            .containsExactly(DonorEntities.withoutMember());
     }
 
     @Test
-    @DisplayName("Returns the created data")
-    void testSave_ReturnedData() {
+    @DisplayName("Returns the created data after persisting a donor without member")
+    void testSave_WithoutMember_ReturnedData() {
         final Donor created;
         final Donor donor;
 
