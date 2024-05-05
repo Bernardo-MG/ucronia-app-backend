@@ -51,7 +51,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With no member, nothing is returned")
-    void _NoData() {
+    void testFindOne_NoData() {
         final Optional<Member> memberOptional;
 
         // WHEN
@@ -65,7 +65,7 @@ class ITMemberRepositoryFindOne {
     @Test
     @DisplayName("With a member having no fee in the current month, a not active member is returned")
     @ValidMember
-    void _NoFee() {
+    void testFindOne_NoFee() {
         final Optional<Member> memberOptional;
 
         // WHEN
@@ -79,7 +79,7 @@ class ITMemberRepositoryFindOne {
     @Test
     @DisplayName("With a member having a not paid fee in the current month, an active member is returned")
     @ValidMember
-    void _NotPaidFee_CurrentMonth() {
+    void testFindOne_NotPaidFee_CurrentMonth() {
         final Optional<Member> memberOptional;
 
         // GIVEN
@@ -96,7 +96,7 @@ class ITMemberRepositoryFindOne {
     @Test
     @DisplayName("With a member having a paid fee in the current month, an active member is returned")
     @ValidMember
-    void _PaidFee_CurrentMonth() {
+    void testFindOne_PaidFee_CurrentMonth() {
         final Optional<Member> memberOptional;
 
         // GIVEN
@@ -113,7 +113,7 @@ class ITMemberRepositoryFindOne {
     @Test
     @DisplayName("With a member having a paid fee in the next month, a not active member is returned")
     @ValidMember
-    void _PaidFee_NextMonth() {
+    void testFindOne_PaidFee_NextMonth() {
         final Optional<Member> memberOptional;
 
         // GIVEN
@@ -130,7 +130,7 @@ class ITMemberRepositoryFindOne {
     @Test
     @DisplayName("With a member having a paid fee in the previous month, a not active member is returned")
     @ValidMember
-    void _PaidFee_PreviousMonth() {
+    void testFindOne_PaidFee_PreviousMonth() {
         final Optional<Member> memberOptional;
 
         // GIVEN

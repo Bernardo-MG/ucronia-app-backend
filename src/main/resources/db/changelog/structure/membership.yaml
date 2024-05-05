@@ -113,3 +113,33 @@ databaseChangeLog:
             remarks: Monthly member balance
             selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM fees GROUP BY month_year) AS subquery
             viewName: member_monthly_balances
+  - changeSet:
+      id: guest
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: guests
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - addAutoIncrement:
+            tableName: guests
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
