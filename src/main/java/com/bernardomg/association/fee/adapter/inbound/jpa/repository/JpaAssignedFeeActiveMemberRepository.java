@@ -10,7 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -25,12 +27,15 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
     private final MemberSpringRepository       memberSpringRepository;
 
+    private final PersonSpringRepository       personSpringRepository;
+
     public JpaAssignedFeeActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo,
-            final MemberSpringRepository memberSpringRepo) {
+            final MemberSpringRepository memberSpringRepo, final PersonSpringRepository personSpringRepo) {
         super();
 
         activeMemberRepository = activeMemberRepo;
         memberSpringRepository = memberSpringRepo;
+        personSpringRepository = personSpringRepo;
     }
 
     @Override
@@ -116,11 +121,11 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next number for the transactions");
+        log.debug("Finding next number for the members");
 
-        number = memberSpringRepository.findNextNumber();
+        number = personSpringRepository.findNextNumber();
 
-        log.debug("Found next number for the transactions: {}", number);
+        log.debug("Found next number for the members: {}", number);
 
         return number;
     }
@@ -158,7 +163,8 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         created = activeMemberRepository.save(entity);
 
-        saved = memberSpringRepository.findByNumber(created.getNumber())
+        saved = memberSpringRepository.findByNumber(created.getPerson()
+            .getNumber())
             .map(this::toActive)
             .get();
 
@@ -175,17 +181,23 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        active = activeMemberRepository.isActive(entity.getNumber(), validStart, validEnd);
+        active = activeMemberRepository.isActive(entity.getPerson()
+            .getNumber(), validStart, validEnd);
 
         memberName = MemberName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getPerson()
+                .getName())
+            .withLastName(entity.getPerson()
+                .getSurname())
             .build();
         return Member.builder()
-            .withNumber(entity.getNumber())
-            .withIdentifier(entity.getIdentifier())
+            .withNumber(entity.getPerson()
+                .getNumber())
+            .withIdentifier(entity.getPerson()
+                .getIdentifier())
             .withName(memberName)
-            .withPhone(entity.getPhone())
+            .withPhone(entity.getPerson()
+                .getPhone())
             .withActive(active)
             .build();
     }
@@ -194,17 +206,23 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         final MemberName memberName;
         final boolean    active;
 
-        active = activeNumbers.contains(entity.getNumber());
+        active = activeNumbers.contains(entity.getPerson()
+            .getNumber());
 
         memberName = MemberName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getPerson()
+                .getName())
+            .withLastName(entity.getPerson()
+                .getSurname())
             .build();
         return Member.builder()
-            .withNumber(entity.getNumber())
-            .withIdentifier(entity.getIdentifier())
+            .withNumber(entity.getPerson()
+                .getNumber())
+            .withIdentifier(entity.getPerson()
+                .getIdentifier())
             .withName(memberName)
-            .withPhone(entity.getPhone())
+            .withPhone(entity.getPerson()
+                .getPhone())
             .withActive(active)
             .build();
     }
@@ -213,20 +231,27 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getPerson()
+                .getName())
+            .withLastName(entity.getPerson()
+                .getSurname())
             .build();
         return Member.builder()
-            .withNumber(entity.getNumber())
-            .withIdentifier(entity.getIdentifier())
+            .withNumber(entity.getPerson()
+                .getNumber())
+            .withIdentifier(entity.getPerson()
+                .getIdentifier())
             .withName(memberName)
-            .withPhone(entity.getPhone())
+            .withPhone(entity.getPerson()
+                .getPhone())
             .withActive(active)
             .build();
     }
 
     private final MemberEntity toEntity(final Member data) {
-        return MemberEntity.builder()
+        final PersonEntity person;
+
+        person = PersonEntity.builder()
             .withNumber(data.getNumber())
             .withIdentifier(data.getIdentifier())
             .withName(data.getName()
@@ -234,6 +259,9 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .withSurname(data.getName()
                 .getLastName())
             .withPhone(data.getPhone())
+            .build();
+        return MemberEntity.builder()
+            .withPerson(person)
             .build();
     }
 

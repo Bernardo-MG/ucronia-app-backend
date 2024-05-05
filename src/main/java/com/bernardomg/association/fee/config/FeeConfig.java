@@ -50,6 +50,7 @@ import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.fee.usecase.service.UserFeeService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
@@ -75,8 +76,8 @@ public class FeeConfig {
 
     @Bean("assignedFeeActiveMemberSource")
     public MemberRepository getActiveMemberSource(final ActiveMemberSpringRepository activeMemberRepo,
-            final MemberSpringRepository memberSpringRepo) {
-        return new JpaAssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo);
+            final MemberSpringRepository memberSpringRepo, final PersonSpringRepository personSpringRepository) {
+        return new JpaAssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo, personSpringRepository);
     }
 
     @Bean("feeCalendarService")

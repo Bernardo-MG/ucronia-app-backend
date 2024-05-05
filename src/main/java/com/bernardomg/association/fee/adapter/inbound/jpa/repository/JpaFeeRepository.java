@@ -392,12 +392,15 @@ public final class JpaFeeRepository implements FeeRepository {
                 .build();
         } else {
             name = (member.get()
+                .getPerson()
                 .getName() + " "
                     + member.get()
+                        .getPerson()
                         .getSurname()).trim();
             feeMember = FeeMember.builder()
                 .withFullName(name)
                 .withNumber(member.get()
+                    .getPerson()
                     .getNumber())
                 .build();
         }

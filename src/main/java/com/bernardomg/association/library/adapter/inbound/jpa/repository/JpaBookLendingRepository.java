@@ -94,7 +94,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             final MemberEntity memberEntity) {
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
-            .withMember(memberEntity.getNumber())
+            .withMember(memberEntity.getPerson()
+                .getNumber())
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
             .build();

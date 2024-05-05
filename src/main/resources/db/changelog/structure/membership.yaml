@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: membership
+      id: person
       author: Bernardo
       changes:
         - createTable:
-            tableName: members
+            tableName: persons
             columns:
               - column:
                   name: id
@@ -41,6 +41,33 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: ''
+        - addAutoIncrement:
+            tableName: persons
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+  - changeSet:
+      id: membership
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: members
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: person
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+                    foreignKeyName: fk_members_person
+                    references: persons(id)
         - addAutoIncrement:
             tableName: members
             columnName: id
@@ -107,7 +134,7 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, m.number AS member_number, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN p.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM members m INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments p ON f.id = p.fee_id LEFT JOIN transactions t ON p.transaction_id = t.id
+            selectQuery: SELECT f.id AS id, m.id AS member_id, p.number AS member_number, TRIM(CONCAT(p.name, ' ', p.surname)) AS member_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN p.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM persons p INNER JOIN members m ON p.id = m.person INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments p ON f.id = p.fee_id LEFT JOIN transactions t ON p.transaction_id = t.id
             viewName: member_fees
         -  createView:
             remarks: Monthly member balance

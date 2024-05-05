@@ -86,7 +86,6 @@ class TestGuestServiceGetAll {
     void testGetAll_ReturnsData() {
         final Iterable<Guest> guests;
         final Pageable        pageable;
-        final Page<Guest>     readGuests;
 
         // GIVEN
         given(guestRepository.findAll(ArgumentMatchers.any())).willReturn(List.of(Guests.valid()));

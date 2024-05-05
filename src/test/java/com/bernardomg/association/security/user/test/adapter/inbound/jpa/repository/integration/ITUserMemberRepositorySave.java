@@ -78,6 +78,7 @@ class ITUserMemberRepositorySave {
                 .as("user id")
                 .isNotNull();
             softly.assertThat(member.getMember()
+                .getPerson()
                 .getNumber())
                 .as("member number")
                 .isEqualTo(MemberConstants.NUMBER);
@@ -127,6 +128,7 @@ class ITUserMemberRepositorySave {
                 .as("user id")
                 .isNotNull();
             softly.assertThat(member.getMember()
+                .getPerson()
                 .getNumber())
                 .as("member number")
                 .isEqualTo(MemberConstants.NUMBER);

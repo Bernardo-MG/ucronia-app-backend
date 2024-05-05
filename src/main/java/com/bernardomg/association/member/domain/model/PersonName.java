@@ -8,13 +8,13 @@ import lombok.Value;
 
 @Value
 @Builder(setterPrefix = "with")
-public final class MemberName {
+public final class PersonName {
 
     private String firstName;
 
     private String lastName;
 
-    public MemberName(final String firstName, final String lastName) {
+    public PersonName(final String firstName, final String lastName) {
         super();
 
         this.firstName = StringUtils.trim(firstName);

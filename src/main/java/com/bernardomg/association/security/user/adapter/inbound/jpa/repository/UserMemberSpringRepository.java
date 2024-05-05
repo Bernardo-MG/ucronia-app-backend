@@ -44,7 +44,7 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
                FROM UserMember um
                  JOIN um.member m
                  JOIN um.user u
-               WHERE m.number = :number AND u.username != :username
+               WHERE m.person.number = :number AND u.username != :username
             """)
     public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,
             @Param("number") final long number);
@@ -61,7 +61,7 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
     @Query("""
                SELECT m
                FROM Member m
-                 LEFT JOIN UserMember um ON m.number = um.member.number
+                 LEFT JOIN UserMember um ON m.person.number = um.member.person.number
                WHERE um.member IS NULL
             """)
     public Page<MemberEntity> findAllNotAssigned(final Pageable page);

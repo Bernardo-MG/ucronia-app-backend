@@ -43,7 +43,7 @@ public interface DonorSpringRepository extends JpaRepository<DonorEntity, Long> 
             FROM
                 Donor d
             WHERE
-                d.member.number IS NOT NULL AND d.member.number = :member
+                d.member.person.number IS NOT NULL AND d.member.person.number = :member
             """)
     public boolean existsByMember(@Param("member") final long member);
 
@@ -56,7 +56,7 @@ public interface DonorSpringRepository extends JpaRepository<DonorEntity, Long> 
             FROM
                 Donor d
             WHERE
-                d.number != :number AND d.member.number IS NOT NULL AND d.member.number = :member
+                d.number != :number AND d.member.person.number IS NOT NULL AND d.member.person.number = :member
             """)
     public boolean existsByMemberAndNumberNot(@Param("member") final long member, @Param("number") final long number);
 

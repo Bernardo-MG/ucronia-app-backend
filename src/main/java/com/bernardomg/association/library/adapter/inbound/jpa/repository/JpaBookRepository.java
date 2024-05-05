@@ -266,14 +266,19 @@ public final class JpaBookRepository implements BookRepository {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getPerson()
+                .getName())
+            .withLastName(entity.getPerson()
+                .getSurname())
             .build();
         return Member.builder()
-            .withNumber(entity.getNumber())
-            .withIdentifier(entity.getIdentifier())
+            .withNumber(entity.getPerson()
+                .getNumber())
+            .withIdentifier(entity.getPerson()
+                .getIdentifier())
             .withName(memberName)
-            .withPhone(entity.getPhone())
+            .withPhone(entity.getPerson()
+                .getPhone())
             .build();
     }
 
