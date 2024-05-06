@@ -68,7 +68,7 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
             .containsExactly(MemberEntities.valid());
     }
 

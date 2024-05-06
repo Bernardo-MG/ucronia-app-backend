@@ -161,6 +161,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
                 .getId());
         }
 
+        personSpringRepository.save(entity.getPerson());
         created = activeMemberRepository.save(entity);
 
         saved = memberSpringRepository.findByNumber(created.getPerson()
