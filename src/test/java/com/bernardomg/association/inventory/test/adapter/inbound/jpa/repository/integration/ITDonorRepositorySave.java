@@ -43,7 +43,8 @@ class ITDonorRepositorySave {
 
         Assertions.assertThat(donors)
             .as("donors")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.id", "member.person.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.id",
+                "member.person.id")
             .containsExactly(DonorEntities.withMember());
     }
 

@@ -45,7 +45,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
     private FeeInitializer   feeInitializer;
 
     @Autowired
-    private MemberRepository service;
+    private MemberRepository repository;
 
     public ITAssignedFeeActiveMemberRepositoryFindInactive() {
         super();
@@ -61,7 +61,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -82,7 +82,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -103,7 +103,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -126,7 +126,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -149,7 +149,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -170,7 +170,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -191,7 +191,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -210,7 +210,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -231,7 +231,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -252,7 +252,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -273,7 +273,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -294,7 +294,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)

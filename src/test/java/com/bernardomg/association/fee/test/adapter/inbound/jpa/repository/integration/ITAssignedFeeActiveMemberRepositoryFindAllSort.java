@@ -46,7 +46,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITAssignedFeeActiveMemberRepositoryFindAllSort {
 
     @Autowired
-    private MemberRepository service;
+    private MemberRepository repository;
 
     public ITAssignedFeeActiveMemberRepositoryFindAllSort() {
         super();
@@ -63,7 +63,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -81,7 +81,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -99,7 +99,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -117,7 +117,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
