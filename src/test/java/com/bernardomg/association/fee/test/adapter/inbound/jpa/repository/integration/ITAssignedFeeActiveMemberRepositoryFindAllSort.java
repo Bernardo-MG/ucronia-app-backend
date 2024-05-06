@@ -59,7 +59,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "name");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "person.name");
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -78,7 +78,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "name");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "person.name");
 
         // WHEN
         members = repository.findAll(pageable);
@@ -96,7 +96,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "person.surname");
 
         // WHEN
         members = repository.findAll(pageable);
@@ -114,7 +114,7 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "person.surname");
 
         // WHEN
         members = repository.findAll(pageable);
