@@ -27,17 +27,12 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.GuestSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberBalanceRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MonthlyMemberBalanceSpringRepository;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.service.DefaultGuestService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.association.member.usecase.service.GuestService;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.member.usecase.service.MemberService;
 
@@ -52,16 +47,6 @@ public class MemberConfig {
 
     public MemberConfig() {
         super();
-    }
-
-    @Bean("guestRepository")
-    public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository) {
-        return new JpaGuestRepository(guestSpringRepository);
-    }
-
-    @Bean("guestService")
-    public GuestService getGuestService(final GuestRepository guestRepository) {
-        return new DefaultGuestService(guestRepository);
     }
 
     @Bean("memberBalanceRepository")
