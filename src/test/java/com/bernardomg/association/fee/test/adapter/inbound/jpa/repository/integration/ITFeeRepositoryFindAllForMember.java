@@ -42,7 +42,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -64,7 +64,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         pageable = PageRequest.of(0, 20, Direction.ASC, "date");
 
         // WHEN
-        fees = repository.findAllForMember(MemberConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -88,7 +88,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         pageable = Pageable.unpaged();
 
         // WHEN
-        fees = repository.findAllForMember(MemberConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -108,7 +108,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         pageable = Pageable.unpaged();
 
         // WHEN
-        fees = repository.findAllForMember(MemberConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -128,7 +128,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         pageable = Pageable.unpaged();
 
         // WHEN
-        fees = repository.findAllForMember(MemberConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -148,7 +148,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         pageable = Pageable.unpaged();
 
         // WHEN
-        fees = repository.findAllForMember(MemberConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
 
         // THEN
         Assertions.assertThat(fees)

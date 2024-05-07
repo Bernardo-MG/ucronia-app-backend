@@ -34,7 +34,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,7 +50,7 @@ class ITFeeRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(MemberConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -66,7 +66,7 @@ class ITFeeRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(MemberConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -82,7 +82,7 @@ class ITFeeRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(MemberConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)

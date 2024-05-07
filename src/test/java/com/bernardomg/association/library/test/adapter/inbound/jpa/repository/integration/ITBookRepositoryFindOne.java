@@ -37,6 +37,7 @@ import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,6 +49,7 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With a full book, it is returned")
+    @ValidPerson
     @FullBook
     void _Full() {
         final Optional<Book> book;

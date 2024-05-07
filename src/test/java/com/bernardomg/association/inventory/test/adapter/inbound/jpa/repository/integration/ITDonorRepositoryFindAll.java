@@ -32,10 +32,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -68,9 +66,8 @@ class ITDonorRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a donor with member, it is returned")
-    @ValidMember
-    @DonorWithMember
+    @DisplayName("With a donor, it is returned")
+    @ValidPerson
     void testFindAll_WithMember() {
         final Iterable<Donor> donors;
         final Pageable        pageable;
@@ -84,26 +81,7 @@ class ITDonorRepositoryFindAll {
         // THEN
         Assertions.assertThat(donors)
             .as("donors")
-            .containsExactly(Donors.withMember());
-    }
-
-    @Test
-    @DisplayName("With a donor without member, it is returned")
-    @DonorWithoutMember
-    void testFindAll_WithoutMember() {
-        final Iterable<Donor> donors;
-        final Pageable        pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        donors = repository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(donors)
-            .as("donors")
-            .containsExactly(Donors.withoutMember());
+            .containsExactly(Donors.valid());
     }
 
 }

@@ -13,14 +13,6 @@ public interface DonorRepository {
 
     public boolean exists(final long number);
 
-    public boolean existsByMember(final long member);
-
-    public boolean existsByMemberForAnother(final long member, final long number);
-
-    public boolean existsByName(final String name);
-
-    public boolean existsByNameForAnother(final String name, final long number);
-
     public Iterable<Donor> findAll(Pageable pageable);
 
     public long findNextNumber();

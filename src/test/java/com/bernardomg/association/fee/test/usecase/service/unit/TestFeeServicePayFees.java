@@ -51,8 +51,8 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -85,13 +85,13 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
-        given(feeRepository.findAllForMemberInDates(MemberConstants.NUMBER, List.of(FeeConstants.DATE)))
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE)))
             .willReturn(List.of(Fees.paid()));
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -107,10 +107,10 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE), MemberConstants.NUMBER,
+        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -126,12 +126,12 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of());
-        given(feeRepository.findAllForMemberInDates(MemberConstants.NUMBER, List.of())).willReturn(List.of());
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of())).willReturn(List.of());
 
         // WHEN
-        fees = service.payFees(List.of(), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(List.of(), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -148,11 +148,11 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(feeRepository.existsPaid(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER,
+        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -167,10 +167,10 @@ class TestFeeServicePayFees {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER,
+        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -187,11 +187,11 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(feeRepository.existsPaid(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN

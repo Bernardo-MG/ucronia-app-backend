@@ -7,13 +7,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
 import com.bernardomg.association.inventory.domain.model.Donor;
+import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,27 +19,23 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaDonorRepository implements DonorRepository {
 
-    private final DonorSpringRepository  donorSpringRepository;
+    private final PersonSpringRepository personSpringRepository;
 
-    private final MemberSpringRepository memberSpringRepository;
-
-    public JpaDonorRepository(final DonorSpringRepository donorSpringRepo,
-            final MemberSpringRepository memberSpringRepo) {
+    public JpaDonorRepository(final PersonSpringRepository personSpringRepo) {
         super();
 
-        donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override
     public final void delete(final long number) {
-        final Optional<DonorEntity> transaction;
+        final Optional<PersonEntity> donor;
 
         log.debug("Deleting donor {}", number);
 
-        transaction = donorSpringRepository.findOneByNumber(number);
-        if (transaction.isPresent()) {
-            donorSpringRepository.deleteById(transaction.get()
+        donor = personSpringRepository.findByNumber(number);
+        if (donor.isPresent()) {
+            personSpringRepository.deleteById(donor.get()
                 .getId());
 
             log.debug("Deleted donor {}", number);
@@ -57,61 +51,9 @@ public final class JpaDonorRepository implements DonorRepository {
 
         log.debug("Checking if donor {} exists", number);
 
-        exists = donorSpringRepository.existsByNumber(number);
+        exists = personSpringRepository.existsByNumber(number);
 
         log.debug("Donor {} exists: {}", number, exists);
-
-        return exists;
-    }
-
-    @Override
-    public final boolean existsByMember(final long member) {
-        final boolean exists;
-
-        log.debug("Checking if donor member {} exists", member);
-
-        exists = donorSpringRepository.existsByMember(member);
-
-        log.debug("Donor member {} exists: {}", member, exists);
-
-        return exists;
-    }
-
-    @Override
-    public final boolean existsByMemberForAnother(final long member, final long number) {
-        final boolean exists;
-
-        log.debug("Checking if donor member {} for a donor distinct of {} exists", member, number);
-
-        exists = donorSpringRepository.existsByMemberAndNumberNot(member, number);
-
-        log.debug("Donor member {} for a donor distinct of {} exists: {}", member, number, exists);
-
-        return exists;
-    }
-
-    @Override
-    public final boolean existsByName(final String name) {
-        final boolean exists;
-
-        log.debug("Checking if donor name {} exists", name);
-
-        exists = donorSpringRepository.existsByName(name);
-
-        log.debug("Donor name {} exists: {}", name, exists);
-
-        return exists;
-    }
-
-    @Override
-    public final boolean existsByNameForAnother(final String name, final long number) {
-        final boolean exists;
-
-        log.debug("Checking if donor name {} for a donor distinct of {} exists", name, number);
-
-        exists = donorSpringRepository.existsByNameAndNumberNot(name, number);
-
-        log.debug("Donor name {} for a donor distinct of {} exists: {}", name, number, exists);
 
         return exists;
     }
@@ -122,7 +64,7 @@ public final class JpaDonorRepository implements DonorRepository {
 
         log.debug("Finding transactions with pagination {}", pageable);
 
-        read = donorSpringRepository.findAll(pageable)
+        read = personSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
         log.debug("Found transactions {}", read);
@@ -136,7 +78,7 @@ public final class JpaDonorRepository implements DonorRepository {
 
         log.debug("Finding next number for the donors");
 
-        number = donorSpringRepository.findNextNumber();
+        number = personSpringRepository.findNextNumber();
 
         log.debug("Found next number for the donors: {}", number);
 
@@ -149,7 +91,7 @@ public final class JpaDonorRepository implements DonorRepository {
 
         log.debug("Finding donor with number {}", number);
 
-        donor = donorSpringRepository.findByNumber(number)
+        donor = personSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
         log.debug("Found donor with number {}: {}", number, donor);
@@ -159,24 +101,24 @@ public final class JpaDonorRepository implements DonorRepository {
 
     @Override
     public final Donor save(final Donor donor) {
-        final Optional<DonorEntity> existing;
-        final DonorEntity           entity;
-        final DonorEntity           created;
-        final Donor                 saved;
+        final Optional<PersonEntity> existing;
+        final PersonEntity           entity;
+        final PersonEntity           created;
+        final Donor                  saved;
 
         log.debug("Saving donor {}", donor);
 
         entity = toEntity(donor);
 
-        existing = donorSpringRepository.findByNumber(donor.getNumber());
+        existing = personSpringRepository.findByNumber(donor.getNumber());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = donorSpringRepository.save(entity);
+        created = personSpringRepository.save(entity);
 
-        saved = donorSpringRepository.findOneByNumber(created.getNumber())
+        saved = personSpringRepository.findByNumber(created.getNumber())
             .map(this::toDomain)
             .get();
 
@@ -185,59 +127,29 @@ public final class JpaDonorRepository implements DonorRepository {
         return saved;
     }
 
-    private final Donor toDomain(final DonorEntity donor) {
-        final String name;
-        final Member member;
+    private final Donor toDomain(final PersonEntity donor) {
+        final DonorName donorName;
 
-        if (donor.getMember() == null) {
-            member = Member.builder()
-                .build();
-            name = donor.getName();
-        } else {
-            member = toDomain(donor.getMember());
-            name = member.getName()
-                .getFullName();
-        }
+        donorName = DonorName.builder()
+            .withFirstName(donor.getName())
+            .withLastName(donor.getSurname())
+            .build();
 
         return Donor.builder()
             .withNumber(donor.getNumber())
-            .withName(name)
-            .withMember(member)
+            .withName(donorName)
             .build();
     }
 
-    private final Member toDomain(final MemberEntity entity) {
-        final MemberName memberName;
-
-        memberName = MemberName.builder()
-            .withFirstName(entity.getPerson()
-                .getName())
-            .withLastName(entity.getPerson()
-                .getSurname())
-            .build();
-        return Member.builder()
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .withIdentifier(entity.getPerson()
-                .getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPerson()
-                .getPhone())
-            .withActive(true)
-            .build();
-    }
-
-    private final DonorEntity toEntity(final Donor donor) {
-        final MemberEntity member;
-
-        member = memberSpringRepository.findByNumber(donor.getMember()
-            .getNumber())
-            .orElse(null);
-
-        return DonorEntity.builder()
+    private final PersonEntity toEntity(final Donor donor) {
+        return PersonEntity.builder()
             .withNumber(donor.getNumber())
-            .withName(donor.getName())
-            .withMember(member)
+            .withName(donor.getName()
+                .getFirstName())
+            .withSurname(donor.getName()
+                .getLastName())
+            .withPhone("")
+            .withIdentifier("")
             .build();
     }
 

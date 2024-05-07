@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.inventory.adapter.outbound.rest.model;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public final class DonorCreation {
+public final class MemberCreationName {
 
-    @NotNull
-    @Valid
-    private MemberCreationName name;
+    private String firstName;
+
+    private String lastName;
 
 }

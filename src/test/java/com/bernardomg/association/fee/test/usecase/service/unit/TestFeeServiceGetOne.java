@@ -47,7 +47,7 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -78,12 +78,12 @@ class TestFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -97,12 +97,12 @@ class TestFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -116,11 +116,11 @@ class TestFeeServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -133,10 +133,10 @@ class TestFeeServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

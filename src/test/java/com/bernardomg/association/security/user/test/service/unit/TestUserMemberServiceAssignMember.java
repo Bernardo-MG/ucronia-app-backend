@@ -41,8 +41,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.association.security.user.test.config.factory.Users;
@@ -75,17 +75,17 @@ class TestUserMemberServiceAssignMember {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
-        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER))
+        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignMember(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+            FieldFailure.of("member", "existing", PersonConstants.NUMBER));
     }
 
     @Test
@@ -95,17 +95,17 @@ class TestUserMemberServiceAssignMember {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
-        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER))
+        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignMember(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+            FieldFailure.of("member", "existing", PersonConstants.NUMBER));
     }
 
     @Test
@@ -115,12 +115,12 @@ class TestUserMemberServiceAssignMember {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // TODO: assign when the user already has a member
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignMember(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -136,7 +136,7 @@ class TestUserMemberServiceAssignMember {
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignMember(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -149,13 +149,13 @@ class TestUserMemberServiceAssignMember {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        service.assignMember(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        verify(userMemberRepository).save(UserConstants.USERNAME, MemberConstants.NUMBER);
+        verify(userMemberRepository).save(UserConstants.USERNAME, PersonConstants.NUMBER);
     }
 
     @Test
@@ -165,11 +165,11 @@ class TestUserMemberServiceAssignMember {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(userMemberRepository.save(UserConstants.USERNAME, MemberConstants.NUMBER)).willReturn(Members.active());
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(userMemberRepository.save(UserConstants.USERNAME, PersonConstants.NUMBER)).willReturn(Members.active());
 
         // WHEN
-        member = service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        member = service.assignMember(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)

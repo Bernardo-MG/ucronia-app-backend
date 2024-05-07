@@ -13,9 +13,6 @@ INSERT INTO inventory.book_types (id, name) VALUES
 INSERT INTO inventory.game_systems (id, name) VALUES
    (1, 'Game system');
 
-INSERT INTO inventory.donors (id, number, name) VALUES
-   (1, 1, 'Donor');
-
 INSERT INTO inventory.book_authors (book_id, author_id) VALUES
    (1, 1);
 

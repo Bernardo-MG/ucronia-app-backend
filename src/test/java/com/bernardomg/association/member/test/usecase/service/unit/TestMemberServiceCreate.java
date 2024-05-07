@@ -39,8 +39,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -74,7 +74,7 @@ class TestMemberServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
             .withFirstName(" ")
-            .withLastName(MemberConstants.SURNAME)
+            .withLastName(PersonConstants.SURNAME)
             .build()));
     }
 
@@ -92,7 +92,7 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
-            .withLastName(MemberConstants.SURNAME)
+            .withLastName(PersonConstants.SURNAME)
             .build()));
     }
 
@@ -104,7 +104,7 @@ class TestMemberServiceCreate {
         // GIVEN
         member = Members.missingSurname();
 
-        given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
+        given(memberRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         service.create(member);
@@ -121,7 +121,7 @@ class TestMemberServiceCreate {
         // GIVEN
         member = Members.paddedWithWhitespaces();
 
-        given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
+        given(memberRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         service.create(member);
@@ -138,7 +138,7 @@ class TestMemberServiceCreate {
         // GIVEN
         member = Members.active();
 
-        given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
+        given(memberRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         service.create(member);
@@ -157,7 +157,7 @@ class TestMemberServiceCreate {
         member = Members.active();
 
         given(memberRepository.save(Members.inactive())).willReturn(Members.inactive());
-        given(memberRepository.findNextNumber()).willReturn(MemberConstants.NUMBER);
+        given(memberRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         created = service.create(member);

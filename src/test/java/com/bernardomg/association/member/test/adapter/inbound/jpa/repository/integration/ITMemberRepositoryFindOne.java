@@ -35,8 +35,8 @@ import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -55,7 +55,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -69,7 +69,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -86,7 +86,7 @@ class ITMemberRepositoryFindOne {
         feeInitializer.registerFeeCurrentMonth(false);
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -103,7 +103,7 @@ class ITMemberRepositoryFindOne {
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -120,7 +120,7 @@ class ITMemberRepositoryFindOne {
         feeInitializer.registerFeeNextMonth(true);
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -137,7 +137,7 @@ class ITMemberRepositoryFindOne {
         feeInitializer.registerFeePreviousMonth(true);
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)

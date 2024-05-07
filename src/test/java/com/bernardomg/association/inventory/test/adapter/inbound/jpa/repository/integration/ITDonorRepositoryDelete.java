@@ -29,12 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -42,10 +40,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITDonorRepositoryDelete {
 
     @Autowired
-    private DonorRepository       repository;
+    private DonorRepository        repository;
 
     @Autowired
-    private DonorSpringRepository springRepository;
+    private PersonSpringRepository springRepository;
 
     public ITDonorRepositoryDelete() {
         super();
@@ -59,34 +57,20 @@ class ITDonorRepositoryDelete {
 
         // THEN
         Assertions.assertThat(springRepository.count())
-            .as("transactions")
+            .as("persons")
             .isZero();
     }
 
     @Test
-    @DisplayName("When a donor with member exists, it is removed")
-    @ValidMember
-    @DonorWithMember
-    void testDelete_WithMember_RemovesEntity() {
+    @DisplayName("When a donor, it is removed")
+    @ValidPerson
+    void testDelete_RemovesEntity() {
         // WHEN
         repository.delete(DonorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
-            .as("transactions")
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When a donor without member exists, it is removed")
-    @DonorWithoutMember
-    void testDelete_WithoutMember_RemovesEntity() {
-        // WHEN
-        repository.delete(DonorConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("transactions")
+            .as("persons")
             .isZero();
     }
 

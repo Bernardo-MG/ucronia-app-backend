@@ -10,7 +10,7 @@ public final class BookLendingEntities {
     public static final BookLendingEntity lentNow() {
         return BookLendingEntity.builder()
             .withBookId(1L)
-            .withMemberId(1L)
+            .withPersonId(1L)
             .withLendingDate(YearMonth.now())
             .build();
     }

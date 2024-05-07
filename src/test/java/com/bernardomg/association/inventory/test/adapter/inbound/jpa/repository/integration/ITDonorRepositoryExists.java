@@ -30,10 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithMember;
-import com.bernardomg.association.inventory.test.config.data.annotation.DonorWithoutMember;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -42,6 +40,21 @@ class ITDonorRepositoryExists {
 
     @Autowired
     private DonorRepository repository;
+
+    @Test
+    @DisplayName("With an existing donor, it exists")
+    @ValidPerson
+    void testExists() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(DonorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
 
     @Test
     @DisplayName("With no donor, nothing exists")
@@ -55,37 +68,6 @@ class ITDonorRepositoryExists {
         Assertions.assertThat(exists)
             .as("exists")
             .isFalse();
-    }
-
-    @Test
-    @DisplayName("With an existing donor with member, it exists")
-    @ValidMember
-    @DonorWithMember
-    void testExists_WithMember() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(DonorConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With an existing donor without member, it exists")
-    @DonorWithoutMember
-    void testExists_WithoutMember() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(DonorConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
     }
 
 }

@@ -42,9 +42,6 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -54,9 +51,6 @@ class TestDonorServiceUpdate {
 
     @Mock
     private DonorRepository     donorRepository;
-
-    @Mock
-    private MemberRepository    memberRepository;
 
     @InjectMocks
     private DefaultDonorService service;
@@ -75,53 +69,12 @@ class TestDonorServiceUpdate {
         donor = Donors.emptyName();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(donor);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
-    }
-
-    @Test
-    @DisplayName("With a donor with an existing member, an exception is thrown")
-    void testUpdate_ExistingMember() {
-        final ThrowingCallable execution;
-        final Donor            author;
-
-        // GIVEN
-        author = Donors.withMember();
-
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(donorRepository.existsByMemberForAnother(MemberConstants.NUMBER, DonorConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.update(author);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
-    }
-
-    @Test
-    @DisplayName("With a donor with an existing name, an exception is thrown")
-    void testUpdate_ExistingName() {
-        final ThrowingCallable execution;
-        final Donor            donor;
-
-        // GIVEN
-        donor = Donors.withoutMember();
-
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(donorRepository.existsByNameForAnother(DonorConstants.NAME, DonorConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.update(donor);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", DonorConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test
@@ -144,71 +97,12 @@ class TestDonorServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing member, an exception is thrown")
-    void testUpdate_NotExistingMember_Exception() {
-        final ThrowingCallable execution;
-        final Donor            donor;
-
-        // GIVEN
-        donor = Donors.withMember();
-
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.update(donor);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
-    }
-
-    @Test
-    @DisplayName("With a donor with member, the donor is persisted")
-    void testUpdate_WithMember_PersistedData() {
+    @DisplayName("With a donor, the donor is persisted")
+    void testUpdate_PersistedData() {
         final Donor donor;
 
         // GIVEN
-        donor = Donors.withMember();
-
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        service.update(donor);
-
-        // THEN
-        verify(donorRepository).save(Donors.withMember());
-    }
-
-    @Test
-    @DisplayName("With a valid donor with member, the created donor is returned")
-    void testUpdate_WithMember_ReturnedData() {
-        final Donor donor;
-        final Donor created;
-
-        // GIVEN
-        donor = Donors.withMember();
-
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(donorRepository.save(Donors.withMember())).willReturn(Donors.withMember());
-
-        // WHEN
-        created = service.update(donor);
-
-        // THEN
-        Assertions.assertThat(created)
-            .isEqualTo(Donors.withMember());
-    }
-
-    @Test
-    @DisplayName("With a donor without member, the donor is persisted")
-    void testUpdate_WithoutMember_PersistedData() {
-        final Donor donor;
-
-        // GIVEN
-        donor = Donors.withoutMember();
+        donor = Donors.valid();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
@@ -216,27 +110,27 @@ class TestDonorServiceUpdate {
         service.update(donor);
 
         // THEN
-        verify(donorRepository).save(Donors.withoutMember());
+        verify(donorRepository).save(Donors.valid());
     }
 
     @Test
-    @DisplayName("With a valid donor without member, the created donor is returned")
-    void testUpdate_WithoutMember_ReturnedData() {
+    @DisplayName("With a valid donor, the created donor is returned")
+    void testUpdate_ReturnedData() {
         final Donor donor;
         final Donor created;
 
         // GIVEN
-        donor = Donors.withoutMember();
+        donor = Donors.valid();
 
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(donorRepository.save(Donors.withoutMember())).willReturn(Donors.withoutMember());
+        given(donorRepository.save(Donors.valid())).willReturn(Donors.valid());
 
         // WHEN
         created = service.update(donor);
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Donors.withoutMember());
+            .isEqualTo(Donors.valid());
     }
 
 }

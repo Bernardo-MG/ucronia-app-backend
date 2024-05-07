@@ -6,13 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
-import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.DonorEntities;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.member.test.config.factory.PersonEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -20,20 +20,20 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITDonorRepositorySave {
 
     @Autowired
-    private DonorRepository       repository;
+    private DonorRepository        repository;
 
     @Autowired
-    private DonorSpringRepository springRepository;
+    private PersonSpringRepository springRepository;
 
     @Test
-    @DisplayName("Persists a donor with member")
-    @ValidMember
-    void testSave_WithMember_PersistedData() {
-        final Iterable<DonorEntity> donors;
-        final Donor                 transaction;
+    @DisplayName("Persists a donor")
+    @ValidPerson
+    void testSave_PersistedData() {
+        final Iterable<PersonEntity> donors;
+        final Donor                  transaction;
 
         // GIVEN
-        transaction = Donors.withMember();
+        transaction = Donors.valid();
 
         // WHEN
         repository.save(transaction);
@@ -45,18 +45,18 @@ class ITDonorRepositorySave {
             .as("donors")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.id",
                 "member.person.id")
-            .containsExactly(DonorEntities.withMember());
+            .containsExactly(PersonEntities.minimal());
     }
 
     @Test
-    @DisplayName("Returns the created data after persisting a donor with member")
-    @ValidMember
-    void testSave_WithMember_ReturnedData() {
+    @DisplayName("Returns the created data after persisting a donor")
+    @ValidPerson
+    void testSave_ReturnedData() {
         final Donor created;
         final Donor donor;
 
         // GIVEN
-        donor = Donors.withMember();
+        donor = Donors.valid();
 
         // WHEN
         created = repository.save(donor);
@@ -64,46 +64,7 @@ class ITDonorRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
-            .isEqualTo(Donors.withMember());
-    }
-
-    @Test
-    @DisplayName("Persists a donor without member")
-    void testSave_WithoutMember_PersistedData() {
-        final Iterable<DonorEntity> donors;
-        final Donor                 transaction;
-
-        // GIVEN
-        transaction = Donors.withoutMember();
-
-        // WHEN
-        repository.save(transaction);
-
-        // THEN
-        donors = springRepository.findAll();
-
-        Assertions.assertThat(donors)
-            .as("donors")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(DonorEntities.withoutMember());
-    }
-
-    @Test
-    @DisplayName("Returns the created data after persisting a donor without member")
-    void testSave_WithoutMember_ReturnedData() {
-        final Donor created;
-        final Donor donor;
-
-        // GIVEN
-        donor = Donors.withoutMember();
-
-        // WHEN
-        created = repository.save(donor);
-
-        // THEN
-        Assertions.assertThat(created)
-            .as("created")
-            .isEqualTo(Donors.withoutMember());
+            .isEqualTo(Donors.valid());
     }
 
 }

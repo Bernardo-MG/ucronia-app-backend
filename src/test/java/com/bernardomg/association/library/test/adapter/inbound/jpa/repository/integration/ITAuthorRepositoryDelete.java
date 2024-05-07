@@ -36,6 +36,7 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -63,6 +64,7 @@ class ITAuthorRepositoryDelete {
 
     @Test
     @DisplayName("When the author is assigned to a book, an exception is thrown")
+    @ValidPerson
     @FullBook
     void testDelete_InBook() {
         final ThrowingCallable execution;

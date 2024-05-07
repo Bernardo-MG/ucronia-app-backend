@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -79,11 +79,11 @@ class TestFeeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -96,10 +96,10 @@ class TestFeeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -110,14 +110,14 @@ class TestFeeServiceDelete {
     @DisplayName("Calls the repository when deleting")
     void testDelete_NotPaid_RemovesEntity() {
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        verify(feeRepository).delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        verify(feeRepository).delete(PersonConstants.NUMBER, FeeConstants.DATE);
     }
 
 }

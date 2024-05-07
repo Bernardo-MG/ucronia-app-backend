@@ -27,13 +27,11 @@ package com.bernardomg.association.inventory.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.JpaDonorRepository;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 /**
  * Transaction configuration.
@@ -49,15 +47,13 @@ public class InventoryConfig {
     }
 
     @Bean("donorRepository")
-    public DonorRepository getDonorRepository(final DonorSpringRepository donorSpringRepository,
-            final MemberSpringRepository memberSpringRepository) {
-        return new JpaDonorRepository(donorSpringRepository, memberSpringRepository);
+    public DonorRepository getDonorRepository(final PersonSpringRepository personSpringRepository) {
+        return new JpaDonorRepository(personSpringRepository);
     }
 
     @Bean("donorService")
-    public DonorService getDonorService(final DonorRepository donorRepository,
-            final MemberRepository memberRepository) {
-        return new DefaultDonorService(donorRepository, memberRepository);
+    public DonorService getDonorService(final DonorRepository donorRepository) {
+        return new DefaultDonorService(donorRepository);
     }
 
 }

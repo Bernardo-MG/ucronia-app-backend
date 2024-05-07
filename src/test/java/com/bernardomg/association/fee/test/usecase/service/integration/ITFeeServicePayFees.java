@@ -46,7 +46,7 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
@@ -87,7 +87,7 @@ class ITFeeServicePayFees {
         final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -107,7 +107,7 @@ class ITFeeServicePayFees {
         final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -127,7 +127,7 @@ class ITFeeServicePayFees {
         final Collection<Fee> fees;
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -143,7 +143,7 @@ class ITFeeServicePayFees {
         final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -164,7 +164,7 @@ class ITFeeServicePayFees {
         final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -185,7 +185,7 @@ class ITFeeServicePayFees {
         final Collection<Fee> fees;
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -201,7 +201,7 @@ class ITFeeServicePayFees {
         final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -220,7 +220,7 @@ class ITFeeServicePayFees {
     void testCreate_MultipleDates_PersistedRelationship() {
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -236,7 +236,7 @@ class ITFeeServicePayFees {
         final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -256,7 +256,7 @@ class ITFeeServicePayFees {
         final Collection<Fee> fees;
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), MemberConstants.NUMBER,
+        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -272,7 +272,7 @@ class ITFeeServicePayFees {
         final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -292,7 +292,7 @@ class ITFeeServicePayFees {
         final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE), MemberConstants.NUMBER,
+        service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE), PersonConstants.NUMBER,
             FeeConstants.PAYMENT_DATE);
 
         // THEN
@@ -313,7 +313,7 @@ class ITFeeServicePayFees {
 
         // WHEN
         fees = service.payFees(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE),
-            MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+            PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)
@@ -327,7 +327,7 @@ class ITFeeServicePayFees {
         final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -346,7 +346,7 @@ class ITFeeServicePayFees {
         final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = feeRepository.findAll();
@@ -367,7 +367,7 @@ class ITFeeServicePayFees {
         final TransactionEntity transaction;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(feePaymentRepository.count())
@@ -397,7 +397,7 @@ class ITFeeServicePayFees {
         final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entities = transactionRepository.findAll();
@@ -420,7 +420,7 @@ class ITFeeServicePayFees {
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
-        service.payFees(List.of(FeeConstants.NEXT_DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.NEXT_DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entity = transactionRepository.findOneByIndex(2);
@@ -437,7 +437,7 @@ class ITFeeServicePayFees {
         final Optional<TransactionEntity> entity;
 
         // WHEN
-        service.payFees(List.of(FeeConstants.NEXT_DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(List.of(FeeConstants.NEXT_DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         entity = transactionRepository.findOneByIndex(1);
@@ -454,7 +454,7 @@ class ITFeeServicePayFees {
         final Collection<Fee> fees;
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
         Assertions.assertThat(fees)

@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.inventory.adapter.outbound.rest.model.DonorCreation;
 import com.bernardomg.association.inventory.domain.model.Donor;
+import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -69,7 +69,7 @@ public class DonorController {
     public Donor create(@Valid @RequestBody final DonorCreation creation) {
         final Donor donor;
 
-        donor = toDomain(creation, -1);
+        donor = toDomain(-1, creation);
         return service.create(donor);
     }
 
@@ -97,26 +97,22 @@ public class DonorController {
     public Donor update(@PathVariable("number") final long number, @Valid @RequestBody final DonorCreation change) {
         final Donor donor;
 
-        donor = toDomain(change, number);
+        donor = toDomain(number, change);
         return service.update(donor);
     }
 
-    private final Donor toDomain(final DonorCreation data, final long number) {
-        final Member member;
-        final long   memberNumber;
+    private final Donor toDomain(final long number, final DonorCreation change) {
+        final DonorName name;
 
-        if (data.getMember() == null) {
-            memberNumber = -1;
-        } else {
-            memberNumber = data.getMember();
-        }
-        member = Member.builder()
-            .withNumber(memberNumber)
+        name = DonorName.builder()
+            .withFirstName(change.getName()
+                .getFirstName())
+            .withLastName(change.getName()
+                .getLastName())
             .build();
         return Donor.builder()
             .withNumber(number)
-            .withName(data.getName())
-            .withMember(member)
+            .withName(name)
             .build();
     }
 

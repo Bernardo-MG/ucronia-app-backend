@@ -43,7 +43,6 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DonorService - get one")
@@ -51,9 +50,6 @@ class TestDonorServiceGetOne {
 
     @Mock
     private DonorRepository     donorRepository;
-
-    @Mock
-    private MemberRepository    memberRepository;
 
     @InjectMocks
     private DefaultDonorService service;
@@ -68,7 +64,7 @@ class TestDonorServiceGetOne {
         final Optional<Donor> donor;
 
         // GIVEN
-        given(donorRepository.findOne(DonorConstants.NUMBER)).willReturn(Optional.of(Donors.withoutMember()));
+        given(donorRepository.findOne(DonorConstants.NUMBER)).willReturn(Optional.of(Donors.valid()));
 
         // WHEN
         donor = service.getOne(DonorConstants.NUMBER);
@@ -76,7 +72,7 @@ class TestDonorServiceGetOne {
         // THEN
         Assertions.assertThat(donor)
             .as("donor")
-            .contains(Donors.withoutMember());
+            .contains(Donors.valid());
     }
 
     @Test

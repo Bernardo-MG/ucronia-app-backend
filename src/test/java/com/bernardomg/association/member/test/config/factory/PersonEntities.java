@@ -5,10 +5,20 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
 
 public final class PersonEntities {
 
+    public static final PersonEntity minimal() {
+        return PersonEntity.builder()
+            .withNumber(PersonConstants.NUMBER)
+            .withName(PersonConstants.NAME)
+            .withSurname(PersonConstants.SURNAME)
+            .withPhone("")
+            .withIdentifier("")
+            .build();
+    }
+
     public static final PersonEntity missingSurname() {
         return PersonEntity.builder()
-            .withNumber(MemberConstants.NUMBER)
-            .withName(MemberConstants.NAME)
+            .withNumber(PersonConstants.NUMBER)
+            .withName(PersonConstants.NAME)
             .withPhone("12345")
             .withIdentifier("6789")
             .build();
@@ -16,8 +26,8 @@ public final class PersonEntities {
 
     public static final PersonEntity nameChange() {
         return PersonEntity.builder()
-            .withNumber(MemberConstants.NUMBER)
-            .withName("Member 123")
+            .withNumber(PersonConstants.NUMBER)
+            .withName("Person 123")
             .withSurname("Surname")
             .withPhone("12345")
             .withIdentifier("6789")
@@ -26,9 +36,9 @@ public final class PersonEntities {
 
     public static final PersonEntity valid() {
         return PersonEntity.builder()
-            .withNumber(MemberConstants.NUMBER)
-            .withName(MemberConstants.NAME)
-            .withSurname(MemberConstants.SURNAME)
+            .withNumber(PersonConstants.NUMBER)
+            .withName(PersonConstants.NAME)
+            .withSurname(PersonConstants.SURNAME)
             .withPhone("12345")
             .withIdentifier("6789")
             .build();
@@ -36,7 +46,7 @@ public final class PersonEntities {
 
     public static final PersonEntity valid(final int index) {
         return PersonEntity.builder()
-            .withNumber(MemberConstants.NUMBER)
+            .withNumber(PersonConstants.NUMBER)
             .withName("Member " + index)
             .withSurname("Surname " + index)
             .withPhone("12345")

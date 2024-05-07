@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,7 +48,7 @@ class ITMemberRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(MemberConstants.NUMBER);
+        exists = repository.exists(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -62,7 +62,7 @@ class ITMemberRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(MemberConstants.NUMBER);
+        exists = repository.exists(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

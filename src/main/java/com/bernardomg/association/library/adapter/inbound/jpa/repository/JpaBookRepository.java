@@ -10,9 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.inventory.adapter.inbound.jpa.model.DonorEntity;
-import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.DonorSpringRepository;
 import com.bernardomg.association.inventory.domain.model.Donor;
+import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookTypeEntity;
@@ -24,9 +23,8 @@ import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,15 +38,15 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookTypeSpringRepository   bookTypeSpringRepository;
 
-    private final DonorSpringRepository      donorSpringRepository;
-
     private final GameSystemSpringRepository gameSystemSpringRepository;
+
+    private final PersonSpringRepository     personSpringRepository;
 
     private final PublisherSpringRepository  publisherSpringRepository;
 
     public JpaBookRepository(final BookSpringRepository bookSpringRepo, final AuthorSpringRepository authorSpringRepo,
             final PublisherSpringRepository publisherSpringRepo, final BookTypeSpringRepository bookTypeSpringRepo,
-            final GameSystemSpringRepository gameSystemSpringRepo, final DonorSpringRepository donorSpringRepo) {
+            final GameSystemSpringRepository gameSystemSpringRepo, final PersonSpringRepository personSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -56,7 +54,7 @@ public final class JpaBookRepository implements BookRepository {
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
         bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
         gameSystemSpringRepository = Objects.requireNonNull(gameSystemSpringRepo);
-        donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
+        personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override
@@ -240,45 +238,22 @@ public final class JpaBookRepository implements BookRepository {
             .build();
     }
 
-    private final Donor toDomain(final DonorEntity entity) {
-        final Member member;
-
-        if (entity.getMember() == null) {
-            member = Member.builder()
-                .build();
-        } else {
-            member = toDomain(entity.getMember());
-        }
-        return Donor.builder()
-            .withNumber(entity.getNumber())
-            .withName(entity.getName())
-            .withMember(member)
-            .build();
-    }
-
     private final GameSystem toDomain(final GameSystemEntity entity) {
         return GameSystem.builder()
             .withName(entity.getName())
             .build();
     }
 
-    private final Member toDomain(final MemberEntity entity) {
-        final MemberName memberName;
+    private final Donor toDomain(final PersonEntity entity) {
+        final DonorName name;
 
-        memberName = MemberName.builder()
-            .withFirstName(entity.getPerson()
-                .getName())
-            .withLastName(entity.getPerson()
-                .getSurname())
+        name = DonorName.builder()
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
             .build();
-        return Member.builder()
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .withIdentifier(entity.getPerson()
-                .getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPerson()
-                .getPhone())
+        return Donor.builder()
+            .withNumber(entity.getNumber())
+            .withName(name)
             .build();
     }
 
@@ -293,7 +268,7 @@ public final class JpaBookRepository implements BookRepository {
         final Optional<PublisherEntity>  publisher;
         final Optional<BookTypeEntity>   bookType;
         final Optional<GameSystemEntity> gameSystem;
-        final Optional<DonorEntity>      donor;
+        final Optional<PersonEntity>     donor;
         final Collection<AuthorEntity>   authors;
 
         if (domain.getPublisher() == null) {
@@ -317,7 +292,7 @@ public final class JpaBookRepository implements BookRepository {
         if (domain.getDonor() == null) {
             donor = Optional.empty();
         } else {
-            donor = donorSpringRepository.findOneByNumber(domain.getDonor()
+            donor = personSpringRepository.findByNumber(domain.getDonor()
                 .getNumber());
         }
 

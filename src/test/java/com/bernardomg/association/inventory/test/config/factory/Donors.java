@@ -2,35 +2,34 @@
 package com.bernardomg.association.inventory.test.config.factory;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.inventory.domain.model.DonorName;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 
 public final class Donors {
 
     public static final Donor emptyName() {
+        final DonorName name;
+
+        name = DonorName.builder()
+            .withFirstName(" ")
+            .withLastName(PersonConstants.SURNAME)
+            .build();
         return Donor.builder()
             .withNumber(DonorConstants.NUMBER)
-            .withName(" ")
-            .withMember(Members.active())
+            .withName(name)
             .build();
     }
 
-    public static final Donor withMember() {
-        return Donor.builder()
-            .withNumber(DonorConstants.NUMBER)
-            .withName(MemberConstants.NAME_WITH_MEMBER)
-            .withMember(Members.active())
-            .build();
-    }
+    public static final Donor valid() {
+        final DonorName name;
 
-    public static final Donor withoutMember() {
+        name = DonorName.builder()
+            .withFirstName(PersonConstants.NAME)
+            .withLastName(PersonConstants.SURNAME)
+            .build();
         return Donor.builder()
             .withNumber(DonorConstants.NUMBER)
-            .withName(DonorConstants.NAME)
-            .withMember(Member.builder()
-                .withNumber(-1)
-                .build())
+            .withName(name)
             .build();
     }
 

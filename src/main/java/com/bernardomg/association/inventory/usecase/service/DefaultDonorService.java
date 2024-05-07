@@ -12,8 +12,6 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.usecase.validation.CreateDonorValidator;
 import com.bernardomg.association.inventory.usecase.validation.UpdateDonorValidator;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,18 +23,15 @@ public final class DefaultDonorService implements DonorService {
 
     private final DonorRepository      donorRepository;
 
-    private final MemberRepository     memberRepository;
-
     private final UpdateDonorValidator updateDonorValidator;
 
-    public DefaultDonorService(final DonorRepository donorRepo, final MemberRepository memberRepo) {
+    public DefaultDonorService(final DonorRepository donorRepo) {
         super();
 
         donorRepository = Objects.requireNonNull(donorRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
 
-        createDonorValidator = new CreateDonorValidator(donorRepo);
-        updateDonorValidator = new UpdateDonorValidator(donorRepo);
+        createDonorValidator = new CreateDonorValidator();
+        updateDonorValidator = new UpdateDonorValidator();
     }
 
     @Override
@@ -46,14 +41,6 @@ public final class DefaultDonorService implements DonorService {
 
         log.debug("Creating donor {}", donor);
 
-        if ((donor.getMember()
-            .getNumber() >= 0) && !memberRepository.exists(
-                donor.getMember()
-                    .getNumber())) {
-            throw new MissingMemberException(donor.getMember()
-                .getNumber());
-        }
-
         createDonorValidator.validate(donor);
 
         // Set number
@@ -61,7 +48,6 @@ public final class DefaultDonorService implements DonorService {
 
         toCreate = Donor.builder()
             .withName(donor.getName())
-            .withMember(donor.getMember())
             .withNumber(number)
             .build();
 
@@ -107,14 +93,6 @@ public final class DefaultDonorService implements DonorService {
 
         if (!donorRepository.exists(donor.getNumber())) {
             throw new MissingDonorException(donor.getNumber());
-        }
-
-        if ((donor.getMember()
-            .getNumber() >= 0) && !memberRepository.exists(
-                donor.getMember()
-                    .getNumber())) {
-            throw new MissingMemberException(donor.getMember()
-                .getNumber());
         }
 
         updateDonorValidator.validate(donor);

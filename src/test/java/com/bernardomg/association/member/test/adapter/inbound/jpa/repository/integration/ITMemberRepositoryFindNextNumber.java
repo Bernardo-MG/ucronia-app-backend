@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITMemberRepositoryFindNextNumber {
         // THEN
         Assertions.assertThat(number)
             .as("number")
-            .isEqualTo(MemberConstants.NUMBER + 1);
+            .isEqualTo(PersonConstants.NUMBER + 1);
     }
 
     @Test

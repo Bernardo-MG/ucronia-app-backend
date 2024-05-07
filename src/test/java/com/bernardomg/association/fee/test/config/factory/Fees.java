@@ -8,7 +8,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 
 public final class Fees {
@@ -18,8 +18,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName("Member 2 Surname 2")
-            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withFullName("Person 2 Surname 2")
+            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
@@ -38,8 +38,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
@@ -56,8 +56,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.INDEX)
@@ -76,8 +76,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
@@ -94,7 +94,7 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName("Member " + index + " Surname " + index)
+            .withFullName("Person " + index + " Surname " + index)
             .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
@@ -112,8 +112,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
@@ -130,8 +130,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
@@ -148,8 +148,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
@@ -166,8 +166,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
@@ -184,8 +184,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.INDEX)
@@ -204,8 +204,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex((long) month)
@@ -224,8 +224,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -244,7 +244,7 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName("Member " + index + " Surname " + index)
+            .withFullName("Person " + index + " Surname " + index)
             .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
@@ -264,8 +264,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
-            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withFullName(PersonConstants.ALTERNATIVE_FULL_NAME)
+            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex((long) month + 29)
@@ -284,8 +284,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex((long) month)
@@ -304,8 +304,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex((long) month)
@@ -324,8 +324,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -344,8 +344,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.INDEX)
@@ -364,8 +364,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -384,8 +384,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -404,8 +404,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -424,8 +424,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.INDEX)
@@ -444,8 +444,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -464,8 +464,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -484,8 +484,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.INDEX)
@@ -504,8 +504,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -524,8 +524,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(TransactionConstants.INDEX_SMALL)
@@ -544,8 +544,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -564,8 +564,8 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .withIndex(index)
@@ -583,7 +583,7 @@ public final class Fees {
         final FeeMember member;
 
         member = FeeMember.builder()
-            .withNumber(MemberConstants.NUMBER)
+            .withNumber(PersonConstants.NUMBER)
             .build();
         return Fee.builder()
             .withDate(FeeConstants.CURRENT_MONTH)

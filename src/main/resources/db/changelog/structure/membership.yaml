@@ -32,8 +32,6 @@ databaseChangeLog:
               - column:
                   name: phone
                   type: varchar(15)
-                  constraints:
-                    nullable: false
                   defaultValue: ''
               - column:
                   name: identifier
