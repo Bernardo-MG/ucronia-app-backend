@@ -32,6 +32,6 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingE
 
 public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, Long> {
 
-    public Optional<BookLendingEntity> findOneByBookIdAndPersonId(final long book, final long person);
+    public Optional<BookLendingEntity> findByBookIdAndMemberId(final long book, final long member);
 
 }

@@ -54,7 +54,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game system with name {}", name);
 
-        gameSystem = gameSystemRepository.findOneByName(name)
+        gameSystem = gameSystemRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found game system with name {}: {}", name, gameSystem);

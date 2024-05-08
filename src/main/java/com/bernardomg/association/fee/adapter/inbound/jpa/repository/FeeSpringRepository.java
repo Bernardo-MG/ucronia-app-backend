@@ -54,6 +54,6 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<FeeEntity> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
+    public Optional<FeeEntity> findByMemberIdAndDate(final Long memberId, final YearMonth date);
 
 }

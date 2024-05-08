@@ -70,7 +70,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         log.debug("Finding author with name {}", name);
 
-        author = authorSpringRepository.findOneByName(name)
+        author = authorSpringRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found author with name {}: {}", name, author);

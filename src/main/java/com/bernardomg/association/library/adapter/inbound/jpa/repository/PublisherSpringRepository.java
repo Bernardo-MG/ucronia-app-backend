@@ -44,6 +44,6 @@ public interface PublisherSpringRepository extends JpaRepository<PublisherEntity
 
     public Collection<PublisherEntity> findAllByNameIn(final Collection<String> names);
 
-    public Optional<PublisherEntity> findOneByName(final String name);
+    public Optional<PublisherEntity> findByName(final String name);
 
 }

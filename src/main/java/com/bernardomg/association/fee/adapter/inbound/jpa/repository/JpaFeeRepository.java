@@ -286,7 +286,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding fee for member {} in date {}", memberNumber, date);
 
-        read = memberFeeSpringRepository.findOneByMemberNumberAndDate(memberNumber, date);
+        read = memberFeeSpringRepository.findByMemberNumberAndDate(memberNumber, date);
 
         found = read.map(this::toDomain);
 
@@ -325,7 +325,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(Fee::getDate)
             .toList();
 
-        transactionEntity = transactionSpringRepository.findOneByIndex(transaction.getIndex())
+        transactionEntity = transactionSpringRepository.findByIndex(transaction.getIndex())
             .get();
         read = memberFeeSpringRepository.findAllByMemberNumberAndDateIn(member.getNumber(), feeDates);
 
@@ -372,7 +372,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeEntity> read;
 
         // TODO: optimize to use a single query
-        read = feeSpringRepository.findOneByMemberIdAndDate(fee.getMemberId(), fee.getDate());
+        read = feeSpringRepository.findByMemberIdAndDate(fee.getMemberId(), fee.getDate());
         if (read.isPresent()) {
             id = read.get()
                 .getId();

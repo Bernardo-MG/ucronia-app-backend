@@ -42,11 +42,11 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Finding book lending for book {} and member {}", index, member);
 
-        bookEntity = bookSpringRepository.findOneByNumber(index);
+        bookEntity = bookSpringRepository.findByNumber(index);
         personEntity = personSpringRepository.findByNumber(member);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            lending = bookLendingSpringRepository.findOneByBookIdAndPersonId(bookEntity.get()
+            lending = bookLendingSpringRepository.findByBookIdAndMemberId(bookEntity.get()
                 .getId(),
                 personEntity.get()
                     .getId())
@@ -71,7 +71,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Saving book lending {}", lending);
 
-        bookEntity = bookSpringRepository.findOneByNumber(lending.getNumber());
+        bookEntity = bookSpringRepository.findByNumber(lending.getNumber());
         personEntity = personSpringRepository.findByNumber(lending.getMember());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
