@@ -44,6 +44,6 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
 
     public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);
 
-    public Optional<AuthorEntity> findOneByName(final String name);
+    public Optional<AuthorEntity> findByName(final String name);
 
 }

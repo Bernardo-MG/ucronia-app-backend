@@ -423,7 +423,7 @@ class ITFeeServicePayFees {
         service.payFees(List.of(FeeConstants.NEXT_DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        entity = transactionRepository.findOneByIndex(2);
+        entity = transactionRepository.findByIndex(2);
 
         Assertions.assertThat(entity)
             .isNotEmpty();
@@ -440,7 +440,7 @@ class ITFeeServicePayFees {
         service.payFees(List.of(FeeConstants.NEXT_DATE), MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        entity = transactionRepository.findOneByIndex(1);
+        entity = transactionRepository.findByIndex(1);
 
         Assertions.assertThat(entity)
             .isNotEmpty();

@@ -1,7 +1,10 @@
 
 package com.bernardomg.association.architecture.rule;
 
+import static com.tngtech.archunit.lang.conditions.ArchConditions.haveNameStartingWith;
+import static com.tngtech.archunit.lang.conditions.ArchConditions.not;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 import org.springframework.stereotype.Repository;
 
@@ -54,5 +57,12 @@ public final class RepositoryRules {
         .that(Predicates.areSpringRepositoryClasses())
         .should()
         .haveSimpleNameEndingWith("SpringRepository");
+
+    @ArchTest
+    static final ArchRule spring_repositories_should_no_have_find_one                    = methods().that()
+        .areDeclaredInClassesThat(Predicates.areSpringRepositoryClasses())
+        .and()
+        .arePublic()
+        .should(not(haveNameStartingWith("findOne")));
 
 }

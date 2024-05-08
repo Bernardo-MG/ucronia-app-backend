@@ -69,7 +69,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
         log.debug("Finding book type with name {}", name);
 
-        bookType = bookTypeSpringRepository.findOneByName(name)
+        bookType = bookTypeSpringRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found book type with name {}: {}", name, bookType);

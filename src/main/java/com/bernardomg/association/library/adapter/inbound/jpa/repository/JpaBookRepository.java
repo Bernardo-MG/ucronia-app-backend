@@ -132,7 +132,7 @@ public final class JpaBookRepository implements BookRepository {
 
         log.debug("Finding book {}", index);
 
-        book = bookSpringRepository.findOneByNumber(index)
+        book = bookSpringRepository.findByNumber(index)
             .map(this::toDomain);
 
         log.debug("Found book {}: {}", index, book);
@@ -151,7 +151,7 @@ public final class JpaBookRepository implements BookRepository {
 
         entity = toEntity(book);
 
-        existing = bookSpringRepository.findOneByNumber(book.getNumber());
+        existing = bookSpringRepository.findByNumber(book.getNumber());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -244,19 +244,19 @@ public final class JpaBookRepository implements BookRepository {
         if (domain.getPublisher() == null) {
             publisher = Optional.empty();
         } else {
-            publisher = publisherSpringRepository.findOneByName(domain.getPublisher()
+            publisher = publisherSpringRepository.findByName(domain.getPublisher()
                 .getName());
         }
         if (domain.getBookType() == null) {
             bookType = Optional.empty();
         } else {
-            bookType = bookTypeSpringRepository.findOneByName(domain.getBookType()
+            bookType = bookTypeSpringRepository.findByName(domain.getBookType()
                 .getName());
         }
         if (domain.getGameSystem() == null) {
             gameSystem = Optional.empty();
         } else {
-            gameSystem = gameSystemSpringRepository.findOneByName(domain.getGameSystem()
+            gameSystem = gameSystemSpringRepository.findByName(domain.getGameSystem()
                 .getName());
         }
 

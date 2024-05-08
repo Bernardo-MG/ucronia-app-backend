@@ -41,12 +41,12 @@ public interface TransactionSpringRepository
 
     public boolean existsByIndex(final long index);
 
+    public Optional<TransactionEntity> findByIndex(final long index);
+
     @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY year, month ORDER BY year, month ASC")
     public Collection<Month> findMonths();
 
     @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
     public Long findNextIndex();
-
-    public Optional<TransactionEntity> findOneByIndex(final long index);
 
 }

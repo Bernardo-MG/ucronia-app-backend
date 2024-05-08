@@ -102,7 +102,7 @@ public interface MemberFeeSpringRepository
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<MemberFeeEntity> findOneByMemberNumberAndDate(final Long memberNumber, final YearMonth date);
+    public Optional<MemberFeeEntity> findByMemberNumberAndDate(final Long memberNumber, final YearMonth date);
 
     /**
      * Returns all the years based on the existing fees.

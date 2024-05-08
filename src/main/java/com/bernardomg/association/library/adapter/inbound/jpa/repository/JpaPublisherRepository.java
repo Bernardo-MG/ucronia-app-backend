@@ -69,7 +69,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         log.debug("Finding publisher with name {}", name);
 
-        publisher = publisherSpringRepository.findOneByName(name)
+        publisher = publisherSpringRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found publisher with name {}: {}", name, publisher);
