@@ -46,7 +46,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         personEntity = personSpringRepository.findByNumber(member);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            lending = bookLendingSpringRepository.findByBookIdAndMemberId(bookEntity.get()
+            lending = bookLendingSpringRepository.findByBookIdAndPersonId(bookEntity.get()
                 .getId(),
                 personEntity.get()
                     .getId())
