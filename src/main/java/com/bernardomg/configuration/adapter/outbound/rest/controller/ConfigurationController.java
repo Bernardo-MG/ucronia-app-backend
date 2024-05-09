@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.configuration.adapter.outbound.rest.model.ConfigurationChange;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
+import com.bernardomg.security.access.Unsecured;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -55,11 +56,13 @@ public class ConfigurationController {
     private final ConfigurationService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
     public Collection<Configuration> readAll() {
         return service.getAll();
     }
 
     @GetMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
     public Configuration readOne(@PathVariable("code") final String code) {
         // TODO: improve security, not all the configuration can be read by everybody
         return service.getOne(code)
@@ -67,6 +70,7 @@ public class ConfigurationController {
     }
 
     @PutMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
     public Configuration update(@PathVariable("code") final String code,
             @Valid @RequestBody final ConfigurationChange configuration) {
         return service.update(code, configuration.getValue());

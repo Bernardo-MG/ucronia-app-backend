@@ -24,37 +24,14 @@
 
 package com.bernardomg.email.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.bernardomg.email.sender.EmailSender;
-import com.bernardomg.email.sender.SpringEmailSender;
+import lombok.Data;
 
-import lombok.extern.slf4j.Slf4j;
+@Data
+@ConfigurationProperties(prefix = "email")
+public final class EmailProperties {
 
-/**
- * Security configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Configuration
-@EnableConfigurationProperties(EmailProperties.class)
-@Slf4j
-public class EmailConfig {
-
-    public EmailConfig() {
-        super();
-    }
-
-    @Bean("emailSender")
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public EmailSender getEmailSender(final JavaMailSender mailSender, final EmailProperties emailProperties) {
-        log.info("Setting email sender to {}", emailProperties.getFrom());
-        return new SpringEmailSender(emailProperties.getFrom(), mailSender);
-    }
+    private String from;
 
 }
