@@ -8,7 +8,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-@AnalyzeClasses(packages = "com.bernardomg.association", importOptions = ImportOption.DoNotIncludeTests.class)
+@AnalyzeClasses(packages = "com.bernardomg", importOptions = ImportOption.DoNotIncludeTests.class)
 public class LayeredArchitectureRulesTest {
 
     @ArchTest
