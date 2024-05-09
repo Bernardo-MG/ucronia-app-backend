@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.test;
+package com.bernardomg.association.test.architecture.test;
 
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 

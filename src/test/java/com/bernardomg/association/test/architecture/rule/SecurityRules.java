@@ -1,9 +1,9 @@
 
-package com.bernardomg.association.architecture.rule;
+package com.bernardomg.association.test.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
-import com.bernardomg.association.architecture.predicate.Predicates;
+import com.bernardomg.association.test.architecture.predicate.Predicates;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
 import com.tngtech.archunit.junit.ArchTest;

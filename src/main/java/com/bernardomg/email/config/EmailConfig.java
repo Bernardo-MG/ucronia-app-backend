@@ -32,7 +32,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import com.bernardomg.email.EmailSender;
 import com.bernardomg.email.SpringEmailSender;
-import com.bernardomg.email.config.property.EmailProperties;
 
 import lombok.extern.slf4j.Slf4j;
 

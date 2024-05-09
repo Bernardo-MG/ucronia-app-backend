@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.rule;
+package com.bernardomg.association.test.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 import static com.tngtech.archunit.library.DependencyRules.NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;

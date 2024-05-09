@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.predicate;
+package com.bernardomg.association.test.architecture.predicate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

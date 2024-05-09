@@ -1,11 +1,11 @@
 
-package com.bernardomg.association.architecture.rule;
+package com.bernardomg.association.test.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.architecture.predicate.Predicates;
+import com.bernardomg.association.test.architecture.predicate.Predicates;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.ProxyRules;

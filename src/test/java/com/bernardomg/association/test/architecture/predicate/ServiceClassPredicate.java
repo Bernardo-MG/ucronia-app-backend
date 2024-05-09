@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.architecture.predicate;
+package com.bernardomg.association.test.architecture.predicate;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;

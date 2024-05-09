@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.email.config.property;
+package com.bernardomg.email.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
