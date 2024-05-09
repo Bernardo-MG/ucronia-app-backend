@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 public class TransactionEntity implements Serializable {
 
+    @Transient
     private static final long serialVersionUID = 4603617058960663867L;
 
     @Column(name = "amount", nullable = false)
