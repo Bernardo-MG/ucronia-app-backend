@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
+import com.bernardomg.security.access.Unsecured;
 
 import lombok.AllArgsConstructor;
 
@@ -49,6 +50,7 @@ public class PublicConfigurationController {
     private final ConfigurationService service;
 
     @GetMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
     public Configuration readOnePublic(@PathVariable("code") final String code) {
         // TODO: improve security, not all the configuration can be read by everybody
         return service.getOnePublic(code)

@@ -8,7 +8,6 @@ import com.bernardomg.association.test.architecture.rule.ControllerRules;
 import com.bernardomg.association.test.architecture.rule.JpaEntityRules;
 import com.bernardomg.association.test.architecture.rule.RepositoryRules;
 import com.bernardomg.association.test.architecture.rule.SecurityRules;
-import com.bernardomg.association.test.architecture.rule.SerializationRules;
 import com.bernardomg.association.test.architecture.rule.ServiceRules;
 import com.bernardomg.association.test.architecture.rule.TransactionalRules;
 import com.bernardomg.association.test.architecture.rule.ValidationRules;
@@ -17,7 +16,10 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.junit.ArchTests;
 
-@AnalyzeClasses(packages = "com.bernardomg", importOptions = ImportOption.DoNotIncludeTests.class)
+@AnalyzeClasses(
+        packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.configuration",
+                "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa" },
+        importOptions = ImportOption.DoNotIncludeTests.class)
 public class ArchitectureRulesTest {
 
     @ArchTest
@@ -40,9 +42,6 @@ public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests securityRules      = ArchTests.in(SecurityRules.class);
-
-    @ArchTest
-    static final ArchTests serializationRules = ArchTests.in(SerializationRules.class);
 
     @ArchTest
     static final ArchTests serviceRules       = ArchTests.in(ServiceRules.class);

@@ -1,5 +1,5 @@
 
-package com.bernardomg.email;
+package com.bernardomg.email.sender;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;

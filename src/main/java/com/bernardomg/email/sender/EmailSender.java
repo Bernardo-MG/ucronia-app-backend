@@ -1,5 +1,5 @@
 
-package com.bernardomg.email;
+package com.bernardomg.email.sender;
 
 public interface EmailSender {
 
