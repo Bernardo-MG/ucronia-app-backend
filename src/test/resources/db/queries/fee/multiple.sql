@@ -1,4 +1,4 @@
-INSERT INTO fees (id, member_id, date) VALUES
+INSERT INTO fees (id, person_id, date) VALUES
    (1, 1, '2020-02-01'),
    (2, 2, '2020-03-01'),
    (3, 3, '2020-04-01'),

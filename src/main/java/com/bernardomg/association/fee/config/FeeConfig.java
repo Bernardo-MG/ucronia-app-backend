@@ -52,6 +52,7 @@ import com.bernardomg.association.fee.usecase.service.UserFeeService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -103,19 +104,20 @@ public class FeeConfig {
     }
 
     @Bean("feeRepository")
-    public FeeRepository getFeeRepository(final FeeSpringRepository feeRepo,
-            final MemberFeeSpringRepository memberFeeRepo, final MemberSpringRepository memberRepo,
-            final ActiveMemberSpringRepository activeMemberRepo, final FeePaymentSpringRepository feePaymentRepo,
-            final TransactionSpringRepository transactionRepo) {
-        return new JpaFeeRepository(feeRepo, memberFeeRepo, memberRepo, activeMemberRepo, feePaymentRepo,
-            transactionRepo);
+    public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepo,
+            final MemberFeeSpringRepository memberFeeSpringRepo, final PersonSpringRepository personSpringRepo,
+            final ActiveMemberSpringRepository activeMemberSpringRepo,
+            final FeePaymentSpringRepository feePaymentSpringRepo,
+            final TransactionSpringRepository transactionSpringRepo) {
+        return new JpaFeeRepository(feeSpringRepo, memberFeeSpringRepo, personSpringRepo, activeMemberSpringRepo,
+            feePaymentSpringRepo, transactionSpringRepo);
     }
 
     @Bean("feeService")
-    public FeeService getFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
+    public FeeService getFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
             final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepo, memberRepo, transactionRepo, configSource, msgSource);
+        return new DefaultFeeService(feeRepo, personRepo, transactionRepo, configSource, msgSource);
     }
 
     @Bean("userFeeService")

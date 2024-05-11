@@ -42,8 +42,8 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.exception.MissingPersonException;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
@@ -58,10 +58,10 @@ class TestFeeServiceDelete {
     private FeeRepository                  feeRepository;
 
     @Mock
-    private MemberRepository               memberRepository;
+    private MessageSource                  messageSource;
 
     @Mock
-    private MessageSource                  messageSource;
+    private PersonRepository               personRepository;
 
     @InjectMocks
     private DefaultFeeService              service;
@@ -79,7 +79,7 @@ class TestFeeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
@@ -92,25 +92,25 @@ class TestFeeServiceDelete {
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
-    void testDelete_NotExistingMember() {
+    void testDelete_NotExistingPerson() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
     @Test
     @DisplayName("Calls the repository when deleting")
     void testDelete_NotPaid_RemovesEntity() {
         // GIVEN
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN

@@ -48,11 +48,11 @@ import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.exception.MissingPersonException;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
 import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
-import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.config.factory.Persons;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -68,10 +68,10 @@ class TestFeeServicePayFees {
     private FeeRepository                  feeRepository;
 
     @Mock
-    private MemberRepository               memberRepository;
+    private MessageSource                  messageSource;
 
     @Mock
-    private MessageSource                  messageSource;
+    private PersonRepository               personRepository;
 
     @InjectMocks
     private DefaultFeeService              service;
@@ -85,7 +85,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE)))
             .willReturn(List.of(Fees.paid()));
@@ -107,7 +107,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
         // WHEN
         execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE), PersonConstants.NUMBER,
@@ -126,7 +126,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of());
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of())).willReturn(List.of());
 
@@ -148,7 +148,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -159,23 +159,6 @@ class TestFeeServicePayFees {
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
-    @DisplayName("When the member doesn't exist it throws an exception")
-    void testPayFees_InvalidMember() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
-
-        // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
     }
 
     @Test
@@ -187,7 +170,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -198,6 +181,23 @@ class TestFeeServicePayFees {
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("When the person doesn't exist it throws an exception")
+    void testPayFees_NotExistingPerson() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingPersonException.class);
     }
 
 }

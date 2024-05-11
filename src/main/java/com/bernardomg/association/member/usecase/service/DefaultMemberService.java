@@ -181,7 +181,7 @@ public final class DefaultMemberService implements MemberService {
                 orders.add(Order.desc("person.surname"));
             }
         }
-        
+
         // Number
         numberOrder = received.stream()
             .filter(o -> "number".equals(o.getProperty()))

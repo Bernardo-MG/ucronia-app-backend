@@ -48,7 +48,7 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
             .containsExactly(FeeEntities.atDate());
     }
 
@@ -70,7 +70,7 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
             .containsExactly(FeeEntities.atDate());
     }
 

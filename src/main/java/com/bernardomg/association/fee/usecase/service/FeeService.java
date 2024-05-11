@@ -22,12 +22,12 @@ public interface FeeService {
     /**
      * Deletes the fee for the received member in the received date.
      *
-     * @param memberNumber
-     *            member number for the fee to delete
+     * @param personNumber
+     *            person number for the fee to delete
      * @param date
      *            date of the fee to delete
      */
-    public void delete(final long memberNumber, final YearMonth date);
+    public void delete(final long personNumber, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -58,13 +58,13 @@ public interface FeeService {
      *
      * @param feeDates
      *            dates of the fees being paid
-     * @param memberNumber
+     * @param personNumber
      *            member paying the fees
      * @param transactionDate
      *            date of the payment
      * @return all the paid fees
      */
-    public Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long memberNumber,
+    public Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
             final LocalDate transactionDate);
 
 }

@@ -82,12 +82,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: member_id
+                  name: person_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_member
-                    references: members(id)
+                    foreignKeyName: fk_fees_person
+                    references: persons(id)
               - column:
                   name: date
                   type: datetime
@@ -103,7 +103,7 @@ databaseChangeLog:
         - addUniqueConstraint:
             constraintName: fees_unique_date
             tableName: fees
-            columnNames: 'member_id, date'
+            columnNames: 'person_id, date'
         - createTable:
             tableName: fee_payments
             columns:
@@ -132,7 +132,7 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, p.number AS member_number, TRIM(CONCAT(p.name, ' ', p.surname)) AS member_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN pm.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM persons p INNER JOIN members m ON p.id = m.person INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments pm ON f.id = pm.fee_id LEFT JOIN transactions t ON pm.transaction_id = t.id
+            selectQuery: SELECT f.id AS id, p.id AS person_id, p.number AS person_number, TRIM(CONCAT(p.name, ' ', p.surname)) AS person_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN pm.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM persons p INNER JOIN fees f ON p.id = f.person_id LEFT JOIN fee_payments pm ON f.id = pm.fee_id LEFT JOIN transactions t ON pm.transaction_id = t.id
             viewName: member_fees
         -  createView:
             remarks: Monthly member balance
