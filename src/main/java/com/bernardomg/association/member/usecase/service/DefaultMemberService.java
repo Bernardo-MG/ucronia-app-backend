@@ -161,9 +161,11 @@ public final class DefaultMemberService implements MemberService {
 
     private final Sort correctSort(final Sort received) {
         final Optional<Order> fullNameOrder;
+        final Optional<Order> numberOrder;
         final List<Order>     orders;
         final List<Order>     validOrders;
 
+        // Full name
         fullNameOrder = received.stream()
             .filter(o -> "fullName".equals(o.getProperty()))
             .findFirst();
@@ -179,9 +181,23 @@ public final class DefaultMemberService implements MemberService {
                 orders.add(Order.desc("person.surname"));
             }
         }
+        
+        // Number
+        numberOrder = received.stream()
+            .filter(o -> "number".equals(o.getProperty()))
+            .findFirst();
+        if (numberOrder.isPresent()) {
+            if (fullNameOrder.get()
+                .getDirection() == Direction.ASC) {
+                orders.add(Order.asc("person.number"));
+            } else {
+                orders.add(Order.desc("person.number"));
+            }
+        }
 
         validOrders = received.stream()
             .filter(o -> !"fullName".equals(o.getProperty()))
+            .filter(o -> !"number".equals(o.getProperty()))
             .toList();
         orders.addAll(validOrders);
 
