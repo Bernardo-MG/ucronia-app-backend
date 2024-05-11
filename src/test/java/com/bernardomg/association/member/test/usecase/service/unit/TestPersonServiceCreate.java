@@ -36,97 +36,98 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.model.Guest;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.factory.GuestConstants;
-import com.bernardomg.association.member.test.config.factory.Guests;
-import com.bernardomg.association.member.usecase.service.DefaultGuestService;
+import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.member.domain.model.PersonName;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.config.factory.Persons;
+import com.bernardomg.association.member.usecase.service.DefaultPersonService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Guest service - create")
-class TestGuestServiceCreate {
+@DisplayName("Person service - create")
+class TestPersonServiceCreate {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private PersonRepository     personRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultPersonService service;
 
-    public TestGuestServiceCreate() {
+    public TestPersonServiceCreate() {
         super();
     }
 
     @Test
-    @DisplayName("With a guest with an empty name, an exception is thrown")
+    @DisplayName("With a person with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;
-        final Guest            guest;
+        final Person           person;
 
         // GIVEN
-        guest = Guests.emptyName();
+        person = Persons.emptyName();
 
         // WHEN
-        execution = () -> service.create(guest);
+        execution = () -> service.create(person);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", PersonName.of("", "")));
     }
 
     @Test
-    @DisplayName("With a guest having padding whitespaces in name and surname, these whitespaces are removed and the guest is persisted")
+    @DisplayName("With a person having padding whitespaces in name and surname, these whitespaces are removed and the person is persisted")
     void testCreate_Padded_PersistedData() {
-        final Guest guest;
+        final Person person;
 
         // GIVEN
-        guest = Guests.paddedWithWhitespaces();
+        person = Persons.paddedWithWhitespaces();
 
-        given(guestRepository.findNextNumber()).willReturn(GuestConstants.NUMBER);
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
-        service.create(guest);
+        service.create(person);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(personRepository).save(Persons.valid());
     }
 
     @Test
-    @DisplayName("With a valid guest, the guest is persisted")
+    @DisplayName("With a valid person, the person is persisted")
     void testCreate_PersistedData() {
-        final Guest guest;
+        final Person person;
 
         // GIVEN
-        guest = Guests.valid();
+        person = Persons.valid();
 
-        given(guestRepository.findNextNumber()).willReturn(GuestConstants.NUMBER);
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
-        service.create(guest);
+        service.create(person);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(personRepository).save(Persons.valid());
     }
 
     @Test
-    @DisplayName("With a valid guest, the created guest is returned")
+    @DisplayName("With a valid person, the created person is returned")
     void testCreate_ReturnedData() {
-        final Guest guest;
-        final Guest created;
+        final Person person;
+        final Person created;
 
         // GIVEN
-        guest = Guests.valid();
+        person = Persons.valid();
 
-        given(guestRepository.save(Guests.valid())).willReturn(Guests.valid());
-        given(guestRepository.findNextNumber()).willReturn(GuestConstants.NUMBER);
+        given(personRepository.save(Persons.valid())).willReturn(Persons.valid());
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
-        created = service.create(guest);
+        created = service.create(person);
 
         // THEN
         Assertions.assertThat(created)
-            .as("guest")
-            .isEqualTo(Guests.valid());
+            .as("person")
+            .isEqualTo(Persons.valid());
     }
 
 }

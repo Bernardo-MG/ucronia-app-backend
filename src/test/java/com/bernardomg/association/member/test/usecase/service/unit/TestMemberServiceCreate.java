@@ -37,7 +37,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
+import com.bernardomg.association.member.domain.model.PersonName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
@@ -72,7 +72,7 @@ class TestMemberServiceCreate {
         execution = () -> service.create(member);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", PersonName.builder()
             .withFirstName(" ")
             .withLastName(PersonConstants.SURNAME)
             .build()));
@@ -91,7 +91,7 @@ class TestMemberServiceCreate {
         execution = () -> service.create(member);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", MemberName.builder()
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", PersonName.builder()
             .withLastName(PersonConstants.SURNAME)
             .build()));
     }

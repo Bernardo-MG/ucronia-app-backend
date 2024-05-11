@@ -40,65 +40,65 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.model.Guest;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.factory.Guests;
-import com.bernardomg.association.member.usecase.service.DefaultGuestService;
+import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.factory.Persons;
+import com.bernardomg.association.member.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Guest service - get all")
-class TestGuestServiceGetAll {
+@DisplayName("Person service - get all")
+class TestPersonServiceGetAll {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private PersonRepository     personRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultPersonService service;
 
-    public TestGuestServiceGetAll() {
+    public TestPersonServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<Guest> guests;
-        final Pageable        pageable;
-        final Page<Guest>     readGuests;
+        final Iterable<Person> persons;
+        final Pageable         pageable;
+        final Page<Person>     readPersons;
 
         // GIVEN
-        readGuests = new PageImpl<>(List.of());
-        given(guestRepository.findAll(ArgumentMatchers.any())).willReturn(readGuests);
+        readPersons = new PageImpl<>(List.of());
+        given(personRepository.findAll(ArgumentMatchers.any())).willReturn(readPersons);
 
         pageable = Pageable.unpaged();
 
         // WHEN
-        guests = service.getAll(pageable);
+        persons = service.getAll(pageable);
 
         // THEN
-        Assertions.assertThat(guests)
-            .as("guests")
+        Assertions.assertThat(persons)
+            .as("persons")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When getting all the guests, it returns all the guests")
+    @DisplayName("When getting all the persons, it returns all the persons")
     void testGetAll_ReturnsData() {
-        final Iterable<Guest> guests;
-        final Pageable        pageable;
+        final Iterable<Person> persons;
+        final Pageable         pageable;
 
         // GIVEN
-        given(guestRepository.findAll(ArgumentMatchers.any())).willReturn(List.of(Guests.valid()));
+        given(personRepository.findAll(ArgumentMatchers.any())).willReturn(List.of(Persons.valid()));
 
         pageable = Pageable.unpaged();
 
         // WHEN
-        guests = service.getAll(pageable);
+        persons = service.getAll(pageable);
 
         // THEN
-        Assertions.assertThat(guests)
-            .as("guests")
-            .isEqualTo(List.of(Guests.valid()));
+        Assertions.assertThat(persons)
+            .as("persons")
+            .isEqualTo(List.of(Persons.valid()));
     }
 
 }

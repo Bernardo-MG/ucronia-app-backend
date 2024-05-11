@@ -10,6 +10,10 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class PersonName {
 
+    public static final PersonName of(final String firstName, final String lastName) {
+        return new PersonName(firstName, lastName);
+    }
+
     private String firstName;
 
     private String lastName;

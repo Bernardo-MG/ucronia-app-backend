@@ -29,45 +29,47 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleGuest;
-import com.bernardomg.association.member.test.config.factory.GuestConstants;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.data.annotation.SinglePerson;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GuestRepository - exists")
-class ITGuestRepositoryExists {
+@DisplayName("PersonRepository - delete")
+class ITPersonRepositoryDelete {
 
     @Autowired
-    private GuestRepository repository;
+    private PersonRepository       personRepository;
 
-    @Test
-    @DisplayName("With an existing guest, it exists")
-    @SingleGuest
-    void testExists() {
-        final boolean exists;
+    @Autowired
+    private PersonSpringRepository repository;
 
-        // WHEN
-        exists = repository.exists(GuestConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
+    public ITPersonRepositoryDelete() {
+        super();
     }
 
     @Test
-    @DisplayName("With no guest, nothing exists")
-    void testExists_NoData() {
-        final boolean exists;
-
+    @DisplayName("When deleting a person, it is removed")
+    @SinglePerson
+    void testDelete() {
         // WHEN
-        exists = repository.exists(GuestConstants.NUMBER);
+        personRepository.delete(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
+        Assertions.assertThat(repository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is removed")
+    void testDelete_noData() {
+        // WHEN
+        personRepository.delete(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(repository.count())
+            .isZero();
     }
 
 }

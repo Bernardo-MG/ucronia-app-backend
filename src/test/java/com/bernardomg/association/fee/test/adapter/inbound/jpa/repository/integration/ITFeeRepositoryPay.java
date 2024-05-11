@@ -17,7 +17,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeePaymentEntities;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -36,7 +36,7 @@ class ITFeeRepositoryPay {
 
     @Test
     @DisplayName("When the payment exists it is persisted")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testPay_Existing_PersistedData() {
         final Iterable<FeePaymentEntity> payments;
@@ -62,7 +62,7 @@ class ITFeeRepositoryPay {
 
     @Test
     @DisplayName("Persists the data")
-    @ValidMember
+    @SingleMember
     @NotPaidFee
     @PositiveTransaction
     void testPay_PersistedData() {

@@ -50,7 +50,7 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -101,7 +101,7 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With duplicated dates, it throws an exception")
-    @ValidMember
+    @SingleMember
     void testPayFees_DuplicatedDates() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -121,7 +121,7 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With no fees nothing is saved")
-    @ValidMember
+    @SingleMember
     void testPayFees_EmptyList() {
         final Collection<Fee> fees;
 
@@ -141,7 +141,7 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With the fee already paid, it throws an exception")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testPayFees_Existing_Paid() {
         final ThrowingCallable execution;
@@ -180,7 +180,7 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testPayFees_MultipleDates_OneExisting_Paid() {
         final ThrowingCallable execution;

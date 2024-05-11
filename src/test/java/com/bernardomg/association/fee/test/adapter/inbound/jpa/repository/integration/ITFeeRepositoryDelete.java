@@ -35,7 +35,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -63,7 +63,7 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a not paid entity is deleted, it is removed")
-    @ValidMember
+    @SingleMember
     @NotPaidFee
     void testDelete_NotPaid() {
         // WHEN
@@ -77,7 +77,7 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a paid entity is deleted, it is removed")
-    @ValidMember
+    @SingleMember
     @PaidFee
     @Disabled("Handle relationships")
     void testDelete_Paid() {

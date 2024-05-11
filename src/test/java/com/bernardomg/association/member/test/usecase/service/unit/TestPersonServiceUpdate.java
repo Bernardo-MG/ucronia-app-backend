@@ -38,99 +38,99 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.exception.MissingGuestException;
-import com.bernardomg.association.member.domain.model.Guest;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.factory.GuestConstants;
-import com.bernardomg.association.member.test.config.factory.Guests;
-import com.bernardomg.association.member.usecase.service.DefaultGuestService;
+import com.bernardomg.association.member.domain.exception.MissingPersonException;
+import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.config.factory.Persons;
+import com.bernardomg.association.member.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Guest service - update")
-class TestGuestServiceUpdate {
+@DisplayName("Person service - update")
+class TestPersonServiceUpdate {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private PersonRepository     personRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultPersonService service;
 
-    public TestGuestServiceUpdate() {
+    public TestPersonServiceUpdate() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing guest, an exception is thrown")
+    @DisplayName("With a not existing person, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final Guest            guest;
+        final Person           person;
         final ThrowingCallable execution;
 
         // GIVEN
-        guest = Guests.nameChange();
+        person = Persons.nameChange();
 
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.empty());
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(guest);
+        execution = () -> service.update(person);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGuestException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
     @Test
-    @DisplayName("With a guest having padding whitespaces in name and surname, these whitespaces are removed")
+    @DisplayName("With a person having padding whitespaces in name and surname, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final Guest guest;
+        final Person person;
 
         // GIVEN
-        guest = Guests.paddedWithWhitespaces();
+        person = Persons.paddedWithWhitespaces();
 
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
         // WHEN
-        service.update(guest);
+        service.update(person);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(personRepository).save(Persons.valid());
     }
 
     @Test
-    @DisplayName("When updating a guest, the change is persisted")
+    @DisplayName("When updating a person, the change is persisted")
     void testUpdate_PersistedData() {
-        final Guest guest;
+        final Person person;
 
         // GIVEN
-        guest = Guests.nameChange();
+        person = Persons.nameChange();
 
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
         // WHEN
-        service.update(guest);
+        service.update(person);
 
         // THEN
-        verify(guestRepository).save(Guests.nameChange());
+        verify(personRepository).save(Persons.nameChange());
     }
 
     @Test
-    @DisplayName("When updating an active guest, the change is returned")
+    @DisplayName("When updating an active person, the change is returned")
     void testUpdate_ReturnedData() {
-        final Guest guest;
-        final Guest updated;
+        final Person person;
+        final Person updated;
 
         // GIVEN
-        guest = Guests.nameChange();
+        person = Persons.nameChange();
 
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
-        given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.save(Persons.nameChange())).willReturn(Persons.nameChange());
 
         // WHEN
-        updated = service.update(guest);
+        updated = service.update(person);
 
         // THEN
         Assertions.assertThat(updated)
-            .as("guest")
-            .isEqualTo(Guests.nameChange());
+            .as("person")
+            .isEqualTo(Persons.nameChange());
     }
 
 }

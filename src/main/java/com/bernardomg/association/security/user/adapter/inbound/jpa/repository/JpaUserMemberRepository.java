@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
+import com.bernardomg.association.member.domain.model.PersonName;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
@@ -109,9 +109,9 @@ public final class JpaUserMemberRepository implements UserMemberRepository {
     }
 
     private final Member toDomain(final MemberEntity entity) {
-        final MemberName memberName;
+        final PersonName memberName;
 
-        memberName = MemberName.builder()
+        memberName = PersonName.builder()
             .withFirstName(entity.getPerson()
                 .getName())
             .withLastName(entity.getPerson()

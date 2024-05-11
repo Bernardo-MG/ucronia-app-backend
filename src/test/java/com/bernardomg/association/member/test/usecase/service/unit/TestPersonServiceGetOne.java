@@ -37,57 +37,57 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.exception.MissingGuestException;
-import com.bernardomg.association.member.domain.model.Guest;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.factory.GuestConstants;
-import com.bernardomg.association.member.test.config.factory.Guests;
-import com.bernardomg.association.member.usecase.service.DefaultGuestService;
+import com.bernardomg.association.member.domain.exception.MissingPersonException;
+import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.config.factory.Persons;
+import com.bernardomg.association.member.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Guest service - get one")
-class TestGuestServiceGetOne {
+@DisplayName("Person service - get one")
+class TestPersonServiceGetOne {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private PersonRepository     personRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultPersonService service;
 
-    public TestGuestServiceGetOne() {
+    public TestPersonServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<Guest> guestOptional;
+        final Optional<Person> personOptional;
 
         // GIVEN
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
         // WHEN
-        guestOptional = service.getOne(GuestConstants.NUMBER);
+        personOptional = service.getOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guestOptional)
-            .contains(Guests.valid());
+        Assertions.assertThat(personOptional)
+            .contains(Persons.valid());
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist an exception is thrown")
+    @DisplayName("When the person doesn't exist an exception is thrown")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.empty());
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(GuestConstants.NUMBER);
+        execution = () -> service.getOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGuestException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
 }

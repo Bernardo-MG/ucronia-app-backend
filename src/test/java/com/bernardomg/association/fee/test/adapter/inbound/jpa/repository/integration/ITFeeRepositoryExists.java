@@ -33,7 +33,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -60,7 +60,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid, it exists")
-    @ValidMember
+    @SingleMember
     @NotPaidFee
     void testExists_NotPaid() {
         final boolean exists;
@@ -76,7 +76,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid, it exists")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testExists_Paid() {
         final boolean exists;

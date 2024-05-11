@@ -32,12 +32,12 @@ import com.bernardomg.exception.MissingIdException;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingGuestException extends MissingIdException {
+public final class MissingPersonException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingGuestException(final long guest) {
-        super("guest", guest);
+    public MissingPersonException(final long guest) {
+        super("person", guest);
     }
 
 }

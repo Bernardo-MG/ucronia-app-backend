@@ -36,22 +36,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.exception.MissingGuestException;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
+import com.bernardomg.association.member.domain.exception.MissingPersonException;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
 import com.bernardomg.association.member.test.config.factory.GuestConstants;
-import com.bernardomg.association.member.usecase.service.DefaultGuestService;
+import com.bernardomg.association.member.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Guest service - delete")
-class TestGuestServiceDelete {
+class TestPersonServiceDelete {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private PersonRepository     guestRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultPersonService service;
 
-    public TestGuestServiceDelete() {
+    public TestPersonServiceDelete() {
         super();
     }
 
@@ -81,7 +81,7 @@ class TestGuestServiceDelete {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGuestException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
 }

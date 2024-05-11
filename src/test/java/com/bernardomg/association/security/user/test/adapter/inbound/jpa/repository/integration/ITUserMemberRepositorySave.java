@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
@@ -106,7 +106,7 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
-    @ValidMember
+    @SingleMember
     void testSave_PersistedData() {
         final Collection<UserMemberEntity> members;
 
@@ -142,7 +142,7 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
-    @ValidMember
+    @SingleMember
     void testSave_ReturnedData() {
         final Member member;
 

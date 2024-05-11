@@ -29,39 +29,39 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.GuestEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.GuestSpringRepository;
-import com.bernardomg.association.member.domain.model.Guest;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.factory.GuestEntities;
-import com.bernardomg.association.member.test.config.factory.Guests;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.factory.PersonEntities;
+import com.bernardomg.association.member.test.config.factory.Persons;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GuestRepository - save")
-class ITGuestRepositorySave {
+@DisplayName("PersonRepository - save")
+class ITPersonRepositorySave {
 
     @Autowired
-    private GuestRepository       guestRepository;
+    private PersonRepository       personRepository;
 
     @Autowired
-    private GuestSpringRepository repository;
+    private PersonSpringRepository repository;
 
-    public ITGuestRepositorySave() {
+    public ITPersonRepositorySave() {
         super();
     }
 
     @Test
-    @DisplayName("With a valid guest, the guest is persisted")
+    @DisplayName("With a valid person, the person is persisted")
     void testCreate_PersistedData() {
-        final Guest                 guest;
-        final Iterable<GuestEntity> entities;
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        person = Persons.valid();
 
         // WHEN
-        guestRepository.save(guest);
+        personRepository.save(person);
 
         // THEN
         entities = repository.findAll();
@@ -69,25 +69,25 @@ class ITGuestRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(GuestEntities.valid());
+            .containsExactly(PersonEntities.valid());
     }
 
     @Test
-    @DisplayName("With a valid guest, the created guest is returned")
+    @DisplayName("With a valid person, the created person is returned")
     void testCreate_ReturnedData() {
-        final Guest guest;
-        final Guest saved;
+        final Person person;
+        final Person saved;
 
         // GIVEN
-        guest = Guests.valid();
+        person = Persons.valid();
 
         // WHEN
-        saved = guestRepository.save(guest);
+        saved = personRepository.save(person);
 
         // THEN
         Assertions.assertThat(saved)
-            .as("guest")
-            .isEqualTo(Guests.valid());
+            .as("person")
+            .isEqualTo(Persons.valid());
     }
 
 }

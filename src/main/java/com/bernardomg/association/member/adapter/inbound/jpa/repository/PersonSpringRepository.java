@@ -27,12 +27,21 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
 
 public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long> {
+
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Person p
+            WHERE p.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
 
     @Query("""
             SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists

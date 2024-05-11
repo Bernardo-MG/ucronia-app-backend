@@ -29,47 +29,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.GuestSpringRepository;
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleGuest;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.data.annotation.SinglePerson;
 import com.bernardomg.association.member.test.config.factory.GuestConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GuestRepository - delete")
-class ITGuestRepositoryDelete {
+@DisplayName("GuestRepository - exists")
+class ITPersonRepositoryExists {
 
     @Autowired
-    private GuestRepository       guestRepository;
+    private PersonRepository repository;
 
-    @Autowired
-    private GuestSpringRepository repository;
+    @Test
+    @DisplayName("With an existing person, it exists")
+    @SinglePerson
+    void testExists() {
+        final boolean exists;
 
-    public ITGuestRepositoryDelete() {
-        super();
+        // WHEN
+        exists = repository.exists(GuestConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When deleting a guest, it is removed")
-    @SingleGuest
-    void testDelete() {
+    @DisplayName("With no person, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
+
         // WHEN
-        guestRepository.delete(GuestConstants.NUMBER);
+        exists = repository.exists(GuestConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_noData() {
-        // WHEN
-        guestRepository.delete(GuestConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

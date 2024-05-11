@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberChange {
+public final class PersonChange {
 
     private String           identifier;
 

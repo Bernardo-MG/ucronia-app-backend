@@ -42,12 +42,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberChange;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberQuery;
+import com.bernardomg.association.member.adapter.outbound.cache.PersonsCaches;
+import com.bernardomg.association.member.adapter.outbound.rest.model.PersonChange;
+import com.bernardomg.association.member.domain.model.Person;
 import com.bernardomg.association.member.domain.model.PersonName;
-import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.member.usecase.service.PersonService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -55,71 +54,68 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Member REST controller.
+ * Person REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/person")
 @AllArgsConstructor
-public class MemberController {
+public class PersonController {
 
     /**
-     * Member service.
+     * Person service.
      */
-    private final MemberService service;
+    private final PersonService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(
-                    cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
-                    allEntries = true) })
-    public Member create(@Valid @RequestBody final MemberChange change) {
-        final Member member;
+    @RequireResourceAccess(resource = "PERSON", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
+    public Person create(@Valid @RequestBody final PersonChange change) {
+        final Person member;
 
         member = toDomain(-1, change);
         return service.create(member);
     }
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }),
-            @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
-                    allEntries = true) })
+    @RequireResourceAccess(resource = "PERSON", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSON }),
+            @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBERS)
-    public Iterable<Member> readAll(@Valid final MemberQuery query, final Pageable pageable) {
-        return service.getAll(query, pageable);
+    @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
+    @Cacheable(cacheNames = PersonsCaches.PERSONS)
+    public Iterable<Person> readAll(final Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBER)
-    public Member readOne(@PathVariable("number") final Long number) {
+    @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
+    @Cacheable(cacheNames = PersonsCaches.PERSON)
+    public Person readOne(@PathVariable("number") final Long number) {
         return service.getOne(number)
             .orElse(null);
     }
 
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, FeeCaches.CALENDAR }, allEntries = true) })
-    public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange change) {
-        final Member member;
+    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
+    public Person update(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
+        final Person member;
 
         member = toDomain(number, change);
         return service.update(member);
     }
 
-    private final Member toDomain(final long number, final MemberChange change) {
+    private final Person toDomain(final long number, final PersonChange change) {
         final PersonName name;
 
         name = PersonName.builder()
@@ -128,7 +124,7 @@ public class MemberController {
             .withLastName(change.getName()
                 .getLastName())
             .build();
-        return Member.builder()
+        return Person.builder()
             .withIdentifier(change.getIdentifier())
             .withName(name)
             .withPhone(change.getPhone())

@@ -12,7 +12,7 @@ public final class Member {
 
     private final String     identifier;
 
-    private final MemberName name;
+    private final PersonName name;
 
     @Builder.Default
     private final long       number = -1L;

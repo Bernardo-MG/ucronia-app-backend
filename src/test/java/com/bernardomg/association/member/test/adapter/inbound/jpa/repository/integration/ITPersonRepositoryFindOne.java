@@ -24,50 +24,52 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.repository.GuestRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleGuest;
-import com.bernardomg.association.member.test.config.factory.GuestConstants;
+import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.data.annotation.SinglePerson;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.config.factory.Persons;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GuestRepository - exists")
-class ITGuestRepositoryFindNextNumber {
+@DisplayName("PersonRepository - find one")
+class ITPersonRepositoryFindOne {
 
     @Autowired
-    private GuestRepository repository;
+    private PersonRepository personRepository;
 
     @Test
-    @DisplayName("With an existing guest, it returns the next number")
-    @SingleGuest
-    void testFindNextNumber() {
-        final long number;
+    @DisplayName("With a person, it is returned")
+    @SinglePerson
+    void testFindOne() {
+        final Optional<Person> personOptional;
 
         // WHEN
-        number = repository.findNextNumber();
+        personOptional = personRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(GuestConstants.NUMBER + 1);
+        Assertions.assertThat(personOptional)
+            .contains(Persons.valid());
     }
 
     @Test
-    @DisplayName("With no guest, it returns the initial number")
-    void testFindNextNumber_NoData() {
-        final long number;
+    @DisplayName("With no person, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<Person> personOptional;
 
         // WHEN
-        number = repository.findNextNumber();
+        personOptional = personRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(1);
+        Assertions.assertThat(personOptional)
+            .isEmpty();
     }
 
 }
