@@ -6,6 +6,21 @@ import com.bernardomg.association.person.domain.model.PersonName;
 
 public final class Persons {
 
+    public static final Person alternative() {
+        final PersonName name;
+
+        name = PersonName.builder()
+            .withFirstName(PersonConstants.ALTERNATIVE_NAME)
+            .withLastName(PersonConstants.ALTERNATIVE_SURNAME)
+            .build();
+        return Person.builder()
+            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
+            .withName(name)
+            .withPhone(PersonConstants.PHONE)
+            .withIdentifier(PersonConstants.IDENTIFIER)
+            .build();
+    }
+
     public static final Person emptyName() {
         final PersonName name;
 

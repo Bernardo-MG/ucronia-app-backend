@@ -37,7 +37,7 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Persons")
         .mayOnlyBeAccessedByLayers("Members", "Users", "Fees", "Library", "Inventory")
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Users", "Inventory", "Library", "Account")
+        .mayOnlyBeAccessedByLayers("Fees", "Inventory", "Library", "Account")
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")

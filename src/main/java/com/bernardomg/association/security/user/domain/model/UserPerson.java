@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @Builder(setterPrefix = "with")
-public final class UserMember {
+public final class UserPerson {
 
     private final Long   number;
 

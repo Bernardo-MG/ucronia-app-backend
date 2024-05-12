@@ -35,8 +35,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.security.user.usecase.service.UserMemberService;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.security.user.usecase.service.UserPersonService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -49,14 +49,14 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user/{username}/member")
+@RequestMapping("/security/user/{username}/person")
 @AllArgsConstructor
-public class UserMemberController {
+public class UserPersonController {
 
     /**
      * User member service.
      */
-    private final UserMemberService service;
+    private final UserPersonService service;
 
     /**
      * Assigns a member to a user.
@@ -69,9 +69,9 @@ public class UserMemberController {
      */
     @PostMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public Member assign(@PathVariable("username") final String username,
+    public Person assign(@PathVariable("username") final String username,
             @PathVariable("memberNumber") final long memberNumber) {
-        return service.assignMember(username, memberNumber);
+        return service.assignPerson(username, memberNumber);
     }
 
     /**
@@ -83,8 +83,8 @@ public class UserMemberController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Member read(@PathVariable("username") final String username) {
-        return service.getMember(username)
+    public Person read(@PathVariable("username") final String username) {
+        return service.getPerson(username)
             .orElse(null);
     }
 
@@ -95,8 +95,8 @@ public class UserMemberController {
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Collection<Member> readAvailable(final Pageable pageable) {
-        return service.getAvailableMembers(pageable);
+    public Collection<Person> readAvailable(final Pageable pageable) {
+        return service.getAvailablePerson(pageable);
     }
 
     /**
@@ -108,7 +108,7 @@ public class UserMemberController {
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     public void unassign(@PathVariable("username") final String username) {
-        service.unassignMember(username);
+        service.unassignPerson(username);
     }
 
 }

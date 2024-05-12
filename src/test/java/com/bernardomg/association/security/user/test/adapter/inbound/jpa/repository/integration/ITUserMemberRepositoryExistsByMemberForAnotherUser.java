@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.AlternativeUserWithMember;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
@@ -41,16 +41,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserMemberRepositoryExistsByMemberForAnotherUser {
 
     @Autowired
-    private UserMemberRepository repository;
+    private UserPersonRepository repository;
 
     @Test
     @DisplayName("When the member is assigned it exists")
     @AlternativeUserWithMember
-    void testExistsByMemberForAnotherUser() {
+    void testExistsByPersonForAnotherUser() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByMemberForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -60,11 +60,11 @@ class ITUserMemberRepositoryExistsByMemberForAnotherUser {
     @Test
     @DisplayName("When the member is assigned to the user, it doesn't exist")
     @ValidUserWithMember
-    void testExistsByMemberForAnotherUser_AssignedToUser() {
+    void testExistsByPersonForAnotherUser_AssignedToUser() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByMemberForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -73,11 +73,11 @@ class ITUserMemberRepositoryExistsByMemberForAnotherUser {
 
     @Test
     @DisplayName("When no data exists it doesn't exist")
-    void testExistsByMemberForAnotherUser_NoData() {
+    void testExistsByPersonForAnotherUser_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByMemberForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

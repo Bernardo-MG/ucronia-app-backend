@@ -29,8 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -40,34 +40,34 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserMemberRepositoryDelete {
 
     @Autowired
-    private UserMemberRepository       repository;
+    private UserPersonRepository       repository;
 
     @Autowired
-    private UserMemberSpringRepository userMemberSpringRepository;
+    private UserPersonSpringRepository userPersonSpringRepository;
 
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")
     @ValidUserWithMember
-    void testDeleteMember() {
+    void testDelete() {
 
         // WHEN
         repository.delete(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(userMemberSpringRepository.count())
+        Assertions.assertThat(userPersonSpringRepository.count())
             .as("user members")
             .isZero();
     }
 
     @Test
     @DisplayName("With no member assigned to the user, it does nothing")
-    void testDeleteMember_NoData() {
+    void testDelete_NoData() {
 
         // WHEN
         repository.delete(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(userMemberSpringRepository.count())
+        Assertions.assertThat(userPersonSpringRepository.count())
             .as("user members")
             .isZero();
     }

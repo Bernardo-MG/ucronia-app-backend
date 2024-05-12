@@ -3,7 +3,7 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 
 import jakarta.persistence.CascadeType;
@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class UserMemberEntity implements Serializable {
+public class UserPersonEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -34,8 +34,8 @@ public class UserMemberEntity implements Serializable {
     private static final long serialVersionUID = -3540074544521251838L;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private MemberEntity      member;
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private PersonEntity      person;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

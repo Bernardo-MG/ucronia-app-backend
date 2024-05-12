@@ -6,9 +6,9 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.security.account.domain.MemberAccount;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.security.account.domain.PersonAccount;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.usecase.service.AccountService;
@@ -23,11 +23,11 @@ import com.bernardomg.security.account.usecase.service.DefaultAccountService;
 @Transactional
 public final class MemberAccountService implements AccountService {
 
-    private final UserMemberRepository userMemberRepository;
+    private final UserPersonRepository userMemberRepository;
 
     private final AccountService       wrapped;
 
-    public MemberAccountService(final AccountRepository accountRepo, final UserMemberRepository userMemberRepo) {
+    public MemberAccountService(final AccountRepository accountRepo, final UserPersonRepository userMemberRepo) {
         super();
 
         wrapped = new DefaultAccountService(accountRepo);
@@ -39,21 +39,21 @@ public final class MemberAccountService implements AccountService {
         final Optional<Account> basicAccount;
         final Optional<Account> result;
         final Account           account;
-        final Optional<Member>  member;
+        final Optional<Person>  member;
 
         basicAccount = wrapped.getCurrentUser();
         if (basicAccount.isPresent()) {
             member = userMemberRepository.findByUsername(basicAccount.get()
                 .getUsername());
 
-            account = MemberAccount.builder()
+            account = PersonAccount.builder()
                 .withUsername(basicAccount.get()
                     .getUsername())
                 .withName(basicAccount.get()
                     .getName())
                 .withEmail(basicAccount.get()
                     .getEmail())
-                .withMember(member.orElse(null))
+                .withPerson(member.orElse(null))
                 .build();
             result = Optional.of(account);
         } else {

@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 
 @Configuration
@@ -42,7 +42,7 @@ public class AssociationAccountConfig {
     @Primary
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
-            final UserMemberRepository userMemberRepository) {
+            final UserPersonRepository userMemberRepository) {
         return new MemberAccountService(accountRepository, userMemberRepository);
     }
 

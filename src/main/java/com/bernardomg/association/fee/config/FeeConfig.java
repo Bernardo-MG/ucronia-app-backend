@@ -53,7 +53,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
@@ -122,7 +122,7 @@ public class FeeConfig {
 
     @Bean("userFeeService")
     public UserFeeService getUserFeeService(final FeeRepository feeRepository,
-            final UserMemberRepository userMemberRepository) {
+            final UserPersonRepository userMemberRepository) {
         return new DefaultUserFeeService(feeRepository, userMemberRepository);
     }
 

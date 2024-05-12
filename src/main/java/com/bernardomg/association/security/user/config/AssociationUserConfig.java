@@ -27,13 +27,13 @@ package com.bernardomg.association.security.user.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserMemberRepository;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
-import com.bernardomg.association.security.user.usecase.service.UserMemberService;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserPersonRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
+import com.bernardomg.association.security.user.usecase.service.UserPersonService;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
@@ -45,15 +45,15 @@ public class AssociationUserConfig {
     }
 
     @Bean("userMemberRepository")
-    public UserMemberRepository getUserMemberRepository(final UserMemberSpringRepository userMemberJpaRepo,
-            final UserSpringRepository userSpringRepo, final MemberSpringRepository memberSpringRepo) {
-        return new JpaUserMemberRepository(userMemberJpaRepo, userSpringRepo, memberSpringRepo);
+    public UserPersonRepository getUserMemberRepository(final UserPersonSpringRepository userPersonSpringRepo,
+            final UserSpringRepository userSpringRepo, final PersonSpringRepository personSpringRepo) {
+        return new JpaUserPersonRepository(userPersonSpringRepo, userSpringRepo, personSpringRepo);
     }
 
     @Bean("userMemberService")
-    public UserMemberService getUserMemberService(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    public UserPersonService getUserMemberService(final UserRepository userRepo, final PersonRepository personRepo,
+            final UserPersonRepository userPersonRepo) {
+        return new DefaultUserPersonService(userRepo, personRepo, userPersonRepo);
     }
 
 }
