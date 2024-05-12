@@ -32,13 +32,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
-import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
@@ -49,40 +49,39 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserMemberRepositorySave {
 
     @Autowired
-    private UserMemberRepository       repository;
+    private UserPersonRepository       repository;
 
     @Autowired
-    private UserMemberSpringRepository userMemberSpringRepository;
+    private UserPersonSpringRepository userPersonSpringRepository;
 
     @Test
     @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithMember
     void testSave_Existing_PersistedData() {
-        final Collection<UserMemberEntity> members;
+        final Collection<UserPersonEntity> persons;
 
         // WHEN
         repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        members = userMemberSpringRepository.findAll();
+        persons = userPersonSpringRepository.findAll();
         SoftAssertions.assertSoftly(softly -> {
-            final UserMemberEntity member;
+            final UserPersonEntity person;
 
-            softly.assertThat(members)
-                .as("members")
+            softly.assertThat(persons)
+                .as("persons")
                 .hasSize(1);
 
-            member = members.iterator()
+            person = persons.iterator()
                 .next();
-            softly.assertThat(member.getUserId())
+            softly.assertThat(person.getUserId())
                 .as("user id")
                 .isNotNull();
-            softly.assertThat(member.getMember()
-                .getPerson()
+            softly.assertThat(person.getPerson()
                 .getNumber())
-                .as("member number")
+                .as("person number")
                 .isEqualTo(PersonConstants.NUMBER);
-            softly.assertThat(member.getUser()
+            softly.assertThat(person.getUser()
                 .getUsername())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);
@@ -93,14 +92,14 @@ class ITUserMemberRepositorySave {
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUserWithMember
     void testSave_Existing_ReturnedData() {
-        final Member member;
+        final Person person;
 
         // WHEN
-        member = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(member)
-            .isEqualTo(Members.inactive());
+        Assertions.assertThat(person)
+            .isEqualTo(Persons.valid());
     }
 
     @Test
@@ -108,31 +107,30 @@ class ITUserMemberRepositorySave {
     @ValidUser
     @SingleMember
     void testSave_PersistedData() {
-        final Collection<UserMemberEntity> members;
+        final Collection<UserPersonEntity> persons;
 
         // WHEN
         repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        members = userMemberSpringRepository.findAll();
+        persons = userPersonSpringRepository.findAll();
         SoftAssertions.assertSoftly(softly -> {
-            final UserMemberEntity member;
+            final UserPersonEntity person;
 
-            softly.assertThat(members)
-                .as("members")
+            softly.assertThat(persons)
+                .as("persons")
                 .hasSize(1);
 
-            member = members.iterator()
+            person = persons.iterator()
                 .next();
-            softly.assertThat(member.getUserId())
+            softly.assertThat(person.getUserId())
                 .as("user id")
                 .isNotNull();
-            softly.assertThat(member.getMember()
-                .getPerson()
+            softly.assertThat(person.getPerson()
                 .getNumber())
-                .as("member number")
+                .as("person number")
                 .isEqualTo(PersonConstants.NUMBER);
-            softly.assertThat(member.getUser()
+            softly.assertThat(person.getUser()
                 .getUsername())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);
@@ -144,14 +142,14 @@ class ITUserMemberRepositorySave {
     @ValidUser
     @SingleMember
     void testSave_ReturnedData() {
-        final Member member;
+        final Person person;
 
         // WHEN
-        member = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(member)
-            .isEqualTo(Members.inactive());
+        Assertions.assertThat(person)
+            .isEqualTo(Persons.valid());
     }
 
 }

@@ -31,9 +31,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
@@ -44,46 +44,46 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserMemberRepositoryFindByUsername {
 
     @Autowired
-    private UserMemberRepository repository;
+    private UserPersonRepository repository;
 
     @Test
     @DisplayName("When the user exists it is returned")
     @ValidUserWithMember
     void testFindByUsername() {
-        final Optional<Member> member;
+        final Optional<Person> person;
 
         // WHEN
-        member = repository.findByUsername(UserConstants.USERNAME);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(member)
-            .contains(Members.inactive());
+        Assertions.assertThat(person)
+            .contains(Persons.valid());
     }
 
     @Test
     @DisplayName("When no data exists nothing is returned")
     void testFindByUsername_NoData() {
-        final Optional<Member> member;
+        final Optional<Person> person;
 
         // WHEN
-        member = repository.findByUsername(UserConstants.USERNAME);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(member)
+        Assertions.assertThat(person)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When the member doesn't exist nothing is returned")
+    @DisplayName("When the person doesn't exist nothing is returned")
     @ValidUser
     void testFindByUsername_NoMember() {
-        final Optional<Member> member;
+        final Optional<Person> person;
 
         // WHEN
-        member = repository.findByUsername(UserConstants.USERNAME);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(member)
+        Assertions.assertThat(person)
             .isEmpty();
     }
 

@@ -35,9 +35,9 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.association.security.account..")
 
         .whereLayer("Persons")
-        .mayOnlyBeAccessedByLayers("Members", "Users", "Fees", "Library", "Inventory")
+        .mayOnlyBeAccessedByLayers("Members", "Users", "Account", "Fees", "Library", "Inventory")
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Users", "Inventory", "Library", "Account")
+        .mayOnlyBeAccessedByLayers("Fees", "Inventory", "Library", "Account")
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")

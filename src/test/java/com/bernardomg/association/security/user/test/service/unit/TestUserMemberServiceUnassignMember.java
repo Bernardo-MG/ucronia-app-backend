@@ -37,9 +37,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
@@ -51,10 +51,10 @@ class TestUserMemberServiceUnassignMember {
     private MemberRepository         memberRepository;
 
     @InjectMocks
-    private DefaultUserMemberService service;
+    private DefaultUserPersonService service;
 
     @Mock
-    private UserMemberRepository     userMemberRepository;
+    private UserPersonRepository     userMemberRepository;
 
     @Mock
     private UserRepository           userRepository;
@@ -67,7 +67,7 @@ class TestUserMemberServiceUnassignMember {
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        service.unassignMember(UserConstants.USERNAME);
+        service.unassignPerson(UserConstants.USERNAME);
 
         // THEN
         verify(userMemberRepository).delete(UserConstants.USERNAME);
@@ -82,7 +82,7 @@ class TestUserMemberServiceUnassignMember {
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.unassignMember(UserConstants.USERNAME);
+        execution = () -> service.unassignPerson(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -47,9 +47,9 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultUserFeeService;
-import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -69,7 +69,7 @@ class TestUserFeeServiceGetAllForUserInSession {
     private DefaultUserFeeService userFeeService;
 
     @Mock
-    private UserMemberRepository  userMemberRepository;
+    private UserPersonRepository  userMemberRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -86,7 +86,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Members.active()));
+        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of(Fees.paid()));
 
         // WHEN
@@ -137,7 +137,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Members.active()));
+        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of());
 
         // WHEN

@@ -32,19 +32,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 
-public interface UserMemberSpringRepository extends JpaRepository<UserMemberEntity, Long> {
+public interface UserPersonSpringRepository extends JpaRepository<UserPersonEntity, Long> {
 
     public void deleteByUserId(final long id);
 
     @Query("""
                SELECT CASE WHEN COUNT(um) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM UserMember um
-                 JOIN um.member m
+                 JOIN um.person p
                  JOIN um.user u
-               WHERE m.person.number = :number AND u.username != :username
+               WHERE p.number = :number AND u.username != :username
             """)
     public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,
             @Param("number") final long number);
@@ -59,13 +59,13 @@ public interface UserMemberSpringRepository extends JpaRepository<UserMemberEnti
      * @return a page with the members not assigned to a user
      */
     @Query("""
-               SELECT m
-               FROM Member m
-                 LEFT JOIN UserMember um ON m.person.number = um.member.person.number
-               WHERE um.member IS NULL
+               SELECT p
+               FROM Person p
+                 LEFT JOIN UserMember um ON p.number = um.person.number
+               WHERE um.person IS NULL
             """)
-    public Page<MemberEntity> findAllNotAssigned(final Pageable page);
+    public Page<PersonEntity> findAllNotAssigned(final Pageable page);
 
-    public Optional<UserMemberEntity> findByUserId(final long id);
+    public Optional<UserPersonEntity> findByUserId(final long id);
 
 }

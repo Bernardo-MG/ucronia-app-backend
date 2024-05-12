@@ -37,8 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,9 +53,9 @@ public final class DefaultUserFeeService implements UserFeeService {
 
     private final FeeRepository        feeRepository;
 
-    private final UserMemberRepository userMemberRepository;
+    private final UserPersonRepository userMemberRepository;
 
-    public DefaultUserFeeService(final FeeRepository feeRepo, final UserMemberRepository userMemberRepo) {
+    public DefaultUserFeeService(final FeeRepository feeRepo, final UserPersonRepository userMemberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -67,7 +67,7 @@ public final class DefaultUserFeeService implements UserFeeService {
         final Authentication   authentication;
         final Iterable<Fee>    fees;
         final UserDetails      userDetails;
-        final Optional<Member> member;
+        final Optional<Person> person;
 
         log.debug("Getting all the fees for the user in session");
 
@@ -77,12 +77,12 @@ public final class DefaultUserFeeService implements UserFeeService {
             fees = List.of();
         } else if (authentication.getPrincipal() instanceof UserDetails) {
             userDetails = (UserDetails) authentication.getPrincipal();
-            member = userMemberRepository.findByUsername(userDetails.getUsername());
-            if (member.isEmpty()) {
+            person = userMemberRepository.findByUsername(userDetails.getUsername());
+            if (person.isEmpty()) {
                 log.warn("User {} has no member assigned", userDetails.getUsername());
                 fees = List.of();
             } else {
-                fees = feeRepository.findAllForMember(member.get()
+                fees = feeRepository.findAllForMember(person.get()
                     .getNumber(), pageable);
             }
         } else {

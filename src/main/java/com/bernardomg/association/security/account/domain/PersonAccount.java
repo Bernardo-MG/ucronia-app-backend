@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.security.account.domain;
 
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.security.account.domain.model.Account;
 
 import lombok.Builder;
@@ -38,7 +38,7 @@ import lombok.Value;
  */
 @Value
 @Builder(setterPrefix = "with")
-public final class MemberAccount implements Account {
+public final class PersonAccount implements Account {
 
     /**
      * User email.
@@ -46,14 +46,14 @@ public final class MemberAccount implements Account {
     private final String email;
 
     /**
-     * User member;
-     */
-    private final Member member;
-
-    /**
      * User name.
      */
     private final String name;
+
+    /**
+     * User person;
+     */
+    private final Person person;
 
     /**
      * User username.
