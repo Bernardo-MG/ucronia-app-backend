@@ -27,7 +27,7 @@ public final class AssignPersonValidator extends AbstractValidator<UserPerson> {
 
         if (userPersonRepository.existsByPersonForAnotherUser(member.getUsername(), member.getNumber())) {
             log.error("Person {} already assigned to a user", member.getNumber());
-            failure = FieldFailure.of("member", "existing", member.getNumber());
+            failure = FieldFailure.of("person", "existing", member.getNumber());
             failures.add(failure);
         }
     }

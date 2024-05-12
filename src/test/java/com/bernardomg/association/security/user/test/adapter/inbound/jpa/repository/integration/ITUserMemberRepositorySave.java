@@ -33,9 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
-import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
@@ -99,7 +99,7 @@ class ITUserMemberRepositorySave {
 
         // THEN
         Assertions.assertThat(person)
-            .isEqualTo(Members.inactive());
+            .isEqualTo(Persons.valid());
     }
 
     @Test
@@ -149,7 +149,7 @@ class ITUserMemberRepositorySave {
 
         // THEN
         Assertions.assertThat(person)
-            .isEqualTo(Members.inactive());
+            .isEqualTo(Persons.valid());
     }
 
 }
