@@ -16,7 +16,7 @@ databaseChangeLog:
                     foreignKeyName: fk_user_persons_user
                     references: security.users(id)
               - column:
-                  name: member_id
+                  name: person_id
                   type: bigint
                   constraints:
                     nullable: false
