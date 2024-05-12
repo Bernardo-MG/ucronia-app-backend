@@ -15,7 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission_granted.sql",
         "/db/queries/security/relationship/user_role.sql" })
 @Sql("/db/queries/member/single.sql")
-@Sql("/db/queries/security/relationship/user_member.sql")
+@Sql("/db/queries/security/relationship/user_person.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
