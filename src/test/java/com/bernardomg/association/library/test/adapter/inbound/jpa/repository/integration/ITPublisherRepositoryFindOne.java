@@ -48,7 +48,7 @@ class ITPublisherRepositoryFindOne {
     @Test
     @DisplayName("With an publisher, it is returned")
     @ValidPublisher
-    void testGetOne() {
+    void testFindOne() {
         final Optional<Publisher> publisher;
 
         // WHEN
@@ -62,7 +62,7 @@ class ITPublisherRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<Publisher> publisher;
 
         // WHEN

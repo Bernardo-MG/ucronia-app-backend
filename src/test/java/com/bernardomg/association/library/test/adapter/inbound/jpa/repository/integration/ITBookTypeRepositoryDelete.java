@@ -36,6 +36,7 @@ import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -63,6 +64,7 @@ class ITBookTypeRepositoryDelete {
 
     @Test
     @DisplayName("When the book type is assigned to a book, an exception is thrown")
+    @ValidPerson
     @FullBook
     void testDelete_InBook() {
         final ThrowingCallable execution;

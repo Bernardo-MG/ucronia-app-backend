@@ -1,2 +1,2 @@
-INSERT INTO library.publishers (id, name) VALUES
+INSERT INTO inventory.publishers (id, name) VALUES
    (1, 'Publisher');

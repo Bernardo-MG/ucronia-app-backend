@@ -33,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -45,7 +45,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
     private FeeInitializer   feeInitializer;
 
     @Autowired
-    private MemberRepository service;
+    private MemberRepository repository;
 
     public ITAssignedFeeActiveMemberRepositoryFindInactive() {
         super();
@@ -61,7 +61,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -71,7 +71,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a not paid fee for the current month it returns nothing")
-    @ValidMember
+    @SingleMember
     void testFindInactive_CurrentMonth_NotPaid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -82,7 +82,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -92,7 +92,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a paid fee for the current month it returns nothing")
-    @ValidMember
+    @SingleMember
     void testFindInactive_CurrentMonth_Paid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -103,7 +103,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -113,7 +113,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a not paid fee for the last three months it returns nothing")
-    @ValidMember
+    @SingleMember
     void testFindInactive_LastThreeMonths_NotPaid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -126,7 +126,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -136,7 +136,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a paid fee for the last three months it returns nothing")
-    @ValidMember
+    @SingleMember
     void testFindInactive_LastThreeMonths_Paid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -149,7 +149,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -159,7 +159,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a not paid fee for the next month it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_NextMonth_NotPaid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -170,7 +170,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -180,7 +180,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a paid fee for the next month it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_NextMonth_Paid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -191,7 +191,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -201,7 +201,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with no fees it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_NoFee() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -210,7 +210,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -220,7 +220,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a not paid fee for the previous month it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_PreviousMonth_NotPaid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -231,7 +231,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -241,7 +241,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a paid fee for the previous month it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_PreviousMonth_Paid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -252,7 +252,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -262,7 +262,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a not paid fee for two months back it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_TwoMonthsBack_NotPaid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -273,7 +273,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -283,7 +283,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
 
     @Test
     @DisplayName("With a member with a paid fee for two months back it returns the member")
-    @ValidMember
+    @SingleMember
     void testFindInactive_TwoMonthsBack_Paid() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -294,7 +294,7 @@ class ITAssignedFeeActiveMemberRepositoryFindInactive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = service.findInactive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)

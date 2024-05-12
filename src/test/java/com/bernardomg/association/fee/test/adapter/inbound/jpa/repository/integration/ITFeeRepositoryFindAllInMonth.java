@@ -34,7 +34,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +46,7 @@ class ITFeeRepositoryFindAllInMonth {
 
     @Test
     @DisplayName("With a paid fee, it is returned")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testFindAllInMonth() {
         final Iterable<Fee> fees;
@@ -76,7 +76,7 @@ class ITFeeRepositoryFindAllInMonth {
 
     @Test
     @DisplayName("With a paid fee for a month without data, nothing is returned")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testFindAllInMonth_WrongMonth() {
         final Iterable<Fee> fees;

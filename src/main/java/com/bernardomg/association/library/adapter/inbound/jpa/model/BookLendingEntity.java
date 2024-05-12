@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "BookLending")
-@Table(schema = "library", name = "book_lendings")
+@Table(schema = "inventory", name = "book_lendings")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -45,8 +45,8 @@ public class BookLendingEntity implements Serializable {
     @Convert(converter = YearMonthDateAttributeConverter.class)
     private YearMonth         lendingDate;
 
-    @Column(name = "member_id", nullable = false)
-    private Long              memberId;
+    @Column(name = "person_id", nullable = false)
+    private Long              personId;
 
     @Column(name = "return_date", nullable = false)
     @Convert(converter = YearMonthDateAttributeConverter.class)

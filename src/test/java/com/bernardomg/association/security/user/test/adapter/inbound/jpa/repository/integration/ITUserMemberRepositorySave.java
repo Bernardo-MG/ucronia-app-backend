@@ -33,9 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
@@ -61,7 +61,7 @@ class ITUserMemberRepositorySave {
         final Collection<UserMemberEntity> members;
 
         // WHEN
-        repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+        repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         members = userMemberSpringRepository.findAll();
@@ -78,9 +78,10 @@ class ITUserMemberRepositorySave {
                 .as("user id")
                 .isNotNull();
             softly.assertThat(member.getMember()
+                .getPerson()
                 .getNumber())
                 .as("member number")
-                .isEqualTo(MemberConstants.NUMBER);
+                .isEqualTo(PersonConstants.NUMBER);
             softly.assertThat(member.getUser()
                 .getUsername())
                 .as("username")
@@ -95,7 +96,7 @@ class ITUserMemberRepositorySave {
         final Member member;
 
         // WHEN
-        member = repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+        member = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -105,12 +106,12 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
-    @ValidMember
+    @SingleMember
     void testSave_PersistedData() {
         final Collection<UserMemberEntity> members;
 
         // WHEN
-        repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+        repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         members = userMemberSpringRepository.findAll();
@@ -127,9 +128,10 @@ class ITUserMemberRepositorySave {
                 .as("user id")
                 .isNotNull();
             softly.assertThat(member.getMember()
+                .getPerson()
                 .getNumber())
                 .as("member number")
-                .isEqualTo(MemberConstants.NUMBER);
+                .isEqualTo(PersonConstants.NUMBER);
             softly.assertThat(member.getUser()
                 .getUsername())
                 .as("username")
@@ -140,12 +142,12 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
-    @ValidMember
+    @SingleMember
     void testSave_ReturnedData() {
         final Member member;
 
         // WHEN
-        member = repository.save(UserConstants.USERNAME, MemberConstants.NUMBER);
+        member = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)

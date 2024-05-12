@@ -44,7 +44,7 @@ class ITGameSystemRepositoryExists {
     @Test
     @DisplayName("With an author, it exists")
     @ValidGameSystem
-    void testGetOne() {
+    void testFindOne() {
         final boolean exists;
 
         // WHEN
@@ -58,7 +58,7 @@ class ITGameSystemRepositoryExists {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final boolean exists;
 
         // WHEN

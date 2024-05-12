@@ -36,8 +36,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,13 +49,13 @@ class ITFeeRepositoryFindAllForMemberInDates {
 
     @Test
     @DisplayName("When there is a fee it is returned")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testFindAllForMemberInDates() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(MemberConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
@@ -65,12 +65,12 @@ class ITFeeRepositoryFindAllForMemberInDates {
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    @ValidMember
+    @SingleMember
     void testFindAllForMemberInDates_NoData() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(MemberConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)

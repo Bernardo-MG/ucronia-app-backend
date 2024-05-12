@@ -16,7 +16,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -31,7 +31,7 @@ class ITFeeRepositorySave {
 
     @Test
     @DisplayName("When a not paid fee exists it can be persisted")
-    @ValidMember
+    @SingleMember
     @PaidFee
     void testSave_Existing() {
         final Iterable<FeeEntity> fees;
@@ -48,13 +48,13 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
             .containsExactly(FeeEntities.atDate());
     }
 
     @Test
     @DisplayName("Persists the data")
-    @ValidMember
+    @SingleMember
     void testSave_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -70,13 +70,13 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
             .containsExactly(FeeEntities.atDate());
     }
 
     @Test
     @DisplayName("Returns the created data")
-    @ValidMember
+    @SingleMember
     void testSave_ReturnedData() {
         final Collection<Fee> fees;
         final Fee             fee;

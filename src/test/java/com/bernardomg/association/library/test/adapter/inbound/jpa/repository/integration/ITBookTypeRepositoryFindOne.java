@@ -48,7 +48,7 @@ class ITBookTypeRepositoryFindOne {
     @Test
     @DisplayName("With a book type, it is returned")
     @ValidBookType
-    void testGetOne() {
+    void testFindOne() {
         final Optional<BookType> bookType;
 
         // WHEN
@@ -62,7 +62,7 @@ class ITBookTypeRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<BookType> bookType;
 
         // WHEN

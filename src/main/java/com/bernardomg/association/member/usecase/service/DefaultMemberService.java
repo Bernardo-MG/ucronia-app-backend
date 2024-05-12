@@ -44,12 +44,12 @@ public final class DefaultMemberService implements MemberService {
     @Override
     public final Member create(final Member member) {
         final Member toCreate;
-        final Long   index;
+        final Long   number;
 
         log.debug("Creating member {}", member);
 
         // Set number
-        index = memberRepository.findNextNumber();
+        number = memberRepository.findNextNumber();
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
@@ -58,7 +58,7 @@ public final class DefaultMemberService implements MemberService {
             .withIdentifier(member.getIdentifier())
             .withName(member.getName())
             .withPhone(member.getPhone())
-            .withNumber(index)
+            .withNumber(number)
             .build();
 
         createMemberValidator.validate(toCreate);
@@ -124,6 +124,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
+        // TODO: Apply the creation validations
 
         existing = memberRepository.findOne(member.getNumber());
         if (existing.isEmpty()) {
@@ -160,9 +161,11 @@ public final class DefaultMemberService implements MemberService {
 
     private final Sort correctSort(final Sort received) {
         final Optional<Order> fullNameOrder;
+        final Optional<Order> numberOrder;
         final List<Order>     orders;
         final List<Order>     validOrders;
 
+        // Full name
         fullNameOrder = received.stream()
             .filter(o -> "fullName".equals(o.getProperty()))
             .findFirst();
@@ -171,16 +174,30 @@ public final class DefaultMemberService implements MemberService {
         if (fullNameOrder.isPresent()) {
             if (fullNameOrder.get()
                 .getDirection() == Direction.ASC) {
-                orders.add(Order.asc("name"));
-                orders.add(Order.asc("surname"));
+                orders.add(Order.asc("person.name"));
+                orders.add(Order.asc("person.surname"));
             } else {
-                orders.add(Order.desc("name"));
-                orders.add(Order.desc("surname"));
+                orders.add(Order.desc("person.name"));
+                orders.add(Order.desc("person.surname"));
+            }
+        }
+
+        // Number
+        numberOrder = received.stream()
+            .filter(o -> "number".equals(o.getProperty()))
+            .findFirst();
+        if (numberOrder.isPresent()) {
+            if (fullNameOrder.get()
+                .getDirection() == Direction.ASC) {
+                orders.add(Order.asc("person.number"));
+            } else {
+                orders.add(Order.desc("person.number"));
             }
         }
 
         validOrders = received.stream()
             .filter(o -> !"fullName".equals(o.getProperty()))
+            .filter(o -> !"number".equals(o.getProperty()))
             .toList();
         orders.addAll(validOrders);
 

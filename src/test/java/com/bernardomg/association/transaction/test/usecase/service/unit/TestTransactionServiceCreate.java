@@ -35,7 +35,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
@@ -59,7 +59,7 @@ class TestTransactionServiceCreate {
         // GIVEN
         transaction = Transactions.paddedWithWhitespaces();
 
-        given(transactionRepository.findNextIndex()).willReturn(MemberConstants.NUMBER);
+        given(transactionRepository.findNextIndex()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         service.create(transaction);
@@ -76,7 +76,7 @@ class TestTransactionServiceCreate {
         // GIVEN
         transaction = Transactions.valid();
 
-        given(transactionRepository.findNextIndex()).willReturn(MemberConstants.NUMBER);
+        given(transactionRepository.findNextIndex()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         service.create(transaction);
@@ -95,7 +95,7 @@ class TestTransactionServiceCreate {
         transaction = Transactions.valid();
 
         given(transactionRepository.save(Transactions.valid())).willReturn(Transactions.valid());
-        given(transactionRepository.findNextIndex()).willReturn(MemberConstants.NUMBER);
+        given(transactionRepository.findNextIndex()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
         created = service.create(transaction);

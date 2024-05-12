@@ -34,7 +34,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
@@ -88,7 +88,7 @@ class ITUserMemberRepositoryFindAllNotAssigned {
     @Test
     @DisplayName("When the user exists it is returned")
     @ValidUser
-    @ValidMember
+    @SingleMember
     void testFindAllNotAssigned_NotAssigned() {
         final Collection<Member> members;
         final Pageable           page;

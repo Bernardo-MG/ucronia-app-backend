@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,13 +59,13 @@ class TestMemberServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.delete(MemberConstants.NUMBER);
+        service.delete(PersonConstants.NUMBER);
 
         // THEN
-        verify(memberRepository).delete(MemberConstants.NUMBER);
+        verify(memberRepository).delete(PersonConstants.NUMBER);
     }
 
     @Test
@@ -74,10 +74,10 @@ class TestMemberServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(MemberConstants.NUMBER);
+        execution = () -> service.delete(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

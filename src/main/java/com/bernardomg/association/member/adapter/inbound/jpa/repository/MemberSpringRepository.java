@@ -27,19 +27,36 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
-    public void deleteByNumber(final Long number);
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Member m
+            WHERE m.person.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
 
-    public boolean existsByNumber(final Long number);
+    @Query("""
+            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM Member m
+              JOIN m.person p
+            WHERE p.number = :number
+            """)
+    public boolean existsByNumber(@Param("number") final Long number);
 
-    public Optional<MemberEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM Member m")
-    public Long findNextNumber();
+    @Query("""
+            SELECT m
+            FROM Member m
+              JOIN m.person p
+            WHERE p.number = :number
+            """)
+    public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
 }

@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.Person;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 
 public interface FeeRepository {
@@ -43,7 +43,7 @@ public interface FeeRepository {
 
     public FeeCalendarYearsRange findRange();
 
-    public void pay(final Member member, final Collection<Fee> fees, final Transaction transaction);
+    public void pay(final Person person, final Collection<Fee> fees, final Transaction transaction);
 
     public Collection<Fee> save(final Collection<Fee> fees);
 

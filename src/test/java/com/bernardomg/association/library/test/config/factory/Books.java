@@ -3,6 +3,8 @@ package com.bernardomg.association.library.test.config.factory;
 
 import java.util.List;
 
+import com.bernardomg.association.inventory.domain.model.Donor;
+import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
@@ -20,6 +22,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
+            .withDonor(Donors.valid())
             .build();
     }
 
@@ -33,6 +36,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
+            .withDonor(Donors.valid())
             .build();
     }
 
@@ -49,6 +53,8 @@ public final class Books {
                 .build())
             .withBookType(BookType.builder()
                 .build())
+            .withDonor(Donor.builder()
+                .build())
             .build();
     }
 
@@ -62,6 +68,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
+            .withDonor(Donors.valid())
             .build();
     }
 
@@ -77,6 +84,8 @@ public final class Books {
             .withGameSystem(GameSystem.builder()
                 .build())
             .withBookType(BookType.builder()
+                .build())
+            .withDonor(Donor.builder()
                 .build())
             .build();
     }

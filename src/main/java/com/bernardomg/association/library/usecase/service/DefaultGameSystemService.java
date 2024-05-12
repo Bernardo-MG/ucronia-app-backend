@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public final class DefaultGameSystemService implements GameSystemService {
     public DefaultGameSystemService(final GameSystemRepository gameSystemRepo) {
         super();
 
-        gameSystemRepository = gameSystemRepo;
+        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
 
         createGameSystemValidator = new CreateGameSystemValidator(gameSystemRepository);
     }

@@ -6,18 +6,19 @@ import org.apache.commons.lang3.StringUtils;
 import lombok.Builder;
 import lombok.Value;
 
-/**
- * TODO: Try to make this immutable.
- */
 @Value
 @Builder(setterPrefix = "with")
-public final class MemberName {
+public final class PersonName {
+
+    public static final PersonName of(final String firstName, final String lastName) {
+        return new PersonName(firstName, lastName);
+    }
 
     private String firstName;
 
     private String lastName;
 
-    public MemberName(final String firstName, final String lastName) {
+    public PersonName(final String firstName, final String lastName) {
         super();
 
         this.firstName = StringUtils.trim(firstName);

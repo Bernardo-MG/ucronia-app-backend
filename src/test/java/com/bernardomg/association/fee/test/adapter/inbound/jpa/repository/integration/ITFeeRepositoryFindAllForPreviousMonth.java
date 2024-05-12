@@ -33,7 +33,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
 
     @Test
     @DisplayName("When there is a not paid fee in the previous month it is returned")
-    @ValidMember
+    @SingleMember
     void testFindAllForPreviousMonth_NotPaid() {
         final Iterable<Fee> fees;
 
@@ -80,7 +80,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
 
     @Test
     @DisplayName("When there is a paid fee in the previous month it is returned")
-    @ValidMember
+    @SingleMember
     void testFindAllForPreviousMonth_Paid() {
         final Iterable<Fee> fees;
 

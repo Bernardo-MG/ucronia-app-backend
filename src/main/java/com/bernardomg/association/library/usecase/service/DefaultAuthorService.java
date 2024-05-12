@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public final class DefaultAuthorService implements AuthorService {
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
 
-        authorRepository = authorRepo;
+        authorRepository = Objects.requireNonNull(authorRepo);
 
         createAuthorValidator = new CreateAuthorValidator(authorRepository);
     }

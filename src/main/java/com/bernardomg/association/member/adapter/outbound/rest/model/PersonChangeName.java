@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberChangeName {
+public final class PersonChangeName {
 
     private String firstName;
 

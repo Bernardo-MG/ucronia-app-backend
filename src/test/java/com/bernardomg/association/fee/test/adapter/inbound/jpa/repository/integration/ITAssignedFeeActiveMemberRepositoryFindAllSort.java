@@ -46,7 +46,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITAssignedFeeActiveMemberRepositoryFindAllSort {
 
     @Autowired
-    private MemberRepository service;
+    private MemberRepository repository;
 
     public ITAssignedFeeActiveMemberRepositoryFindAllSort() {
         super();
@@ -59,11 +59,11 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "name");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "person.name");
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -78,10 +78,10 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "name");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "person.name");
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -96,10 +96,10 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "person.surname");
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -114,10 +114,10 @@ class ITAssignedFeeActiveMemberRepositoryFindAllSort {
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "person.surname");
 
         // WHEN
-        members = service.findAll(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)

@@ -1,4 +1,4 @@
-INSERT INTO fees (id, member_id, date) VALUES
+INSERT INTO fees (id, person_id, date) VALUES
    (2, 2, '2020-02-01');
 
 INSERT INTO transactions (id, index, description, amount, date) VALUES

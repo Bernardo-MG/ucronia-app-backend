@@ -45,9 +45,9 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.domain.exception.MissingPersonException;
+import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,10 +61,10 @@ class TestFeeServiceGetOne {
     private FeeRepository                  feeRepository;
 
     @Mock
-    private MemberRepository               memberRepository;
+    private MessageSource                  messageSource;
 
     @Mock
-    private MessageSource                  messageSource;
+    private PersonRepository               personRepository;
 
     @InjectMocks
     private DefaultFeeService              service;
@@ -78,12 +78,12 @@ class TestFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -97,12 +97,12 @@ class TestFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
-        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        fee = service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -116,11 +116,11 @@ class TestFeeServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -128,19 +128,19 @@ class TestFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("With a not existing member, an exception is thrown")
-    void testGetOne_NotExistingMember() {
+    @DisplayName("With a not existing person, an exception is thrown")
+    void testGetOne_NotExistingPerson() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
 }

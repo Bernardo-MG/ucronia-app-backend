@@ -31,7 +31,7 @@ import java.util.Objects;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 
@@ -80,24 +80,24 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final boolean isActive(final Fee fee) {
         // TODO: aren't all members with fees in the previous month active?
-        return activeMemberRepository.isActivePreviousMonth(fee.getMember()
+        return activeMemberRepository.isActivePreviousMonth(fee.getPerson()
             .getNumber());
     }
 
     private final boolean notExists(final Fee fee) {
-        return !feeRepository.exists(fee.getMember()
+        return !feeRepository.exists(fee.getPerson()
             .getNumber(), fee.getDate());
     }
 
     private final Fee toCurrentMonth(final Fee fee) {
-        final FeeMember member;
+        final FeePerson person;
 
-        member = FeeMember.builder()
-            .withNumber(fee.getMember()
+        person = FeePerson.builder()
+            .withNumber(fee.getPerson()
                 .getNumber())
             .build();
         return Fee.builder()
-            .withMember(member)
+            .withPerson(person)
             .withDate(YearMonth.now())
             .build();
     }

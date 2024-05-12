@@ -37,23 +37,33 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFee;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
-    public void deleteByMemberIdAndDate(final Long memberId, final YearMonth date);
+    public void deleteByPersonIdAndDate(final Long personId, final YearMonth date);
 
-    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
+    public boolean existsByPersonIdAndDate(final Long personId, final YearMonth date);
 
-    @Query("SELECT f.id AS id, m.id AS memberId, m.number AS memberNumber, TRIM(CONCAT(m.name, ' ', m.surname)) AS memberName, f.date AS date, t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN p.feeId IS NOT NULL THEN true ELSE false END AS paid FROM Member m INNER JOIN Fee f ON m.id = f.memberId LEFT JOIN FeePayment p ON f.id = p.feeId LEFT JOIN Transaction t ON p.transactionId = t.id WHERE m.number = :memberNumber AND f.date in :feeDates")
-    public Collection<MemberFee> findAllByMemberNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
+    @Query("""
+               SELECT f.id AS id, m.id AS personId, m.person.number AS personNumber,
+                 TRIM(CONCAT(m.person.name, ' ', m.person.surname)) AS personName, f.date AS date,
+                 t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN p.feeId IS NOT NULL THEN true ELSE false END AS paid
+               FROM Member m
+                 INNER JOIN Fee f ON m.id = f.personId
+                 LEFT JOIN FeePayment p ON f.id = p.feeId
+                 LEFT JOIN Transaction t ON p.transactionId = t.id
+               WHERE m.person.number = :memberNumber
+                 AND f.date in :feeDates
+            """)
+    public Collection<MemberFee> findAllByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
             @Param("feeDates") final Collection<YearMonth> feeDates);
 
     /**
      * Finds the fee for the member in the date.
      *
-     * @param memberId
-     *            member to filter by
+     * @param personId
+     *            person to filter by
      * @param date
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<FeeEntity> findByMemberIdAndDate(final Long memberId, final YearMonth date);
+    public Optional<FeeEntity> findByPersonIdAndDate(final Long personId, final YearMonth date);
 
 }

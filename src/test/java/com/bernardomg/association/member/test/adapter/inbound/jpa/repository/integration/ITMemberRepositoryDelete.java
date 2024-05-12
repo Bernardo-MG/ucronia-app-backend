@@ -31,13 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - delete")
-@ValidMember
 class ITMemberRepositoryDelete {
 
     @Autowired
@@ -52,9 +51,10 @@ class ITMemberRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a member, it is removed")
+    @SingleMember
     void testDelete() {
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        memberRepository.delete(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(repository.count())
@@ -65,7 +65,7 @@ class ITMemberRepositoryDelete {
     @DisplayName("When there is no data, nothing is removed")
     void testDelete_noData() {
         // WHEN
-        memberRepository.delete(MemberConstants.NUMBER);
+        memberRepository.delete(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(repository.count())

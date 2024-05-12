@@ -10,15 +10,15 @@ public interface MemberFee {
 
     public Long getId();
 
-    public Long getMemberId();
-
-    public String getMemberName();
-
-    public Long getMemberNumber();
-
     public Boolean getPaid();
 
     public LocalDate getPaymentDate();
+
+    public Long getPersonId();
+
+    public String getPersonName();
+
+    public Long getPersonNumber();
 
     public Long getTransactionIndex();
 

@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.usecase.validation;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,7 +21,7 @@ public final class CreateBookTypeValidator extends AbstractValidator<BookType> {
     public CreateBookTypeValidator(final BookTypeRepository bookTypeRepo) {
         super();
 
-        bookTypeRepository = bookTypeRepo;
+        bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
     }
 
     @Override

@@ -1,12 +1,15 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
+import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
@@ -35,6 +38,8 @@ public final class DefaultBookService implements BookService {
 
     private final CreateBookValidator  createBookValidator;
 
+    private final DonorRepository      donorRepository;
+
     private final GameSystemRepository gameSystemRepository;
 
     private final PublisherRepository  publisherRepository;
@@ -43,14 +48,15 @@ public final class DefaultBookService implements BookService {
 
     public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
-            final GameSystemRepository gameSystemRepo) {
+            final GameSystemRepository gameSystemRepo, final DonorRepository donorRepo) {
         super();
 
-        bookRepository = bookRepo;
-        authorRepository = authorRepo;
-        publisherRepository = publisherRepo;
-        bookTypeRepository = bookTypeRepo;
-        gameSystemRepository = gameSystemRepo;
+        bookRepository = Objects.requireNonNull(bookRepo);
+        authorRepository = Objects.requireNonNull(authorRepo);
+        publisherRepository = Objects.requireNonNull(publisherRepo);
+        bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
+        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
+        donorRepository = Objects.requireNonNull(donorRepo);
 
         createBookValidator = new CreateBookValidator(bookRepository);
         updateBookValidator = new UpdateBookValidator(bookRepository);
@@ -58,71 +64,31 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Book create(final Book book) {
-        final boolean publisherExists;
-        final boolean gameSystemExists;
-        final boolean bookTypeExists;
-        final Book    toCreate;
-        final Long    number;
+        final Book toCreate;
+        final Long number;
 
         log.debug("Creating book {}", book);
 
         // TODO: verify the language is a valid code
 
-        book.getAuthors()
-            .forEach(a -> {
-                final boolean authorExists;
+        validateRelationships(book);
 
-                authorExists = authorRepository.exists(a.getName());
-                if (!authorExists) {
-                    throw new MissingAuthorException(a.getName());
-                }
-            });
-
-        if (StringUtils.isNotBlank(book.getPublisher()
-            .getName())) {
-            publisherExists = publisherRepository.exists(book.getPublisher()
-                .getName());
-            if (!publisherExists) {
-                throw new MissingPublisherException(book.getPublisher()
-                    .getName());
-            }
-        }
-
-        if (StringUtils.isNotBlank(book.getGameSystem()
-            .getName())) {
-            gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
-                .getName());
-            if (!gameSystemExists) {
-                throw new MissingGameSystemException(book.getGameSystem()
-                    .getName());
-            }
-        }
-
-        if (StringUtils.isNotBlank(book.getBookType()
-            .getName())) {
-            bookTypeExists = bookTypeRepository.exists(book.getBookType()
-                .getName());
-            if (!bookTypeExists) {
-                throw new MissingBookTypeException(book.getBookType()
-                    .getName());
-            }
-        }
+        // Get number
+        number = bookRepository.findNextNumber();
 
         toCreate = Book.builder()
+            .withNumber(number)
             .withAuthors(book.getAuthors())
             .withPublisher(book.getPublisher())
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
+            .withDonor(book.getDonor())
             .withIsbn(book.getIsbn())
             .withLanguage(book.getLanguage())
             .withTitle(book.getTitle())
             .build();
 
-        // Set number
-        number = bookRepository.findNextNumber();
-        toCreate.setNumber(number);
-
-        createBookValidator.validate(toCreate);
+        createBookValidator.validate(book);
 
         return bookRepository.save(toCreate);
     }
@@ -160,19 +126,30 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Book update(final long number, final Book book) {
-        final boolean publisherExists;
-        final boolean gameSystemExists;
-        final boolean bookTypeExists;
-
         log.debug("Updating book with number {} using data {}", number, book);
 
         // TODO: verify the language is a valid code
         // TODO: validate isbn
 
+        // Check book exists
         if (!bookRepository.exists(number)) {
             throw new MissingBookException(number);
         }
 
+        validateRelationships(book);
+
+        updateBookValidator.validate(book);
+
+        return bookRepository.save(book);
+    }
+
+    private final void validateRelationships(final Book book) {
+        final boolean publisherExists;
+        final boolean gameSystemExists;
+        final boolean bookTypeExists;
+        final boolean donorExists;
+
+        // Check authors exist
         book.getAuthors()
             .forEach(a -> {
                 final boolean authorExists;
@@ -183,6 +160,7 @@ public final class DefaultBookService implements BookService {
                 }
             });
 
+        // Check publisher exist
         if (StringUtils.isNotBlank(book.getPublisher()
             .getName())) {
             publisherExists = publisherRepository.exists(book.getPublisher()
@@ -193,6 +171,7 @@ public final class DefaultBookService implements BookService {
             }
         }
 
+        // Check game system exist
         if (StringUtils.isNotBlank(book.getGameSystem()
             .getName())) {
             gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
@@ -203,6 +182,7 @@ public final class DefaultBookService implements BookService {
             }
         }
 
+        // Check book type exist
         if (StringUtils.isNotBlank(book.getBookType()
             .getName())) {
             bookTypeExists = bookTypeRepository.exists(book.getBookType()
@@ -213,9 +193,17 @@ public final class DefaultBookService implements BookService {
             }
         }
 
-        updateBookValidator.validate(book);
+        // Check donor exist
+        if (book.getDonor()
+            .getNumber() >= 0) {
+            donorExists = donorRepository.exists(book.getDonor()
+                .getNumber());
+            if (!donorExists) {
+                throw new MissingDonorException(book.getDonor()
+                    .getNumber());
+            }
+        }
 
-        return bookRepository.save(book);
     }
 
 }

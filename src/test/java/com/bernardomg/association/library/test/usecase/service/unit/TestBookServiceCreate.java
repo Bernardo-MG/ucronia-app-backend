@@ -38,6 +38,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
+import com.bernardomg.association.inventory.domain.repository.DonorRepository;
+import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.exception.MissingGameSystemException;
@@ -72,6 +75,9 @@ class TestBookServiceCreate {
     private BookTypeRepository   bookTypeRepository;
 
     @Mock
+    private DonorRepository      donorRepository;
+
+    @Mock
     private GameSystemRepository gameSystemRepository;
 
     @Mock
@@ -97,6 +103,7 @@ class TestBookServiceCreate {
         given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(book);
@@ -118,6 +125,7 @@ class TestBookServiceCreate {
         given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.create(book);
@@ -155,6 +163,7 @@ class TestBookServiceCreate {
         given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbn(BookConstants.ISBN)).willReturn(true);
 
@@ -204,6 +213,29 @@ class TestBookServiceCreate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingBookTypeException.class);
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing donor, an exception is thrown")
+    void testCreate_NoDonor() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.full();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingDonorException.class);
     }
 
     @Test
@@ -276,6 +308,7 @@ class TestBookServiceCreate {
         given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
@@ -298,6 +331,7 @@ class TestBookServiceCreate {
         given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         given(bookRepository.save(Books.full())).willReturn(Books.full());

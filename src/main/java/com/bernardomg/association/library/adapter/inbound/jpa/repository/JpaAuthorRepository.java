@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
     public JpaAuthorRepository(final AuthorSpringRepository authorSpringRepo) {
         super();
 
-        authorSpringRepository = authorSpringRepo;
+        authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
     }
 
     @Override

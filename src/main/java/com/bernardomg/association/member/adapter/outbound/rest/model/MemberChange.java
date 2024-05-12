@@ -18,7 +18,7 @@ public final class MemberChange {
 
     @NotNull
     @Valid
-    private MemberChangeName name;
+    private PersonChangeName name;
 
     private String           phone;
 
