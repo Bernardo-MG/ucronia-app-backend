@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.Person;
-import com.bernardomg.association.member.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 

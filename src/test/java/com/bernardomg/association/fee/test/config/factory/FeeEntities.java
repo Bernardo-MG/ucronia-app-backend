@@ -2,7 +2,7 @@
 package com.bernardomg.association.fee.test.config.factory;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.member.test.config.factory.PersonEntities;
+import com.bernardomg.association.person.test.config.factory.PersonEntities;
 
 public final class FeeEntities {
 

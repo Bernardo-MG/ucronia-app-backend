@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.AlternativeUserWithMember;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;

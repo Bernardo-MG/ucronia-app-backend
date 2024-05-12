@@ -2,6 +2,7 @@
 package com.bernardomg.association.member.test.config.factory;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.person.test.config.factory.PersonEntities;
 
 public final class MemberEntities {
 

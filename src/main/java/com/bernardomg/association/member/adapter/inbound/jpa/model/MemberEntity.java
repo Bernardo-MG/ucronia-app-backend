@@ -3,6 +3,8 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -10,8 +10,8 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

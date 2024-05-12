@@ -8,7 +8,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 
 public final class Fees {

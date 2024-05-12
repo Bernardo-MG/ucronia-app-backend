@@ -23,8 +23,8 @@ import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

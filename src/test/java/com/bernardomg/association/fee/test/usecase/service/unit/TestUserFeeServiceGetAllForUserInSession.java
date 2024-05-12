@@ -48,7 +48,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultUserFeeService;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 

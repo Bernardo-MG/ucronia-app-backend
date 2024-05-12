@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.member.domain.model;
 
+import com.bernardomg.association.person.domain.model.PersonName;
+
 import lombok.Builder;
 import lombok.Value;
 

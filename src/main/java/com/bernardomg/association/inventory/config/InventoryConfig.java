@@ -31,7 +31,7 @@ import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.JpaDo
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 /**
  * Transaction configuration.

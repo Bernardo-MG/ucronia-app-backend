@@ -5,7 +5,7 @@ import java.time.Month;
 import java.time.YearMonth;
 
 import com.bernardomg.association.library.domain.model.BookLending;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 public final class BookLendings {
 

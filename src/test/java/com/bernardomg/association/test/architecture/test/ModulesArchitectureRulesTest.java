@@ -17,6 +17,8 @@ public class ModulesArchitectureRulesTest {
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
+        .layer("Persons")
+        .definedBy("com.bernardomg.association.person..")
         .layer("Members")
         .definedBy("com.bernardomg.association.member..")
         .layer("Transactions")
@@ -32,6 +34,8 @@ public class ModulesArchitectureRulesTest {
         .layer("Account")
         .definedBy("com.bernardomg.association.security.account..")
 
+        .whereLayer("Persons")
+        .mayOnlyBeAccessedByLayers("Members", "Users", "Fees", "Library", "Inventory")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees", "Users", "Inventory", "Library", "Account")
         .whereLayer("Transactions")

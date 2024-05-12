@@ -46,8 +46,8 @@ import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberChange;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.PersonName;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

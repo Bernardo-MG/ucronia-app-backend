@@ -10,12 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.PersonName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.extern.slf4j.Slf4j;
 

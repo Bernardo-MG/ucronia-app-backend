@@ -18,7 +18,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")

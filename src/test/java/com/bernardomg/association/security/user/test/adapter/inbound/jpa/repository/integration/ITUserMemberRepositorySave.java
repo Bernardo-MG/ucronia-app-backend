@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserMemberEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserMemberSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;

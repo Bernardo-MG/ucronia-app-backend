@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.member.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 
 public interface FeeRepository {

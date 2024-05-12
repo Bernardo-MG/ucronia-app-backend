@@ -4,7 +4,7 @@ package com.bernardomg.association.library.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Collection;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

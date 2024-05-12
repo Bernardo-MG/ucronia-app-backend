@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

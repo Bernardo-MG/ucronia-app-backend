@@ -42,9 +42,9 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.exception.MissingPersonException;
-import com.bernardomg.association.member.domain.repository.PersonRepository;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)

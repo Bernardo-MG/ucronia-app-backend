@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

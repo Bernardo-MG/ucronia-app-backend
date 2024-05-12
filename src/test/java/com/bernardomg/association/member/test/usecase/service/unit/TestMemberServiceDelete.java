@@ -38,8 +38,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - delete")

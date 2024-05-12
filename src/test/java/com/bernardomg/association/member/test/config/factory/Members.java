@@ -2,7 +2,8 @@
 package com.bernardomg.association.member.test.config.factory;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 public final class Members {
 

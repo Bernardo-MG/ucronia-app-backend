@@ -58,8 +58,8 @@ import com.bernardomg.association.library.usecase.service.DefaultGameSystemServi
 import com.bernardomg.association.library.usecase.service.DefaultPublisherService;
 import com.bernardomg.association.library.usecase.service.GameSystemService;
 import com.bernardomg.association.library.usecase.service.PublisherService;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 /**
  * Library configuration.

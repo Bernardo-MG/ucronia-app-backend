@@ -4,7 +4,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.YearMonth;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
 
 import jakarta.persistence.Column;

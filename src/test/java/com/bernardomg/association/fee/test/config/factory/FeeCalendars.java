@@ -10,7 +10,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMember;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.member.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 public final class FeeCalendars {
 
