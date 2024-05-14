@@ -102,7 +102,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         toCreate = toEntity(gameSystem);
 
         created = gameSystemRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved game system {}", saved);

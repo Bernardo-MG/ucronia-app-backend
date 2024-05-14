@@ -102,7 +102,6 @@ public final class JpaAuthorRepository implements AuthorRepository {
         toCreate = toEntity(author);
 
         created = authorSpringRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved author {}", saved);

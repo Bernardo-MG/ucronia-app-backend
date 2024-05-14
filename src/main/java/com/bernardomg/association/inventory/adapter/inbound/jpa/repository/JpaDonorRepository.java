@@ -117,10 +117,7 @@ public final class JpaDonorRepository implements DonorRepository {
         }
 
         created = personSpringRepository.save(entity);
-
-        saved = personSpringRepository.findByNumber(created.getNumber())
-            .map(this::toDomain)
-            .get();
+        saved = toDomain(created);
 
         log.debug("Saved donor {}", saved);
 

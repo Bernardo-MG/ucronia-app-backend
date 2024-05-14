@@ -102,7 +102,6 @@ public final class JpaPublisherRepository implements PublisherRepository {
         toCreate = toEntity(publisher);
 
         created = publisherSpringRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved publisher {}", saved);

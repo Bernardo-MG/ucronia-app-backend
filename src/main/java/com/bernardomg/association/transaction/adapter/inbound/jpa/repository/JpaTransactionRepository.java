@@ -182,10 +182,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         }
 
         created = transactionRepository.save(entity);
-
-        saved = transactionRepository.findByIndex(created.getIndex())
-            .map(this::toDomain)
-            .get();
+        saved = toDomain(created);
 
         log.debug("Saved transaction {}", saved);
 

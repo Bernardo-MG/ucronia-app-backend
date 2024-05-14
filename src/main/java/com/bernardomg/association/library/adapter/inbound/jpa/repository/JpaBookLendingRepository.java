@@ -78,7 +78,6 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             toCreate = toEntity(lending, bookEntity.get(), personEntity.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-
             saved = toDomain(created, bookEntity.get(), personEntity.get());
 
             log.debug("Saved book lending {}", lending);

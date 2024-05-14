@@ -102,7 +102,6 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         toCreate = toEntity(bookType);
 
         created = bookTypeSpringRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved book type {}", saved);

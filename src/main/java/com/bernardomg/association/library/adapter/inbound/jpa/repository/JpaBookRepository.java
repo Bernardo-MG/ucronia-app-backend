@@ -166,7 +166,6 @@ public final class JpaBookRepository implements BookRepository {
         }
 
         created = bookSpringRepository.save(entity);
-
         saved = toDomain(created);
 
         log.debug("Saved book {}", saved);

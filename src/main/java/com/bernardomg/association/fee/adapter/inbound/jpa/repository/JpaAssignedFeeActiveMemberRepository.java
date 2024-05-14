@@ -164,8 +164,9 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         existingPerson = personSpringRepository.findByNumber(member.getNumber());
         if (existingPerson.isPresent()) {
-            entity.getPerson().setId(existingPerson.get()
-                .getId());
+            entity.getPerson()
+                .setId(existingPerson.get()
+                    .getId());
         }
 
         personSpringRepository.save(entity.getPerson());
