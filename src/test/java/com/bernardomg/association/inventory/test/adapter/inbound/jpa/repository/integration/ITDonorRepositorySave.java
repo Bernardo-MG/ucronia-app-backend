@@ -26,8 +26,48 @@ class ITDonorRepositorySave {
     private PersonSpringRepository springRepository;
 
     @Test
-    @DisplayName("Persists a donor")
+    @DisplayName("When a donor exists, it is persisted")
     @ValidPerson
+    void testSave_Existing_PersistedData() {
+        final Iterable<PersonEntity> donors;
+        final Donor                  transaction;
+
+        // GIVEN
+        transaction = Donors.valid();
+
+        // WHEN
+        repository.save(transaction);
+
+        // THEN
+        donors = springRepository.findAll();
+
+        Assertions.assertThat(donors)
+            .as("persons")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(PersonEntities.minimal());
+    }
+
+    @Test
+    @DisplayName("When a donor exists, it is returned")
+    @ValidPerson
+    void testSave_Existing_ReturnedData() {
+        final Donor created;
+        final Donor donor;
+
+        // GIVEN
+        donor = Donors.valid();
+
+        // WHEN
+        created = repository.save(donor);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .isEqualTo(Donors.valid());
+    }
+
+    @Test
+    @DisplayName("Persists a donor")
     void testSave_PersistedData() {
         final Iterable<PersonEntity> donors;
         final Donor                  transaction;
@@ -42,15 +82,13 @@ class ITDonorRepositorySave {
         donors = springRepository.findAll();
 
         Assertions.assertThat(donors)
-            .as("donors")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.id",
-                "member.person.id")
+            .as("persons")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .containsExactly(PersonEntities.minimal());
     }
 
     @Test
     @DisplayName("Returns the created data after persisting a donor")
-    @ValidPerson
     void testSave_ReturnedData() {
         final Donor created;
         final Donor donor;

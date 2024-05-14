@@ -146,7 +146,8 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
     @Override
     public final Member save(final Member member) {
-        final Optional<MemberEntity> existing;
+        final Optional<MemberEntity> existingMember;
+        final Optional<PersonEntity> existingPerson;
         final MemberEntity           entity;
         final MemberEntity           created;
         final Member                 saved;
@@ -155,9 +156,15 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         entity = toEntity(member);
 
-        existing = memberSpringRepository.findByNumber(member.getNumber());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
+        existingMember = memberSpringRepository.findByNumber(member.getNumber());
+        if (existingMember.isPresent()) {
+            entity.setId(existingMember.get()
+                .getId());
+        }
+
+        existingPerson = personSpringRepository.findByNumber(member.getNumber());
+        if (existingPerson.isPresent()) {
+            entity.getPerson().setId(existingPerson.get()
                 .getId());
         }
 
@@ -252,7 +259,6 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     private final MemberEntity toEntity(final Member data) {
         final PersonEntity person;
 
-        // TODO: read the entity
         person = PersonEntity.builder()
             .withNumber(data.getNumber())
             .withIdentifier(data.getIdentifier())

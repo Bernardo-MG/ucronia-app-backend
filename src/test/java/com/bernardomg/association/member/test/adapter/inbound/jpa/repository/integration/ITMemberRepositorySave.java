@@ -33,8 +33,12 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.test.config.factory.PersonEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,6 +49,9 @@ class ITMemberRepositorySave {
     private MemberRepository       memberRepository;
 
     @Autowired
+    private PersonSpringRepository personRepository;
+
+    @Autowired
     private MemberSpringRepository repository;
 
     public ITMemberRepositorySave() {
@@ -52,8 +59,31 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a valid member, the member is persisted")
-    void testCreate_PersistedData() {
+    @DisplayName("When a member exists, no person is added")
+    @SingleMember
+    void testSave_Existing_NoPersonAdded() {
+        final Member                 member;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        memberRepository.save(member);
+
+        // THEN
+        entities = personRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(PersonEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When a member exists, it is persisted")
+    @SingleMember
+    void testSave_Existing_PersistedData() {
         final Member                 member;
         final Iterable<MemberEntity> entities;
 
@@ -73,8 +103,69 @@ class ITMemberRepositorySave {
     }
 
     @Test
+    @DisplayName("When a member exists, it is returned")
+    @SingleMember
+    void testSave_Existing_ReturnedData() {
+        final Member member;
+        final Member saved;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        saved = memberRepository.save(member);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("member")
+            .isEqualTo(Members.inactive());
+    }
+
+    @Test
+    @DisplayName("With a valid member, the member is persisted")
+    void testSave_PersistedData() {
+        final Member                 member;
+        final Iterable<MemberEntity> entities;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        memberRepository.save(member);
+
+        // THEN
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
+            .containsExactly(MemberEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When no member exists, no person is added")
+    void testSave_PersonAdded() {
+        final Member                 member;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        memberRepository.save(member);
+
+        // THEN
+        entities = personRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(PersonEntities.valid());
+    }
+
+    @Test
     @DisplayName("With a valid member, the created member is returned")
-    void testCreate_ReturnedData() {
+    void testSave_ReturnedData() {
         final Member member;
         final Member saved;
 

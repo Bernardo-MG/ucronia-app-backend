@@ -30,10 +30,10 @@ class ITFeeRepositorySave {
     private FeeSpringRepository springRepository;
 
     @Test
-    @DisplayName("When a not paid fee exists it can be persisted")
+    @DisplayName("When a fee exists, it is returned")
     @SingleMember
     @PaidFee
-    void testSave_Existing() {
+    void testSave_Existing_ReturnedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
 
