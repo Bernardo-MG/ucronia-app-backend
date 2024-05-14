@@ -5,9 +5,9 @@ INSERT INTO persons (id, number, name, surname, phone, identifier) VALUES
    (4, 40, 'Person 4', 'Surname 4', '12348', '6792'),
    (5, 50, 'Person 5', 'Surname 5', '12349', '6793');
 
-INSERT INTO members (id, person) VALUES
-   (1, 1),
-   (2, 2),
-   (3, 3),
-   (4, 4),
-   (5, 5);
+INSERT INTO members (id, person, active) VALUES
+   (1, 1, false),
+   (2, 2, false),
+   (3, 3, false),
+   (4, 4, false),
+   (5, 5, false);

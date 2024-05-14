@@ -9,24 +9,28 @@ public final class MemberEntities {
     public static final MemberEntity missingSurname() {
         return MemberEntity.builder()
             .withPerson(PersonEntities.missingSurname())
+            .withActive(false)
             .build();
     }
 
     public static final MemberEntity nameChange() {
         return MemberEntity.builder()
             .withPerson(PersonEntities.nameChange())
+            .withActive(false)
             .build();
     }
 
     public static final MemberEntity valid() {
         return MemberEntity.builder()
             .withPerson(PersonEntities.valid())
+            .withActive(false)
             .build();
     }
 
     public static final MemberEntity valid(final int index) {
         return MemberEntity.builder()
             .withPerson(PersonEntities.valid(index))
+            .withActive(false)
             .build();
     }
 

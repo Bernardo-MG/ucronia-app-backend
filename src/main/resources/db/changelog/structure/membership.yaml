@@ -59,6 +59,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: 'false'
+              - column:
                   name: person
                   type: bigint
                   constraints:

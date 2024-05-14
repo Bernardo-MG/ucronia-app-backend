@@ -252,6 +252,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     private final MemberEntity toEntity(final Member data) {
         final PersonEntity person;
 
+        // TODO: read the entity
         person = PersonEntity.builder()
             .withNumber(data.getNumber())
             .withIdentifier(data.getIdentifier())
@@ -263,6 +264,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .build();
         return MemberEntity.builder()
             .withPerson(person)
+            .withActive(false)
             .build();
     }
 
