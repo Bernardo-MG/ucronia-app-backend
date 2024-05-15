@@ -113,6 +113,11 @@ public final class DefaultFeeService implements FeeService {
         }
 
         feeRepository.delete(personNumber, date);
+
+        if (date.equals(YearMonth.now())) {
+            // If deleting for the current month, the user is set to active
+            memberRepository.deactivate(personNumber);
+        }
     }
 
     @Override
@@ -170,8 +175,7 @@ public final class DefaultFeeService implements FeeService {
 
         if (feeDates.contains(YearMonth.now())) {
             // If paying for the current month, the user is set to active
-            // TODO: create a method which receives just the value
-            memberRepository.activate(List.of(personNumber));
+            memberRepository.activate(personNumber);
         }
 
         return created;

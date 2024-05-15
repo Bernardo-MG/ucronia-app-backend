@@ -118,7 +118,7 @@ class TestFeeServicePayFees {
         service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(memberRepository).activate(List.of(PersonConstants.NUMBER));
+        verify(memberRepository).activate(PersonConstants.NUMBER);
     }
 
     @Test
@@ -235,7 +235,7 @@ class TestFeeServicePayFees {
         service.payFees(List.of(FeeConstants.PREVIOUS_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(memberRepository, Mockito.never()).activate(List.of(PersonConstants.NUMBER));
+        verify(memberRepository, Mockito.never()).activate(PersonConstants.NUMBER);
     }
 
 }

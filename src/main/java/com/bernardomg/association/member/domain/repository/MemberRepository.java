@@ -11,6 +11,10 @@ public interface MemberRepository {
 
     public void activate(final Iterable<Long> numbers);
 
+    public void activate(final long number);
+
+    public void deactivate(final long number);
+
     public void delete(final long number);
 
     public boolean exists(final long number);

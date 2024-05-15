@@ -48,6 +48,32 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     }
 
     @Override
+    public final void activate(final long number) {
+        final Optional<MemberEntity> read;
+        final MemberEntity           member;
+
+        read = memberSpringRepository.findByNumber(number);
+        if (read.isPresent()) {
+            member = read.get();
+            member.setActive(true);
+            memberSpringRepository.save(member);
+        }
+    }
+
+    @Override
+    public final void deactivate(final long number) {
+        final Optional<MemberEntity> read;
+        final MemberEntity           member;
+
+        read = memberSpringRepository.findByNumber(number);
+        if (read.isPresent()) {
+            member = read.get();
+            member.setActive(false);
+            memberSpringRepository.save(member);
+        }
+    }
+
+    @Override
     public final void delete(final long number) {
         log.debug("Deleting fee {}", number);
 
