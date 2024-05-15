@@ -71,8 +71,8 @@ public class FeeConfig {
     }
 
     @Bean("activeMemberRepository")
-    public ActiveMemberRepository getActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo) {
-        return new JpaActiveMemberRepository(activeMemberRepo);
+    public ActiveMemberRepository getActiveMemberRepository(final MemberSpringRepository memberRepo) {
+        return new JpaActiveMemberRepository(memberRepo);
     }
 
     @Bean("assignedFeeActiveMemberSource")

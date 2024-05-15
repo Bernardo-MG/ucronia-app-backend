@@ -1,11 +1,10 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.YearMonth;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,25 +12,21 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaActiveMemberRepository implements ActiveMemberRepository {
 
-    private final ActiveMemberSpringRepository activeMemberRepository;
+    private final MemberSpringRepository memberRepository;
 
-    public JpaActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo) {
+    public JpaActiveMemberRepository(final MemberSpringRepository memberRepo) {
         super();
 
-        activeMemberRepository = activeMemberRepo;
+        memberRepository = memberRepo;
     }
 
     @Override
     public final boolean isActive(final long number) {
-        final YearMonth validStart;
-        final YearMonth validEnd;
-        final boolean   active;
+        final boolean active;
 
         log.debug("Checking if member {} is active", number);
 
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        active = activeMemberRepository.isActive(number, validStart, validEnd);
+        active = memberRepository.isActive(number);
 
         log.debug("Member {} is active: {}", number, active);
 
@@ -40,17 +35,11 @@ public final class JpaActiveMemberRepository implements ActiveMemberRepository {
 
     @Override
     public final boolean isActivePreviousMonth(final long number) {
-        final YearMonth validStart;
-        final YearMonth validEnd;
-        final boolean   active;
+        final boolean active;
 
         log.debug("Checking if member {} is active in the previous month", number);
 
-        validStart = YearMonth.now()
-            .minusMonths(1);
-        validEnd = YearMonth.now()
-            .minusMonths(1);
-        active = activeMemberRepository.isActive(number, validStart, validEnd);
+        active = memberRepository.isActive(number);
 
         log.debug("Member {} is active in the previous month: {}", number, active);
 

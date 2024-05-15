@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaAssignedFeeActiveMemberRepository implements MemberRepository {
 
-    private final ActiveMemberSpringRepository activeMemberRepository;
+    private final ActiveMemberSpringRepository activeMemberSpringRepository;
 
     private final MemberSpringRepository       memberSpringRepository;
 
@@ -33,7 +33,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             final MemberSpringRepository memberSpringRepo, final PersonSpringRepository personSpringRepo) {
         super();
 
-        activeMemberRepository = activeMemberRepo;
+        activeMemberSpringRepository = activeMemberRepo;
         memberSpringRepository = memberSpringRepo;
         personSpringRepository = personSpringRepo;
     }
@@ -98,14 +98,10 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     @Override
     public final Iterable<Member> findActive(final Pageable pageable) {
         final Page<Member> members;
-        final YearMonth    validStart;
-        final YearMonth    validEnd;
 
         log.debug("Finding active users");
 
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        members = activeMemberRepository.findAllActive(pageable, validStart, validEnd)
+        members = memberSpringRepository.findAllActive(pageable)
             .map(m -> toDomain(true, m));
 
         log.debug("Found active users {}", members);
@@ -124,9 +120,9 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        activeNumbers = activeMemberRepository.findAllActiveNumbersInRange(validStart, validEnd);
+        activeNumbers = activeMemberSpringRepository.findAllActiveNumbersInRange(validStart, validEnd);
 
-        members = activeMemberRepository.findAll(pageable)
+        members = activeMemberSpringRepository.findAll(pageable)
             .map(m -> toActiveByNumberDomain(activeNumbers, m));
 
         log.debug("Found all the members: {}", members);
@@ -137,14 +133,10 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     @Override
     public final Iterable<Member> findInactive(final Pageable pageable) {
         final Page<Member> members;
-        final YearMonth    validStart;
-        final YearMonth    validEnd;
 
         log.debug("Finding inactive users");
 
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        members = activeMemberRepository.findAllInactive(pageable, validStart, validEnd)
+        members = memberSpringRepository.findAllInactive(pageable)
             .map(m -> toDomain(false, m));
 
         log.debug("Found active users {}", members);
@@ -205,7 +197,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         }
 
         personSpringRepository.save(entity.getPerson());
-        created = activeMemberRepository.save(entity);
+        created = activeMemberSpringRepository.save(entity);
 
         saved = memberSpringRepository.findByNumber(created.getPerson()
             .getNumber())
@@ -219,14 +211,10 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
     private final Member toActive(final MemberEntity entity) {
         final boolean    active;
-        final YearMonth  validStart;
-        final YearMonth  validEnd;
         final PersonName memberName;
 
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        active = activeMemberRepository.isActive(entity.getPerson()
-            .getNumber(), validStart, validEnd);
+        active = memberSpringRepository.isActive(entity.getPerson()
+            .getNumber());
 
         memberName = PersonName.builder()
             .withFirstName(entity.getPerson()
