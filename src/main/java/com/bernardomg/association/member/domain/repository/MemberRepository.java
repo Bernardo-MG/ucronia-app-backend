@@ -9,6 +9,8 @@ import com.bernardomg.association.member.domain.model.Member;
 
 public interface MemberRepository {
 
+    public void activate(final Iterable<Long> numbers);
+
     public void delete(final long number);
 
     public boolean exists(final long number);

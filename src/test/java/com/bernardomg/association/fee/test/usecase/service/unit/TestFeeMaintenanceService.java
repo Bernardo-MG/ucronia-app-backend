@@ -18,6 +18,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +30,9 @@ public class TestFeeMaintenanceService {
 
     @Mock
     private FeeRepository                feeRepository;
+
+    @Mock
+    private MemberRepository             memberRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -47,6 +51,22 @@ public class TestFeeMaintenanceService {
 
         // THEN
         verify(feeRepository).save(List.of(Fees.toCreate()));
+    }
+
+    @Test
+    @DisplayName("When there a fee is saved the member is set to active")
+    void testRegisterMonthFees_ActivatesMember() {
+
+        // GIVEN
+        given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
+        given(activeMemberRepository.isActivePreviousMonth(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+
+        // WHEN
+        service.registerMonthFees();
+
+        // THEN
+        verify(memberRepository).activate(List.of(PersonConstants.NUMBER));
     }
 
     @Test

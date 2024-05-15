@@ -38,13 +38,13 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
     @Query("""
-              SELECT m
-              FROM Member m
-                INNER JOIN Fee f ON m.person.id = f.personId
-              WHERE f.date >= :start
-                AND f.date <= :end
-              GROUP BY m.id      
-              """)
+            SELECT m
+            FROM Member m
+              INNER JOIN Fee f ON m.person.id = f.personId
+            WHERE f.date >= :start
+              AND f.date <= :end
+            GROUP BY m.id
+            """)
     public Page<MemberEntity> findAllActive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
@@ -59,12 +59,12 @@ public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity
      * @return all the ids for the members active in the range
      */
     @Query("""
-              SELECT m.id
-              FROM Member m
-                INNER JOIN Fee f ON m.person.id = f.personId
-              WHERE f.date >= :start
-                AND f.date <= :end      
-              """)
+            SELECT m.id
+            FROM Member m
+              INNER JOIN Fee f ON m.person.id = f.personId
+            WHERE f.date >= :start
+              AND f.date <= :end
+            """)
     public Collection<Long> findAllActiveIdsInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
@@ -79,30 +79,30 @@ public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity
      * @return all the ids for the members active in the range
      */
     @Query("""
-              SELECT m.person.number
-              FROM Member m
-                INNER JOIN Fee f ON m.person.id = f.personId
-              WHERE f.date >= :start
-                AND f.date <= :end
-              """)
+            SELECT m.person.number
+            FROM Member m
+              INNER JOIN Fee f ON m.person.id = f.personId
+            WHERE f.date >= :start
+              AND f.date <= :end
+            """)
     public Collection<Long> findAllActiveNumbersInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
     @Query("""
-              SELECT m FROM Member m
-                LEFT JOIN Fee f ON m.person.id = f.personId AND f.date >= :start AND f.date <= :end
-              WHERE f.id IS NULL
-              GROUP BY m.id
-              """)
+            SELECT m FROM Member m
+              LEFT JOIN Fee f ON m.person.id = f.personId AND f.date >= :start AND f.date <= :end
+            WHERE f.id IS NULL
+            GROUP BY m.id
+            """)
     public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
     @Query("""
-              SELECT m.id
-              FROM Member m
-                LEFT JOIN Fee f ON m.person.id = f.personId AND f.date >= :start AND f.date <= :end
-              WHERE f.id IS NULL
-              """)
+            SELECT m.id
+            FROM Member m
+              LEFT JOIN Fee f ON m.person.id = f.personId AND f.date >= :start AND f.date <= :end
+            WHERE f.id IS NULL
+            """)
     public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
@@ -119,13 +119,13 @@ public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity
      * @return {@code true} if the member is active, {@code false} otherwise
      */
     @Query("""
-              SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active
-              FROM Member m
-                LEFT JOIN Fee f ON m.person.id = f.personId
-              WHERE f.date >= :start
-                AND f.date <= :end
-                AND m.person.number = :number
-              """)
+            SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active
+            FROM Member m
+              LEFT JOIN Fee f ON m.person.id = f.personId
+            WHERE f.date >= :start
+              AND f.date <= :end
+              AND m.person.number = :number
+            """)
     public boolean isActive(@Param("number") final Long number, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -50,6 +51,8 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
             WHERE p.number = :number
             """)
     public boolean existsByNumber(@Param("number") final Long number);
+
+    public Collection<MemberEntity> findAllByNumber(Iterable<Long> numbers);
 
     @Query("""
             SELECT m

@@ -39,6 +39,15 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
     }
 
     @Override
+    public final void activate(final Iterable<Long> numbers) {
+        final Collection<MemberEntity> members;
+
+        members = memberSpringRepository.findAllByNumber(numbers);
+        members.forEach(m -> m.setActive(true));
+        memberSpringRepository.saveAll(members);
+    }
+
+    @Override
     public final void delete(final long number) {
         log.debug("Deleting fee {}", number);
 

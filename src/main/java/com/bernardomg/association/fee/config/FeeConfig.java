@@ -94,8 +94,8 @@ public class FeeConfig {
 
     @Bean("feeMaintenanceService")
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
-            final ActiveMemberRepository activeMemberRepository) {
-        return new DefaultFeeMaintenanceService(feeRepo, activeMemberRepository);
+            final ActiveMemberRepository activeMemberRepository, final MemberRepository memberRepository) {
+        return new DefaultFeeMaintenanceService(feeRepo, activeMemberRepository, memberRepository);
     }
 
     @Bean("FeeReportService")

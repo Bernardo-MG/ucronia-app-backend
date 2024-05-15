@@ -34,6 +34,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,17 +51,22 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final FeeRepository          feeRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo) {
+    private final MemberRepository       memberRepository;
+
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo,
+            final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
         activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
     public final void registerMonthFees() {
-        final Collection<Fee> feesToExtend;
-        final Collection<Fee> feesToCreate;
+        final Collection<Fee>  feesToExtend;
+        final Collection<Fee>  feesToCreate;
+        final Collection<Long> numbers;
 
         // Find fees to extend into the current month
         feesToExtend = feeRepository.findAllForPreviousMonth();
@@ -76,6 +82,13 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
         log.debug("Registering {} fees for this month", feesToCreate.size());
         feeRepository.save(feesToCreate);
+
+        // Makes sure these members are active
+        numbers = feesToCreate.stream()
+            .map(Fee::getPerson)
+            .map(FeePerson::getNumber)
+            .toList();
+        memberRepository.activate(numbers);
     }
 
     private final boolean isActive(final Fee fee) {
