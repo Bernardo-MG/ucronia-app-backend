@@ -61,7 +61,13 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
             """)
     public Page<MemberEntity> findAllActive(final Pageable pageable);
 
-    public Collection<MemberEntity> findAllByNumber(Iterable<Long> numbers);
+    @Query("""
+            SELECT m
+            FROM Member m
+              JOIN m.person p
+            WHERE p.number IN :numbers
+            """)
+    public Collection<MemberEntity> findAllByNumber(@Param("numbers") final Iterable<Long> numbers);
 
     @Query("""
             SELECT m.person
