@@ -122,8 +122,8 @@ public class FeeConfig {
 
     @Bean("userFeeService")
     public UserFeeService getUserFeeService(final FeeRepository feeRepository,
-            final UserPersonRepository userMemberRepository) {
-        return new DefaultUserFeeService(feeRepository, userMemberRepository);
+            final UserPersonRepository userPersonRepository) {
+        return new DefaultUserFeeService(feeRepository, userPersonRepository);
     }
 
 }

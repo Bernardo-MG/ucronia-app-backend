@@ -44,7 +44,7 @@ public class AssociationUserConfig {
         super();
     }
 
-    @Bean("userMemberRepository")
+    @Bean("userPersonRepository")
     public UserPersonRepository getUserMemberRepository(final UserPersonSpringRepository userPersonSpringRepo,
             final UserSpringRepository userSpringRepo, final PersonSpringRepository personSpringRepo) {
         return new JpaUserPersonRepository(userPersonSpringRepo, userSpringRepo, personSpringRepo);

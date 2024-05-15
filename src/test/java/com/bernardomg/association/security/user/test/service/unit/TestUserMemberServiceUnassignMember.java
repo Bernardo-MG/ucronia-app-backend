@@ -54,7 +54,7 @@ class TestUserMemberServiceUnassignMember {
     private DefaultUserPersonService service;
 
     @Mock
-    private UserPersonRepository     userMemberRepository;
+    private UserPersonRepository     userPersonRepository;
 
     @Mock
     private UserRepository           userRepository;
@@ -70,7 +70,7 @@ class TestUserMemberServiceUnassignMember {
         service.unassignPerson(UserConstants.USERNAME);
 
         // THEN
-        verify(userMemberRepository).delete(UserConstants.USERNAME);
+        verify(userPersonRepository).delete(UserConstants.USERNAME);
     }
 
     @Test

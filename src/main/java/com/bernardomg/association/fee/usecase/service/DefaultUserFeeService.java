@@ -53,13 +53,13 @@ public final class DefaultUserFeeService implements UserFeeService {
 
     private final FeeRepository        feeRepository;
 
-    private final UserPersonRepository userMemberRepository;
+    private final UserPersonRepository userPersonRepository;
 
     public DefaultUserFeeService(final FeeRepository feeRepo, final UserPersonRepository userMemberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        userMemberRepository = Objects.requireNonNull(userMemberRepo);
+        userPersonRepository = Objects.requireNonNull(userMemberRepo);
     }
 
     @Override
@@ -77,7 +77,7 @@ public final class DefaultUserFeeService implements UserFeeService {
             fees = List.of();
         } else if (authentication.getPrincipal() instanceof UserDetails) {
             userDetails = (UserDetails) authentication.getPrincipal();
-            person = userMemberRepository.findByUsername(userDetails.getUsername());
+            person = userPersonRepository.findByUsername(userDetails.getUsername());
             if (person.isEmpty()) {
                 log.warn("User {} has no member assigned", userDetails.getUsername());
                 fees = List.of();

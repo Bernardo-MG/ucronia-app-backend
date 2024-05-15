@@ -69,7 +69,7 @@ class TestUserFeeServiceGetAllForUserInSession {
     private DefaultUserFeeService userFeeService;
 
     @Mock
-    private UserPersonRepository  userMemberRepository;
+    private UserPersonRepository  userPersonRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -86,7 +86,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of(Fees.paid()));
 
         // WHEN
@@ -137,7 +137,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of());
 
         // WHEN
@@ -164,7 +164,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         fees = userFeeService.getAllForUserInSession(pageable);
