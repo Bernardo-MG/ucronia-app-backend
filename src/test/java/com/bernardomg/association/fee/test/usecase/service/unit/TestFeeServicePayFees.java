@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
@@ -48,6 +50,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -66,6 +69,9 @@ class TestFeeServicePayFees {
 
     @Mock
     private FeeRepository                  feeRepository;
+
+    @Mock
+    private MemberRepository               memberRepository;
 
     @Mock
     private MessageSource                  messageSource;
@@ -97,6 +103,22 @@ class TestFeeServicePayFees {
         Assertions.assertThat(fees)
             .as("fees")
             .containsExactly(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When paying the current month, the user is set to active")
+    void testPayFees_CurrentMonth_SetActive() {
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
+            .willReturn(List.of(Fees.paid()));
+
+        // WHEN
+        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        verify(memberRepository).activate(List.of(PersonConstants.NUMBER));
     }
 
     @Test
@@ -198,6 +220,22 @@ class TestFeeServicePayFees {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingPersonException.class);
+    }
+
+    @Test
+    @DisplayName("When paying the previous month, the user is not set to active")
+    void testPayFees_PreviousMonth_NotSetActive() {
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
+            .willReturn(List.of(Fees.paid()));
+
+        // WHEN
+        service.payFees(List.of(FeeConstants.PREVIOUS_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        verify(memberRepository, Mockito.never()).activate(List.of(PersonConstants.NUMBER));
     }
 
 }

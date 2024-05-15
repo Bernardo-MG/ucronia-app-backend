@@ -115,9 +115,9 @@ public class FeeConfig {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
-            final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepo, personRepo, transactionRepo, configSource, msgSource);
+            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
+            final AssociationConfigurationSource configSource, final MessageSource msgSource) {
+        return new DefaultFeeService(feeRepo, personRepo, memberRepo, transactionRepo, configSource, msgSource);
     }
 
     @Bean("userFeeService")
