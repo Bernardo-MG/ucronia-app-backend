@@ -55,7 +55,7 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public boolean existsByNumber(@Param("number") final Long number);
 
     @Query("""
-            SELECT m.person
+            SELECT m
             FROM Member m
             WHERE m.active = true
             """)
@@ -70,7 +70,7 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Collection<MemberEntity> findAllByNumber(@Param("numbers") final Iterable<Long> numbers);
 
     @Query("""
-            SELECT m.person
+            SELECT m
             FROM Member m
             WHERE m.active = false
             """)
