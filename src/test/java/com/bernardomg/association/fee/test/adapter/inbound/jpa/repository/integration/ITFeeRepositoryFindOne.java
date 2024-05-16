@@ -55,6 +55,8 @@ class ITFeeRepositoryFindOne {
     @DisplayName("With two active members, the alternative entity is returned")
     @ActiveMember
     @AlternativeActiveMember
+    @PaidFee
+    @AlternativePaidFee
     void testFindOne_Active_TwoMembers_Alternative() {
         final Optional<Fee> fee;
 

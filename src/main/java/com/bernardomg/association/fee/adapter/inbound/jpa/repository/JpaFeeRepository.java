@@ -65,46 +65,46 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void delete(final Long memberNumber, final YearMonth date) {
+    public final void delete(final Long number, final YearMonth date) {
         final Optional<PersonEntity> person;
 
-        log.debug("Deleting fee for member {} in date {}", memberNumber, date);
+        log.debug("Deleting fee for member {} in date {}", number, date);
 
-        person = personSpringRepository.findByNumber(memberNumber);
+        person = personSpringRepository.findByNumber(number);
         if (person.isPresent()) {
             feeSpringRepository.deleteByPersonIdAndDate(person.get()
                 .getId(), date);
 
-            log.debug("Deleted fee for member {} in date {}", memberNumber, date);
+            log.debug("Deleted fee for member {} in date {}", number, date);
         } else {
             // TODO: shouldn't throw an exception?
-            log.debug("Couldn't delete fee for member {} in date {}, as the member doesn't exist", memberNumber, date);
+            log.debug("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
         }
     }
 
     @Override
-    public final boolean exists(final Long memberNumber, final YearMonth date) {
+    public final boolean exists(final Long number, final YearMonth date) {
         final boolean exists;
 
-        log.debug("checking a fee exists for member {} in date {}", memberNumber, date);
+        log.debug("checking a fee exists for member {} in date {}", number, date);
 
-        exists = memberFeeSpringRepository.existsByPersonNumberAndDate(memberNumber, date);
+        exists = memberFeeSpringRepository.existsByPersonNumberAndDate(number, date);
 
-        log.debug("Fee exists for member {} in date {}: {}", memberNumber, date, exists);
+        log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
 
         return exists;
     }
 
     @Override
-    public final boolean existsPaid(final Long memberNumber, final YearMonth date) {
+    public final boolean existsPaid(final Long number, final YearMonth date) {
         final boolean exists;
 
-        log.debug("checking a paid fee exists for member {} in date {}", memberNumber, date);
+        log.debug("checking a paid fee exists for member {} in date {}", number, date);
 
         // TODO: the boolean is not needed
-        exists = memberFeeSpringRepository.existsByPersonNumberAndDateAndPaid(memberNumber, date, true);
+        exists = memberFeeSpringRepository.existsByPersonNumberAndDateAndPaid(number, date, true);
 
-        log.debug("Paid fee exists for member {} in date {}: {}", memberNumber, date, exists);
+        log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
 
         return exists;
     }
@@ -182,34 +182,33 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAllForMember(final Long memberNumber, final Pageable pageable) {
+    public final Iterable<Fee> findAllForMember(final Long number, final Pageable pageable) {
         final Page<MemberFeeEntity> page;
         final Iterable<Fee>         found;
 
-        log.debug("Finding all fees for member {} and pagination {}", memberNumber, pageable);
+        log.debug("Finding all fees for member {} and pagination {}", number, pageable);
 
-        page = memberFeeSpringRepository.findAllByPersonNumber(memberNumber, pageable);
+        page = memberFeeSpringRepository.findAllByPersonNumber(number, pageable);
 
         found = page.map(this::toDomain);
 
-        log.debug("Found all fees for member {} and pagination {}: {}", memberNumber, pageable, found);
+        log.debug("Found all fees for member {} and pagination {}: {}", number, pageable, found);
 
         return found;
     }
 
     @Override
-    public final Collection<Fee> findAllForMemberInDates(final Long memberNumber,
-            final Collection<YearMonth> feeDates) {
+    public final Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates) {
         final Collection<Fee> fees;
 
-        log.debug("Finding all fees for member {} in dates {}", memberNumber, feeDates);
+        log.debug("Finding all fees for member {} in dates {}", number, feeDates);
 
-        fees = feeSpringRepository.findAllByPersonNumberAndDateIn(memberNumber, feeDates)
+        fees = feeSpringRepository.findAllByPersonNumberAndDateIn(number, feeDates)
             .stream()
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found all fees for member {} in dates {}: {}", memberNumber, feeDates, fees);
+        log.debug("Found all fees for member {} in dates {}: {}", number, feeDates, fees);
 
         return fees;
     }
@@ -272,17 +271,17 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Optional<Fee> findOne(final Long memberNumber, final YearMonth date) {
+    public final Optional<Fee> findOne(final Long number, final YearMonth date) {
         final Optional<MemberFeeEntity> read;
         final Optional<Fee>             found;
 
-        log.debug("Finding fee for member {} in date {}", memberNumber, date);
+        log.debug("Finding fee for member {} in date {}", number, date);
 
-        read = memberFeeSpringRepository.findByPersonNumberAndDate(memberNumber, date);
+        read = memberFeeSpringRepository.findByPersonNumberAndDate(number, date);
 
         found = read.map(this::toDomain);
 
-        log.debug("Found fee for member {} in date {}: {}", memberNumber, date, found);
+        log.debug("Found fee for member {} in date {}: {}", number, date, found);
 
         return found;
     }
