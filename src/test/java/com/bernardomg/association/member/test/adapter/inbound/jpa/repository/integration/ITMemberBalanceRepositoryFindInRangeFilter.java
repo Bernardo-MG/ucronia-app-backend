@@ -11,14 +11,14 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberBalanceRepository - find in range - filter")
-@SingleMember
+@ActiveMember
 class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Autowired

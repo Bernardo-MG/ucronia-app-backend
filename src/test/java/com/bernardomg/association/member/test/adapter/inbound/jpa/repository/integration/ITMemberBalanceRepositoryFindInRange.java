@@ -10,14 +10,14 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberBalanceRepository - find in range")
-@SingleMember
+@ActiveMember
 class ITMemberBalanceRepositoryFindInRange {
 
     @Autowired
@@ -210,7 +210,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With fees for two members this month it returns balance for both this month")
-    @SingleMember
+    @ActiveMember
     @AlternativeMember
     void testFindInRange_TwoMembers() {
         final Sort                           sort;

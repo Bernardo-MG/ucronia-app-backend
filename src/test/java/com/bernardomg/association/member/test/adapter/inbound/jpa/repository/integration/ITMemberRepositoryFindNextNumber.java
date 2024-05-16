@@ -30,7 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -42,9 +43,24 @@ class ITMemberRepositoryFindNextNumber {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With an existing member, it returns the next number")
-    @SingleMember
-    void testFindNextNumber() {
+    @DisplayName("With an existing active member, it returns the next number")
+    @ActiveMember
+    void testFindNextNumber_Active() {
+        final long number;
+
+        // WHEN
+        number = repository.findNextNumber();
+
+        // THEN
+        Assertions.assertThat(number)
+            .as("number")
+            .isEqualTo(PersonConstants.NUMBER + 1);
+    }
+
+    @Test
+    @DisplayName("With an existing inactive member, it returns the next number")
+    @InactiveMember
+    void testFindNextNumber_Inactive() {
         final long number;
 
         // WHEN
