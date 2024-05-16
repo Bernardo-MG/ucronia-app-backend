@@ -33,7 +33,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
@@ -60,8 +60,8 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When a member exists, no person is added")
-    @SingleMember
-    void testSave_Existing_NoPersonAdded() {
+    @ActiveMember
+    void testSave_Active_Existing_NoPersonAdded() {
         final Member                 member;
         final Iterable<PersonEntity> entities;
 
@@ -82,8 +82,8 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When a member exists, it is persisted")
-    @SingleMember
-    void testSave_Existing_PersistedData() {
+    @ActiveMember
+    void testSave_Active_Existing_PersistedData() {
         final Member                 member;
         final Iterable<MemberEntity> entities;
 
@@ -99,13 +99,13 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
-            .containsExactly(MemberEntities.valid());
+            .containsExactly(MemberEntities.active());
     }
 
     @Test
     @DisplayName("When a member exists, it is returned")
-    @SingleMember
-    void testSave_Existing_ReturnedData() {
+    @ActiveMember
+    void testSave_Active_Existing_ReturnedData() {
         final Member member;
         final Member saved;
 
@@ -118,12 +118,12 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(Members.inactive());
+            .isEqualTo(Members.active());
     }
 
     @Test
-    @DisplayName("With a valid member, the member is persisted")
-    void testSave_PersistedData() {
+    @DisplayName("With an active member, the member is persisted")
+    void testSave_Active_PersistedData() {
         final Member                 member;
         final Iterable<MemberEntity> entities;
 
@@ -139,12 +139,12 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
-            .containsExactly(MemberEntities.valid());
+            .containsExactly(MemberEntities.active());
     }
 
     @Test
-    @DisplayName("When no member exists, no person is added")
-    void testSave_PersonAdded() {
+    @DisplayName("With an active member, a person is added")
+    void testSave_Active_PersonAdded() {
         final Member                 member;
         final Iterable<PersonEntity> entities;
 
@@ -164,13 +164,73 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a valid member, the created member is returned")
-    void testSave_ReturnedData() {
+    @DisplayName("With an active member, the created member is returned")
+    void testSave_Active_ReturnedData() {
         final Member member;
         final Member saved;
 
         // GIVEN
         member = Members.active();
+
+        // WHEN
+        saved = memberRepository.save(member);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("member")
+            .isEqualTo(Members.active());
+    }
+
+    @Test
+    @DisplayName("With an inactive member, the member is persisted")
+    void testSave_Inactive_PersistedData() {
+        final Member                 member;
+        final Iterable<MemberEntity> entities;
+
+        // GIVEN
+        member = Members.inactive();
+
+        // WHEN
+        memberRepository.save(member);
+
+        // THEN
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
+            .containsExactly(MemberEntities.inactive());
+    }
+
+    @Test
+    @DisplayName("With an inactive member, a person is added")
+    void testSave_Inactive_PersonAdded() {
+        final Member                 member;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        member = Members.inactive();
+
+        // WHEN
+        memberRepository.save(member);
+
+        // THEN
+        entities = personRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(PersonEntities.valid());
+    }
+
+    @Test
+    @DisplayName("With an inactive member, the created member is returned")
+    void testSave_Inactive_ReturnedData() {
+        final Member member;
+        final Member saved;
+
+        // GIVEN
+        member = Members.inactive();
 
         // WHEN
         saved = memberRepository.save(member);

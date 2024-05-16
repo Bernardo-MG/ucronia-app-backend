@@ -102,7 +102,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         log.debug("Finding active users");
 
         members = memberSpringRepository.findAllActive(pageable)
-            .map(m -> toDomain(true, m));
+            .map(this::toDomain);
 
         log.debug("Found active users {}", members);
 
@@ -137,7 +137,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         log.debug("Finding inactive users");
 
         members = memberSpringRepository.findAllInactive(pageable)
-            .map(m -> toDomain(false, m));
+            .map(this::toDomain);
 
         log.debug("Found active users {}", members);
 
@@ -164,7 +164,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         log.debug("Finding member with number {}", number);
 
         member = memberSpringRepository.findByNumber(number)
-            .map(this::toActive);
+            .map(this::toDomain);
 
         log.debug("Found member with number {}: {}", number, member);
 
@@ -201,37 +201,12 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         saved = memberSpringRepository.findByNumber(created.getPerson()
             .getNumber())
-            .map(this::toActive)
+            .map(this::toDomain)
             .get();
 
         log.debug("Saved member {}", saved);
 
         return saved;
-    }
-
-    private final Member toActive(final MemberEntity entity) {
-        final boolean    active;
-        final PersonName memberName;
-
-        active = memberSpringRepository.isActive(entity.getPerson()
-            .getNumber());
-
-        memberName = PersonName.builder()
-            .withFirstName(entity.getPerson()
-                .getName())
-            .withLastName(entity.getPerson()
-                .getSurname())
-            .build();
-        return Member.builder()
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .withIdentifier(entity.getPerson()
-                .getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPerson()
-                .getPhone())
-            .withActive(active)
-            .build();
     }
 
     private final Member toActiveByNumberDomain(final Collection<Long> activeNumbers, final MemberEntity entity) {
@@ -259,7 +234,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .build();
     }
 
-    private final Member toDomain(final boolean active, final MemberEntity entity) {
+    private final Member toDomain( final MemberEntity entity) {
         final PersonName memberName;
 
         memberName = PersonName.builder()
@@ -276,7 +251,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .withName(memberName)
             .withPhone(entity.getPerson()
                 .getPhone())
-            .withActive(active)
+            .withActive(entity.getActive())
             .build();
     }
 
@@ -294,7 +269,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
             .build();
         return MemberEntity.builder()
             .withPerson(person)
-            .withActive(false)
+            .withActive(data.isActive())
             .build();
     }
 
