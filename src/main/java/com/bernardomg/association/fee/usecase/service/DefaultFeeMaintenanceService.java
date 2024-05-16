@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePerson;
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
@@ -47,18 +46,14 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
 
-    private final ActiveMemberRepository activeMemberRepository;
+    private final FeeRepository    feeRepository;
 
-    private final FeeRepository          feeRepository;
+    private final MemberRepository memberRepository;
 
-    private final MemberRepository       memberRepository;
-
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo,
-            final MemberRepository memberRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
@@ -92,8 +87,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean isActive(final Fee fee) {
-        // TODO: aren't all members with fees in the previous month active?
-        return activeMemberRepository.isActivePreviousMonth(fee.getPerson()
+        return memberRepository.isActive(fee.getPerson()
             .getNumber());
     }
 

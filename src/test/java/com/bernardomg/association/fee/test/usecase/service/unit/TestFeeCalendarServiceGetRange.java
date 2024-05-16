@@ -35,20 +35,20 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendarYearsRanges;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee calendar service - get range")
 class TestFeeCalendarServiceGetRange {
 
     @Mock
-    private ActiveMemberRepository    activeMemberRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
-    private FeeRepository             feeRepository;
+    private MemberRepository          memberRepository;
 
     @InjectMocks
     private DefaultFeeCalendarService service;

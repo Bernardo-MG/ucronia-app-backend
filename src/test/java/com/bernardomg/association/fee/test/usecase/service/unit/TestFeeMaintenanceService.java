@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
@@ -24,9 +23,6 @@ import com.bernardomg.association.person.test.config.factory.PersonConstants;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
 public class TestFeeMaintenanceService {
-
-    @Mock
-    private ActiveMemberRepository       activeMemberRepository;
 
     @Mock
     private FeeRepository                feeRepository;
@@ -43,7 +39,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -59,7 +55,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -75,7 +71,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -91,7 +87,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(PersonConstants.NUMBER)).willReturn(false);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();
