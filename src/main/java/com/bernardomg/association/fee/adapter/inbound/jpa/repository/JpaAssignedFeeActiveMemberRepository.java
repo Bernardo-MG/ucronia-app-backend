@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -111,19 +110,12 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
     @Override
     public final Iterable<Member> findAll(final Pageable pageable) {
-        final Page<Member>     members;
-        final YearMonth        validStart;
-        final YearMonth        validEnd;
-        final Collection<Long> activeNumbers;
+        final Page<Member> members;
 
         log.debug("Finding all the members");
 
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        activeNumbers = activeMemberSpringRepository.findAllActiveNumbersInRange(validStart, validEnd);
-
         members = activeMemberSpringRepository.findAll(pageable)
-            .map(m -> toActiveByNumberDomain(activeNumbers, m));
+            .map(this::toDomain);
 
         log.debug("Found all the members: {}", members);
 
@@ -209,32 +201,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         return saved;
     }
 
-    private final Member toActiveByNumberDomain(final Collection<Long> activeNumbers, final MemberEntity entity) {
-        final PersonName memberName;
-        final boolean    active;
-
-        active = activeNumbers.contains(entity.getPerson()
-            .getNumber());
-
-        memberName = PersonName.builder()
-            .withFirstName(entity.getPerson()
-                .getName())
-            .withLastName(entity.getPerson()
-                .getSurname())
-            .build();
-        return Member.builder()
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .withIdentifier(entity.getPerson()
-                .getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPerson()
-                .getPhone())
-            .withActive(active)
-            .build();
-    }
-
-    private final Member toDomain( final MemberEntity entity) {
+    private final Member toDomain(final MemberEntity entity) {
         final PersonName memberName;
 
         memberName = PersonName.builder()

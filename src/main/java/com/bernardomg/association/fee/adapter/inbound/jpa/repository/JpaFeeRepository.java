@@ -24,6 +24,7 @@ import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
@@ -37,29 +38,28 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
-    private final ActiveMemberSpringRepository activeMemberSpringRepository;
+    private final FeePaymentSpringRepository  feePaymentSpringRepository;
 
-    private final FeePaymentSpringRepository   feePaymentSpringRepository;
+    private final FeeSpringRepository         feeSpringRepository;
 
-    private final FeeSpringRepository          feeSpringRepository;
+    private final MemberFeeSpringRepository   memberFeeSpringRepository;
 
-    private final MemberFeeSpringRepository    memberFeeSpringRepository;
+    private final MemberSpringRepository      memberSpringRepository;
 
-    private final PersonSpringRepository       personSpringRepository;
+    private final PersonSpringRepository      personSpringRepository;
 
-    private final TransactionSpringRepository  transactionSpringRepository;
+    private final TransactionSpringRepository transactionSpringRepository;
 
     public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
             final MemberFeeSpringRepository memberFeeSpringRepo, final PersonSpringRepository personSpringRepo,
-            final ActiveMemberSpringRepository activeMemberSpringRepo,
-            final FeePaymentSpringRepository feePaymentSpringRepo,
+            final MemberSpringRepository memberSpringRepo, final FeePaymentSpringRepository feePaymentSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = feeSpringRepo;
         memberFeeSpringRepository = memberFeeSpringRepo;
         personSpringRepository = personSpringRepo;
-        activeMemberSpringRepository = activeMemberSpringRepo;
+        memberSpringRepository = memberSpringRepo;
         feePaymentSpringRepository = feePaymentSpringRepo;
         transactionSpringRepository = transactionSpringRepo;
     }
@@ -136,8 +136,6 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllForActiveMembers(final Year year, final Sort sort) {
         final Collection<Long> foundIds;
-        final YearMonth        validStart;
-        final YearMonth        validEnd;
         final YearMonth        start;
         final YearMonth        end;
         final Collection<Fee>  found;
@@ -146,10 +144,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
 
-        foundIds = activeMemberSpringRepository.findAllActiveIdsInRange(validStart, validEnd);
+        foundIds = memberSpringRepository.findAllActiveIds();
 
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
@@ -164,8 +160,6 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllForInactiveMembers(final Year year, final Sort sort) {
         final Collection<Long> foundIds;
-        final YearMonth        validStart;
-        final YearMonth        validEnd;
         final YearMonth        start;
         final YearMonth        end;
         final Collection<Fee>  found;
@@ -174,10 +168,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
 
-        foundIds = activeMemberSpringRepository.findAllInactiveIds(validStart, validEnd);
+        foundIds = memberSpringRepository.findAllInactiveIds();
 
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()

@@ -24,64 +24,10 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.YearMonth;
-import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity, Long> {
-
-    /**
-     * Returns the ids for all the members active in the received date range. This means, any member which has fees
-     * inside the range, both extremes included.
-     *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
-     * @return all the ids for the members active in the range
-     */
-    @Query("""
-            SELECT m.id
-            FROM Member m
-              INNER JOIN Fee f ON m.person.id = f.personId
-            WHERE f.date >= :start
-              AND f.date <= :end
-            """)
-    public Collection<Long> findAllActiveIdsInRange(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end);
-
-    /**
-     * Returns the numbers for all the members active in the received date range. This means, any member which has fees
-     * inside the range, both extremes included.
-     *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
-     * @return all the ids for the members active in the range
-     */
-    @Query("""
-            SELECT m.person.number
-            FROM Member m
-              INNER JOIN Fee f ON m.person.id = f.personId
-            WHERE f.date >= :start
-              AND f.date <= :end
-            """)
-    public Collection<Long> findAllActiveNumbersInRange(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end);
-
-    @Query("""
-            SELECT m.id
-            FROM Member m
-              LEFT JOIN Fee f ON m.person.id = f.personId AND f.date >= :start AND f.date <= :end
-            WHERE f.id IS NULL
-            """)
-    public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end);
 
 }

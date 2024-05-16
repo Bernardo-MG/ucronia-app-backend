@@ -106,10 +106,9 @@ public class FeeConfig {
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepo,
             final MemberFeeSpringRepository memberFeeSpringRepo, final PersonSpringRepository personSpringRepo,
-            final ActiveMemberSpringRepository activeMemberSpringRepo,
-            final FeePaymentSpringRepository feePaymentSpringRepo,
+            final MemberSpringRepository memberSpringRepo, final FeePaymentSpringRepository feePaymentSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
-        return new JpaFeeRepository(feeSpringRepo, memberFeeSpringRepo, personSpringRepo, activeMemberSpringRepo,
+        return new JpaFeeRepository(feeSpringRepo, memberFeeSpringRepo, personSpringRepo, memberSpringRepo,
             feePaymentSpringRepo, transactionSpringRepo);
     }
 

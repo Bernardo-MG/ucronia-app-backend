@@ -16,7 +16,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -30,8 +30,8 @@ class ITFeeRepositorySave {
     private FeeSpringRepository springRepository;
 
     @Test
-    @DisplayName("When a fee exists, it is returned")
-    @SingleMember
+    @DisplayName("When saving an existing fee, it is returned")
+    @SinglePerson
     @PaidFee
     void testSave_Existing_ReturnedData() {
         final Iterable<FeeEntity> fees;
@@ -54,7 +54,7 @@ class ITFeeRepositorySave {
 
     @Test
     @DisplayName("Persists the data")
-    @SingleMember
+    @SinglePerson
     void testSave_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -76,7 +76,7 @@ class ITFeeRepositorySave {
 
     @Test
     @DisplayName("Returns the created data")
-    @SingleMember
+    @SinglePerson
     void testSave_ReturnedData() {
         final Collection<Fee> fees;
         final Fee             fee;

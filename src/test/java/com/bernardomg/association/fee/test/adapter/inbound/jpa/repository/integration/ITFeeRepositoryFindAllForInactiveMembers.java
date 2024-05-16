@@ -37,7 +37,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,9 +52,9 @@ class ITFeeRepositoryFindAllForInactiveMembers {
     private FeeRepository  repository;
 
     @Test
-    @DisplayName("With a not paid fee in the current month, it returns nothing")
-    @SingleMember
-    void testGetYear_CurrentMonth_NotPaid() {
+    @DisplayName("With a not paid fee in the current month, and an inactive member, it returns nothing")
+    @ActiveMember
+    void testFindAllForInactiveMembers_Active_CurrentMonth_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -72,9 +73,51 @@ class ITFeeRepositoryFindAllForInactiveMembers {
     }
 
     @Test
+    @DisplayName("With a paid fee in the current month, and an inactive member, it returns nothing")
+    @ActiveMember
+    void testFindAllForInactiveMembers_Active_CurrentMonth_Paid() {
+        final Iterable<Fee> fees;
+        final Sort          sort;
+
+        // GIVEN
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        sort = Sort.unsorted();
+
+        // WHEN
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the current month, it returns the calendar")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_CurrentMonth_NotPaid() {
+        final Iterable<Fee> fees;
+        final Sort          sort;
+
+        // GIVEN
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        sort = Sort.unsorted();
+
+        // WHEN
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.notPaidCurrentMonth());
+    }
+
+    @Test
     @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
-    @SingleMember
-    void testGetYear_CurrentMonth_NotPaid_SearchNextYear() {
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_CurrentMonth_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -94,8 +137,8 @@ class ITFeeRepositoryFindAllForInactiveMembers {
 
     @Test
     @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
-    @SingleMember
-    void testGetYear_CurrentMonth_NotPaid_SearchPreviousYear() {
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_CurrentMonth_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -114,9 +157,9 @@ class ITFeeRepositoryFindAllForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month, it returns nothing")
-    @SingleMember
-    void testGetYear_CurrentMonth_Paid() {
+    @DisplayName("With a paid fee in the current month, it returns the calendar")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_CurrentMonth_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -131,13 +174,13 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .isEmpty();
+            .containsExactly(Fees.paidCurrentMonth(1));
     }
 
     @Test
     @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
-    @SingleMember
-    void testGetYear_CurrentMonth_Paid_SearchNextYear() {
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_CurrentMonth_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -157,8 +200,8 @@ class ITFeeRepositoryFindAllForInactiveMembers {
 
     @Test
     @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
-    @SingleMember
-    void testGetYear_CurrentMonth_Paid_SearchPreviousYear() {
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_CurrentMonth_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -177,9 +220,9 @@ class ITFeeRepositoryFindAllForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the next year, it returns the calendar")
-    @SingleMember
-    void testGetYear_NextYear_NotPaid() {
+    @DisplayName("With a not paid fee in the next year, it returns nothing")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_NextYear_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -194,13 +237,13 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaidNextYear());
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee in the next year, it returns the calendar")
-    @SingleMember
-    void testGetYear_NextYear_Paid() {
+    @DisplayName("With a paid fee in the next year, it returns nothing")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_NextYear_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -215,31 +258,13 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidNextYear(1));
-    }
-
-    @Test
-    @DisplayName("With no data, it returns nothing")
-    void testGetYear_NoData() {
-        final Iterable<Fee> fees;
-        final Sort          sort;
-
-        // GIVEN
-        sort = Sort.unsorted();
-
-        // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
             .isEmpty();
     }
 
     @Test
     @DisplayName("With no fees, it nothing")
-    @SingleMember
-    void testGetYear_NoFees() {
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_NoFees() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -256,9 +281,9 @@ class ITFeeRepositoryFindAllForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month, it returns the calendar")
-    @SingleMember
-    void testGetYear_PreviousMonth_NotPaid() {
+    @DisplayName("With a not paid fee in the previous month, it returns nothing")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_PreviousMonth_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -273,13 +298,13 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaidPreviousMonth());
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month, it returns the calendar")
-    @SingleMember
-    void testGetYear_PreviousMonth_Paid() {
+    @DisplayName("With a paid fee in the previous month, it returns nothing")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_PreviousMonth_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -294,13 +319,13 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidPreviousMonth(1));
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a not paid fee two months back, it returns the calendar")
-    @SingleMember
-    void testGetYear_TwoMonthsBack_NotPaid() {
+    @DisplayName("With a not paid fee two months back, it returns nothing")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_TwoMonthsBack_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -315,13 +340,13 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaidTwoMonthsBack());
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee two months back, it returns the calendar")
-    @SingleMember
-    void testGetYear_TwoMonthsBack_Paid() {
+    @DisplayName("With a paid fee two months back, it returns nothing")
+    @InactiveMember
+    void testFindAllForInactiveMembers_Inactive_TwoMonthsBack_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -336,7 +361,25 @@ class ITFeeRepositoryFindAllForInactiveMembers {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidTwoMonthsBack(1));
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no data, it returns nothing")
+    void testFindAllForInactiveMembers_NoData() {
+        final Iterable<Fee> fees;
+        final Sort          sort;
+
+        // GIVEN
+        sort = Sort.unsorted();
+
+        // WHEN
+        fees = repository.findAllForInactiveMembers(FeeConstants.CURRENT_YEAR, sort);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
 }

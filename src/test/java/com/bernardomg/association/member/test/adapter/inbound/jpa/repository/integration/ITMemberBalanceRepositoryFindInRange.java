@@ -11,7 +11,7 @@ import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
+import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -211,7 +211,7 @@ class ITMemberBalanceRepositoryFindInRange {
     @Test
     @DisplayName("With fees for two members this month it returns balance for both this month")
     @ActiveMember
-    @AlternativeMember
+    @AlternativeActiveMember
     void testFindInRange_TwoMembers() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
