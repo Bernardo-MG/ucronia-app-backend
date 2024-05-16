@@ -25,53 +25,63 @@
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.AlternativeUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - delete")
-class ITUserMemberRepositoryDelete {
+@DisplayName("UserPersonRepository - exists by person for another user")
+class ITUserPersonRepositoryExistsByMemberForAnotherUser {
 
     @Autowired
-    private UserPersonRepository       repository;
-
-    @Autowired
-    private UserPersonSpringRepository userPersonSpringRepository;
+    private UserPersonRepository repository;
 
     @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithMember
-    @Disabled("Handle relationships")
-    void testDelete() {
+    @DisplayName("When the member is assigned to another user, it doesn't exist")
+    @AlternativeUserWithMember
+    void testExistsByPersonForAnotherUser() {
+        final boolean exists;
 
         // WHEN
-        repository.delete(UserConstants.USERNAME);
+        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userPersonSpringRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(exists)
+            .isTrue();
     }
 
     @Test
-    @DisplayName("With no member assigned to the user, it does nothing")
-    void testDelete_NoData() {
+    @DisplayName("When the member is assigned to the user, it doesn't exist")
+    @ValidUserWithPerson
+    void testExistsByPersonForAnotherUser_AssignedToUser() {
+        final boolean exists;
 
         // WHEN
-        repository.delete(UserConstants.USERNAME);
+        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userPersonSpringRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(exists)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("When no data exists it doesn't exist")
+    void testExistsByPersonForAnotherUser_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .isFalse();
     }
 
 }

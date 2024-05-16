@@ -39,7 +39,7 @@ import com.bernardomg.association.library.test.config.data.annotation.ValidGameS
 import com.bernardomg.association.library.test.config.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.test.config.factory.BookEntities;
 import com.bernardomg.association.library.test.config.factory.Books;
-import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

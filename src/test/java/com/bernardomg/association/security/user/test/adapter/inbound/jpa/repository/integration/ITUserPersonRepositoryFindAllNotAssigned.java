@@ -32,25 +32,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - find all not assigned")
-class ITUserMemberRepositoryFindAllNotAssigned {
+@DisplayName("UserPersonRepository - find all not assigned")
+class ITUserPersonRepositoryFindAllNotAssigned {
 
     @Autowired
     private UserPersonRepository repository;
 
     @Test
     @DisplayName("When the member is assigned, it is not returned")
-    @ValidUserWithMember
+    @ValidUserWithPerson
     void testFindAllNotAssigned_Assigned() {
         final Collection<Person> persons;
         final Pageable           page;
@@ -68,8 +68,8 @@ class ITUserMemberRepositoryFindAllNotAssigned {
 
     @Test
     @DisplayName("When the member is assigned and there is another not assigned, the one not assigned is returned")
-    @ValidUserWithMember
-    @AlternativeMember
+    @ValidUserWithPerson
+    @AlternativePerson
     void testFindAllNotAssigned_AssignedAndNotAssigned() {
         final Collection<Person> persons;
         final Pageable           page;
@@ -86,9 +86,26 @@ class ITUserMemberRepositoryFindAllNotAssigned {
     }
 
     @Test
-    @DisplayName("When the user exists it is returned")
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindAllNotAssigned_NoData() {
+        final Collection<Person> persons;
+        final Pageable           page;
+
+        // GIVEN
+        page = Pageable.unpaged();
+
+        // WHEN
+        persons = repository.findAllNotAssigned(page);
+
+        // THEN
+        Assertions.assertThat(persons)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there an active member available, it is returned")
     @ValidUser
-    @SingleMember
+    @ValidPerson
     void testFindAllNotAssigned_NotAssigned() {
         final Collection<Person> persons;
         final Pageable           page;

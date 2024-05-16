@@ -32,21 +32,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - save")
-class ITUserMemberRepositorySave {
+@DisplayName("UserPersonRepository - save")
+class ITUserPersonRepositorySave {
 
     @Autowired
     private UserPersonRepository       repository;
@@ -56,7 +56,7 @@ class ITUserMemberRepositorySave {
 
     @Test
     @DisplayName("When the data already exists, the relationship is persisted")
-    @ValidUserWithMember
+    @ValidUserWithPerson
     void testSave_Existing_PersistedData() {
         final Collection<UserPersonEntity> persons;
 
@@ -90,7 +90,7 @@ class ITUserMemberRepositorySave {
 
     @Test
     @DisplayName("With valid data, the created relationship is returned")
-    @ValidUserWithMember
+    @ValidUserWithPerson
     void testSave_Existing_ReturnedData() {
         final Person person;
 
@@ -105,7 +105,7 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
-    @SingleMember
+    @ValidPerson
     void testSave_PersistedData() {
         final Collection<UserPersonEntity> persons;
 
@@ -140,7 +140,7 @@ class ITUserMemberRepositorySave {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
-    @SingleMember
+    @ValidPerson
     void testSave_ReturnedData() {
         final Person person;
 

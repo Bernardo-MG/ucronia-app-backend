@@ -37,7 +37,7 @@ import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
-import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -33,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
-import com.bernardomg.association.member.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

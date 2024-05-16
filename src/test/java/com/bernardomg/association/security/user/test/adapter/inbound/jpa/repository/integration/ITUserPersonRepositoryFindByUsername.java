@@ -24,64 +24,67 @@
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.AlternativeUserWithMember;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - exists by member for another user")
-class ITUserMemberRepositoryExistsByMemberForAnotherUser {
+@DisplayName("UserPersonRepository - find by username")
+class ITUserPersonRepositoryFindByUsername {
 
     @Autowired
     private UserPersonRepository repository;
 
     @Test
-    @DisplayName("When the member is assigned it exists")
-    @AlternativeUserWithMember
-    void testExistsByPersonForAnotherUser() {
-        final boolean exists;
+    @DisplayName("When the user exists it is returned")
+    @ValidUserWithPerson
+    void testFindByUsername() {
+        final Optional<Person> person;
 
         // WHEN
-        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .isTrue();
+        Assertions.assertThat(person)
+            .contains(Persons.valid());
     }
 
     @Test
-    @DisplayName("When the member is assigned to the user, it doesn't exist")
-    @ValidUserWithMember
-    void testExistsByPersonForAnotherUser_AssignedToUser() {
-        final boolean exists;
+    @DisplayName("When no data exists nothing is returned")
+    void testFindByUsername_NoData() {
+        final Optional<Person> person;
 
         // WHEN
-        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .isFalse();
+        Assertions.assertThat(person)
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("When no data exists it doesn't exist")
-    void testExistsByPersonForAnotherUser_NoData() {
-        final boolean exists;
+    @DisplayName("When the person doesn't exist nothing is returned")
+    @ValidUser
+    void testFindByUsername_NoMember() {
+        final Optional<Person> person;
 
         // WHEN
-        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .isFalse();
+        Assertions.assertThat(person)
+            .isEmpty();
     }
 
 }
