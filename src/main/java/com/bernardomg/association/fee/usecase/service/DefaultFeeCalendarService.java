@@ -43,9 +43,9 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeePerson;
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 /**
  * Default implementation of the fee calendar service.
@@ -55,15 +55,15 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 @Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private final ActiveMemberRepository activeMemberRepository;
+    private final FeeRepository    feeRepository;
 
-    private final FeeRepository          feeRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultFeeCalendarService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo) {
+    public DefaultFeeCalendarService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
@@ -151,7 +151,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .getFullName();
 
         // FIXME: Shouldn't be needed when filtering by active or inactive
-        active = activeMemberRepository.isActive(memberNumber);
+        active = memberRepository.isActive(memberNumber);
 
         member = FeeCalendarMember.builder()
             .withNumber(memberNumber)

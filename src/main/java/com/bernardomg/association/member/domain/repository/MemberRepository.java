@@ -29,6 +29,8 @@ public interface MemberRepository {
 
     public Optional<Member> findOne(final Long number);
 
+    public boolean isActive(final long number);
+
     public Member save(final Member member);
 
 }

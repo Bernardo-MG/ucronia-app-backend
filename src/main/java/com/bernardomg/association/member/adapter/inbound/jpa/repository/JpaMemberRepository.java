@@ -160,6 +160,19 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final boolean isActive(final long number) {
+        final boolean active;
+
+        log.debug("Checking if member {} is active", number);
+
+        active = memberSpringRepository.isActive(number);
+
+        log.debug("Member {} is active: {}", number, active);
+
+        return active;
+    }
+
+    @Override
     public final Member save(final Member member) {
         final Optional<MemberEntity> existingMember;
         final Optional<PersonEntity> existingPerson;

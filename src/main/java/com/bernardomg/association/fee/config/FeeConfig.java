@@ -81,9 +81,8 @@ public class FeeConfig {
     }
 
     @Bean("feeCalendarService")
-    public FeeCalendarService getFeeCalendarService(final FeeRepository feeRepo,
-            final ActiveMemberRepository activeMemberRepository) {
-        return new DefaultFeeCalendarService(feeRepo, activeMemberRepository);
+    public FeeCalendarService getFeeCalendarService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+        return new DefaultFeeCalendarService(feeRepo, memberRepo);
     }
 
     @Bean("feeMaintenanceScheduleTask")
