@@ -46,12 +46,10 @@ import org.springframework.context.MessageSource;
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
@@ -123,7 +121,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With duplicated dates, it throws an exception")
-    @SingleMember
     void testPayFees_DuplicatedDates() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -143,7 +140,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With no fees nothing is saved")
-    @SingleMember
     void testPayFees_EmptyList() {
         final Collection<Fee> fees;
 
@@ -163,8 +159,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With the fee already paid, it throws an exception")
-    @SingleMember
-    @PaidFee
     void testPayFees_Existing_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -185,8 +179,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
-    @SingleMember
-    @PaidFee
     void testPayFees_MultipleDates_OneExisting_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;

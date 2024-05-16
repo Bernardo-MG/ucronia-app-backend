@@ -40,15 +40,15 @@ import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("AssignedFeeActiveMemberRepository - find all - sort")
+@DisplayName("MemberRepository - find all - sort")
 @MultipleMembers
 @MultipleFees
-class ITAssignedFeeActiveMemberRepositoryFindAllSort {
+class ITMemberRepositoryFindAllSort {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITAssignedFeeActiveMemberRepositoryFindAllSort() {
+    public ITMemberRepositoryFindAllSort() {
         super();
     }
 

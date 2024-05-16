@@ -25,69 +25,83 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
-import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
-import com.bernardomg.association.fee.test.config.factory.FeeConstants;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - delete")
-class ITFeeRepositoryDelete {
+@DisplayName("MemberRepository - find active")
+class ITMemberRepositoryFindActive {
 
     @Autowired
-    private FeeSpringRepository feeSpringRepository;
+    private MemberRepository repository;
 
-    @Autowired
-    private FeeRepository       repository;
-
-    @Test
-    @DisplayName("When there is no data, nothing is removed")
-    void testDelete_NoData() {
-        // WHEN
-        repository.delete(PersonConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(feeSpringRepository.count())
-            .as("fees")
-            .isZero();
+    public ITMemberRepositoryFindActive() {
+        super();
     }
 
     @Test
-    @DisplayName("When a not paid entity is deleted, it is removed")
+    @DisplayName("With an active member, it returns the member")
     @ActiveMember
-    @NotPaidFee
-    void testDelete_NotPaid() {
+    void testFindActive_Active() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
         // WHEN
-        repository.delete(PersonConstants.NUMBER, FeeConstants.DATE);
+        members = repository.findActive(pageable);
 
         // THEN
-        Assertions.assertThat(feeSpringRepository.count())
-            .as("fees")
-            .isZero();
+        Assertions.assertThat(members)
+            .as("members")
+            .containsExactly(Members.active());
     }
 
     @Test
-    @DisplayName("When a paid entity is deleted, it is removed")
-    @ActiveMember
-    @PaidFee
-    @Disabled("Handle relationships")
-    void testDelete_Paid() {
+    @DisplayName("With an inactive member, it returns nothing")
+    @InactiveMember
+    void testFindActive_Inactive() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
         // WHEN
-        repository.delete(PersonConstants.NUMBER, FeeConstants.DATE);
+        members = repository.findActive(pageable);
 
         // THEN
-        Assertions.assertThat(feeSpringRepository.count())
-            .as("fees")
-            .isZero();
+        Assertions.assertThat(members)
+            .as("members")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
+    void testFindActive_NoData() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        members = repository.findActive(pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .as("members")
+            .isEmpty();
     }
 
 }
