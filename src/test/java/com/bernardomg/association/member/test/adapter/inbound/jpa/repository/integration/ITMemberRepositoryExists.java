@@ -30,7 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -42,9 +43,24 @@ class ITMemberRepositoryExists {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With an existing member, it exists")
-    @SingleMember
-    void testExists() {
+    @DisplayName("With an existing active member, it exists")
+    @ActiveMember
+    void testExists_Active() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("With an existing inactive member, it exists")
+    @InactiveMember
+    void testExists_Inactive() {
         final boolean exists;
 
         // WHEN

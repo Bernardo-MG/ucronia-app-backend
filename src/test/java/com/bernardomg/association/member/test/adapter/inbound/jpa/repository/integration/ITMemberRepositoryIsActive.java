@@ -22,65 +22,67 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.AlternativeUserWithMember;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
-import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - exists by member for another user")
-class ITUserMemberRepositoryExistsByMemberForAnotherUser {
+@DisplayName("MemberRepository - activate single")
+class ITMemberRepositoryIsActive {
 
     @Autowired
-    private UserPersonRepository repository;
+    private MemberRepository repository;
 
     @Test
-    @DisplayName("When the member is assigned it exists")
-    @AlternativeUserWithMember
-    void testExistsByPersonForAnotherUser() {
-        final boolean exists;
+    @DisplayName("With an existing active member, nothing changes")
+    @ActiveMember
+    void testActivate_Active() {
+        final boolean active;
 
         // WHEN
-        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        active = repository.isActive(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
+        Assertions.assertThat(active)
+            .as("active")
             .isTrue();
     }
 
     @Test
-    @DisplayName("When the member is assigned to the user, it doesn't exist")
-    @ValidUserWithMember
-    void testExistsByPersonForAnotherUser_AssignedToUser() {
-        final boolean exists;
+    @DisplayName("With an existing inactive member, it is activated")
+    @InactiveMember
+    void testActivate_Inactive() {
+        final boolean active;
 
         // WHEN
-        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        active = repository.isActive(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
+        Assertions.assertThat(active)
+            .as("active")
             .isFalse();
     }
 
     @Test
-    @DisplayName("When no data exists it doesn't exist")
-    void testExistsByPersonForAnotherUser_NoData() {
-        final boolean exists;
+    @DisplayName("With no member, nothing changes")
+    void testActivate_NoData() {
+        final boolean active;
 
         // WHEN
-        exists = repository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER);
+        active = repository.isActive(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
+        Assertions.assertThat(active)
+            .as("active")
             .isFalse();
     }
 

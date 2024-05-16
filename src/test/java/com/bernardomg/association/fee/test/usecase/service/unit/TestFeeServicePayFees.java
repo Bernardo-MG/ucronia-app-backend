@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,17 +39,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
@@ -66,6 +67,9 @@ class TestFeeServicePayFees {
 
     @Mock
     private FeeRepository                  feeRepository;
+
+    @Mock
+    private MemberRepository               memberRepository;
 
     @Mock
     private MessageSource                  messageSource;
@@ -100,8 +104,23 @@ class TestFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("When paying the current month, the user is set to active")
+    void testPayFees_CurrentMonth_SetActive() {
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
+            .willReturn(List.of(Fees.paid()));
+
+        // WHEN
+        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        verify(memberRepository).activate(PersonConstants.NUMBER);
+    }
+
+    @Test
     @DisplayName("With duplicated dates, it throws an exception")
-    @SingleMember
     void testPayFees_DuplicatedDates() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -121,7 +140,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With no fees nothing is saved")
-    @SingleMember
     void testPayFees_EmptyList() {
         final Collection<Fee> fees;
 
@@ -141,8 +159,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With the fee already paid, it throws an exception")
-    @SingleMember
-    @PaidFee
     void testPayFees_Existing_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -163,8 +179,6 @@ class TestFeeServicePayFees {
 
     @Test
     @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
-    @SingleMember
-    @PaidFee
     void testPayFees_MultipleDates_OneExisting_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -198,6 +212,22 @@ class TestFeeServicePayFees {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingPersonException.class);
+    }
+
+    @Test
+    @DisplayName("When paying the previous month, the user is not set to active")
+    void testPayFees_PreviousMonth_NotSetActive() {
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
+            .willReturn(List.of(Fees.paid()));
+
+        // WHEN
+        service.payFees(List.of(FeeConstants.PREVIOUS_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        verify(memberRepository, Mockito.never()).activate(PersonConstants.NUMBER);
     }
 
 }

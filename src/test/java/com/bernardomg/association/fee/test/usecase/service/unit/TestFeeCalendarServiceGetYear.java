@@ -38,12 +38,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
@@ -52,10 +52,10 @@ import com.bernardomg.association.person.test.config.factory.PersonConstants;
 class TestFeeCalendarServiceGetYear {
 
     @Mock
-    private ActiveMemberRepository    activeMemberRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
-    private FeeRepository             feeRepository;
+    private MemberRepository          memberRepository;
 
     @InjectMocks
     private DefaultFeeCalendarService service;
@@ -71,7 +71,7 @@ class TestFeeCalendarServiceGetYear {
 
         given(feeRepository.findAllForActiveMembers(MemberCalendars.YEAR_CURRENT, sort))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(activeMemberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ACTIVE, sort);
@@ -92,7 +92,7 @@ class TestFeeCalendarServiceGetYear {
 
         given(feeRepository.findAllInYear(MemberCalendars.YEAR_CURRENT, sort))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(activeMemberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ALL, sort);
@@ -113,7 +113,7 @@ class TestFeeCalendarServiceGetYear {
 
         given(feeRepository.findAllForInactiveMembers(MemberCalendars.YEAR_CURRENT, sort))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(activeMemberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.INACTIVE, sort);

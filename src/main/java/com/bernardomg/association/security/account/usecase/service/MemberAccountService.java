@@ -23,7 +23,7 @@ import com.bernardomg.security.account.usecase.service.DefaultAccountService;
 @Transactional
 public final class MemberAccountService implements AccountService {
 
-    private final UserPersonRepository userMemberRepository;
+    private final UserPersonRepository userPersonRepository;
 
     private final AccountService       wrapped;
 
@@ -31,7 +31,7 @@ public final class MemberAccountService implements AccountService {
         super();
 
         wrapped = new DefaultAccountService(accountRepo);
-        userMemberRepository = Objects.requireNonNull(userMemberRepo);
+        userPersonRepository = Objects.requireNonNull(userMemberRepo);
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class MemberAccountService implements AccountService {
 
         basicAccount = wrapped.getCurrentUser();
         if (basicAccount.isPresent()) {
-            member = userMemberRepository.findByUsername(basicAccount.get()
+            member = userPersonRepository.findByUsername(basicAccount.get()
                 .getUsername());
 
             account = PersonAccount.builder()

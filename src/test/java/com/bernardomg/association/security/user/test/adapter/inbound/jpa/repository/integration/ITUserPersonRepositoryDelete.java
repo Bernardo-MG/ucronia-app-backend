@@ -24,67 +24,54 @@
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - find by username")
-class ITUserMemberRepositoryFindByUsername {
+@DisplayName("UserPersonRepository - delete")
+class ITUserPersonRepositoryDelete {
 
     @Autowired
-    private UserPersonRepository repository;
+    private UserPersonRepository       repository;
+
+    @Autowired
+    private UserPersonSpringRepository userPersonSpringRepository;
 
     @Test
-    @DisplayName("When the user exists it is returned")
-    @ValidUserWithMember
-    void testFindByUsername() {
-        final Optional<Person> person;
+    @DisplayName("With a member assigned to the user, it removes the member")
+    @ValidUserWithPerson
+    @Disabled("Handle relationships")
+    void testDelete() {
 
         // WHEN
-        person = repository.findByUsername(UserConstants.USERNAME);
+        repository.delete(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(person)
-            .contains(Persons.valid());
+        Assertions.assertThat(userPersonSpringRepository.count())
+            .as("user members")
+            .isZero();
     }
 
     @Test
-    @DisplayName("When no data exists nothing is returned")
-    void testFindByUsername_NoData() {
-        final Optional<Person> person;
+    @DisplayName("With no member assigned to the user, it does nothing")
+    void testDelete_NoData() {
 
         // WHEN
-        person = repository.findByUsername(UserConstants.USERNAME);
+        repository.delete(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(person)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When the person doesn't exist nothing is returned")
-    @ValidUser
-    void testFindByUsername_NoMember() {
-        final Optional<Person> person;
-
-        // WHEN
-        person = repository.findByUsername(UserConstants.USERNAME);
-
-        // THEN
-        Assertions.assertThat(person)
-            .isEmpty();
+        Assertions.assertThat(userPersonSpringRepository.count())
+            .as("user members")
+            .isZero();
     }
 
 }

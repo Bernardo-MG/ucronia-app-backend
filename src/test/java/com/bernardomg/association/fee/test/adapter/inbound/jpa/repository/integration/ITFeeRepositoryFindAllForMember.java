@@ -40,8 +40,9 @@ import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -54,9 +55,9 @@ class ITFeeRepositoryfindAllForMemberForMember {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @SingleMember
+    @ActiveMember
     @FeeFullYear
-    void testFindAllForMember_FullYear() {
+    void testFindAllForMember_Active_FullYear() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -79,8 +80,8 @@ class ITFeeRepositoryfindAllForMemberForMember {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    @SingleMember
-    void testFindAllForMember_NoFee() {
+    @ActiveMember
+    void testFindAllForMember_Active_NoFee() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -100,7 +101,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @DisplayName("With no surname it returns only the name")
     @NoSurnameMember
     @PaidFee
-    void testFindAllForMember_NoSurname() {
+    void testFindAllForMember_Active_NoSurname() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -117,10 +118,10 @@ class ITFeeRepositoryfindAllForMemberForMember {
     }
 
     @Test
-    @DisplayName("With a not paid fee it returns all the fees")
-    @SingleMember
+    @DisplayName("With a not paid fee, for an active member, it returns all the fees")
+    @ActiveMember
     @NotPaidFee
-    void testFindAllForMember_NotPaid() {
+    void testFindAllForMember_Active_NotPaid() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -137,10 +138,10 @@ class ITFeeRepositoryfindAllForMemberForMember {
     }
 
     @Test
-    @DisplayName("With a paid fee it returns all the fees")
-    @SingleMember
+    @DisplayName("With a paid fee, for an active member, it returns all the fees")
+    @ActiveMember
     @PaidFee
-    void testFindAllForMember_Paid() {
+    void testFindAllForMember_Active_Paid() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -158,9 +159,9 @@ class ITFeeRepositoryfindAllForMemberForMember {
 
     @Test
     @DisplayName("With a wrong member it returns nothing")
-    @SingleMember
+    @ActiveMember
     @PaidFee
-    void testFindAllForMember_WrongMember() {
+    void testFindAllForMember_Active_WrongMember() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -174,6 +175,46 @@ class ITFeeRepositoryfindAllForMemberForMember {
         Assertions.assertThat(fees)
             .as("fees")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee, for an inactive member, it returns all the fees")
+    @InactiveMember
+    @NotPaidFee
+    void testFindAllForMember_Inactive_NotPaid() {
+        final Iterable<Fee> fees;
+        final Pageable      pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.notPaid());
+    }
+
+    @Test
+    @DisplayName("With a paid fee, for an inactive member, it returns all the fees")
+    @InactiveMember
+    @PaidFee
+    void testFindAllForMember_Inactive_Paid() {
+        final Iterable<Fee> fees;
+        final Pageable      pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
     }
 
 }

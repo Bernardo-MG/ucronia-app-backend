@@ -33,7 +33,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -43,6 +44,70 @@ class ITFeeRepositoryExists {
 
     @Autowired
     private FeeRepository repository;
+
+    @Test
+    @DisplayName("With an existing not paid fee for an active member, it exists")
+    @ActiveMember
+    @NotPaidFee
+    void testExists_Active_NotPaid() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("With an existing paid fee for an active member, it exists")
+    @ActiveMember
+    @PaidFee
+    void testExists_Active_Paid() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("With an existing not paid fee for an inactive member, it exists")
+    @InactiveMember
+    @NotPaidFee
+    void testExists_Inactive_NotPaid() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("With an existing paid fee for an inactive member, it exists")
+    @InactiveMember
+    @PaidFee
+    void testExists_Inactive_Paid() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
 
     @Test
     @DisplayName("With no data, nothing exists")
@@ -56,38 +121,6 @@ class ITFeeRepositoryExists {
         Assertions.assertThat(exists)
             .as("exists")
             .isFalse();
-    }
-
-    @Test
-    @DisplayName("With an existing not paid, it exists")
-    @SingleMember
-    @NotPaidFee
-    void testExists_NotPaid() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With an existing not paid, it exists")
-    @SingleMember
-    @PaidFee
-    void testExists_Paid() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
     }
 
 }

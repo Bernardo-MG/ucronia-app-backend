@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -40,15 +40,15 @@ import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("AssignedFeeActiveMemberRepository - find all - sort")
+@DisplayName("MemberRepository - find all - sort")
 @MultipleMembers
 @MultipleFees
-class ITAssignedFeeActiveMemberRepositoryFindAllSort {
+class ITMemberRepositoryFindAllSort {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITAssignedFeeActiveMemberRepositoryFindAllSort() {
+    public ITMemberRepositoryFindAllSort() {
         super();
     }
 

@@ -24,8 +24,11 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -54,9 +57,52 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     @Query("""
             SELECT m
             FROM Member m
+            WHERE m.active = true
+            """)
+    public Page<MemberEntity> findAllActive(final Pageable pageable);
+
+    @Query("""
+            SELECT m.id
+            FROM Member m
+            WHERE m.active = true
+            """)
+    public Collection<Long> findAllActiveIds();
+
+    @Query("""
+            SELECT m
+            FROM Member m
+              JOIN m.person p
+            WHERE p.number IN :numbers
+            """)
+    public Collection<MemberEntity> findAllByNumber(@Param("numbers") final Iterable<Long> numbers);
+
+    @Query("""
+            SELECT m
+            FROM Member m
+            WHERE m.active = false
+            """)
+    public Page<MemberEntity> findAllInactive(final Pageable pageable);
+
+    @Query("""
+            SELECT m.id
+            FROM Member m
+            WHERE m.active = false
+            """)
+    public Collection<Long> findAllInactiveIds();
+
+    @Query("""
+            SELECT m
+            FROM Member m
               JOIN m.person p
             WHERE p.number = :number
             """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+
+    @Query("""
+            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS active
+            FROM Member m
+            WHERE m.active = true
+            """)
+    public boolean isActive(@Param("number") final Long number);
 
 }

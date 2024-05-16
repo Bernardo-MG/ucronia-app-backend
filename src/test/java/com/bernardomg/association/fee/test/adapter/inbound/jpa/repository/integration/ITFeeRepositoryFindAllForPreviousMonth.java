@@ -33,7 +33,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,8 +48,9 @@ class ITFeeRepositoryFindAllForPreviousMonth {
     private FeeRepository  repository;
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
-    void testFindAllForPreviousMonth_NoData() {
+    @DisplayName("When there are no fees, nothing is returned")
+    @ActiveMember
+    void testFindAllForPreviousMonth_Active_NoFee() {
         final Iterable<Fee> fees;
 
         // WHEN
@@ -61,9 +63,9 @@ class ITFeeRepositoryFindAllForPreviousMonth {
     }
 
     @Test
-    @DisplayName("When there is a not paid fee in the previous month it is returned")
-    @SingleMember
-    void testFindAllForPreviousMonth_NotPaid() {
+    @DisplayName("When there is a not paid fee in the previous month, for an active member, it is returned")
+    @ActiveMember
+    void testFindAllForPreviousMonth_Active_NotPaid() {
         final Iterable<Fee> fees;
 
         // GIVEN
@@ -79,9 +81,9 @@ class ITFeeRepositoryFindAllForPreviousMonth {
     }
 
     @Test
-    @DisplayName("When there is a paid fee in the previous month it is returned")
-    @SingleMember
-    void testFindAllForPreviousMonth_Paid() {
+    @DisplayName("When there is a paid fee in the previous month, for an active member, it is returned")
+    @ActiveMember
+    void testFindAllForPreviousMonth_Active_Paid() {
         final Iterable<Fee> fees;
 
         // GIVEN
@@ -94,6 +96,38 @@ class ITFeeRepositoryFindAllForPreviousMonth {
         Assertions.assertThat(fees)
             .as("fees")
             .containsExactly(Fees.paidPreviousMonthNew());
+    }
+
+    @Test
+    @DisplayName("When there is a not paid fee in the previous month, for an inactive member, it is returned")
+    @InactiveMember
+    void testFindAllForPreviousMonth_Inactive_NotPaid() {
+        final Iterable<Fee> fees;
+
+        // GIVEN
+        feeInitializer.registerFeePreviousMonth(false);
+
+        // WHEN
+        fees = repository.findAllForPreviousMonth();
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.notPaidPreviousMonth());
+    }
+
+    @Test
+    @DisplayName("When there is no data nothing is returned")
+    void testFindAllForPreviousMonth_NoData() {
+        final Iterable<Fee> fees;
+
+        // WHEN
+        fees = repository.findAllForPreviousMonth();
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
     }
 
 }

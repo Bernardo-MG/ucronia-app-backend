@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -50,9 +51,21 @@ class ITMemberRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a member, it is removed")
-    @SingleMember
-    void testDelete() {
+    @DisplayName("When deleting an active member, it is removed")
+    @ActiveMember
+    void testDelete_Active() {
+        // WHEN
+        memberRepository.delete(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(repository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting an inactive member, it is removed")
+    @InactiveMember
+    void testDelete_Inactive() {
         // WHEN
         memberRepository.delete(PersonConstants.NUMBER);
 

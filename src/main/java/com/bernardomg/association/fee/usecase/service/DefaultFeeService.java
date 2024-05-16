@@ -45,6 +45,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -67,6 +68,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeRepository                  feeRepository;
 
+    private final MemberRepository               memberRepository;
+
     private final MessageSource                  messageSource;
 
     private final PersonRepository               personRepository;
@@ -76,12 +79,13 @@ public final class DefaultFeeService implements FeeService {
     private final Validator<Collection<Fee>>     validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
-            final MessageSource msgSource) {
+            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
+            final AssociationConfigurationSource configSource, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
         personRepository = Objects.requireNonNull(personRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
 
         configurationSource = Objects.requireNonNull(configSource);
@@ -109,6 +113,11 @@ public final class DefaultFeeService implements FeeService {
         }
 
         feeRepository.delete(personNumber, date);
+
+        if (date.equals(YearMonth.now())) {
+            // If deleting for the current month, the user is set to active
+            memberRepository.deactivate(personNumber);
+        }
     }
 
     @Override
@@ -142,6 +151,7 @@ public final class DefaultFeeService implements FeeService {
         final Collection<Fee>  newFees;
         final Collection<Fee>  fees;
         final Optional<Person> person;
+        final Collection<Fee>  created;
 
         log.debug("Paying fees for {} in {}. Months paid: {}", personNumber, feeDates, transactionDate);
 
@@ -161,7 +171,14 @@ public final class DefaultFeeService implements FeeService {
         pay(person.get(), fees, transactionDate);
 
         // TODO: Why can't just return the created fees?
-        return feeRepository.findAllForMemberInDates(personNumber, feeDates);
+        created = feeRepository.findAllForMemberInDates(personNumber, feeDates);
+
+        if (feeDates.contains(YearMonth.now())) {
+            // If paying for the current month, the user is set to active
+            memberRepository.activate(personNumber);
+        }
+
+        return created;
     }
 
     private final void pay(final Person person, final Collection<Fee> fees, final LocalDate payDate) {

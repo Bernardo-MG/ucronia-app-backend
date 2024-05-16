@@ -42,8 +42,8 @@ public class AssociationAccountConfig {
     @Primary
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
-            final UserPersonRepository userMemberRepository) {
-        return new MemberAccountService(accountRepository, userMemberRepository);
+            final UserPersonRepository userPersonRepository) {
+        return new MemberAccountService(accountRepository, userPersonRepository);
     }
 
 }

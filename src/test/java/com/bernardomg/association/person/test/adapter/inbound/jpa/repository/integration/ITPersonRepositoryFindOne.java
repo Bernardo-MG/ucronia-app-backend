@@ -31,9 +31,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.test.config.data.annotation.SinglePerson;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.test.config.annotation.IntegrationTest;

@@ -24,84 +24,67 @@
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Collection;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
-import com.bernardomg.association.member.test.config.data.annotation.SingleMember;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.data.annotation.ValidUser;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
+import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserMemberRepository - find all not assigned")
-class ITUserMemberRepositoryFindAllNotAssigned {
+@DisplayName("UserPersonRepository - find by username")
+class ITUserPersonRepositoryFindByUsername {
 
     @Autowired
     private UserPersonRepository repository;
 
     @Test
-    @DisplayName("When the member is assigned, it is not returned")
-    @ValidUserWithMember
-    void testFindAllNotAssigned_Assigned() {
-        final Collection<Person> persons;
-        final Pageable           page;
-
-        // GIVEN
-        page = Pageable.unpaged();
+    @DisplayName("When the user exists it is returned")
+    @ValidUserWithPerson
+    void testFindByUsername() {
+        final Optional<Person> person;
 
         // WHEN
-        persons = repository.findAllNotAssigned(page);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(person)
+            .contains(Persons.valid());
+    }
+
+    @Test
+    @DisplayName("When no data exists nothing is returned")
+    void testFindByUsername_NoData() {
+        final Optional<Person> person;
+
+        // WHEN
+        person = repository.findByUsername(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(person)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When the member is assigned and there is another not assigned, the one not assigned is returned")
-    @ValidUserWithMember
-    @AlternativeMember
-    void testFindAllNotAssigned_AssignedAndNotAssigned() {
-        final Collection<Person> persons;
-        final Pageable           page;
-
-        // GIVEN
-        page = Pageable.unpaged();
-
-        // WHEN
-        persons = repository.findAllNotAssigned(page);
-
-        // THEN
-        Assertions.assertThat(persons)
-            .containsExactly(Persons.alternative());
-    }
-
-    @Test
-    @DisplayName("When the user exists it is returned")
+    @DisplayName("When the person doesn't exist nothing is returned")
     @ValidUser
-    @SingleMember
-    void testFindAllNotAssigned_NotAssigned() {
-        final Collection<Person> persons;
-        final Pageable           page;
-
-        // GIVEN
-        page = Pageable.unpaged();
+    void testFindByUsername_NoMember() {
+        final Optional<Person> person;
 
         // WHEN
-        persons = repository.findAllNotAssigned(page);
+        person = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(persons)
-            .containsExactly(Persons.valid());
+        Assertions.assertThat(person)
+            .isEmpty();
     }
 
 }
