@@ -29,11 +29,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaActiveMemberRepository;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaAssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.schedule.FeeMaintenanceScheduleTask;
@@ -49,6 +47,7 @@ import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.fee.usecase.service.UserFeeService;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
@@ -76,9 +75,9 @@ public class FeeConfig {
     }
 
     @Bean("assignedFeeActiveMemberSource")
-    public MemberRepository getActiveMemberSource(final ActiveMemberSpringRepository activeMemberRepo,
-            final MemberSpringRepository memberSpringRepo, final PersonSpringRepository personSpringRepository) {
-        return new JpaAssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo, personSpringRepository);
+    public MemberRepository getActiveMemberSource(final MemberSpringRepository memberSpringRepo,
+            final PersonSpringRepository personSpringRepository) {
+        return new JpaMemberRepository(memberSpringRepo, personSpringRepository);
     }
 
     @Bean("feeCalendarService")

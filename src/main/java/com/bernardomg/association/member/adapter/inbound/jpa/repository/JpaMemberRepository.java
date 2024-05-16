@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
@@ -20,19 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
-public final class JpaAssignedFeeActiveMemberRepository implements MemberRepository {
+public final class JpaMemberRepository implements MemberRepository {
 
-    private final ActiveMemberSpringRepository activeMemberSpringRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    private final MemberSpringRepository       memberSpringRepository;
+    private final PersonSpringRepository personSpringRepository;
 
-    private final PersonSpringRepository       personSpringRepository;
-
-    public JpaAssignedFeeActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo,
-            final MemberSpringRepository memberSpringRepo, final PersonSpringRepository personSpringRepo) {
+    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo,
+            final PersonSpringRepository personSpringRepo) {
         super();
 
-        activeMemberSpringRepository = activeMemberRepo;
         memberSpringRepository = memberSpringRepo;
         personSpringRepository = personSpringRepo;
     }
@@ -114,7 +110,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
 
         log.debug("Finding all the members");
 
-        members = activeMemberSpringRepository.findAll(pageable)
+        members = memberSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
         log.debug("Found all the members: {}", members);
@@ -189,7 +185,7 @@ public final class JpaAssignedFeeActiveMemberRepository implements MemberReposit
         }
 
         personSpringRepository.save(entity.getPerson());
-        created = activeMemberSpringRepository.save(entity);
+        created = memberSpringRepository.save(entity);
 
         saved = memberSpringRepository.findByNumber(created.getPerson()
             .getNumber())

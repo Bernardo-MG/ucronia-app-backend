@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,20 +38,20 @@ import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find active")
-class ITMemberRepositoryFindActive {
+@DisplayName("MemberRepository - find all")
+class ITMemberRepositoryFindAll {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITMemberRepositoryFindActive() {
+    public ITMemberRepositoryFindAll() {
         super();
     }
 
     @Test
-    @DisplayName("With an active member, it returns the member")
+    @DisplayName("With an active member, it is returned")
     @ActiveMember
-    void testFindActive_Active() {
+    void testFindAll_Active() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -59,7 +59,7 @@ class ITMemberRepositoryFindActive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = repository.findActive(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -68,9 +68,9 @@ class ITMemberRepositoryFindActive {
     }
 
     @Test
-    @DisplayName("With an inactive member, it returns nothing")
+    @DisplayName("With an inactive member, it is returned")
     @InactiveMember
-    void testFindActive_Inactive() {
+    void testFindAll_Inactive() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -78,17 +78,17 @@ class ITMemberRepositoryFindActive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = repository.findActive(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .isEmpty();
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
-    void testFindActive_NoData() {
+    void testFindAll_NoData() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -96,7 +96,7 @@ class ITMemberRepositoryFindActive {
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = repository.findActive(pageable);
+        members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
