@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     public JpaBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepo) {
         super();
 
-        bookTypeSpringRepository = bookTypeSpringRepo;
+        bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
     }
 
     @Override
@@ -69,7 +70,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
         log.debug("Finding book type with name {}", name);
 
-        bookType = bookTypeSpringRepository.findOneByName(name)
+        bookType = bookTypeSpringRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found book type with name {}: {}", name, bookType);
@@ -101,7 +102,6 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         toCreate = toEntity(bookType);
 
         created = bookTypeSpringRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved book type {}", saved);

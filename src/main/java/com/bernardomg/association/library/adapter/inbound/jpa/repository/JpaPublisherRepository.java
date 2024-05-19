@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
     public JpaPublisherRepository(final PublisherSpringRepository publisherSpringRepo) {
         super();
 
-        publisherSpringRepository = publisherSpringRepo;
+        publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
     }
 
     @Override
@@ -69,7 +70,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         log.debug("Finding publisher with name {}", name);
 
-        publisher = publisherSpringRepository.findOneByName(name)
+        publisher = publisherSpringRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found publisher with name {}: {}", name, publisher);
@@ -101,7 +102,6 @@ public final class JpaPublisherRepository implements PublisherRepository {
         toCreate = toEntity(publisher);
 
         created = publisherSpringRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved publisher {}", saved);

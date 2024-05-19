@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
 import org.springframework.test.context.jdbc.Sql;
 
 @Sql("/db/queries/security/user/alternative.sql")
-@Sql("/db/queries/member/single.sql")
-@Sql("/db/queries/security/relationship/user_member_alternative.sql")
+@Sql("/db/queries/person/single.sql")
+@Sql("/db/queries/security/relationship/user_person_alternative.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

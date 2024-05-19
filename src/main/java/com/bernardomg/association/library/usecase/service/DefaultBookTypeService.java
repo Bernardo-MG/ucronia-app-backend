@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public final class DefaultBookTypeService implements BookTypeService {
     public DefaultBookTypeService(final BookTypeRepository bookTypeRepo) {
         super();
 
-        bookTypeRepository = bookTypeRepo;
+        bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
 
         createBookTypeValidator = new CreateBookTypeValidator(bookTypeRepository);
     }

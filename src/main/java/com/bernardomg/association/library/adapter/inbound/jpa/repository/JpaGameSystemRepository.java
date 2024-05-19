@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     public JpaGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
         super();
 
-        gameSystemRepository = gameSystemRepo;
+        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
     }
 
     @Override
@@ -53,7 +54,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game system with name {}", name);
 
-        gameSystem = gameSystemRepository.findOneByName(name)
+        gameSystem = gameSystemRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found game system with name {}: {}", name, gameSystem);
@@ -101,7 +102,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         toCreate = toEntity(gameSystem);
 
         created = gameSystemRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved game system {}", saved);

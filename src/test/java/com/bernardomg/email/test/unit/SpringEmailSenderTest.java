@@ -18,8 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import com.bernardomg.email.EmailSender;
-import com.bernardomg.email.SpringEmailSender;
+import com.bernardomg.email.sender.EmailSender;
+import com.bernardomg.email.sender.SpringEmailSender;
 
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;

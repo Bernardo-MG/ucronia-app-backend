@@ -1,10 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: membership
+      id: person
       author: Bernardo
       changes:
         - createTable:
-            tableName: members
+            schemaName: association
+            tableName: persons
             columns:
               - column:
                   name: id
@@ -32,8 +33,6 @@ databaseChangeLog:
               - column:
                   name: phone
                   type: varchar(15)
-                  constraints:
-                    nullable: false
                   defaultValue: ''
               - column:
                   name: identifier
@@ -42,12 +41,49 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: ''
         - addAutoIncrement:
+            schemaName: association
+            tableName: persons
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+  - changeSet:
+      id: membership
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: association
+            tableName: members
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: 'false'
+              - column:
+                  name: person
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+                    foreignKeyName: fk_members_person
+                    references: association.persons(id)
+        - addAutoIncrement:
+            schemaName: association
             tableName: members
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
+            schemaName: association
             tableName: fees
             columns:
               - column:
@@ -57,12 +93,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: member_id
+                  name: person_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_member
-                    references: members(id)
+                    foreignKeyName: fk_fees_person
+                    references: association.persons(id)
               - column:
                   name: date
                   type: datetime
@@ -70,6 +106,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
         - addAutoIncrement:
+            schemaName: association
             tableName: fees
             columnName: id
             columnDataType: bigint
@@ -77,9 +114,11 @@ databaseChangeLog:
             startWith: 1
         - addUniqueConstraint:
             constraintName: fees_unique_date
+            schemaName: association
             tableName: fees
-            columnNames: 'member_id, date'
+            columnNames: 'person_id, date'
         - createTable:
+            schemaName: association
             tableName: fee_payments
             columns:
               - column:
@@ -89,14 +128,14 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
                     foreignKeyName: fk_fee_payments_fee
-                    references: fees(id)
+                    references: association.fees(id)
               - column:
                   name: transaction_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_fee_payments_transaction
-                    references: transactions(id)
+                    references: association.transactions(id)
       modifySql:
         - append:
             dbms: mysql
@@ -107,9 +146,11 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, m.number AS member_number, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN p.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM members m INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments p ON f.id = p.fee_id LEFT JOIN transactions t ON p.transaction_id = t.id
+            selectQuery: SELECT f.id AS id, p.id AS person_id, p.number AS person_number, TRIM(CONCAT(p.name, ' ', p.surname)) AS person_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN pm.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM association.persons p INNER JOIN association.fees f ON p.id = f.person_id LEFT JOIN association.fee_payments pm ON f.id = pm.fee_id LEFT JOIN association.transactions t ON pm.transaction_id = t.id
+            schemaName: association
             viewName: member_fees
         -  createView:
             remarks: Monthly member balance
-            selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM fees GROUP BY month_year) AS subquery
+            selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM association.fees GROUP BY month_year) AS subquery
+            schemaName: association
             viewName: member_monthly_balances

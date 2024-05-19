@@ -1,20 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: library_schema
-      author: Bernardo
-      changes:
-        - sqlFile:
-            encoding: UTF-8
-            path: sql/create_library_schema.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
-  - changeSet:
       id: library
       author: Bernardo
       changes:
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: books
             columns:
               - column:
@@ -45,14 +35,14 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addAutoIncrement:
-            schemaName: library
+            schemaName: inventory
             tableName: books
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: authors
             columns:
               - column:
@@ -68,14 +58,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
-            schemaName: library
+            schemaName: inventory
             tableName: authors
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: publishers
             columns:
               - column:
@@ -91,14 +81,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
-            schemaName: library
+            schemaName: inventory
             tableName: publishers
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: game_systems
             columns:
               - column:
@@ -114,14 +104,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
-            schemaName: library
+            schemaName: inventory
             tableName: game_systems
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: book_types
             columns:
               - column:
@@ -137,7 +127,7 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
-            schemaName: library
+            schemaName: inventory
             tableName: book_types
             columnName: id
             columnDataType: bigint
@@ -152,7 +142,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: book_authors
             columns:
               - column:
@@ -161,21 +151,21 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_authors_book
-                    references: library.books(id)
+                    references: inventory.books(id)
               - column:
                   name: author_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_authors_author
-                    references: library.authors(id)
+                    references: inventory.authors(id)
         - addPrimaryKey:
             constraintName: book_authors_key
-            schemaName: library
+            schemaName: inventory
             tableName: book_authors
             columnNames: 'book_id, author_id'
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: book_publishers
             columns:
               - column:
@@ -184,21 +174,21 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_publishers_book
-                    references: library.books(id)
+                    references: inventory.books(id)
               - column:
                   name: publisher_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_publishers_publisher
-                    references: library.publishers(id)
+                    references: inventory.publishers(id)
         - addPrimaryKey:
             constraintName: book_publishers_key
-            schemaName: library
+            schemaName: inventory
             tableName: book_publishers
             columnNames: 'book_id, publisher_id'
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: book_book_types
             columns:
               - column:
@@ -208,16 +198,16 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_book_types_book
-                    references: library.books(id)
+                    references: inventory.books(id)
               - column:
                   name: book_type_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_book_types_book_type
-                    references: library.book_types(id)
+                    references: inventory.book_types(id)
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: book_game_systems
             columns:
               - column:
@@ -227,7 +217,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_game_systems_book
-                    references: library.books(id)
+                    references: inventory.books(id)
                     deleteCascade: true
               - column:
                   name: game_system_id
@@ -235,7 +225,33 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_game_systems_game_system
-                    references: library.game_systems(id)
+                    references: inventory.game_systems(id)
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: library_donors
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: inventory
+            tableName: book_donors
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_donors_book
+                    references: inventory.books(id)
+              - column:
+                  name: donor_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_donors_donor
+                    references: association.persons(id)
       modifySql:
         - append:
             dbms: mysql
@@ -245,7 +261,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            schemaName: library
+            schemaName: inventory
             tableName: book_lendings
             columns:
               - column:
@@ -261,15 +277,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_lending_book
-                    references: library.books(id)
+                    references: inventory.books(id)
               - column:
-                  name: member_id
+                  name: person_id
                   type: bigint
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_book_lending_member
-                    references: members(id)
+                    foreignKeyName: fk_book_lending_person
+                    references: association.persons(id)
               - column:
                   name: lending_date
                   type: datetime
@@ -280,7 +296,7 @@ databaseChangeLog:
                   name: return_date
                   type: datetime
         - addAutoIncrement:
-            schemaName: library
+            schemaName: inventory
             tableName: book_lendings
             columnName: id
             columnDataType: bigint
@@ -288,6 +304,6 @@ databaseChangeLog:
             startWith: 1
         - addUniqueConstraint:
             constraintName: book_lendings_unique_date
-            schemaName: library
+            schemaName: inventory
             tableName: book_lendings
-            columnNames: 'book_id, member_id, lending_date'
+            columnNames: 'book_id, person_id, lending_date'

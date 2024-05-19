@@ -36,8 +36,9 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,14 +49,45 @@ class ITFeeRepositoryFindAllForMemberInDates {
     private FeeRepository repository;
 
     @Test
-    @DisplayName("When there is a fee it is returned")
-    @ValidMember
+    @DisplayName("When there is a fee for an active member, it is returned")
+    @ActiveMember
     @PaidFee
-    void testFindAllForMemberInDates() {
+    void testFindAllForMemberInDates_Active() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(MemberConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When there are no fees nothing is returned")
+    @ActiveMember
+    void testFindAllForMemberInDates_Active_NoFees() {
+        final Iterable<Fee> fees;
+
+        // WHEN
+        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a fee for an inactive member, it is returned")
+    @InactiveMember
+    @PaidFee
+    void testFindAllForMemberInDates_Inactive() {
+        final Iterable<Fee> fees;
+
+        // WHEN
+        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
@@ -65,12 +97,11 @@ class ITFeeRepositoryFindAllForMemberInDates {
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    @ValidMember
     void testFindAllForMemberInDates_NoData() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(MemberConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)

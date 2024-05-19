@@ -37,59 +37,59 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.association.security.user.test.config.factory.Users;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User member service - get member")
-class TestUserMemberServiceGetMember {
+@DisplayName("User person service - get person")
+class TestUserPersonServiceGetPerson {
 
     @Mock
-    private MemberRepository         memberRepository;
+    private PersonRepository         personRepository;
 
     @InjectMocks
-    private DefaultUserMemberService service;
+    private DefaultUserPersonService service;
 
     @Mock
-    private UserMemberRepository     userMemberRepository;
+    private UserPersonRepository     userPersonRepository;
 
     @Mock
     private UserRepository           userRepository;
 
     @Test
-    @DisplayName("With a member assigned to the user, it returns the user")
-    void testGetMember() {
-        final Optional<Member> member;
+    @DisplayName("With a person assigned to the user, it returns the user")
+    void testGetPerson() {
+        final Optional<Person> person;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userMemberRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Members.active()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
 
         // WHEN
-        member = service.getMember(UserConstants.USERNAME);
+        person = service.getPerson(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(member)
-            .contains(Members.active());
+        Assertions.assertThat(person)
+            .contains(Persons.valid());
     }
 
     @Test
-    @DisplayName("With no member, it throws an exception")
-    void testGetMember_NoMember() {
+    @DisplayName("With no person, it throws an exception")
+    void testGetPerson_NoPerson() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getMember(UserConstants.USERNAME);
+        execution = () -> service.getPerson(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

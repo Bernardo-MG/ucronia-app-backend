@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
 import com.bernardomg.association.library.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.domain.model.Author;
@@ -83,7 +84,7 @@ public class BookController {
         final Book book;
 
         // Book
-        book = toBook(request);
+        book = toDomain(request);
 
         return service.create(book);
     }
@@ -119,17 +120,18 @@ public class BookController {
         final Book book;
 
         // Book
-        book = toBook(request);
+        book = toDomain(request);
         book.setNumber(number);
 
         return service.update(number, book);
     }
 
-    private final Book toBook(final BookCreation request) {
+    private final Book toDomain(final BookCreation request) {
         final Collection<Author> authors;
         final Publisher          publisher;
         final BookType           bookType;
         final GameSystem         gameSystem;
+        final Donor              donor;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -176,6 +178,17 @@ public class BookController {
                 .build();
         }
 
+        // Donor
+        if (request.getDonor() == null) {
+            donor = Donor.builder()
+                .build();
+        } else {
+            donor = Donor.builder()
+                .withNumber(request.getDonor()
+                    .getNumber())
+                .build();
+        }
+
         // Book
         return Book.builder()
             .withTitle(request.getTitle())
@@ -185,6 +198,7 @@ public class BookController {
             .withPublisher(publisher)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
+            .withDonor(donor)
             .build();
     }
 

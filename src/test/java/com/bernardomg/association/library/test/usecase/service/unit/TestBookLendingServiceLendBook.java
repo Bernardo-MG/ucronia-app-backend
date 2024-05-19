@@ -44,7 +44,7 @@ import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookLendingService - lend book")
@@ -68,10 +68,10 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, MemberConstants.NUMBER);
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.lentNow());
@@ -86,7 +86,7 @@ class TestBookLendingServiceLendBook {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, MemberConstants.NUMBER);
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -100,10 +100,10 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, MemberConstants.NUMBER);
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

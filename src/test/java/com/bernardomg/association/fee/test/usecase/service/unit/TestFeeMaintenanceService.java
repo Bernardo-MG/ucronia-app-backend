@@ -13,22 +13,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
 public class TestFeeMaintenanceService {
 
     @Mock
-    private ActiveMemberRepository       activeMemberRepository;
+    private FeeRepository                feeRepository;
 
     @Mock
-    private FeeRepository                feeRepository;
+    private MemberRepository             memberRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,8 +39,8 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();
@@ -50,13 +50,29 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
+    @DisplayName("When there a fee is saved the member is set to active")
+    void testRegisterMonthFees_ActivatesMember() {
+
+        // GIVEN
+        given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+
+        // WHEN
+        service.registerMonthFees();
+
+        // THEN
+        verify(memberRepository).activate(List.of(PersonConstants.NUMBER));
+    }
+
+    @Test
     @DisplayName("When the fee exists nothing is saved")
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
         service.registerMonthFees();
@@ -71,7 +87,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(activeMemberRepository.isActivePreviousMonth(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();

@@ -38,105 +38,105 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.association.security.user.test.config.factory.Users;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User member service - assign member")
-class TestUserMemberServiceAssignMember {
+@DisplayName("User person service - assign person")
+class TestUserPersonServiceAssignPerson {
 
     @Mock
-    private MemberRepository         memberRepository;
+    private PersonRepository         personRepository;
 
     @InjectMocks
-    private DefaultUserMemberService service;
+    private DefaultUserPersonService service;
 
     @Mock
-    private UserMemberRepository     userMemberRepository;
+    private UserPersonRepository     userPersonRepository;
 
     @Mock
     private UserRepository           userRepository;
 
     @Test
-    @DisplayName("When the member has already been assigned, it throws an exception")
-    void testAssignMember_ExistingMember() {
+    @DisplayName("When the person has already been assigned, it throws an exception")
+    void testAssignPerson_ExistingPerson() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
-        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER))
+        given(userPersonRepository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+            FieldFailure.of("person", "existing", PersonConstants.NUMBER));
     }
 
     @Test
-    @DisplayName("When the user already has a member, it throws an exception")
-    void testAssignMember_ExistingUser() {
+    @DisplayName("When the user already has a person, it throws an exception")
+    void testAssignPerson_ExistingUser() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
-        given(userMemberRepository.existsByMemberForAnotherUser(UserConstants.USERNAME, MemberConstants.NUMBER))
+        given(userPersonRepository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("member", "existing", MemberConstants.NUMBER));
+            FieldFailure.of("person", "existing", PersonConstants.NUMBER));
     }
 
     @Test
-    @DisplayName("With no member, it throws an exception")
-    void testAssignMember_NoMember() {
+    @DisplayName("With no person, it throws an exception")
+    void testAssignPerson_NoPerson() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
-        // TODO: assign when the user already has a member
+        // TODO: assign when the user already has a person
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
     @Test
     @DisplayName("With no user, it throws an exception")
-    void testAssignMember_NoUser() {
+    void testAssignPerson_NoUser() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -145,35 +145,35 @@ class TestUserMemberServiceAssignMember {
 
     @Test
     @DisplayName("With valid data, the relationship is persisted")
-    void testAssignMember_PersistedData() {
+    void testAssignPerson_PersistedData() {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
 
         // WHEN
-        service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        verify(userMemberRepository).save(UserConstants.USERNAME, MemberConstants.NUMBER);
+        verify(userPersonRepository).save(UserConstants.USERNAME, PersonConstants.NUMBER);
     }
 
     @Test
     @DisplayName("With valid data, the created relationship is returned")
-    void testAssignMember_ReturnedData() {
-        final Member member;
+    void testAssignPerson_ReturnedData() {
+        final Person person;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(userMemberRepository.save(UserConstants.USERNAME, MemberConstants.NUMBER)).willReturn(Members.active());
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.save(UserConstants.USERNAME, PersonConstants.NUMBER)).willReturn(Persons.valid());
 
         // WHEN
-        member = service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        person = service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(member)
-            .isEqualTo(Members.active());
+        Assertions.assertThat(person)
+            .isEqualTo(Persons.valid());
     }
 
 }

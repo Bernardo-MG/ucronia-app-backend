@@ -34,31 +34,62 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - delete")
 class TestFeeServiceDelete {
 
     @Mock
-    private FeeRepository     feeRepository;
+    private AssociationConfigurationSource configurationSource;
 
     @Mock
-    private MemberRepository  memberRepository;
+    private FeeRepository                  feeRepository;
+
+    @Mock
+    private MemberRepository               memberRepository;
+
+    @Mock
+    private MessageSource                  messageSource;
+
+    @Mock
+    private PersonRepository               personRepository;
 
     @InjectMocks
-    private DefaultFeeService service;
+    private DefaultFeeService              service;
+
+    @Mock
+    private TransactionRepository          transactionRepository;
 
     public TestFeeServiceDelete() {
         super();
+    }
+
+    @Test
+    @DisplayName("When deleting the current month fee, the member is deactivated")
+    void testDelete_CurrentMonth_DeactivateMember() {
+        // GIVEN
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
+
+        // WHEN
+        service.delete(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH);
+
+        // THEN
+        verify(memberRepository).deactivate(PersonConstants.NUMBER);
     }
 
     @Test
@@ -67,11 +98,11 @@ class TestFeeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -80,32 +111,46 @@ class TestFeeServiceDelete {
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
-    void testDelete_NotExistingMember() {
+    void testDelete_NotExistingPerson() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
     @Test
-    @DisplayName("Calls the repository when deleting")
-    void testDelete_NotPaid_RemovesEntity() {
+    @DisplayName("When deleting the previous month fee, the member is not deactivated")
+    void testDelete_PreviousMonth_DeactivateMember() {
         // GIVEN
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH)).willReturn(true);
 
         // WHEN
-        service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        service.delete(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH);
 
         // THEN
-        verify(feeRepository).delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        verify(memberRepository, Mockito.never()).deactivate(PersonConstants.NUMBER);
+    }
+
+    @Test
+    @DisplayName("When deleting the repository is called")
+    void testDelete_RemovesEntity() {
+        // GIVEN
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+
+        // WHEN
+        service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        verify(feeRepository).delete(PersonConstants.NUMBER, FeeConstants.DATE);
     }
 
 }

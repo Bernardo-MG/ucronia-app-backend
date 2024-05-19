@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -17,12 +17,12 @@ public final class CreateFeeValidator extends AbstractValidator<Collection<Fee>>
 
     private final FeeRepository    feeRepository;
 
-    private final MemberRepository memberRepository;
+    private final PersonRepository personRepository;
 
-    public CreateFeeValidator(final MemberRepository memberRepo, final FeeRepository feeRepo) {
+    public CreateFeeValidator(final PersonRepository personRepo, final FeeRepository feeRepo) {
         super();
 
-        memberRepository = memberRepo;
+        personRepository = personRepo;
         feeRepository = feeRepo;
     }
 
@@ -33,7 +33,7 @@ public final class CreateFeeValidator extends AbstractValidator<Collection<Fee>>
         final long   existing;
         final long   duplicates;
         final long   number;
-        final Member member;
+        final Person person;
         FieldFailure failure;
 
         // Verify there are no duplicated dates
@@ -53,14 +53,14 @@ public final class CreateFeeValidator extends AbstractValidator<Collection<Fee>>
         if (!fees.isEmpty()) {
             number = fees.iterator()
                 .next()
-                .getMember()
+                .getPerson()
                 .getNumber();
-            member = memberRepository.findOne(number)
+            person = personRepository.findOne(number)
                 .get();
             // TODO: use a single query
             existing = fees.stream()
                 .map(Fee::getDate)
-                .filter(date -> feeRepository.existsPaid(member.getNumber(), date))
+                .filter(date -> feeRepository.existsPaid(person.getNumber(), date))
                 .count();
             if (existing > 0) {
                 failure = FieldFailure.of("feeDates[]", "existing", existing);

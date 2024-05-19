@@ -4,6 +4,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.YearMonth;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -20,7 +23,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Fee")
-@Table(name = "fees")
+@Table(schema = "association", name = "fees")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,7 +45,11 @@ public class FeeEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "member_id", nullable = false)
-    private Long              memberId;
+    @OneToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private PersonEntity      person;
+
+    @Column(name = "person_id", insertable = false, updatable = false)
+    private Long              personId;
 
 }

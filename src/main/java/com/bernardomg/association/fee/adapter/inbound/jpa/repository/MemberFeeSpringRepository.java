@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -40,9 +42,9 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 public interface MemberFeeSpringRepository
         extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
 
-    public boolean existsByMemberNumberAndDate(final Long memberNumber, final YearMonth date);
+    public boolean existsByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
 
-    public boolean existsByMemberNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
+    public boolean existsByPersonNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
             final boolean paid);
 
     /**
@@ -54,7 +56,9 @@ public interface MemberFeeSpringRepository
      */
     public List<MemberFeeEntity> findAllByDate(final YearMonth date);
 
-    public Collection<MemberFeeEntity> findAllByMemberNumberAndDateIn(final Long memberNumber,
+    public Page<MemberFeeEntity> findAllByPersonNumber(final Long memberNumber, final Pageable pageable);
+
+    public Collection<MemberFeeEntity> findAllByPersonNumberAndDateIn(final Long memberNumber,
             final Collection<YearMonth> feeDates);
 
     /**
@@ -85,8 +89,8 @@ public interface MemberFeeSpringRepository
      *            sorting information
      * @return all member fees filtered by id and date range
      */
-    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.memberId IN :ids")
-    public Collection<MemberFeeEntity> findAllInRangeForMembersIn(@Param("start") final YearMonth start,
+    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.personId IN :ids")
+    public Collection<MemberFeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
     /**
@@ -98,7 +102,7 @@ public interface MemberFeeSpringRepository
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<MemberFeeEntity> findOneByMemberNumberAndDate(final Long memberNumber, final YearMonth date);
+    public Optional<MemberFeeEntity> findByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
 
     /**
      * Returns all the years based on the existing fees.

@@ -45,9 +45,9 @@ import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberChange;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -78,20 +78,9 @@ public class MemberController {
                     cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
                     allEntries = true) })
     public Member create(@Valid @RequestBody final MemberChange change) {
-        final MemberName memberName;
-        final Member     member;
+        final Member member;
 
-        memberName = MemberName.builder()
-            .withFirstName(change.getName()
-                .getFirstName())
-            .withLastName(change.getName()
-                .getLastName())
-            .build();
-        member = Member.builder()
-            .withIdentifier(change.getIdentifier())
-            .withName(memberName)
-            .withPhone(change.getPhone())
-            .build();
+        member = toDomain(-1, change);
         return service.create(member);
     }
 
@@ -124,22 +113,26 @@ public class MemberController {
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, FeeCaches.CALENDAR }, allEntries = true) })
     public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange change) {
-        final MemberName memberName;
-        final Member     member;
+        final Member member;
 
-        memberName = MemberName.builder()
+        member = toDomain(number, change);
+        return service.update(member);
+    }
+
+    private final Member toDomain(final long number, final MemberChange change) {
+        final PersonName name;
+
+        name = PersonName.builder()
             .withFirstName(change.getName()
                 .getFirstName())
             .withLastName(change.getName()
                 .getLastName())
             .build();
-        member = Member.builder()
-            .withNumber(number)
+        return Member.builder()
             .withIdentifier(change.getIdentifier())
-            .withName(memberName)
+            .withName(name)
             .withPhone(change.getPhone())
             .build();
-        return service.update(member);
     }
 
 }

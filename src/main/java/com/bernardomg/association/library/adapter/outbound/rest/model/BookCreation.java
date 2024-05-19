@@ -20,6 +20,8 @@ public class BookCreation {
 
     private BookCreationBookType           bookType;
 
+    private BookCreationDonor              donor;
+
     private BookCreationGameSystem         gameSystem;
 
     private String                         isbn;

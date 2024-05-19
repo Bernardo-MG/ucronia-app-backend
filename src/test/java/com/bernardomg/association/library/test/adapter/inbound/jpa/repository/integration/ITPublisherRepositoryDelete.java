@@ -36,6 +36,7 @@ import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.test.config.factory.PublisherConstants;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -63,6 +64,7 @@ class ITPublisherRepositoryDelete {
 
     @Test
     @DisplayName("When the publisher is assigned to a book, an exception is thrown")
+    @ValidPerson
     @FullBook
     void testDelete_InBook() {
         final ThrowingCallable execution;

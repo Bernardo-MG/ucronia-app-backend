@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
+import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChangeName;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,7 +20,7 @@ public final class MemberChange {
 
     @NotNull
     @Valid
-    private MemberChangeName name;
+    private PersonChangeName name;
 
     private String           phone;
 

@@ -37,11 +37,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
 
@@ -59,7 +61,13 @@ class TestBookServiceGetAll {
     private BookTypeRepository   bookTypeRepository;
 
     @Mock
+    private DonorRepository      donorRepository;
+
+    @Mock
     private GameSystemRepository gameSystemRepository;
+
+    @Mock
+    private PublisherRepository  publisherRepository;
 
     @InjectMocks
     private DefaultBookService   service;

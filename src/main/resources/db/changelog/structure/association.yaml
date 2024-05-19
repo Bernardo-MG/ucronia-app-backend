@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: association_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_association_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

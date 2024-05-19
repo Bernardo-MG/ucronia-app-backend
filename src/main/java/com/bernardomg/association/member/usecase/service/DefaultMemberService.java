@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,12 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
 
-import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -46,48 +43,25 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member create(final Member member) {
-        final Member     toCreate;
-        final Long       index;
-        final String     fullName;
-        final MemberName memberName;
+        final Member toCreate;
+        final Long   number;
 
         log.debug("Creating member {}", member);
+
+        // Set number
+        number = memberRepository.findNextNumber();
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        memberName = MemberName.builder()
-            .withFirstName(member.getName()
-                .getFirstName())
-            .withLastName(member.getName()
-                .getLastName())
-            .build();
         toCreate = Member.builder()
             .withIdentifier(member.getIdentifier())
-            .withName(memberName)
+            .withName(member.getName())
             .withPhone(member.getPhone())
+            .withNumber(number)
             .build();
 
         createMemberValidator.validate(toCreate);
-
-        // Set number
-        index = memberRepository.findNextNumber();
-        toCreate.setNumber(index);
-
-        // TODO: the model should do this
-        // Trim strings
-        toCreate.getName()
-            .setFirstName(StringUtils.trim(toCreate.getName()
-                .getFirstName()));
-        toCreate.getName()
-            .setLastName(StringUtils.trim(toCreate.getName()
-                .getLastName()));
-        fullName = Strings.trimWhitespace(toCreate.getName()
-            .getFirstName() + " "
-                + toCreate.getName()
-                    .getLastName());
-        toCreate.getName()
-            .setFullName(fullName);
 
         return memberRepository.save(toCreate);
     }
@@ -97,7 +71,6 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Deleting member {}", number);
 
         if (!memberRepository.exists(number)) {
-            // TODO: change name
             throw new MissingMemberException(number);
         }
 
@@ -145,48 +118,27 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final Member member) {
-        final boolean    exists;
-        final Member     toUpdate;
-        final String     fullName;
-        final MemberName memberName;
+        final Optional<Member> existing;
+        final Member           toUpdate;
 
         log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
+        // TODO: Apply the creation validations
 
-        exists = memberRepository.exists(member.getNumber());
-        if (!exists) {
-            // TODO: change name
+        existing = memberRepository.findOne(member.getNumber());
+        if (existing.isEmpty()) {
             throw new MissingMemberException(member.getNumber());
         }
 
-        memberName = MemberName.builder()
-            .withFirstName(member.getName()
-                .getFirstName())
-            .withLastName(member.getName()
-                .getLastName())
-            .build();
         toUpdate = Member.builder()
             .withNumber(member.getNumber())
             .withIdentifier(member.getIdentifier())
-            .withName(memberName)
+            .withName(member.getName())
             .withPhone(member.getPhone())
+            .withActive(existing.get()
+                .isActive())
             .build();
-
-        // TODO: the model should do this
-        // Trim strings
-        toUpdate.getName()
-            .setFirstName(StringUtils.trim(toUpdate.getName()
-                .getFirstName()));
-        toUpdate.getName()
-            .setLastName(StringUtils.trim(toUpdate.getName()
-                .getLastName()));
-        fullName = Strings.trimWhitespace(toUpdate.getName()
-            .getFirstName() + " "
-                + toUpdate.getName()
-                    .getLastName());
-        toUpdate.getName()
-            .setFullName(fullName);
 
         return memberRepository.save(toUpdate);
     }
@@ -209,9 +161,11 @@ public final class DefaultMemberService implements MemberService {
 
     private final Sort correctSort(final Sort received) {
         final Optional<Order> fullNameOrder;
+        final Optional<Order> numberOrder;
         final List<Order>     orders;
         final List<Order>     validOrders;
 
+        // Full name
         fullNameOrder = received.stream()
             .filter(o -> "fullName".equals(o.getProperty()))
             .findFirst();
@@ -220,16 +174,30 @@ public final class DefaultMemberService implements MemberService {
         if (fullNameOrder.isPresent()) {
             if (fullNameOrder.get()
                 .getDirection() == Direction.ASC) {
-                orders.add(Order.asc("name"));
-                orders.add(Order.asc("surname"));
+                orders.add(Order.asc("person.name"));
+                orders.add(Order.asc("person.surname"));
             } else {
-                orders.add(Order.desc("name"));
-                orders.add(Order.desc("surname"));
+                orders.add(Order.desc("person.name"));
+                orders.add(Order.desc("person.surname"));
+            }
+        }
+
+        // Number
+        numberOrder = received.stream()
+            .filter(o -> "number".equals(o.getProperty()))
+            .findFirst();
+        if (numberOrder.isPresent()) {
+            if (fullNameOrder.get()
+                .getDirection() == Direction.ASC) {
+                orders.add(Order.asc("person.number"));
+            } else {
+                orders.add(Order.desc("person.number"));
             }
         }
 
         validOrders = received.stream()
             .filter(o -> !"fullName".equals(o.getProperty()))
+            .filter(o -> !"number".equals(o.getProperty()))
             .toList();
         orders.addAll(validOrders);
 

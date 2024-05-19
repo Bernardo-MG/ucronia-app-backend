@@ -34,7 +34,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,10 +46,42 @@ class ITFeeRepositoryFindAllInMonth {
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With a paid fee, it is returned")
-    @ValidMember
+    @DisplayName("With a paid fee, for an active member, it is returned")
+    @ActiveMember
     @PaidFee
-    void testFindAllInMonth() {
+    void testFindAllInMonth_Active() {
+        final Iterable<Fee> fees;
+
+        // WHEN
+        fees = repository.findAllInMonth(FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With a paid fee for a month without data, for an active member, nothing is returned")
+    @ActiveMember
+    @PaidFee
+    void testFindAllInMonth_Active_WrongMonth() {
+        final Iterable<Fee> fees;
+
+        // WHEN
+        fees = repository.findAllInMonth(FeeConstants.DATE.plusMonths(1));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a paid fee, for an inactive member, it is returned")
+    @InactiveMember
+    @PaidFee
+    void testFindAllInMonth_Inactive() {
         final Iterable<Fee> fees;
 
         // WHEN
@@ -67,22 +100,6 @@ class ITFeeRepositoryFindAllInMonth {
 
         // WHEN
         fees = repository.findAllInMonth(FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a paid fee for a month without data, nothing is returned")
-    @ValidMember
-    @PaidFee
-    void testFindAllInMonth_WrongMonth() {
-        final Iterable<Fee> fees;
-
-        // WHEN
-        fees = repository.findAllInMonth(FeeConstants.DATE.plusMonths(1));
 
         // THEN
         Assertions.assertThat(fees)

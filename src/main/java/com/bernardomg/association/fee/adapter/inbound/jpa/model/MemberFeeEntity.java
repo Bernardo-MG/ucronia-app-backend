@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "MemberFee")
-@Table(name = "member_fees")
+@Table(schema = "association", name = "member_fees")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,7 +38,7 @@ public class MemberFeeEntity implements Serializable {
     @Convert(converter = YearMonthDateAttributeConverter.class)
     private YearMonth         date;
 
-    @Column(name = "member_name")
+    @Column(name = "person_name")
     private String            fullName;
 
     @Id
@@ -46,17 +46,17 @@ public class MemberFeeEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "member_id", nullable = false)
-    private Long              memberId;
-
-    @Column(name = "member_number", nullable = false)
-    private Long              memberNumber;
-
     @Column(name = "paid")
     private Boolean           paid;
 
     @Column(name = "payment_date", nullable = false)
     private LocalDate         paymentDate;
+
+    @Column(name = "person_id", nullable = false)
+    private Long              personId;
+
+    @Column(name = "person_number", nullable = false)
+    private Long              personNumber;
 
     @Column(name = "transaction_index", nullable = false, unique = true)
     private Long              transactionIndex;

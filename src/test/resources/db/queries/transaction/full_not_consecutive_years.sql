@@ -1,4 +1,4 @@
-INSERT INTO transactions (index, description, amount, date) VALUES
+INSERT INTO association.transactions (index, description, amount, date) VALUES
    (1, 'Transaction 1', 1, '2020-01-01 0:0:0'),
    (2, 'Transaction 2', 1, '2020-02-01 0:0:0'),
    (3, 'Transaction 3', 1, '2020-03-01 0:0:0'),

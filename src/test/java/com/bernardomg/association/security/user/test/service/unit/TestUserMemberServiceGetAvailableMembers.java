@@ -38,64 +38,64 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.security.user.domain.repository.UserMemberRepository;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserMemberService;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User member service - get member")
-class TestUserMemberServiceGetAvailableMembers {
+@DisplayName("User person service - get person")
+class TestUserPersonServiceGetAvailablePersons {
 
     @Mock
-    private MemberRepository         memberRepository;
+    private PersonRepository         personRepository;
 
     @InjectMocks
-    private DefaultUserMemberService service;
+    private DefaultUserPersonService service;
 
     @Mock
-    private UserMemberRepository     userMemberRepository;
+    private UserPersonRepository     userPersonRepository;
 
     @Mock
     private UserRepository           userRepository;
 
     @Test
-    @DisplayName("When there are not assigned members, these are returned")
-    void testGetMember() {
-        final Collection<Member> members;
+    @DisplayName("When there are not assigned persons, these are returned")
+    void testGetPerson() {
+        final Collection<Person> persons;
         final Pageable           page;
 
         // GIVEN
         page = Pageable.unpaged();
 
-        given(userMemberRepository.findAllNotAssigned(page)).willReturn(List.of(Members.active()));
+        given(userPersonRepository.findAllNotAssigned(page)).willReturn(List.of(Persons.valid()));
 
         // WHEN
-        members = service.getAvailableMembers(page);
+        persons = service.getAvailablePerson(page);
 
         // THEN
-        Assertions.assertThat(members)
-            .containsExactly(Members.active());
+        Assertions.assertThat(persons)
+            .containsExactly(Persons.valid());
     }
 
     @Test
-    @DisplayName("When there are no not assigned members, nothing is returned")
-    void testGetMember_NoMember() {
-        final Collection<Member> members;
+    @DisplayName("When there are no not assigned persons, nothing is returned")
+    void testGetPerson_NoPerson() {
+        final Collection<Person> persons;
         final Pageable           page;
 
         // GIVEN
         page = Pageable.unpaged();
 
-        given(userMemberRepository.findAllNotAssigned(page)).willReturn(List.of());
+        given(userPersonRepository.findAllNotAssigned(page)).willReturn(List.of());
 
         // WHEN
-        members = service.getAvailableMembers(page);
+        persons = service.getAvailablePerson(page);
 
         // THEN
-        Assertions.assertThat(members)
+        Assertions.assertThat(persons)
             .isEmpty();
     }
 

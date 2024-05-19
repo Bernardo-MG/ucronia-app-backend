@@ -42,23 +42,28 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarMember;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
+import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
+/**
+ * Default implementation of the fee calendar service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 @Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private final ActiveMemberRepository activeMemberRepository;
+    private final FeeRepository    feeRepository;
 
-    private final FeeRepository          feeRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultFeeCalendarService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo) {
+    public DefaultFeeCalendarService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
@@ -89,12 +94,12 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         // Member fees grouped by id
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(f -> f.getMember()
+            .collect(Collectors.groupingBy(f -> f.getPerson()
                 .getNumber()));
         // Sorted ids
         memberNumbers = readFees.stream()
-            .map(Fee::getMember)
-            .map(FeeMember::getNumber)
+            .map(Fee::getPerson)
+            .map(FeePerson::getNumber)
             .distinct()
             .toList();
 
@@ -142,11 +147,11 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         row = fees.iterator()
             .next();
-        name = row.getMember()
+        name = row.getPerson()
             .getFullName();
 
         // FIXME: Shouldn't be needed when filtering by active or inactive
-        active = activeMemberRepository.isActive(memberNumber);
+        active = memberRepository.isActive(memberNumber);
 
         member = FeeCalendarMember.builder()
             .withNumber(memberNumber)

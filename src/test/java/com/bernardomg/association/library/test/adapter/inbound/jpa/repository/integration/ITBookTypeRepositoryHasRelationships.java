@@ -34,6 +34,7 @@ import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -90,6 +91,7 @@ class ITBookTypeRepositoryHasRelationships {
 
     @Test
     @DisplayName("With a relationship, it has relationships")
+    @ValidPerson
     @FullBook
     void testExists_Relationships() {
         final boolean exists;
@@ -105,6 +107,7 @@ class ITBookTypeRepositoryHasRelationships {
 
     @Test
     @DisplayName("With a relationship, but searching for the wrong name, it has no relationships")
+    @ValidPerson
     @FullBook
     void testExists_Relationships_WrongName() {
         final boolean exists;

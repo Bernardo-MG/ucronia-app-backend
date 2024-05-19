@@ -37,8 +37,8 @@ import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,14 +50,14 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With a lending, it is returned")
+    @ValidPerson
     @FullBook
-    @ValidMember
     @LentBookLending
-    void testGetOne() {
+    void testFindOne() {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, MemberConstants.NUMBER);
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)
@@ -67,11 +67,11 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, MemberConstants.NUMBER);
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)

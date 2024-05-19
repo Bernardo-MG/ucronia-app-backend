@@ -10,14 +10,14 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberBalanceRepository - find in range")
-@ValidMember
+@ActiveMember
 class ITMemberBalanceRepositoryFindInRange {
 
     @Autowired
@@ -28,7 +28,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for the current month and not paid it returns balance for this month")
-    void testGetMonthlyBalance_CurrentMonth_NotPaid() {
+    void testFindInRange_CurrentMonth_NotPaid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -48,7 +48,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for the current month and paid it returns balance for this month")
-    void testGetMonthlyBalance_CurrentMonth_Paid() {
+    void testFindInRange_CurrentMonth_Paid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -68,7 +68,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for the next month and not paid it returns no balance")
-    void testGetMonthlyBalance_NextMonth_NotPaid() {
+    void testFindInRange_NextMonth_NotPaid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -88,7 +88,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for the next month and paid it returns no balance")
-    void testGetMonthlyBalance_NextMonth_Paid() {
+    void testFindInRange_NextMonth_Paid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -108,7 +108,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    void testGetMonthlyBalance_NoData() {
+    void testFindInRange_NoData() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -126,7 +126,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With fees for previous and current months it returns balance for both of them")
-    void testGetMonthlyBalance_PreviousCurrentMonths() {
+    void testFindInRange_PreviousCurrentMonths() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -148,7 +148,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With fees for previous, current and next months it returns balance for the previous and current")
-    void testGetMonthlyBalance_PreviousCurrentNextMonths() {
+    void testFindInRange_PreviousCurrentNextMonths() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -170,7 +170,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for the previous month and not paid it returns balance for the previous month")
-    void testGetMonthlyBalance_PreviousMonth_NotPaid() {
+    void testFindInRange_PreviousMonth_NotPaid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -190,7 +190,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for the previous month and paid it returns balance for the previous month")
-    void testGetMonthlyBalance_PreviousMonth_Paid() {
+    void testFindInRange_PreviousMonth_Paid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -210,9 +210,9 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With fees for two members this month it returns balance for both this month")
-    @ValidMember
-    @AlternativeMember
-    void testGetMonthlyBalance_TwoMembers() {
+    @ActiveMember
+    @AlternativeActiveMember
+    void testFindInRange_TwoMembers() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -233,7 +233,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for two months back and not paid it returns balance for the previous month")
-    void testGetMonthlyBalance_TwoMonthsBack_NotPaid() {
+    void testFindInRange_TwoMonthsBack_NotPaid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -253,7 +253,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("With a fee for two months back and paid it returns balance for the previous month")
-    void testGetMonthlyBalance_TwoMonthsBack_Paid() {
+    void testFindInRange_TwoMonthsBack_Paid() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 

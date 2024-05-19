@@ -108,5 +108,16 @@
             Reworked configuration to be more usable.
          </action>
       </release>
+      <release version="0.5.0" date="2024-05-20" description="">
+         <action dev="bmg" type="update">
+            Cleaned up architecture.
+         </action>
+         <action dev="bmg" type="update">
+            Split member into person and member.
+         </action>
+         <action dev="bmg" type="update">
+            Updated library components.
+         </action>
+      </release>
    </body>
 </document>

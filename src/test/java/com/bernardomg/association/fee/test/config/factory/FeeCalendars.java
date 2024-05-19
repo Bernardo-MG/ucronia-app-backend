@@ -10,7 +10,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMember;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 public final class FeeCalendars {
 
@@ -19,8 +19,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
-            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withFullName(PersonConstants.ALTERNATIVE_FULL_NAME)
+            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidAlternative());
@@ -36,8 +36,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidNextYear());
@@ -53,8 +53,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.notPaid());
@@ -70,8 +70,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidNextYear());
@@ -87,8 +87,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.notPaidPreviousMonth());
@@ -104,8 +104,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.notPaidTwoMonthsBack());
@@ -121,8 +121,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paid());
@@ -138,8 +138,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidNextYear());
@@ -155,8 +155,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidTwoMonthsBack());
@@ -172,8 +172,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidPreviousMonth());
@@ -188,8 +188,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
         return FeeCalendar.builder()
@@ -203,8 +203,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -219,8 +219,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaid());
@@ -236,8 +236,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
-            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withFullName(PersonConstants.ALTERNATIVE_FULL_NAME)
+            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidAlternative());
@@ -252,8 +252,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -270,8 +270,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.ALTERNATIVE_FULL_NAME)
-            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withFullName(PersonConstants.ALTERNATIVE_FULL_NAME)
+            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -289,7 +289,7 @@ public final class FeeCalendars {
 
         member = FeeCalendarMember.builder()
             .withFullName("")
-            .withNumber(MemberConstants.NUMBER)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -306,8 +306,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -325,8 +325,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidNextYear());
@@ -342,8 +342,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidPreviousMonth());
@@ -359,8 +359,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidTwoMonthsBack());
@@ -376,8 +376,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidNextYear());
@@ -393,8 +393,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidTwoMonthsBack());
@@ -410,8 +410,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidPreviousMonth());
@@ -426,8 +426,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -440,8 +440,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -457,8 +457,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -475,8 +475,8 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         return FeeCalendar.builder()
@@ -490,8 +490,8 @@ public final class FeeCalendars {
         final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
-            .withFullName(MemberConstants.FULL_NAME)
-            .withNumber(MemberConstants.NUMBER)
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidTwoMonthsBack());

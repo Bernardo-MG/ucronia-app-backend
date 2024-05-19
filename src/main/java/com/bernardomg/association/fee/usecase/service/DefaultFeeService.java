@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.fee.usecase.service;
 
@@ -5,6 +28,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,14 +40,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.validation.Validator;
@@ -34,7 +59,6 @@ import lombok.extern.slf4j.Slf4j;
  * Default implementation of the fee service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
 @Slf4j
 @Transactional
@@ -48,45 +72,52 @@ public final class DefaultFeeService implements FeeService {
 
     private final MessageSource                  messageSource;
 
+    private final PersonRepository               personRepository;
+
     private final TransactionRepository          transactionRepository;
 
     private final Validator<Collection<Fee>>     validatorPay;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
-            final TransactionRepository transactionRepo, final AssociationConfigurationSource configSource,
-            final MessageSource msgSource) {
+    public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
+            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
+            final AssociationConfigurationSource configSource, final MessageSource msgSource) {
         super();
 
-        feeRepository = feeRepo;
-        memberRepository = memberRepo;
-        transactionRepository = transactionRepo;
+        feeRepository = Objects.requireNonNull(feeRepo);
+        personRepository = Objects.requireNonNull(personRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
+        transactionRepository = Objects.requireNonNull(transactionRepo);
 
-        configurationSource = configSource;
-        messageSource = msgSource;
+        configurationSource = Objects.requireNonNull(configSource);
+        messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
+        validatorPay = new CreateFeeValidator(personRepository, feeRepository);
     }
 
     @Override
-    public final void delete(final long memberNumber, final YearMonth date) {
+    public final void delete(final long personNumber, final YearMonth date) {
         final boolean feeExists;
         final boolean memberExists;
 
-        log.debug("Deleting fee for {} in {}", memberNumber, date);
+        log.debug("Deleting fee for {} in {}", personNumber, date);
 
-        memberExists = memberRepository.exists(memberNumber);
+        memberExists = personRepository.exists(personNumber);
         if (!memberExists) {
-            // TODO: Change exception
-            throw new MissingMemberException(memberNumber);
+            throw new MissingPersonException(personNumber);
         }
 
-        feeExists = feeRepository.exists(memberNumber, date);
+        feeExists = feeRepository.exists(personNumber, date);
         if (!feeExists) {
-            throw new MissingFeeException(memberNumber + " " + date.toString());
+            throw new MissingFeeException(personNumber + " " + date.toString());
         }
 
-        feeRepository.delete(memberNumber, date);
+        feeRepository.delete(personNumber, date);
+
+        if (date.equals(YearMonth.now())) {
+            // If deleting for the current month, the user is set to active
+            memberRepository.deactivate(personNumber);
+        }
     }
 
     @Override
@@ -95,56 +126,62 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<Fee> getOne(final long memberNumber, final YearMonth date) {
+    public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
         final boolean feeExists;
         final boolean memberExists;
 
-        log.debug("Reading fee for {} in {}", memberNumber, date);
+        log.debug("Reading fee for {} in {}", personNumber, date);
 
-        memberExists = memberRepository.exists(memberNumber);
+        memberExists = personRepository.exists(personNumber);
         if (!memberExists) {
-            // TODO: Change exception
-            throw new MissingMemberException(memberNumber);
+            throw new MissingPersonException(personNumber);
         }
 
-        feeExists = feeRepository.exists(memberNumber, date);
+        feeExists = feeRepository.exists(personNumber, date);
         if (!feeExists) {
-            throw new MissingFeeException(memberNumber + " " + date.toString());
+            throw new MissingFeeException(personNumber + " " + date.toString());
         }
 
-        return feeRepository.findOne(memberNumber, date);
+        return feeRepository.findOne(personNumber, date);
     }
 
     @Override
-    public final Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long memberNumber,
+    public final Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
             final LocalDate transactionDate) {
         final Collection<Fee>  newFees;
         final Collection<Fee>  fees;
-        final Optional<Member> member;
+        final Optional<Person> person;
+        final Collection<Fee>  created;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, feeDates, transactionDate);
+        log.debug("Paying fees for {} in {}. Months paid: {}", personNumber, feeDates, transactionDate);
 
-        member = memberRepository.findOne(memberNumber);
-        if (member.isEmpty()) {
-            // TODO: Change exception
-            throw new MissingMemberException(memberNumber);
+        person = personRepository.findOne(personNumber);
+        if (person.isEmpty()) {
+            throw new MissingPersonException(personNumber);
         }
 
         newFees = feeDates.stream()
-            .map(d -> toFee(member.get(), transactionDate, d))
+            .map(d -> toFee(person.get(), transactionDate, d))
             .toList();
 
         validatorPay.validate(newFees);
 
         fees = feeRepository.save(newFees);
 
-        pay(member.get(), fees, transactionDate);
+        pay(person.get(), fees, transactionDate);
 
         // TODO: Why can't just return the created fees?
-        return feeRepository.findAllForMemberInDates(memberNumber, feeDates);
+        created = feeRepository.findAllForMemberInDates(personNumber, feeDates);
+
+        if (feeDates.contains(YearMonth.now())) {
+            // If paying for the current month, the user is set to active
+            memberRepository.activate(personNumber);
+        }
+
+        return created;
     }
 
-    private final void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate) {
+    private final void pay(final Person person, final Collection<Fee> fees, final LocalDate payDate) {
         final Transaction           transaction;
         final Transaction           savedTransaction;
         final Float                 feeAmount;
@@ -165,7 +202,7 @@ public final class DefaultFeeService implements FeeService {
         // Register transaction
         index = transactionRepository.findNextIndex();
 
-        name = member.getName()
+        name = person.getName()
             .getFullName();
 
         dates = feeDates.stream()
@@ -186,24 +223,24 @@ public final class DefaultFeeService implements FeeService {
 
         savedTransaction = transactionRepository.save(transaction);
 
-        feeRepository.pay(member, fees, savedTransaction);
+        feeRepository.pay(person, fees, savedTransaction);
     }
 
-    private final Fee toFee(final Member member, final LocalDate transaction, final YearMonth date) {
-        final FeeMember      feeMember;
+    private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {
+        final FeePerson      feePerson;
         final FeeTransaction feeTransaction;
 
-        feeMember = FeeMember.builder()
+        feePerson = FeePerson.builder()
             // TODO
             .withFullName(null)
-            .withNumber(member.getNumber())
+            .withNumber(person.getNumber())
             .build();
         feeTransaction = FeeTransaction.builder()
             .withDate(transaction)
             .withIndex(null)
             .build();
         return Fee.builder()
-            .withMember(feeMember)
+            .withPerson(feePerson)
             .withTransaction(feeTransaction)
             .withDate(date)
             .withPaid(false)

@@ -15,6 +15,15 @@ public final class Configurations {
             .build();
     }
 
+    public static final Configuration first() {
+        return Configuration.builder()
+            .withCode("a")
+            .withValue(ConfigurationConstants.STRING_VALUE)
+            .withType(ConfigurationConstants.STRING_TYPE)
+            .withRestricted(false)
+            .build();
+    }
+
     public static final Configuration floatValue() {
         return Configuration.builder()
             .withCode(ConfigurationConstants.CODE)
@@ -48,6 +57,15 @@ public final class Configurations {
             .withValue(ConfigurationConstants.NUMBER_VALUE)
             .withType(ConfigurationConstants.STRING_TYPE)
             .withRestricted(true)
+            .build();
+    }
+
+    public static final Configuration second() {
+        return Configuration.builder()
+            .withCode("b")
+            .withValue(ConfigurationConstants.STRING_VALUE)
+            .withType(ConfigurationConstants.STRING_TYPE)
+            .withRestricted(false)
             .build();
     }
 

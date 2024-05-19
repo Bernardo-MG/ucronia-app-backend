@@ -33,9 +33,10 @@ import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookLen
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.factory.BookLendingEntities;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,7 +51,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the book doesnt exist, nothing is persisted")
-    @ValidMember
+    @ValidPerson
     void testSave_NoBook() {
         final BookLending lending;
 
@@ -67,8 +68,8 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the member doesnt exist, nothing is persisted")
-    @FullBook
+    @DisplayName("When saving and the person doesnt exist, nothing is persisted")
+    @MinimalBook
     void testSave_NoMember() {
         final BookLending lending;
 
@@ -85,9 +86,9 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the book and member exist, a lending is persisted")
+    @DisplayName("When saving and the book and person exist, a lending is persisted")
+    @ValidPerson
     @FullBook
-    @ValidMember
     void testSave_Persisted() {
         final BookLending lending;
 
@@ -105,9 +106,9 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the book and member exist, the persisted lending is returned")
+    @DisplayName("When saving and the book and person exist, the persisted lending is returned")
+    @ValidPerson
     @FullBook
-    @ValidMember
     void testSave_Returned() {
         final BookLending lending;
         final BookLending created;

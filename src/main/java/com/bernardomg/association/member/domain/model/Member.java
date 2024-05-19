@@ -1,24 +1,24 @@
 
 package com.bernardomg.association.member.domain.model;
 
-import lombok.Builder;
-import lombok.Data;
+import com.bernardomg.association.person.domain.model.PersonName;
 
-/**
- * TODO: Try to make this immutable.
- */
-@Data
+import lombok.Builder;
+import lombok.Value;
+
+@Value
 @Builder(setterPrefix = "with")
 public final class Member {
 
-    private boolean    active;
+    private final boolean    active;
 
-    private String     identifier;
+    private final String     identifier;
 
-    private MemberName name;
+    private final PersonName name;
 
-    private long       number;
+    @Builder.Default
+    private final long       number = -1L;
 
-    private String     phone;
+    private final String     phone;
 
 }

@@ -50,22 +50,33 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             // Fee
             ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
             ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
+            // User fee
+            ResourcePermissionPair.of("USER_FEE", "READ"),
             // Transaction
             ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
             ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
-            // Library author
+            // Inventory
+            ResourcePermissionPair.of("INVENTORY_DONOR", "CREATE"),
+            ResourcePermissionPair.of("INVENTORY_DONOR", "READ"),
+            ResourcePermissionPair.of("INVENTORY_DONOR", "UPDATE"),
+            ResourcePermissionPair.of("INVENTORY_DONOR", "DELETE"),
+            // Library
             ResourcePermissionPair.of("LIBRARY_AUTHOR", "CREATE"), ResourcePermissionPair.of("LIBRARY_AUTHOR", "READ"),
+            ResourcePermissionPair.of("LIBRARY_AUTHOR", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_AUTHOR", "DELETE"),
             ResourcePermissionPair.of("LIBRARY_PUBLISHER", "CREATE"),
             ResourcePermissionPair.of("LIBRARY_PUBLISHER", "READ"),
+            ResourcePermissionPair.of("LIBRARY_PUBLISHER", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_PUBLISHER", "DELETE"),
             ResourcePermissionPair.of("LIBRARY_BOOK", "CREATE"), ResourcePermissionPair.of("LIBRARY_BOOK", "READ"),
             ResourcePermissionPair.of("LIBRARY_BOOK", "UPDATE"), ResourcePermissionPair.of("LIBRARY_BOOK", "DELETE"),
             ResourcePermissionPair.of("LIBRARY_BOOK_TYPE", "CREATE"),
             ResourcePermissionPair.of("LIBRARY_BOOK_TYPE", "READ"),
+            ResourcePermissionPair.of("LIBRARY_BOOK_TYPE", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_BOOK_TYPE", "DELETE"),
             ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "CREATE"),
             ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "READ"),
+            ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_GAME_SYSTEM", "DELETE"),
             ResourcePermissionPair.of("LIBRARY_LENDING", "CREATE"),
             ResourcePermissionPair.of("LIBRARY_LENDING", "READ"),
@@ -80,16 +91,17 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("BALANCE", "READ"),
             // Views
             ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBER", "VIEW"),
-            ResourcePermissionPair.of("FEE", "VIEW"), ResourcePermissionPair.of("LIBRARY", "VIEW"),
-            ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
+            ResourcePermissionPair.of("FEE", "VIEW"), ResourcePermissionPair.of("USER_FEE", "VIEW"),
+            ResourcePermissionPair.of("LIBRARY", "VIEW"), ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"),
+            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"),
+            ResourcePermissionPair.of("SECURITY", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER", "FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS", "LIBRARY",
-            "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE",
-            "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
+        return List.of("MEMBER", "FEE", "USER_FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS",
+            "INVENTORY_DONOR", "LIBRARY", "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK",
+            "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING", "SECURITY");
     }
 
 }

@@ -11,14 +11,14 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberBalanceRepository - find in range - filter")
-@ValidMember
+@ActiveMember
 class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Autowired
@@ -36,7 +36,7 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Test
     @DisplayName("Can filter around the current month")
-    void testGetBalance_Filter_AroundCurrent() {
+    void testFindInRange_Filter_AroundCurrent() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -55,7 +55,7 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Test
     @DisplayName("Can filter for the previous month")
-    void testGetBalance_Filter_PreviousMonth() {
+    void testFindInRange_Filter_PreviousMonth() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -74,7 +74,7 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
-    void testGetBalance_Filter_RangeEndBeforeStart() {
+    void testFindInRange_Filter_RangeEndBeforeStart() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -92,7 +92,7 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Test
     @DisplayName("Can filter for two months")
-    void testGetBalance_Filter_TwoMonths() {
+    void testFindInRange_Filter_TwoMonths() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 

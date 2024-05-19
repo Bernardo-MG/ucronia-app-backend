@@ -2,11 +2,19 @@ databaseChangeLog:
   - include:
       file: structure/configuration.yaml
       relativeToChangelogFile: true
+  # Association
+  - include:
+      file: structure/association.yaml
+      relativeToChangelogFile: true
   - include:
       file: structure/funds.yaml
       relativeToChangelogFile: true
   - include:
       file: structure/membership.yaml
+      relativeToChangelogFile: true
+  # Inventory
+  - include:
+      file: structure/inventory.yaml
       relativeToChangelogFile: true
   - include:
       file: structure/library.yaml

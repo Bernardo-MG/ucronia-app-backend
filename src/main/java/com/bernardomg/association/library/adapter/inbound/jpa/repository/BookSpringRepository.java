@@ -41,9 +41,9 @@ public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
 
     public boolean existsByNumber(final long number);
 
+    public Optional<BookEntity> findByNumber(final long number);
+
     @Query("SELECT COALESCE(MAX(b.number), 0) + 1 FROM Book b")
     public Long findNextNumber();
-
-    public Optional<BookEntity> findOneByNumber(final long number);
 
 }

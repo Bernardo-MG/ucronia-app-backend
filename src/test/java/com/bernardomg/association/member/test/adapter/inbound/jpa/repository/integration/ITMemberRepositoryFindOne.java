@@ -31,12 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,104 +44,47 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMemberRepositoryFindOne {
 
     @Autowired
-    private FeeInitializer   feeInitializer;
-
-    @Autowired
     private MemberRepository memberRepository;
 
     @Test
-    @DisplayName("With no member, nothing is returned")
-    void testGetOne_NoData() {
+    @DisplayName("With an active member, it is returned")
+    @ActiveMember
+    void testFindOne_Active() {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .contains(Members.active());
+    }
+
+    @Test
+    @DisplayName("With an inactive member, it is returned")
+    @InactiveMember
+    void testFindOne_Inactive() {
+        final Optional<Member> memberOptional;
+
+        // WHEN
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .contains(Members.inactive());
+    }
+
+    @Test
+    @DisplayName("With no member, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<Member> memberOptional;
+
+        // WHEN
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member having no fee in the current month, a not active member is returned")
-    @ValidMember
-    void testGetOne_NoFee() {
-        final Optional<Member> memberOptional;
-
-        // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.inactive());
-    }
-
-    @Test
-    @DisplayName("With a member having a not paid fee in the current month, an active member is returned")
-    @ValidMember
-    void testGetOne_NotPaidFee_CurrentMonth() {
-        final Optional<Member> memberOptional;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
-        // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.active());
-    }
-
-    @Test
-    @DisplayName("With a member having a paid fee in the current month, an active member is returned")
-    @ValidMember
-    void testGetOne_PaidFee_CurrentMonth() {
-        final Optional<Member> memberOptional;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
-        // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.active());
-    }
-
-    @Test
-    @DisplayName("With a member having a paid fee in the next month, a not active member is returned")
-    @ValidMember
-    void testGetOne_PaidFee_NextMonth() {
-        final Optional<Member> memberOptional;
-
-        // GIVEN
-        feeInitializer.registerFeeNextMonth(true);
-
-        // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.inactive());
-    }
-
-    @Test
-    @DisplayName("With a member having a paid fee in the previous month, a not active member is returned")
-    @ValidMember
-    void testGetOne_PaidFee_PreviousMonth() {
-        final Optional<Member> memberOptional;
-
-        // GIVEN
-        feeInitializer.registerFeePreviousMonth(true);
-
-        // WHEN
-        memberOptional = memberRepository.findOne(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.inactive());
     }
 
 }

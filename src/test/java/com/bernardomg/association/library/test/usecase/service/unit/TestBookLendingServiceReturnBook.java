@@ -45,7 +45,7 @@ import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookLendingService - return book")
@@ -68,11 +68,11 @@ class TestBookLendingServiceReturnBook {
     void testLendBook() {
 
         // GIVEN
-        given(bookLendingRepository.findOne(BookConstants.NUMBER, MemberConstants.NUMBER))
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lentNow()));
 
         // WHEN
-        service.returnBook(BookConstants.NUMBER, MemberConstants.NUMBER);
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.returnedNow());
@@ -84,10 +84,10 @@ class TestBookLendingServiceReturnBook {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookLendingRepository.findOne(BookConstants.NUMBER, MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, MemberConstants.NUMBER);
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: security
-            tableName: user_members
+            tableName: user_persons
             columns:
               - column:
                   name: user_id
@@ -13,13 +13,13 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_user_members_user
+                    foreignKeyName: fk_user_persons_user
                     references: security.users(id)
               - column:
-                  name: member_id
+                  name: person_id
                   type: bigint
                   constraints:
                     nullable: false
                     unique: true
-                    foreignKeyName: fk_user_members_member
-                    references: members(id)
+                    foreignKeyName: fk_user_persons_person
+                    references: association.persons(id)

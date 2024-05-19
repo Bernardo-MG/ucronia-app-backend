@@ -39,7 +39,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Deleting transaction {}", index);
 
-        transaction = transactionRepository.findOneByIndex(index);
+        transaction = transactionRepository.findByIndex(index);
         if (transaction.isPresent()) {
             transactionRepository.deleteById(transaction.get()
                 .getId());
@@ -156,7 +156,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Finding transaction with index {}", index);
 
-        transaction = transactionRepository.findOneByIndex(index)
+        transaction = transactionRepository.findByIndex(index)
             .map(this::toDomain);
 
         log.debug("Found transaction with index {}: {}", index, transaction);
@@ -175,17 +175,14 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         entity = toEntity(transaction);
 
-        existing = transactionRepository.findOneByIndex(transaction.getIndex());
+        existing = transactionRepository.findByIndex(transaction.getIndex());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
         created = transactionRepository.save(entity);
-
-        saved = transactionRepository.findOneByIndex(created.getIndex())
-            .map(this::toDomain)
-            .get();
+        saved = toDomain(created);
 
         log.debug("Saved transaction {}", saved);
 

@@ -31,6 +31,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,13 +43,14 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Entity(name = "MonthlyBalance")
-@Table(name = "monthly_balances")
+@Table(schema = "association", name = "monthly_balances")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public class MonthlyBalanceEntity implements Serializable {
 
+    @Transient
     private static final long serialVersionUID = 4603617058960663867L;
 
     @Id

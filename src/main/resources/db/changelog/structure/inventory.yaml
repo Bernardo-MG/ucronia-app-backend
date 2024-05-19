@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: inventory_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_inventory_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

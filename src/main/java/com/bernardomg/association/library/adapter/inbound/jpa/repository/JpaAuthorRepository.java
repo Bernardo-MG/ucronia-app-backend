@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
     public JpaAuthorRepository(final AuthorSpringRepository authorSpringRepo) {
         super();
 
-        authorSpringRepository = authorSpringRepo;
+        authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
     }
 
     @Override
@@ -69,7 +70,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         log.debug("Finding author with name {}", name);
 
-        author = authorSpringRepository.findOneByName(name)
+        author = authorSpringRepository.findByName(name)
             .map(this::toDomain);
 
         log.debug("Found author with name {}: {}", name, author);
@@ -101,7 +102,6 @@ public final class JpaAuthorRepository implements AuthorRepository {
         toCreate = toEntity(author);
 
         created = authorSpringRepository.save(toCreate);
-
         saved = toDomain(created);
 
         log.debug("Saved author {}", saved);

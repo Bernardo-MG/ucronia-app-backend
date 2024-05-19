@@ -4,6 +4,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: association
             tableName: transactions
             columns:
               - column:
@@ -37,6 +38,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
         - addAutoIncrement:
+            schemaName: association
             tableName: transactions
             columnName: id
             columnDataType: bigint
@@ -52,5 +54,6 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Monthly balance
-            selectQuery: SELECT month_year AS date, results, SUM(results) OVER (ORDER BY month_year) AS total FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS results FROM transactions GROUP BY month_year) AS subquery
+            selectQuery: SELECT month_year AS date, results, SUM(results) OVER (ORDER BY month_year) AS total FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS results FROM association.transactions GROUP BY month_year) AS subquery
+            schemaName: association
             viewName: monthly_balances

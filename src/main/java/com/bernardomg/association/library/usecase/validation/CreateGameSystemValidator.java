@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.usecase.validation;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,7 +21,7 @@ public final class CreateGameSystemValidator extends AbstractValidator<GameSyste
     public CreateGameSystemValidator(final GameSystemRepository gameSystemRepo) {
         super();
 
-        gameSystemRepository = gameSystemRepo;
+        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
     }
 
     @Override
