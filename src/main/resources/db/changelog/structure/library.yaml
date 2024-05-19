@@ -251,7 +251,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_donors_donor
-                    references: persons(id)
+                    references: association.persons(id)
       modifySql:
         - append:
             dbms: mysql
@@ -285,7 +285,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_lending_person
-                    references: persons(id)
+                    references: association.persons(id)
               - column:
                   name: lending_date
                   type: datetime

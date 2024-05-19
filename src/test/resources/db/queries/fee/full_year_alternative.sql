@@ -1,4 +1,4 @@
-INSERT INTO fees (id, person_id, date) VALUES
+INSERT INTO association.fees (id, person_id, date) VALUES
    (30, 2, '2020-01-01'),
    (31, 2, '2020-02-01'),
    (32, 2, '2020-03-01'),
@@ -12,7 +12,7 @@ INSERT INTO fees (id, person_id, date) VALUES
    (40, 2, '2020-11-01'),
    (41, 2, '2020-12-01');
 
-INSERT INTO transactions (id, index, description, amount, date) VALUES
+INSERT INTO association.transactions (id, index, description, amount, date) VALUES
    (30, 30, 'Transaction', 1, '2020-01-01'),
    (31, 31, 'Transaction', 1, '2020-01-01'),
    (32, 32, 'Transaction', 1, '2020-01-01'),
@@ -26,7 +26,7 @@ INSERT INTO transactions (id, index, description, amount, date) VALUES
    (40, 40, 'Transaction', 1, '2020-01-01'),
    (41, 41, 'Transaction', 1, '2020-01-01');
 
-INSERT INTO fee_payments (fee_id, transaction_id) VALUES
+INSERT INTO association.fee_payments (fee_id, transaction_id) VALUES
    (30, 30),
    (31, 31),
    (32, 32),

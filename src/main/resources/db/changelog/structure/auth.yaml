@@ -22,4 +22,4 @@ databaseChangeLog:
                     nullable: false
                     unique: true
                     foreignKeyName: fk_user_persons_person
-                    references: persons(id)
+                    references: association.persons(id)

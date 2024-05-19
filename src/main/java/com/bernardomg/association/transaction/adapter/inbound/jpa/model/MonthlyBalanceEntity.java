@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Entity(name = "MonthlyBalance")
-@Table(name = "monthly_balances")
+@Table(schema = "association", name = "monthly_balances")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Member")
-@Table(name = "members")
+@Table(schema = "association", name = "members")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
