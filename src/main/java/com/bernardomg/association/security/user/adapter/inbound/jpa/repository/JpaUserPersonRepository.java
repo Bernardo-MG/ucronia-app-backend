@@ -38,7 +38,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     public final void delete(final String username) {
         final Optional<UserEntity> user;
 
-        user = userSpringRepository.findOneByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
             userPersonSpringRepository.deleteByUserId(user.get()
                 .getId());
@@ -64,7 +64,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final Optional<UserPersonEntity> userMember;
         final Optional<Person>           result;
 
-        user = userSpringRepository.findOneByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
             // TODO: Simplify this, use JPA relationships
             userMember = userPersonSpringRepository.findByUserId(user.get()
@@ -90,7 +90,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final Optional<PersonEntity> person;
         final Person                 result;
 
-        user = userSpringRepository.findOneByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         person = personSpringRepository.findByNumber(number);
         if ((user.isPresent()) && (person.isPresent())) {
             userMember = UserPersonEntity.builder()
