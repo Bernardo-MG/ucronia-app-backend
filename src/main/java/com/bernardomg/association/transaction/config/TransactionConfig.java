@@ -33,12 +33,14 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.Mon
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.security.register.TransactionPermissionRegister;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
 
 /**
  * Transaction configuration.
@@ -68,6 +70,11 @@ public class TransactionConfig {
     public TransactionBalanceRepository
             getTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
         return new JpaTransactionBalanceRepository(monthlyBalanceRepository);
+    }
+
+    @Bean("transactionPermissionRegister")
+    public PermissionRegister getTransactionPermissionRegister() {
+        return new TransactionPermissionRegister();
     }
 
     @Bean("transactionRepository")

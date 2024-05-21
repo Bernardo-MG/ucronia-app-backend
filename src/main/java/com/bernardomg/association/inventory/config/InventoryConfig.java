@@ -29,9 +29,11 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.inventory.adapter.inbound.jpa.repository.JpaDonorRepository;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
+import com.bernardomg.association.inventory.security.register.InventoryPermissionRegister;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
 
 /**
  * Transaction configuration.
@@ -54,6 +56,11 @@ public class InventoryConfig {
     @Bean("donorService")
     public DonorService getDonorService(final DonorRepository donorRepository) {
         return new DefaultDonorService(donorRepository);
+    }
+
+    @Bean("inventoryPermissionRegister")
+    public PermissionRegister getInventoryPermissionRegister() {
+        return new InventoryPermissionRegister();
     }
 
 }

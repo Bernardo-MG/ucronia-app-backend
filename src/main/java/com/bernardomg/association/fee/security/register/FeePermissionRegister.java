@@ -22,30 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.config;
+package com.bernardomg.association.fee.security.register;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
+import java.util.List;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityConfigurationPermissionRegister;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Permission configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Fee permission register.
  */
-@Configuration
-public class PermissionConfig {
+public final class FeePermissionRegister implements PermissionRegister {
 
-    public PermissionConfig() {
-        super();
+    @Override
+    public final Collection<String> getActions() {
+        return List.of();
     }
 
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityConfigurationPermissionRegister();
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        // TODO: Use constants
+        return List.of(ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
+            ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
+            // User fee
+            ResourcePermissionPair.of("USER_FEE", "READ"),
+            // Views
+            ResourcePermissionPair.of("FEE", "VIEW"));
+    }
+
+    @Override
+    public final Collection<String> getResources() {
+        return List.of("FEE", "USER_FEE");
     }
 
 }

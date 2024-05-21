@@ -22,30 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.config;
+package com.bernardomg.association.transaction.security.register;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
+import java.util.List;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityConfigurationPermissionRegister;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Permission configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Transaction permission register.
  */
-@Configuration
-public class PermissionConfig {
+public final class TransactionPermissionRegister implements PermissionRegister {
 
-    public PermissionConfig() {
-        super();
+    @Override
+    public final Collection<String> getActions() {
+        return List.of();
     }
 
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityConfigurationPermissionRegister();
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        // TODO: Use constants
+        return List.of(
+            // Transaction
+            ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
+            ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
+            // Balance
+            ResourcePermissionPair.of("BALANCE", "READ"),
+            // Views
+            ResourcePermissionPair.of("FUNDS", "VIEW"));
+    }
+
+    @Override
+    public final Collection<String> getResources() {
+        return List.of("BALANCE", "FUNDS", "TRANSACTION");
     }
 
 }

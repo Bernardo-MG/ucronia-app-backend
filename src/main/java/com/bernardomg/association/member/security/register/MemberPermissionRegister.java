@@ -22,30 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.config;
+package com.bernardomg.association.member.security.register;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
+import java.util.List;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityConfigurationPermissionRegister;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Permission configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Member permission register.
  */
-@Configuration
-public class PermissionConfig {
+public final class MemberPermissionRegister implements PermissionRegister {
 
-    public PermissionConfig() {
-        super();
+    @Override
+    public final Collection<String> getActions() {
+        return List.of();
     }
 
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityConfigurationPermissionRegister();
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        // TODO: Use constants
+        return List.of(
+            // Member
+            ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
+            ResourcePermissionPair.of("MEMBER", "UPDATE"), ResourcePermissionPair.of("MEMBER", "DELETE"),
+            // Views
+            ResourcePermissionPair.of("MEMBER", "VIEW"));
+    }
+
+    @Override
+    public final Collection<String> getResources() {
+        return List.of("MEMBER");
     }
 
 }
