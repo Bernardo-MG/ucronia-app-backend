@@ -45,12 +45,12 @@ public final class MiscPermissionRegister implements PermissionRegister {
         // TODO: Use constants
         return List.of(
             // Views
-            ResourcePermissionPair.of("CALENDAR", "VIEW"));
+            ResourcePermissionPair.of("ACTIVITY_CALENDAR", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("CALENDAR");
+        return List.of("ACTIVITY_CALENDAR");
     }
 
 }
