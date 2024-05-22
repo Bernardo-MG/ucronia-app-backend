@@ -2,6 +2,7 @@
 package com.bernardomg.configuration.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     public JpaConfigurationRepository(final ConfigurationSpringRepository configurationSpringRepo) {
         super();
 
-        configurationSpringRepository = configurationSpringRepo;
+        configurationSpringRepository = Objects.requireNonNull(configurationSpringRepo);
     }
 
     @Override

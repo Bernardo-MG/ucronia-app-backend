@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public final class JpaPersonRepository implements PersonRepository {
     public JpaPersonRepository(final PersonSpringRepository personSpringRepo) {
         super();
 
-        personSpringRepository = personSpringRepo;
+        personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override

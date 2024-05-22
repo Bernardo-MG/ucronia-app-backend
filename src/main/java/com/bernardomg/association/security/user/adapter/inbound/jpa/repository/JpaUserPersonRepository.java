@@ -2,6 +2,7 @@
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -29,9 +30,9 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
             final UserSpringRepository userSpringRepo, final PersonSpringRepository personSpringRepo) {
         super();
 
-        userPersonSpringRepository = userPersonSpringRepo;
-        userSpringRepository = userSpringRepo;
-        personSpringRepository = personSpringRepo;
+        userPersonSpringRepository = Objects.requireNonNull(userPersonSpringRepo);
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
+        personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override

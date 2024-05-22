@@ -4,6 +4,7 @@ package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -28,7 +29,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
     public JpaTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepo) {
         super();
 
-        monthlyBalanceRepository = monthlyBalanceRepo;
+        monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);
     }
 
     @Override

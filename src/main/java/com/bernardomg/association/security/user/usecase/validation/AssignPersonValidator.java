@@ -2,6 +2,7 @@
 package com.bernardomg.association.security.user.usecase.validation;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import com.bernardomg.association.security.user.domain.model.UserPerson;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
@@ -18,7 +19,7 @@ public final class AssignPersonValidator extends AbstractValidator<UserPerson> {
     public AssignPersonValidator(final UserPersonRepository userPersonRepo) {
         super();
 
-        userPersonRepository = userPersonRepo;
+        userPersonRepository = Objects.requireNonNull(userPersonRepo);
     }
 
     @Override

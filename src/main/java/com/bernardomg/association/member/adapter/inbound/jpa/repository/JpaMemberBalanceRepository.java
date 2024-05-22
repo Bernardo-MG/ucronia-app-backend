@@ -3,6 +3,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -25,7 +26,7 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
     public JpaMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepo) {
         super();
 
-        monthlyMemberBalanceRepository = monthlyMemberBalanceRepo;
+        monthlyMemberBalanceRepository = Objects.requireNonNull(monthlyMemberBalanceRepo);
     }
 
     @Override
