@@ -36,7 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
@@ -44,11 +44,11 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserE
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User member service - unassign member")
-class TestUserMemberServiceUnassignMember {
+@DisplayName("User person service - unassign member")
+class TestUserPersonServiceUnassignMember {
 
     @Mock
-    private MemberRepository         memberRepository;
+    private PersonRepository         personRepository;
 
     @InjectMocks
     private DefaultUserPersonService service;
