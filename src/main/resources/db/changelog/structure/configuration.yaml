@@ -20,7 +20,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: config_value
-                  type: varchar(60)
+                  type: varchar(300)
                   constraints:
                     nullable: false
                   defaultValue: ''
