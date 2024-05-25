@@ -20,16 +20,16 @@ public final class MemberEntities {
             .build();
     }
 
-    public static final MemberEntity missingSurname() {
+    public static final MemberEntity missingLastName() {
         return MemberEntity.builder()
-            .withPerson(PersonEntities.missingSurname())
+            .withPerson(PersonEntities.missingLastName())
             .withActive(false)
             .build();
     }
 
     public static final MemberEntity nameChange() {
         return MemberEntity.builder()
-            .withPerson(PersonEntities.nameChange())
+            .withPerson(PersonEntities.firstNameChange())
             .withActive(false)
             .build();
     }

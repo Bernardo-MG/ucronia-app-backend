@@ -40,7 +40,7 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativePaidFee;
-import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
+import com.bernardomg.association.member.test.config.data.annotation.NoLastNameMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -82,10 +82,10 @@ class ITFeeRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no surname, only the name is returned")
-    @NoSurnameMember
+    @DisplayName("With no last name, only the name is returned")
+    @NoLastNameMember
     @PaidFee
-    void testFindOne_NoSurname() {
+    void testFindOne_NoLastName() {
         final Optional<Fee> fee;
 
         // WHEN
@@ -93,7 +93,7 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(Fees.noSurname());
+            .contains(Fees.noLastName());
     }
 
     @Test

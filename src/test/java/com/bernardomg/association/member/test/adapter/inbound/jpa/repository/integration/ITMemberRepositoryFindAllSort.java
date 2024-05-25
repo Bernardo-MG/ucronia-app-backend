@@ -53,13 +53,13 @@ class ITMemberRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With ascending order by name it returns the ordered data")
-    void testFindAll_Name_Asc() {
+    @DisplayName("With ascending order by first name it returns the ordered data")
+    void testFindAll_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "person.name");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "person.firstName");
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -72,13 +72,13 @@ class ITMemberRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by name it returns the ordered data")
-    void testFindAll_Name_Desc() {
+    @DisplayName("With descending order by first name it returns the ordered data")
+    void testFindAll_FirstName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "person.name");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "person.firstName");
 
         // WHEN
         members = repository.findAll(pageable);
@@ -90,13 +90,13 @@ class ITMemberRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With ascending order by surname it returns the ordered data")
-    void testFindAll_Surname_Asc() {
+    @DisplayName("With ascending order by last name it returns the ordered data")
+    void testFindAll_LastName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "person.surname");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "person.lastName");
 
         // WHEN
         members = repository.findAll(pageable);
@@ -108,13 +108,13 @@ class ITMemberRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by surname it returns the ordered data")
-    void testFindAll_Surname_Desc() {
+    @DisplayName("With descending order by last name it returns the ordered data")
+    void testFindAll_LastName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "person.surname");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "person.lastName");
 
         // WHEN
         members = repository.findAll(pageable);

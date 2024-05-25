@@ -122,8 +122,8 @@ public final class JpaPersonRepository implements PersonRepository {
         final PersonName memberName;
 
         memberName = PersonName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getFirstName())
+            .withLastName(entity.getLastName())
             .build();
         return Person.builder()
             .withNumber(entity.getNumber())
@@ -136,9 +136,9 @@ public final class JpaPersonRepository implements PersonRepository {
     private final PersonEntity toEntity(final Person data) {
         return PersonEntity.builder()
             .withNumber(data.getNumber())
-            .withName(data.getName()
+            .withFirstName(data.getName()
                 .getFirstName())
-            .withSurname(data.getName()
+            .withLastName(data.getName()
                 .getLastName())
             .withIdentifier(data.getIdentifier())
             .withPhone(data.getPhone())

@@ -9,8 +9,19 @@ public final class PersonEntities {
         return PersonEntity.builder()
             .withId(2L)
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
-            .withName(PersonConstants.NAME)
-            .withSurname(PersonConstants.SURNAME)
+            .withFirstName(PersonConstants.NAME)
+            .withLastName(PersonConstants.LAST_NAME)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .build();
+    }
+
+    public static final PersonEntity firstNameChange() {
+        return PersonEntity.builder()
+            .withId(1L)
+            .withNumber(PersonConstants.NUMBER)
+            .withFirstName("Person 123")
+            .withLastName("Last name")
             .withPhone("12345")
             .withIdentifier("6789")
             .build();
@@ -20,29 +31,18 @@ public final class PersonEntities {
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
-            .withName(PersonConstants.NAME)
-            .withSurname(PersonConstants.SURNAME)
+            .withFirstName(PersonConstants.NAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .withPhone("")
             .withIdentifier("")
             .build();
     }
 
-    public static final PersonEntity missingSurname() {
+    public static final PersonEntity missingLastName() {
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
-            .withName(PersonConstants.NAME)
-            .withPhone("12345")
-            .withIdentifier("6789")
-            .build();
-    }
-
-    public static final PersonEntity nameChange() {
-        return PersonEntity.builder()
-            .withId(1L)
-            .withNumber(PersonConstants.NUMBER)
-            .withName("Person 123")
-            .withSurname("Surname")
+            .withFirstName(PersonConstants.NAME)
             .withPhone("12345")
             .withIdentifier("6789")
             .build();
@@ -52,8 +52,8 @@ public final class PersonEntities {
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
-            .withName(PersonConstants.NAME)
-            .withSurname(PersonConstants.SURNAME)
+            .withFirstName(PersonConstants.NAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
             .build();
@@ -63,8 +63,8 @@ public final class PersonEntities {
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
-            .withName("Member " + index)
-            .withSurname("Surname " + index)
+            .withFirstName("Member " + index)
+            .withLastName("Last name " + index)
             .withPhone("12345")
             .withIdentifier("6789")
             .build();

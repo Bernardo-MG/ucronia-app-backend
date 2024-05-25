@@ -114,7 +114,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Page<MemberFeeEntity>                    page;
         final Optional<Specification<MemberFeeEntity>> spec;
         final Iterable<Fee>                            found;
-        // TODO: Test reading with no name or surname
+        // TODO: Test reading with no first or last name
 
         log.debug("Finding all fees with sample {} and pagination {}", query, pageable);
 
@@ -378,9 +378,9 @@ public final class JpaFeeRepository implements FeeRepository {
         final String         name;
 
         name = (entity.getPerson()
-            .getName() + " "
+            .getFirstName() + " "
                 + entity.getPerson()
-                    .getSurname()).trim();
+                    .getLastName()).trim();
         feePerson = FeePerson.builder()
             .withFullName(name)
             .withNumber(entity.getPerson()

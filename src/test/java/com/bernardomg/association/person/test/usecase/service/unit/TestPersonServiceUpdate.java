@@ -79,7 +79,7 @@ class TestPersonServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a person having padding whitespaces in name and surname, these whitespaces are removed")
+    @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
         final Person person;
 

@@ -113,8 +113,8 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final PersonName memberName;
 
         memberName = PersonName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getFirstName())
+            .withLastName(entity.getLastName())
             .build();
         return Person.builder()
             .withNumber(entity.getNumber())

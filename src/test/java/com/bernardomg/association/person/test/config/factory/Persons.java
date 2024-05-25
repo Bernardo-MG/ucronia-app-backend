@@ -11,7 +11,7 @@ public final class Persons {
 
         name = PersonName.builder()
             .withFirstName(PersonConstants.ALTERNATIVE_NAME)
-            .withLastName(PersonConstants.ALTERNATIVE_SURNAME)
+            .withLastName(PersonConstants.ALTERNATIVE_LAST_NAME)
             .build();
         return Person.builder()
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
@@ -41,7 +41,7 @@ public final class Persons {
 
         name = PersonName.builder()
             .withFirstName("Person 123")
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Person.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -56,7 +56,7 @@ public final class Persons {
 
         name = PersonName.builder()
             .withFirstName(" " + PersonConstants.NAME + " ")
-            .withLastName(" " + PersonConstants.SURNAME + " ")
+            .withLastName(" " + PersonConstants.LAST_NAME + " ")
             .build();
         return Person.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -71,7 +71,7 @@ public final class Persons {
 
         name = PersonName.builder()
             .withFirstName(PersonConstants.NAME)
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Person.builder()
             .withNumber(PersonConstants.NUMBER)

@@ -74,13 +74,13 @@ class TestMemberServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", PersonName.builder()
             .withFirstName(" ")
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build()));
     }
 
     @Test
-    @DisplayName("With a member with no name, an exception is thrown")
-    void testCreate_NoName() {
+    @DisplayName("With a member with no first name, an exception is thrown")
+    void testCreate_NoFirstName() {
         final ThrowingCallable execution;
         final Member           member;
 
@@ -92,17 +92,17 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", PersonName.builder()
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build()));
     }
 
     @Test
-    @DisplayName("With a member with no surname, the member is persisted")
-    void testCreate_NoSurname_PersistedData() {
+    @DisplayName("With a member with no last name, the member is persisted")
+    void testCreate_NoLastName_PersistedData() {
         final Member member;
 
         // GIVEN
-        member = Members.missingSurname();
+        member = Members.missingLastName();
 
         given(memberRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
@@ -110,11 +110,11 @@ class TestMemberServiceCreate {
         service.create(member);
 
         // THEN
-        verify(memberRepository).save(Members.missingSurname());
+        verify(memberRepository).save(Members.missingLastName());
     }
 
     @Test
-    @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
+    @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
         final Member member;
 

@@ -69,7 +69,7 @@ public final class TransactionEntities {
             .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
             .withAmount(2F)
             .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Surname 1 para Febrero 2020, Marzo 2020")
+            .withDescription("Cuota de Person 1 Last name 1 para Febrero 2020, Marzo 2020")
             .build();
     }
 
@@ -79,7 +79,7 @@ public final class TransactionEntities {
             .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
             .withAmount(2F)
             .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Surname 1 para Diciembre 2020, Enero 2021")
+            .withDescription("Cuota de Person 1 Last name 1 para Diciembre 2020, Enero 2021")
             .build();
     }
 
@@ -89,7 +89,7 @@ public final class TransactionEntities {
             .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
             .withAmount(1F)
             .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Surname 1 para Febrero 2020")
+            .withDescription("Cuota de Person 1 Last name 1 para Febrero 2020")
             .build();
     }
 
@@ -99,7 +99,7 @@ public final class TransactionEntities {
             .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
             .withAmount(0F)
             .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Surname 1 para Febrero 2020")
+            .withDescription("Cuota de Person 1 Last name 1 para Febrero 2020")
             .build();
     }
 

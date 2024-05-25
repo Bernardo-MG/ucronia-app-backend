@@ -174,11 +174,11 @@ public final class DefaultMemberService implements MemberService {
         if (fullNameOrder.isPresent()) {
             if (fullNameOrder.get()
                 .getDirection() == Direction.ASC) {
-                orders.add(Order.asc("person.name"));
-                orders.add(Order.asc("person.surname"));
+                orders.add(Order.asc("person.firstName"));
+                orders.add(Order.asc("person.lastName"));
             } else {
-                orders.add(Order.desc("person.name"));
-                orders.add(Order.desc("person.surname"));
+                orders.add(Order.desc("person.firstName"));
+                orders.add(Order.desc("person.lastName"));
             }
         }
 

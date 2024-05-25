@@ -76,7 +76,7 @@ class TestPersonServiceCreate {
     }
 
     @Test
-    @DisplayName("With a person having padding whitespaces in name and surname, these whitespaces are removed and the person is persisted")
+    @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed and the person is persisted")
     void testCreate_Padded_PersistedData() {
         final Person person;
 

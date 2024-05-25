@@ -128,8 +128,8 @@ public final class JpaDonorRepository implements DonorRepository {
         final DonorName donorName;
 
         donorName = DonorName.builder()
-            .withFirstName(donor.getName())
-            .withLastName(donor.getSurname())
+            .withFirstName(donor.getFirstName())
+            .withLastName(donor.getLastName())
             .build();
 
         return Donor.builder()
@@ -141,9 +141,9 @@ public final class JpaDonorRepository implements DonorRepository {
     private final PersonEntity toEntity(final Donor donor) {
         return PersonEntity.builder()
             .withNumber(donor.getNumber())
-            .withName(donor.getName()
+            .withFirstName(donor.getName()
                 .getFirstName())
-            .withSurname(donor.getName()
+            .withLastName(donor.getName()
                 .getLastName())
             .withPhone("")
             .withIdentifier("")

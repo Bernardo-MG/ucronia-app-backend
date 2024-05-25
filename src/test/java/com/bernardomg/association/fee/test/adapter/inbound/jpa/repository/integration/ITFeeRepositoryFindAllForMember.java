@@ -42,7 +42,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
+import com.bernardomg.association.member.test.config.data.annotation.NoLastNameMember;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -98,10 +98,10 @@ class ITFeeRepositoryfindAllForMemberForMember {
     }
 
     @Test
-    @DisplayName("With no surname it returns only the name")
-    @NoSurnameMember
+    @DisplayName("With no last name it returns only the name")
+    @NoLastNameMember
     @PaidFee
-    void testFindAllForMember_Active_NoSurname() {
+    void testFindAllForMember_Active_NoLastName() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -114,7 +114,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.noSurname());
+            .containsExactly(Fees.noLastName());
     }
 
     @Test

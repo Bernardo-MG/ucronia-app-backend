@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
+import com.bernardomg.association.member.test.config.data.annotation.NoLastNameMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -304,10 +304,10 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With user without surname it returns all data")
-    @NoSurnameMember
+    @DisplayName("With user without last name it returns all data")
+    @NoLastNameMember
     @FeeFullYear
-    void testFindAllInYear_Active_NoSurname() {
+    void testFindAllInYear_Active_NoLastName() {
         final Iterable<Fee> fees;
         final Sort          sort;
 
@@ -320,13 +320,13 @@ class ITFeeRepositoryFindAllInYear {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAtNoSurname(Month.JANUARY.getValue()),
-                Fees.paidAtNoSurname(Month.FEBRUARY.getValue()), Fees.paidAtNoSurname(Month.MARCH.getValue()),
-                Fees.paidAtNoSurname(Month.APRIL.getValue()), Fees.paidAtNoSurname(Month.MAY.getValue()),
-                Fees.paidAtNoSurname(Month.JUNE.getValue()), Fees.paidAtNoSurname(Month.JULY.getValue()),
-                Fees.paidAtNoSurname(Month.AUGUST.getValue()), Fees.paidAtNoSurname(Month.SEPTEMBER.getValue()),
-                Fees.paidAtNoSurname(Month.OCTOBER.getValue()), Fees.paidAtNoSurname(Month.NOVEMBER.getValue()),
-                Fees.paidAtNoSurname(Month.DECEMBER.getValue()));
+            .containsExactly(Fees.paidAtNoLastName(Month.JANUARY.getValue()),
+                Fees.paidAtNoLastName(Month.FEBRUARY.getValue()), Fees.paidAtNoLastName(Month.MARCH.getValue()),
+                Fees.paidAtNoLastName(Month.APRIL.getValue()), Fees.paidAtNoLastName(Month.MAY.getValue()),
+                Fees.paidAtNoLastName(Month.JUNE.getValue()), Fees.paidAtNoLastName(Month.JULY.getValue()),
+                Fees.paidAtNoLastName(Month.AUGUST.getValue()), Fees.paidAtNoLastName(Month.SEPTEMBER.getValue()),
+                Fees.paidAtNoLastName(Month.OCTOBER.getValue()), Fees.paidAtNoLastName(Month.NOVEMBER.getValue()),
+                Fees.paidAtNoLastName(Month.DECEMBER.getValue()));
     }
 
     @Test
