@@ -34,9 +34,6 @@ public class ConfigurationEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "restricted", nullable = false)
-    private boolean           restricted;
-
     @Column(name = "value_type", nullable = false)
     private String            type;
 

@@ -58,10 +58,10 @@ public class PublicConfigurationController {
         final String calendarId;
         final String mapId;
 
-        calendarId = service.getOnePublic("social.teamup.id")
+        calendarId = service.getOne("social.teamup.id")
             .map(Configuration::getValue)
             .orElse(null);
-        mapId = service.getOnePublic("social.googleMap.id")
+        mapId = service.getOne("social.googleMap.id")
             .map(Configuration::getValue)
             .orElse(null);
         return new PublicConfiguration(mapId, calendarId);

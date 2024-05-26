@@ -8,12 +8,10 @@ import lombok.Data;
 @Builder(setterPrefix = "with")
 public final class Configuration {
 
-    private String  code;
+    private String code;
 
-    private boolean restricted;
+    private String type;
 
-    private String  type;
-
-    private String  value;
+    private String value;
 
 }

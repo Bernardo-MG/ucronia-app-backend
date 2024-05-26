@@ -1,5 +1,5 @@
 
-package com.bernardomg.configuration.test.data.annotation;
+package com.bernardomg.configuration.test.config.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/configuration/clean.sql")
+@Sql("/db/queries/configuration/float.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface CleanConfiguration {
+public @interface FloatConfiguration {
 
 }

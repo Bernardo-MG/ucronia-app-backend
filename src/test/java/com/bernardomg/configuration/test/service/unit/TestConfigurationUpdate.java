@@ -46,20 +46,6 @@ public class TestConfigurationUpdate {
     }
 
     @Test
-    @DisplayName("When the configuration exists and is restricted, it is updated")
-    void testUpdate_Existing_Restricted() {
-        // GIVEN
-        given(configurationRepository.findOne(ConfigurationConstants.CODE))
-            .willReturn(Optional.of(Configurations.restricted()));
-
-        // WHEN
-        service.update(ConfigurationConstants.CODE, ConfigurationConstants.NUMBER_VALUE);
-
-        // THEN
-        verify(configurationRepository).save(Configurations.restrictedUpdated());
-    }
-
-    @Test
     @DisplayName("When the configuration doesn't exist, nothing is updated")
     void testUpdate_NotExisting() {
         final ThrowingCallable execution;

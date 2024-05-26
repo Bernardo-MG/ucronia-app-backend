@@ -11,7 +11,6 @@ public final class ConfigurationEntities {
             .withCode(AssociationConfigurationKey.FEE_AMOUNT)
             .withValue("1.0")
             .withType(ConfigurationConstants.NUMBER_TYPE)
-            .withRestricted(false)
             .build();
     }
 
@@ -20,7 +19,6 @@ public final class ConfigurationEntities {
             .withCode(ConfigurationConstants.CODE)
             .withValue(ConfigurationConstants.STRING_VALUE)
             .withType(ConfigurationConstants.NUMBER_TYPE)
-            .withRestricted(false)
             .build();
     }
 

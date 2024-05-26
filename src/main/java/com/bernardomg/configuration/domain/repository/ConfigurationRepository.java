@@ -12,8 +12,6 @@ public interface ConfigurationRepository {
 
     public Optional<Configuration> findOne(final String key);
 
-    public Optional<Configuration> findOnePublic(final String key);
-
     public Float getFloat(final String key);
 
     public Configuration save(final Configuration configuration);

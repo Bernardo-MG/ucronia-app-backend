@@ -10,12 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
+import com.bernardomg.configuration.test.config.data.annotation.FloatConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.IntegerConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.StringConfiguration;
 import com.bernardomg.configuration.test.config.factory.ConfigurationConstants;
 import com.bernardomg.configuration.test.config.factory.Configurations;
-import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
-import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
-import com.bernardomg.configuration.test.data.annotation.RestrictedConfiguration;
-import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -67,21 +66,6 @@ public class ITConfigurationRepositoryFindOne {
         Assertions.assertThat(configuration)
             .as("configuration")
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When reading a restricted configuration, it is returned")
-    @RestrictedConfiguration
-    void testFindOne_Restricted() {
-        final Optional<Configuration> configuration;
-
-        // WHEN
-        configuration = repository.findOne(ConfigurationConstants.CODE);
-
-        // THEN
-        Assertions.assertThat(configuration)
-            .as("configuration")
-            .contains(Configurations.restricted());
     }
 
     @Test

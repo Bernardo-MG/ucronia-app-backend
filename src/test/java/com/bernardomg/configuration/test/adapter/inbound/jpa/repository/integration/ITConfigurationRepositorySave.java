@@ -12,10 +12,10 @@ import com.bernardomg.configuration.adapter.inbound.jpa.model.ConfigurationEntit
 import com.bernardomg.configuration.adapter.inbound.jpa.repository.ConfigurationSpringRepository;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
+import com.bernardomg.configuration.test.config.data.annotation.CleanConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.configuration.test.config.factory.ConfigurationEntities;
 import com.bernardomg.configuration.test.config.factory.Configurations;
-import com.bernardomg.configuration.test.data.annotation.CleanConfiguration;
-import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
