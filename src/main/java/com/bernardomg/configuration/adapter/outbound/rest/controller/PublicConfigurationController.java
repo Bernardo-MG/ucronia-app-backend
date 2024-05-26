@@ -24,12 +24,14 @@
 
 package com.bernardomg.configuration.adapter.outbound.rest.controller;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.configuration.adapter.outbound.cache.ConfigurationCaches;
+import com.bernardomg.configuration.adapter.outbound.rest.model.PublicConfiguration;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
 import com.bernardomg.security.access.Unsecured;
@@ -49,12 +51,20 @@ public class PublicConfigurationController {
 
     private final ConfigurationService service;
 
-    @GetMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
-    public Configuration readOnePublic(@PathVariable("code") final String code) {
-        // TODO: improve security, not all the configuration can be read by everybody
-        return service.getOnePublic(code)
+    @Cacheable(cacheNames = ConfigurationCaches.PUBLIC)
+    public PublicConfiguration readOnePublic() {
+        final String calendarId;
+        final String mapId;
+
+        calendarId = service.getOnePublic("social.teamup.id")
+            .map(Configuration::getValue)
             .orElse(null);
+        mapId = service.getOnePublic("social.googleMap.id")
+            .map(Configuration::getValue)
+            .orElse(null);
+        return new PublicConfiguration(mapId, calendarId);
     }
 
 }
