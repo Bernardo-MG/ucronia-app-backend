@@ -175,6 +175,22 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With a book with an invalid language code, an exception is thrown")
+    void testCreate_InvalidLanguage() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.invalidLanguage();
+
+        // WHEN
+        execution = () -> service.create(book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("language", "invalid", "abc"));
+    }
+
+    @Test
     @DisplayName("When persisting a book for a not existing author, an exception is thrown")
     void testCreate_NoAuthor() {
         final Book             book;

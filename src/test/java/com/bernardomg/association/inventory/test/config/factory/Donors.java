@@ -12,7 +12,7 @@ public final class Donors {
 
         name = DonorName.builder()
             .withFirstName(" ")
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Donor.builder()
             .withNumber(DonorConstants.NUMBER)
@@ -25,7 +25,7 @@ public final class Donors {
 
         name = DonorName.builder()
             .withFirstName(PersonConstants.NAME)
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Donor.builder()
             .withNumber(DonorConstants.NUMBER)

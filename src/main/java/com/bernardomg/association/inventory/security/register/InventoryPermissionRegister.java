@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.adapter.inbound;
+package com.bernardomg.association.inventory.security.register;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,9 +31,9 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.initiali
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Default permission register. Contains all the initial permission configuration.
+ * Inventory permission register.
  */
-public final class AssociationPermissionRegister implements PermissionRegister {
+public final class InventoryPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<String> getActions() {
@@ -44,17 +44,6 @@ public final class AssociationPermissionRegister implements PermissionRegister {
     public final Collection<ResourcePermissionPair> getPermissions() {
         // TODO: Use constants
         return List.of(
-            // Member
-            ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
-            ResourcePermissionPair.of("MEMBER", "UPDATE"), ResourcePermissionPair.of("MEMBER", "DELETE"),
-            // Fee
-            ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
-            ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
-            // User fee
-            ResourcePermissionPair.of("USER_FEE", "READ"),
-            // Transaction
-            ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
-            ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
             // Inventory
             ResourcePermissionPair.of("INVENTORY_DONOR", "CREATE"),
             ResourcePermissionPair.of("INVENTORY_DONOR", "READ"),
@@ -82,26 +71,14 @@ public final class AssociationPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("LIBRARY_LENDING", "READ"),
             ResourcePermissionPair.of("LIBRARY_LENDING", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_LENDING", "DELETE"),
-            // Configuration
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "CREATE"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "READ"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "UPDATE"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "DELETE"),
-            // Balance
-            ResourcePermissionPair.of("BALANCE", "READ"),
             // Views
-            ResourcePermissionPair.of("FUNDS", "VIEW"), ResourcePermissionPair.of("MEMBER", "VIEW"),
-            ResourcePermissionPair.of("FEE", "VIEW"), ResourcePermissionPair.of("USER_FEE", "VIEW"),
-            ResourcePermissionPair.of("LIBRARY", "VIEW"), ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"),
-            ResourcePermissionPair.of("SECURITY", "VIEW"));
+            ResourcePermissionPair.of("LIBRARY", "VIEW"), ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER", "FEE", "USER_FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS",
-            "INVENTORY_DONOR", "LIBRARY", "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK",
-            "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING", "SECURITY");
+        return List.of("INVENTORY_DONOR", "LIBRARY", "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER",
+            "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
     }
 
 }

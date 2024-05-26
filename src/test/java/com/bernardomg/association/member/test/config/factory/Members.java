@@ -12,7 +12,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName(PersonConstants.NAME)
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -28,7 +28,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName("Person " + index)
-            .withLastName("Surname " + index)
+            .withLastName("Last name " + index)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -44,7 +44,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName(" ")
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -60,7 +60,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName("Person " + index)
-            .withLastName("Surname " + index)
+            .withLastName("Last name " + index)
             .build();
         return Member.builder()
             .withNumber(index)
@@ -76,7 +76,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName("Person " + index)
-            .withLastName("Surname " + index)
+            .withLastName("Last name " + index)
             .build();
         return Member.builder()
             .withNumber(index * 10)
@@ -92,7 +92,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName(PersonConstants.NAME)
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -108,7 +108,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName("Person " + index)
-            .withLastName("Surname " + index)
+            .withLastName("Last name " + index)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -124,7 +124,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName(PersonConstants.ALTERNATIVE_NAME)
-            .withLastName(PersonConstants.ALTERNATIVE_SURNAME)
+            .withLastName(PersonConstants.ALTERNATIVE_LAST_NAME)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
@@ -140,10 +140,25 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName(PersonConstants.NAME)
-            .withLastName(PersonConstants.SURNAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
             .withNumber(number)
+            .withName(name)
+            .withPhone(PersonConstants.PHONE)
+            .withIdentifier(PersonConstants.IDENTIFIER)
+            .withActive(false)
+            .build();
+    }
+
+    public static final Member missingLastName() {
+        final PersonName name;
+
+        name = PersonName.builder()
+            .withFirstName(PersonConstants.NAME)
+            .build();
+        return Member.builder()
+            .withNumber(PersonConstants.NUMBER)
             .withName(name)
             .withPhone(PersonConstants.PHONE)
             .withIdentifier(PersonConstants.IDENTIFIER)
@@ -155,22 +170,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withLastName(PersonConstants.SURNAME)
-            .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
-    }
-
-    public static final Member missingSurname() {
-        final PersonName name;
-
-        name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -186,7 +186,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName("Person 123")
-            .withLastName("Surname")
+            .withLastName("Last name")
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -202,7 +202,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName("Person 123")
-            .withLastName("Surname")
+            .withLastName("Last name")
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -218,7 +218,7 @@ public final class Members {
 
         name = PersonName.builder()
             .withFirstName(" " + PersonConstants.NAME + " ")
-            .withLastName(" " + PersonConstants.SURNAME + " ")
+            .withLastName(" " + PersonConstants.LAST_NAME + " ")
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)

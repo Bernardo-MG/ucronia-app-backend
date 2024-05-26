@@ -43,7 +43,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
     @Query("""
                SELECT f.id AS id, m.id AS personId, m.person.number AS personNumber,
-                 TRIM(CONCAT(m.person.name, ' ', m.person.surname)) AS personName, f.date AS date,
+                 TRIM(CONCAT(m.person.firstName, ' ', m.person.lastName)) AS personName, f.date AS date,
                  t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN p.feeId IS NOT NULL THEN true ELSE false END AS paid
                FROM Member m
                  INNER JOIN Fee f ON m.id = f.personId

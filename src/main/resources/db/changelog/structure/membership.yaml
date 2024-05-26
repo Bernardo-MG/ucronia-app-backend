@@ -20,12 +20,12 @@ databaseChangeLog:
                     unique: true
                     nullable: false
               - column:
-                  name: name
+                  name: first_name
                   type: varchar(50)
                   constraints:
                     nullable: false
               - column:
-                  name: surname
+                  name: last_name
                   type: varchar(50)
                   constraints:
                     nullable: false
@@ -146,7 +146,7 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, p.id AS person_id, p.number AS person_number, TRIM(CONCAT(p.name, ' ', p.surname)) AS person_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN pm.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM association.persons p INNER JOIN association.fees f ON p.id = f.person_id LEFT JOIN association.fee_payments pm ON f.id = pm.fee_id LEFT JOIN association.transactions t ON pm.transaction_id = t.id
+            selectQuery: SELECT f.id AS id, p.id AS person_id, p.number AS person_number, TRIM(CONCAT(p.first_name, ' ', p.last_name)) AS person_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN pm.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM association.persons p INNER JOIN association.fees f ON p.id = f.person_id LEFT JOIN association.fee_payments pm ON f.id = pm.fee_id LEFT JOIN association.transactions t ON pm.transaction_id = t.id
             schemaName: association
             viewName: member_fees
         -  createView:

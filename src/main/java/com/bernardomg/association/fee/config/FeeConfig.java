@@ -35,6 +35,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepos
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.security.register.FeePermissionRegister;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeReportService;
@@ -53,6 +54,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
 
 /**
  * Fee configuration.
@@ -87,6 +89,11 @@ public class FeeConfig {
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
             final MemberRepository memberRepository) {
         return new DefaultFeeMaintenanceService(feeRepo, memberRepository);
+    }
+
+    @Bean("feePermissionRegister")
+    public PermissionRegister getFeePermissionRegister() {
+        return new FeePermissionRegister();
     }
 
     @Bean("FeeReportService")

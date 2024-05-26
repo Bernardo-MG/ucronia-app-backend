@@ -29,6 +29,9 @@ public class PersonEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "first_name", nullable = false)
+    private String            firstName;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
@@ -37,16 +40,13 @@ public class PersonEntity implements Serializable {
     @Column(name = "identifier")
     private String            identifier;
 
-    @Column(name = "name", nullable = false)
-    private String            name;
+    @Column(name = "last_name")
+    private String            lastName;
 
     @Column(name = "number")
     private Long              number;
 
     @Column(name = "phone")
     private String            phone;
-
-    @Column(name = "surname")
-    private String            surname;
 
 }

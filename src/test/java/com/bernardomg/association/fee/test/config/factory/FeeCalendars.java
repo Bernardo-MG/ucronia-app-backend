@@ -284,11 +284,11 @@ public final class FeeCalendars {
             .build();
     }
 
-    public static final FeeCalendar inactivefullCalendarNoName() {
+    public static final FeeCalendar inactivefullCalendarNoLastName() {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName("")
+            .withFullName(PersonConstants.NAME)
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
@@ -302,11 +302,11 @@ public final class FeeCalendars {
             .build();
     }
 
-    public static final FeeCalendar inactivefullCalendarNoSurname() {
+    public static final FeeCalendar inactivefullCalendarNoName() {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .withFullName(PersonConstants.NAME)
+            .withFullName("")
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
@@ -471,7 +471,7 @@ public final class FeeCalendars {
             .build();
     }
 
-    public static final FeeCalendar noSurname() {
+    public static final FeeCalendar noLastName() {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()

@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.usecase.validation;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -22,8 +23,8 @@ public final class CreateFeeValidator extends AbstractValidator<Collection<Fee>>
     public CreateFeeValidator(final PersonRepository personRepo, final FeeRepository feeRepo) {
         super();
 
-        personRepository = personRepo;
-        feeRepository = feeRepo;
+        personRepository = Objects.requireNonNull(personRepo);
+        feeRepository = Objects.requireNonNull(feeRepo);
     }
 
     @Override

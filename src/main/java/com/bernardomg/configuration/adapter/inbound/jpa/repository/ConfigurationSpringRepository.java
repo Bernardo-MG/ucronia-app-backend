@@ -36,6 +36,4 @@ public interface ConfigurationSpringRepository extends JpaRepository<Configurati
 
     public Optional<ConfigurationEntity> findByCode(final String code);
 
-    public Optional<ConfigurationEntity> findByCodeAndRestrictedFalse(final String code);
-
 }

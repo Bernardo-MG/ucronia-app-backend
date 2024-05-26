@@ -2,6 +2,7 @@
 package com.bernardomg.association.security.user.usecase.service;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -35,9 +36,9 @@ public final class DefaultUserPersonService implements UserPersonService {
             final UserPersonRepository userPersonRepo) {
         super();
 
-        userRepository = userRepo;
-        personRepository = personRepo;
-        userPersonRepository = userPersonRepo;
+        userRepository = Objects.requireNonNull(userRepo);
+        personRepository = Objects.requireNonNull(personRepo);
+        userPersonRepository = Objects.requireNonNull(userPersonRepo);
 
         assignPersonValidator = new AssignPersonValidator(userPersonRepository);
     }

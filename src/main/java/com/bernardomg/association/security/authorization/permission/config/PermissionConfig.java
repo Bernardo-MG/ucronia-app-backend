@@ -27,7 +27,8 @@ package com.bernardomg.association.security.authorization.permission.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationPermissionRegister;
+import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityConfigurationPermissionRegister;
+import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
 
 /**
@@ -43,9 +44,14 @@ public class PermissionConfig {
         super();
     }
 
-    @Bean("associationPermissionRegister")
-    public PermissionRegister getAssociationPermissionRegister() {
-        return new AssociationPermissionRegister();
+    @Bean("associationSecurityConfigurationPermissionRegister")
+    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
+        return new AssociationSecurityConfigurationPermissionRegister();
+    }
+
+    @Bean("miscPermissionRegister")
+    public PermissionRegister getMiscPermissionRegister() {
+        return new MiscPermissionRegister();
     }
 
 }

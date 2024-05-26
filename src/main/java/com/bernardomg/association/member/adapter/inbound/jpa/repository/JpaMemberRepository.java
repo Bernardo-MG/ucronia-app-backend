@@ -2,6 +2,7 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -29,8 +30,8 @@ public final class JpaMemberRepository implements MemberRepository {
             final PersonSpringRepository personSpringRepo) {
         super();
 
-        memberSpringRepository = memberSpringRepo;
-        personSpringRepository = personSpringRepo;
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override
@@ -215,9 +216,9 @@ public final class JpaMemberRepository implements MemberRepository {
 
         memberName = PersonName.builder()
             .withFirstName(entity.getPerson()
-                .getName())
+                .getFirstName())
             .withLastName(entity.getPerson()
-                .getSurname())
+                .getLastName())
             .build();
         return Member.builder()
             .withNumber(entity.getPerson()
@@ -237,9 +238,9 @@ public final class JpaMemberRepository implements MemberRepository {
         person = PersonEntity.builder()
             .withNumber(data.getNumber())
             .withIdentifier(data.getIdentifier())
-            .withName(data.getName()
+            .withFirstName(data.getName()
                 .getFirstName())
-            .withSurname(data.getName()
+            .withLastName(data.getName()
                 .getLastName())
             .withPhone(data.getPhone())
             .build();

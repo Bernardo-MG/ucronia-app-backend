@@ -18,7 +18,7 @@ public final class Fees {
         final FeeTransaction transaction;
 
         person = FeePerson.builder()
-            .withFullName("Person 2 Surname 2")
+            .withFullName("Person 2 Last name 2")
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -51,7 +51,7 @@ public final class Fees {
             .build();
     }
 
-    public static final Fee noSurname() {
+    public static final Fee noLastName() {
         final FeePerson      person;
         final FeeTransaction transaction;
 
@@ -94,7 +94,7 @@ public final class Fees {
         final FeeTransaction transaction;
 
         person = FeePerson.builder()
-            .withFullName("Person " + index + " Surname " + index)
+            .withFullName("Person " + index + " Last name " + index)
             .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
@@ -244,7 +244,7 @@ public final class Fees {
         final FeeTransaction transaction;
 
         person = FeePerson.builder()
-            .withFullName("Person " + index + " Surname " + index)
+            .withFullName("Person " + index + " Last name " + index)
             .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
@@ -279,7 +279,7 @@ public final class Fees {
             .build();
     }
 
-    public static final Fee paidAtNoSurname(final int month) {
+    public static final Fee paidAtNoLastName(final int month) {
         final FeePerson      person;
         final FeeTransaction transaction;
 

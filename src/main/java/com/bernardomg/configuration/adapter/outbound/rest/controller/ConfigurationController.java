@@ -26,6 +26,8 @@ package com.bernardomg.configuration.adapter.outbound.rest.controller;
 
 import java.util.Collection;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.configuration.adapter.outbound.cache.ConfigurationCaches;
 import com.bernardomg.configuration.adapter.outbound.rest.model.ConfigurationChange;
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.usecase.service.ConfigurationService;
@@ -71,6 +74,7 @@ public class ConfigurationController {
 
     @PutMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
+    @Caching(evict = { @CacheEvict(cacheNames = { ConfigurationCaches.PUBLIC }, allEntries = true) })
     public Configuration update(@PathVariable("code") final String code,
             @Valid @RequestBody final ConfigurationChange configuration) {
         return service.update(code, configuration.getValue());

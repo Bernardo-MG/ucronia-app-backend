@@ -2,6 +2,7 @@
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -29,16 +30,16 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
             final UserSpringRepository userSpringRepo, final PersonSpringRepository personSpringRepo) {
         super();
 
-        userPersonSpringRepository = userPersonSpringRepo;
-        userSpringRepository = userSpringRepo;
-        personSpringRepository = personSpringRepo;
+        userPersonSpringRepository = Objects.requireNonNull(userPersonSpringRepo);
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
+        personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override
     public final void delete(final String username) {
         final Optional<UserEntity> user;
 
-        user = userSpringRepository.findOneByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
             userPersonSpringRepository.deleteByUserId(user.get()
                 .getId());
@@ -64,7 +65,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final Optional<UserPersonEntity> userMember;
         final Optional<Person>           result;
 
-        user = userSpringRepository.findOneByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
             // TODO: Simplify this, use JPA relationships
             userMember = userPersonSpringRepository.findByUserId(user.get()
@@ -90,7 +91,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final Optional<PersonEntity> person;
         final Person                 result;
 
-        user = userSpringRepository.findOneByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         person = personSpringRepository.findByNumber(number);
         if ((user.isPresent()) && (person.isPresent())) {
             userMember = UserPersonEntity.builder()
@@ -112,8 +113,8 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final PersonName memberName;
 
         memberName = PersonName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getFirstName())
+            .withLastName(entity.getLastName())
             .build();
         return Person.builder()
             .withNumber(entity.getNumber())

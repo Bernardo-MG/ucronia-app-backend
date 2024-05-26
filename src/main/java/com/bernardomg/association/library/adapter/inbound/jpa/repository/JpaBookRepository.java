@@ -247,8 +247,8 @@ public final class JpaBookRepository implements BookRepository {
         final DonorName name;
 
         name = DonorName.builder()
-            .withFirstName(entity.getName())
-            .withLastName(entity.getSurname())
+            .withFirstName(entity.getFirstName())
+            .withLastName(entity.getLastName())
             .build();
         return Donor.builder()
             .withNumber(entity.getNumber())

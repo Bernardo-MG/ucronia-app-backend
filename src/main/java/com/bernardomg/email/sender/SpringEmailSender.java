@@ -1,6 +1,8 @@
 
 package com.bernardomg.email.sender;
 
+import java.util.Objects;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -20,8 +22,8 @@ public final class SpringEmailSender implements EmailSender {
     public SpringEmailSender(final String from, final JavaMailSender mailSender) {
         super();
 
-        fromEmail = from;
-        this.mailSender = mailSender;
+        fromEmail = Objects.requireNonNull(from);
+        this.mailSender = Objects.requireNonNull(mailSender);
     }
 
     @Async

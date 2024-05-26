@@ -119,5 +119,13 @@
             Updated library components.
          </action>
       </release>
+      <release version="0.5.1" date="2024-05-26" description="Various small corrections">
+         <action dev="bmg" type="update">
+            Updated security dependency.
+         </action>
+         <action dev="bmg" type="update">
+            Various small corrections.
+         </action>
+      </release>
    </body>
 </document>

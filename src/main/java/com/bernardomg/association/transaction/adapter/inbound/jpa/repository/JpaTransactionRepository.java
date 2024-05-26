@@ -3,6 +3,7 @@ package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
     public JpaTransactionRepository(final TransactionSpringRepository transactionRepo) {
         super();
 
-        transactionRepository = transactionRepo;
+        transactionRepository = Objects.requireNonNull(transactionRepo);
     }
 
     @Override

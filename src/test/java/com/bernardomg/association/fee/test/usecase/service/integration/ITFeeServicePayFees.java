@@ -50,7 +50,7 @@ import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
-import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

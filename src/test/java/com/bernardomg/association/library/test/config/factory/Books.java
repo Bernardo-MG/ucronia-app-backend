@@ -72,6 +72,24 @@ public final class Books {
             .build();
     }
 
+    public static final Book invalidLanguage() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage("abc")
+            .withAuthors(List.of())
+            .withPublisher(Publisher.builder()
+                .build())
+            .withGameSystem(GameSystem.builder()
+                .build())
+            .withBookType(BookType.builder()
+                .build())
+            .withDonor(Donor.builder()
+                .build())
+            .build();
+    }
+
     public static final Book minimal() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)

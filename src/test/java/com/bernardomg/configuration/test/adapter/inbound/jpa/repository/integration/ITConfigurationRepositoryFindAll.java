@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
+import com.bernardomg.configuration.test.config.data.annotation.CleanConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.FloatConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.IntegerConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.MultipleConfiguration;
+import com.bernardomg.configuration.test.config.data.annotation.StringConfiguration;
 import com.bernardomg.configuration.test.config.factory.Configurations;
-import com.bernardomg.configuration.test.data.annotation.CleanConfiguration;
-import com.bernardomg.configuration.test.data.annotation.FloatConfiguration;
-import com.bernardomg.configuration.test.data.annotation.IntegerConfiguration;
-import com.bernardomg.configuration.test.data.annotation.MultipleConfiguration;
-import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

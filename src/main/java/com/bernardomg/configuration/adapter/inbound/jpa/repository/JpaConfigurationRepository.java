@@ -2,6 +2,7 @@
 package com.bernardomg.configuration.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,7 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     public JpaConfigurationRepository(final ConfigurationSpringRepository configurationSpringRepo) {
         super();
 
-        configurationSpringRepository = configurationSpringRepo;
+        configurationSpringRepository = Objects.requireNonNull(configurationSpringRepo);
     }
 
     @Override
@@ -36,12 +37,6 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
     @Override
     public final Optional<Configuration> findOne(final String key) {
         return configurationSpringRepository.findByCode(key)
-            .map(this::toDomain);
-    }
-
-    @Override
-    public final Optional<Configuration> findOnePublic(final String key) {
-        return configurationSpringRepository.findByCodeAndRestrictedFalse(key)
             .map(this::toDomain);
     }
 
@@ -88,7 +83,6 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
             .withCode(entity.getCode())
             .withValue(entity.getValue())
             .withType(entity.getType())
-            .withRestricted(entity.isRestricted())
             .build();
     }
 
@@ -97,7 +91,6 @@ public final class JpaConfigurationRepository implements ConfigurationRepository
             .withCode(model.getCode())
             .withValue(model.getValue())
             .withType(model.getType())
-            .withRestricted(model.isRestricted())
             .build();
     }
 
