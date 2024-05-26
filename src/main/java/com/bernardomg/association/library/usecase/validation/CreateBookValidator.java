@@ -2,7 +2,9 @@
 package com.bernardomg.association.library.usecase.validation;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +21,8 @@ public final class CreateBookValidator extends AbstractValidator<Book> {
 
     private final BookRepository bookRepository;
 
+    private final Set<String>    languages = Set.of(Locale.getISOLanguages());
+
     public CreateBookValidator(final BookRepository bookRepo) {
         super();
 
@@ -32,12 +36,21 @@ public final class CreateBookValidator extends AbstractValidator<Book> {
         final int    totalAuthors;
         final long   duplicates;
 
+        // Title not empty
         if (StringUtils.isBlank(book.getTitle())) {
             log.error("Empty title");
             failure = FieldFailure.of("title", "empty", book.getTitle());
             failures.add(failure);
         }
 
+        // Language code
+        if (!languages.contains(book.getLanguage())) {
+            log.error("Invalid language code {}", book.getLanguage());
+            failure = FieldFailure.of("language", "invalid", book.getLanguage());
+            failures.add(failure);
+        }
+
+        // ISBN not existing
         if ((!StringUtils.isBlank(book.getIsbn())) && (bookRepository.existsByIsbn(book.getIsbn()))) {
             log.error("Existing ISBN {}", book.getIsbn());
             failure = FieldFailure.of("isbn", "existing", book.getIsbn());

@@ -5,7 +5,7 @@ public final class BookConstants {
 
     public static final String ISBN        = "isbn";
 
-    public static final String LANGUAGE    = "english";
+    public static final String LANGUAGE    = "en";
 
     public static final long   NEXT_NUMBER = 2L;
 
