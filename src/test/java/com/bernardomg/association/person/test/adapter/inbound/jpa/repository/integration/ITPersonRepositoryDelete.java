@@ -25,10 +25,13 @@
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
@@ -70,6 +73,20 @@ class ITPersonRepositoryDelete {
         // THEN
         Assertions.assertThat(repository.count())
             .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a person with a member, it is removed")
+    @ActiveMember
+    void testDelete_withMember() {
+        final ThrowingCallable executable;
+
+        // WHEN
+        executable = () -> personRepository.delete(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
 }
