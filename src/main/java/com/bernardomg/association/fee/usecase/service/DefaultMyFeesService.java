@@ -49,13 +49,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Transactional
-public final class DefaultUserFeeService implements UserFeeService {
+public final class DefaultMyFeesService implements MyFeesService {
 
     private final FeeRepository        feeRepository;
 
     private final UserPersonRepository userPersonRepository;
 
-    public DefaultUserFeeService(final FeeRepository feeRepo, final UserPersonRepository userMemberRepo) {
+    public DefaultMyFeesService(final FeeRepository feeRepo, final UserPersonRepository userMemberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -75,6 +75,7 @@ public final class DefaultUserFeeService implements UserFeeService {
             .getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
             fees = List.of();
+            // TODO: maybe throw an exception
         } else if (authentication.getPrincipal() instanceof UserDetails) {
             userDetails = (UserDetails) authentication.getPrincipal();
             person = userPersonRepository.findByUsername(userDetails.getUsername());
@@ -87,6 +88,7 @@ public final class DefaultUserFeeService implements UserFeeService {
             }
         } else {
             fees = List.of();
+            // TODO: maybe throw an exception
         }
 
         return fees;

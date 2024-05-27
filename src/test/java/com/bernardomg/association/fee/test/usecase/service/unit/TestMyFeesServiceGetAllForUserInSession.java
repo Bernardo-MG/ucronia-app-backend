@@ -46,34 +46,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.fee.usecase.service.DefaultUserFeeService;
+import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User fee service - get all for user in session")
-class TestUserFeeServiceGetAllForUserInSession {
+@DisplayName("My fees service - get all for user in session")
+class TestMyFeesServiceGetAllForUserInSession {
 
     @Mock
-    private Authentication        authentication;
+    private Authentication       authentication;
 
     @Mock
-    private FeeRepository         feeRepository;
-
-    @Mock
-    private UserDetails           userDetails;
+    private FeeRepository        feeRepository;
 
     @InjectMocks
-    private DefaultUserFeeService userFeeService;
+    private DefaultMyFeesService myFeesService;
 
     @Mock
-    private UserPersonRepository  userPersonRepository;
+    private UserDetails          userDetails;
+
+    @Mock
+    private UserPersonRepository userPersonRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testGetAll() {
+    void testGetAllForUserInSession() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -90,7 +90,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of(Fees.paid()));
 
         // WHEN
-        fees = userFeeService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -100,7 +100,7 @@ class TestUserFeeServiceGetAllForUserInSession {
 
     @Test
     @DisplayName("When the user is anonymous, nothing is returned")
-    void testGetAll_Anonymous() {
+    void testGetAllForUserInSession_Anonymous() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -114,7 +114,7 @@ class TestUserFeeServiceGetAllForUserInSession {
             .setAuthentication(authentication);
 
         // WHEN
-        fees = userFeeService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -124,7 +124,7 @@ class TestUserFeeServiceGetAllForUserInSession {
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testGetAll_NoData() {
+    void testGetAllForUserInSession_NoData() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -141,7 +141,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of());
 
         // WHEN
-        fees = userFeeService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pageable);
 
         // THEN
         Assertions.assertThat(fees)
@@ -151,7 +151,7 @@ class TestUserFeeServiceGetAllForUserInSession {
 
     @Test
     @DisplayName("When the user has no member, nothing is returned")
-    void testGetAll_NoMember() {
+    void testGetAllForUserInSession_NoMember() {
         final Iterable<Fee> fees;
         final Pageable      pageable;
 
@@ -167,7 +167,7 @@ class TestUserFeeServiceGetAllForUserInSession {
         given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        fees = userFeeService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pageable);
 
         // THEN
         Assertions.assertThat(fees)

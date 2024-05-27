@@ -46,14 +46,14 @@ public final class FeePermissionRegister implements PermissionRegister {
         return List.of(ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
             ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
             // User fee
-            ResourcePermissionPair.of("USER_FEE", "READ"),
+            ResourcePermissionPair.of("MY_FEES", "READ"),
             // Views
             ResourcePermissionPair.of("FEE", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("FEE", "USER_FEE");
+        return List.of("FEE", "MY_FEES");
     }
 
 }

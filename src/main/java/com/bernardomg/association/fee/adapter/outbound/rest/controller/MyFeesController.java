@@ -31,14 +31,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.usecase.service.UserFeeService;
+import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
 /**
- * User fee REST controller.
+ * My fees REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -46,15 +46,15 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/user/fee")
 @AllArgsConstructor
-public class UserFeeController {
+public class MyFeesController {
 
     /**
      * User fee service.
      */
-    private final UserFeeService service;
+    private final MyFeesService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER_FEE", action = Actions.READ)
+    @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)
     public Iterable<Fee> readAll(final Pageable pageable) {
         return service.getAllForUserInSession(pageable);
     }
