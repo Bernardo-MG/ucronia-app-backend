@@ -177,15 +177,14 @@ public class TransactionController {
         transaction = toModel(index, change);
         return service.update(transaction);
     }
-    
-    private final Transaction toModel(final long index,
-            final TransactionChange change) {
+
+    private final Transaction toModel(final long index, final TransactionChange change) {
         return Transaction.builder()
-                .withIndex(index)
-                .withAmount(change.getAmount())
-                .withDate(change.getDate())
-                .withDescription(change.getDescription())
-                .build();
+            .withIndex(index)
+            .withAmount(change.getAmount())
+            .withDate(change.getDate())
+            .withDescription(change.getDescription())
+            .build();
     }
 
 }
