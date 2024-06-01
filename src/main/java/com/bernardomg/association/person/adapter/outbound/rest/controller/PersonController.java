@@ -125,6 +125,7 @@ public class PersonController {
                 .getLastName())
             .build();
         return Person.builder()
+            .withNumber(number)
             .withIdentifier(change.getIdentifier())
             .withName(name)
             .withPhone(change.getPhone())

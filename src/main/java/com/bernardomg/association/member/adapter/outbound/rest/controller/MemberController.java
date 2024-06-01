@@ -129,6 +129,7 @@ public class MemberController {
                 .getLastName())
             .build();
         return Member.builder()
+            .withNumber(number)
             .withIdentifier(change.getIdentifier())
             .withName(name)
             .withPhone(change.getPhone())

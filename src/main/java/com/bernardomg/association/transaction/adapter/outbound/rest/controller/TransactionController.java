@@ -92,11 +92,7 @@ public class TransactionController {
     public Transaction create(@Valid @RequestBody final TransactionChange creation) {
         final Transaction transaction;
 
-        transaction = Transaction.builder()
-            .withAmount(creation.getAmount())
-            .withDate(creation.getDate())
-            .withDescription(creation.getDescription())
-            .build();
+        transaction = toModel(-1, creation);
         return service.create(transaction);
     }
 
@@ -178,13 +174,18 @@ public class TransactionController {
             @Valid @RequestBody final TransactionChange change) {
         final Transaction transaction;
 
-        transaction = Transaction.builder()
-            .withIndex(index)
-            .withAmount(change.getAmount())
-            .withDate(change.getDate())
-            .withDescription(change.getDescription())
-            .build();
+        transaction = toModel(index, change);
         return service.update(transaction);
+    }
+    
+    private final Transaction toModel(final long index,
+            final TransactionChange change) {
+        return Transaction.builder()
+                .withIndex(index)
+                .withAmount(change.getAmount())
+                .withDate(change.getDate())
+                .withDescription(change.getDescription())
+                .build();
     }
 
 }
