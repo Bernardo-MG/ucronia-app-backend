@@ -136,8 +136,7 @@ public final class DefaultMemberService implements MemberService {
             .withIdentifier(member.getIdentifier())
             .withName(member.getName())
             .withPhone(member.getPhone())
-            .withActive(existing.get()
-                .isActive())
+            .withActive(member.isActive())
             .build();
 
         return memberRepository.save(toUpdate);

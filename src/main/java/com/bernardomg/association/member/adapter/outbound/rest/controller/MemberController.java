@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberChange;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberCreation;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.usecase.service.MemberService;
@@ -77,10 +78,10 @@ public class MemberController {
             evict = { @CacheEvict(
                     cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
                     allEntries = true) })
-    public Member create(@Valid @RequestBody final MemberChange change) {
+    public Member create(@Valid @RequestBody final MemberCreation creation) {
         final Member member;
 
-        member = toDomain(-1, change);
+        member = toDomain(creation);
         return service.create(member);
     }
 
@@ -133,6 +134,23 @@ public class MemberController {
             .withIdentifier(change.getIdentifier())
             .withName(name)
             .withPhone(change.getPhone())
+            .withActive(change.isActive())
+            .build();
+    }
+
+    private final Member toDomain(final MemberCreation create) {
+        final PersonName name;
+
+        name = PersonName.builder()
+            .withFirstName(create.getName()
+                .getFirstName())
+            .withLastName(create.getName()
+                .getLastName())
+            .build();
+        return Member.builder()
+            .withIdentifier(create.getIdentifier())
+            .withName(name)
+            .withPhone(create.getPhone())
             .build();
     }
 

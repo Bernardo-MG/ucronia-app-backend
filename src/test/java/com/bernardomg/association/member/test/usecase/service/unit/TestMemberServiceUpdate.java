@@ -60,6 +60,44 @@ class TestMemberServiceUpdate {
     }
 
     @Test
+    @DisplayName("When disabling a member, the change is persisted")
+    void testUpdate_Inactive_PersistedData() {
+        final Member member;
+
+        // GIVEN
+        member = Members.inactive();
+
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+
+        // WHEN
+        service.update(member);
+
+        // THEN
+        verify(memberRepository).save(Members.inactive());
+    }
+
+    @Test
+    @DisplayName("When disabling a member, the change is returned")
+    void testUpdate_Inactive_ReturnedData() {
+        final Member member;
+        final Member updated;
+
+        // GIVEN
+        member = Members.inactive();
+
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
+
+        // WHEN
+        updated = service.update(member);
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("member")
+            .isEqualTo(Members.inactive());
+    }
+
+    @Test
     @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final Member           member;
@@ -113,7 +151,7 @@ class TestMemberServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating an active member, the change is returned")
+    @DisplayName("When updating a member, the change is returned")
     void testUpdate_ReturnedData() {
         final Member member;
         final Member updated;
