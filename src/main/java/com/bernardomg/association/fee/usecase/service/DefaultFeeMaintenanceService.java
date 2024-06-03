@@ -59,9 +59,8 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     @Override
     public final void registerMonthFees() {
-        final Collection<Fee>  feesToExtend;
-        final Collection<Fee>  feesToCreate;
-        final Collection<Long> numbers;
+        final Collection<Fee> feesToExtend;
+        final Collection<Fee> feesToCreate;
 
         // Find fees to extend into the current month
         feesToExtend = feeRepository.findAllForPreviousMonth();
@@ -77,13 +76,6 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
         log.debug("Registering {} fees for this month", feesToCreate.size());
         feeRepository.save(feesToCreate);
-
-        // Makes sure these members are active
-        numbers = feesToCreate.stream()
-            .map(Fee::getPerson)
-            .map(FeePerson::getNumber)
-            .toList();
-        memberRepository.activate(numbers);
     }
 
     private final boolean isActive(final Fee fee) {
