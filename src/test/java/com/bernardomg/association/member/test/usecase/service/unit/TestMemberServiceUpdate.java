@@ -86,7 +86,7 @@ class TestMemberServiceUpdate {
         member = Members.inactive();
 
         given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
+        given(memberRepository.save(Members.inactive())).willReturn(Members.inactive());
 
         // WHEN
         updated = service.update(member);
