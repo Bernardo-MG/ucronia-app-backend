@@ -127,7 +127,19 @@
             Various small corrections.
          </action>
       </release>
-      <release version="1.0.0" date="2024-05-26" description="">
+      <release version="0.5.2" date="2024-06-03" description="">
+         <action dev="bmg" type="update">
+            Updated security dependency.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed ids on update.
+         </action>
+         <action dev="bmg" type="add">
+            Allow disabling members.
+         </action>
+         <action dev="bmg" type="add">
+            Fixed members being disabled on creating monthly fees.
+         </action>
       </release>
    </body>
 </document>
