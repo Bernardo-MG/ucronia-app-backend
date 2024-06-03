@@ -40,12 +40,12 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeReportService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.fee.usecase.service.DefaultUserFeeService;
+import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.fee.usecase.service.UserFeeService;
+import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -117,10 +117,10 @@ public class FeeConfig {
         return new DefaultFeeService(feeRepo, personRepo, memberRepo, transactionRepo, configSource, msgSource);
     }
 
-    @Bean("userFeeService")
-    public UserFeeService getUserFeeService(final FeeRepository feeRepository,
+    @Bean("myFeesService")
+    public MyFeesService getMyFeesService(final FeeRepository feeRepository,
             final UserPersonRepository userPersonRepository) {
-        return new DefaultUserFeeService(feeRepository, userPersonRepository);
+        return new DefaultMyFeesService(feeRepository, userPersonRepository);
     }
 
 }

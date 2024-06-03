@@ -11,7 +11,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserFeeService {
+public interface MyFeesService {
 
     /**
      * Returns all the fees for the user in session.

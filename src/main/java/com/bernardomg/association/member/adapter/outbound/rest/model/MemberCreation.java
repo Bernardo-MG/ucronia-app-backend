@@ -14,9 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberChange {
-
-    private boolean          active;
+public final class MemberCreation {
 
     private String           identifier;
 

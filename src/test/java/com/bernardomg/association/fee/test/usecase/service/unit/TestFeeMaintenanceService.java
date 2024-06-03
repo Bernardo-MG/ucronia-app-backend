@@ -50,22 +50,6 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("When there a fee is saved the member is set to active")
-    void testRegisterMonthFees_ActivatesMember() {
-
-        // GIVEN
-        given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
-
-        // WHEN
-        service.registerMonthFees();
-
-        // THEN
-        verify(memberRepository).activate(List.of(PersonConstants.NUMBER));
-    }
-
-    @Test
     @DisplayName("When the fee exists nothing is saved")
     void testRegisterMonthFees_Exists() {
 

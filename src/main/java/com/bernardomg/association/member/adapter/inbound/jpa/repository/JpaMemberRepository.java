@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,15 +31,6 @@ public final class JpaMemberRepository implements MemberRepository {
 
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
-    }
-
-    @Override
-    public final void activate(final Iterable<Long> numbers) {
-        final Collection<MemberEntity> members;
-
-        members = memberSpringRepository.findAllByNumber(numbers);
-        members.forEach(m -> m.setActive(true));
-        memberSpringRepository.saveAll(members);
     }
 
     @Override

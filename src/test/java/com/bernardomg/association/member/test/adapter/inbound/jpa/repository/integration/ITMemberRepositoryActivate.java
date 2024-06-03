@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,8 +39,8 @@ import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - activate multiple")
-class ITMemberRepositoryActivateMultiple {
+@DisplayName("MemberRepository - activate single")
+class ITMemberRepositoryActivate {
 
     @Autowired
     private MemberSpringRepository memberRepository;
@@ -57,7 +55,7 @@ class ITMemberRepositoryActivateMultiple {
         final Iterable<MemberEntity> entities;
 
         // WHEN
-        repository.activate(List.of(PersonConstants.NUMBER));
+        repository.activate(PersonConstants.NUMBER);
 
         // THEN
         entities = memberRepository.findAll();
@@ -75,7 +73,7 @@ class ITMemberRepositoryActivateMultiple {
         final Iterable<MemberEntity> entities;
 
         // WHEN
-        repository.activate(List.of(PersonConstants.NUMBER));
+        repository.activate(PersonConstants.NUMBER);
 
         // THEN
         entities = memberRepository.findAll();
@@ -92,7 +90,7 @@ class ITMemberRepositoryActivateMultiple {
         final Iterable<MemberEntity> entities;
 
         // WHEN
-        repository.activate(List.of(PersonConstants.NUMBER));
+        repository.activate(PersonConstants.NUMBER);
 
         // THEN
         entities = memberRepository.findAll();
