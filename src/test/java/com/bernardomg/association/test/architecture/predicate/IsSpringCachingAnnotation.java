@@ -4,12 +4,12 @@ package com.bernardomg.association.test.architecture.predicate;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaAnnotation;
 
-public final class JpaAnnotationPredicate extends DescribedPredicate<JavaAnnotation<?>> {
+public final class IsSpringCachingAnnotation extends DescribedPredicate<JavaAnnotation<?>> {
 
-    private static final String PACKAGE = "jakarta.persistence";
+    private static final String PACKAGE = "org.springframework.cache.annotation";
 
-    public JpaAnnotationPredicate() {
-        super("JPA entity annotations");
+    public IsSpringCachingAnnotation() {
+        super("caching annotations");
     }
 
     @Override

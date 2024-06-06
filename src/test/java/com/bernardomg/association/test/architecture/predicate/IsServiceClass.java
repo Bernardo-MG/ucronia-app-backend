@@ -4,13 +4,13 @@ package com.bernardomg.association.test.architecture.predicate;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
-public final class ServiceClassPredicate extends DescribedPredicate<JavaClass> {
+public final class IsServiceClass extends DescribedPredicate<JavaClass> {
 
     private static final String           PACKAGE                 = ".service";
 
-    private final SyntheticClassPredicate syntheticClassPredicate = new SyntheticClassPredicate();
+    private final IsSyntheticClass syntheticClassPredicate = new IsSyntheticClass();
 
-    public ServiceClassPredicate() {
+    public IsServiceClass() {
         super("service classes");
     }
 

@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
-public final class SpringConfigurationClassPredicate extends DescribedPredicate<JavaClass> {
+public final class IsSpringConfigurationClass extends DescribedPredicate<JavaClass> {
 
-    public SpringConfigurationClassPredicate() {
+    public IsSpringConfigurationClass() {
         super("configuration classes");
     }
 

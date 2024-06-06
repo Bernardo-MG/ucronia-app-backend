@@ -3,44 +3,44 @@ package com.bernardomg.association.test.architecture.predicate;
 
 public class Predicates {
 
-    public static final SpringCachedMethodPredicate areCachedMethod() {
-        return new SpringCachedMethodPredicate();
+    public static final IsSpringCachedMethod areCachedMethod() {
+        return new IsSpringCachedMethod();
     }
 
-    public static final SpringCachingAnnotationPredicate areCachingAnnotation() {
-        return new SpringCachingAnnotationPredicate();
+    public static final IsSpringCachingAnnotation areCachingAnnotation() {
+        return new IsSpringCachingAnnotation();
     }
 
-    public static final SpringConfigurationClassPredicate areConfigurationClasses() {
-        return new SpringConfigurationClassPredicate();
+    public static final IsSpringConfigurationClass areConfigurationClasses() {
+        return new IsSpringConfigurationClass();
     }
 
-    public static final SpringControllerClassPredicate areControllerClasses() {
-        return new SpringControllerClassPredicate();
+    public static final IsSpringControllerClass areControllerClasses() {
+        return new IsSpringControllerClass();
     }
 
-    public static final JpaAnnotationPredicate areJpaAnnotation() {
-        return new JpaAnnotationPredicate();
+    public static final IsJpaAnnotation areJpaAnnotation() {
+        return new IsJpaAnnotation();
     }
 
-    public static final JpaEntityClassPredicate areJpaEntitiesClasses() {
-        return new JpaEntityClassPredicate();
+    public static final IsJpaAnnotatedClass areJpaEntitiesClasses() {
+        return new IsJpaAnnotatedClass();
     }
 
-    public static final NotSpringRepositoryClassPredicate areRepositoryClasses() {
-        return new NotSpringRepositoryClassPredicate();
+    public static final IsRepositoryNotSpringClass areRepositoryClasses() {
+        return new IsRepositoryNotSpringClass();
     }
 
-    public static final ServiceClassPredicate areServiceClasses() {
-        return new ServiceClassPredicate();
+    public static final IsServiceClass areServiceClasses() {
+        return new IsServiceClass();
     }
 
-    public static final SpringRepositoryClassPredicate areSpringRepositoryClasses() {
-        return new SpringRepositoryClassPredicate();
+    public static final IsSpringRepositoryClass areSpringRepositoryClasses() {
+        return new IsSpringRepositoryClass();
     }
 
-    public static final ValidatorClassPredicate areValidatorClasses() {
-        return new ValidatorClassPredicate();
+    public static final IsValidatorClass areValidatorClasses() {
+        return new IsValidatorClass();
     }
 
 }

@@ -5,9 +5,9 @@ import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaModifier;
 
-public final class SyntheticClassPredicate extends DescribedPredicate<JavaClass> {
+public final class IsSyntheticClass extends DescribedPredicate<JavaClass> {
 
-    public SyntheticClassPredicate() {
+    public IsSyntheticClass() {
         super("synthetic class");
     }
 
