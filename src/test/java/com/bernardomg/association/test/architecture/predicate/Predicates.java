@@ -11,8 +11,8 @@ public class Predicates {
         return new CachingAnnotationPredicate();
     }
 
-    public static final ConfigurationClassPredicate areConfigurationClasses() {
-        return new ConfigurationClassPredicate();
+    public static final SpringConfigurationClassPredicate areConfigurationClasses() {
+        return new SpringConfigurationClassPredicate();
     }
 
     public static final ControllerClassPredicate areControllerClasses() {
