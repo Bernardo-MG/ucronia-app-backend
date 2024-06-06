@@ -54,18 +54,26 @@ public final class JpaEntityRules {
         .should()
         .haveSimpleNameEndingWith("Entity");
 
+    /**
+     * TODO: redundant, JPA classes are annotated with JPA annotations
+     */
+    @Deprecated
     @ArchTest
     static final ArchRule jpa_entity_fields_should_be_annotated          = fields().that()
         .areDeclaredInClassesThat(Predicates.areJpaEntitiesClasses())
         .and()
         .areNotStatic()
         .should()
-        .beAnnotatedWith(Predicates.areJpaAnnotation());
+        .beAnnotatedWith(Predicates.areJpaAnnotations());
 
+    /**
+     * TODO: redundant, classes not annotated with JPA annotations are not JPA entities
+     */
+    @Deprecated
     @ArchTest
     static final ArchRule only_jpa_entities_should_be_annotated_with_jpa = classes()
         .that(DescribedPredicate.not(Predicates.areJpaEntitiesClasses()))
         .should()
-        .notBeAnnotatedWith(Predicates.areJpaAnnotation());
+        .notBeAnnotatedWith(Predicates.areJpaAnnotations());
 
 }

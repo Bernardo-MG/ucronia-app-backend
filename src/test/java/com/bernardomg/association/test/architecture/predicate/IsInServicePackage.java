@@ -9,6 +9,9 @@ import com.tngtech.archunit.core.domain.JavaClass;
  */
 public final class IsInServicePackage extends DescribedPredicate<JavaClass> {
 
+    /**
+     * TODO: careful when checking by package
+     */
     private static final String    PACKAGE                 = ".service";
 
     /**

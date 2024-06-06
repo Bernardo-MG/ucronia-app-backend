@@ -11,6 +11,9 @@ import com.tngtech.archunit.core.domain.JavaClass;
  */
 public final class IsRepositoryNotSpringClass extends DescribedPredicate<JavaClass> {
 
+    /**
+     * TODO: careful when checking by package
+     */
     private static final String    PACKAGE                 = ".repository";
 
     private final IsSyntheticClass syntheticClassPredicate = new IsSyntheticClass();

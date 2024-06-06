@@ -19,7 +19,7 @@ public class Predicates {
         return new IsSpringControllerClass();
     }
 
-    public static final IsJpaAnnotation areJpaAnnotation() {
+    public static final IsJpaAnnotation areJpaAnnotations() {
         return new IsJpaAnnotation();
     }
 
