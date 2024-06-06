@@ -15,8 +15,7 @@ public final class SpringConfigurationClassPredicate extends DescribedPredicate<
 
     @Override
     public final boolean test(final JavaClass javaClass) {
-        return javaClass.isAnnotatedWith(Configuration.class)
-                || javaClass.isAnnotatedWith(AutoConfiguration.class);
+        return javaClass.isAnnotatedWith(Configuration.class) || javaClass.isAnnotatedWith(AutoConfiguration.class);
     }
 
 }

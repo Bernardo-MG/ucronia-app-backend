@@ -4,11 +4,11 @@ package com.bernardomg.association.test.architecture.predicate;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaAnnotation;
 
-public final class CachingAnnotationPredicate extends DescribedPredicate<JavaAnnotation<?>> {
+public final class SpringCachingAnnotationPredicate extends DescribedPredicate<JavaAnnotation<?>> {
 
     private static final String PACKAGE = "org.springframework.cache.annotation";
 
-    public CachingAnnotationPredicate() {
+    public SpringCachingAnnotationPredicate() {
         super("caching annotations");
     }
 

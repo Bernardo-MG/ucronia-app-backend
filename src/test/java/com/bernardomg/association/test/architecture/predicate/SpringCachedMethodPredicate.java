@@ -9,9 +9,9 @@ import org.springframework.cache.annotation.Caching;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.AccessTarget.MethodCallTarget;
 
-public final class CachedMethodPredicate extends DescribedPredicate<MethodCallTarget> {
+public final class SpringCachedMethodPredicate extends DescribedPredicate<MethodCallTarget> {
 
-    public CachedMethodPredicate() {
+    public SpringCachedMethodPredicate() {
         super("cached methods");
     }
 
