@@ -26,7 +26,7 @@ public final class RepositoryRules {
     static final ArchRule jpa_repositories_should_implement_repository_interface         = classes()
         .that(Predicates.areRepositoryClasses())
         .and()
-        .resideInAPackage("..adapter.inbound.jpa.repository..")
+        .areNotInterfaces()
         .should()
         .implement(Predicates.areRepositoryClasses());
 
@@ -41,8 +41,6 @@ public final class RepositoryRules {
     @ArchTest
     static final ArchRule repositories_should_not_use_autoscan                           = classes()
         .that(Predicates.areRepositoryClasses())
-        .and()
-        .areNotInterfaces()
         .should()
         .notBeAnnotatedWith(Repository.class);
 

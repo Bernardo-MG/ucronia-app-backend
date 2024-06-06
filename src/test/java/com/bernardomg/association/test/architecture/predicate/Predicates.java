@@ -1,46 +1,51 @@
 
 package com.bernardomg.association.test.architecture.predicate;
 
+import com.tngtech.archunit.base.DescribedPredicate;
+import com.tngtech.archunit.core.domain.AccessTarget.MethodCallTarget;
+import com.tngtech.archunit.core.domain.JavaAnnotation;
+import com.tngtech.archunit.core.domain.JavaClass;
+
 public class Predicates {
 
-    public static final CachedMethodPredicate areCachedMethod() {
-        return new CachedMethodPredicate();
+    public static final DescribedPredicate<MethodCallTarget> areCachedMethod() {
+        return new IsSpringCachedMethod();
     }
 
-    public static final CachingAnnotationPredicate areCachingAnnotation() {
-        return new CachingAnnotationPredicate();
+    public static final DescribedPredicate<JavaAnnotation<?>> areCachingAnnotation() {
+        return new IsSpringCacheAnnotation();
     }
 
-    public static final ConfigurationClassPredicate areConfigurationClasses() {
-        return new ConfigurationClassPredicate();
+    public static final DescribedPredicate<JavaClass> areConfigurationClasses() {
+        return new IsSpringConfigurationClass();
     }
 
-    public static final ControllerClassPredicate areControllerClasses() {
-        return new ControllerClassPredicate();
+    public static final DescribedPredicate<JavaClass> areControllerClasses() {
+        return new IsSpringControllerClass();
     }
 
-    public static final JpaAnnotationPredicate areJpaAnnotation() {
-        return new JpaAnnotationPredicate();
+    public static final DescribedPredicate<JavaAnnotation<?>> areJpaAnnotations() {
+        return new IsJpaAnnotation();
     }
 
-    public static final JpaEntityClassPredicate areJpaEntitiesClasses() {
-        return new JpaEntityClassPredicate();
+    public static final DescribedPredicate<JavaClass> areJpaEntitiesClasses() {
+        return new IsJpaAnnotatedClass();
     }
 
-    public static final RepositoryClassPredicate areRepositoryClasses() {
-        return new RepositoryClassPredicate();
+    public static final DescribedPredicate<JavaClass> areRepositoryClasses() {
+        return new IsRepositoryNotSpringClass();
     }
 
-    public static final ServiceClassPredicate areServiceClasses() {
-        return new ServiceClassPredicate();
+    public static final DescribedPredicate<JavaClass> areServiceClasses() {
+        return new IsInServicePackage();
     }
 
-    public static final SpringRepositoryClassPredicate areSpringRepositoryClasses() {
-        return new SpringRepositoryClassPredicate();
+    public static final DescribedPredicate<JavaClass> areSpringRepositoryClasses() {
+        return new IsSpringRepositoryClass();
     }
 
-    public static final ValidatorClassPredicate areValidatorClasses() {
-        return new ValidatorClassPredicate();
+    public static final DescribedPredicate<JavaClass> areValidatorClasses() {
+        return new IsValidatorClass();
     }
 
 }

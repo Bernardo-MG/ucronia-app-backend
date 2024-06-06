@@ -5,9 +5,12 @@ import com.bernardomg.validation.Validator;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
-public final class ValidatorClassPredicate extends DescribedPredicate<JavaClass> {
+/**
+ * Checks if a class is a validator.
+ */
+public final class IsValidatorClass extends DescribedPredicate<JavaClass> {
 
-    public ValidatorClassPredicate() {
+    public IsValidatorClass() {
         super("validator classes");
     }
 
