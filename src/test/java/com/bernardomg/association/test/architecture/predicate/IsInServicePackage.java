@@ -4,13 +4,19 @@ package com.bernardomg.association.test.architecture.predicate;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
-public final class IsServiceClass extends DescribedPredicate<JavaClass> {
+/**
+ * Checks if a class is in a service package, which means inside package named "service".
+ */
+public final class IsInServicePackage extends DescribedPredicate<JavaClass> {
 
     private static final String    PACKAGE                 = ".service";
 
+    /**
+     * TODO: this is meaningless here
+     */
     private final IsSyntheticClass syntheticClassPredicate = new IsSyntheticClass();
 
-    public IsServiceClass() {
+    public IsInServicePackage() {
         super("service classes");
     }
 

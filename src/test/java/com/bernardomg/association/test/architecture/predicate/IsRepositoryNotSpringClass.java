@@ -6,6 +6,9 @@ import org.springframework.data.repository.Repository;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
+/**
+ * Checks if a class is a repository, but not a Spring repository.
+ */
 public final class IsRepositoryNotSpringClass extends DescribedPredicate<JavaClass> {
 
     private static final String    PACKAGE                 = ".repository";

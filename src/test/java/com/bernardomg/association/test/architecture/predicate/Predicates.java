@@ -7,8 +7,8 @@ public class Predicates {
         return new IsSpringCachedMethod();
     }
 
-    public static final IsSpringCachingAnnotation areCachingAnnotation() {
-        return new IsSpringCachingAnnotation();
+    public static final IsSpringCacheAnnotation areCachingAnnotation() {
+        return new IsSpringCacheAnnotation();
     }
 
     public static final IsSpringConfigurationClass areConfigurationClasses() {
@@ -31,8 +31,8 @@ public class Predicates {
         return new IsRepositoryNotSpringClass();
     }
 
-    public static final IsServiceClass areServiceClasses() {
-        return new IsServiceClass();
+    public static final IsInServicePackage areServiceClasses() {
+        return new IsInServicePackage();
     }
 
     public static final IsSpringRepositoryClass areSpringRepositoryClasses() {
