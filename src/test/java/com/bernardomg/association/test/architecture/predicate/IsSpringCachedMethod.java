@@ -1,24 +1,20 @@
 
 package com.bernardomg.association.test.architecture.predicate;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
-
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.AccessTarget.MethodCallTarget;
 
 public final class IsSpringCachedMethod extends DescribedPredicate<MethodCallTarget> {
 
+    private final IsSpringCacheAnnotation isSpringCacheAnnotation = new IsSpringCacheAnnotation();
+
     public IsSpringCachedMethod() {
-        super("cached methods");
+        super("Spring cached methods");
     }
 
     @Override
     public final boolean test(final MethodCallTarget method) {
-        return method.isAnnotatedWith(Caching.class) || method.isAnnotatedWith(Cacheable.class)
-                || method.isAnnotatedWith(CachePut.class) || method.isAnnotatedWith(CacheEvict.class);
+        return method.isAnnotatedWith(isSpringCacheAnnotation);
     }
 
 }

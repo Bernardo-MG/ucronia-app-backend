@@ -6,7 +6,7 @@ import com.tngtech.archunit.core.domain.JavaClass;
 
 public final class IsServiceClass extends DescribedPredicate<JavaClass> {
 
-    private static final String           PACKAGE                 = ".service";
+    private static final String    PACKAGE                 = ".service";
 
     private final IsSyntheticClass syntheticClassPredicate = new IsSyntheticClass();
 

@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.test.architecture.predicate;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.Repository;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
 public final class IsRepositoryNotSpringClass extends DescribedPredicate<JavaClass> {
 
-    private static final String           PACKAGE                 = ".repository";
+    private static final String    PACKAGE                 = ".repository";
 
     private final IsSyntheticClass syntheticClassPredicate = new IsSyntheticClass();
 
@@ -20,7 +20,7 @@ public final class IsRepositoryNotSpringClass extends DescribedPredicate<JavaCla
     public final boolean test(final JavaClass javaClass) {
         return (javaClass.getPackageName()
             .endsWith(PACKAGE)) && (!syntheticClassPredicate.test(javaClass))
-                && (!javaClass.isAssignableTo(JpaRepository.class));
+                && (!javaClass.isAssignableTo(Repository.class));
     }
 
 }
