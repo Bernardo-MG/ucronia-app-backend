@@ -42,8 +42,8 @@ import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - create")

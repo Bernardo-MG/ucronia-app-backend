@@ -41,8 +41,8 @@ import com.bernardomg.association.library.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.test.config.factory.AuthorConstants;
 import com.bernardomg.association.library.test.config.factory.Authors;
 import com.bernardomg.association.library.usecase.service.DefaultAuthorService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AuthorService - create")

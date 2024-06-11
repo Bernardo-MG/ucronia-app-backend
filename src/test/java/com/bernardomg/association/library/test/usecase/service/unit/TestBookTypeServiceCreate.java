@@ -41,8 +41,8 @@ import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.test.config.factory.BookTypeConstants;
 import com.bernardomg.association.library.test.config.factory.BookTypes;
 import com.bernardomg.association.library.usecase.service.DefaultBookTypeService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookTypeService - create")

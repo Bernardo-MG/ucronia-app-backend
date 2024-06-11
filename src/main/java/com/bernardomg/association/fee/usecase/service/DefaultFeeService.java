@@ -51,7 +51,7 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
