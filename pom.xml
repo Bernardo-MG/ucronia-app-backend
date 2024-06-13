@@ -186,10 +186,11 @@
       <bernardomg.framework.validation.version>0.1.1</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.4</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.security.version>0.3.11</bernardomg.framework.ws.security.version>
+      <jjwt.version>0.12.5</jjwt.version>
       <lombok.version>1.18.32</lombok.version>
-      <spring.boot.version>3.2.5</spring.boot.version>
-      <spring.data.version>2023.1.5</spring.data.version>
-      <spring.version>6.1.6</spring.version>
+      <spring.boot.version>3.3.0</spring.boot.version>
+      <spring.data.version>2024.0.0</spring.data.version>
+      <spring.version>6.1.8</spring.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -421,6 +422,12 @@
       <dependency>
          <groupId>com.github.ben-manes.caffeine</groupId>
          <artifactId>caffeine</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>org.checkerframework</groupId>
+               <artifactId>checker-qual</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <!-- ============================================== -->
       <!-- ============== JPA DEPENDENCIES ============== -->
@@ -533,6 +540,22 @@
          <!-- Jackson annotations -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== JSON WEB TOKEN =============== -->
+      <!-- ============================================== -->
+      <!-- Remove when added to the sec library -->
+      <dependency>
+         <!-- JSON Web Token Impl -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-impl</artifactId>
+         <version>${jjwt.version}</version>
+      </dependency>
+      <dependency>
+         <!-- JSON Jackson -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-jackson</artifactId>
+         <version>${jjwt.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
