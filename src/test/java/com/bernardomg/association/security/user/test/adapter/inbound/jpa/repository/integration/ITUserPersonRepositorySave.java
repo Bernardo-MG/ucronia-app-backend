@@ -152,4 +152,32 @@ class ITUserPersonRepositorySave {
             .isEqualTo(Persons.valid());
     }
 
+    @Test
+    @DisplayName("When the user is missing, nothing is returned")
+    @ValidPerson
+    void testSave_MissingUser_ReturnedData() {
+        final Person person;
+
+        // WHEN
+        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(person)
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("When the person is missing, nothing is returned")
+    @ValidUser
+    void testSave_MissingPerson_ReturnedData() {
+        final Person person;
+
+        // WHEN
+        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(person)
+            .isNull();
+    }
+
 }

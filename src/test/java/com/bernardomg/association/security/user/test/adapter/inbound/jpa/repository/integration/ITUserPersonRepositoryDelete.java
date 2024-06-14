@@ -25,7 +25,6 @@
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,6 @@ class ITUserPersonRepositoryDelete {
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")
     @ValidUserWithPerson
-    @Disabled("Handle relationships")
     void testDelete() {
 
         // WHEN

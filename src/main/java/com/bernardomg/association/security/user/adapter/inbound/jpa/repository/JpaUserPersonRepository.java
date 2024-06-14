@@ -41,6 +41,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
 
         user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
+            // TODO: handle relationships
             userPersonSpringRepository.deleteByUserId(user.get()
                 .getId());
         }
