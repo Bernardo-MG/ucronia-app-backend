@@ -152,7 +152,7 @@ public final class DefaultMemberService implements MemberService {
         if (pageable.isPaged()) {
             page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         } else {
-            page = Pageable.unpaged(pageable.getSort());
+            page = Pageable.unpaged(sort);
         }
 
         return page;
@@ -171,8 +171,8 @@ public final class DefaultMemberService implements MemberService {
 
         orders = new ArrayList<>();
         if (fullNameOrder.isPresent()) {
-            if (fullNameOrder.get()
-                .getDirection() == Direction.ASC) {
+            if (Direction.ASC.equals(fullNameOrder.get()
+                .getDirection())) {
                 orders.add(Order.asc("person.firstName"));
                 orders.add(Order.asc("person.lastName"));
             } else {
@@ -186,8 +186,8 @@ public final class DefaultMemberService implements MemberService {
             .filter(o -> "number".equals(o.getProperty()))
             .findFirst();
         if (numberOrder.isPresent()) {
-            if (fullNameOrder.get()
-                .getDirection() == Direction.ASC) {
+            if (Direction.ASC.equals(numberOrder.get()
+                .getDirection())) {
                 orders.add(Order.asc("person.number"));
             } else {
                 orders.add(Order.desc("person.number"));
