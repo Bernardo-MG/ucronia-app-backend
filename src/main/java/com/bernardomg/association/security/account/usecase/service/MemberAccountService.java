@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.security.account.domain.PersonAccount;
+import com.bernardomg.association.security.account.domain.model.PersonAccount;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;

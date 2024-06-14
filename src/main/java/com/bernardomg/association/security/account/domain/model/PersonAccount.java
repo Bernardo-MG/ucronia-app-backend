@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.domain;
+package com.bernardomg.association.security.account.domain.model;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.security.account.domain.model.Account;
