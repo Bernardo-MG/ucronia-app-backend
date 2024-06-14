@@ -33,10 +33,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMember
 
 public final class MonthlyMemberBalanceSpecifications {
 
-    public static Specification<MonthlyMemberBalanceEntity> before(final YearMonth date) {
-        return (root, query, cb) -> cb.lessThan(root.get("month"), date.atDay(1));
-    }
-
     public static Specification<MonthlyMemberBalanceEntity> betweenIncluding(final YearMonth start,
             final YearMonth end) {
         return (root, query, cb) -> cb.between(root.get("month"), start.atDay(1), end.atDay(1));
@@ -64,7 +60,7 @@ public final class MonthlyMemberBalanceSpecifications {
     }
 
     public static Specification<MonthlyMemberBalanceEntity> onOrBefore(final YearMonth date) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date.atDay(1));
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date.atEndOfMonth());
     }
 
     private MonthlyMemberBalanceSpecifications() {

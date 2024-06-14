@@ -37,14 +37,15 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         final Specification<MonthlyMemberBalanceEntity>           spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
         final Iterable<MonthlyMemberBalance>                      monthlyBalances;
+        
+        // TODO: the dates are optional
 
         log.debug("Finding balance in from {} to {} sorted by {}", startDate, endDate, sort);
 
         // Specification from the request
         requestSpec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
         // Up to this month
-        limitSpec = MonthlyMemberBalanceSpecifications.before(YearMonth.now()
-            .plusMonths(1));
+        limitSpec = MonthlyMemberBalanceSpecifications.onOrBefore(YearMonth.now());
 
         // Combine specifications
         if (requestSpec.isPresent()) {

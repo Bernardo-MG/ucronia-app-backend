@@ -17,7 +17,7 @@ import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalanc
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberBalanceRepository - find in range - filter")
+@DisplayName("MemberBalanceRepository - find in range - ranges")
 @ActiveMember
 class ITMemberBalanceRepositoryFindInRangeFilter {
 
@@ -35,8 +35,63 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
     }
 
     @Test
+    @DisplayName("Filtering with a range where the end is before the start returns nothing")
+    void testFindInRange_CurrentToPrevious() {
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
+
+        // GIVEN
+        sort = Sort.unsorted();
+
+        // WHEN
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.CURRENT_MONTH,
+            MemberBalanceConstants.PREVIOUS_MONTH, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Can filter without end month")
+    void testFindInRange_Previous() {
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
+
+        // GIVEN
+        sort = Sort.unsorted();
+
+        // WHEN
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH, null, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
+    }
+
+    @Test
+    @DisplayName("Can filter for two months")
+    void testFindInRange_PreviousToCurrent() {
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
+
+        // GIVEN
+        sort = Sort.unsorted();
+
+        // WHEN
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
+            MemberBalanceConstants.CURRENT_MONTH, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
+    }
+
+    @Test
     @DisplayName("Can filter around the current month")
-    void testFindInRange_Filter_AroundCurrent() {
+    void testFindInRange_PreviousToNext() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -55,7 +110,7 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
 
     @Test
     @DisplayName("Can filter for the previous month")
-    void testFindInRange_Filter_PreviousMonth() {
+    void testFindInRange_PreviousToPrevious() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -73,8 +128,8 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
     }
 
     @Test
-    @DisplayName("Filtering with a range where the end is before the start returns nothing")
-    void testFindInRange_Filter_RangeEndBeforeStart() {
+    @DisplayName("Can filter without starting month")
+    void testFindInRange_ToNext() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
@@ -82,26 +137,7 @@ class ITMemberBalanceRepositoryFindInRangeFilter {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.CURRENT_MONTH,
-            MemberBalanceConstants.PREVIOUS_MONTH, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Can filter for two months")
-    void testFindInRange_Filter_TwoMonths() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        sort = Sort.unsorted();
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
-            MemberBalanceConstants.CURRENT_MONTH, sort);
+        balances = memberBalanceRepository.findInRange(null, MemberBalanceConstants.NEXT_MONTH, sort);
 
         // THEN
         Assertions.assertThat(balances)
