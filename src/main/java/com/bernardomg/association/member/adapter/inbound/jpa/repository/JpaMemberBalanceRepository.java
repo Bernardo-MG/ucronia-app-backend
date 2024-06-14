@@ -37,7 +37,7 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         final Specification<MonthlyMemberBalanceEntity>           spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
         final Iterable<MonthlyMemberBalance>                      monthlyBalances;
-        
+
         // TODO: the dates are optional
 
         log.debug("Finding balance in from {} to {} sorted by {}", startDate, endDate, sort);
