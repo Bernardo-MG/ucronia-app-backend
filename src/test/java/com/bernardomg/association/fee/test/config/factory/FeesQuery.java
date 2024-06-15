@@ -24,9 +24,9 @@ public final class FeesQuery {
             .build();
     }
 
-    public static final FeeQuery inRange(final YearMonth start,final YearMonth end) {
+    public static final FeeQuery inRange(final YearMonth start, final YearMonth end) {
         return FeeQuery.builder()
-                .withStartDate(start)
+            .withStartDate(start)
             .withEndDate(end)
             .build();
     }

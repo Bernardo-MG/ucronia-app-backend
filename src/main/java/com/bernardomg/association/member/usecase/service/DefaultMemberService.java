@@ -88,16 +88,11 @@ public final class DefaultMemberService implements MemberService {
 
         pagination = correctPagination(pageable);
 
-        switch (query.getStatus()) {
-            case ACTIVE:
-                members = memberRepository.findActive(pagination);
-                break;
-            case INACTIVE:
-                members = memberRepository.findInactive(pagination);
-                break;
-            default:
-                members = memberRepository.findAll(pagination);
-        }
+        members = switch (query.getStatus()) {
+            case ACTIVE -> memberRepository.findActive(pagination);
+            case INACTIVE -> memberRepository.findInactive(pagination);
+            default -> memberRepository.findAll(pagination);
+        };
 
         return members;
     }

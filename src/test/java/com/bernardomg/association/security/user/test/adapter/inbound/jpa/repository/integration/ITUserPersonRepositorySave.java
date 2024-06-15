@@ -103,6 +103,34 @@ class ITUserPersonRepositorySave {
     }
 
     @Test
+    @DisplayName("When the person is missing, nothing is returned")
+    @ValidUser
+    void testSave_MissingPerson_ReturnedData() {
+        final Person person;
+
+        // WHEN
+        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(person)
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("When the user is missing, nothing is returned")
+    @ValidPerson
+    void testSave_MissingUser_ReturnedData() {
+        final Person person;
+
+        // WHEN
+        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(person)
+            .isNull();
+    }
+
+    @Test
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
     @ValidPerson
@@ -150,34 +178,6 @@ class ITUserPersonRepositorySave {
         // THEN
         Assertions.assertThat(person)
             .isEqualTo(Persons.valid());
-    }
-
-    @Test
-    @DisplayName("When the user is missing, nothing is returned")
-    @ValidPerson
-    void testSave_MissingUser_ReturnedData() {
-        final Person person;
-
-        // WHEN
-        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(person)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("When the person is missing, nothing is returned")
-    @ValidUser
-    void testSave_MissingPerson_ReturnedData() {
-        final Person person;
-
-        // WHEN
-        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(person)
-            .isNull();
     }
 
 }

@@ -81,16 +81,11 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         FeeCalendar                   feeYear;
 
         // Select query based on status
-        switch (status) {
-            case ACTIVE:
-                readFees = feeRepository.findAllForActiveMembers(year, sort);
-                break;
-            case INACTIVE:
-                readFees = feeRepository.findAllForInactiveMembers(year, sort);
-                break;
-            default:
-                readFees = feeRepository.findAllInYear(year, sort);
-        }
+        readFees = switch (status) {
+            case ACTIVE -> feeRepository.findAllForActiveMembers(year, sort);
+            case INACTIVE -> feeRepository.findAllForInactiveMembers(year, sort);
+            default -> feeRepository.findAllInYear(year, sort);
+        };
 
         // Member fees grouped by id
         memberFees = readFees.stream()

@@ -200,7 +200,7 @@ class ITFeeRepositoryGetAllFilter {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.inRange(YearMonth.of(2020, Month.FEBRUARY),YearMonth.of(2020, Month.MAY));
+        feeQuery = FeesQuery.inRange(YearMonth.of(2020, Month.FEBRUARY), YearMonth.of(2020, Month.MAY));
 
         // WHEN
         fees = repository.findAll(feeQuery, pageable);
@@ -208,8 +208,8 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(1, Month.FEBRUARY),Fees.paidAt(2, Month.MARCH),
-                Fees.paidAt(3, Month.APRIL),Fees.paidAt(4, Month.MAY));
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(4, Month.MAY));
     }
 
     @Test
