@@ -149,6 +149,7 @@ public final class DefaultBookService implements BookService {
         final boolean bookTypeExists;
         final boolean donorExists;
 
+        // TODO: add an exception for multiple missing ids
         // Check authors exist
         book.getAuthors()
             .forEach(a -> {

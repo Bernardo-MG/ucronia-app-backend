@@ -91,12 +91,29 @@ class TestBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a book with an empty ISBN, the unique check is not applied")
-    void testUpdate_EmptyIsbn_IgnoreUnique() {
-        final Book book;
+    @DisplayName("When persisting a book with a duplicated, an exception is thrown")
+    void testUpdate_DuplicatedAuthor() {
+        final Book             book;
+        final ThrowingCallable execution;
 
         // GIVEN
-        book = Books.emptyIsbn();
+        book = Books.duplicatedAuthor();
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(BookConstants.NUMBER, book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("authors[].duplicated", "authors[]", "duplicated", 1L));
+    }
+
+    @Test
+    @DisplayName("With a book with an empty ISBN, the unique check is not applied")
+    void testUpdate_EmptyIsbn_IgnoreUnique() {
+        final Book book = Books.emptyIsbn();
 
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
@@ -156,6 +173,29 @@ class TestBookServiceUpdate {
     }
 
     @Test
+    @DisplayName("When persisting a book with an invalid language code, an exception is thrown")
+    void testUpdate_InvalidLanguage() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.invalidLanguage();
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(BookConstants.NUMBER, book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("language", "invalid", "abc"));
+    }
+
+    @Test
     @DisplayName("When persisting a book for a not existing author, an exception is thrown")
     void testUpdate_NoAuthor() {
         final Book             book;
@@ -196,6 +236,27 @@ class TestBookServiceUpdate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingBookTypeException.class);
+    }
+
+    @Test
+    @DisplayName("When persisting a book for a not existing donor, an exception is thrown")
+    void testUpdate_NoDonor() {
+        final Book             book;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        book = Books.full();
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(BookConstants.NUMBER, book);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingAuthorException.class);
     }
 
     @Test

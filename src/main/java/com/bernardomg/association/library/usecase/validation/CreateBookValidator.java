@@ -57,6 +57,7 @@ public final class CreateBookValidator extends AbstractValidator<Book> {
             failures.add(failure);
         }
 
+        // Authors not duplicated
         uniqueAuthors = book.getAuthors()
             .stream()
             .map(Author::getName)
