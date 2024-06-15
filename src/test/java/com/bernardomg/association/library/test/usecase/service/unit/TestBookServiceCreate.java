@@ -183,6 +183,12 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.invalidLanguage();
 
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+
         // WHEN
         execution = () -> service.create(book);
 
