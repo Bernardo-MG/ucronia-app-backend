@@ -73,7 +73,8 @@ public final class DefaultMyFeesService implements MyFeesService {
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
-        if ((authentication instanceof AnonymousAuthenticationToken) || !(authentication.getPrincipal() instanceof UserDetails)) {
+        if ((authentication instanceof AnonymousAuthenticationToken)
+                || !(authentication.getPrincipal() instanceof UserDetails)) {
             fees = List.of();
             // TODO: maybe throw an exception
         } else {

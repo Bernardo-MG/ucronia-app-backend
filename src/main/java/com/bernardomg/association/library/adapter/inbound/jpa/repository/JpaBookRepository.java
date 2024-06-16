@@ -80,19 +80,6 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final boolean existsByIsbn(final Long number, final String isbn) {
-        final boolean exists;
-
-        log.debug("Checking if book with ISBN {} and number not {} exists", isbn, number);
-
-        exists = bookSpringRepository.existsByIsbnAndNumberNot(isbn, number);
-
-        log.debug("Book with ISBN {} and number not {} exists: {}", isbn, number, exists);
-
-        return exists;
-    }
-
-    @Override
     public final boolean existsByIsbn(final String isbn) {
         final boolean exists;
 
@@ -101,6 +88,19 @@ public final class JpaBookRepository implements BookRepository {
         exists = bookSpringRepository.existsByIsbn(isbn);
 
         log.debug("Book with ISBN {} exists: {}", isbn, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIsbnForAnother(final Long number, final String isbn) {
+        final boolean exists;
+
+        log.debug("Checking if book with ISBN {} and number not {} exists", isbn, number);
+
+        exists = bookSpringRepository.existsByIsbnAndNumberNot(isbn, number);
+
+        log.debug("Book with ISBN {} and number not {} exists: {}", isbn, number, exists);
 
         return exists;
     }

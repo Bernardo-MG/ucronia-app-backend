@@ -1,44 +1,16 @@
 
 package com.bernardomg.association.library.usecase.validation;
 
-import java.util.Collection;
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.List;
 
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
-import com.bernardomg.validation.domain.model.FieldFailure;
-import com.bernardomg.validation.validator.AbstractValidator;
+import com.bernardomg.validation.validator.AbstractFieldRuleValidator;
 
-import lombok.extern.slf4j.Slf4j;
+public final class CreateBookTypeValidator extends AbstractFieldRuleValidator<BookType> {
 
-@Slf4j
-public final class CreateBookTypeValidator extends AbstractValidator<BookType> {
-
-    private final BookTypeRepository bookTypeRepository;
-
-    public CreateBookTypeValidator(final BookTypeRepository bookTypeRepo) {
-        super();
-
-        bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
-    }
-
-    @Override
-    protected final void checkRules(final BookType bookType, final Collection<FieldFailure> failures) {
-        FieldFailure failure;
-
-        if (StringUtils.isBlank(bookType.getName())) {
-            log.error("Empty name");
-            failure = FieldFailure.of("name", "empty", bookType.getName());
-            failures.add(failure);
-        }
-
-        if ((!StringUtils.isBlank(bookType.getName())) && (bookTypeRepository.exists(bookType.getName()))) {
-            log.error("Existing name {}", bookType.getName());
-            failure = FieldFailure.of("name", "existing", bookType.getName());
-            failures.add(failure);
-        }
+    public CreateBookTypeValidator(final BookTypeRepository bookTypeRepository) {
+        super(List.of(new BookTypeNameNotEmptyRule(), new BookTypeNameNotExistsRule(bookTypeRepository)));
     }
 
 }

@@ -81,20 +81,17 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Iterable<Member> members;
-        final Pageable         pagination;
+        final Pageable pagination;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
         pagination = correctPagination(pageable);
 
-        members = switch (query.getStatus()) {
+        return switch (query.getStatus()) {
             case ACTIVE -> memberRepository.findActive(pagination);
             case INACTIVE -> memberRepository.findInactive(pagination);
             default -> memberRepository.findAll(pagination);
         };
-
-        return members;
     }
 
     @Override

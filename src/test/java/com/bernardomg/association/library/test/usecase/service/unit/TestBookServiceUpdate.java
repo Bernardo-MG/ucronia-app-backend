@@ -130,7 +130,7 @@ class TestBookServiceUpdate {
         service.update(BookConstants.NUMBER, book);
 
         // THEN
-        verify(bookRepository, Mockito.never()).existsByIsbn(ArgumentMatchers.anyLong(), ArgumentMatchers.anyString());
+        verify(bookRepository, Mockito.never()).existsByIsbnForAnother(ArgumentMatchers.anyLong(), ArgumentMatchers.anyString());
     }
 
     @Test
@@ -167,7 +167,7 @@ class TestBookServiceUpdate {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
-        given(bookRepository.existsByIsbn(BookConstants.NUMBER, BookConstants.ISBN)).willReturn(true);
+        given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(BookConstants.NUMBER, book);
