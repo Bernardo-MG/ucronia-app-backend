@@ -17,7 +17,9 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
+import com.bernardomg.association.member.usecase.validation.MemberNameNotEmptyRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,14 +33,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultMemberService implements MemberService {
 
-    private final CreateMemberValidator createMemberValidator = new CreateMemberValidator();
+    private final Validator<Member> createMemberValidator;
 
-    private final MemberRepository      memberRepository;
+    private final MemberRepository  memberRepository;
 
     public DefaultMemberService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
+        createMemberValidator = new FieldRuleValidator<>(new MemberNameNotEmptyRule());
     }
 
     @Override

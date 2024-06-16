@@ -13,10 +13,12 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.model.UserPerson;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.usecase.validation.AssignPersonValidator;
+import com.bernardomg.association.security.user.usecase.validation.UserPersonNameNotEmptyRule;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserPersonService implements UserPersonService {
 
-    private final AssignPersonValidator assignPersonValidator;
+    private final Validator<UserPerson> assignPersonValidator;
 
     private final PersonRepository      personRepository;
 
@@ -40,7 +42,7 @@ public final class DefaultUserPersonService implements UserPersonService {
         personRepository = Objects.requireNonNull(personRepo);
         userPersonRepository = Objects.requireNonNull(userPersonRepo);
 
-        assignPersonValidator = new AssignPersonValidator(userPersonRepository);
+        assignPersonValidator = new FieldRuleValidator<>(new UserPersonNameNotEmptyRule(userPersonRepository));
     }
 
     @Override

@@ -21,8 +21,13 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.usecase.validation.CreateBookValidator;
-import com.bernardomg.association.library.usecase.validation.UpdateBookValidator;
+import com.bernardomg.association.library.usecase.validation.BookIsbnNotExistsForAnotherRule;
+import com.bernardomg.association.library.usecase.validation.BookIsbnNotExistsRule;
+import com.bernardomg.association.library.usecase.validation.BookLanguageCodeValidRule;
+import com.bernardomg.association.library.usecase.validation.BookNoDuplicatedAuthorsRule;
+import com.bernardomg.association.library.usecase.validation.BookTitleNotEmptyRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +41,7 @@ public final class DefaultBookService implements BookService {
 
     private final BookTypeRepository   bookTypeRepository;
 
-    private final CreateBookValidator  createBookValidator;
+    private final Validator<Book>      createBookValidator;
 
     private final DonorRepository      donorRepository;
 
@@ -44,7 +49,7 @@ public final class DefaultBookService implements BookService {
 
     private final PublisherRepository  publisherRepository;
 
-    private final UpdateBookValidator  updateBookValidator;
+    private final Validator<Book>      updateBookValidator;
 
     public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
@@ -58,8 +63,10 @@ public final class DefaultBookService implements BookService {
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
         donorRepository = Objects.requireNonNull(donorRepo);
 
-        createBookValidator = new CreateBookValidator(bookRepository);
-        updateBookValidator = new UpdateBookValidator(bookRepository);
+        createBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
+            new BookIsbnNotExistsRule(bookRepository), new BookNoDuplicatedAuthorsRule());
+        updateBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
+            new BookIsbnNotExistsForAnotherRule(bookRepository), new BookNoDuplicatedAuthorsRule());
     }
 
     @Override

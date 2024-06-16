@@ -130,7 +130,8 @@ class TestBookServiceUpdate {
         service.update(BookConstants.NUMBER, book);
 
         // THEN
-        verify(bookRepository, Mockito.never()).existsByIsbnForAnother(ArgumentMatchers.anyLong(), ArgumentMatchers.anyString());
+        verify(bookRepository, Mockito.never()).existsByIsbnForAnother(ArgumentMatchers.anyLong(),
+            ArgumentMatchers.anyString());
     }
 
     @Test

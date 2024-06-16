@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.usecase.validation.CreateDonorValidator;
-import com.bernardomg.association.inventory.usecase.validation.UpdateDonorValidator;
+import com.bernardomg.association.inventory.usecase.validation.DonorNameNotEmptyRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,19 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultDonorService implements DonorService {
 
-    private final CreateDonorValidator createDonorValidator;
+    private final Validator<Donor> createDonorValidator;
 
-    private final DonorRepository      donorRepository;
+    private final DonorRepository  donorRepository;
 
-    private final UpdateDonorValidator updateDonorValidator;
+    private final Validator<Donor> updateDonorValidator;
 
     public DefaultDonorService(final DonorRepository donorRepo) {
         super();
 
         donorRepository = Objects.requireNonNull(donorRepo);
 
-        createDonorValidator = new CreateDonorValidator();
-        updateDonorValidator = new UpdateDonorValidator();
+        createDonorValidator = new FieldRuleValidator<>(new DonorNameNotEmptyRule());
+        updateDonorValidator = new FieldRuleValidator<>(new DonorNameNotEmptyRule());
     }
 
     @Override

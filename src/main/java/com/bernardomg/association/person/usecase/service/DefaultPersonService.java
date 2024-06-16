@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.usecase.validation.CreatePersonValidator;
+import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,14 +26,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultPersonService implements PersonService {
 
-    private final CreatePersonValidator createPersonValidator = new CreatePersonValidator();
+    private final Validator<Person> createPersonValidator;
 
-    private final PersonRepository      personRepository;
+    private final PersonRepository  personRepository;
 
     public DefaultPersonService(final PersonRepository personRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
+        createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
     }
 
     @Override

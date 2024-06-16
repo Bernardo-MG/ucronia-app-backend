@@ -11,7 +11,10 @@ import com.bernardomg.association.library.domain.exception.BookTypeHasRelationsh
 import com.bernardomg.association.library.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.usecase.validation.CreateBookTypeValidator;
+import com.bernardomg.association.library.usecase.validation.BookTypeNameNotEmptyRule;
+import com.bernardomg.association.library.usecase.validation.BookTypeNameNotExistsRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,16 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultBookTypeService implements BookTypeService {
 
-    private final BookTypeRepository      bookTypeRepository;
+    private final BookTypeRepository  bookTypeRepository;
 
-    private final CreateBookTypeValidator createBookTypeValidator;
+    private final Validator<BookType> createBookTypeValidator;
 
     public DefaultBookTypeService(final BookTypeRepository bookTypeRepo) {
         super();
 
         bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
 
-        createBookTypeValidator = new CreateBookTypeValidator(bookTypeRepository);
+        createBookTypeValidator = new FieldRuleValidator<>(new BookTypeNameNotEmptyRule(),
+            new BookTypeNameNotExistsRule(bookTypeRepository));
     }
 
     @Override

@@ -11,7 +11,10 @@ import com.bernardomg.association.library.domain.exception.MissingAuthorExceptio
 import com.bernardomg.association.library.domain.exception.PublisherHasRelationshipsException;
 import com.bernardomg.association.library.domain.model.Publisher;
 import com.bernardomg.association.library.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.usecase.validation.CreatePublisherValidator;
+import com.bernardomg.association.library.usecase.validation.PublisherNameNotEmptyRule;
+import com.bernardomg.association.library.usecase.validation.PublisherNameNotExistsRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,16 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultPublisherService implements PublisherService {
 
-    private final CreatePublisherValidator createPublisherValidator;
+    private final Validator<Publisher> createPublisherValidator;
 
-    private final PublisherRepository      publisherRepository;
+    private final PublisherRepository  publisherRepository;
 
     public DefaultPublisherService(final PublisherRepository publisherRepo) {
         super();
 
         publisherRepository = Objects.requireNonNull(publisherRepo);
 
-        createPublisherValidator = new CreatePublisherValidator(publisherRepository);
+        createPublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
+            new PublisherNameNotExistsRule(publisherRepository));
     }
 
     @Override
