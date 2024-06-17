@@ -29,32 +29,40 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DonorService - get all")
 class TestDonorServiceGetAll {
 
     @Mock
-    private DonorRepository     donorRepository;
+    private DonorRepository          donorRepository;
 
-    @Mock
-    private MemberRepository    memberRepository;
+    @Captor
+    private ArgumentCaptor<Pageable> pageableCaptor;
 
     @InjectMocks
-    private DefaultDonorService service;
+    private DefaultDonorService      service;
 
     public TestDonorServiceGetAll() {
         super();
@@ -98,6 +106,87 @@ class TestDonorServiceGetAll {
         Assertions.assertThat(donors)
             .as("donors")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
+    void testGetAll_Sort_Paged_Asc_FullName() {
+        final Pageable    pageable;
+        final Page<Donor> readDonors;
+
+        // GIVEN
+        readDonors = new PageImpl<>(List.of(Donors.valid()));
+        given(donorRepository.findAll(pageableCaptor.capture())).willReturn(readDonors);
+
+        pageable = PageRequest.of(0, 1, Sort.by("fullName"));
+
+        // WHEN
+        service.getAll(pageable);
+
+        // THEN
+        pageableCaptor.getValue()
+            .getSort()
+            .toList();
+        Assertions.assertThat(pageableCaptor.getValue())
+            .as("sort")
+            .extracting(Pageable::getSort)
+            .extracting(Sort::toList)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Order.asc("firstName"), Order.asc("lastName"));
+    }
+
+    @Test
+    @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
+    void testGetAll_Sort_Paged_Desc_FullName() {
+        final Pageable    pageable;
+        final Page<Donor> readDonors;
+
+        // GIVEN
+        readDonors = new PageImpl<>(List.of(Donors.valid()));
+        given(donorRepository.findAll(pageableCaptor.capture())).willReturn(readDonors);
+
+        pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "fullName"));
+
+        // WHEN
+        service.getAll(pageable);
+
+        // THEN
+        pageableCaptor.getValue()
+            .getSort()
+            .toList();
+        Assertions.assertThat(pageableCaptor.getValue())
+            .as("sort")
+            .extracting(Pageable::getSort)
+            .extracting(Sort::toList)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Order.desc("firstName"), Order.desc("lastName"));
+    }
+
+    @Test
+    @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
+    void testGetAll_Sort_Unpaged_Asc_FullName() {
+        final Pageable    pageable;
+        final Page<Donor> readDonors;
+
+        // GIVEN
+        readDonors = new PageImpl<>(List.of(Donors.valid()));
+        given(donorRepository.findAll(pageableCaptor.capture())).willReturn(readDonors);
+
+        pageable = Pageable.unpaged(Sort.by("fullName"));
+
+        // WHEN
+        service.getAll(pageable);
+
+        // THEN
+        pageableCaptor.getValue()
+            .getSort()
+            .toList();
+        Assertions.assertThat(pageableCaptor.getValue())
+            .as("sort")
+            .extracting(Pageable::getSort)
+            .extracting(Sort::toList)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Order.asc("firstName"), Order.asc("lastName"));
     }
 
 }
