@@ -96,7 +96,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         person = personSpringRepository.findByNumber(number);
         if ((user.isPresent()) && (person.isPresent())) {
             userMember = UserPersonEntity.builder()
-                .withUserId(person.get()
+                .withUserId(user.get()
                     .getId())
                 .withPerson(person.get())
                 .withUser(user.get())

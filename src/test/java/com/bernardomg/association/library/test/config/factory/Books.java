@@ -3,7 +3,6 @@ package com.bernardomg.association.library.test.config.factory;
 
 import java.util.List;
 
-import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.model.BookType;

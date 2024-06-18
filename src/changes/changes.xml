@@ -141,7 +141,7 @@
             Fixed members being disabled on creating monthly fees.
          </action>
       </release>
-      <release version="0.5.3" date="2024-06-18" description="">
+      <release version="0.5.3" date="2024-06-18" description="Library and updates">
          <action dev="bmg" type="update">
             Updated security dependency.
          </action>
@@ -153,6 +153,11 @@
          </action>
          <action dev="bmg" type="add">
             Books can have multiple donors.
+         </action>
+      </release>
+      <release version="0.5.4" date="2024-06-18" description="Fixed mapping">
+         <action dev="bmg" type="fix">
+            Fixed id mapping for user person.
          </action>
       </release>
    </body>
