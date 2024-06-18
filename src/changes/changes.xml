@@ -141,7 +141,19 @@
             Fixed members being disabled on creating monthly fees.
          </action>
       </release>
-      <release version="1.0.0" date="2024-06-03" description="">
+      <release version="0.5.3" date="2024-06-18" description="">
+         <action dev="bmg" type="update">
+            Updated security dependency.
+         </action>
+         <action dev="bmg" type="update">
+            Updated validation dependency.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed sorting persons by name.
+         </action>
+         <action dev="bmg" type="add">
+            Books can have multiple donors.
+         </action>
       </release>
    </body>
 </document>
