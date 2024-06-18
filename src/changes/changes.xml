@@ -127,7 +127,7 @@
             Various small corrections.
          </action>
       </release>
-      <release version="0.5.2" date="2024-06-03" description="">
+      <release version="0.5.2" date="2024-06-03" description="Member fixes">
          <action dev="bmg" type="update">
             Updated security dependency.
          </action>
@@ -140,6 +140,8 @@
          <action dev="bmg" type="add">
             Fixed members being disabled on creating monthly fees.
          </action>
+      </release>
+      <release version="1.0.0" date="2024-06-03" description="">
       </release>
    </body>
 </document>
