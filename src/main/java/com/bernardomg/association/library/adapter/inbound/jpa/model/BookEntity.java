@@ -48,11 +48,11 @@ public class BookEntity implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "book_type_id", referencedColumnName = "id") })
     private BookTypeEntity           bookType;
 
-    @OneToOne
+    @OneToMany
     @JoinTable(schema = "inventory", name = "book_donors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "donor_id", referencedColumnName = "id") })
-    private PersonEntity             donor;
+    private Collection<PersonEntity> donors;
 
     @OneToOne
     @JoinTable(schema = "inventory", name = "book_game_systems",

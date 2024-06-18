@@ -131,7 +131,7 @@ public class BookController {
         final Publisher          publisher;
         final BookType           bookType;
         final GameSystem         gameSystem;
-        final Donor              donor;
+        final Collection<Donor>  donors;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -179,14 +179,15 @@ public class BookController {
         }
 
         // Donor
-        if (request.getDonor() == null) {
-            donor = Donor.builder()
-                .build();
+        if (request.getDonors() == null) {
+            donors = List.of();
         } else {
-            donor = Donor.builder()
-                .withNumber(request.getDonor()
-                    .getNumber())
-                .build();
+            donors = request.getDonors()
+                .stream()
+                .map(d -> Donor.builder()
+                    .withNumber(d.getNumber())
+                    .build())
+                .toList();
         }
 
         // Book
@@ -198,7 +199,7 @@ public class BookController {
             .withPublisher(publisher)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
-            .withDonor(donor)
+            .withDonors(donors)
             .build();
     }
 

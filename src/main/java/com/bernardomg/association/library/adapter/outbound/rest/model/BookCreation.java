@@ -20,7 +20,7 @@ public class BookCreation {
 
     private BookCreationBookType           bookType;
 
-    private BookCreationDonor              donor;
+    private Collection<BookCreationDonor>  donors;
 
     private BookCreationGameSystem         gameSystem;
 

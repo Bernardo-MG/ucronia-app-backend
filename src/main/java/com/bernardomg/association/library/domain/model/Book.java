@@ -16,7 +16,7 @@ public final class Book {
 
     private BookType           bookType;
 
-    private Donor              donor;
+    private Collection<Donor>  donors;
 
     private GameSystem         gameSystem;
 

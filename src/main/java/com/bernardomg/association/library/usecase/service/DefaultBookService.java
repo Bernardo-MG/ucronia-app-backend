@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
+import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookException;
@@ -89,7 +90,7 @@ public final class DefaultBookService implements BookService {
             .withPublisher(book.getPublisher())
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
-            .withDonor(book.getDonor())
+            .withDonors(book.getDonors())
             .withIsbn(book.getIsbn())
             .withLanguage(book.getLanguage())
             .withTitle(book.getTitle())
@@ -154,7 +155,7 @@ public final class DefaultBookService implements BookService {
         final boolean publisherExists;
         final boolean gameSystemExists;
         final boolean bookTypeExists;
-        final boolean donorExists;
+        boolean       donorExists;
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
@@ -202,13 +203,10 @@ public final class DefaultBookService implements BookService {
         }
 
         // Check donor exist
-        if (book.getDonor()
-            .getNumber() >= 0) {
-            donorExists = donorRepository.exists(book.getDonor()
-                .getNumber());
+        for (final Donor donor : book.getDonors()) {
+            donorExists = donorRepository.exists(donor.getNumber());
             if (!donorExists) {
-                throw new MissingDonorException(book.getDonor()
-                    .getNumber());
+                throw new MissingDonorException(donor.getNumber());
             }
         }
 

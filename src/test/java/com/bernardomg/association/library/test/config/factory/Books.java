@@ -22,7 +22,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -36,7 +36,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -53,8 +53,7 @@ public final class Books {
                 .build())
             .withBookType(BookType.builder()
                 .build())
-            .withDonor(Donor.builder()
-                .build())
+            .withDonors(List.of())
             .build();
     }
 
@@ -68,7 +67,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -82,7 +81,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -99,8 +98,7 @@ public final class Books {
                 .build())
             .withBookType(BookType.builder()
                 .build())
-            .withDonor(Donor.builder()
-                .build())
+            .withDonors(List.of())
             .build();
     }
 

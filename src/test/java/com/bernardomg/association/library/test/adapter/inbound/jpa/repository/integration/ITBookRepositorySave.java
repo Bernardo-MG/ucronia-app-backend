@@ -128,7 +128,7 @@ class ITBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookEntities.noRelationships());
+            .containsExactly(BookEntities.noRelationships());
     }
 
     @Test
