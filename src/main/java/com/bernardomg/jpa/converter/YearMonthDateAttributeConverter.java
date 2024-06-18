@@ -24,6 +24,7 @@
 
 package com.bernardomg.jpa.converter;
 
+import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -32,42 +33,42 @@ import java.time.ZoneId;
 import jakarta.persistence.AttributeConverter;
 
 /**
- * Converts between {@link YearMonth} and {@link java.sql.Date Date}.
+ * Converts between {@link YearMonth} and {@link Date}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class YearMonthDateAttributeConverter implements AttributeConverter<YearMonth, java.sql.Date> {
+public final class YearMonthDateAttributeConverter implements AttributeConverter<YearMonth, Date> {
 
     public YearMonthDateAttributeConverter() {
         super();
     }
 
     @Override
-    public java.sql.Date convertToDatabaseColumn(final YearMonth attribute) {
-        final java.sql.Date date;
+    public final Date convertToDatabaseColumn(final YearMonth attribute) {
+        final Date date;
 
-        if (attribute != null) {
-            date = java.sql.Date.valueOf(attribute.atDay(1));
-        } else {
+        if (attribute == null) {
             date = null;
+        } else {
+            date = Date.valueOf(attribute.atDay(1));
         }
 
         return date;
     }
 
     @Override
-    public final YearMonth convertToEntityAttribute(final java.sql.Date dbData) {
+    public final YearMonth convertToEntityAttribute(final Date dbData) {
         final YearMonth month;
         final LocalDate localDate;
 
-        if (dbData != null) {
+        if (dbData == null) {
+            month = null;
+        } else {
             localDate = Instant.ofEpochMilli(dbData.getTime())
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
             month = YearMonth.from(localDate);
-        } else {
-            month = null;
         }
 
         return month;

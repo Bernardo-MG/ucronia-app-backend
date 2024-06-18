@@ -11,6 +11,9 @@ import com.tngtech.archunit.lang.ArchRule;
 
 public final class ServiceRules {
 
+    /**
+     * TODO: the predicate already checks this is in a service package.
+     */
     @ArchTest
     static final ArchRule services_should_be_in_service_package = classes().that(Predicates.areServiceClasses())
         .should()

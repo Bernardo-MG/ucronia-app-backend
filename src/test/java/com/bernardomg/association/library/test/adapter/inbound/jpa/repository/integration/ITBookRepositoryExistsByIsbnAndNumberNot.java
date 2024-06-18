@@ -36,7 +36,7 @@ import com.bernardomg.association.person.test.config.data.annotation.ValidPerson
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - exists by ISBN and number not")
+@DisplayName("BookRepository - exists by ISBN for another")
 class ITBookRepositoryExistsByIsbnAndNumberNot {
 
     @Autowired
@@ -46,11 +46,11 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
     @DisplayName("With a book and another number, it exists")
     @ValidPerson
     @FullBook
-    void testExists() {
+    void testExistsByIsbnForAnother() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbn(-1L, BookConstants.ISBN);
+        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN);
 
         // THEN
         Assertions.assertThat(exists)
@@ -60,11 +60,11 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testExists_NoData() {
+    void testExistsByIsbnForAnother_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbn(BookConstants.NUMBER, BookConstants.ISBN);
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN);
 
         // THEN
         Assertions.assertThat(exists)
@@ -76,11 +76,11 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
     @DisplayName("With a book and the same number, it exists")
     @ValidPerson
     @FullBook
-    void testExists_SameNumber() {
+    void testExistsByIsbnForAnother_SameNumber() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbn(BookConstants.NUMBER, BookConstants.ISBN);
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN);
 
         // THEN
         Assertions.assertThat(exists)

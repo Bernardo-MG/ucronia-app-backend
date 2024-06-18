@@ -25,7 +25,7 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailSecurityEmailSender - Password recovery")
+@DisplayName("SpringEmailSender")
 public class SpringEmailSenderTest {
 
     @Captor
@@ -33,10 +33,6 @@ public class SpringEmailSenderTest {
 
     @Mock
     private JavaMailSender                        javaMailSender;
-
-    public SpringEmailSenderTest() {
-        super();
-    }
 
     private final MimeMessage getMimeMessage() {
         final Session session;

@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.5.2</version>
+   <version>0.5.3</version>
    <packaging>war</packaging>
 
    <name>Ucronia App Backend</name>
@@ -183,13 +183,14 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.2.1</archunit.version>
-      <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.1.3</bernardomg.framework.ws.version>
-      <bernardomg.framework.ws.security.version>0.3.10</bernardomg.framework.ws.security.version>
+      <bernardomg.framework.validation.version>0.2.0</bernardomg.framework.validation.version>
+      <bernardomg.framework.ws.version>0.1.4</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.security.version>0.3.12</bernardomg.framework.ws.security.version>
+      <jjwt.version>0.12.5</jjwt.version>
       <lombok.version>1.18.32</lombok.version>
-      <spring.boot.version>3.2.5</spring.boot.version>
-      <spring.data.version>2023.1.5</spring.data.version>
-      <spring.version>6.1.6</spring.version>
+      <spring.boot.version>3.3.0</spring.boot.version>
+      <spring.data.version>2024.0.0</spring.data.version>
+      <spring.version>6.1.8</spring.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -421,6 +422,12 @@
       <dependency>
          <groupId>com.github.ben-manes.caffeine</groupId>
          <artifactId>caffeine</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>org.checkerframework</groupId>
+               <artifactId>checker-qual</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <!-- ============================================== -->
       <!-- ============== JPA DEPENDENCIES ============== -->

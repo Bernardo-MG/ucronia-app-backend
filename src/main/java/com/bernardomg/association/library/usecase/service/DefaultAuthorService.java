@@ -11,7 +11,10 @@ import com.bernardomg.association.library.domain.exception.AuthorHasRelationship
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.usecase.validation.CreateAuthorValidator;
+import com.bernardomg.association.library.usecase.validation.AuthorNameNotEmptyRule;
+import com.bernardomg.association.library.usecase.validation.AuthorNameNotExistsRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,16 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultAuthorService implements AuthorService {
 
-    private final AuthorRepository      authorRepository;
+    private final AuthorRepository  authorRepository;
 
-    private final CreateAuthorValidator createAuthorValidator;
+    private final Validator<Author> createAuthorValidator;
 
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
 
         authorRepository = Objects.requireNonNull(authorRepo);
 
-        createAuthorValidator = new CreateAuthorValidator(authorRepository);
+        createAuthorValidator = new FieldRuleValidator<>(new AuthorNameNotEmptyRule(),
+            new AuthorNameNotExistsRule(authorRepository));
     }
 
     @Override

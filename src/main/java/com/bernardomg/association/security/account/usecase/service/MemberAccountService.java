@@ -7,12 +7,10 @@ import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.security.account.domain.PersonAccount;
+import com.bernardomg.association.security.account.domain.model.PersonAccount;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.account.usecase.service.DefaultAccountService;
 
 /**
  * Default account service.
@@ -27,37 +25,37 @@ public final class MemberAccountService implements AccountService {
 
     private final AccountService       wrapped;
 
-    public MemberAccountService(final AccountRepository accountRepo, final UserPersonRepository userMemberRepo) {
+    public MemberAccountService(final AccountService wrppd, final UserPersonRepository userMemberRepo) {
         super();
 
-        wrapped = new DefaultAccountService(accountRepo);
+        wrapped = Objects.requireNonNull(wrppd);
         userPersonRepository = Objects.requireNonNull(userMemberRepo);
     }
 
     @Override
     public final Optional<Account> getCurrentUser() {
-        final Optional<Account> basicAccount;
+        final Optional<Account> wrappedAccount;
         final Optional<Account> result;
         final Account           account;
-        final Optional<Person>  member;
+        final Optional<Person>  person;
 
-        basicAccount = wrapped.getCurrentUser();
-        if (basicAccount.isPresent()) {
-            member = userPersonRepository.findByUsername(basicAccount.get()
+        wrappedAccount = wrapped.getCurrentUser();
+        if (wrappedAccount.isPresent()) {
+            person = userPersonRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
             account = PersonAccount.builder()
-                .withUsername(basicAccount.get()
+                .withUsername(wrappedAccount.get()
                     .getUsername())
-                .withName(basicAccount.get()
+                .withName(wrappedAccount.get()
                     .getName())
-                .withEmail(basicAccount.get()
+                .withEmail(wrappedAccount.get()
                     .getEmail())
-                .withPerson(member.orElse(null))
+                .withPerson(person.orElse(null))
                 .build();
             result = Optional.of(account);
         } else {
-            result = basicAccount;
+            result = wrappedAccount;
         }
 
         return result;

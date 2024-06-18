@@ -41,8 +41,8 @@ import com.bernardomg.association.library.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.test.config.factory.PublisherConstants;
 import com.bernardomg.association.library.test.config.factory.Publishers;
 import com.bernardomg.association.library.usecase.service.DefaultPublisherService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PublisherService - create")

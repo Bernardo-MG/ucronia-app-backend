@@ -42,8 +42,8 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DonorService - update")

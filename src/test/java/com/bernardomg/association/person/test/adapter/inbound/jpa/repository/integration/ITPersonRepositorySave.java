@@ -33,6 +33,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.config.factory.PersonEntities;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -52,8 +53,49 @@ class ITPersonRepositorySave {
     }
 
     @Test
+    @DisplayName("When a person exists, the person is persisted")
+    @SinglePerson
+    void testSave_Existing_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.valid();
+
+        // WHEN
+        personRepository.save(person);
+
+        // THEN
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(PersonEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When a person exists, the created person is returned")
+    @SinglePerson
+    void testSave_Existing_ReturnedData() {
+        final Person person;
+        final Person saved;
+
+        // GIVEN
+        person = Persons.valid();
+
+        // WHEN
+        saved = personRepository.save(person);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("person")
+            .isEqualTo(Persons.valid());
+    }
+
+    @Test
     @DisplayName("With a valid person, the person is persisted")
-    void testCreate_PersistedData() {
+    void testSave_PersistedData() {
         final Person                 person;
         final Iterable<PersonEntity> entities;
 
@@ -74,7 +116,7 @@ class ITPersonRepositorySave {
 
     @Test
     @DisplayName("With a valid person, the created person is returned")
-    void testCreate_ReturnedData() {
+    void testSave_ReturnedData() {
         final Person person;
         final Person saved;
 

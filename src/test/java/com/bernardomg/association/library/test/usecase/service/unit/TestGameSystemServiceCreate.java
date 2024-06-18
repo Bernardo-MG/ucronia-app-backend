@@ -41,8 +41,8 @@ import com.bernardomg.association.library.domain.repository.GameSystemRepository
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.association.library.test.config.factory.GameSystems;
 import com.bernardomg.association.library.usecase.service.DefaultGameSystemService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("GameSystemService - create")

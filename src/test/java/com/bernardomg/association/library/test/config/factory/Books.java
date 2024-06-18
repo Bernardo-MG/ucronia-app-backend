@@ -22,7 +22,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -36,7 +36,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -53,8 +53,7 @@ public final class Books {
                 .build())
             .withBookType(BookType.builder()
                 .build())
-            .withDonor(Donor.builder()
-                .build())
+            .withDonors(List.of())
             .build();
     }
 
@@ -68,7 +67,7 @@ public final class Books {
             .withPublisher(Publishers.valid())
             .withGameSystem(GameSystems.valid())
             .withBookType(BookTypes.valid())
-            .withDonor(Donors.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -78,15 +77,11 @@ public final class Books {
             .withTitle(BookConstants.TITLE)
             .withIsbn(BookConstants.ISBN)
             .withLanguage("abc")
-            .withAuthors(List.of())
-            .withPublisher(Publisher.builder()
-                .build())
-            .withGameSystem(GameSystem.builder()
-                .build())
-            .withBookType(BookType.builder()
-                .build())
-            .withDonor(Donor.builder()
-                .build())
+            .withAuthors(List.of(Authors.valid()))
+            .withPublisher(Publishers.valid())
+            .withGameSystem(GameSystems.valid())
+            .withBookType(BookTypes.valid())
+            .withDonors(List.of(Donors.valid()))
             .build();
     }
 
@@ -103,8 +98,7 @@ public final class Books {
                 .build())
             .withBookType(BookType.builder()
                 .build())
-            .withDonor(Donor.builder()
-                .build())
+            .withDonors(List.of())
             .build();
     }
 

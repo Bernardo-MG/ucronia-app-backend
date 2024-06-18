@@ -73,10 +73,11 @@ public final class DefaultMyFeesService implements MyFeesService {
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
+        if ((authentication instanceof AnonymousAuthenticationToken)
+                || !(authentication.getPrincipal() instanceof UserDetails)) {
             fees = List.of();
             // TODO: maybe throw an exception
-        } else if (authentication.getPrincipal() instanceof UserDetails) {
+        } else {
             userDetails = (UserDetails) authentication.getPrincipal();
             person = userPersonRepository.findByUsername(userDetails.getUsername());
             if (person.isEmpty()) {
@@ -86,9 +87,6 @@ public final class DefaultMyFeesService implements MyFeesService {
                 fees = feeRepository.findAllForMember(person.get()
                     .getNumber(), pageable);
             }
-        } else {
-            fees = List.of();
-            // TODO: maybe throw an exception
         }
 
         return fees;

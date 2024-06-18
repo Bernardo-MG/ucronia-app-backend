@@ -80,19 +80,6 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final boolean existsByIsbn(final Long number, final String isbn) {
-        final boolean exists;
-
-        log.debug("Checking if book with ISBN {} and number not {} exists", isbn, number);
-
-        exists = bookSpringRepository.existsByIsbnAndNumberNot(isbn, number);
-
-        log.debug("Book with ISBN {} and number not {} exists: {}", isbn, number, exists);
-
-        return exists;
-    }
-
-    @Override
     public final boolean existsByIsbn(final String isbn) {
         final boolean exists;
 
@@ -101,6 +88,19 @@ public final class JpaBookRepository implements BookRepository {
         exists = bookSpringRepository.existsByIsbn(isbn);
 
         log.debug("Book with ISBN {} exists: {}", isbn, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIsbnForAnother(final Long number, final String isbn) {
+        final boolean exists;
+
+        log.debug("Checking if book with ISBN {} and number not {} exists", isbn, number);
+
+        exists = bookSpringRepository.existsByIsbnAndNumberNot(isbn, number);
+
+        log.debug("Book with ISBN {} and number not {} exists: {}", isbn, number, exists);
 
         return exists;
     }
@@ -183,7 +183,7 @@ public final class JpaBookRepository implements BookRepository {
         final Publisher          publisher;
         final GameSystem         gameSystem;
         final BookType           bookType;
-        final Donor              donor;
+        final Collection<Donor>  donors;
         final Collection<Author> authors;
 
         if (entity.getPublisher() == null) {
@@ -212,11 +212,13 @@ public final class JpaBookRepository implements BookRepository {
                 .map(this::toDomain)
                 .toList();
         }
-        if (entity.getDonor() == null) {
-            donor = Donor.builder()
-                .build();
+        if (entity.getDonors() == null) {
+            donors = List.of();
         } else {
-            donor = toDomain(entity.getDonor());
+            donors = entity.getDonors()
+                .stream()
+                .map(this::toDomain)
+                .toList();
         }
         return Book.builder()
             .withNumber(entity.getNumber())
@@ -227,7 +229,7 @@ public final class JpaBookRepository implements BookRepository {
             .withPublisher(publisher)
             .withGameSystem(gameSystem)
             .withBookType(bookType)
-            .withDonor(donor)
+            .withDonors(donors)
             .build();
     }
 
@@ -267,7 +269,7 @@ public final class JpaBookRepository implements BookRepository {
         final Optional<PublisherEntity>  publisher;
         final Optional<BookTypeEntity>   bookType;
         final Optional<GameSystemEntity> gameSystem;
-        final Optional<PersonEntity>     donor;
+        final Collection<PersonEntity>   donors;
         final Collection<AuthorEntity>   authors;
 
         if (domain.getPublisher() == null) {
@@ -288,11 +290,16 @@ public final class JpaBookRepository implements BookRepository {
             gameSystem = gameSystemSpringRepository.findByName(domain.getGameSystem()
                 .getName());
         }
-        if (domain.getDonor() == null) {
-            donor = Optional.empty();
+        if (domain.getDonors() == null) {
+            donors = List.of();
         } else {
-            donor = personSpringRepository.findByNumber(domain.getDonor()
-                .getNumber());
+            donors = domain.getDonors()
+                .stream()
+                .map(Donor::getNumber)
+                .map(personSpringRepository::findByNumber)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
         }
 
         authorNames = domain.getAuthors()
@@ -310,7 +317,7 @@ public final class JpaBookRepository implements BookRepository {
             .withPublisher(publisher.orElse(null))
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
-            .withDonor(donor.orElse(null))
+            .withDonors(donors)
             .build();
     }
 

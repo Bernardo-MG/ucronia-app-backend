@@ -7,8 +7,6 @@ import static com.tngtech.archunit.library.GeneralCodingRules.DEPRECATED_API_SHO
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
-import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
-import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 import org.slf4j.Logger;
@@ -38,12 +36,6 @@ public class CodingRules {
 
     @ArchTest
     static final ArchRule  no_generic_exceptions                  = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
-
-    @ArchTest
-    static final ArchRule  no_java_util_logging                   = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
-
-    @ArchTest
-    static final ArchRule  no_jodatime                            = NO_CLASSES_SHOULD_USE_JODATIME;
 
     @ArchTest
     private final ArchRule loggers_should_be_private_static_final = fields().that()

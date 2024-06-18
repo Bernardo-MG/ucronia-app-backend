@@ -44,14 +44,16 @@ import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
+import com.bernardomg.association.fee.usecase.validation.FeeDateNotRegisteredRule;
+import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -92,7 +94,8 @@ public final class DefaultFeeService implements FeeService {
         messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(personRepository, feeRepository);
+        validatorPay = new FieldRuleValidator<>(new FeeNoDuplicatedDatesRule(),
+            new FeeDateNotRegisteredRule(personRepository, feeRepository));
     }
 
     @Override

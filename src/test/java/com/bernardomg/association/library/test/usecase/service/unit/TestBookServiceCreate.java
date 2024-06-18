@@ -58,8 +58,8 @@ import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.library.test.config.factory.GameSystemConstants;
 import com.bernardomg.association.library.test.config.factory.PublisherConstants;
 import com.bernardomg.association.library.usecase.service.DefaultBookService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - create")
@@ -182,6 +182,12 @@ class TestBookServiceCreate {
 
         // GIVEN
         book = Books.invalidLanguage();
+
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(book);

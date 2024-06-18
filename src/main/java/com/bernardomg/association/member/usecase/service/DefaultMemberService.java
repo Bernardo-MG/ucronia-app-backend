@@ -17,7 +17,9 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.validation.CreateMemberValidator;
+import com.bernardomg.association.member.usecase.validation.MemberNameNotEmptyRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,14 +33,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultMemberService implements MemberService {
 
-    private final CreateMemberValidator createMemberValidator = new CreateMemberValidator();
+    private final Validator<Member> createMemberValidator;
 
-    private final MemberRepository      memberRepository;
+    private final MemberRepository  memberRepository;
 
     public DefaultMemberService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
+        createMemberValidator = new FieldRuleValidator<>(new MemberNameNotEmptyRule());
     }
 
     @Override
@@ -81,25 +84,17 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Iterable<Member> members;
-        final Pageable         pagination;
+        final Pageable pagination;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
         pagination = correctPagination(pageable);
 
-        switch (query.getStatus()) {
-            case ACTIVE:
-                members = memberRepository.findActive(pagination);
-                break;
-            case INACTIVE:
-                members = memberRepository.findInactive(pagination);
-                break;
-            default:
-                members = memberRepository.findAll(pagination);
-        }
-
-        return members;
+        return switch (query.getStatus()) {
+            case ACTIVE -> memberRepository.findActive(pagination);
+            case INACTIVE -> memberRepository.findInactive(pagination);
+            default -> memberRepository.findAll(pagination);
+        };
     }
 
     @Override
@@ -152,7 +147,7 @@ public final class DefaultMemberService implements MemberService {
         if (pageable.isPaged()) {
             page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         } else {
-            page = Pageable.unpaged(pageable.getSort());
+            page = Pageable.unpaged(sort);
         }
 
         return page;
@@ -171,8 +166,8 @@ public final class DefaultMemberService implements MemberService {
 
         orders = new ArrayList<>();
         if (fullNameOrder.isPresent()) {
-            if (fullNameOrder.get()
-                .getDirection() == Direction.ASC) {
+            if (Direction.ASC.equals(fullNameOrder.get()
+                .getDirection())) {
                 orders.add(Order.asc("person.firstName"));
                 orders.add(Order.asc("person.lastName"));
             } else {
@@ -186,8 +181,8 @@ public final class DefaultMemberService implements MemberService {
             .filter(o -> "number".equals(o.getProperty()))
             .findFirst();
         if (numberOrder.isPresent()) {
-            if (fullNameOrder.get()
-                .getDirection() == Direction.ASC) {
+            if (Direction.ASC.equals(numberOrder.get()
+                .getDirection())) {
                 orders.add(Order.asc("person.number"));
             } else {
                 orders.add(Order.desc("person.number"));

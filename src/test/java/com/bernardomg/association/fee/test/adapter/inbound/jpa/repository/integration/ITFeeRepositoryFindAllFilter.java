@@ -71,7 +71,7 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paid());
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
@@ -186,6 +186,30 @@ class ITFeeRepositoryGetAllFilter {
         Assertions.assertThat(fees)
             .as("fees")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @MultipleMembers
+    @MultipleFees
+    void testFindAll_InRange() {
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.inRange(YearMonth.of(2020, Month.FEBRUARY), YearMonth.of(2020, Month.MAY));
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(4, Month.MAY));
     }
 
     @Test

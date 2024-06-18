@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
+import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.domain.exception.MissingBookException;
@@ -21,8 +22,13 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.usecase.validation.CreateBookValidator;
-import com.bernardomg.association.library.usecase.validation.UpdateBookValidator;
+import com.bernardomg.association.library.usecase.validation.BookIsbnNotExistsForAnotherRule;
+import com.bernardomg.association.library.usecase.validation.BookIsbnNotExistsRule;
+import com.bernardomg.association.library.usecase.validation.BookLanguageCodeValidRule;
+import com.bernardomg.association.library.usecase.validation.BookNoDuplicatedAuthorsRule;
+import com.bernardomg.association.library.usecase.validation.BookTitleNotEmptyRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +42,7 @@ public final class DefaultBookService implements BookService {
 
     private final BookTypeRepository   bookTypeRepository;
 
-    private final CreateBookValidator  createBookValidator;
+    private final Validator<Book>      createBookValidator;
 
     private final DonorRepository      donorRepository;
 
@@ -44,7 +50,7 @@ public final class DefaultBookService implements BookService {
 
     private final PublisherRepository  publisherRepository;
 
-    private final UpdateBookValidator  updateBookValidator;
+    private final Validator<Book>      updateBookValidator;
 
     public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
@@ -58,8 +64,10 @@ public final class DefaultBookService implements BookService {
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
         donorRepository = Objects.requireNonNull(donorRepo);
 
-        createBookValidator = new CreateBookValidator(bookRepository);
-        updateBookValidator = new UpdateBookValidator(bookRepository);
+        createBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
+            new BookIsbnNotExistsRule(bookRepository), new BookNoDuplicatedAuthorsRule());
+        updateBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
+            new BookIsbnNotExistsForAnotherRule(bookRepository), new BookNoDuplicatedAuthorsRule());
     }
 
     @Override
@@ -82,7 +90,7 @@ public final class DefaultBookService implements BookService {
             .withPublisher(book.getPublisher())
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
-            .withDonor(book.getDonor())
+            .withDonors(book.getDonors())
             .withIsbn(book.getIsbn())
             .withLanguage(book.getLanguage())
             .withTitle(book.getTitle())
@@ -147,8 +155,9 @@ public final class DefaultBookService implements BookService {
         final boolean publisherExists;
         final boolean gameSystemExists;
         final boolean bookTypeExists;
-        final boolean donorExists;
+        boolean       donorExists;
 
+        // TODO: add an exception for multiple missing ids
         // Check authors exist
         book.getAuthors()
             .forEach(a -> {
@@ -194,13 +203,10 @@ public final class DefaultBookService implements BookService {
         }
 
         // Check donor exist
-        if (book.getDonor()
-            .getNumber() >= 0) {
-            donorExists = donorRepository.exists(book.getDonor()
-                .getNumber());
+        for (final Donor donor : book.getDonors()) {
+            donorExists = donorRepository.exists(donor.getNumber());
             if (!donorExists) {
-                throw new MissingDonorException(book.getDonor()
-                    .getNumber());
+                throw new MissingDonorException(donor.getNumber());
             }
         }
 

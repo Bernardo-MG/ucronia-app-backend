@@ -14,6 +14,7 @@ public final class BookEntities {
             .withIsbn(BookConstants.ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
+            .withDonors(List.of())
             .build();
     }
 

@@ -31,6 +31,8 @@ import org.springframework.context.annotation.Primary;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
+import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.account.usecase.service.DefaultAccountService;
 
 @Configuration
 public class AssociationAccountConfig {
@@ -43,7 +45,10 @@ public class AssociationAccountConfig {
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
             final UserPersonRepository userPersonRepository) {
-        return new MemberAccountService(accountRepository, userPersonRepository);
+        final AccountService wrapped;
+
+        wrapped = new DefaultAccountService(accountRepository);
+        return new MemberAccountService(wrapped, userPersonRepository);
     }
 
 }
