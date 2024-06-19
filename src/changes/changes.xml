@@ -155,7 +155,10 @@
             Books can have multiple donors.
          </action>
       </release>
-      <release version="1.0.0" date="2024-06-18" description="">
+      <release version="0.5.4" date="2024-06-18" description="Fixed mapping">
+         <action dev="bmg" type="fix">
+            Fixed id mapping for user person.
+         </action>
       </release>
    </body>
 </document>
