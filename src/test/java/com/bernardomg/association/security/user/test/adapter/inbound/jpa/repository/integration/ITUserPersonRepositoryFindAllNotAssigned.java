@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Collection;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,8 +50,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @DisplayName("When the member is assigned, it is not returned")
     @ValidUserWithPerson
     void testFindAllNotAssigned_Assigned() {
-        final Collection<Person> persons;
-        final Pageable           page;
+        final Iterable<Person> persons;
+        final Pageable         page;
 
         // GIVEN
         page = Pageable.unpaged();
@@ -71,8 +69,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @ValidUserWithPerson
     @AlternativePerson
     void testFindAllNotAssigned_AssignedAndNotAssigned() {
-        final Collection<Person> persons;
-        final Pageable           page;
+        final Iterable<Person> persons;
+        final Pageable         page;
 
         // GIVEN
         page = Pageable.unpaged();
@@ -88,8 +86,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAllNotAssigned_NoData() {
-        final Collection<Person> persons;
-        final Pageable           page;
+        final Iterable<Person> persons;
+        final Pageable         page;
 
         // GIVEN
         page = Pageable.unpaged();
@@ -107,8 +105,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @ValidUser
     @ValidPerson
     void testFindAllNotAssigned_NotAssigned() {
-        final Collection<Person> persons;
-        final Pageable           page;
+        final Iterable<Person> persons;
+        final Pageable         page;
 
         // GIVEN
         page = Pageable.unpaged();

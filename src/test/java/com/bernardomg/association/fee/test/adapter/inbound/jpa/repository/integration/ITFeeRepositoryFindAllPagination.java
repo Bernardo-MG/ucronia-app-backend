@@ -30,7 +30,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -42,35 +41,24 @@ import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - pagination")
 @MultipleMembers
 @MultipleFees
-class ITFeeRepositoryFindAllPagination {
+class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
     @Autowired
     private FeeRepository repository;
 
-    @Test
-    @DisplayName("With an active pagination, the returned data is contained in a page")
-    void testFindAll_Page_Container() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pageable      pageable;
+    public ITFeeRepositoryFindAllPagination() {
+        super(5);
+    }
 
-        // GIVEN
-        pageable = Pageable.ofSize(10);
-
-        feeQuery = FeesQuery.empty();
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isInstanceOf(Page.class);
+    @Override
+    protected Iterable<Fee> read(final Pageable pageable) {
+        return repository.findAll(FeesQuery.empty(), pageable);
     }
 
     @Test
@@ -113,27 +101,6 @@ class ITFeeRepositoryFindAllPagination {
         Assertions.assertThat(fees)
             .as("fees")
             .containsExactly(Fees.paidAt(2, Month.MARCH));
-    }
-
-    @Test
-    @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    void testFindAll_Unpaged_Container() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pageable      pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        feeQuery = FeesQuery.empty();
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isInstanceOf(Page.class);
     }
 
 }

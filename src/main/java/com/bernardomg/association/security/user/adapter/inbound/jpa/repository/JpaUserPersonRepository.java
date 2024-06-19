@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -53,11 +52,9 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Collection<Person> findAllNotAssigned(final Pageable page) {
+    public final Iterable<Person> findAllNotAssigned(final Pageable page) {
         return userPersonSpringRepository.findAllNotAssigned(page)
-            .stream()
-            .map(this::toDomain)
-            .toList();
+            .map(this::toDomain);
     }
 
     @Override

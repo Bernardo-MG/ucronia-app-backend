@@ -26,7 +26,6 @@ package com.bernardomg.association.security.user.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -64,8 +63,8 @@ class TestUserPersonServiceGetAvailablePersons {
     @Test
     @DisplayName("When there are not assigned persons, these are returned")
     void testGetPerson() {
-        final Collection<Person> persons;
-        final Pageable           page;
+        final Iterable<Person> persons;
+        final Pageable         page;
 
         // GIVEN
         page = Pageable.unpaged();
@@ -83,8 +82,8 @@ class TestUserPersonServiceGetAvailablePersons {
     @Test
     @DisplayName("When there are no not assigned persons, nothing is returned")
     void testGetPerson_NoPerson() {
-        final Collection<Person> persons;
-        final Pageable           page;
+        final Iterable<Person> persons;
+        final Pageable         page;
 
         // GIVEN
         page = Pageable.unpaged();

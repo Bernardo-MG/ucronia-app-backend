@@ -45,7 +45,7 @@ import com.bernardomg.association.transaction.test.config.factory.TransactionsQu
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all - sorted")
+@DisplayName("TransactionRepository - get all - sort")
 @MultipleTransactionsSameMonth
 class ITTransactionRepositoryFindAllSort {
 

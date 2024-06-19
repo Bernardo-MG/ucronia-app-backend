@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.security.user.usecase.service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,7 @@ public interface UserPersonService {
 
     public Person assignPerson(final String username, final long memberId);
 
-    public Collection<Person> getAvailablePerson(final Pageable page);
+    public Iterable<Person> getAvailablePerson(final Pageable page);
 
     public Optional<Person> getPerson(final String username);
 
