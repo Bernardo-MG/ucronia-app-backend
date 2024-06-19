@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.security.user.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -14,7 +13,7 @@ public interface UserPersonRepository {
 
     public boolean existsByPersonForAnotherUser(final String username, final long number);
 
-    public Collection<Person> findAllNotAssigned(final Pageable page);
+    public Iterable<Person> findAllNotAssigned(final Pageable page);
 
     public Optional<Person> findByUsername(final String username);
 

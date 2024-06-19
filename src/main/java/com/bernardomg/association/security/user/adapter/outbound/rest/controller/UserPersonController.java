@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.controller;
 
-import java.util.Collection;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -95,7 +93,7 @@ public class UserPersonController {
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Collection<Person> readAvailable(final Pageable pageable) {
+    public Iterable<Person> readAvailable(final Pageable pageable) {
         return service.getAvailablePerson(pageable);
     }
 

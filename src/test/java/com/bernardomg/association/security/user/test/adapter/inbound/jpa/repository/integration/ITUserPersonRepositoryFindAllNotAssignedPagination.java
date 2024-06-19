@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
-
-import java.time.Month;
+package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -33,70 +31,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all - filtered")
-@MultipleTransactionsSameMonth
-class ITTransactionRepositoryFindAllPagination extends AbstractPaginationIT<Transaction> {
+@DisplayName("UserPersonRepository - find all not assigned - pagination")
+@ValidPerson
+class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginationIT<Person> {
 
     @Autowired
-    private TransactionRepository repository;
+    private UserPersonRepository repository;
 
-    public ITTransactionRepositoryFindAllPagination() {
-        super(5);
+    public ITUserPersonRepositoryFindAllNotAssignedPagination() {
+        super(1);
     }
 
     @Override
-    protected final Iterable<Transaction> read(final Pageable pageable) {
-        return repository.findAll(TransactionsQueries.empty(), pageable);
+    protected final Iterable<Person> read(final Pageable pageable) {
+        return repository.findAllNotAssigned(pageable);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Iterable<Person> persons;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 1);
 
-        transactionQuery = TransactionsQueries.empty();
-
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        persons = repository.findAllNotAssigned(pageable);
 
         // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndex(1, Month.JANUARY));
+        Assertions.assertThat(persons)
+            .containsExactly(Persons.valid());
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Iterable<Person> members;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = PageRequest.of(1, 1);
 
-        transactionQuery = TransactionsQueries.empty();
-
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        members = repository.findAllNotAssigned(pageable);
 
         // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
+        Assertions.assertThat(members)
+            .isEmpty();
     }
 
 }

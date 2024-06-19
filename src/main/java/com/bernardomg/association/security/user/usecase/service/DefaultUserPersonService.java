@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.security.user.usecase.service;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -78,7 +77,7 @@ public final class DefaultUserPersonService implements UserPersonService {
     }
 
     @Override
-    public final Collection<Person> getAvailablePerson(final Pageable page) {
+    public final Iterable<Person> getAvailablePerson(final Pageable page) {
         log.debug("Reading all available persons");
         return userPersonRepository.findAllNotAssigned(page);
     }

@@ -46,7 +46,7 @@ import com.bernardomg.association.member.test.config.factory.MemberCalendars;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - find all in year")
+@DisplayName("FeeRepository - find all in year - sort")
 class ITFeeRepositoryFindAllInYearSort {
 
     @Autowired

@@ -28,7 +28,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -37,34 +36,23 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - pagination")
 @MultipleMembers
-class ITMemberRepositoryFindAllPagination {
+class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
     @Autowired
     private MemberRepository repository;
 
     public ITMemberRepositoryFindAllPagination() {
-        super();
+        super(5);
     }
 
-    @Test
-    @DisplayName("With an active pagination, the returned data is contained in a page")
-    void testFindAll_Page_Container() {
-        final Iterable<Member> members;
-        final Pageable         pageable;
-
-        // GIVEN
-        pageable = Pageable.ofSize(10);
-
-        // WHEN
-        members = repository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .isInstanceOf(Page.class);
+    @Override
+    protected final Iterable<Member> read(final Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Test
@@ -99,23 +87,6 @@ class ITMemberRepositoryFindAllPagination {
         // THEN
         Assertions.assertThat(members)
             .containsExactly(Members.forIndex(2, false));
-    }
-
-    @Test
-    @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    void testFindAll_Unpaged_Container() {
-        final Iterable<Member> members;
-        final Pageable         pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        members = repository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .isInstanceOf(Page.class);
     }
 
 }

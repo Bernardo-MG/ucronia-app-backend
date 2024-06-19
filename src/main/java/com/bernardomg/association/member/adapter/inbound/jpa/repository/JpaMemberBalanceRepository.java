@@ -4,7 +4,6 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,28 +31,27 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
     @Override
     public final Iterable<MonthlyMemberBalance> findInRange(final YearMonth startDate, final YearMonth endDate,
             final Sort sort) {
-        final Optional<Specification<MonthlyMemberBalanceEntity>> requestSpec;
-        final Specification<MonthlyMemberBalanceEntity>           limitSpec;
-        final Specification<MonthlyMemberBalanceEntity>           spec;
-        final Collection<MonthlyMemberBalanceEntity>              balances;
-        final Iterable<MonthlyMemberBalance>                      monthlyBalances;
+        final Specification<MonthlyMemberBalanceEntity> spec;
+        final Collection<MonthlyMemberBalanceEntity>    balances;
+        final Iterable<MonthlyMemberBalance>            monthlyBalances;
+        final YearMonth                                 now;
+        final YearMonth                                 end;
 
         // TODO: the dates are optional
 
         log.debug("Finding balance in from {} to {} sorted by {}", startDate, endDate, sort);
 
-        // Specification from the request
-        requestSpec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
         // Up to this month
-        limitSpec = MonthlyMemberBalanceSpecifications.onOrBefore(YearMonth.now());
-
-        // Combine specifications
-        if (requestSpec.isPresent()) {
-            spec = requestSpec.get()
-                .and(limitSpec);
+        now = YearMonth.now();
+        if ((endDate == null) || (endDate.isAfter(now))) {
+            log.debug("Replacing end date {} with current date {}", endDate, now);
+            end = now;
         } else {
-            spec = limitSpec;
+            end = endDate;
         }
+        // Specification from the request
+        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, end)
+            .get();
 
         balances = monthlyMemberBalanceRepository.findAll(spec, sort);
 
