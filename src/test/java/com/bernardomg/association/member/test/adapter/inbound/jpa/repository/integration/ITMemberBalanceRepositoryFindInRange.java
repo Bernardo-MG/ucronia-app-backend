@@ -35,7 +35,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -55,7 +55,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -75,7 +75,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeeNextMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -95,7 +95,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeeNextMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -113,7 +113,7 @@ class ITMemberBalanceRepositoryFindInRange {
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -135,7 +135,7 @@ class ITMemberBalanceRepositoryFindInRange {
         feeInitializer.registerFeeCurrentMonth(true);
         feeInitializer.registerFeeNextMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -157,7 +157,7 @@ class ITMemberBalanceRepositoryFindInRange {
         feeInitializer.registerFeeCurrentMonth(true);
         feeInitializer.registerFeeNextMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -177,7 +177,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -197,7 +197,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -220,7 +220,7 @@ class ITMemberBalanceRepositoryFindInRange {
         feeInitializer.registerFeeCurrentMonth(true);
         feeInitializer.registerFeeCurrentMonthAlternative(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -240,7 +240,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -260,7 +260,7 @@ class ITMemberBalanceRepositoryFindInRange {
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by("month");
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
