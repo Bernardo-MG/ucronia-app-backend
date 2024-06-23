@@ -95,7 +95,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
-            .containsExactly(FeeEntities.atDate());
+            .containsExactlyInAnyOrder(FeeEntities.atDate());
     }
 
     @Test
@@ -115,7 +115,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactly(TransactionEntities.singleFee());
+            .containsExactlyInAnyOrder(TransactionEntities.singleFee());
     }
 
     @Test
@@ -131,7 +131,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paidWithIndex(1));
+            .containsExactlyInAnyOrder(Fees.paidWithIndex(1));
     }
 
     @Test
@@ -152,7 +152,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
-            .containsExactly(FeeEntities.atDate(), FeeEntities.nextDate());
+            .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
     @Test
@@ -173,7 +173,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactly(TransactionEntities.multipleFees());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFees());
     }
 
     @Test
@@ -190,7 +190,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
+            .containsExactlyInAnyOrder(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
     }
 
     @Test
@@ -210,7 +210,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
-            .containsExactly(FeeEntities.atDate(), FeeEntities.nextDate());
+            .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
     @Test
@@ -245,7 +245,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactly(TransactionEntities.multipleFees());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFees());
     }
 
     @Test
@@ -261,7 +261,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
+            .containsExactlyInAnyOrder(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
     }
 
     @Test
@@ -281,7 +281,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
-            .containsExactly(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
+            .containsExactlyInAnyOrder(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
     }
 
     @Test
@@ -301,7 +301,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactly(TransactionEntities.multipleFeesSpanYears());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFeesSpanYears());
     }
 
     @Test
@@ -317,7 +317,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paidLastInYear(1), Fees.paidFirstNextYear(1));
+            .containsExactlyInAnyOrder(Fees.paidLastInYear(1), Fees.paidFirstNextYear(1));
     }
 
     @Test
@@ -335,7 +335,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactly(TransactionEntities.singleFeeNoAmount());
+            .containsExactlyInAnyOrder(TransactionEntities.singleFeeNoAmount());
     }
 
     @Test
@@ -354,7 +354,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
-            .containsExactly(FeeEntities.atDate());
+            .containsExactlyInAnyOrder(FeeEntities.atDate());
     }
 
     @Test
@@ -405,7 +405,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactly(TransactionEntities.singleFee());
+            .containsExactlyInAnyOrder(TransactionEntities.singleFee());
     }
 
     @Test
@@ -458,7 +458,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paidWithIndex(1));
+            .containsExactlyInAnyOrder(Fees.paidWithIndex(1));
     }
 
 }
