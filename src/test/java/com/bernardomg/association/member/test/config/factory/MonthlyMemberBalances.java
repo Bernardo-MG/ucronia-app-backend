@@ -21,10 +21,24 @@ public final class MonthlyMemberBalances {
             .build();
     }
 
+    public static final MonthlyMemberBalance forMonth(final YearMonth month) {
+        return MonthlyMemberBalance.builder()
+            .withDate(month)
+            .withTotal(1)
+            .build();
+    }
+
     public static final MonthlyMemberBalance forMonthAndTotal(final YearMonth month, final Long total) {
         return MonthlyMemberBalance.builder()
             .withDate(month)
             .withTotal(total)
+            .build();
+    }
+
+    public static final MonthlyMemberBalance nextMonth() {
+        return MonthlyMemberBalance.builder()
+            .withDate(MemberBalanceConstants.NEXT_MONTH)
+            .withTotal(1L)
             .build();
     }
 

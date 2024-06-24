@@ -34,23 +34,13 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         final Specification<MonthlyMemberBalanceEntity> spec;
         final Collection<MonthlyMemberBalanceEntity>    balances;
         final Iterable<MonthlyMemberBalance>            monthlyBalances;
-        final YearMonth                                 now;
-        final YearMonth                                 end;
 
         // TODO: the dates are optional
 
         log.debug("Finding balance in from {} to {} sorted by {}", startDate, endDate, sort);
 
-        // Up to this month
-        now = YearMonth.now();
-        if ((endDate == null) || (endDate.isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", endDate, now);
-            end = now;
-        } else {
-            end = endDate;
-        }
         // Specification from the request
-        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, end)
+        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate)
             .get();
 
         balances = monthlyMemberBalanceRepository.findAll(spec, sort);
