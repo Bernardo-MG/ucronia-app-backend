@@ -173,7 +173,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "paid", "date");
 
         feeQuery = FeesQuery.empty();
 
@@ -195,7 +195,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "paid", "date");
 
         feeQuery = FeesQuery.empty();
 
