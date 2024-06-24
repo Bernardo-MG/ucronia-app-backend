@@ -7,35 +7,53 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
+import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.member.test.config.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
+import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberBalanceRepository - find in range")
-@ActiveMember
 class ITMemberBalanceRepositoryFindInRange {
-
-    @Autowired
-    private FeeInitializer          feeInitializer;
 
     @Autowired
     private MemberBalanceRepository memberBalanceRepository;
 
     @Test
-    @DisplayName("With a fee for the current month and not paid it returns balance for this month")
-    void testFindInRange_NoRange_CurrentMonth_NotPaid() {
+    @DisplayName("Can filter having only the end date")
+    @ValidPerson
+    @FeeFullYear
+    void testFindInRange_End() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
+        sort = Sort.unsorted();
 
-        sort = Sort.by("month");
+        // WHEN
+        balances = memberBalanceRepository.findInRange(null, MemberBalanceConstants.START_MONTH.plusMonths(2), sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactlyInAnyOrder(MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(1)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(2)));
+    }
+
+    @Test
+    @DisplayName("Returns all when not applying range")
+    @ValidPerson
+    @FeeFullYear
+    void testFindInRange_NoRange() {
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
+
+        // GIVEN
+        sort = Sort.unsorted();
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -43,77 +61,28 @@ class ITMemberBalanceRepositoryFindInRange {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.currentMonth());
+            .containsExactlyInAnyOrder(MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(1)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(2)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(3)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(4)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(5)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(6)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(7)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(8)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(9)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(10)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(11)));
     }
 
     @Test
-    @DisplayName("With a fee for the current month and paid it returns balance for this month")
-    void testFindInRange_NoRange_CurrentMonth_Paid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyMemberBalances.currentMonth());
-    }
-
-    @Test
-    @DisplayName("With a fee for the next month and not paid it returns no balance")
-    void testFindInRange_NoRange_NextMonth_NotPaid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeeNextMonth(false);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a fee for the next month and paid it returns no balance")
-    void testFindInRange_NoRange_NextMonth_Paid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeeNextMonth(true);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When reading all with no data, nothing is returned")
     void testFindInRange_NoRange_NoData() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.by("month");
+        sort = Sort.unsorted();
 
         // WHEN
         balances = memberBalanceRepository.findInRange(null, null, sort);
@@ -125,150 +94,56 @@ class ITMemberBalanceRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("With fees for previous and current months it returns balance for both of them")
-    void testFindInRange_NoRange_PreviousCurrentMonths() {
+    @DisplayName("Can filter having in a range")
+    @ValidPerson
+    @FeeFullYear
+    void testFindInRange_Range() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        feeInitializer.registerFeePreviousMonth(true);
-        feeInitializer.registerFeeCurrentMonth(true);
-        feeInitializer.registerFeeNextMonth(true);
-
-        sort = Sort.by("month");
+        sort = Sort.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1),
+            MemberBalanceConstants.START_MONTH.plusMonths(3), sort);
 
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
+            .containsExactlyInAnyOrder(MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(1)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(2)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(3)));
     }
 
     @Test
-    @DisplayName("With fees for previous, current and next months it returns balance for the previous and current")
-    void testFindInRange_NoRange_PreviousCurrentNextMonths() {
+    @DisplayName("Can filter having only the start date")
+    @ValidPerson
+    @FeeFullYear
+    void testFindInRange_Start() {
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        feeInitializer.registerFeePreviousMonth(true);
-        feeInitializer.registerFeeCurrentMonth(true);
-        feeInitializer.registerFeeNextMonth(true);
-
-        sort = Sort.by("month");
+        sort = Sort.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1), null, sort);
 
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
-    }
-
-    @Test
-    @DisplayName("With a fee for the previous month and not paid it returns balance for the previous month")
-    void testFindInRange_NoRange_PreviousMonth_NotPaid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeePreviousMonth(false);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyMemberBalances.previousMonth());
-    }
-
-    @Test
-    @DisplayName("With a fee for the previous month and paid it returns balance for the previous month")
-    void testFindInRange_NoRange_PreviousMonth_Paid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeePreviousMonth(true);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyMemberBalances.previousMonth());
-    }
-
-    @Test
-    @DisplayName("With fees for two members this month it returns balance for both this month")
-    @ActiveMember
-    @AlternativeActiveMember
-    void testFindInRange_NoRange_TwoMembers() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-        feeInitializer.registerFeeCurrentMonthAlternative(true);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyMemberBalances.currentMonth(2L));
-    }
-
-    @Test
-    @DisplayName("With a fee for two months back and not paid it returns balance for the previous month")
-    void testFindInRange_NoRange_TwoMonthsBack_NotPaid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeeTwoMonthsBack(false);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyMemberBalances.twoMonthsBack());
-    }
-
-    @Test
-    @DisplayName("With a fee for two months back and paid it returns balance for the previous month")
-    void testFindInRange_NoRange_TwoMonthsBack_Paid() {
-        final Sort                           sort;
-        final Iterable<MonthlyMemberBalance> balances;
-
-        // GIVEN
-        feeInitializer.registerFeeTwoMonthsBack(true);
-
-        sort = Sort.by("month");
-
-        // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyMemberBalances.twoMonthsBack());
+            .containsExactlyInAnyOrder(MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(1)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(2)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(3)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(4)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(5)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(6)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(7)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(8)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(9)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(10)),
+                MonthlyMemberBalances.forMonth(MemberBalanceConstants.START_MONTH.plusMonths(11)));
     }
 
 }
