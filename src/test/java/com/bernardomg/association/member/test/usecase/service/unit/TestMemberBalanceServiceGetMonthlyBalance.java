@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
@@ -43,9 +44,9 @@ class TestMemberBalanceServiceGetMonthlyBalance {
         sort = Sort.unsorted();
 
         given(memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
-            MemberBalanceConstants.NEXT_MONTH, sort)).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
+            MemberBalanceConstants.CURRENT_MONTH, sort)).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
 
-        query = MemberBalanceQueryRequests.aroundCurrent();
+        query = MemberBalanceQueryRequests.previousAndThis();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -54,6 +55,25 @@ class TestMemberBalanceServiceGetMonthlyBalance {
         Assertions.assertThat(balances)
             .as("balances")
             .containsExactly(MonthlyMemberBalances.currentMonth());
+    }
+
+    @Test
+    @DisplayName("Can't read beyond the current month")
+    void testGetMonthlyBalance_LimitsAtCurrent() {
+        final MemberBalanceQuery query;
+        final Sort               sort;
+
+        // GIVEN
+        sort = Sort.unsorted();
+
+        query = MemberBalanceQueryRequests.aroundCurrent();
+
+        // WHEN
+        service.getMonthlyBalance(query, sort);
+
+        // THEN
+        Mockito.verify(memberBalanceRepository)
+            .findInRange(MemberBalanceConstants.PREVIOUS_MONTH, MemberBalanceConstants.CURRENT_MONTH, sort);
     }
 
     @Test
@@ -67,9 +87,9 @@ class TestMemberBalanceServiceGetMonthlyBalance {
         sort = Sort.unsorted();
 
         given(memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
-            MemberBalanceConstants.NEXT_MONTH, sort)).willReturn(List.of());
+            MemberBalanceConstants.CURRENT_MONTH, sort)).willReturn(List.of());
 
-        query = MemberBalanceQueryRequests.aroundCurrent();
+        query = MemberBalanceQueryRequests.previousAndThis();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
