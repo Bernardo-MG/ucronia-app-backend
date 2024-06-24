@@ -34,7 +34,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -173,7 +175,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
+        pageable = PageRequest.of(0, 10, Sort.by(Order.asc("paid"), Order.asc("date")));
 
         feeQuery = FeesQuery.empty();
 
@@ -195,7 +197,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
+        pageable = PageRequest.of(0, 10, Sort.by(Order.desc("paid"), Order.asc("date")));
 
         feeQuery = FeesQuery.empty();
 

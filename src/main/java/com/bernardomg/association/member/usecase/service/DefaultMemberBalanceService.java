@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.usecase.service;
 
+import java.time.YearMonth;
 import java.util.Objects;
 
 import org.springframework.data.domain.Sort;
@@ -33,6 +34,8 @@ import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Default implementation of the membership balance service.
  *
@@ -40,6 +43,7 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
  *
  */
 @Transactional
+@Slf4j
 public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     private final MemberBalanceRepository memberBalanceRepository;
@@ -52,7 +56,20 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     @Override
     public final Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sort sort) {
-        return memberBalanceRepository.findInRange(balance.getStartDate(), balance.getEndDate(), sort);
+        final YearMonth now;
+        final YearMonth end;
+
+        // Up to this month
+        now = YearMonth.now();
+        if ((balance.getEndDate() == null) || (balance.getEndDate()
+            .isAfter(now))) {
+            log.debug("Replacing end date {} with current date {}", balance.getEndDate(), now);
+            end = now;
+        } else {
+            end = balance.getEndDate();
+        }
+
+        return memberBalanceRepository.findInRange(balance.getStartDate(), end, sort);
     }
 
 }

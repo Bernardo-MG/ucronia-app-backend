@@ -42,6 +42,7 @@ public final class MonthlyMemberBalanceSpecifications {
             final YearMonth endDate) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
 
+        // TODO: use optionals, not nulls
         if ((startDate != null) && (endDate != null)) {
             spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(startDate, endDate));
         } else if (startDate != null) {
