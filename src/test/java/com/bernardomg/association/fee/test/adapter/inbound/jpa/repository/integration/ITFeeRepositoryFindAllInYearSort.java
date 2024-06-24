@@ -81,7 +81,7 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.asc("fullName"));
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -114,7 +114,7 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.desc("fullName"));
+        sort = Sort.by(Order.desc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);

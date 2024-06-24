@@ -593,9 +593,15 @@
          </exclusions>
       </dependency>
       <dependency>
-         <!-- H2 database -->
-         <groupId>com.h2database</groupId>
-         <artifactId>h2</artifactId>
+         <!-- Test containers -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>testcontainers</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgresql test container -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>postgresql </artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
