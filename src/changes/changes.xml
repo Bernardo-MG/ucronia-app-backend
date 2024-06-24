@@ -160,7 +160,10 @@
             Fixed id mapping for user person.
          </action>
       </release>
-      <release version="1.0.0" date="2024-06-18" description="">
+      <release version="0.5.5" date="2024-06-19" description="Fixed pagination">
+         <action dev="bmg" type="fix">
+            Fixed pagination for user members.
+         </action>
       </release>
    </body>
 </document>
