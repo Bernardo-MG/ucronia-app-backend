@@ -58,23 +58,23 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final void delete(final long index) {
-        log.debug("Deleting book {}", index);
+    public final void delete(final long number) {
+        log.debug("Deleting book {}", number);
 
-        bookSpringRepository.deleteByNumber(index);
+        bookSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted book {}", index);
+        log.debug("Deleted book {}", number);
     }
 
     @Override
-    public final boolean exists(final long index) {
+    public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if book {} exists", index);
+        log.debug("Checking if book {} exists", number);
 
-        exists = bookSpringRepository.existsByNumber(index);
+        exists = bookSpringRepository.existsByNumber(number);
 
-        log.debug("Book {} exists: {}", index, exists);
+        log.debug("Book {} exists: {}", number, exists);
 
         return exists;
     }
@@ -109,11 +109,11 @@ public final class JpaBookRepository implements BookRepository {
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next index for the books");
+        log.debug("Finding next number for the books");
 
         number = bookSpringRepository.findNextNumber();
 
-        log.debug("Found index {}", number);
+        log.debug("Found number {}", number);
 
         return number;
     }
@@ -135,15 +135,15 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final Optional<Book> getOne(final long index) {
+    public final Optional<Book> getOne(final long number) {
         final Optional<Book> book;
 
-        log.debug("Finding book {}", index);
+        log.debug("Finding book {}", number);
 
-        book = bookSpringRepository.findByNumber(index)
+        book = bookSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
-        log.debug("Found book {}: {}", index, book);
+        log.debug("Found book {}: {}", number, book);
 
         return book;
     }

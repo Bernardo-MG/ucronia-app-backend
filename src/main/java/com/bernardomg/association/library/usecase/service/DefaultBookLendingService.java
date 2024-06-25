@@ -15,6 +15,9 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class DefaultBookLendingService implements BookLendingService {
 
@@ -34,12 +37,14 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void lendBook(final long number, final long person) {
+    public final void lendBook(final long book, final long person) {
         final BookLending lending;
         final YearMonth   now;
 
-        if (!bookRepository.exists(number)) {
-            throw new MissingBookException(number);
+        log.debug("Lending book {} to {}", book, person);
+
+        if (!bookRepository.exists(book)) {
+            throw new MissingBookException(book);
         }
 
         if (!personRepository.exists(person)) {
@@ -49,7 +54,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         // TODO: should receive the date
         now = YearMonth.now();
         lending = BookLending.builder()
-            .withNumber(number)
+            .withNumber(book)
             .withMember(person)
             .withLendingDate(now)
             .build();
@@ -58,13 +63,15 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void returnBook(final long index, final long person) {
+    public final void returnBook(final long book, final long person) {
         final Optional<BookLending> read;
         final BookLending           toSave;
 
-        read = bookLendingRepository.findOne(index, person);
+        log.debug("Returning book {} from {}", book, person);
+
+        read = bookLendingRepository.findOne(book, person);
         if (read.isEmpty()) {
-            throw new MissingBookLendingException(index + "-" + person);
+            throw new MissingBookLendingException(book + "-" + person);
         }
 
         toSave = read.get();
