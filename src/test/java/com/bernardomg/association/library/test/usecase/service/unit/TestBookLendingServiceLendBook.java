@@ -43,7 +43,7 @@ import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +57,7 @@ class TestBookLendingServiceLendBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;
@@ -68,7 +68,7 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
@@ -100,7 +100,7 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);

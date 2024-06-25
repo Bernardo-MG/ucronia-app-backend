@@ -12,8 +12,8 @@ import com.bernardomg.association.library.domain.exception.MissingBookLendingExc
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 @Transactional
 public final class DefaultBookLendingService implements BookLendingService {
@@ -22,19 +22,19 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookRepository        bookRepository;
 
-    private final MemberRepository      memberRepository;
+    private final PersonRepository      personRepository;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final MemberRepository memberRepo) {
+            final PersonRepository personRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
     }
 
     @Override
-    public final void lendBook(final long number, final long member) {
+    public final void lendBook(final long number, final long person) {
         final BookLending lending;
         final YearMonth   now;
 
@@ -42,15 +42,15 @@ public final class DefaultBookLendingService implements BookLendingService {
             throw new MissingBookException(number);
         }
 
-        if (!memberRepository.exists(member)) {
-            // TODO: change name
-            throw new MissingMemberException(member);
+        if (!personRepository.exists(person)) {
+            throw new MissingPersonException(person);
         }
 
+        // TODO: should receive the date
         now = YearMonth.now();
         lending = BookLending.builder()
             .withNumber(number)
-            .withMember(member)
+            .withMember(person)
             .withLendingDate(now)
             .build();
 
@@ -58,13 +58,13 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void returnBook(final long index, final long member) {
+    public final void returnBook(final long index, final long person) {
         final Optional<BookLending> read;
         final BookLending           toSave;
 
-        read = bookLendingRepository.findOne(index, member);
+        read = bookLendingRepository.findOne(index, person);
         if (read.isEmpty()) {
-            throw new MissingBookLendingException(index + "-" + member);
+            throw new MissingBookLendingException(index + "-" + person);
         }
 
         toSave = read.get();

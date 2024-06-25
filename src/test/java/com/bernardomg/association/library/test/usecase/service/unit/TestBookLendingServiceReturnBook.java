@@ -44,7 +44,7 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,7 +58,7 @@ class TestBookLendingServiceReturnBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;
