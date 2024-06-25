@@ -42,7 +42,7 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
@@ -107,7 +107,7 @@ class TestBookLendingServiceLendBook {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
 }
