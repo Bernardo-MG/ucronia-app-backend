@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.library.test.config.factory;
 
+import java.time.LocalDate;
 import java.time.Month;
-import java.time.YearMonth;
 
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
@@ -13,7 +13,7 @@ public final class BookLendings {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)
             .withMember(PersonConstants.NUMBER)
-            .withLendingDate(YearMonth.of(2020, Month.JANUARY))
+            .withLendingDate(LocalDate.of(2020, Month.JANUARY, 1))
             .build();
     }
 
@@ -21,7 +21,7 @@ public final class BookLendings {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)
             .withMember(PersonConstants.NUMBER)
-            .withLendingDate(YearMonth.now())
+            .withLendingDate(LocalDate.now())
             .build();
     }
 
@@ -29,8 +29,8 @@ public final class BookLendings {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)
             .withMember(PersonConstants.NUMBER)
-            .withLendingDate(YearMonth.now())
-            .withReturnDate(YearMonth.now())
+            .withLendingDate(LocalDate.now())
+            .withReturnDate(LocalDate.now())
             .build();
     }
 

@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
-import java.time.YearMonth;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,7 +39,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     @Override
     public final void lendBook(final long book, final long person) {
         final BookLending lending;
-        final YearMonth   now;
+        final LocalDate   now;
 
         log.debug("Lending book {} to {}", book, person);
 
@@ -50,11 +50,11 @@ public final class DefaultBookLendingService implements BookLendingService {
         if (!personRepository.exists(person)) {
             throw new MissingPersonException(person);
         }
-        
+
         // TODO: Validate. What if it is already lent?
 
         // TODO: should receive the date
-        now = YearMonth.now();
+        now = LocalDate.now();
         lending = BookLending.builder()
             .withNumber(book)
             .withMember(person)
@@ -68,6 +68,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     public final void returnBook(final long book, final long person) {
         final Optional<BookLending> read;
         final BookLending           toSave;
+        final LocalDate             now;
 
         log.debug("Returning book {} from {}", book, person);
 
@@ -77,7 +78,9 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
 
         toSave = read.get();
-        toSave.setReturnDate(YearMonth.now());
+
+        now = LocalDate.now();
+        toSave.setReturnDate(now);
 
         bookLendingRepository.save(toSave);
     }

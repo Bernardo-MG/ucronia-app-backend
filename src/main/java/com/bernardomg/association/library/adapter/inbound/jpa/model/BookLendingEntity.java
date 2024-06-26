@@ -2,12 +2,9 @@
 package com.bernardomg.association.library.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.YearMonth;
-
-import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,14 +39,12 @@ public class BookLendingEntity implements Serializable {
     private Long              id;
 
     @Column(name = "lending_date", nullable = false)
-    @Convert(converter = YearMonthDateAttributeConverter.class)
-    private YearMonth         lendingDate;
+    private LocalDate         lendingDate;
 
     @Column(name = "person_id", nullable = false)
     private Long              personId;
 
     @Column(name = "return_date", nullable = false)
-    @Convert(converter = YearMonthDateAttributeConverter.class)
-    private YearMonth         returnDate;
+    private LocalDate         returnDate;
 
 }
