@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.domain.model;
+package com.bernardomg.association.library.adapter.outbound.rest.model;
 
 import java.time.LocalDate;
 

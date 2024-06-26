@@ -6,12 +6,12 @@ import java.util.Collection;
 import com.bernardomg.association.inventory.domain.model.Donor;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * TODO: include lent status
  */
-@Data
+@Value
 @Builder(setterPrefix = "with")
 public final class Book {
 

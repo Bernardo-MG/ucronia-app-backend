@@ -36,8 +36,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
-import com.bernardomg.association.library.domain.model.BookLent;
-import com.bernardomg.association.library.domain.model.BookReturned;
+import com.bernardomg.association.library.adapter.outbound.rest.model.BookLent;
+import com.bernardomg.association.library.adapter.outbound.rest.model.BookReturned;
 import com.bernardomg.association.library.usecase.service.BookLendingService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
