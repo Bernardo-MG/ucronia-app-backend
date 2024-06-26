@@ -73,6 +73,8 @@ public final class DefaultBookLendingService implements BookLendingService {
             throw new MissingBookLendingException(book + "-" + person);
         }
 
+        // TODO: Validate. What if it is already returned?
+
         toSave = read.get();
         toSave.setReturnDate(date);
 

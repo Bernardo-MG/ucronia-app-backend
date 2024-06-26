@@ -8,6 +8,9 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * TODO: include lent status
+ */
 @Data
 @Builder(setterPrefix = "with")
 public final class Book {
