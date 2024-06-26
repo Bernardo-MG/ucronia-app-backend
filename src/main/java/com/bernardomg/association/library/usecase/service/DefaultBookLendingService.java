@@ -75,6 +75,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         // TODO: Validate. What if it is already returned?
 
+        // TODO: should be immutable
         toSave = read.get();
         toSave.setReturnDate(date);
 
