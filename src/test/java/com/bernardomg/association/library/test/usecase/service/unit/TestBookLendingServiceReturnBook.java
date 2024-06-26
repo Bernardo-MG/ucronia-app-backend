@@ -69,13 +69,13 @@ class TestBookLendingServiceReturnBook {
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
-            .willReturn(Optional.of(BookLendings.lentNow()));
+            .willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
-        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
-        verify(bookLendingRepository).save(BookLendings.returnedNow());
+        verify(bookLendingRepository).save(BookLendings.returned());
     }
 
     @Test
@@ -87,7 +87,7 @@ class TestBookLendingServiceReturnBook {
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

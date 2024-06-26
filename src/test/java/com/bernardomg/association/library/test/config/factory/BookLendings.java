@@ -17,20 +17,20 @@ public final class BookLendings {
             .build();
     }
 
-    public static final BookLending lentNow() {
+    public static final BookLending lent() {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)
             .withMember(PersonConstants.NUMBER)
-            .withLendingDate(LocalDate.now())
+            .withLendingDate(BookConstants.LENT_DATE)
             .build();
     }
 
-    public static final BookLending returnedNow() {
+    public static final BookLending returned() {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)
             .withMember(PersonConstants.NUMBER)
-            .withLendingDate(LocalDate.now())
-            .withReturnDate(LocalDate.now())
+            .withLendingDate(BookConstants.LENT_DATE)
+            .withReturnDate(BookConstants.RETURNED_DATE)
             .build();
     }
 

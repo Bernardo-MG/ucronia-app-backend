@@ -37,9 +37,8 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void lendBook(final long book, final long person) {
+    public final void lendBook(final long book, final long person, final LocalDate date) {
         final BookLending lending;
-        final LocalDate   now;
 
         log.debug("Lending book {} to {}", book, person);
 
@@ -53,22 +52,19 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         // TODO: Validate. What if it is already lent?
 
-        // TODO: should receive the date
-        now = LocalDate.now();
         lending = BookLending.builder()
             .withNumber(book)
             .withMember(person)
-            .withLendingDate(now)
+            .withLendingDate(date)
             .build();
 
         bookLendingRepository.save(lending);
     }
 
     @Override
-    public final void returnBook(final long book, final long person) {
+    public final void returnBook(final long book, final long person, final LocalDate date) {
         final Optional<BookLending> read;
         final BookLending           toSave;
-        final LocalDate             now;
 
         log.debug("Returning book {} from {}", book, person);
 
@@ -78,9 +74,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
 
         toSave = read.get();
-
-        now = LocalDate.now();
-        toSave.setReturnDate(now);
+        toSave.setReturnDate(date);
 
         bookLendingRepository.save(toSave);
     }

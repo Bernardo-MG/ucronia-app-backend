@@ -56,7 +56,7 @@ class ITBookLendingRepositorySave {
         final BookLending lending;
 
         // GIVEN
-        lending = BookLendings.lentNow();
+        lending = BookLendings.lent();
 
         // WHEN
         repository.save(lending);
@@ -74,7 +74,7 @@ class ITBookLendingRepositorySave {
         final BookLending lending;
 
         // GIVEN
-        lending = BookLendings.lentNow();
+        lending = BookLendings.lent();
 
         // WHEN
         repository.save(lending);
@@ -93,7 +93,7 @@ class ITBookLendingRepositorySave {
         final BookLending lending;
 
         // GIVEN
-        lending = BookLendings.lentNow();
+        lending = BookLendings.lent();
 
         // WHEN
         repository.save(lending);
@@ -114,7 +114,7 @@ class ITBookLendingRepositorySave {
         final BookLending created;
 
         // GIVEN
-        lending = BookLendings.lentNow();
+        lending = BookLendings.lent();
 
         // WHEN
         created = repository.save(lending);
@@ -122,7 +122,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("lending")
-            .isEqualTo(BookLendings.lentNow());
+            .isEqualTo(BookLendings.lent());
     }
 
 }

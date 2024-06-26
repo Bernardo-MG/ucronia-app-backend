@@ -71,10 +71,10 @@ class TestBookLendingServiceLendBook {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        verify(bookLendingRepository).save(BookLendings.lentNow());
+        verify(bookLendingRepository).save(BookLendings.lent());
     }
 
     @Test
@@ -86,7 +86,7 @@ class TestBookLendingServiceLendBook {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -103,7 +103,7 @@ class TestBookLendingServiceLendBook {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
