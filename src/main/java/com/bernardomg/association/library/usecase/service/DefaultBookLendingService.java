@@ -50,6 +50,8 @@ public final class DefaultBookLendingService implements BookLendingService {
         if (!personRepository.exists(person)) {
             throw new MissingPersonException(person);
         }
+        
+        // TODO: Validate. What if it is already lent?
 
         // TODO: should receive the date
         now = YearMonth.now();
