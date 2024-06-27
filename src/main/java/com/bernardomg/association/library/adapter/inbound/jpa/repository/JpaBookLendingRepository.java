@@ -71,6 +71,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Optional<BookEntity>        bookEntity;
         final Optional<PersonEntity>      personEntity;
 
+        log.debug("Returning book {} from person {} at {}", book, person, date);
+
         bookEntity = bookSpringRepository.findByNumber(book);
         personEntity = personSpringRepository.findByNumber(person);
 
@@ -85,7 +87,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             lending = Optional.of(lentEntity)
                 .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
 
-            log.debug("Found book lending for book {} and person {}: {}", book, person, lending);
+            log.debug("Returned book {} from person {} at {}: {}", book, person, date, lending);
         } else {
             log.debug("No book lending found for book {} and person {}:", book, person);
             lending = Optional.empty();
