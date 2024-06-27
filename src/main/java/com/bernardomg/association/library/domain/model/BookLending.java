@@ -21,4 +21,13 @@ public class BookLending {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
+
+    public final boolean isLent() {
+        return (returnDate == null);
+    }
+
+    public final boolean isReturned() {
+        return (returnDate != null);
+    }
+
 }

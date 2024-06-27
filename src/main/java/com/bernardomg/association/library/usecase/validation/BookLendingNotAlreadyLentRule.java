@@ -30,7 +30,7 @@ public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLendin
 
         read = bookLendingRepository.findLent(lending.getNumber());
         if ((read.isPresent()) && (read.get()
-            .getLendingDate() != null)) {
+            .isLent())) {
             log.error("Lending book {} to {} on {}, which was already lent on {}", lending.getNumber(),
                 lending.getPerson(), lending.getLendingDate(), read.get()
                     .getLendingDate());
