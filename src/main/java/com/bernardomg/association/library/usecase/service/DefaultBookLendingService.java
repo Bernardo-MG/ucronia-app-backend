@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
-import java.time.YearMonth;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -12,65 +12,96 @@ import com.bernardomg.association.library.domain.exception.MissingBookLendingExc
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyLentRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyReturnedRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotLentInFutureRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLentRule;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class DefaultBookLendingService implements BookLendingService {
 
-    private final BookLendingRepository bookLendingRepository;
+    private final BookLendingRepository  bookLendingRepository;
 
-    private final BookRepository        bookRepository;
+    private final BookRepository         bookRepository;
 
-    private final MemberRepository      memberRepository;
+    private final Validator<BookLending> lendBookValidator;
+
+    private final PersonRepository       personRepository;
+
+    private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final MemberRepository memberRepo) {
+            final PersonRepository personRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
+
+        lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
+            new BookLendingNotLentInFutureRule());
+        returnBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyReturnedRule(bookLendingRepo),
+            new BookLendingNotReturnedBeforeLentRule());
     }
 
     @Override
-    public final void lendBook(final long number, final long member) {
+    public final void lendBook(final long book, final long person, final LocalDate date) {
         final BookLending lending;
-        final YearMonth   now;
 
-        if (!bookRepository.exists(number)) {
-            throw new MissingBookException(number);
+        log.debug("Lending book {} to {}", book, person);
+
+        if (!bookRepository.exists(book)) {
+            throw new MissingBookException(book);
         }
 
-        if (!memberRepository.exists(member)) {
-            // TODO: change name
-            throw new MissingMemberException(member);
+        if (!personRepository.exists(person)) {
+            throw new MissingPersonException(person);
         }
 
-        now = YearMonth.now();
         lending = BookLending.builder()
-            .withNumber(number)
-            .withMember(member)
-            .withLendingDate(now)
+            .withNumber(book)
+            .withPerson(person)
+            .withLendingDate(date)
             .build();
+
+        // TODO: validations should be by book, not person and book
+        lendBookValidator.validate(lending);
 
         bookLendingRepository.save(lending);
     }
 
     @Override
-    public final void returnBook(final long index, final long member) {
+    public final void returnBook(final long book, final long person, final LocalDate date) {
         final Optional<BookLending> read;
-        final BookLending           toSave;
+        final BookLending           lending;
 
-        read = bookLendingRepository.findOne(index, member);
+        log.debug("Returning book {} from {}", book, person);
+
+        read = bookLendingRepository.findOne(book, person);
         if (read.isEmpty()) {
-            throw new MissingBookLendingException(index + "-" + member);
+            throw new MissingBookLendingException(book + "-" + person);
         }
 
-        toSave = read.get();
-        toSave.setReturnDate(YearMonth.now());
+        lending = BookLending.builder()
+            .withNumber(book)
+            .withPerson(person)
+            .withLendingDate(read.get()
+                .getLendingDate())
+            .withReturnDate(date)
+            .build();
 
-        bookLendingRepository.save(toSave);
+        // TODO: validations should be by book, not person and book
+        // TODO: not allow returning a book lent to another
+        returnBookValidator.validate(lending);
+
+        bookLendingRepository.returnAt(book, person, date);
     }
 
 }

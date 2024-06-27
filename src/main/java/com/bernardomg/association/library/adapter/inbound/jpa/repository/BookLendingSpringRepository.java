@@ -27,11 +27,21 @@ package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
+import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingId;
 
-public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, Long> {
+public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, BookLendingId> {
 
     public Optional<BookLendingEntity> findByBookIdAndPersonId(final long book, final long person);
+
+    @Query("""
+               SELECT l
+               FROM BookLending l
+               WHERE l.bookId = :bookId AND l.returnDate IS NULL
+            """)
+    public Optional<BookLendingEntity> findLent(@Param("bookId") final Long bookId);
 
 }

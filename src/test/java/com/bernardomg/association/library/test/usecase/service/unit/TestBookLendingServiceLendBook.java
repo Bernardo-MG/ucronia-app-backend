@@ -27,6 +27,9 @@ package com.bernardomg.association.library.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -42,9 +45,11 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookLendingService - lend book")
@@ -57,7 +62,7 @@ class TestBookLendingServiceLendBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;
@@ -68,17 +73,74 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        verify(bookLendingRepository).save(BookLendings.lentNow());
+        verify(bookLendingRepository).save(BookLendings.lent());
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing book, an exception is thrown")
+    @DisplayName("When lending a book which is already lent, an exception is thrown")
+    void testLendBook_AlreadyLent_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(bookLendingRepository.findLent(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
+    }
+
+    @Test
+    @DisplayName("When lending a book which is already lent for another person, an exception is thrown")
+    void testLendBook_AlreadyLentForAnother_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(bookLendingRepository.findLent(BookConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lentAlternativePerson()));
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
+    }
+
+    @Test
+    @DisplayName("When lending a book in the future, an exception is thrown")
+    void testLendBook_InFuture_Exception() {
+        final ThrowingCallable execution;
+        final LocalDate        date;
+
+        // GIVEN
+        date = LocalDate.now()
+            .plusDays(1);
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("lendingDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When lending a book for a not existing book, an exception is thrown")
     void testLendBook_NoBook_Exception() {
         final ThrowingCallable execution;
 
@@ -86,7 +148,7 @@ class TestBookLendingServiceLendBook {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -94,20 +156,20 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing member, an exception is thrown")
+    @DisplayName("When lending a book for a not existing member, an exception is thrown")
     void testLendBook_NoMember_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingPersonException.class);
     }
 
 }

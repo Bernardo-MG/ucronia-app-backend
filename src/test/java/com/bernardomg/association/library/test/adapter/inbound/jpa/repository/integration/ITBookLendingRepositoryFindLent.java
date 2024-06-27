@@ -24,105 +24,76 @@
 
 package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
-import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
-import com.bernardomg.association.library.test.config.factory.BookLendingEntities;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookLendingRepository - save")
-class ITBookLendingRepositorySave {
+@DisplayName("BookLendingRepository - find lent")
+class ITBookLendingRepositoryFindLent {
 
     @Autowired
-    private BookLendingRepository       repository;
-
-    @Autowired
-    private BookLendingSpringRepository springRepository;
+    private BookLendingRepository repository;
 
     @Test
-    @DisplayName("When saving and the book doesnt exist, nothing is persisted")
-    @ValidPerson
-    void testSave_NoBook() {
-        final BookLending lending;
-
-        // GIVEN
-        lending = BookLendings.lent();
-
-        // WHEN
-        repository.save(lending);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("lendings")
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When saving and the person doesnt exist, nothing is persisted")
-    @MinimalBook
-    void testSave_NoMember() {
-        final BookLending lending;
-
-        // GIVEN
-        lending = BookLendings.lent();
-
-        // WHEN
-        repository.save(lending);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("lendings")
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When saving and the book and person exist, a lending is persisted")
+    @DisplayName("With a lending, it is returned")
     @ValidPerson
     @FullBook
-    void testSave_Persisted() {
-        final BookLending lending;
-
-        // GIVEN
-        lending = BookLendings.lent();
+    @LentBookLending
+    void testFindLent_Lent() {
+        final Optional<BookLending> lendings;
 
         // WHEN
-        repository.save(lending);
+        lendings = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(springRepository.findAll())
+        Assertions.assertThat(lendings)
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookLendingEntities.lent());
+            .contains(BookLendings.lentNoPerson());
     }
 
     @Test
-    @DisplayName("When saving and the book and person exist, the persisted lending is returned")
+    @DisplayName("With a returned book, nothing is returned")
     @ValidPerson
     @FullBook
-    void testSave_Returned() {
-        final BookLending lending;
-        final BookLending created;
-
-        // GIVEN
-        lending = BookLendings.lent();
+    @ReturnedBookLending
+    void testFindLent_Returned() {
+        final Optional<BookLending> lendings;
 
         // WHEN
-        created = repository.save(lending);
+        lendings = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(created)
-            .as("lending")
-            .isEqualTo(BookLendings.lent());
+        Assertions.assertThat(lendings)
+            .as("lendings").isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no data, nothing is returned")
+    void testFindLent_NoData() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
     }
 
 }

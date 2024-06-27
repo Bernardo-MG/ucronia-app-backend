@@ -265,16 +265,9 @@ databaseChangeLog:
             tableName: book_lendings
             columns:
               - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
                   name: book_id
                   type: bigint
                   constraints:
-                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_lending_book
                     references: inventory.books(id)
@@ -282,7 +275,6 @@ databaseChangeLog:
                   name: person_id
                   type: bigint
                   constraints:
-                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_lending_person
                     references: association.persons(id)
@@ -295,15 +287,8 @@ databaseChangeLog:
               - column:
                   name: return_date
                   type: datetime
-        - addAutoIncrement:
-            schemaName: inventory
-            tableName: book_lendings
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
-        - addUniqueConstraint:
-            constraintName: book_lendings_unique_date
+        - addPrimaryKey:
+            constraintName: book_lendings_key
             schemaName: inventory
             tableName: book_lendings
             columnNames: 'book_id, person_id, lending_date'

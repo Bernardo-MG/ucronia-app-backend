@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,15 +35,18 @@ import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookLen
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
+import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendingEntities;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookLendingRepository - save")
-class ITBookLendingRepositorySave {
+class ITBookLendingRepositoryReturnAt {
 
     @Autowired
     private BookLendingRepository       repository;
@@ -50,16 +55,11 @@ class ITBookLendingRepositorySave {
     private BookLendingSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving and the book doesnt exist, nothing is persisted")
+    @DisplayName("When returning a book and the book doesnt exist, nothing is persisted")
     @ValidPerson
-    void testSave_NoBook() {
-        final BookLending lending;
-
-        // GIVEN
-        lending = BookLendings.lent();
-
+    void testReturnAt_NoBook() {
         // WHEN
-        repository.save(lending);
+        repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -68,16 +68,11 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the person doesnt exist, nothing is persisted")
+    @DisplayName("When returning a book and the person doesnt exist, nothing is persisted")
     @MinimalBook
-    void testSave_NoMember() {
-        final BookLending lending;
-
-        // GIVEN
-        lending = BookLendings.lent();
-
+    void testReturnAt_NoMember() {
         // WHEN
-        repository.save(lending);
+        repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -86,43 +81,36 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the book and person exist, a lending is persisted")
+    @DisplayName("When returning a book and the book and person exist, a lending is persisted")
     @ValidPerson
     @FullBook
-    void testSave_Persisted() {
-        final BookLending lending;
-
-        // GIVEN
-        lending = BookLendings.lent();
-
+    @LentBookLending
+    void testReturnAt_Persisted() {
         // WHEN
-        repository.save(lending);
+        repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookLendingEntities.lent());
+            .contains(BookLendingEntities.returned());
     }
 
     @Test
-    @DisplayName("When saving and the book and person exist, the persisted lending is returned")
+    @DisplayName("When returning a book and the book and person exist, the persisted lending is returned")
     @ValidPerson
     @FullBook
-    void testSave_Returned() {
-        final BookLending lending;
-        final BookLending created;
-
-        // GIVEN
-        lending = BookLendings.lent();
+    @LentBookLending
+    void testReturnAt_Returned() {
+        final Optional<BookLending> created;
 
         // WHEN
-        created = repository.save(lending);
+        created = repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         Assertions.assertThat(created)
             .as("lending")
-            .isEqualTo(BookLendings.lent());
+            .contains(BookLendings.returned());
     }
 
 }

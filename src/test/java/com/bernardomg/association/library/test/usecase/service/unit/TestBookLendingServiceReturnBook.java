@@ -27,6 +27,7 @@ package com.bernardomg.association.library.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -44,8 +45,10 @@ import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookLendingService - return book")
@@ -58,40 +61,77 @@ class TestBookLendingServiceReturnBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;
 
     @Test
     @DisplayName("When returning a book, it is persisted with the current returned date")
-    void testLendBook() {
+    void testReturnBook() {
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
-            .willReturn(Optional.of(BookLendings.lentNow()));
+            .willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
-        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
-        verify(bookLendingRepository).save(BookLendings.returnedNow());
+        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER,
+            BookConstants.RETURNED_DATE);
+    }
+
+    @Test
+    @DisplayName("When returning a book which was already returned, an exception is thrown")
+    void testReturnBook_AlreadyReturned_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+
+        // WHEN
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("returnDate", "existing", BookConstants.RETURNED_DATE));
     }
 
     @Test
     @DisplayName("When returning a book for a not existing lending, an exception is thrown")
-    void testLendBook_NoLending_Exception() {
+    void testReturnBook_NoLending_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER);
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingBookLendingException.class);
+    }
+
+    @Test
+    @DisplayName("When returning a book before it was lent, an exception is thrown")
+    void testReturnBook_ReturnBeforeLent_Exception() {
+        final ThrowingCallable execution;
+        final LocalDate        date;
+
+        // GIVEN
+        date = BookConstants.LENT_DATE.minusDays(1);
+
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
     }
 
 }
