@@ -194,7 +194,7 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
-    @DisplayName("When lending a book, it is persisted with the current date")
+    @DisplayName("When lending a book on the last return date, it is persisted")
     void testLendBook_OnLastReturn() {
 
         // GIVEN

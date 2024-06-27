@@ -109,6 +109,34 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
+    public final Optional<BookLending> findReturned(final long book, final long person, final LocalDate date) {
+        final Optional<BookLending>  lending;
+        final Optional<BookEntity>   bookEntity;
+        final Optional<PersonEntity> personEntity;
+
+        log.debug("Finding returned book {} for person {} and date {}", book, person, date);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+        personEntity = personSpringRepository.findByNumber(person);
+
+        if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
+            lending = bookLendingSpringRepository.findReturnedByNumberAndPersonAndDate(bookEntity.get()
+                .getId(),
+                personEntity.get()
+                    .getId(),
+                date)
+                .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
+
+            log.debug("Found returned book lending for book {}: {}", book, lending);
+        } else {
+            log.debug("Book {} not found", book);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
     public final Optional<BookLending> returnAt(final long book, final long person, final LocalDate date) {
         final Optional<BookLendingEntity> readLending;
         final Optional<BookLending>       lending;

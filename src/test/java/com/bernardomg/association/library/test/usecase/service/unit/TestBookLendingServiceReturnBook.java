@@ -73,7 +73,8 @@ class TestBookLendingServiceReturnBook {
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
+            .willReturn(Optional.empty());
 
         // WHEN
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
@@ -91,7 +92,7 @@ class TestBookLendingServiceReturnBook {
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER))
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
             .willReturn(Optional.of(BookLendings.returned()));
 
         // WHEN
@@ -119,6 +120,24 @@ class TestBookLendingServiceReturnBook {
     }
 
     @Test
+    @DisplayName("When returning a book on the last return date, it is persisted")
+    void testReturnBook_OnLastReturn() {
+
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
+            .willReturn(Optional.empty());
+
+        // WHEN
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER,
+            BookConstants.RETURNED_DATE);
+    }
+
+    @Test
     @DisplayName("When returning a book before it was lent, an exception is thrown")
     void testReturnBook_ReturnBeforeLent_Exception() {
         final ThrowingCallable execution;
@@ -129,7 +148,8 @@ class TestBookLendingServiceReturnBook {
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
+            .willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
@@ -150,7 +170,8 @@ class TestBookLendingServiceReturnBook {
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
+            .willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
@@ -165,7 +186,8 @@ class TestBookLendingServiceReturnBook {
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
+            .willReturn(Optional.empty());
 
         // WHEN
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
