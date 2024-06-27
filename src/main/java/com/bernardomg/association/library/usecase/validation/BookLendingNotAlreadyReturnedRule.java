@@ -29,8 +29,7 @@ public final class BookLendingNotAlreadyReturnedRule implements FieldRule<BookLe
         final Optional<BookLending>  read;
 
         read = bookLendingRepository.findReturned(lending.getNumber());
-        if ((read.isPresent()) && (read.get()
-            .isReturned())) {
+        if (read.isPresent()) {
             log.error("Returning book {} to {} on {}, which was already returned on {}", lending.getNumber(),
                 lending.getPerson(), lending.getReturnDate(), read.get()
                     .getReturnDate());
