@@ -49,7 +49,6 @@ import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
 import com.bernardomg.association.library.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.domain.model.Author;
 import com.bernardomg.association.library.domain.model.Book;
-import com.bernardomg.association.library.domain.model.Book.BookBuilder;
 import com.bernardomg.association.library.domain.model.BookType;
 import com.bernardomg.association.library.domain.model.GameSystem;
 import com.bernardomg.association.library.domain.model.Publisher;
@@ -85,7 +84,7 @@ public class BookController {
         final Book book;
 
         // Book
-        book = toDomain(request);
+        book = toDomain(request, 0);
 
         return service.create(book);
     }
@@ -126,16 +125,7 @@ public class BookController {
         return service.update(number, book);
     }
 
-    private final Book toDomain(final BookCreation request) {
-        return toDomainBuilder(request).build();
-    }
-
     private final Book toDomain(final BookCreation request, final long number) {
-        return toDomainBuilder(request).withNumber(number)
-            .build();
-    }
-
-    private final BookBuilder toDomainBuilder(final BookCreation request) {
         final Collection<Author> authors;
         final Publisher          publisher;
         final BookType           bookType;
@@ -208,7 +198,9 @@ public class BookController {
             .withPublisher(publisher)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
-            .withDonors(donors);
+            .withDonors(donors)
+            .withNumber(number)
+            .build();
     }
 
 }
