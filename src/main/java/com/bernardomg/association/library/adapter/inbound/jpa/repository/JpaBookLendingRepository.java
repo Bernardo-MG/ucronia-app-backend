@@ -107,7 +107,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.getNumber());
-        personEntity = personSpringRepository.findByNumber(lending.getMember());
+        personEntity = personSpringRepository.findByNumber(lending.getPerson());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
             toCreate = toEntity(lending, bookEntity.get(), personEntity.get());
@@ -128,7 +128,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             final PersonEntity personEntity) {
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
-            .withMember(personEntity.getNumber())
+            .withPerson(personEntity.getNumber())
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
             .build();

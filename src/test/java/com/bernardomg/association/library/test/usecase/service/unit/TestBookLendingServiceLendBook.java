@@ -97,7 +97,8 @@ class TestBookLendingServiceLendBook {
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
     }
 
     @Test

@@ -67,7 +67,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         lending = BookLending.builder()
             .withNumber(book)
-            .withMember(person)
+            .withPerson(person)
             .withLendingDate(date)
             .build();
 
@@ -90,7 +90,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         lending = BookLending.builder()
             .withNumber(book)
-            .withMember(person)
+            .withPerson(person)
             .withLendingDate(read.get()
                 .getLendingDate())
             .withReturnDate(date)

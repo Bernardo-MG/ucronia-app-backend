@@ -15,10 +15,9 @@ public class BookLending {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lendingDate;
 
-    // TODO: person
-    private long      member;
-
     private long      number;
+
+    private long      person;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;

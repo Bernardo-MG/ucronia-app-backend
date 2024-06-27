@@ -26,7 +26,7 @@ public final class BookLendingNotLentInFutureRule implements FieldRule<BookLendi
         now = LocalDate.now();
         if (now.isBefore(lending.getLendingDate())) {
             log.error("Lending book {} to {} on {}, which is after current date {}", lending.getNumber(),
-                lending.getMember(), lending.getLendingDate(), now);
+                lending.getPerson(), lending.getLendingDate(), now);
             fieldFailure = FieldFailure.of("lendingDate", "invalid", lending.getLendingDate());
             failure = Optional.of(fieldFailure);
         } else {
