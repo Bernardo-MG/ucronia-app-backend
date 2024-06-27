@@ -39,7 +39,6 @@ import com.bernardomg.association.library.test.config.data.annotation.ReturnedBo
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -72,7 +71,7 @@ class ITBookLendingRepositoryFindReturned {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lendings = repository.findReturned(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)

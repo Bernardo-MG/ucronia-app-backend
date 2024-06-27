@@ -35,6 +35,7 @@ import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
@@ -58,7 +59,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER,BookConstants.LENT_DATE);
+        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lendings)
@@ -67,12 +68,28 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
-    void testFindReturned_NoData() {
+    @DisplayName("With no book, nothing is returned")
+    @ValidPerson
+    void testFindReturned_NoBook() {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER,BookConstants.LENT_DATE);
+        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no person, nothing is returned")
+    @MinimalBook
+    void testFindReturned_NoPerson() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lendings)
@@ -89,7 +106,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER,BookConstants.LENT_DATE);
+        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lendings)

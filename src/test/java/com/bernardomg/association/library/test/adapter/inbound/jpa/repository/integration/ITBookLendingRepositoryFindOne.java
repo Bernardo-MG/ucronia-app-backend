@@ -35,6 +35,7 @@ import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
@@ -66,8 +67,24 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
-    void testFindOne_NoData() {
+    @DisplayName("With no person, nothing is returned")
+    @ValidPerson
+    void testFindOne_NoBook() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no person, nothing is returned")
+    @MinimalBook
+    void testFindOne_NoPerson() {
         final Optional<BookLending> lendings;
 
         // WHEN
