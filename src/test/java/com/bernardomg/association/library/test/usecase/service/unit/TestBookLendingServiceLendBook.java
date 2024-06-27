@@ -194,6 +194,23 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
+    @DisplayName("When lending a book, it is persisted with the current date")
+    void testLendBook_OnLastReturn() {
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+
+        // WHEN
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        verify(bookLendingRepository).save(BookLendings.lentAtReturn());
+    }
+
+    @Test
     @DisplayName("When lending a book today, it is persisted with the current date")
     void testLendBook_Today() {
 
