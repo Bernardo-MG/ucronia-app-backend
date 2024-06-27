@@ -64,7 +64,6 @@ public final class DefaultBookLendingService implements BookLendingService {
     @Override
     public final void returnBook(final long book, final long person, final LocalDate date) {
         final Optional<BookLending> read;
-        final BookLending           toSave;
 
         log.debug("Returning book {} from {}", book, person);
 
@@ -74,12 +73,9 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
 
         // TODO: Validate. What if it is already returned?
+        // TODO: Can't return before lending
 
-        // TODO: should be immutable
-        toSave = read.get();
-        toSave.setReturnDate(date);
-
-        bookLendingRepository.save(toSave);
+        bookLendingRepository.returnAt(book, person, date);
     }
 
 }

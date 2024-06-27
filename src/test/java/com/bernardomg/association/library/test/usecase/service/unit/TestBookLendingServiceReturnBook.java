@@ -65,7 +65,7 @@ class TestBookLendingServiceReturnBook {
 
     @Test
     @DisplayName("When returning a book, it is persisted with the current returned date")
-    void testLendBook() {
+    void testReturnBook() {
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
@@ -75,12 +75,13 @@ class TestBookLendingServiceReturnBook {
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
-        verify(bookLendingRepository).save(BookLendings.returned());
+        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER,
+            BookConstants.RETURNED_DATE);
     }
 
     @Test
     @DisplayName("When returning a book for a not existing lending, an exception is thrown")
-    void testLendBook_NoLending_Exception() {
+    void testReturnBook_NoLending_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
