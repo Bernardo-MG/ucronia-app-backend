@@ -51,6 +51,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
 
         // TODO: Validate. What if it is already lent?
+        // TODO: Can't lend in the future
 
         lending = BookLending.builder()
             .withNumber(book)

@@ -29,8 +29,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
+import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingId;
 
-public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, Long> {
+public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, BookLendingId> {
 
     public Optional<BookLendingEntity> findByBookIdAndPersonId(final long book, final long person);
 

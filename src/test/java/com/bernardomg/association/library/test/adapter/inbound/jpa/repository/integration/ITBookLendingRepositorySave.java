@@ -102,7 +102,7 @@ class ITBookLendingRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookLendingEntities.returned());
+            .contains(BookLendingEntities.lent());
     }
 
     @Test
@@ -122,7 +122,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("lending")
-            .isEqualTo(BookLendings.returned());
+            .isEqualTo(BookLendings.lent());
     }
 
 }
