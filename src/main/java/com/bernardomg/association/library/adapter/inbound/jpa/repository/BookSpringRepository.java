@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookEntity;
 
@@ -43,7 +44,19 @@ public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
 
     public Optional<BookEntity> findByNumber(final long number);
 
-    @Query("SELECT COALESCE(MAX(b.number), 0) + 1 FROM Book b")
+    @Query("""
+               SELECT COALESCE(MAX(b.number), 0) + 1
+               FROM Book b
+            """)
     public Long findNextNumber();
+
+    @Query("""
+               SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Book b
+               RIGHT JOIN BookLending l ON b.id = l.bookId
+               WHERE b.id = :bookId
+                 AND l.returnDate IS NULL
+            """)
+    public boolean isLent(@Param("bookId") final long bookId);
 
 }

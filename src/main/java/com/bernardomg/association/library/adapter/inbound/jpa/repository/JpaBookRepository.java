@@ -185,6 +185,7 @@ public final class JpaBookRepository implements BookRepository {
         final BookType           bookType;
         final Collection<Donor>  donors;
         final Collection<Author> authors;
+        final boolean            lent;
 
         if (entity.getPublisher() == null) {
             publisher = Publisher.builder()
@@ -220,6 +221,8 @@ public final class JpaBookRepository implements BookRepository {
                 .map(this::toDomain)
                 .toList();
         }
+
+        lent = bookSpringRepository.isLent(entity.getId());
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
@@ -230,6 +233,7 @@ public final class JpaBookRepository implements BookRepository {
             .withGameSystem(gameSystem)
             .withBookType(bookType)
             .withDonors(donors)
+            .withLent(lent)
             .build();
     }
 

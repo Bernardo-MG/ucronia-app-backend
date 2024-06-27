@@ -67,6 +67,20 @@ class ITBookLendingRepositoryFindLent {
     }
 
     @Test
+    @DisplayName("With no data, nothing is returned")
+    void testFindLent_NoData() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With a returned book, nothing is returned")
     @ValidPerson
     @FullBook
@@ -76,19 +90,6 @@ class ITBookLendingRepositoryFindLent {
 
         // WHEN
         lendings = repository.findLent(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings").isEmpty();
-    }
-
-    @Test
-    @DisplayName("With no data, nothing is returned")
-    void testFindLent_NoData() {
-        final Optional<BookLending> lendings;
-
-        // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)
