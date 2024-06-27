@@ -67,13 +67,13 @@ class TestBookLendingServiceReturnBook {
     private DefaultBookLendingService service;
 
     @Test
-    @DisplayName("When returning a book, it is persisted with the current returned date")
+    @DisplayName("When returning a book, it is persisted")
     void testReturnBook() {
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
@@ -129,13 +129,49 @@ class TestBookLendingServiceReturnBook {
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
-        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When returning a book in the future, an exception is thrown")
+    void testReturnBook_ReturnInFuture_Exception() {
+        final ThrowingCallable execution;
+        final LocalDate        date;
+
+        // GIVEN
+        date = LocalDate.now()
+            .plusDays(1);
+
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When returning a book when it was lent, it is persisted")
+    void testReturnBook_ReturnWhenLent() {
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
     }
 
 }

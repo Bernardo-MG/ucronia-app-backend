@@ -16,6 +16,7 @@ import com.bernardomg.association.library.usecase.validation.BookLendingNotAlrea
 import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyReturnedRule;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotLentInFutureRule;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLentRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedInFutureRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -48,7 +49,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
             new BookLendingNotLentInFutureRule());
         returnBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyReturnedRule(bookLendingRepo),
-            new BookLendingNotReturnedBeforeLentRule());
+            new BookLendingNotReturnedBeforeLentRule(), new BookLendingNotReturnedInFutureRule());
     }
 
     @Override

@@ -59,29 +59,6 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public  final Optional<BookLending> findReturned( final long book) {
-        final Optional<BookLending> lending;
-        final Optional<BookEntity>  bookEntity;
-
-        log.debug("Finding returned book lending for book {}", book);
-
-        bookEntity = bookSpringRepository.findByNumber(book);
-
-        if (bookEntity.isPresent()) {
-            lending = bookLendingSpringRepository.findReturned(bookEntity.get()
-                .getId())
-                .map(m -> toDomain(m, bookEntity.get()));
-
-            log.debug("Found returned book lending for book {}: {}", book, lending);
-        } else {
-            log.debug("Book {} not found", book);
-            lending = Optional.empty();
-        }
-
-        return lending;
-    }
-
-    @Override
     public final Optional<BookLending> findOne(final long book, final long person) {
         final Optional<BookLending>  lending;
         final Optional<BookEntity>   bookEntity;
@@ -102,6 +79,29 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             log.debug("Found book lending for book {} and person {}: {}", book, person, lending);
         } else {
             log.debug("Book {} or person {} not found", book, person);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
+    public final Optional<BookLending> findReturned(final long book) {
+        final Optional<BookLending> lending;
+        final Optional<BookEntity>  bookEntity;
+
+        log.debug("Finding returned book lending for book {}", book);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+
+        if (bookEntity.isPresent()) {
+            lending = bookLendingSpringRepository.findReturned(bookEntity.get()
+                .getId())
+                .map(m -> toDomain(m, bookEntity.get()));
+
+            log.debug("Found returned book lending for book {}: {}", book, lending);
+        } else {
+            log.debug("Book {} not found", book);
             lending = Optional.empty();
         }
 

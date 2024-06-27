@@ -172,4 +172,19 @@ class TestBookLendingServiceLendBook {
             .isInstanceOf(MissingPersonException.class);
     }
 
+    @Test
+    @DisplayName("When lending a book today, it is persisted with the current date")
+    void testLendBook_Today() {
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, LocalDate.now());
+
+        // THEN
+        verify(bookLendingRepository).save(BookLendings.lentToday());
+    }
+
 }
