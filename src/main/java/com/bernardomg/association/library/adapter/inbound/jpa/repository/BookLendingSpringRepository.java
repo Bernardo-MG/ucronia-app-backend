@@ -44,4 +44,11 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
             """)
     public Optional<BookLendingEntity> findLent(@Param("bookId") final Long bookId);
 
+    @Query("""
+               SELECT l
+               FROM BookLending l
+               WHERE l.bookId = :bookId AND l.returnDate IS NOT NULL
+            """)
+    public Optional<BookLendingEntity> findReturned(@Param("bookId") final Long bookId);
+
 }

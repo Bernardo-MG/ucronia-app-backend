@@ -71,7 +71,6 @@ public final class DefaultBookLendingService implements BookLendingService {
             .withLendingDate(date)
             .build();
 
-        // TODO: validations should be by book, not person and book
         lendBookValidator.validate(lending);
 
         bookLendingRepository.save(lending);
@@ -97,7 +96,6 @@ public final class DefaultBookLendingService implements BookLendingService {
             .withReturnDate(date)
             .build();
 
-        // TODO: validations should be by book, not person and book
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 

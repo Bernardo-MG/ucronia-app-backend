@@ -48,4 +48,13 @@ public final class BookLendings {
             .build();
     }
 
+    public static final BookLending returnedNoPerson() {
+        return BookLending.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withPerson(0)
+            .withLendingDate(BookConstants.LENT_DATE)
+            .withReturnDate(BookConstants.RETURNED_DATE)
+            .build();
+    }
+
 }

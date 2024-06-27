@@ -49,7 +49,30 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
                 .getId())
                 .map(m -> toDomain(m, bookEntity.get()));
 
-            log.debug("Found book lending for book {}: {}", book, lending);
+            log.debug("Found lent book lending for book {}: {}", book, lending);
+        } else {
+            log.debug("Book {} not found", book);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
+    public  final Optional<BookLending> findReturned( final long book) {
+        final Optional<BookLending> lending;
+        final Optional<BookEntity>  bookEntity;
+
+        log.debug("Finding returned book lending for book {}", book);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+
+        if (bookEntity.isPresent()) {
+            lending = bookLendingSpringRepository.findReturned(bookEntity.get()
+                .getId())
+                .map(m -> toDomain(m, bookEntity.get()));
+
+            log.debug("Found returned book lending for book {}: {}", book, lending);
         } else {
             log.debug("Book {} not found", book);
             lending = Optional.empty();

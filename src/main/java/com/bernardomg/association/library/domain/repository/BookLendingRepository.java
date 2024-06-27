@@ -9,6 +9,7 @@ import com.bernardomg.association.library.domain.model.BookLending;
 public interface BookLendingRepository {
 
     public Optional<BookLending> findLent(final long book);
+    public Optional<BookLending> findReturned(final long book);
 
     public Optional<BookLending> findOne(final long book, final long person);
 

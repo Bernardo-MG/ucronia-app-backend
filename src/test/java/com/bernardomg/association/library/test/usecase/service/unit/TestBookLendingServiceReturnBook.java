@@ -73,6 +73,7 @@ class TestBookLendingServiceReturnBook {
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
@@ -89,6 +90,8 @@ class TestBookLendingServiceReturnBook {
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
         // WHEN
@@ -126,6 +129,7 @@ class TestBookLendingServiceReturnBook {
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
