@@ -35,6 +35,7 @@ import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
@@ -42,8 +43,8 @@ import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookLendingRepository - find one")
-class ITBookLendingRepositoryFindOne {
+@DisplayName("BookLendingRepository - find lent")
+class ITBookLendingRepositoryFindLent {
 
     @Autowired
     private BookLendingRepository repository;
@@ -53,21 +54,37 @@ class ITBookLendingRepositoryFindOne {
     @ValidPerson
     @FullBook
     @LentBookLending
-    void testFindOne() {
+    void testFindLent_Lent() {
         final Optional<BookLending> lendings;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lendings = repository.findLent(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.lent());
+            .contains(BookLendings.lentNoPerson());
+    }
+
+    @Test
+    @DisplayName("With a returned book, nothing is returned")
+    @ValidPerson
+    @FullBook
+    @ReturnedBookLending
+    void testFindLent_Returned() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findLent(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings").isEmpty();
     }
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testFindOne_NoData() {
+    void testFindLent_NoData() {
         final Optional<BookLending> lendings;
 
         // WHEN

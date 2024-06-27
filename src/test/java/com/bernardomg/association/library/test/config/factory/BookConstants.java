@@ -16,8 +16,7 @@ public final class BookConstants {
 
     public static final long      NUMBER        = 1L;
 
-    public static final LocalDate RETURNED_DATE = LocalDate.now()
-        .minusDays(1);
+    public static final LocalDate RETURNED_DATE = LocalDate.of(2020, Month.JANUARY, 2);
 
     public static final String    TITLE         = "Title";
 

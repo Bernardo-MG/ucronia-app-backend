@@ -90,8 +90,26 @@ class TestBookLendingServiceLendBook {
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
-            .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.findLent(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
+    }
+
+    @Test
+    @DisplayName("When lending a book which is already lent for another person, an exception is thrown")
+    void testLendBook_AlreadyLentForAnother_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(bookLendingRepository.findLent(BookConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lentAlternativePerson()));
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
