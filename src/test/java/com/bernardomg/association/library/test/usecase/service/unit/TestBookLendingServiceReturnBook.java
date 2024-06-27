@@ -67,7 +67,7 @@ class TestBookLendingServiceReturnBook {
     private DefaultBookLendingService service;
 
     @Test
-    @DisplayName("When returning a book, it is persisted with the current returned date")
+    @DisplayName("When returning a book, it is persisted")
     void testReturnBook() {
 
         // GIVEN
@@ -89,6 +89,10 @@ class TestBookLendingServiceReturnBook {
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
             .willReturn(Optional.of(BookLendings.returned()));
 
         // WHEN
@@ -116,6 +120,22 @@ class TestBookLendingServiceReturnBook {
     }
 
     @Test
+    @DisplayName("When returning a book on the last return date, it is persisted")
+    void testReturnBook_OnLastReturn() {
+
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER,
+            BookConstants.RETURNED_DATE);
+    }
+
+    @Test
     @DisplayName("When returning a book before it was lent, an exception is thrown")
     void testReturnBook_ReturnBeforeLent_Exception() {
         final ThrowingCallable execution;
@@ -132,6 +152,63 @@ class TestBookLendingServiceReturnBook {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When returning a book before the last return, an exception is thrown")
+    void testReturnBook_ReturnedBeforeLastReturn_Exception() {
+        final ThrowingCallable execution;
+        final LocalDate        date;
+
+        // GIVEN
+        date = BookConstants.RETURNED_DATE.minusDays(1);
+
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE))
+            .willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When returning a book in the future, an exception is thrown")
+    void testReturnBook_ReturnInFuture_Exception() {
+        final ThrowingCallable execution;
+        final LocalDate        date;
+
+        // GIVEN
+        date = LocalDate.now()
+            .plusDays(1);
+
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When returning a book when it was lent, it is persisted")
+    void testReturnBook_ReturnWhenLent() {
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
     }
 
 }

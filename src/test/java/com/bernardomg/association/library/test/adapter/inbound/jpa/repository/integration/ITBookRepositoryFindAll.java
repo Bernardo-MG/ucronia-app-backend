@@ -33,6 +33,8 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -65,6 +67,27 @@ class ITBookRepositoryFindAll {
     }
 
     @Test
+    @DisplayName("When there is a lent book, it is returned")
+    @ValidPerson
+    @FullBook
+    @LentBookLending
+    void testFindAll_Lent() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.getAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.lent());
+    }
+
+    @Test
     @DisplayName("When there are no books, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Book> books;
@@ -80,6 +103,27 @@ class ITBookRepositoryFindAll {
         Assertions.assertThat(books)
             .as("books")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a returned book, they are returned")
+    @ValidPerson
+    @FullBook
+    @ReturnedBookLending
+    void testFindAll_Returned() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.getAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.full());
     }
 
 }

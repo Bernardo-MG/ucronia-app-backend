@@ -12,11 +12,11 @@ import com.bernardomg.validation.validator.FieldRule;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLending> {
+public final class BookLendingNotLentBeforeLastReturnRule implements FieldRule<BookLending> {
 
     private final BookLendingRepository bookLendingRepository;
 
-    public BookLendingNotAlreadyLentRule(final BookLendingRepository bookLendingRepo) {
+    public BookLendingNotLentBeforeLastReturnRule(final BookLendingRepository bookLendingRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
@@ -26,14 +26,16 @@ public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLendin
     public final Optional<FieldFailure> check(final BookLending lending) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final Optional<BookLending>  read;
+        final Optional<BookLending>  returned;
 
-        read = bookLendingRepository.findLent(lending.getNumber());
-        if (read.isPresent()) {
-            log.error("Lending book {} to {} on {}, which was already lent on {}", lending.getNumber(),
-                lending.getPerson(), lending.getLendingDate(), read.get()
-                    .getLendingDate());
-            fieldFailure = FieldFailure.of("lendingDate", "existing", lending.getLendingDate());
+        returned = bookLendingRepository.findReturned(lending.getNumber());
+        if ((returned.isPresent()) && (lending.getLendingDate()
+            .isBefore(returned.get()
+                .getReturnDate()))) {
+            log.error("Lending book {} to {} on {}, which is before last return {}", lending.getNumber(),
+                lending.getPerson(), lending.getLendingDate(), returned.get()
+                    .getReturnDate());
+            fieldFailure = FieldFailure.of("lendingDate", "invalid", lending.getLendingDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

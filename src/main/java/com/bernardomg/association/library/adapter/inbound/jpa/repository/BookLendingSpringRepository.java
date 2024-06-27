@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,8 +41,28 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
     @Query("""
                SELECT l
                FROM BookLending l
-               WHERE l.bookId = :bookId AND l.returnDate IS NULL
+               WHERE l.bookId = :bookId
+                 AND l.personId = :personId
+                 AND l.lendingDate = :date
+                 AND l.returnDate IS NOT NULL
+            """)
+    public Optional<BookLendingEntity> findReturnedByNumberAndPersonAndDate(@Param("bookId") final long book,
+            @Param("personId") final long person, @Param("date") final LocalDate date);
+
+    @Query("""
+               SELECT l
+               FROM BookLending l
+               WHERE l.bookId = :bookId
+                 AND l.returnDate IS NULL
             """)
     public Optional<BookLendingEntity> findLent(@Param("bookId") final Long bookId);
+
+    @Query("""
+               SELECT l
+               FROM BookLending l
+               WHERE l.bookId = :bookId
+                 AND l.returnDate IS NOT NULL
+            """)
+    public Optional<BookLendingEntity> findReturned(@Param("bookId") final Long bookId);
 
 }

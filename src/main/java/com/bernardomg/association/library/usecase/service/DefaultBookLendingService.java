@@ -14,8 +14,11 @@ import com.bernardomg.association.library.domain.repository.BookLendingRepositor
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyLentRule;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyReturnedRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotLentBeforeLastReturnRule;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotLentInFutureRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLastReturnRule;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLentRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedInFutureRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -46,9 +49,10 @@ public final class DefaultBookLendingService implements BookLendingService {
         personRepository = Objects.requireNonNull(personRepo);
 
         lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
-            new BookLendingNotLentInFutureRule());
+            new BookLendingNotLentBeforeLastReturnRule(bookLendingRepo), new BookLendingNotLentInFutureRule());
         returnBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyReturnedRule(bookLendingRepo),
-            new BookLendingNotReturnedBeforeLentRule());
+            new BookLendingNotReturnedBeforeLastReturnRule(bookLendingRepo), new BookLendingNotReturnedBeforeLentRule(),
+            new BookLendingNotReturnedInFutureRule());
     }
 
     @Override
@@ -71,7 +75,6 @@ public final class DefaultBookLendingService implements BookLendingService {
             .withLendingDate(date)
             .build();
 
-        // TODO: validations should be by book, not person and book
         lendBookValidator.validate(lending);
 
         bookLendingRepository.save(lending);
@@ -97,7 +100,6 @@ public final class DefaultBookLendingService implements BookLendingService {
             .withReturnDate(date)
             .build();
 
-        // TODO: validations should be by book, not person and book
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 

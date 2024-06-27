@@ -27,6 +27,8 @@ public final class Book {
 
     private String             language;
 
+    private boolean            lent;
+
     private Long               number;
 
     private Publisher          publisher;

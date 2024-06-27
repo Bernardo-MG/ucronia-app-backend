@@ -84,6 +84,21 @@ public final class Books {
             .build();
     }
 
+    public static final Book lent() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublisher(Publishers.valid())
+            .withGameSystem(GameSystems.valid())
+            .withBookType(BookTypes.valid())
+            .withDonors(List.of(Donors.valid()))
+            .withLent(true)
+            .build();
+    }
+
     public static final Book minimal() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)

@@ -21,4 +21,5 @@ public class BookLending {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
+
 }
