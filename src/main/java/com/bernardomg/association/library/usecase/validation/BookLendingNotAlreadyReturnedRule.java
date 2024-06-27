@@ -12,11 +12,11 @@ import com.bernardomg.validation.validator.FieldRule;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLending> {
+public final class BookLendingNotAlreadyReturnedRule implements FieldRule<BookLending> {
 
     private final BookLendingRepository bookLendingRepository;
 
-    public BookLendingNotAlreadyLentRule(final BookLendingRepository bookLendingRepo) {
+    public BookLendingNotAlreadyReturnedRule(final BookLendingRepository bookLendingRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
@@ -30,11 +30,11 @@ public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLendin
 
         read = bookLendingRepository.findOne(lending.getNumber(), lending.getMember());
         if ((read.isPresent()) && (read.get()
-            .getLendingDate() != null)) {
-            log.error("Lending book {} to {} on {}, which was already lent on {}", lending.getNumber(),
-                lending.getMember(), lending.getLendingDate(), read.get()
-                    .getLendingDate());
-            fieldFailure = FieldFailure.of("lendingDate", "existing", lending.getLendingDate());
+            .getReturnDate() != null)) {
+            log.error("Returning book {} to {} on {}, which was already returned on {}", lending.getNumber(),
+                lending.getMember(), lending.getReturnDate(), read.get()
+                    .getReturnDate());
+            fieldFailure = FieldFailure.of("returnDate", "existing", lending.getReturnDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

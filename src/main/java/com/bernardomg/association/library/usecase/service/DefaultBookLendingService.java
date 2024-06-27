@@ -12,8 +12,14 @@ import com.bernardomg.association.library.domain.exception.MissingBookLendingExc
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyLentRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyReturnedRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotLentInFutureRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLentRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,11 +27,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultBookLendingService implements BookLendingService {
 
-    private final BookLendingRepository bookLendingRepository;
+    private final BookLendingRepository  bookLendingRepository;
 
-    private final BookRepository        bookRepository;
+    private final BookRepository         bookRepository;
 
-    private final PersonRepository      personRepository;
+    private final Validator<BookLending> lendBookValidator;
+
+    private final PersonRepository       personRepository;
+
+    private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
             final PersonRepository personRepo) {
@@ -34,6 +44,11 @@ public final class DefaultBookLendingService implements BookLendingService {
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
         personRepository = Objects.requireNonNull(personRepo);
+
+        lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
+            new BookLendingNotLentInFutureRule());
+        returnBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyReturnedRule(bookLendingRepo),
+            new BookLendingNotReturnedBeforeLentRule());
     }
 
     @Override
@@ -50,14 +65,13 @@ public final class DefaultBookLendingService implements BookLendingService {
             throw new MissingPersonException(person);
         }
 
-        // TODO: Validate. What if it is already lent?
-        // TODO: Can't lend in the future
-
         lending = BookLending.builder()
             .withNumber(book)
             .withMember(person)
             .withLendingDate(date)
             .build();
+
+        lendBookValidator.validate(lending);
 
         bookLendingRepository.save(lending);
     }
@@ -65,6 +79,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     @Override
     public final void returnBook(final long book, final long person, final LocalDate date) {
         final Optional<BookLending> read;
+        final BookLending           lending;
 
         log.debug("Returning book {} from {}", book, person);
 
@@ -73,8 +88,15 @@ public final class DefaultBookLendingService implements BookLendingService {
             throw new MissingBookLendingException(book + "-" + person);
         }
 
-        // TODO: Validate. What if it is already returned?
-        // TODO: Can't return before lending
+        lending = BookLending.builder()
+            .withNumber(book)
+            .withMember(person)
+            .withLendingDate(read.get()
+                .getLendingDate())
+            .withReturnDate(date)
+            .build();
+
+        returnBookValidator.validate(lending);
 
         bookLendingRepository.returnAt(book, person, date);
     }
