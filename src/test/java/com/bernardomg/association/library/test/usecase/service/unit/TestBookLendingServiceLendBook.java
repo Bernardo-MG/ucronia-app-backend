@@ -120,6 +120,27 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
+    @DisplayName("When lending a book before the last return date, an exception is thrown")
+    void testLendBook_BeforeLastReturn_Exception() {
+        final ThrowingCallable execution;
+        final LocalDate        date;
+
+        // GIVEN
+        date = BookConstants.RETURNED_DATE.minusDays(1);
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(bookLendingRepository.findReturned(BookConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.returned()));
+
+        // WHEN
+        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("lendingDate", "invalid", date));
+    }
+
+    @Test
     @DisplayName("When lending a book in the future, an exception is thrown")
     void testLendBook_InFuture_Exception() {
         final ThrowingCallable execution;
