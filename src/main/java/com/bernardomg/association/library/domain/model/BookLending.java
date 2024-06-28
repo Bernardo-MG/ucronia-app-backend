@@ -3,6 +3,7 @@ package com.bernardomg.association.library.domain.model;
 
 import java.time.LocalDate;
 
+import com.bernardomg.association.person.domain.model.Person;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
@@ -17,7 +18,7 @@ public class BookLending {
 
     private long      number;
 
-    private long      person;
+    private Person    person;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;

@@ -13,6 +13,8 @@ import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -188,7 +190,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.getNumber());
-        personEntity = personSpringRepository.findByNumber(lending.getPerson());
+        personEntity = personSpringRepository.findByNumber(lending.getPerson()
+            .getNumber());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
             toCreate = toEntity(lending, bookEntity.get(), personEntity.get());
@@ -206,13 +209,14 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity) {
-        final Optional<PersonEntity> personEntity;
+        final Optional<Person> person;
 
-        personEntity = personSpringRepository.findById(entity.getPersonId());
+        person = personSpringRepository.findById(entity.getPersonId())
+            .map(this::toDomain);
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
-            .withPerson(personEntity.map(PersonEntity::getNumber)
-                .orElse((long) 0))
+            .withPerson(person.orElse(Person.builder()
+                .build()))
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
             .build();
@@ -220,11 +224,29 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
             final PersonEntity personEntity) {
+        final Person person;
+
+        person = toDomain(personEntity);
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
-            .withPerson(personEntity.getNumber())
+            .withPerson(person)
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
+            .build();
+    }
+
+    private final Person toDomain(final PersonEntity entity) {
+        final PersonName memberName;
+
+        memberName = PersonName.builder()
+            .withFirstName(entity.getFirstName())
+            .withLastName(entity.getLastName())
+            .build();
+        return Person.builder()
+            .withNumber(entity.getNumber())
+            .withName(memberName)
+            .withIdentifier(entity.getIdentifier())
+            .withPhone(entity.getPhone())
             .build();
     }
 
