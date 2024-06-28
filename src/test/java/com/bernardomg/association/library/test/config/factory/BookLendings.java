@@ -32,19 +32,19 @@ public final class BookLendings {
             .build();
     }
 
-    public static final BookLending lentNoPerson() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(0)
-            .withLendingDate(BookConstants.LENT_DATE)
-            .build();
-    }
-
     public static final BookLending lentLastNoPerson() {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)
             .withPerson(0)
             .withLendingDate(BookConstants.LENT_DATE_LAST)
+            .build();
+    }
+
+    public static final BookLending lentNoPerson() {
+        return BookLending.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withPerson(0)
+            .withLendingDate(BookConstants.LENT_DATE)
             .build();
     }
 
@@ -71,6 +71,15 @@ public final class BookLendings {
             .withPerson(PersonConstants.ALTERNATIVE_NUMBER)
             .withLendingDate(BookConstants.LENT_DATE)
             .withReturnDate(BookConstants.RETURNED_DATE)
+            .build();
+    }
+
+    public static final BookLending returnedLastNoPerson() {
+        return BookLending.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withPerson(0)
+            .withLendingDate(BookConstants.LENT_DATE_LAST)
+            .withReturnDate(BookConstants.RETURNED_DATE_LAST)
             .build();
     }
 

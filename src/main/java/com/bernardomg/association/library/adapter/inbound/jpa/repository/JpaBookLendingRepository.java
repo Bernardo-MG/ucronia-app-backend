@@ -45,7 +45,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         bookEntity = bookSpringRepository.findByNumber(book);
 
         if (bookEntity.isPresent()) {
-            lending = bookLendingSpringRepository.findLent(bookEntity.get()
+            lending = bookLendingSpringRepository.findFirstByBookIdAndReturnDateIsNull(bookEntity.get()
                 .getId())
                 .map(m -> toDomain(m, bookEntity.get()));
 
@@ -95,8 +95,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         bookEntity = bookSpringRepository.findByNumber(book);
 
         if (bookEntity.isPresent()) {
-            lending = bookLendingSpringRepository.findReturned(bookEntity.get()
-                .getId())
+            lending = bookLendingSpringRepository
+                .findFirstByBookIdAndReturnDateIsNotNullOrderByReturnDateDesc(bookEntity.get()
+                    .getId())
                 .map(m -> toDomain(m, bookEntity.get()));
 
             log.debug("Found returned book lending for book {}: {}", book, lending);
@@ -120,11 +121,12 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         personEntity = personSpringRepository.findByNumber(person);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            lending = bookLendingSpringRepository.findReturnedByNumberAndPersonAndDate(bookEntity.get()
-                .getId(),
-                personEntity.get()
+            lending = bookLendingSpringRepository
+                .findFirstByBookIdAndPersonIdAndLendingDateAndReturnDateIsNotNullOrderByReturnDateDesc(bookEntity.get()
                     .getId(),
-                date)
+                    personEntity.get()
+                        .getId(),
+                    date)
                 .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
 
             log.debug("Found returned book lending for book {}: {}", book, lending);
