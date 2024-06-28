@@ -15,24 +15,26 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Book {
 
-    private Collection<Author> authors;
+    private Collection<Author>          authors;
 
-    private BookType           bookType;
+    private BookType                    bookType;
 
-    private Collection<Donor>  donors;
+    private Collection<Donor>           donors;
 
-    private GameSystem         gameSystem;
+    private GameSystem                  gameSystem;
 
-    private String             isbn;
+    private String                      isbn;
 
-    private String             language;
+    private String                      language;
 
-    private boolean            lent;
+    private Collection<BookBookLending> lendings;
 
-    private Long               number;
+    private boolean                     lent;
 
-    private Publisher          publisher;
+    private Long                        number;
 
-    private String             title;
+    private Publisher                   publisher;
+
+    private String                      title;
 
 }

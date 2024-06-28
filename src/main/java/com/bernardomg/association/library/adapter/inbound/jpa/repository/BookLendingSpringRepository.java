@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,6 +34,8 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingE
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingId;
 
 public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, BookLendingId> {
+
+    public Collection<BookLendingEntity> findAllByBookId(Long id);
 
     public Optional<BookLendingEntity>
             findFirstByBookIdAndPersonIdAndLendingDateAndReturnDateIsNotNullOrderByReturnDateDesc(final long book,

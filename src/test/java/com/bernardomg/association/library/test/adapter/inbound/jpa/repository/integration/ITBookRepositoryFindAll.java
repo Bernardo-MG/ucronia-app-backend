@@ -123,7 +123,7 @@ class ITBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.full());
+            .containsExactly(Books.returned());
     }
 
 }
