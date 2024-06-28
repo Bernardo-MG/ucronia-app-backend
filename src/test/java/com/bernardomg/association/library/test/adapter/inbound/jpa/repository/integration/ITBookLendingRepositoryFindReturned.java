@@ -36,8 +36,10 @@ import com.bernardomg.association.library.domain.repository.BookLendingRepositor
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingMultiple;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -80,11 +82,45 @@ class ITBookLendingRepositoryFindReturned {
     }
 
     @Test
+    @DisplayName("With no history, nothing is returned")
+    @ValidPerson
+    @FullBook
+    void testFindReturned_NoHistory() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findReturned(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With a returned book, it is returned")
     @ValidPerson
     @FullBook
     @ReturnedBookLending
     void testFindReturned_Returned() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findReturned(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .contains(BookLendings.returnedNoPerson());
+    }
+
+    @Test
+    @DisplayName("With a returned book, it is returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @ReturnedBookLendingMultiple
+    void testFindReturned_Returned_History() {
         final Optional<BookLending> lendings;
 
         // WHEN

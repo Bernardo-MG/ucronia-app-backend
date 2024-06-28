@@ -83,6 +83,22 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
+    @DisplayName("With no history, nothing is returned")
+    @ValidPerson
+    @FullBook
+    void testFindReturned_NoHistory() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With no person, nothing is returned")
     @MinimalBook
     void testFindReturned_NoPerson() {

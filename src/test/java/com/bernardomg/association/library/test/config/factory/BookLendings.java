@@ -40,6 +40,14 @@ public final class BookLendings {
             .build();
     }
 
+    public static final BookLending lentLastNoPerson() {
+        return BookLending.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withPerson(0)
+            .withLendingDate(BookConstants.LENT_DATE_LAST)
+            .build();
+    }
+
     public static final BookLending lentToday() {
         return BookLending.builder()
             .withNumber(BookConstants.NUMBER)

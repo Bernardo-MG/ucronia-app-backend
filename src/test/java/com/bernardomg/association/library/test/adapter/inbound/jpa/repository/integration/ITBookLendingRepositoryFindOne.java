@@ -36,6 +36,7 @@ import com.bernardomg.association.library.domain.repository.BookLendingRepositor
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
@@ -50,11 +51,11 @@ class ITBookLendingRepositoryFindOne {
     private BookLendingRepository repository;
 
     @Test
-    @DisplayName("With a lending, it is returned")
+    @DisplayName("When the book is lent, it is returned")
     @ValidPerson
     @FullBook
     @LentBookLending
-    void testFindOne() {
+    void testFindOne_Lent() {
         final Optional<BookLending> lendings;
 
         // WHEN
@@ -82,6 +83,22 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
+    @DisplayName("When the book has no history, nothing is returned")
+    @ValidPerson
+    @FullBook
+    void testFindOne_NoHistory() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With no person, nothing is returned")
     @MinimalBook
     void testFindOne_NoPerson() {
@@ -94,6 +111,23 @@ class ITBookLendingRepositoryFindOne {
         Assertions.assertThat(lendings)
             .as("lendings")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the book is returned, it is returned")
+    @ValidPerson
+    @FullBook
+    @ReturnedBookLending
+    void testFindOne_Returned() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .contains(BookLendings.returned());
     }
 
 }
