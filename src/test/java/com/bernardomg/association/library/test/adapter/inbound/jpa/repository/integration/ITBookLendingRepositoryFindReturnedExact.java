@@ -37,8 +37,10 @@ import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingMultiple;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -119,6 +121,24 @@ class ITBookLendingRepositoryFindReturnedExact {
     @FullBook
     @ReturnedBookLending
     void testFindReturned_Returned() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .contains(BookLendings.returned());
+    }
+
+    @Test
+    @DisplayName("With a returned book which has history, it is returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @ReturnedBookLendingMultiple
+    void testFindReturned_Returned_History() {
         final Optional<BookLending> lendings;
 
         // WHEN

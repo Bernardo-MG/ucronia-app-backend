@@ -70,7 +70,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         personEntity = personSpringRepository.findByNumber(person);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            lending = bookLendingSpringRepository.findByBookIdAndPersonId(bookEntity.get()
+            lending = bookLendingSpringRepository.findFirstByBookIdAndPersonIdOrderByReturnDateDesc(bookEntity.get()
                 .getId(),
                 personEntity.get()
                     .getId())
@@ -153,7 +153,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         personEntity = personSpringRepository.findByNumber(person);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            readLending = bookLendingSpringRepository.findByBookIdAndPersonId(bookEntity.get()
+            readLending = bookLendingSpringRepository.findFirstByBookIdAndPersonIdOrderByReturnDateDesc(bookEntity.get()
                 .getId(),
                 personEntity.get()
                     .getId());
@@ -206,7 +206,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         personEntity = personSpringRepository.findById(entity.getPersonId());
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
-            .withPerson(personEntity.map(PersonEntity::getNumber).orElse(Long.valueOf(0)))
+            .withPerson(personEntity.map(PersonEntity::getNumber)
+                .orElse((long) 0))
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
             .build();

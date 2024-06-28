@@ -115,7 +115,7 @@ class ITBookLendingRepositoryFindReturned {
     }
 
     @Test
-    @DisplayName("With a returned book, it is returned")
+    @DisplayName("With a returned book which has history, it is returned")
     @ValidPerson
     @AlternativePerson
     @FullBook

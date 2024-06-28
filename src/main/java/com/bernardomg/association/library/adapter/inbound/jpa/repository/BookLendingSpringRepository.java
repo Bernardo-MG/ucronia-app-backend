@@ -34,11 +34,12 @@ import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingI
 
 public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, BookLendingId> {
 
-    public Optional<BookLendingEntity> findByBookIdAndPersonId(final long book, final long person);
-
     public Optional<BookLendingEntity>
             findFirstByBookIdAndPersonIdAndLendingDateAndReturnDateIsNotNullOrderByReturnDateDesc(final long book,
                     final long person, final LocalDate date);
+
+    public Optional<BookLendingEntity> findFirstByBookIdAndPersonIdOrderByReturnDateDesc(final long book,
+            final long person);
 
     public Optional<BookLendingEntity> findFirstByBookIdAndReturnDateIsNotNullOrderByReturnDateDesc(final Long bookId);
 
