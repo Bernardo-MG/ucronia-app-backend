@@ -111,7 +111,7 @@ class ITBookLendingRepositoryFindReturned {
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.returnedNoPerson());
+            .contains(BookLendings.returned());
     }
 
     @Test
@@ -129,7 +129,7 @@ class ITBookLendingRepositoryFindReturned {
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.returnedLastNoPerson());
+            .contains(BookLendings.returnedLast());
     }
 
 }

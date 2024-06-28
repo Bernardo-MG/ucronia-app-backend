@@ -64,7 +64,8 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.lentNoPerson());
+            // FIXME: should return the person
+            .contains(BookLendings.lent());
     }
 
     @Test
@@ -82,7 +83,7 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.lentLastNoPerson());
+            .contains(BookLendings.lentLast());
     }
 
     @Test

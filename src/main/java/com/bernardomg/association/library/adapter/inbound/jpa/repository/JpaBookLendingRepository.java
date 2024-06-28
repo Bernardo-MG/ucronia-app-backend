@@ -201,8 +201,12 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity) {
+        final Optional<PersonEntity> personEntity;
+
+        personEntity = personSpringRepository.findById(entity.getPersonId());
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
+            .withPerson(personEntity.map(PersonEntity::getNumber).orElse(Long.valueOf(0)))
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
             .build();
