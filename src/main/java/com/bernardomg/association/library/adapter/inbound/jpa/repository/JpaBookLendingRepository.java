@@ -157,13 +157,18 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
                 .getId(),
                 personEntity.get()
                     .getId());
-            lendingEntity = readLending.get();
-            lendingEntity.setReturnDate(date);
-            lentEntity = bookLendingSpringRepository.save(lendingEntity);
-            lending = Optional.of(lentEntity)
-                .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
+            if (readLending.isEmpty()) {
+                log.warn("Missing book lending for book {} and person {} at {}", book, person, date);
+                lending = Optional.empty();
+            } else {
+                lendingEntity = readLending.get();
+                lendingEntity.setReturnDate(date);
+                lentEntity = bookLendingSpringRepository.save(lendingEntity);
+                lending = Optional.of(lentEntity)
+                    .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
 
-            log.debug("Returned book {} from person {} at {}: {}", book, person, date, lending);
+                log.debug("Returned book {} from person {} at {}: {}", book, person, date, lending);
+            }
         } else {
             log.debug("Book {} or person {} not found", book, person);
             lending = Optional.empty();
