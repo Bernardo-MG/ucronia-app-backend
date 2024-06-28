@@ -62,7 +62,7 @@ public final class DefaultPublisherService implements PublisherService {
 
     @Override
     public final Iterable<Publisher> getAll(final Pageable pageable) {
-        return publisherRepository.getAll(pageable);
+        return publisherRepository.findAll(pageable);
     }
 
     @Override
@@ -71,7 +71,7 @@ public final class DefaultPublisherService implements PublisherService {
 
         log.debug("Reading author {}", name);
 
-        publisher = publisherRepository.getOne(name);
+        publisher = publisherRepository.findOne(name);
         if (publisher.isEmpty()) {
             throw new MissingAuthorException(name);
         }

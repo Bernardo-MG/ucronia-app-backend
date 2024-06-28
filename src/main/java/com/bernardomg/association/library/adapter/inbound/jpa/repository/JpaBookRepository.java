@@ -106,20 +106,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the books");
-
-        number = bookSpringRepository.findNextNumber();
-
-        log.debug("Found number {}", number);
-
-        return number;
-    }
-
-    @Override
-    public final Iterable<Book> getAll(final Pageable pageable) {
+    public final Iterable<Book> findAll(final Pageable pageable) {
         final Page<BookEntity> page;
         final Iterable<Book>   read;
 
@@ -135,7 +122,20 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final Optional<Book> getOne(final long number) {
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the books");
+
+        number = bookSpringRepository.findNextNumber();
+
+        log.debug("Found number {}", number);
+
+        return number;
+    }
+
+    @Override
+    public final Optional<Book> findOne(final long number) {
         final Optional<Book> book;
 
         log.debug("Finding book {}", number);

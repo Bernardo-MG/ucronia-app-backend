@@ -115,7 +115,7 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
-        return bookRepository.getAll(pageable);
+        return bookRepository.findAll(pageable);
     }
 
     @Override
@@ -124,7 +124,7 @@ public final class DefaultBookService implements BookService {
 
         log.debug("Reading book {}", number);
 
-        book = bookRepository.getOne(number);
+        book = bookRepository.findOne(number);
         if (book.isEmpty()) {
             throw new MissingBookException(number);
         }

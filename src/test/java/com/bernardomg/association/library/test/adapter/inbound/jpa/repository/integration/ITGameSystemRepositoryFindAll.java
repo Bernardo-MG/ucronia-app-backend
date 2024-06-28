@@ -54,7 +54,7 @@ class ITGameSystemRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        gameSystems = repository.getAll(pageable);
+        gameSystems = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(gameSystems)
@@ -72,7 +72,7 @@ class ITGameSystemRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        gameSystems = repository.getAll(pageable);
+        gameSystems = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(gameSystems)

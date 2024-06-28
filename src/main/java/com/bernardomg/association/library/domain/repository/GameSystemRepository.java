@@ -13,9 +13,9 @@ public interface GameSystemRepository {
 
     public boolean exists(final String name);
 
-    public Optional<GameSystem> findOne(final String name);
+    public Iterable<GameSystem> findAll(final Pageable pageable);
 
-    public Iterable<GameSystem> getAll(final Pageable pageable);
+    public Optional<GameSystem> findOne(final String name);
 
     public boolean hasRelationships(final String name);
 

@@ -49,7 +49,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final Iterable<Publisher> getAll(final Pageable pageable) {
+    public final Iterable<Publisher> findAll(final Pageable pageable) {
         final Page<PublisherEntity> page;
         final Iterable<Publisher>   read;
 
@@ -65,7 +65,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final Optional<Publisher> getOne(final String name) {
+    public final Optional<Publisher> findOne(final String name) {
         final Optional<Publisher> publisher;
 
         log.debug("Finding publisher with name {}", name);

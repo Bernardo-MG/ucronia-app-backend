@@ -17,11 +17,11 @@ public interface BookRepository {
 
     public boolean existsByIsbnForAnother(final Long number, final String isbn);
 
+    public Iterable<Book> findAll(final Pageable pageable);
+
     public long findNextNumber();
 
-    public Iterable<Book> getAll(final Pageable pageable);
-
-    public Optional<Book> getOne(final long number);
+    public Optional<Book> findOne(final long number);
 
     public Book save(final Book book);
 

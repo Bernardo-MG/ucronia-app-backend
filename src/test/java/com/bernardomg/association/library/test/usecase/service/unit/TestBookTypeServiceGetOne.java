@@ -64,7 +64,7 @@ class TestBookTypeServiceGetOne {
         final Optional<BookType> bookType;
 
         // GIVEN
-        given(bookTypeRepository.getOne(AuthorConstants.NAME)).willReturn(Optional.of(BookTypes.valid()));
+        given(bookTypeRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(BookTypes.valid()));
 
         // WHEN
         bookType = service.getOne(AuthorConstants.NAME);
@@ -80,7 +80,7 @@ class TestBookTypeServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookTypeRepository.getOne(AuthorConstants.NAME)).willReturn(Optional.empty());
+        given(bookTypeRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(AuthorConstants.NAME);

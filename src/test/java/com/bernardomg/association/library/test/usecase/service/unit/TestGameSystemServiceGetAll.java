@@ -65,7 +65,7 @@ class TestGameSystemServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(gameSystemRepository.getAll(pageable)).willReturn(List.of(GameSystems.valid()));
+        given(gameSystemRepository.findAll(pageable)).willReturn(List.of(GameSystems.valid()));
 
         // WHEN
         systems = service.getAll(pageable);
@@ -85,7 +85,7 @@ class TestGameSystemServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(gameSystemRepository.getAll(pageable)).willReturn(List.of());
+        given(gameSystemRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
         systems = service.getAll(pageable);

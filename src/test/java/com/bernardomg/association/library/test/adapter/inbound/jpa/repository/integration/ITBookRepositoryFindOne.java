@@ -53,11 +53,11 @@ class ITBookRepositoryFindOne {
     @DisplayName("With a full book, it is returned")
     @ValidPerson
     @FullBook
-    void testGetOne_Full() {
+    void testFindOne_Full() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -70,11 +70,11 @@ class ITBookRepositoryFindOne {
     @ValidPerson
     @FullBook
     @LentBookLending
-    void testGetOne_Lent() {
+    void testFindOne_Lent() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -85,11 +85,11 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a minimal book, it is returned")
     @MinimalBook
-    void testGetOne_Minimal() {
+    void testFindOne_Minimal() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -99,11 +99,11 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void testGetOne_NoData() {
+    void testFindOne_NoData() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -116,11 +116,11 @@ class ITBookRepositoryFindOne {
     @ValidPerson
     @FullBook
     @ReturnedBookLending
-    void testGetOne_Returned() {
+    void testFindOne_Returned() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)

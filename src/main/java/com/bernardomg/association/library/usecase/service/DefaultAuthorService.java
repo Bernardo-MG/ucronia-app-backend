@@ -62,7 +62,7 @@ public final class DefaultAuthorService implements AuthorService {
 
     @Override
     public final Iterable<Author> getAll(final Pageable pageable) {
-        return authorRepository.getAll(pageable);
+        return authorRepository.findAll(pageable);
     }
 
     @Override
@@ -71,7 +71,7 @@ public final class DefaultAuthorService implements AuthorService {
 
         log.debug("Reading author {}", name);
 
-        author = authorRepository.getOne(name);
+        author = authorRepository.findOne(name);
         if (author.isEmpty()) {
             throw new MissingAuthorException(name);
         }

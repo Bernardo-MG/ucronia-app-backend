@@ -13,9 +13,9 @@ public interface PublisherRepository {
 
     public boolean exists(final String name);
 
-    public Iterable<Publisher> getAll(final Pageable pageable);
+    public Iterable<Publisher> findAll(final Pageable pageable);
 
-    public Optional<Publisher> getOne(final String name);
+    public Optional<Publisher> findOne(final String name);
 
     public boolean hasRelationships(final String name);
 
