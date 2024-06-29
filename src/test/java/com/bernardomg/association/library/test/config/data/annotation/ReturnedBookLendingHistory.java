@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/library/book_lending/multiple_returned.sql")
+@Sql("/db/queries/library/book_lending/history_returned.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ReturnedBookLendingMultiple {
+public @interface ReturnedBookLendingHistory {
 
 }

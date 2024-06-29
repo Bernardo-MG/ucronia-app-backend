@@ -36,7 +36,7 @@ import com.bernardomg.association.library.domain.repository.BookLendingRepositor
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
-import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingMultiple;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
@@ -119,7 +119,7 @@ class ITBookLendingRepositoryFindReturned {
     @ValidPerson
     @AlternativePerson
     @FullBook
-    @ReturnedBookLendingMultiple
+    @ReturnedBookLendingHistory
     void testFindReturned_Returned_History() {
         final Optional<BookLending> lendings;
 

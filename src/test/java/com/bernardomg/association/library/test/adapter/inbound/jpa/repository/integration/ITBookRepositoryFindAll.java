@@ -34,7 +34,9 @@ import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.test.config.factory.Books;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -88,6 +90,27 @@ class ITBookRepositoryFindAll {
     }
 
     @Test
+    @DisplayName("When there is a lent book with history, it is returned")
+    @ValidPerson
+    @FullBook
+    @LentBookLendingHistory
+    void testFindAll_Lent_WithHistory() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.lent());
+    }
+
+    @Test
     @DisplayName("When there are no books, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Book> books;
@@ -111,6 +134,27 @@ class ITBookRepositoryFindAll {
     @FullBook
     @ReturnedBookLending
     void testFindAll_Returned() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.returned());
+    }
+
+    @Test
+    @DisplayName("When there is a returned book, they are returned")
+    @ValidPerson
+    @FullBook
+    @ReturnedBookLendingHistory
+    void testFindAll_Returned_WithHistory() {
         final Iterable<Book> books;
         final Pageable       pageable;
 
