@@ -41,6 +41,7 @@ import com.bernardomg.association.library.test.config.data.annotation.ReturnedBo
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -87,6 +88,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a lent book with history, it is returned")
     @ValidPerson
+    @AlternativePerson
     @FullBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
@@ -98,7 +100,7 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.lent());
+            .contains(Books.lentHistory());
     }
 
     @Test
@@ -150,6 +152,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a returned book with history, it is returned")
     @ValidPerson
+    @AlternativePerson
     @FullBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {

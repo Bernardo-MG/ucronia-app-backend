@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 
@@ -19,7 +20,8 @@ public final class Book {
 
     private BookType                    bookType;
 
-    private Collection<Donor>           donors;
+    @Builder.Default
+    private Collection<Donor>           donors   = List.of();
 
     private GameSystem                  gameSystem;
 
@@ -27,7 +29,8 @@ public final class Book {
 
     private String                      language;
 
-    private Collection<BookBookLending> lendings;
+    @Builder.Default
+    private Collection<BookBookLending> lendings = List.of();
 
     private boolean                     lent;
 
