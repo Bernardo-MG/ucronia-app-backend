@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 
@@ -15,24 +16,28 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Book {
 
-    private Collection<Author> authors;
+    private Collection<Author>          authors;
 
-    private BookType           bookType;
+    private BookType                    bookType;
 
-    private Collection<Donor>  donors;
+    @Builder.Default
+    private Collection<Donor>           donors   = List.of();
 
-    private GameSystem         gameSystem;
+    private GameSystem                  gameSystem;
 
-    private String             isbn;
+    private String                      isbn;
 
-    private String             language;
+    private String                      language;
 
-    private boolean            lent;
+    @Builder.Default
+    private Collection<BookBookLending> lendings = List.of();
 
-    private Long               number;
+    private boolean                     lent;
 
-    private Publisher          publisher;
+    private Long                        number;
 
-    private String             title;
+    private Publisher                   publisher;
+
+    private String                      title;
 
 }

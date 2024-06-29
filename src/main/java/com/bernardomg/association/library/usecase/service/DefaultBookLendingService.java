@@ -20,6 +20,7 @@ import com.bernardomg.association.library.usecase.validation.BookLendingNotRetur
 import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLentRule;
 import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedInFutureRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -56,22 +57,26 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void lendBook(final long book, final long person, final LocalDate date) {
-        final BookLending lending;
+    public final void lendBook(final long book, final long personNumber, final LocalDate date) {
+        final BookLending      lending;
+        final Optional<Person> person;
 
-        log.debug("Lending book {} to {}", book, person);
+        log.debug("Lending book {} to {}", book, personNumber);
 
         if (!bookRepository.exists(book)) {
             throw new MissingBookException(book);
         }
 
-        if (!personRepository.exists(person)) {
-            throw new MissingPersonException(person);
+        if (!personRepository.exists(personNumber)) {
+            throw new MissingPersonException(personNumber);
         }
+
+        person = personRepository.findOne(personNumber);
 
         lending = BookLending.builder()
             .withNumber(book)
-            .withPerson(person)
+            .withPerson(person.orElse(Person.builder()
+                .build()))
             .withLendingDate(date)
             .build();
 
@@ -81,20 +86,24 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void returnBook(final long book, final long person, final LocalDate date) {
+    public final void returnBook(final long book, final long personNumber, final LocalDate date) {
         final Optional<BookLending> read;
         final BookLending           lending;
+        final Optional<Person>      person;
 
-        log.debug("Returning book {} from {}", book, person);
+        log.debug("Returning book {} from {}", book, personNumber);
 
-        read = bookLendingRepository.findOne(book, person);
+        read = bookLendingRepository.findOne(book, personNumber);
         if (read.isEmpty()) {
-            throw new MissingBookLendingException(book + "-" + person);
+            throw new MissingBookLendingException(book + "-" + personNumber);
         }
+
+        person = personRepository.findOne(personNumber);
 
         lending = BookLending.builder()
             .withNumber(book)
-            .withPerson(person)
+            .withPerson(person.orElse(Person.builder()
+                .build()))
             .withLendingDate(read.get()
                 .getLendingDate())
             .withReturnDate(date)
@@ -103,7 +112,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
-        bookLendingRepository.returnAt(book, person, date);
+        bookLendingRepository.returnAt(book, personNumber, date);
     }
 
 }

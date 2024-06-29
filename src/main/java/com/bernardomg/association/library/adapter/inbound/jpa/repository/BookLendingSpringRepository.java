@@ -25,44 +25,27 @@
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.adapter.inbound.jpa.model.BookLendingId;
 
 public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, BookLendingId> {
 
-    public Optional<BookLendingEntity> findByBookIdAndPersonId(final long book, final long person);
+    public Collection<BookLendingEntity> findAllByBookId(Long id);
 
-    @Query("""
-               SELECT l
-               FROM BookLending l
-               WHERE l.bookId = :bookId
-                 AND l.returnDate IS NULL
-            """)
-    public Optional<BookLendingEntity> findLent(@Param("bookId") final Long bookId);
+    public Optional<BookLendingEntity>
+            findFirstByBookIdAndPersonIdAndLendingDateAndReturnDateIsNotNullOrderByReturnDateDesc(final long book,
+                    final long person, final LocalDate date);
 
-    @Query("""
-               SELECT l
-               FROM BookLending l
-               WHERE l.bookId = :bookId
-                 AND l.returnDate IS NOT NULL
-            """)
-    public Optional<BookLendingEntity> findReturned(@Param("bookId") final Long bookId);
+    public Optional<BookLendingEntity> findFirstByBookIdAndPersonIdOrderByReturnDateDesc(final long book,
+            final long person);
 
-    @Query("""
-               SELECT l
-               FROM BookLending l
-               WHERE l.bookId = :bookId
-                 AND l.personId = :personId
-                 AND l.lendingDate = :date
-                 AND l.returnDate IS NOT NULL
-            """)
-    public Optional<BookLendingEntity> findReturnedByNumberAndPersonAndDate(@Param("bookId") final long book,
-            @Param("personId") final long person, @Param("date") final LocalDate date);
+    public Optional<BookLendingEntity> findFirstByBookIdAndReturnDateIsNotNullOrderByReturnDateDesc(final Long bookId);
+
+    public Optional<BookLendingEntity> findFirstByBookIdAndReturnDateIsNull(final Long bookId);
 
 }

@@ -48,6 +48,7 @@ import com.bernardomg.association.library.usecase.service.DefaultBookLendingServ
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -72,6 +73,7 @@ class TestBookLendingServiceLendBook {
     void testLendBook() {
 
         // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
@@ -198,6 +200,7 @@ class TestBookLendingServiceLendBook {
     void testLendBook_OnLastReturn() {
 
         // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
@@ -215,6 +218,7 @@ class TestBookLendingServiceLendBook {
     void testLendBook_Today() {
 
         // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 

@@ -47,6 +47,7 @@ import com.bernardomg.association.library.test.config.factory.BookLendings;
 import com.bernardomg.association.library.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -88,6 +89,7 @@ class TestBookLendingServiceReturnBook {
         final ThrowingCallable execution;
 
         // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
@@ -163,6 +165,7 @@ class TestBookLendingServiceReturnBook {
         // GIVEN
         date = BookConstants.RETURNED_DATE.minusDays(1);
 
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))

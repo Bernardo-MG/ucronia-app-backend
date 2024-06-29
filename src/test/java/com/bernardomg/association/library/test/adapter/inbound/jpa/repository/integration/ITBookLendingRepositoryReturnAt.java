@@ -68,6 +68,36 @@ class ITBookLendingRepositoryReturnAt {
     }
 
     @Test
+    @DisplayName("When returning a book and the lending doesn't exist, nothing is persisted")
+    @ValidPerson
+    @FullBook
+    void testReturnAt_NoLending_NotPersisted() {
+        // WHEN
+        repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When returning a book and the lending doesn't exist, nothing is returned")
+    @ValidPerson
+    @FullBook
+    void testReturnAt_NoLending_Returned() {
+        final Optional<BookLending> created;
+
+        // WHEN
+        created = repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("lending")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When returning a book and the person doesnt exist, nothing is persisted")
     @MinimalBook
     void testReturnAt_NoMember() {

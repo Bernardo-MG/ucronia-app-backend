@@ -11,12 +11,10 @@ import lombok.Value;
 
 @Value
 @Builder(setterPrefix = "with")
-public class BookLending {
+public class BookBookLending {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lendingDate;
-
-    private long      number;
 
     private Person    person;
 

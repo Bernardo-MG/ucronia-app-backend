@@ -35,9 +35,11 @@ import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.BookLendings;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -62,12 +64,47 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lendings)
             .as("lendings")
-            .contains(BookLendings.lentNoPerson());
+            // FIXME: should return the person
+            .contains(BookLendings.lent());
+    }
+
+    @Test
+    @DisplayName("With a lending and a history, the last one is returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @LentBookLendingHistory
+    void testFindLent_Lent_History() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findLent(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .contains(BookLendings.lentLast());
     }
 
     @Test
     @DisplayName("With no data, nothing is returned")
     void testFindLent_NoData() {
+        final Optional<BookLending> lendings;
+
+        // WHEN
+        lendings = repository.findLent(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a book with no history, nothing is returned")
+    @ValidPerson
+    @FullBook
+    void testFindLent_NoHistory() {
         final Optional<BookLending> lendings;
 
         // WHEN
