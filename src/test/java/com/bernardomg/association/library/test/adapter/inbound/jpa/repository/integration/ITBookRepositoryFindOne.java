@@ -164,7 +164,7 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.returned());
+            .contains(Books.returnedHistory());
     }
 
 }
