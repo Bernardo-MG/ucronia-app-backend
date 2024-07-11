@@ -66,14 +66,14 @@ public class BookLendingController {
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS, LibraryCaches.BOOK }, allEntries = true) })
     public void lendBook(@Valid @RequestBody final BookLent lending) {
-        service.lendBook(lending.getNumber(), lending.getMember(), lending.getLendingDate());
+        service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS, LibraryCaches.BOOK }, allEntries = true) })
     public void returnBook(@Valid @RequestBody final BookReturned lending) {
-        service.returnBook(lending.getNumber(), lending.getMember(), lending.getReturnDate());
+        service.returnBook(lending.getBook(), lending.getPerson(), lending.getReturnDate());
     }
 
 }
