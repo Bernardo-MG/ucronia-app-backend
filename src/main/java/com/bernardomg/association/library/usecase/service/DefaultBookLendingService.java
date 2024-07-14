@@ -89,7 +89,6 @@ public final class DefaultBookLendingService implements BookLendingService {
     public final void returnBook(final long book, final long personNumber, final LocalDate date) {
         final Optional<BookLending> read;
         final BookLending           lending;
-        final Optional<Person>      person;
 
         log.debug("Returning book {} from {}", book, personNumber);
 
@@ -98,12 +97,12 @@ public final class DefaultBookLendingService implements BookLendingService {
             throw new MissingBookLendingException(book + "-" + personNumber);
         }
 
-        person = personRepository.findOne(personNumber);
-
+        // Used just for validation
         lending = BookLending.builder()
-            .withNumber(book)
-            .withPerson(person.orElse(Person.builder()
-                .build()))
+            .withNumber(read.get()
+                .getNumber())
+            .withPerson(read.get()
+                .getPerson())
             .withLendingDate(read.get()
                 .getLendingDate())
             .withReturnDate(date)
