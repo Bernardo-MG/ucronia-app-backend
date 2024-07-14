@@ -85,7 +85,7 @@ class TestBookServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(bookRepository.getAll(pageable)).willReturn(List.of(Books.full()));
+        given(bookRepository.findAll(pageable)).willReturn(List.of(Books.full()));
 
         // WHEN
         books = service.getAll(pageable);
@@ -105,7 +105,7 @@ class TestBookServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(bookRepository.getAll(pageable)).willReturn(List.of());
+        given(bookRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
         books = service.getAll(pageable);

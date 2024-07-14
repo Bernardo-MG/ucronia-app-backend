@@ -72,7 +72,8 @@ public final class InventoryPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("LIBRARY_LENDING", "UPDATE"),
             ResourcePermissionPair.of("LIBRARY_LENDING", "DELETE"),
             // Views
-            ResourcePermissionPair.of("LIBRARY", "VIEW"), ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"));
+            ResourcePermissionPair.of("LIBRARY", "VIEW"), ResourcePermissionPair.of("LIBRARY_ADMIN", "VIEW"),
+            ResourcePermissionPair.of("LIBRARY_LENDING", "VIEW"));
     }
 
     @Override

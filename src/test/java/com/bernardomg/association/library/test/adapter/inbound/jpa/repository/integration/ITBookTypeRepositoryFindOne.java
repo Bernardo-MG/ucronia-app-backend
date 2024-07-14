@@ -52,7 +52,7 @@ class ITBookTypeRepositoryFindOne {
         final Optional<BookType> bookType;
 
         // WHEN
-        bookType = repository.getOne(BookTypeConstants.NAME);
+        bookType = repository.findOne(BookTypeConstants.NAME);
 
         // THEN
         Assertions.assertThat(bookType)
@@ -66,7 +66,7 @@ class ITBookTypeRepositoryFindOne {
         final Optional<BookType> bookType;
 
         // WHEN
-        bookType = repository.getOne(BookTypeConstants.NAME);
+        bookType = repository.findOne(BookTypeConstants.NAME);
 
         // THEN
         Assertions.assertThat(bookType)

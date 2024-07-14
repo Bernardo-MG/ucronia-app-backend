@@ -2,32 +2,42 @@
 package com.bernardomg.association.library.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+/**
+ * TODO: include lent status
+ */
+@Value
 @Builder(setterPrefix = "with")
 public final class Book {
 
-    private Collection<Author> authors;
+    private Collection<Author>          authors;
 
-    private BookType           bookType;
+    private BookType                    bookType;
 
-    private Collection<Donor>  donors;
+    @Builder.Default
+    private Collection<Donor>           donors   = List.of();
 
-    private GameSystem         gameSystem;
+    private GameSystem                  gameSystem;
 
-    private String             isbn;
+    private String                      isbn;
 
-    private String             language;
+    private String                      language;
 
-    private Long               number;
+    @Builder.Default
+    private Collection<BookBookLending> lendings = List.of();
 
-    private Publisher          publisher;
+    private boolean                     lent;
 
-    private String             title;
+    private Long                        number;
+
+    private Publisher                   publisher;
+
+    private String                      title;
 
 }

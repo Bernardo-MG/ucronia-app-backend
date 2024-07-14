@@ -58,8 +58,8 @@ import com.bernardomg.association.library.usecase.service.DefaultGameSystemServi
 import com.bernardomg.association.library.usecase.service.DefaultPublisherService;
 import com.bernardomg.association.library.usecase.service.GameSystemService;
 import com.bernardomg.association.library.usecase.service.PublisherService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 /**
  * Library configuration.
@@ -92,17 +92,17 @@ public class LibraryConfig {
 
     @Bean("bookLendingService")
     public BookLendingService getBookLendingService(final BookLendingRepository bookLendingRepo,
-            final BookRepository bookRepo, final MemberRepository memberRepo) {
-        return new DefaultBookLendingService(bookLendingRepo, bookRepo, memberRepo);
+            final BookRepository bookRepo, final PersonRepository personRepo) {
+        return new DefaultBookLendingService(bookLendingRepo, bookRepo, personRepo);
     }
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final PersonSpringRepository personSpringRepo) {
+            final PersonSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         return new JpaBookRepository(bookSpringRepo, authorSpringRepo, publisherSpringRepository, bookTypeSpringRepo,
-            gameSystemSpringRepo, personSpringRepo);
+            gameSystemSpringRepo, personSpringRepo, bookLendingSpringRepo);
     }
 
     @Bean("bookService")

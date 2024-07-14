@@ -1,6 +1,10 @@
 
 package com.bernardomg.association.library.adapter.outbound.rest.model;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +14,13 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookLending {
+public class BookLent {
 
-    private String isbn;
+    private long      book;
 
-    private long   member;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate lendingDate;
 
+    private long      person;
+    
 }

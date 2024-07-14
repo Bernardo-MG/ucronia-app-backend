@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.adapter.inbound.jpa.repository;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,26 +38,141 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findOne(final long index, final long member) {
+    public final Optional<BookLending> findLent(final long book) {
+        final Optional<BookLending> lending;
+        final Optional<BookEntity>  bookEntity;
+
+        log.debug("Finding lent book lending for book {}", book);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+
+        if (bookEntity.isPresent()) {
+            lending = bookLendingSpringRepository.findFirstByBookIdAndReturnDateIsNull(bookEntity.get()
+                .getId())
+                .map(m -> toDomain(m, bookEntity.get()));
+
+            log.debug("Found lent book lending for book {}: {}", book, lending);
+        } else {
+            log.debug("Book {} not found", book);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
+    public final Optional<BookLending> findOne(final long book, final long person) {
         final Optional<BookLending>  lending;
         final Optional<BookEntity>   bookEntity;
         final Optional<PersonEntity> personEntity;
 
-        log.debug("Finding book lending for book {} and member {}", index, member);
+        log.debug("Finding book lending for book {} and person {}", book, person);
 
-        bookEntity = bookSpringRepository.findByNumber(index);
-        personEntity = personSpringRepository.findByNumber(member);
+        bookEntity = bookSpringRepository.findByNumber(book);
+        personEntity = personSpringRepository.findByNumber(person);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            lending = bookLendingSpringRepository.findByBookIdAndPersonId(bookEntity.get()
+            lending = bookLendingSpringRepository.findFirstByBookIdAndPersonIdOrderByReturnDateDesc(bookEntity.get()
                 .getId(),
                 personEntity.get()
                     .getId())
                 .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
 
-            log.debug("Found book lending for book {} and member {}: {}", index, member, lending);
+            log.debug("Found book lending for book {} and person {}: {}", book, person, lending);
         } else {
-            log.debug("No book lending found for book {} and member {}:", index, member);
+            log.debug("Book {} or person {} not found", book, person);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
+    public final Optional<BookLending> findReturned(final long book) {
+        final Optional<BookLending> lending;
+        final Optional<BookEntity>  bookEntity;
+
+        log.debug("Finding returned book lending for book {}", book);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+
+        if (bookEntity.isPresent()) {
+            lending = bookLendingSpringRepository
+                .findFirstByBookIdAndReturnDateIsNotNullOrderByReturnDateDesc(bookEntity.get()
+                    .getId())
+                .map(m -> toDomain(m, bookEntity.get()));
+
+            log.debug("Found returned book lending for book {}: {}", book, lending);
+        } else {
+            log.debug("Book {} not found", book);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
+    public final Optional<BookLending> findReturned(final long book, final long person, final LocalDate date) {
+        final Optional<BookLending>  lending;
+        final Optional<BookEntity>   bookEntity;
+        final Optional<PersonEntity> personEntity;
+
+        log.debug("Finding returned book {} for person {} and date {}", book, person, date);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+        personEntity = personSpringRepository.findByNumber(person);
+
+        if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
+            lending = bookLendingSpringRepository
+                .findFirstByBookIdAndPersonIdAndLendingDateAndReturnDateIsNotNullOrderByReturnDateDesc(bookEntity.get()
+                    .getId(),
+                    personEntity.get()
+                        .getId(),
+                    date)
+                .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
+
+            log.debug("Found returned book lending for book {}: {}", book, lending);
+        } else {
+            log.debug("Book {} not found", book);
+            lending = Optional.empty();
+        }
+
+        return lending;
+    }
+
+    @Override
+    public final Optional<BookLending> returnAt(final long book, final long person, final LocalDate date) {
+        final Optional<BookLendingEntity> readLending;
+        final Optional<BookLending>       lending;
+        final BookLendingEntity           lendingEntity;
+        final BookLendingEntity           lentEntity;
+        final Optional<BookEntity>        bookEntity;
+        final Optional<PersonEntity>      personEntity;
+
+        log.debug("Returning book {} from person {} at {}", book, person, date);
+
+        bookEntity = bookSpringRepository.findByNumber(book);
+        personEntity = personSpringRepository.findByNumber(person);
+
+        if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
+            readLending = bookLendingSpringRepository.findFirstByBookIdAndPersonIdOrderByReturnDateDesc(bookEntity.get()
+                .getId(),
+                personEntity.get()
+                    .getId());
+            if (readLending.isEmpty()) {
+                log.warn("Missing book lending for book {} and person {} at {}", book, person, date);
+                lending = Optional.empty();
+            } else {
+                lendingEntity = readLending.get();
+                lendingEntity.setReturnDate(date);
+                lentEntity = bookLendingSpringRepository.save(lendingEntity);
+                lending = Optional.of(lentEntity)
+                    .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
+
+                log.debug("Returned book {} from person {} at {}: {}", book, person, date, lending);
+            }
+        } else {
+            log.debug("Book {} or person {} not found", book, person);
             lending = Optional.empty();
         }
 
@@ -72,7 +190,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.getNumber());
-        personEntity = personSpringRepository.findByNumber(lending.getMember());
+        personEntity = personSpringRepository.findByNumber(lending.getPerson()
+            .getNumber());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
             toCreate = toEntity(lending, bookEntity.get(), personEntity.get());
@@ -89,13 +208,45 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         return saved;
     }
 
-    private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final PersonEntity personEntity) {
+    private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity) {
+        final Optional<Person> person;
+
+        person = personSpringRepository.findById(entity.getPersonId())
+            .map(this::toDomain);
         return BookLending.builder()
             .withNumber(bookEntity.getNumber())
-            .withMember(personEntity.getNumber())
+            .withPerson(person.orElse(Person.builder()
+                .build()))
             .withLendingDate(entity.getLendingDate())
             .withReturnDate(entity.getReturnDate())
+            .build();
+    }
+
+    private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
+            final PersonEntity personEntity) {
+        final Person person;
+
+        person = toDomain(personEntity);
+        return BookLending.builder()
+            .withNumber(bookEntity.getNumber())
+            .withPerson(person)
+            .withLendingDate(entity.getLendingDate())
+            .withReturnDate(entity.getReturnDate())
+            .build();
+    }
+
+    private final Person toDomain(final PersonEntity entity) {
+        final PersonName memberName;
+
+        memberName = PersonName.builder()
+            .withFirstName(entity.getFirstName())
+            .withLastName(entity.getLastName())
+            .build();
+        return Person.builder()
+            .withNumber(entity.getNumber())
+            .withName(memberName)
+            .withIdentifier(entity.getIdentifier())
+            .withPhone(entity.getPhone())
             .build();
     }
 

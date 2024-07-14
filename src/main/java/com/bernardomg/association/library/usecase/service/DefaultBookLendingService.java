@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.usecase.service;
 
-import java.time.YearMonth;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -12,65 +12,106 @@ import com.bernardomg.association.library.domain.exception.MissingBookLendingExc
 import com.bernardomg.association.library.domain.model.BookLending;
 import com.bernardomg.association.library.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.domain.repository.BookRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyLentRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotAlreadyReturnedRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotLentBeforeLastReturnRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotLentInFutureRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLastReturnRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedBeforeLentRule;
+import com.bernardomg.association.library.usecase.validation.BookLendingNotReturnedInFutureRule;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class DefaultBookLendingService implements BookLendingService {
 
-    private final BookLendingRepository bookLendingRepository;
+    private final BookLendingRepository  bookLendingRepository;
 
-    private final BookRepository        bookRepository;
+    private final BookRepository         bookRepository;
 
-    private final MemberRepository      memberRepository;
+    private final Validator<BookLending> lendBookValidator;
+
+    private final PersonRepository       personRepository;
+
+    private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final MemberRepository memberRepo) {
+            final PersonRepository personRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
+
+        lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
+            new BookLendingNotLentBeforeLastReturnRule(bookLendingRepo), new BookLendingNotLentInFutureRule());
+        returnBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyReturnedRule(bookLendingRepo),
+            new BookLendingNotReturnedBeforeLastReturnRule(bookLendingRepo), new BookLendingNotReturnedBeforeLentRule(),
+            new BookLendingNotReturnedInFutureRule());
     }
 
     @Override
-    public final void lendBook(final long number, final long member) {
-        final BookLending lending;
-        final YearMonth   now;
+    public final void lendBook(final long book, final long personNumber, final LocalDate date) {
+        final BookLending      lending;
+        final Optional<Person> person;
 
-        if (!bookRepository.exists(number)) {
-            throw new MissingBookException(number);
+        log.debug("Lending book {} to {}", book, personNumber);
+
+        if (!bookRepository.exists(book)) {
+            throw new MissingBookException(book);
         }
 
-        if (!memberRepository.exists(member)) {
-            // TODO: change name
-            throw new MissingMemberException(member);
+        if (!personRepository.exists(personNumber)) {
+            throw new MissingPersonException(personNumber);
         }
 
-        now = YearMonth.now();
+        person = personRepository.findOne(personNumber);
+
         lending = BookLending.builder()
-            .withNumber(number)
-            .withMember(member)
-            .withLendingDate(now)
+            .withNumber(book)
+            .withPerson(person.orElse(Person.builder()
+                .build()))
+            .withLendingDate(date)
             .build();
+
+        lendBookValidator.validate(lending);
 
         bookLendingRepository.save(lending);
     }
 
     @Override
-    public final void returnBook(final long index, final long member) {
+    public final void returnBook(final long book, final long personNumber, final LocalDate date) {
         final Optional<BookLending> read;
-        final BookLending           toSave;
+        final BookLending           lending;
 
-        read = bookLendingRepository.findOne(index, member);
+        log.debug("Returning book {} from {}", book, personNumber);
+
+        read = bookLendingRepository.findOne(book, personNumber);
         if (read.isEmpty()) {
-            throw new MissingBookLendingException(index + "-" + member);
+            throw new MissingBookLendingException(book + "-" + personNumber);
         }
 
-        toSave = read.get();
-        toSave.setReturnDate(YearMonth.now());
+        // Used just for validation
+        lending = BookLending.builder()
+            .withNumber(read.get()
+                .getNumber())
+            .withPerson(read.get()
+                .getPerson())
+            .withLendingDate(read.get()
+                .getLendingDate())
+            .withReturnDate(date)
+            .build();
 
-        bookLendingRepository.save(toSave);
+        // TODO: not allow returning a book lent to another
+        returnBookValidator.validate(lending);
+
+        bookLendingRepository.returnAt(book, personNumber, date);
     }
 
 }

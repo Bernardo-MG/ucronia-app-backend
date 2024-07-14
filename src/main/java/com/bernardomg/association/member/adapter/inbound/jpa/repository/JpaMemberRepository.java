@@ -225,6 +225,7 @@ public final class JpaMemberRepository implements MemberRepository {
     private final MemberEntity toEntity(final Member data) {
         final PersonEntity person;
 
+        // FIXME: load the person if it exists
         person = PersonEntity.builder()
             .withNumber(data.getNumber())
             .withIdentifier(data.getIdentifier())

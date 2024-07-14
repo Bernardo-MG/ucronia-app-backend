@@ -4,6 +4,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,29 +32,22 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
     @Override
     public final Iterable<MonthlyMemberBalance> findInRange(final YearMonth startDate, final YearMonth endDate,
             final Sort sort) {
-        final Specification<MonthlyMemberBalanceEntity> spec;
-        final Collection<MonthlyMemberBalanceEntity>    balances;
-        final Iterable<MonthlyMemberBalance>            monthlyBalances;
-        final YearMonth                                 now;
-        final YearMonth                                 end;
+        final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
+        final Collection<MonthlyMemberBalanceEntity>              balances;
+        final Iterable<MonthlyMemberBalance>                      monthlyBalances;
 
         // TODO: the dates are optional
 
         log.debug("Finding balance in from {} to {} sorted by {}", startDate, endDate, sort);
 
-        // Up to this month
-        now = YearMonth.now();
-        if ((endDate == null) || (endDate.isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", endDate, now);
-            end = now;
-        } else {
-            end = endDate;
-        }
         // Specification from the request
-        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, end)
-            .get();
+        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
 
-        balances = monthlyMemberBalanceRepository.findAll(spec, sort);
+        if (spec.isPresent()) {
+            balances = monthlyMemberBalanceRepository.findAll(spec.get(), sort);
+        } else {
+            balances = monthlyMemberBalanceRepository.findAll(sort);
+        }
 
         monthlyBalances = balances.stream()
             .map(this::toDomain)

@@ -65,7 +65,7 @@ class TestAuthorServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(authorRepository.getAll(pageable)).willReturn(List.of(Authors.valid()));
+        given(authorRepository.findAll(pageable)).willReturn(List.of(Authors.valid()));
 
         // WHEN
         authors = service.getAll(pageable);
@@ -85,7 +85,7 @@ class TestAuthorServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(authorRepository.getAll(pageable)).willReturn(List.of());
+        given(authorRepository.findAll(pageable)).willReturn(List.of());
 
         // WHEN
         authors = service.getAll(pageable);

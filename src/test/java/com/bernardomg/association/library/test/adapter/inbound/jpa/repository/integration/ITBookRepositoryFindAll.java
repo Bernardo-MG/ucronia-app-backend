@@ -33,7 +33,12 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLendingHistory;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.test.config.factory.Books;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -56,12 +61,55 @@ class ITBookRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        books = repository.getAll(pageable);
+        books = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(books)
             .as("books")
             .containsExactly(Books.full());
+    }
+
+    @Test
+    @DisplayName("When there is a lent book, it is returned")
+    @ValidPerson
+    @FullBook
+    @LentBookLending
+    void testFindAll_Lent() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.lent());
+    }
+
+    @Test
+    @DisplayName("When there is a lent book with history, it is returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @LentBookLendingHistory
+    void testFindAll_Lent_WithHistory() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.lentHistory());
     }
 
     @Test
@@ -74,12 +122,55 @@ class ITBookRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        books = repository.getAll(pageable);
+        books = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(books)
             .as("books")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a returned book, they are returned")
+    @ValidPerson
+    @FullBook
+    @ReturnedBookLending
+    void testFindAll_Returned() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.returned());
+    }
+
+    @Test
+    @DisplayName("When there is a returned book, they are returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @ReturnedBookLendingHistory
+    void testFindAll_Returned_WithHistory() {
+        final Iterable<Book> books;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        books = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.returnedHistory());
     }
 
 }

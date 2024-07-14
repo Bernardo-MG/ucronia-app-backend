@@ -32,6 +32,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -68,7 +69,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
@@ -89,7 +90,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
@@ -110,7 +111,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sort);
@@ -131,7 +132,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
@@ -152,7 +153,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
@@ -173,7 +174,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sort);
@@ -193,7 +194,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -220,7 +221,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -252,7 +253,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeNextYear(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
@@ -273,7 +274,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeNextYear(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
@@ -292,7 +293,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
@@ -312,7 +313,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -339,7 +340,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
@@ -360,7 +361,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
@@ -380,7 +381,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR_PREVIOUS, sort);
@@ -402,7 +403,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -426,7 +427,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
@@ -447,7 +448,7 @@ class ITFeeRepositoryFindAllInYear {
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
@@ -467,7 +468,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -490,7 +491,7 @@ class ITFeeRepositoryFindAllInYear {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);

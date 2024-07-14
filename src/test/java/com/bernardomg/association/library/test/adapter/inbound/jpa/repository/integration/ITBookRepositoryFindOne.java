@@ -34,9 +34,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
 import com.bernardomg.association.library.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.test.config.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.test.config.factory.BookConstants;
 import com.bernardomg.association.library.test.config.factory.Books;
+import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -51,11 +56,11 @@ class ITBookRepositoryFindOne {
     @DisplayName("With a full book, it is returned")
     @ValidPerson
     @FullBook
-    void _Full() {
+    void testFindOne_Full() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -64,13 +69,48 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a minimal book, it is returned")
-    @MinimalBook
-    void _Minimal() {
+    @DisplayName("With a lent book, it is returned")
+    @ValidPerson
+    @FullBook
+    @LentBookLending
+    void testFindOne_Lent() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.lent());
+    }
+
+    @Test
+    @DisplayName("With a lent book with history, it is returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @LentBookLendingHistory
+    void testFindOne_Lent_History() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.lentHistory());
+    }
+
+    @Test
+    @DisplayName("With a minimal book, it is returned")
+    @MinimalBook
+    void testFindOne_Minimal() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
@@ -80,16 +120,51 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    void _NoData() {
+    void testFindOne_NoData() {
         final Optional<Book> book;
 
         // WHEN
-        book = repository.getOne(BookConstants.NUMBER);
+        book = repository.findOne(BookConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(book)
             .as("book")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a returned book, it is returned")
+    @ValidPerson
+    @FullBook
+    @ReturnedBookLending
+    void testFindOne_Returned() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.returned());
+    }
+
+    @Test
+    @DisplayName("With a returned book with history, it is returned")
+    @ValidPerson
+    @AlternativePerson
+    @FullBook
+    @ReturnedBookLendingHistory
+    void testFindOne_Returned_History() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.returnedHistory());
     }
 
 }

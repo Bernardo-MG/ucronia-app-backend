@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.5.5</version>
+   <version>0.5.6</version>
    <packaging>war</packaging>
 
    <name>Ucronia App Backend</name>
@@ -593,9 +593,15 @@
          </exclusions>
       </dependency>
       <dependency>
-         <!-- H2 database -->
-         <groupId>com.h2database</groupId>
-         <artifactId>h2</artifactId>
+         <!-- Test containers -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>testcontainers</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgresql test container -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>postgresql </artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
