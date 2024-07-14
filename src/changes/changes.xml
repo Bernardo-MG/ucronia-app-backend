@@ -165,7 +165,13 @@
             Fixed pagination for user members.
          </action>
       </release>
-      <release version="1.0.0" date="2024-06-19" description="">
+      <release version="0.5.6" date="2024-07-14" description="Corrections to book lending">
+         <action dev="bmg" type="fix">
+            Corrections to book lending.
+         </action>
+         <action dev="bmg" type="update">
+            Using test containers.
+         </action>
       </release>
    </body>
 </document>
