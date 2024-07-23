@@ -87,7 +87,7 @@ public final class DefaultBookService implements BookService {
         toCreate = Book.builder()
             .withNumber(number)
             .withAuthors(book.getAuthors())
-            .withPublisher(book.getPublisher())
+            .withPublishers(book.getPublishers())
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
             .withDonors(book.getDonors())
@@ -152,54 +152,42 @@ public final class DefaultBookService implements BookService {
     }
 
     private final void validateRelationships(final Book book) {
-        final boolean publisherExists;
-        final boolean gameSystemExists;
-        final boolean bookTypeExists;
-        boolean       donorExists;
+        boolean donorExists;
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
         book.getAuthors()
             .forEach(a -> {
-                final boolean authorExists;
-
-                authorExists = authorRepository.exists(a.getName());
-                if (!authorExists) {
+                if (!authorRepository.exists(a.getName())) {
                     throw new MissingAuthorException(a.getName());
                 }
             });
 
-        // Check publisher exist
-        if (StringUtils.isNotBlank(book.getPublisher()
-            .getName())) {
-            publisherExists = publisherRepository.exists(book.getPublisher()
-                .getName());
-            if (!publisherExists) {
-                throw new MissingPublisherException(book.getPublisher()
-                    .getName());
-            }
-        }
+        // TODO: add an exception for multiple missing ids
+        // Check publishers exist
+        book.getPublishers()
+            .forEach(p -> {
+                if (!publisherRepository.exists(p.getName())) {
+                    throw new MissingPublisherException(p.getName());
+                }
+            });
 
         // Check game system exist
         if (StringUtils.isNotBlank(book.getGameSystem()
-            .getName())) {
-            gameSystemExists = gameSystemRepository.exists(book.getGameSystem()
+            .getName())
+                && !gameSystemRepository.exists(book.getGameSystem()
+                    .getName())) {
+            throw new MissingGameSystemException(book.getGameSystem()
                 .getName());
-            if (!gameSystemExists) {
-                throw new MissingGameSystemException(book.getGameSystem()
-                    .getName());
-            }
         }
 
         // Check book type exist
         if (StringUtils.isNotBlank(book.getBookType()
-            .getName())) {
-            bookTypeExists = bookTypeRepository.exists(book.getBookType()
+            .getName())
+                && !bookTypeRepository.exists(book.getBookType()
+                    .getName())) {
+            throw new MissingBookTypeException(book.getBookType()
                 .getName());
-            if (!bookTypeExists) {
-                throw new MissingBookTypeException(book.getBookType()
-                    .getName());
-            }
         }
 
         // Check donor exist
