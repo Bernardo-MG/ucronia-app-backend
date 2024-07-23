@@ -39,7 +39,7 @@ public interface PublisherSpringRepository extends JpaRepository<PublisherEntity
 
     public boolean existsByName(final String name);
 
-    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.publisher p WHERE p.name = :name")
+    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.publishers p WHERE p.name = :name")
     public boolean existsInBook(@Param("name") final String name);
 
     public Collection<PublisherEntity> findAllByNameIn(final Collection<String> names);

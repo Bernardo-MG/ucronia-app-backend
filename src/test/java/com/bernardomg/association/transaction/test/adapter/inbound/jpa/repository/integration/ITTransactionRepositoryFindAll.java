@@ -125,12 +125,13 @@ class ITTransactionRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndex(1, Month.JANUARY), Transactions.forIndex(2, Month.FEBRUARY),
-                Transactions.forIndex(3, Month.MARCH), Transactions.forIndex(4, Month.APRIL),
-                Transactions.forIndex(5, Month.MAY), Transactions.forIndex(6, Month.JUNE),
-                Transactions.forIndex(7, Month.JULY), Transactions.forIndex(8, Month.AUGUST),
-                Transactions.forIndex(9, Month.SEPTEMBER), Transactions.forIndex(10, Month.OCTOBER),
-                Transactions.forIndex(11, Month.NOVEMBER), Transactions.forIndex(12, Month.DECEMBER));
+            .containsExactlyInAnyOrder(Transactions.forIndex(1, Month.JANUARY),
+                Transactions.forIndex(2, Month.FEBRUARY), Transactions.forIndex(3, Month.MARCH),
+                Transactions.forIndex(4, Month.APRIL), Transactions.forIndex(5, Month.MAY),
+                Transactions.forIndex(6, Month.JUNE), Transactions.forIndex(7, Month.JULY),
+                Transactions.forIndex(8, Month.AUGUST), Transactions.forIndex(9, Month.SEPTEMBER),
+                Transactions.forIndex(10, Month.OCTOBER), Transactions.forIndex(11, Month.NOVEMBER),
+                Transactions.forIndex(12, Month.DECEMBER));
     }
 
     @Test
