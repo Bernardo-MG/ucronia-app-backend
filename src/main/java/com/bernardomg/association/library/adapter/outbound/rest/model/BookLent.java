@@ -22,5 +22,5 @@ public class BookLent {
     private LocalDate lendingDate;
 
     private long      person;
-    
+
 }

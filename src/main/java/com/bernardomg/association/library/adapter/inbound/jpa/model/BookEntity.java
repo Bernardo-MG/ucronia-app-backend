@@ -34,53 +34,53 @@ public class BookEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long        serialVersionUID = 1328776989450853491L;
+    private static final long           serialVersionUID = 1328776989450853491L;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "author_id", referencedColumnName = "id") })
-    private Collection<AuthorEntity> authors;
+    private Collection<AuthorEntity>    authors;
 
     @OneToOne
     @JoinTable(schema = "inventory", name = "book_book_types",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "book_type_id", referencedColumnName = "id") })
-    private BookTypeEntity           bookType;
+    private BookTypeEntity              bookType;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_donors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "donor_id", referencedColumnName = "id") })
-    private Collection<PersonEntity> donors;
+    private Collection<PersonEntity>    donors;
 
     @OneToOne
     @JoinTable(schema = "inventory", name = "book_game_systems",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "game_system_id", referencedColumnName = "id") })
-    private GameSystemEntity         gameSystem;
+    private GameSystemEntity            gameSystem;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                     id;
+    private Long                        id;
 
     @Column(name = "isbn", nullable = false)
-    private String                   isbn;
+    private String                      isbn;
 
     @Column(name = "language", nullable = false)
-    private String                   language;
+    private String                      language;
 
     @Column(name = "number", nullable = false, unique = true)
-    private Long                     number;
+    private Long                        number;
 
-    @OneToOne
+    @OneToMany
     @JoinTable(schema = "inventory", name = "book_publishers",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "publisher_id", referencedColumnName = "id") })
-    private PublisherEntity          publisher;
+    private Collection<PublisherEntity> publishers;
 
     @Column(name = "title", nullable = false)
-    private String                   title;
+    private String                      title;
 
 }

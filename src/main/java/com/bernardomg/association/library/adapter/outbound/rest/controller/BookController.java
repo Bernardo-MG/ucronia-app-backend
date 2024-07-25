@@ -126,11 +126,11 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
-        final Collection<Author> authors;
-        final Publisher          publisher;
-        final BookType           bookType;
-        final GameSystem         gameSystem;
-        final Collection<Donor>  donors;
+        final Collection<Author>    authors;
+        final Collection<Publisher> publishers;
+        final BookType              bookType;
+        final GameSystem            gameSystem;
+        final Collection<Donor>     donors;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -144,15 +144,16 @@ public class BookController {
                 .toList();
         }
 
-        // Publisher
-        if (request.getPublisher() == null) {
-            publisher = Publisher.builder()
-                .build();
+        // Publishers
+        if (request.getPublishers() == null) {
+            publishers = List.of();
         } else {
-            publisher = Publisher.builder()
-                .withName(request.getPublisher()
-                    .getName())
-                .build();
+            publishers = request.getPublishers()
+                .stream()
+                .map(p -> Publisher.builder()
+                    .withName(p.getName())
+                    .build())
+                .toList();
         }
 
         // Book type
@@ -195,7 +196,7 @@ public class BookController {
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withAuthors(authors)
-            .withPublisher(publisher)
+            .withPublishers(publishers)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
             .withDonors(donors)

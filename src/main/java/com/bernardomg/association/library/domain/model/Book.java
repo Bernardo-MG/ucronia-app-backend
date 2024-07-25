@@ -21,7 +21,7 @@ public final class Book {
     private BookType                    bookType;
 
     @Builder.Default
-    private Collection<Donor>           donors   = List.of();
+    private Collection<Donor>           donors     = List.of();
 
     private GameSystem                  gameSystem;
 
@@ -30,13 +30,14 @@ public final class Book {
     private String                      language;
 
     @Builder.Default
-    private Collection<BookBookLending> lendings = List.of();
+    private Collection<BookBookLending> lendings   = List.of();
 
     private boolean                     lent;
 
     private Long                        number;
 
-    private Publisher                   publisher;
+    @Builder.Default
+    private Collection<Publisher>       publishers = List.of();
 
     private String                      title;
 

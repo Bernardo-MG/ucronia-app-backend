@@ -188,7 +188,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Book toDomain(final BookEntity entity) {
-        final Publisher                   publisher;
+        final Collection<Publisher>       publishers;
         final GameSystem                  gameSystem;
         final BookType                    bookType;
         final Collection<Donor>           donors;
@@ -197,11 +197,13 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<BookBookLending> lendings;
         final Optional<BookEntity>        book;
 
-        if (entity.getPublisher() == null) {
-            publisher = Publisher.builder()
-                .build();
+        if (entity.getPublishers() == null) {
+            publishers = List.of();
         } else {
-            publisher = toDomain(entity.getPublisher());
+            publishers = entity.getPublishers()
+                .stream()
+                .map(this::toDomain)
+                .toList();
         }
         if (entity.getGameSystem() == null) {
             gameSystem = GameSystem.builder()
@@ -246,7 +248,7 @@ public final class JpaBookRepository implements BookRepository {
             .withTitle(entity.getTitle())
             .withLanguage(entity.getLanguage())
             .withAuthors(authors)
-            .withPublisher(publisher)
+            .withPublishers(publishers)
             .withGameSystem(gameSystem)
             .withBookType(bookType)
             .withDonors(donors)
@@ -315,18 +317,23 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookEntity toEntity(final Book domain) {
-        final Collection<String>         authorNames;
-        final Optional<PublisherEntity>  publisher;
-        final Optional<BookTypeEntity>   bookType;
-        final Optional<GameSystemEntity> gameSystem;
-        final Collection<PersonEntity>   donors;
-        final Collection<AuthorEntity>   authors;
+        final Collection<String>          authorNames;
+        final Collection<PublisherEntity> publishers;
+        final Optional<BookTypeEntity>    bookType;
+        final Optional<GameSystemEntity>  gameSystem;
+        final Collection<PersonEntity>    donors;
+        final Collection<AuthorEntity>    authors;
 
-        if (domain.getPublisher() == null) {
-            publisher = Optional.empty();
+        if (domain.getPublishers() == null) {
+            publishers = List.of();
         } else {
-            publisher = publisherSpringRepository.findByName(domain.getPublisher()
-                .getName());
+            publishers = domain.getPublishers()
+                .stream()
+                .map(Publisher::getName)
+                .map(publisherSpringRepository::findByName)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
         }
         if (domain.getBookType() == null) {
             bookType = Optional.empty();
@@ -364,7 +371,7 @@ public final class JpaBookRepository implements BookRepository {
             .withTitle(domain.getTitle())
             .withLanguage(domain.getLanguage())
             .withAuthors(authors)
-            .withPublisher(publisher.orElse(null))
+            .withPublishers(publishers)
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
             .withDonors(donors)
