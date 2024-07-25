@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.domain.model.Book;
 import com.bernardomg.association.library.domain.repository.BookRepository;
+import com.bernardomg.association.library.test.config.data.annotation.FullBook;
 import com.bernardomg.association.library.test.config.data.annotation.MinimalBook;
 import com.bernardomg.association.library.test.config.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.test.config.data.annotation.ValidBookType;
@@ -53,9 +54,14 @@ class ITBookRepositorySave {
     private BookSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the book exists it is persisted")
+    @DisplayName("When the book exists, and relationships are added, it is persisted")
+    @ValidPerson
+    @ValidAuthor
+    @ValidPublisher
+    @ValidBookType
+    @ValidGameSystem
     @MinimalBook
-    void testSave_Existing_Persisted() {
+    void testSave_Existing_AddRelationships_Persisted() {
         final Book book;
 
         // GIVEN
@@ -67,14 +73,97 @@ class ITBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id")
+            .contains(BookEntities.full());
+    }
+
+    @Test
+    @DisplayName("When the book exists, and relationships are added, it is returned")
+    @ValidPerson
+    @ValidAuthor
+    @ValidPublisher
+    @ValidBookType
+    @ValidGameSystem
+    @MinimalBook
+    void testSave_Existing_AddRelationships_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.full());
+    }
+
+    @Test
+    @DisplayName("When the book exists it is persisted")
+    @MinimalBook
+    void testSave_Existing_Minimal_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.minimal();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookEntities.noRelationships());
+            .contains(BookEntities.minimal());
     }
 
     @Test
     @DisplayName("When the book exists it is returned")
     @MinimalBook
-    void testSave_Existing_Returned() {
+    void testSave_Existing_Minimal_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.minimal();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.minimal());
+    }
+
+    @Test
+    @DisplayName("When the book exists, and relationships are removed, it is persisted")
+    @ValidPerson
+    @FullBook
+    void testSave_Existing_RemoveRelationships_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.minimal();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(BookEntities.minimal());
+    }
+
+    @Test
+    @DisplayName("When the book exists, and relationships are removed, it is returned")
+    @ValidPerson
+    @FullBook
+    void testSave_Existing_RemoveRelationships_Returned() {
         final Book book;
         final Book created;
 
@@ -128,7 +217,7 @@ class ITBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(BookEntities.noRelationships());
+            .containsExactly(BookEntities.minimal());
     }
 
     @Test
