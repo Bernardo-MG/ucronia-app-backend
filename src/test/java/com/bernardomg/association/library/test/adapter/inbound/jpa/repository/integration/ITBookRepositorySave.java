@@ -73,7 +73,8 @@ class ITBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
+                "gameSystem.id", "publishers.id")
             .contains(BookEntities.full());
     }
 
