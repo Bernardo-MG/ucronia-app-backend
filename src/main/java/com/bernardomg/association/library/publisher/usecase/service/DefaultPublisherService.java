@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
+import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.exception.PublisherHasRelationshipsException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -50,7 +50,7 @@ public final class DefaultPublisherService implements PublisherService {
         log.debug("Deleting author {}", name);
 
         if (!publisherRepository.exists(name)) {
-            throw new MissingAuthorException(name);
+            throw new MissingPublisherException(name);
         }
 
         if (publisherRepository.hasRelationships(name)) {
@@ -73,7 +73,7 @@ public final class DefaultPublisherService implements PublisherService {
 
         publisher = publisherRepository.findOne(name);
         if (publisher.isEmpty()) {
-            throw new MissingAuthorException(name);
+            throw new MissingPublisherException(name);
         }
 
         return publisher;
