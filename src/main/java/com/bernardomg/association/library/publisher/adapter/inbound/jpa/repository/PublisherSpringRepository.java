@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.adapter.publisher.inbound.jpa.repository;
+package com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.Optional;

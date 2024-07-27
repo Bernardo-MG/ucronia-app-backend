@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.bernardomg.association.library.adapter.publisher.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.book.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.config.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.publisher.test.config.factory.PublisherConstants;

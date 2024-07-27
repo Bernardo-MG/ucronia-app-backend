@@ -28,8 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.library.adapter.publisher.inbound.jpa.repository.JpaPublisherRepository;
-import com.bernardomg.association.library.adapter.publisher.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.JpaAuthorRepository;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
@@ -55,6 +53,8 @@ import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
 import com.bernardomg.association.library.publisher.usecase.service.PublisherService;

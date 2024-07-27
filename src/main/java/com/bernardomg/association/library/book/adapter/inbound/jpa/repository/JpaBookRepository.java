@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.model.DonorName;
-import com.bernardomg.association.library.adapter.publisher.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
@@ -29,6 +28,7 @@ import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.Book
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookBookLending;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
