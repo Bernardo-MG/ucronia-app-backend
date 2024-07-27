@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
+import com.bernardomg.association.library.author.adapter.outbound.cache.LibraryAuthorCaches;
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorCreation;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
@@ -68,7 +68,8 @@ public class AuthorController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.AUTHORS, LibraryCaches.AUTHOR }, allEntries = true) })
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS, LibraryAuthorCaches.AUTHOR }, allEntries = true) })
     public Author create(@Valid @RequestBody final AuthorCreation request) {
         final Author author;
 
@@ -80,22 +81,22 @@ public class AuthorController {
 
     @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.AUTHOR }),
-            @CacheEvict(cacheNames = { LibraryCaches.AUTHORS }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHOR }),
+            @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
     public void delete(@PathVariable("name") final String name) {
         service.delete(name);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.AUTHORS)
+    @Cacheable(cacheNames = LibraryAuthorCaches.AUTHORS)
     public Iterable<Author> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.AUTHOR)
+    @Cacheable(cacheNames = LibraryAuthorCaches.AUTHOR)
     public Author readOne(@PathVariable("name") final String name) {
         return service.getOne(name)
             .orElse(null);

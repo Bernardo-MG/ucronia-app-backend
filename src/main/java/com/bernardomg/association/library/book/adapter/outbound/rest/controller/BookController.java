@@ -45,8 +45,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.usecase.service.BookService;
@@ -78,8 +78,8 @@ public class BookController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
     public Book create(@Valid @RequestBody final BookCreation request) {
         final Book book;
 
@@ -91,22 +91,22 @@ public class BookController {
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOK }),
-            @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOK }),
+            @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.BOOKS)
+    @Cacheable(cacheNames = LibraryBookCaches.BOOKS)
     public Iterable<Book> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.BOOK)
+    @Cacheable(cacheNames = LibraryBookCaches.BOOK)
     public Book readOne(@PathVariable("number") final long number) {
         return service.getOne(number)
             .orElse(null);
@@ -114,8 +114,8 @@ public class BookController {
 
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryCaches.BOOK, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
     public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookCreation request) {
         final Book book;
 

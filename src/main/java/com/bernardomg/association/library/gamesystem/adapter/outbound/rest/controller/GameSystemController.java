@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
+import com.bernardomg.association.library.gamesystem.adapter.outbound.cache.LibraryGameSystemCaches;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemCreation;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
@@ -69,7 +69,8 @@ public class GameSystemController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
     @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryCaches.GAME_SYSTEMS, LibraryCaches.GAME_SYSTEM }, allEntries = true) })
+            @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS, LibraryGameSystemCaches.GAME_SYSTEM },
+                    allEntries = true) })
     public GameSystem create(@Valid @RequestBody final GameSystemCreation request) {
         final GameSystem author;
 
@@ -81,22 +82,22 @@ public class GameSystemController {
 
     @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.GAME_SYSTEM }),
-            @CacheEvict(cacheNames = { LibraryCaches.GAME_SYSTEMS }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEM }),
+            @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
     public void delete(@PathVariable("name") final String name) {
         service.delete(name);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.GAME_SYSTEMS)
+    @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEMS)
     public Iterable<GameSystem> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.GAME_SYSTEM)
+    @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
     public GameSystem readOne(@PathVariable("name") final String name) {
         return service.getOne(name)
             .orElse(null);

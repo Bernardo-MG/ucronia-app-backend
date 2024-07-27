@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
+import com.bernardomg.association.library.booktype.adapter.outbound.cache.LibraryBookTypeCaches;
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeCreation;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
@@ -68,8 +68,8 @@ public class BookTypeController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.CREATE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryCaches.BOOK_TYPES, LibraryCaches.BOOK_TYPE }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES, LibraryBookTypeCaches.BOOK_TYPE },
+            allEntries = true) })
     public BookType create(@Valid @RequestBody final BookTypeCreation request) {
         final BookType bookType;
 
@@ -81,22 +81,22 @@ public class BookTypeController {
 
     @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOK_TYPE }),
-            @CacheEvict(cacheNames = { LibraryCaches.BOOK_TYPES }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPE }),
+            @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
     public void delete(@PathVariable("name") final String name) {
         service.delete(name);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.BOOK_TYPES)
+    @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPES)
     public Iterable<BookType> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.BOOK_TYPE)
+    @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPE)
     public BookType readOne(@PathVariable("name") final String name) {
         return service.getOne(name)
             .orElse(null);

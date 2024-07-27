@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
+import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLent;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookReturned;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
@@ -64,14 +64,16 @@ public class BookLendingController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS, LibraryCaches.BOOK }, allEntries = true) })
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
     public void lendBook(@Valid @RequestBody final BookLent lending) {
         service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.BOOKS, LibraryCaches.BOOK }, allEntries = true) })
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
     public void returnBook(@Valid @RequestBody final BookReturned lending) {
         service.returnBook(lending.getBook(), lending.getPerson(), lending.getReturnDate());
     }

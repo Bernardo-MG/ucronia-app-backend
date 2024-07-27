@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.cache.LibraryCaches;
+import com.bernardomg.association.library.publisher.adapter.outbound.cache.LibraryPublisherCaches;
 import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherCreation;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
@@ -68,8 +68,8 @@ public class PublisherController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryCaches.PUBLISHERS, LibraryCaches.PUBLISHER }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS, LibraryPublisherCaches.PUBLISHER },
+            allEntries = true) })
     public Publisher create(@Valid @RequestBody final PublisherCreation request) {
         final Publisher publisher;
 
@@ -81,22 +81,22 @@ public class PublisherController {
 
     @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryCaches.PUBLISHER }),
-            @CacheEvict(cacheNames = { LibraryCaches.PUBLISHERS }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHER }),
+            @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
     public void delete(@PathVariable("name") final String name) {
         service.delete(name);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.PUBLISHERS)
+    @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHERS)
     public Iterable<Publisher> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryCaches.PUBLISHER)
+    @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHER)
     public Publisher readOne(@PathVariable("name") final String name) {
         return service.getOne(name)
             .orElse(null);

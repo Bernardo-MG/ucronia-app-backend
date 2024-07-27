@@ -47,7 +47,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.association.library.lending..")
 
         .whereLayer("Persons")
-        .mayOnlyBeAccessedByLayers("Members", "Users", "Account", "Fees", "Library books", "Library lending", "Inventory")
+        .mayOnlyBeAccessedByLayers("Members", "Users", "Account", "Fees", "Library books", "Library lending",
+            "Inventory")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees", "Inventory", "Account")
         .whereLayer("Transactions")
