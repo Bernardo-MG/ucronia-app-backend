@@ -37,7 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
+import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.config.factory.PublisherConstants;
@@ -87,7 +87,7 @@ class TestPublisherServiceGetOne {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingAuthorException.class);
+            .isInstanceOf(MissingPublisherException.class);
     }
 
 }
