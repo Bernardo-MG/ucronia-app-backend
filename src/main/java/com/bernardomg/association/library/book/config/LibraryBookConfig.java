@@ -22,44 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.config;
+package com.bernardomg.association.library.book.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
-import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.JpaAuthorRepository;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.author.usecase.service.AuthorService;
-import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.JpaBookRepository;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.book.usecase.service.DefaultBookService;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
-import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.JpaBookTypeRepository;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
-import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
-import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.JpaGameSystemRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
-import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBookLendingRepository;
-import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
-import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
-import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 /**
  * Library configuration.
@@ -68,32 +51,10 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
  *
  */
 @Configuration
-public class LibraryConfig {
+public class LibraryBookConfig {
 
-    public LibraryConfig() {
+    public LibraryBookConfig() {
         super();
-    }
-
-    @Bean("authorRepository")
-    public AuthorRepository getAuthorRepository(final AuthorSpringRepository authorSpringRepo) {
-        return new JpaAuthorRepository(authorSpringRepo);
-    }
-
-    @Bean("authorService")
-    public AuthorService getAuthorService(final AuthorRepository authorRepo) {
-        return new DefaultAuthorService(authorRepo);
-    }
-
-    @Bean("bookLendingRepository")
-    public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
-            final BookSpringRepository bookSpringRepo, final PersonSpringRepository personSpringRepo) {
-        return new JpaBookLendingRepository(bookLendingSpringRepo, bookSpringRepo, personSpringRepo);
-    }
-
-    @Bean("bookLendingService")
-    public BookLendingService getBookLendingService(final BookLendingRepository bookLendingRepo,
-            final BookRepository bookRepo, final PersonRepository personRepo) {
-        return new DefaultBookLendingService(bookLendingRepo, bookRepo, personRepo);
     }
 
     @Bean("bookRepository")
@@ -110,36 +71,6 @@ public class LibraryConfig {
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
             final GameSystemRepository gameSystemRepo, final DonorRepository donorRepo) {
         return new DefaultBookService(bookRepo, authorRepo, publisherRepo, bookTypeRepo, gameSystemRepo, donorRepo);
-    }
-
-    @Bean("bookTypeRepository")
-    public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepo) {
-        return new JpaBookTypeRepository(bookTypeSpringRepo);
-    }
-
-    @Bean("bookTypeService")
-    public BookTypeService getBookTypeService(final BookTypeRepository bookTypeRepo) {
-        return new DefaultBookTypeService(bookTypeRepo);
-    }
-
-    @Bean("gameSystemRepository")
-    public GameSystemRepository getGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
-        return new JpaGameSystemRepository(gameSystemRepo);
-    }
-
-    @Bean("gameSystemService")
-    public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepo) {
-        return new DefaultGameSystemService(gameSystemRepo);
-    }
-
-    @Bean("publisherRepository")
-    public PublisherRepository getPublisherRepository(final PublisherSpringRepository publisherSpringRepo) {
-        return new JpaPublisherRepository(publisherSpringRepo);
-    }
-
-    @Bean("publisherService")
-    public PublisherService getPublisherService(final PublisherRepository publisherRepository) {
-        return new DefaultPublisherService(publisherRepository);
     }
 
 }
