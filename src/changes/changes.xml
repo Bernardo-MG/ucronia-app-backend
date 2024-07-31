@@ -173,7 +173,7 @@
             Using test containers.
          </action>
       </release>
-      <release version="0.5.6" date="2024-07-31" description="Multiple publishers">
+      <release version="0.5.7" date="2024-07-31" description="Multiple publishers">
          <action dev="bmg" type="update">
             Support for multiple publishers in library books.
          </action>
