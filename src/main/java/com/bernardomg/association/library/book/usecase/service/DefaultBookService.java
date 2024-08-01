@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -223,18 +222,24 @@ public final class DefaultBookService implements BookService {
             });
 
         // Check game system exist
-        if (book.getGameSystem().isPresent()&& !gameSystemRepository.exists(book.getGameSystem().get()
-            .getName())) {
-            throw new MissingGameSystemException(book.getGameSystem().get()
+        if (book.getGameSystem()
+            .isPresent()
+                && !gameSystemRepository.exists(book.getGameSystem()
+                    .get()
+                    .getName())) {
+            throw new MissingGameSystemException(book.getGameSystem()
+                .get()
                 .getName());
         }
 
         // Check book type exist
-        if (StringUtils.isNotBlank(book.getBookType()
-            .getName())
+        if (book.getBookType()
+            .isPresent()
                 && !bookTypeRepository.exists(book.getBookType()
+                    .get()
                     .getName())) {
             throw new MissingBookTypeException(book.getBookType()
+                .get()
                 .getName());
         }
 

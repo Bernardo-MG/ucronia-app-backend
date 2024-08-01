@@ -129,8 +129,8 @@ public class BookController {
     private final Book toDomain(final BookCreation request, final long number) {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
-        final BookType              bookType;
-        final GameSystem            gameSystem;
+        final Optional<BookType>    bookType;
+        final Optional<GameSystem>  gameSystem;
         final Collection<Donor>     donors;
 
         // Authors
@@ -159,24 +159,22 @@ public class BookController {
 
         // Book type
         if (request.getBookType() == null) {
-            bookType = BookType.builder()
-                .build();
+            bookType = Optional.empty();
         } else {
-            bookType = BookType.builder()
+            bookType = Optional.of(BookType.builder()
                 .withName(request.getBookType()
                     .getName())
-                .build();
+                .build());
         }
 
         // Game system
         if (request.getGameSystem() == null) {
-            gameSystem = GameSystem.builder()
-                .build();
+            gameSystem = Optional.empty();
         } else {
-            gameSystem = GameSystem.builder()
+            gameSystem = Optional.of(GameSystem.builder()
                 .withName(request.getGameSystem()
                     .getName())
-                .build();
+                .build());
         }
 
         // Donor
@@ -199,7 +197,7 @@ public class BookController {
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(bookType)
-            .withGameSystem(Optional.of(gameSystem))
+            .withGameSystem(gameSystem)
             .withDonors(donors)
             .withNumber(number)
             .build();

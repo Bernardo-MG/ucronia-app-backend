@@ -195,7 +195,7 @@ public final class JpaBookRepository implements BookRepository {
     private final Book toDomain(final BookEntity entity) {
         final Collection<Publisher>       publishers;
         final Optional<GameSystem>        gameSystem;
-        final BookType                    bookType;
+        final Optional<BookType>          bookType;
         final Collection<Donor>           donors;
         final Collection<Author>          authors;
         final boolean                     lent;
@@ -208,10 +208,9 @@ public final class JpaBookRepository implements BookRepository {
         }
 
         if (entity.getBookType() == null) {
-            bookType = BookType.builder()
-                .build();
+            bookType = Optional.empty();
         } else {
-            bookType = toDomain(entity.getBookType());
+            bookType = Optional.of(toDomain(entity.getBookType()));
         }
 
         if (entity.getPublishers() == null) {
@@ -331,11 +330,13 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<PersonEntity>    donors;
         final Collection<AuthorEntity>    authors;
 
-        if (domain.getBookType() == null) {
-            bookType = Optional.empty();
-        } else {
+        if (domain.getBookType()
+            .isPresent()) {
             bookType = bookTypeSpringRepository.findByName(domain.getBookType()
+                .get()
                 .getName());
+        } else {
+            bookType = Optional.empty();
         }
         if (domain.getGameSystem()
             .isPresent()) {

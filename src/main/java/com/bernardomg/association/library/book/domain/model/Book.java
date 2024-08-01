@@ -28,7 +28,7 @@ public final class Book {
 
     private Collection<Author>          authors;
 
-    private BookType                    bookType;
+    private Optional<BookType>          bookType;
 
     @Builder.Default
     private Collection<Donor>           donors     = List.of();
