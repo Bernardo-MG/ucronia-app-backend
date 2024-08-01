@@ -38,7 +38,13 @@ public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, 
 
     public boolean existsByName(final String name);
 
-    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.bookType t WHERE t.name = :name")
+    @Query("""
+              SELECT CASE
+              WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
+              FROM Book b
+              JOIN b.bookType t
+              WHERE t.name = :name
+            """)
     public boolean existsInBook(@Param("name") final String name);
 
     public Optional<BookTypeEntity> findByName(final String name);

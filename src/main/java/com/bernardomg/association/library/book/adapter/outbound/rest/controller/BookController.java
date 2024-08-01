@@ -26,6 +26,7 @@ package com.bernardomg.association.library.book.adapter.outbound.rest.controller
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -128,8 +129,8 @@ public class BookController {
     private final Book toDomain(final BookCreation request, final long number) {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
-        final BookType              bookType;
-        final GameSystem            gameSystem;
+        final Optional<BookType>    bookType;
+        final Optional<GameSystem>  gameSystem;
         final Collection<Donor>     donors;
 
         // Authors
@@ -158,24 +159,22 @@ public class BookController {
 
         // Book type
         if (request.getBookType() == null) {
-            bookType = BookType.builder()
-                .build();
+            bookType = Optional.empty();
         } else {
-            bookType = BookType.builder()
+            bookType = Optional.of(BookType.builder()
                 .withName(request.getBookType()
                     .getName())
-                .build();
+                .build());
         }
 
         // Game system
         if (request.getGameSystem() == null) {
-            gameSystem = GameSystem.builder()
-                .build();
+            gameSystem = Optional.empty();
         } else {
-            gameSystem = GameSystem.builder()
+            gameSystem = Optional.of(GameSystem.builder()
                 .withName(request.getGameSystem()
                     .getName())
-                .build();
+                .build());
         }
 
         // Donor
