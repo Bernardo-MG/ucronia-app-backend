@@ -33,7 +33,8 @@ public final class Book {
     @Builder.Default
     private Collection<Donor>           donors     = List.of();
 
-    private Optional<GameSystem>        gameSystem;
+    @Builder.Default
+    private Optional<GameSystem>        gameSystem = Optional.empty();
 
     private String                      isbn;
 
