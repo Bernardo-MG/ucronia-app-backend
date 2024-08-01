@@ -223,11 +223,9 @@ public final class DefaultBookService implements BookService {
             });
 
         // Check game system exist
-        if (StringUtils.isNotBlank(book.getGameSystem()
-            .getName())
-                && !gameSystemRepository.exists(book.getGameSystem()
-                    .getName())) {
-            throw new MissingGameSystemException(book.getGameSystem()
+        if (book.getGameSystem().isPresent()&& !gameSystemRepository.exists(book.getGameSystem().get()
+            .getName())) {
+            throw new MissingGameSystemException(book.getGameSystem().get()
                 .getName());
         }
 

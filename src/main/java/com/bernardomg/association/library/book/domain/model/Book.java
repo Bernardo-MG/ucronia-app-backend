@@ -3,6 +3,7 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.author.domain.model.Author;
@@ -32,7 +33,7 @@ public final class Book {
     @Builder.Default
     private Collection<Donor>           donors     = List.of();
 
-    private GameSystem                  gameSystem;
+    private Optional<GameSystem>        gameSystem;
 
     private String                      isbn;
 

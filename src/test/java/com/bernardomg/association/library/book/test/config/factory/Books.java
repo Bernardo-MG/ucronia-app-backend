@@ -4,13 +4,13 @@ package com.bernardomg.association.library.book.test.config.factory;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 
 import com.bernardomg.association.inventory.test.config.factory.Donors;
 import com.bernardomg.association.library.author.test.config.factory.Authors;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.test.config.factory.BookTypes;
-import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.test.config.factory.GameSystems;
 import com.bernardomg.association.library.lending.domain.model.BookBookLending;
 import com.bernardomg.association.library.lending.test.config.factory.BookBookLendings;
@@ -27,7 +27,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid(), Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
@@ -42,7 +42,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid(), Donors.valid()))
             .withLendings(List.of())
@@ -57,7 +57,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid(), Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
@@ -72,7 +72,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
@@ -87,8 +87,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
             .withPublishers(List.of())
-            .withGameSystem(GameSystem.builder()
-                .build())
+            .withGameSystem(Optional.empty())
             .withBookType(BookType.builder()
                 .build())
             .withDonors(List.of())
@@ -104,7 +103,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
@@ -119,7 +118,7 @@ public final class Books {
             .withLanguage("abc")
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
@@ -134,7 +133,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLent(true)
@@ -150,7 +149,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLent(true)
@@ -189,8 +188,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
             .withPublishers(List.of())
-            .withGameSystem(GameSystem.builder()
-                .build())
+            .withGameSystem(Optional.empty())
             .withBookType(BookType.builder()
                 .build())
             .withDonors(List.of())
@@ -206,7 +204,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLent(false)
@@ -222,7 +220,7 @@ public final class Books {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(GameSystems.valid())
+            .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(BookTypes.valid())
             .withDonors(List.of(Donors.valid()))
             .withLent(false)

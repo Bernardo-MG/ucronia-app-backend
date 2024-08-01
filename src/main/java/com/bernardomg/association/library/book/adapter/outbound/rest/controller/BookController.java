@@ -26,6 +26,7 @@ package com.bernardomg.association.library.book.adapter.outbound.rest.controller
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -198,7 +199,7 @@ public class BookController {
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(bookType)
-            .withGameSystem(gameSystem)
+            .withGameSystem(Optional.of(gameSystem))
             .withDonors(donors)
             .withNumber(number)
             .build();
