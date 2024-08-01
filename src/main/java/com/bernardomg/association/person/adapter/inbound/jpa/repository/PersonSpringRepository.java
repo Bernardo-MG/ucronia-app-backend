@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,6 +50,8 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             WHERE p.number = :number
             """)
     public boolean existsByNumber(@Param("number") final Long number);
+
+    public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     public Optional<PersonEntity> findByNumber(final Long number);
 
