@@ -200,7 +200,6 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<Author>          authors;
         final boolean                     lent;
         final Collection<BookBookLending> lendings;
-        final Optional<BookEntity>        book;
 
         if (entity.getGameSystem() == null) {
             gameSystem = GameSystem.builder()
@@ -243,9 +242,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
 
-        book = bookSpringRepository.findById(entity.getId());
-        lendings = bookLendingSpringRepository.findAllByBookId(book.get()
-            .getId())
+        lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
             .stream()
             .map(this::toDomain)
             .toList();
