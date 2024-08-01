@@ -26,9 +26,11 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Book {
 
-    private Collection<Author>          authors;
+    @Builder.Default
+    private Collection<Author>          authors   = List.of();
 
-    private Optional<BookType>          bookType;
+    @Builder.Default
+    private Optional<BookType>          bookType = Optional.empty();
 
     @Builder.Default
     private Collection<Donor>           donors     = List.of();
