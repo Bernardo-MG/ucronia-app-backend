@@ -12,12 +12,14 @@ import com.bernardomg.association.library.lending.domain.model.BookBookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 /**
  * TODO: include lent status
  */
 @Value
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder(setterPrefix = "with")
 public final class Book {
 
@@ -39,6 +41,7 @@ public final class Book {
 
     private boolean                     lent;
 
+    @EqualsAndHashCode.Include
     private Long                        number;
 
     @Builder.Default

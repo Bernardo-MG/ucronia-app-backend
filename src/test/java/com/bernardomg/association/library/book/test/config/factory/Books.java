@@ -34,6 +34,36 @@ public final class Books {
             .build();
     }
 
+    public static final Book duplicatedDonor() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(GameSystems.valid())
+            .withBookType(BookTypes.valid())
+            .withDonors(List.of(Donors.valid(), Donors.valid()))
+            .withLendings(List.of())
+            .build();
+    }
+
+    public static final Book duplicatedPublisher() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid(), Publishers.valid()))
+            .withGameSystem(GameSystems.valid())
+            .withBookType(BookTypes.valid())
+            .withDonors(List.of(Donors.valid()))
+            .withLendings(List.of())
+            .build();
+    }
+
     public static final Book emptyIsbn() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)

@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.book.usecase.service;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import com.bernardomg.association.inventory.domain.exception.MissingDonorExcepti
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
+import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.Book;
@@ -19,13 +21,13 @@ import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsRule;
 import com.bernardomg.association.library.book.usecase.validation.BookLanguageCodeValidRule;
-import com.bernardomg.association.library.book.usecase.validation.BookNoDuplicatedAuthorsRule;
 import com.bernardomg.association.library.book.usecase.validation.BookTitleNotEmptyRule;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
+import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -65,15 +67,18 @@ public final class DefaultBookService implements BookService {
         donorRepository = Objects.requireNonNull(donorRepo);
 
         createBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
-            new BookIsbnNotExistsRule(bookRepository), new BookNoDuplicatedAuthorsRule());
+            new BookIsbnNotExistsRule(bookRepository));
         updateBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
-            new BookIsbnNotExistsForAnotherRule(bookRepository), new BookNoDuplicatedAuthorsRule());
+            new BookIsbnNotExistsForAnotherRule(bookRepository));
     }
 
     @Override
     public final Book create(final Book book) {
-        final Book toCreate;
-        final Long number;
+        final Book                  toCreate;
+        final Long                  number;
+        final Collection<Author>    authors;
+        final Collection<Publisher> publishers;
+        final Collection<Donor>     donors;
 
         log.debug("Creating book {}", book);
 
@@ -84,13 +89,27 @@ public final class DefaultBookService implements BookService {
         // Get number
         number = bookRepository.findNextNumber();
 
+        // Remove duplicates
+        authors = book.getAuthors()
+            .stream()
+            .distinct()
+            .toList();
+        publishers = book.getPublishers()
+            .stream()
+            .distinct()
+            .toList();
+        donors = book.getDonors()
+            .stream()
+            .distinct()
+            .toList();
+
         toCreate = Book.builder()
             .withNumber(number)
-            .withAuthors(book.getAuthors())
-            .withPublishers(book.getPublishers())
+            .withAuthors(authors)
+            .withPublishers(publishers)
             .withBookType(book.getBookType())
             .withGameSystem(book.getGameSystem())
-            .withDonors(book.getDonors())
+            .withDonors(donors)
             .withIsbn(book.getIsbn())
             .withLanguage(book.getLanguage())
             .withTitle(book.getTitle())
@@ -134,6 +153,11 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Book update(final long number, final Book book) {
+        final Book                  toUpdate;
+        final Collection<Author>    authors;
+        final Collection<Publisher> publishers;
+        final Collection<Donor>     donors;
+
         log.debug("Updating book with number {} using data {}", number, book);
 
         // TODO: verify the language is a valid code
@@ -146,9 +170,35 @@ public final class DefaultBookService implements BookService {
 
         validateRelationships(book);
 
-        updateBookValidator.validate(book);
+        // Remove duplicates
+        authors = book.getAuthors()
+            .stream()
+            .distinct()
+            .toList();
+        publishers = book.getPublishers()
+            .stream()
+            .distinct()
+            .toList();
+        donors = book.getDonors()
+            .stream()
+            .distinct()
+            .toList();
 
-        return bookRepository.save(book);
+        toUpdate = Book.builder()
+            .withNumber(number)
+            .withAuthors(authors)
+            .withPublishers(publishers)
+            .withBookType(book.getBookType())
+            .withGameSystem(book.getGameSystem())
+            .withDonors(donors)
+            .withIsbn(book.getIsbn())
+            .withLanguage(book.getLanguage())
+            .withTitle(book.getTitle())
+            .build();
+
+        updateBookValidator.validate(toUpdate);
+
+        return bookRepository.save(toUpdate);
     }
 
     private final void validateRelationships(final Book book) {
