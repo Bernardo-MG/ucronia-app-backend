@@ -27,7 +27,6 @@ package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -35,12 +34,6 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long> {
 
-    @Modifying
-    @Query("""
-            DELETE
-            FROM Person p
-            WHERE p.number = :number
-            """)
     public void deleteByNumber(@Param("number") final Long number);
 
     @Query("""
@@ -50,12 +43,7 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
-    @Query("""
-            SELECT p
-            FROM Person p
-            WHERE p.number = :number
-            """)
-    public Optional<PersonEntity> findByNumber(@Param("number") final Long number);
+    public Optional<PersonEntity> findByNumber(final Long number);
 
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Person p")
     public Long findNextNumber();
