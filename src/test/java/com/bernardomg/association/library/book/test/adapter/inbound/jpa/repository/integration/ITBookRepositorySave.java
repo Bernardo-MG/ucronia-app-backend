@@ -103,44 +103,6 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists it is persisted")
-    @MinimalBook
-    void testSave_Existing_Minimal_Persisted() {
-        final Book book;
-
-        // GIVEN
-        book = Books.minimal();
-
-        // WHEN
-        repository.save(book);
-
-        // THEN
-        Assertions.assertThat(springRepository.findAll())
-            .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookEntities.minimal());
-    }
-
-    @Test
-    @DisplayName("When the book exists it is returned")
-    @MinimalBook
-    void testSave_Existing_Minimal_Returned() {
-        final Book book;
-        final Book created;
-
-        // GIVEN
-        book = Books.minimal();
-
-        // WHEN
-        created = repository.save(book);
-
-        // THEN
-        Assertions.assertThat(created)
-            .as("book")
-            .isEqualTo(Books.minimal());
-    }
-
-    @Test
     @DisplayName("When the book exists, and relationships are removed, it is persisted")
     @ValidPerson
     @FullBook
@@ -181,7 +143,31 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When there are relationships the persisted author is returned")
+    @DisplayName("When there are relationships the book is persisted")
+    @ValidPerson
+    @ValidAuthor
+    @ValidPublisher
+    @ValidBookType
+    @ValidGameSystem
+    void testSave_Full_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
+                "gameSystem.id", "publishers.id")
+            .containsExactly(BookEntities.full());
+    }
+
+    @Test
+    @DisplayName("When there are relationships the persisted book is returned")
     @ValidPerson
     @ValidAuthor
     @ValidPublisher
@@ -204,8 +190,46 @@ class ITBookRepositorySave {
     }
 
     @Test
+    @DisplayName("When the book exists it is persisted")
+    @MinimalBook
+    void testSave_Minimal_Existing_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.minimal();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(BookEntities.minimal());
+    }
+
+    @Test
+    @DisplayName("When the book exists it is returned")
+    @MinimalBook
+    void testSave_Minimal_Existing_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.minimal();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.minimal());
+    }
+
+    @Test
     @DisplayName("When the book is saved it is persisted")
-    void testSave_Persisted() {
+    void testSave_Minimal_Persisted() {
         final Book book;
 
         // GIVEN
@@ -223,7 +247,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book is saved it is returned")
-    void testSave_Returned() {
+    void testSave_Minimal_Returned() {
         final Book book;
         final Book created;
 
