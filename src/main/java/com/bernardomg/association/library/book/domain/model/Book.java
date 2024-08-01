@@ -17,6 +17,8 @@ import lombok.Value;
 
 /**
  * TODO: include lent status
+ * <p>
+ * TODO: some fields are optional
  */
 @Value
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
