@@ -38,7 +38,13 @@ public interface GameSystemSpringRepository extends JpaRepository<GameSystemEnti
 
     public boolean existsByName(final String name);
 
-    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.gameSystem g WHERE g.name = :name")
+    @Query("""
+              SELECT CASE
+              WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
+              FROM Book b
+              JOIN b.gameSystem g
+              WHERE g.name = :name
+            """)
     public boolean existsInBook(@Param("name") final String name);
 
     public Optional<GameSystemEntity> findByName(final String name);
