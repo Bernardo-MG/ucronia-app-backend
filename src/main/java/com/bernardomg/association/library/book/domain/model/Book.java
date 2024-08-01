@@ -43,7 +43,8 @@ public final class Book {
     @Builder.Default
     private Collection<BookBookLending> lendings   = List.of();
 
-    private boolean                     lent;
+    @Builder.Default
+    private boolean                     lent       = false;
 
     @EqualsAndHashCode.Include
     private Long                        number;
