@@ -114,7 +114,7 @@ public class BookController {
     }
 
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
     public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookCreation request) {
