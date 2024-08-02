@@ -84,6 +84,7 @@ class ITPersonRepositoryDelete {
         // WHEN
         executable = () -> personRepository.delete(PersonConstants.NUMBER);
 
+        // TODO: this error should be handled in the service
         // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(DataIntegrityViolationException.class);

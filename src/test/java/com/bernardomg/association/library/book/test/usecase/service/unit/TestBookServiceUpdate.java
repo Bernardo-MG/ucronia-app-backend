@@ -91,10 +91,9 @@ class TestBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("When persisting a book with a duplicated, an exception is thrown")
+    @DisplayName("When persisting a book with a duplicated author, the duplication is removed")
     void testUpdate_DuplicatedAuthor() {
-        final Book             book;
-        final ThrowingCallable execution;
+        final Book book;
 
         // GIVEN
         book = Books.duplicatedAuthor();
@@ -107,11 +106,54 @@ class TestBookServiceUpdate {
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        service.update(BookConstants.NUMBER, book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("authors[].duplicated", "authors[]", "duplicated", 1L));
+        verify(bookRepository).save(Books.full());
+    }
+
+    @Test
+    @DisplayName("When persisting a book with a duplicated donor, the duplication is removed")
+    void testUpdate_DuplicatedDonor() {
+        final Book book;
+
+        // GIVEN
+        book = Books.duplicatedDonor();
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(BookConstants.NUMBER, book);
+
+        // THEN
+        verify(bookRepository).save(Books.full());
+    }
+
+    @Test
+    @DisplayName("When persisting a book with a duplicated publisher, the duplication is removed")
+    void testUpdate_DuplicatedPublisher() {
+        final Book book;
+
+        // GIVEN
+        book = Books.duplicatedPublisher();
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(BookConstants.NUMBER, book);
+
+        // THEN
+        verify(bookRepository).save(Books.full());
     }
 
     @Test

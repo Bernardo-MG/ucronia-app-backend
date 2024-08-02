@@ -39,7 +39,13 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
 
     public boolean existsByName(final String name);
 
-    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists FROM Book b JOIN b.authors a WHERE a.name = :name")
+    @Query("""
+               SELECT CASE
+               WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Book b
+               JOIN b.authors a
+               WHERE a.name = :name
+            """)
     public boolean existsInBook(@Param("name") final String name);
 
     public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);

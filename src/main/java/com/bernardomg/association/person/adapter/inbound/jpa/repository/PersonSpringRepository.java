@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -50,12 +51,9 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
-    @Query("""
-            SELECT p
-            FROM Person p
-            WHERE p.number = :number
-            """)
-    public Optional<PersonEntity> findByNumber(@Param("number") final Long number);
+    public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
+
+    public Optional<PersonEntity> findByNumber(final Long number);
 
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Person p")
     public Long findNextNumber();
