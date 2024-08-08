@@ -31,6 +31,12 @@ services:
                 condition: service_healthy
         links:
             - "association-db"
+        healthcheck:
+            test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+            interval: 2s
+            timeout: 3s
+            retries: 5
+            start_period: 2s
         env_file:
             - .env
         environment:
