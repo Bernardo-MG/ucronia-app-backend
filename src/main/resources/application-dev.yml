@@ -15,7 +15,10 @@ logging:
     com.bernardomg.security.email: DEBUG
     com.bernardomg.security.token: DEBUG
     com.bernardomg.security.user: DEBUG
+    com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtTokenFilter: ERROR
     org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: WARN
+    org.springframework.security.web.authentication.AnonymousAuthenticationFilter: WARN
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
