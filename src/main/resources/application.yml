@@ -27,22 +27,3 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
-
-# Management
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus
-  health:
-    readiness-state:
-      enabled: true
-    liveness-state:
-      enabled: true
-  endpoint:
-    health:
-      probes:
-        enabled: true
-  prometheus:
-    metrics:
-      enabled: true
