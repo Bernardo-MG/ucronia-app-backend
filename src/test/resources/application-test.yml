@@ -1,0 +1,27 @@
+###############################################################################
+#                             APPLICATION CONFIG                              #
+###############################################################################
+
+# Permissions
+initialize:
+  permission: false
+
+spring:
+  # Liquibase
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    liquibase-schema:
+  # Cache
+  cache:
+    type: none
+
+security:
+  # Resource based security
+  resource:
+    enabled: false
+  # JWT
+  jwt:
+    secret: 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+  # Token
+  token:
+    validity: 1s
