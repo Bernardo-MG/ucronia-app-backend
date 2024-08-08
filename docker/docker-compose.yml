@@ -48,6 +48,18 @@ services:
             - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
         volumes:
             - association-logs:/logs
+    prometheus:
+        image: prom/prometheus:v2.53.1
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+            - "9090:9090"
+    grafana:
+        image: grafana/grafana:11.1.1
+        ports:
+            - "3000:3000"
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=admin
 volumes:
     association-data:
     association-logs:
