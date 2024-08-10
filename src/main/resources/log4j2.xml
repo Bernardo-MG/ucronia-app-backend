@@ -23,8 +23,9 @@
    <Loggers>
 
       <!-- Application log -->
-      <Logger name="com.bernardomg" level="warn" additivity="false">
+      <Logger name="com.bernardomg" level="debug" additivity="false">
          <AppenderRef ref="console" />
+         <AppenderRef ref="file" />
       </Logger>
 
       <Root level="error">
