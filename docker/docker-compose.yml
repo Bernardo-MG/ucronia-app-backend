@@ -19,6 +19,8 @@ services:
       - association-data:/var/lib/postgresql/data
       # Initial schemas
       - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
+    networks:
+      - app
   association-backend:
     build:
       context: ../
@@ -48,6 +50,8 @@ services:
       - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
     volumes:
       - association-logs:/logs
+    networks:
+      - app
   #============#
   # MONITORING #
   #============#
@@ -62,6 +66,9 @@ services:
 #        condition: service_healthy
 #    links:
 #      - "association-backend"
+    networks:
+      - monitoring
+      - app
   grafana:
     image: grafana/grafana:11.1.1
     ports:
@@ -78,6 +85,11 @@ services:
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
       - ./grafana/dashboard_provider.yml:/etc/grafana/provisioning/dashboards/dashboard_provider.yml
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - monitoring
 volumes:
   association-data:
   association-logs:
+networks:
+  app:
+  monitoring:
