@@ -49,7 +49,7 @@ services:
       # JDBC
       - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
     volumes:
-      - association-logs:/logs
+      - association-logs:/app/logs
     networks:
       - app
   #============#
