@@ -38,7 +38,7 @@ services:
       interval: 2s
       timeout: 3s
       retries: 5
-      start_period: 2s
+      start_period: 20s
     env_file:
       - .env
     environment:
@@ -61,11 +61,11 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-#    depends_on:
-#      association-backend:
-#        condition: service_healthy
-#    links:
-#      - "association-backend"
+    depends_on:
+      association-backend:
+        condition: service_healthy
+    links:
+      - "association-backend"
     networks:
       - monitoring
       - app
