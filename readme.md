@@ -28,7 +28,10 @@ Then you can query at [http://localhost:8080](http://localhost:8080).
 docker-compose -f docker/docker-compose.yml --project-name ucronia-backend up
 ```
 
-This will start also these services:
+#### Monitoring
+
+To ease development, the following monitoring tools are included in the Docker images:
+
 - [Grafana](http://localhost:3000)
 
 ## Collaborate
