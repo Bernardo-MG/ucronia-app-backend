@@ -26,8 +26,10 @@ package com.bernardomg.association.library.book.adapter.outbound.rest.controller
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -49,6 +51,9 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationAuthor;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationDonor;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationPublisher;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
@@ -139,8 +144,10 @@ public class BookController {
         } else {
             authors = request.getAuthors()
                 .stream()
+                .map(BookCreationAuthor::getName)
+                .filter(StringUtils::isNotBlank)
                 .map(a -> Author.builder()
-                    .withName(a.getName())
+                    .withName(a)
                     .build())
                 .toList();
         }
@@ -151,14 +158,31 @@ public class BookController {
         } else {
             publishers = request.getPublishers()
                 .stream()
+                .map(BookCreationPublisher::getName)
+                .filter(StringUtils::isNotBlank)
                 .map(p -> Publisher.builder()
-                    .withName(p.getName())
+                    .withName(p)
+                    .build())
+                .toList();
+        }
+
+        // Donors
+        if (request.getDonors() == null) {
+            donors = List.of();
+        } else {
+            donors = request.getDonors()
+                .stream()
+                .map(BookCreationDonor::getNumber)
+                .filter(Objects::nonNull)
+                .map(d -> Donor.builder()
+                    .withNumber(d)
                     .build())
                 .toList();
         }
 
         // Book type
-        if (request.getBookType() == null) {
+        if ((request.getBookType() == null) || (StringUtils.isBlank(request.getBookType()
+            .getName()))) {
             bookType = Optional.empty();
         } else {
             bookType = Optional.of(BookType.builder()
@@ -168,25 +192,14 @@ public class BookController {
         }
 
         // Game system
-        if (request.getGameSystem() == null) {
+        if ((request.getGameSystem() == null) || (StringUtils.isBlank(request.getGameSystem()
+            .getName()))) {
             gameSystem = Optional.empty();
         } else {
             gameSystem = Optional.of(GameSystem.builder()
                 .withName(request.getGameSystem()
                     .getName())
                 .build());
-        }
-
-        // Donor
-        if (request.getDonors() == null) {
-            donors = List.of();
-        } else {
-            donors = request.getDonors()
-                .stream()
-                .map(d -> Donor.builder()
-                    .withNumber(d.getNumber())
-                    .build())
-                .toList();
         }
 
         // Book
