@@ -186,7 +186,13 @@
             Remove duplicated relationships before saving books.
          </action>
       </release>
-      <release version="1.0.0" date="2024-07-31" description="">
+      <release version="0.5.9" date="2024-07-12" description="Fixes">
+         <action dev="bmg" type="fix">
+            Fixed book creation.
+         </action>
+         <action dev="bmg" type="add">
+            Prepared local dev for testing monitoring.
+         </action>
       </release>
    </body>
 </document>
