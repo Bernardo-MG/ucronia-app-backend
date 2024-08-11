@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.5.8</version>
+   <version>0.5.9</version>
    <packaging>war</packaging>
 
    <name>Ucronia App Backend</name>
@@ -494,6 +494,13 @@
          <groupId>org.projectlombok</groupId>
          <artifactId>lombok</artifactId>
          <scope>provided</scope>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ MICROMETER ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-registry-prometheus</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->

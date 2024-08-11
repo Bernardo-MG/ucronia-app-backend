@@ -20,13 +20,19 @@ To run the project locally use the following Maven command:
 mvn spring-boot:run
 ```
 
-Then you can query at [http://localhost:8080/entity](http://localhost:8080/entity).
+Then you can query at [http://localhost:8080](http://localhost:8080).
 
 ### Docker image
 
 ```
 docker-compose -f docker/docker-compose.yml --project-name ucronia-backend up
 ```
+
+#### Monitoring
+
+To ease development, the following monitoring tools are included in the Docker images:
+
+- [Grafana](http://localhost:3000)
 
 ## Collaborate
 

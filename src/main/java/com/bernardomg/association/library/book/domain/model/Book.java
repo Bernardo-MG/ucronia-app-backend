@@ -22,10 +22,10 @@ import lombok.Value;
 public final class Book {
 
     @Builder.Default
-    private Collection<Author>          authors   = List.of();
+    private Collection<Author>          authors    = List.of();
 
     @Builder.Default
-    private Optional<BookType>          bookType = Optional.empty();
+    private Optional<BookType>          bookType   = Optional.empty();
 
     @Builder.Default
     private Collection<Donor>           donors     = List.of();

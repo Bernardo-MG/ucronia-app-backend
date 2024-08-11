@@ -1,0 +1,63 @@
+###############################################################################
+#     APPLICATION CONFIG      #
+###############################################################################
+
+# Initialization
+initialize:
+  test:
+    user: true
+
+# Logs
+logging:
+  level:
+    com.bernardomg: DEBUG
+    com.bernardomg.security: DEBUG
+    com.bernardomg.security.email: DEBUG
+    com.bernardomg.security.token: DEBUG
+    com.bernardomg.security.user: DEBUG
+    com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtTokenFilter: ERROR
+    org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: WARN
+    org.springframework.security.web.authentication.AnonymousAuthenticationFilter: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# JDBC
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+
+# CORS
+cors:
+  allowedOrigins: http://localhost:4200
+
+# Security
+security:
+  # JWT
+  jwt:
+    secret: 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+    validity: 5d
+  # Token
+  token:
+    validity: 15d
+
+# Management
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  prometheus:
+    metrics:
+      enabled: true

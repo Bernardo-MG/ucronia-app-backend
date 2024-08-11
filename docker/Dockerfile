@@ -29,9 +29,7 @@ RUN adduser -S runner -G runners
 COPY --from=build ./usr/src/app/target/*.war ./app.war
 
 # Add logs folder
-RUN touch app.log && \
-    mkdir ./logs && \
-    chown runner app.log && \
+RUN mkdir ./logs && \
     chown runner ./logs
 VOLUME ./logs
 

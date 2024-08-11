@@ -1,47 +1,136 @@
 version: '3'
 services:
-    association-db:
-        image: postgres:15.0-alpine
-        environment:
-            PGUSER: 'postgres'
-            POSTGRES_DB: 'postgres'
-            POSTGRES_USER: 'postgres'
-            POSTGRES_PASSWORD: 'password'
-        ports:
-            - "5432:5432"
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready", "-U postgres"]
-            interval: 30s
-            timeout: 10s
-            retries: 5
-        volumes:
-            # DB content
-            - association-data:/var/lib/postgresql/data
-            # Initial schemas
-            - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
-    association-backend:
-        build:
-            context: ../
-            dockerfile: ./docker/Dockerfile
-        ports:
-            - "8080:8080"
-            - "8000:8000"
-        depends_on:
-            association-db:
-                condition: service_healthy
-        links:
-            - "association-db"
-        env_file:
-            - .env
-        environment:
-            # Activates profile
-            - spring.profiles.active=dev
-            # Logs
-            - logging.file.path=./logs
-            # JDBC
-            - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
-        volumes:
-            - association-logs:/logs
+  association-db:
+    image: postgres:15.0-alpine
+    environment:
+      PGUSER: 'postgres'
+      POSTGRES_DB: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      # DB content
+      - association-data:/var/lib/postgresql/data
+      # Initial schemas
+      - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
+    networks:
+      - app
+  association-backend:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    depends_on:
+      association-db:
+        condition: service_healthy
+    links:
+      - "association-db"
+    healthcheck:
+      test: "wget -T5 -qO- http://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+    env_file:
+      - .env
+    environment:
+      # Activates profile
+      - spring.profiles.active=dev
+      # Logs
+      - logging.file.path=./logs
+      # JDBC
+      - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
+    volumes:
+      - association-logs:/app/logs
+    networks:
+      - app
+  #============#
+  # MONITORING #
+  #============#
+  prometheus:
+    image: prom/prometheus:v2.53.1
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      association-backend:
+        condition: service_healthy
+    links:
+      - "association-backend"
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:9090"]
+      interval: 10s
+      timeout: 15s
+      retries: 5
+      start_period: 2s 
+    networks:
+      - monitoring
+      - app
+  promtail:
+    image: grafana/promtail:2.9.0
+    command: -config.file=/etc/promtail/config.yaml
+    depends_on:
+      association-backend:
+        condition: service_healthy
+      loki:
+        condition: service_healthy
+    links:
+      - "association-backend"
+      - "loki"
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/config.yaml
+      - association-logs:/logs
+    networks:
+      - monitoring
+      - app
+  loki:
+    image: grafana/loki:2.9.0
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    depends_on:
+      association-backend:
+        condition: service_healthy
+    links:
+      - "association-backend"
+    healthcheck:
+      test: wget --quiet --tries=1 --output-document=- http://localhost:3100/ready | grep -q -w ready || exit 1
+      interval: 10s
+      timeout: 15s
+      retries: 5
+      start_period: 20s 
+    networks:
+      - monitoring
+  grafana:
+    image: grafana/grafana:11.1.1
+    ports:
+      - "3000:3000"
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    links:
+      - "prometheus"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana/dashboard_provider.yml:/etc/grafana/provisioning/dashboards/dashboard_provider.yml
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - monitoring
 volumes:
-    association-data:
-    association-logs:
+  association-data:
+  association-logs:
+networks:
+  app:
+  monitoring:
