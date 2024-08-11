@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class FeePayment {
 
+    /**
+     * TODO: rename to months
+     */
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
     private Collection<@NotNull YearMonth> feeDates;

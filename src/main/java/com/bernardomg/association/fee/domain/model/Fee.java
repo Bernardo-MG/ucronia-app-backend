@@ -12,6 +12,9 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Fee {
 
+    /**
+     * TODO: Rename to month
+     */
     @JsonFormat(pattern = "yyyy-MM")
     private final YearMonth      date;
 
