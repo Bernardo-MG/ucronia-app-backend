@@ -81,8 +81,11 @@ services:
     depends_on:
       association-backend:
         condition: service_healthy
+      loki:
+        condition: service_healthy
     links:
       - "association-backend"
+      - "loki"
     volumes:
       - ./promtail-config.yaml:/etc/promtail/config.yaml
       - association-logs:/logs
@@ -99,6 +102,12 @@ services:
         condition: service_healthy
     links:
       - "association-backend"
+    healthcheck:
+      test: wget --quiet --tries=1 --output-document=- http://localhost:3100/ready | grep -q -w ready || exit 1
+      interval: 10s
+      timeout: 15s
+      retries: 5
+      start_period: 20s 
     networks:
       - monitoring
   grafana:
