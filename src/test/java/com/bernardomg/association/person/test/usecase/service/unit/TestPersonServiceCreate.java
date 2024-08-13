@@ -73,7 +73,7 @@ class TestPersonServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name.firstname", "empty", PersonName.of("", "")));
+            FieldFailure.of("name.firstName", "empty", PersonName.of("", "")));
     }
 
     @Test
