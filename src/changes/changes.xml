@@ -194,5 +194,7 @@
             Prepared local dev for testing monitoring.
          </action>
       </release>
+      <release version="1.0.0" date="2024-07-12" description="">
+      </release>
    </body>
 </document>
