@@ -72,7 +72,8 @@ class TestPersonServiceCreate {
         execution = () -> service.create(person);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", PersonName.of("", "")));
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name.firstName", "empty", PersonName.of("", "")));
     }
 
     @Test
