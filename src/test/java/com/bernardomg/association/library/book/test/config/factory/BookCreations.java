@@ -12,7 +12,7 @@ public final class BookCreations {
     public static final BookCreation minimal() {
         return BookCreation.builder()
             .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN)
+            .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
             .withPublishers(List.of())

@@ -19,6 +19,7 @@ import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsRule;
+import com.bernardomg.association.library.book.usecase.validation.BookIsbnValidRule;
 import com.bernardomg.association.library.book.usecase.validation.BookLanguageCodeValidRule;
 import com.bernardomg.association.library.book.usecase.validation.BookTitleNotEmptyRule;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
@@ -66,9 +67,9 @@ public final class DefaultBookService implements BookService {
         donorRepository = Objects.requireNonNull(donorRepo);
 
         createBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
-            new BookIsbnNotExistsRule(bookRepository));
+            new BookIsbnValidRule(), new BookIsbnNotExistsRule(bookRepository));
         updateBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
-            new BookIsbnNotExistsForAnotherRule(bookRepository));
+            new BookIsbnValidRule(), new BookIsbnNotExistsForAnotherRule(bookRepository));
     }
 
     @Override

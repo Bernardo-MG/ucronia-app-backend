@@ -50,7 +50,7 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN);
+        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)
@@ -64,7 +64,7 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN);
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)
@@ -80,7 +80,7 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN);
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)
