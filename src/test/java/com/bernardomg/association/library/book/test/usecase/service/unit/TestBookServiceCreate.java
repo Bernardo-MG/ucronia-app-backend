@@ -219,13 +219,13 @@ class TestBookServiceCreate {
     }
 
     @Test
-    @DisplayName("With a book with an invalid ISBN 10, an exception is thrown")
-    void testCreate_InvalidIsbn10() {
+    @DisplayName("With a book with an invalid ISBN, an exception is thrown")
+    void testCreate_InvalidIsbn() {
         final ThrowingCallable execution;
         final Book             book;
 
         // GIVEN
-        book = Books.invalidIsbn10();
+        book = Books.invalidIsbn();
 
         given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
@@ -233,61 +233,14 @@ class TestBookServiceCreate {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
-        given(bookRepository.existsByIsbn(BookConstants.INVALID_ISBN_10)).willReturn(false);
+        given(bookRepository.existsByIsbn(BookConstants.INVALID_ISBN)).willReturn(false);
 
         // WHEN
         execution = () -> service.create(book);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN_10));
-    }
-
-    @Test
-    @DisplayName("With a book with an invalid ISBN 12, an exception is thrown")
-    void testCreate_InvalidIsbn12() {
-        final ThrowingCallable execution;
-        final Book             book;
-
-        // GIVEN
-        book = Books.invalidIsbn12();
-
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-
-        given(bookRepository.existsByIsbn(BookConstants.INVALID_ISBN_13)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.create(book);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN_13));
-    }
-
-    @Test
-    @DisplayName("With a book with an invalid language code, an exception is thrown")
-    void testCreate_InvalidLanguage() {
-        final ThrowingCallable execution;
-        final Book             book;
-
-        // GIVEN
-        book = Books.invalidLanguage();
-
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.create(book);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("language", "invalid", "abc"));
+            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN));
     }
 
     @Test

@@ -108,26 +108,11 @@ public final class Books {
             .build();
     }
 
-    public static final Book invalidIsbn10() {
+    public static final Book invalidIsbn() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.INVALID_ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of(Authors.valid()))
-            .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(Optional.of(GameSystems.valid()))
-            .withBookType(Optional.of(BookTypes.valid()))
-            .withDonors(List.of(Donors.valid()))
-            .withLendings(List.of())
-            .build();
-    }
-
-    public static final Book invalidIsbn12() {
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.INVALID_ISBN_13)
+            .withIsbn(BookConstants.INVALID_ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
             .withPublishers(List.of(Publishers.valid()))

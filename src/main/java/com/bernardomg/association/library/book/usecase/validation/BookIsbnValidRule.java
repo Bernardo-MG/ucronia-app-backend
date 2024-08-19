@@ -20,57 +20,9 @@ public final class BookIsbnValidRule implements FieldRule<Book> {
 
     private static final String ISBN_13_REGEX = "^(\\d{3}-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d)$";
 
-    private static boolean isValidISBN10(final String isbn) {
-        final String cleanedIsbn;
-        final String control;
-        int          checksum;
+    private final Pattern       pattern10     = Pattern.compile(ISBN_10_REGEX);
 
-        cleanedIsbn = isbn.replace("-", "");
-
-        checksum = 0;
-        for (int i = 0; i < 9; i++) {
-            final int digit;
-
-            digit = Integer.parseInt(cleanedIsbn.substring(i, i + 1));
-            checksum += (digit * (10 - i));
-        }
-
-        control = cleanedIsbn.substring(9);
-        if ("X".equals(control)) {
-            checksum += 10;
-        } else {
-            checksum += Integer.parseInt(control);
-        }
-
-        return ((checksum % 11) == 0);
-    }
-
-    private static boolean isValidISBN13(final String isbn) {
-        final String cleanedIsbn;
-        int          checksum;
-        int          sum;
-
-        cleanedIsbn = isbn.replace("-", "");
-
-        sum = 0;
-        for (int i = 0; i < 12; i++) {
-            final int digit;
-
-            digit = Integer.parseInt(cleanedIsbn.substring(i, i + 1));
-            sum += ((i % 2) == 0) ? digit : (digit * 3);
-        }
-
-        checksum = 10 - (sum % 10);
-        if (checksum == 10) {
-            checksum = 0;
-        }
-
-        return checksum == Integer.parseInt(cleanedIsbn.substring(12));
-    }
-
-    private final Pattern pattern10 = Pattern.compile(ISBN_10_REGEX);
-
-    private final Pattern pattern13 = Pattern.compile(ISBN_13_REGEX);
+    private final Pattern       pattern13     = Pattern.compile(ISBN_13_REGEX);
 
     public BookIsbnValidRule() {
         super();
@@ -82,29 +34,18 @@ public final class BookIsbnValidRule implements FieldRule<Book> {
         final FieldFailure           fieldFailure;
 
         if (book.getIsbn()
-            .isBlank()) {
+            .isBlank()
+                || ((pattern10.matcher(book.getIsbn())
+                    .matches())
+                        || (pattern13.matcher(book.getIsbn())
+                            .matches()))) {
             // Empty ISBN
             failure = Optional.empty();
-        } else if (pattern10.matcher(book.getIsbn())
-            .matches()) {
-            if (!isValidISBN10(book.getIsbn())) {
-                // Invalid ISBN 10
-                log.error("Invalid ISBN {}", book.getIsbn());
-                fieldFailure = FieldFailure.of("isbn", "invalid", book.getIsbn());
-                failure = Optional.of(fieldFailure);
-            } else {
-                // Valid ISBN 10
-                failure = Optional.empty();
-            }
-        } else if (!pattern13.matcher(book.getIsbn())
-            .matches() || !isValidISBN13(book.getIsbn())) {
-            // Invalid ISBN 13
+        } else {
+            // Invalid ISBN
             log.error("Invalid ISBN {}", book.getIsbn());
             fieldFailure = FieldFailure.of("isbn", "invalid", book.getIsbn());
             failure = Optional.of(fieldFailure);
-        } else {
-            // Valid ISBN
-            failure = Optional.empty();
         }
 
         return failure;
