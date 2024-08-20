@@ -28,7 +28,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 
@@ -147,6 +146,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
         foundIds = memberSpringRepository.findAllActiveIds();
 
+        log.debug("Active members: {}", foundIds);
+
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
@@ -171,6 +172,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
         foundIds = memberSpringRepository.findAllInactiveIds();
 
+        log.debug("Inactive members: {}", foundIds);
+
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
@@ -183,14 +186,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Iterable<Fee> findAllForMember(final Long number, final Pageable pageable) {
-        final Page<MemberFeeEntity> page;
-        final Iterable<Fee>         found;
+        final Iterable<Fee> found;
 
         log.debug("Finding all fees for member {} and pagination {}", number, pageable);
 
-        page = memberFeeSpringRepository.findAllByPersonNumber(number, pageable);
-
-        found = page.map(this::toDomain);
+        found = memberFeeSpringRepository.findAllByPersonNumber(number, pageable)
+            .map(this::toDomain);
 
         log.debug("Found all fees for member {} and pagination {}: {}", number, pageable, found);
 
@@ -218,10 +219,10 @@ public final class JpaFeeRepository implements FeeRepository {
         final YearMonth       previousMonth;
         final Collection<Fee> fees;
 
-        log.debug("Finding all fees for the previous month");
-
         previousMonth = YearMonth.now()
             .minusMonths(1);
+
+        log.debug("Finding all fees for the previous month: {}", previousMonth);
 
         fees = memberFeeSpringRepository.findAllByDate(previousMonth)
             .stream()
@@ -272,14 +273,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Optional<Fee> findOne(final Long number, final YearMonth date) {
-        final Optional<MemberFeeEntity> read;
-        final Optional<Fee>             found;
+        final Optional<Fee> found;
 
         log.debug("Finding fee for member {} in date {}", number, date);
 
-        read = memberFeeSpringRepository.findByPersonNumberAndDate(number, date);
-
-        found = read.map(this::toDomain);
+        found = memberFeeSpringRepository.findByPersonNumberAndDate(number, date)
+            .map(this::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
 
@@ -305,7 +304,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final void pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
-        final TransactionEntity           transactionEntity;
+        final long                        transactionId;
         final Iterable<FeePaymentEntity>  payments;
         final Collection<MemberFeeEntity> read;
         final Collection<YearMonth>       feeDates;
@@ -316,8 +315,10 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(Fee::getDate)
             .toList();
 
-        transactionEntity = transactionSpringRepository.findByIndex(transaction.getIndex())
-            .get();
+        // TODO: just return the id
+        transactionId = transactionSpringRepository.findByIndex(transaction.getIndex())
+            .get()
+            .getId();
         read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.getNumber(), feeDates);
 
         // Register payments
@@ -325,7 +326,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(MemberFeeEntity::getId)
             .map(id -> FeePaymentEntity.builder()
                 .withFeeId(id)
-                .withTransactionId(transactionEntity.getId())
+                .withTransactionId(transactionId)
                 .build())
             .toList();
         feePaymentSpringRepository.saveAll(payments);
@@ -347,6 +348,7 @@ public final class JpaFeeRepository implements FeeRepository {
         entities = fees.stream()
             .map(this::toEntity)
             .toList();
+        // TODO: use map
         entities.forEach(this::loadId);
         saved = feeSpringRepository.saveAll(entities)
             .stream()

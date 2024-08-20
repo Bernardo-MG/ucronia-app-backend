@@ -47,11 +47,14 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Default implementation of the fee calendar service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Slf4j
 @Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
@@ -68,6 +71,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     public final FeeCalendarYearsRange getRange() {
+        log.info("Getting fee calendar range");
         return feeRepository.findRange();
     }
 
@@ -80,6 +84,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         List<Fee>                     fees;
         FeeCalendar                   feeYear;
 
+        log.info("Getting fee calendar for year {} and status {}", year, status);
+
         // Select query based on status
         readFees = switch (status) {
             case ACTIVE -> feeRepository.findAllForActiveMembers(year, sort);
@@ -91,12 +97,15 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(f -> f.getPerson()
                 .getNumber()));
+        log.debug("Member fees: {}", memberFees);
+
         // Sorted ids
         memberNumbers = readFees.stream()
             .map(Fee::getPerson)
             .map(FeePerson::getNumber)
             .distinct()
             .toList();
+        log.debug("Member numbers: {}", memberNumbers);
 
         years = new ArrayList<>();
         for (final Long memberNumber : memberNumbers) {
@@ -104,6 +113,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             feeYear = toFeeYear(memberNumber, year, fees);
             years.add(feeYear);
         }
+
+        log.info("Got fee calendar for year {} and status {}: {}", year, status, years);
 
         return years;
     }

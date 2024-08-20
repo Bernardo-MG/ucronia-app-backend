@@ -62,9 +62,12 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         final Collection<Fee> feesToExtend;
         final Collection<Fee> feesToCreate;
 
+        log.info("Registering fees for this month");
+
         // Find fees to extend into the current month
         feesToExtend = feeRepository.findAllForPreviousMonth();
 
+        // TODO: reduce the number of queries
         feesToCreate = feesToExtend.stream()
             // Prepare for the current month
             .map(this::toCurrentMonth)
@@ -74,8 +77,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .filter(this::notExists)
             .toList();
 
-        log.debug("Registering {} fees for this month", feesToCreate.size());
         feeRepository.save(feesToCreate);
+
+        log.debug("Registered {} fees for this month", feesToCreate.size());
     }
 
     private final boolean isActive(final Fee fee) {
