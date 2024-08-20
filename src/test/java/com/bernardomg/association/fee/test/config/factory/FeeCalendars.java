@@ -371,6 +371,23 @@ public final class FeeCalendars {
             .build();
     }
 
+    public static final FeeCalendar inactivePaidCurrentMonth() {
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
+
+        member = FeeCalendarMember.builder()
+            .withFullName(PersonConstants.FULL_NAME)
+            .withNumber(PersonConstants.NUMBER)
+            .withActive(false)
+            .build();
+        months = List.of(FeeMonths.paid());
+        return FeeCalendar.builder()
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR_CURRENT.getValue())
+            .withMonths(months)
+            .build();
+    }
+
     public static final FeeCalendar inactivePaidNextYear() {
         final FeeCalendarMember            member;
         final Collection<FeeCalendarMonth> months;

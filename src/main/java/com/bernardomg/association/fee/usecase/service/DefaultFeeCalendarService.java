@@ -83,6 +83,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         final Collection<Long>        memberNumbers;
         List<Fee>                     fees;
         FeeCalendar                   feeYear;
+        Collection<FeeCalendarMonth>  months;
+        String                        name;
 
         log.info("Getting fee calendar for year {} and status {}", year, status);
 
@@ -92,6 +94,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             case INACTIVE -> feeRepository.findAllForInactiveMembers(year, sort);
             default -> feeRepository.findAllInYear(year, sort);
         };
+
+        log.debug("Read fees: {}", readFees);
 
         // Member fees grouped by id
         memberFees = readFees.stream()
@@ -111,7 +115,16 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         years = new ArrayList<>();
         for (final Long memberNumber : memberNumbers) {
             fees = memberFees.get(memberNumber);
-            feeYear = toFeeYear(memberNumber, year, fees);
+            months = fees.stream()
+                .map(this::toFeeMonth)
+                // Sort by month
+                .sorted(Comparator.comparing(FeeCalendarMonth::getMonth))
+                .toList();
+            name = fees.iterator()
+                .next()
+                .getPerson()
+                .getFullName();
+            feeYear = toFeeYear(memberNumber, name, status, year, months);
             years.add(feeYear);
         }
 
@@ -139,30 +152,21 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .build();
     }
 
-    private final FeeCalendar toFeeYear(final Long memberNumber, final Year year, final Collection<Fee> fees) {
-        final Collection<FeeCalendarMonth> months;
-        final Fee                          row;
-        final String                       name;
-        final boolean                      active;
-        final FeeCalendarMember            member;
+    private final FeeCalendar toFeeYear(final Long memberNumber, final String memberName, final MemberStatus status,
+            final Year year, final Collection<FeeCalendarMonth> months) {
+        final boolean           active;
+        final FeeCalendarMember member;
 
-        months = fees.stream()
-            .map(this::toFeeMonth)
-            // Sort by month
-            .sorted(Comparator.comparing(FeeCalendarMonth::getMonth))
-            .toList();
-
-        row = fees.iterator()
-            .next();
-        name = row.getPerson()
-            .getFullName();
-
-        // FIXME: Shouldn't be needed when filtering by active or inactive
-        active = memberRepository.isActive(memberNumber);
+        active = switch (status) {
+            case ACTIVE -> true;
+            case INACTIVE -> false;
+            // TODO: get all active in a single query
+            default -> memberRepository.isActive(memberNumber);
+        };
 
         member = FeeCalendarMember.builder()
             .withNumber(memberNumber)
-            .withFullName(name)
+            .withFullName(memberName)
             .withActive(active)
             .build();
         return FeeCalendar.builder()
