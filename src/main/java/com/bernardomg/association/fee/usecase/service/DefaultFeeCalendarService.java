@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.text.Normalizer;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -129,13 +130,19 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             calendarFees.add(calendarFee);
         }
         sortedCalendarFees = calendarFees.stream()
-            .sorted(Comparator.comparing(fc -> fc.getMember()
-                .getFullName()))
-            .toList();
+            .sorted(Comparator.comparing(fc -> normalizeString(fc.getMember()
+                .getFullName())))
+            .collect(Collectors.toList());
 
         log.info("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
 
         return sortedCalendarFees;
+    }
+
+    private final String normalizeString(final String input) {
+        // TODO: test this
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+            .replaceAll("\\p{M}", "");
     }
 
     private final FeeCalendarMonth toFeeMonth(final Fee fee) {
