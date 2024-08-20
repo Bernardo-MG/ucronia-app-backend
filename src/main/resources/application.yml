@@ -18,7 +18,7 @@ spring:
   cache:
     cache-names: cache1
     caffeine:
-      spec: maximumSize=500,expireAfterAccess=600s
+      spec: maximumSize=500,expireAfterAccess=10m
   # Liquibase
   liquibase:
     liquibase-schema: db_versioning
