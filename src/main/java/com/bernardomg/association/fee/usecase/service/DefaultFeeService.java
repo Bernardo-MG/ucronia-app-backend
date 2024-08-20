@@ -133,7 +133,7 @@ public final class DefaultFeeService implements FeeService {
 
         fees = feeRepository.findAll(query, pageable);
 
-        log.info("Got all fees with query {}: {}", query, fees);
+        log.debug("Got all fees with query {}: {}", query, fees);
 
         return fees;
     }
@@ -158,7 +158,7 @@ public final class DefaultFeeService implements FeeService {
 
         fee = feeRepository.findOne(personNumber, date);
 
-        log.info("Got fee for {} in {}: fee", personNumber, date);
+        log.debug("Got fee for {} in {}: fee", personNumber, date);
 
         return fee;
     }
@@ -196,7 +196,7 @@ public final class DefaultFeeService implements FeeService {
             memberRepository.activate(personNumber);
         }
 
-        log.info("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, transactionDate);
+        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, transactionDate);
 
         return created;
     }

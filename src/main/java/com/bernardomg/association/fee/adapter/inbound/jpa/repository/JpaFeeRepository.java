@@ -144,7 +144,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = memberSpringRepository.findAllActiveIds();
+        foundIds = memberSpringRepository.findAllActivePersonIds();
 
         log.debug("Active members: {}", foundIds);
 
@@ -170,7 +170,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = memberSpringRepository.findAllInactiveIds();
+        foundIds = memberSpringRepository.findAllInactivePersonIds();
 
         log.debug("Inactive members: {}", foundIds);
 

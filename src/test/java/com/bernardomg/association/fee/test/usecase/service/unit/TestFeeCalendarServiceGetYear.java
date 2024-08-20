@@ -71,7 +71,6 @@ class TestFeeCalendarServiceGetYear {
 
         given(feeRepository.findAllForActiveMembers(MemberCalendars.YEAR_CURRENT, sort))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ACTIVE, sort);
@@ -113,14 +112,13 @@ class TestFeeCalendarServiceGetYear {
 
         given(feeRepository.findAllForInactiveMembers(MemberCalendars.YEAR_CURRENT, sort))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
-            .containsExactly(FeeCalendars.activePaidCurrentMonth());
+            .containsExactly(FeeCalendars.inactivePaidCurrentMonth());
     }
 
 }
