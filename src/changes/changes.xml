@@ -194,7 +194,13 @@
             Prepared local dev for testing monitoring.
          </action>
       </release>
-      <release version="1.0.0" date="2024-07-12" description="">
+      <release version="0.5.10" date="2024-07-17" description="Fixes">
+         <action dev="bmg" type="fix">
+            Fixed name validation field.
+         </action>
+         <action dev="bmg" type="fix">
+            Corrected sorting for people.
+         </action>
       </release>
    </body>
 </document>
