@@ -104,6 +104,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .map(Fee::getPerson)
             .map(FeePerson::getNumber)
             .distinct()
+            .sorted()
             .toList();
         log.debug("Member numbers: {}", memberNumbers);
 

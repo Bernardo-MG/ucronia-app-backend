@@ -32,6 +32,7 @@ public final class FeeNoDuplicatedDatesRule implements FieldRule<Collection<Fee>
         uniqueDates = fees.stream()
             .map(Fee::getDate)
             .distinct()
+            .sorted()
             .toList();
         if (uniqueDates.size() < fees.size()) {
             // We have repeated dates
