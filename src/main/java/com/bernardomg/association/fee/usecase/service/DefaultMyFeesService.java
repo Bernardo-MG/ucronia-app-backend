@@ -89,7 +89,7 @@ public final class DefaultMyFeesService implements MyFeesService {
             }
         }
 
-        log.info("Got all the fees for the user in session: {}", fees);
+        log.debug("Got all the fees for the user in session: {}", fees);
 
         return fees;
     }

@@ -77,7 +77,7 @@ public final class DefaultFeeReportService implements FeeReportService {
             .withUnpaid(unpaid)
             .build();
 
-        log.info("Got payment report: {}", report);
+        log.debug("Got payment report: {}", report);
 
         return report;
     }

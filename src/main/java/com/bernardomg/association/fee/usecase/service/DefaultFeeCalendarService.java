@@ -72,8 +72,15 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     public final FeeCalendarYearsRange getRange() {
+        final FeeCalendarYearsRange range;
+
         log.info("Getting fee calendar range");
-        return feeRepository.findRange();
+
+        range = feeRepository.findRange();
+
+        log.debug("Got fee calendar range: {}", range);
+
+        return range;
     }
 
     @Override
@@ -134,7 +141,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
                 .getFullName())))
             .collect(Collectors.toList());
 
-        log.info("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
+        log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
 
         return sortedCalendarFees;
     }
