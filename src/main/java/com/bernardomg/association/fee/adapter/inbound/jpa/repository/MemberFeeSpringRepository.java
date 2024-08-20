@@ -72,7 +72,12 @@ public interface MemberFeeSpringRepository
      *            sorting information
      * @return all member fees filtered by date range
      */
-    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end")
+    @Query("""
+            SELECT f
+            FROM MemberFee f
+            WHERE f.date >= :start
+              AND f.date <= :end
+            """)
     public Collection<MemberFeeEntity> findAllInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, final Sort sort);
 
@@ -89,7 +94,13 @@ public interface MemberFeeSpringRepository
      *            sorting information
      * @return all member fees filtered by id and date range
      */
-    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.personId IN :ids")
+    @Query("""
+            SELECT f
+            FROM MemberFee f
+            WHERE f.date >= :start
+              AND f.date <= :end
+              AND f.personId IN :ids
+            """)
     public Collection<MemberFeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
@@ -109,7 +120,12 @@ public interface MemberFeeSpringRepository
      *
      * @return all the years for the existing fees
      */
-    @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f GROUP BY feeYear ORDER BY feeYear ASC")
+    @Query("""
+            SELECT extract(year from f.date) AS feeYear
+            FROM MemberFee f
+             GROUP BY feeYear
+             ORDER BY feeYear ASC
+            """)
     public Collection<Integer> findYears();
 
 }
