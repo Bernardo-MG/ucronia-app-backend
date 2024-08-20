@@ -1,7 +1,9 @@
 
 package com.bernardomg.association.fee.usecase.validation;
 
+import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ public final class FeeDateNotRegisteredRule implements FieldRule<Collection<Fee>
     public final Optional<FieldFailure> check(final Collection<Fee> fees) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final long                   existing;
+        final List<YearMonth>        existing;
         final long                   number;
         final Person                 person;
 
@@ -51,8 +53,8 @@ public final class FeeDateNotRegisteredRule implements FieldRule<Collection<Fee>
             existing = fees.stream()
                 .map(Fee::getDate)
                 .filter(date -> feeRepository.existsPaid(person.getNumber(), date))
-                .count();
-            if (existing > 0) {
+                .toList();
+            if (!existing.isEmpty()) {
                 log.error("Dates {} are already registered", existing);
                 fieldFailure = FieldFailure.of("feeDates[]", "existing", existing);
                 failure = Optional.of(fieldFailure);
