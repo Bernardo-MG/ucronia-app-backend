@@ -79,10 +79,11 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     public final Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sort sort) {
         final Collection<Fee>         readFees;
         final Map<Object, List<Fee>>  memberFees;
-        final Collection<FeeCalendar> years;
+        final Collection<FeeCalendar> calendarFees;
+        final Collection<FeeCalendar> sortedCalendarFees;
         final Collection<Long>        memberNumbers;
         List<Fee>                     fees;
-        FeeCalendar                   feeYear;
+        FeeCalendar                   calendarFee;
         Collection<FeeCalendarMonth>  months;
         String                        name;
 
@@ -112,7 +113,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .toList();
         log.debug("Member numbers: {}", memberNumbers);
 
-        years = new ArrayList<>();
+        calendarFees = new ArrayList<>();
         for (final Long memberNumber : memberNumbers) {
             fees = memberFees.get(memberNumber);
             months = fees.stream()
@@ -124,13 +125,17 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
                 .next()
                 .getPerson()
                 .getFullName();
-            feeYear = toFeeYear(memberNumber, name, status, year, months);
-            years.add(feeYear);
+            calendarFee = toFeeYear(memberNumber, name, status, year, months);
+            calendarFees.add(calendarFee);
         }
+        sortedCalendarFees = calendarFees.stream()
+            .sorted(Comparator.comparing(fc -> fc.getMember()
+                .getFullName()))
+            .toList();
 
-        log.info("Got fee calendar for year {} and status {}: {}", year, status, years);
+        log.info("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
 
-        return years;
+        return sortedCalendarFees;
     }
 
     private final FeeCalendarMonth toFeeMonth(final Fee fee) {
