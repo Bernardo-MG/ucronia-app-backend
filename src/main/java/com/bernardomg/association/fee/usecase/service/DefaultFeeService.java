@@ -103,7 +103,7 @@ public final class DefaultFeeService implements FeeService {
         final boolean feeExists;
         final boolean memberExists;
 
-        log.debug("Deleting fee for {} in {}", personNumber, date);
+        log.info("Deleting fee for {} in {}", personNumber, date);
 
         memberExists = personRepository.exists(personNumber);
         if (!memberExists) {
@@ -117,23 +117,34 @@ public final class DefaultFeeService implements FeeService {
 
         feeRepository.delete(personNumber, date);
 
+        // TODO: use an event
         if (date.equals(YearMonth.now())) {
             // If deleting for the current month, the user is set to active
+            log.debug("Deactivating member status for person {}", personNumber);
             memberRepository.deactivate(personNumber);
         }
     }
 
     @Override
     public final Iterable<Fee> getAll(final FeeQuery query, final Pageable pageable) {
-        return feeRepository.findAll(query, pageable);
+        final Iterable<Fee> fees;
+
+        log.info("Getting all fees with query {}", query);
+
+        fees = feeRepository.findAll(query, pageable);
+
+        log.debug("Got all fees with query {}: {}", query, fees);
+
+        return fees;
     }
 
     @Override
     public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
-        final boolean feeExists;
-        final boolean memberExists;
+        final boolean       feeExists;
+        final boolean       memberExists;
+        final Optional<Fee> fee;
 
-        log.debug("Reading fee for {} in {}", personNumber, date);
+        log.info("Getting fee for {} in {}", personNumber, date);
 
         memberExists = personRepository.exists(personNumber);
         if (!memberExists) {
@@ -145,7 +156,11 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingFeeException(personNumber + " " + date.toString());
         }
 
-        return feeRepository.findOne(personNumber, date);
+        fee = feeRepository.findOne(personNumber, date);
+
+        log.debug("Got fee for {} in {}: fee", personNumber, date);
+
+        return fee;
     }
 
     @Override
@@ -156,7 +171,7 @@ public final class DefaultFeeService implements FeeService {
         final Optional<Person> person;
         final Collection<Fee>  created;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", personNumber, feeDates, transactionDate);
+        log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeDates, transactionDate);
 
         person = personRepository.findOne(personNumber);
         if (person.isEmpty()) {
@@ -180,6 +195,8 @@ public final class DefaultFeeService implements FeeService {
             // If paying for the current month, the user is set to active
             memberRepository.activate(personNumber);
         }
+
+        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, transactionDate);
 
         return created;
     }
@@ -227,6 +244,8 @@ public final class DefaultFeeService implements FeeService {
         savedTransaction = transactionRepository.save(transaction);
 
         feeRepository.pay(person, fees, savedTransaction);
+
+        log.debug("Paid fee {} for {} with transaction {}", person, fees, savedTransaction);
     }
 
     private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {

@@ -77,7 +77,7 @@ public class FeeController {
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
-            FeeCaches.FEES, FeeCaches.FEE,
+            FeeCaches.FEES,
             // Funds caches
             TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
             TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,

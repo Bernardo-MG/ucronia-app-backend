@@ -35,11 +35,14 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Default implementation of the fee report service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Slf4j
 @Transactional
 public final class DefaultFeeReportService implements FeeReportService {
 
@@ -53,10 +56,14 @@ public final class DefaultFeeReportService implements FeeReportService {
 
     @Override
     public final FeePaymentReport getPaymentReport() {
-        final Collection<Fee> fees;
-        final long            paid;
-        final long            unpaid;
+        final Collection<Fee>  fees;
+        final long             paid;
+        final long             unpaid;
+        final FeePaymentReport report;
 
+        log.info("Getting payment report");
+
+        // TODO: user a smaller query
         fees = feeRepository.findAllInMonth(YearMonth.now());
         paid = fees.stream()
             .filter(Fee::isPaid)
@@ -65,10 +72,14 @@ public final class DefaultFeeReportService implements FeeReportService {
             .filter(Predicate.not(Fee::isPaid))
             .count();
 
-        return FeePaymentReport.builder()
+        report = FeePaymentReport.builder()
             .withPaid(paid)
             .withUnpaid(unpaid)
             .build();
+
+        log.debug("Got payment report: {}", report);
+
+        return report;
     }
 
 }

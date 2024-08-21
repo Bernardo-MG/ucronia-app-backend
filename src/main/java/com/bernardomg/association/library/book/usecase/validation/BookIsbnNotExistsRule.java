@@ -14,7 +14,7 @@ import com.bernardomg.validation.validator.FieldRule;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Checks the donor has a name.
+ * Checks the ISBN is not already registered.
  */
 @Slf4j
 public final class BookIsbnNotExistsRule implements FieldRule<Book> {

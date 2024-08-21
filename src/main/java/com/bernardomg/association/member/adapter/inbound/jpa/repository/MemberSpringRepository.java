@@ -62,11 +62,12 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Page<MemberEntity> findAllActive(final Pageable pageable);
 
     @Query("""
-            SELECT m.id
+            SELECT m.person.id AS personId
             FROM Member m
             WHERE m.active = true
+            ORDER BY id ASC
             """)
-    public Collection<Long> findAllActiveIds();
+    public Collection<Long> findAllActivePersonIds();
 
     @Query("""
             SELECT m
@@ -84,11 +85,12 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Page<MemberEntity> findAllInactive(final Pageable pageable);
 
     @Query("""
-            SELECT m.id
+            SELECT m.person.id AS personId
             FROM Member m
             WHERE m.active = false
+            ORDER BY id ASC
             """)
-    public Collection<Long> findAllInactiveIds();
+    public Collection<Long> findAllInactivePersonIds();
 
     @Query("""
             SELECT m

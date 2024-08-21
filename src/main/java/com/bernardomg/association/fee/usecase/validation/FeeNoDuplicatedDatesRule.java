@@ -1,7 +1,9 @@
 
 package com.bernardomg.association.fee.usecase.validation;
 
+import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -24,19 +26,20 @@ public final class FeeNoDuplicatedDatesRule implements FieldRule<Collection<Fee>
     public final Optional<FieldFailure> check(final Collection<Fee> fees) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final long                   uniqueDates;
-        final int                    totalDates;
+        final List<YearMonth>        uniqueDates;
         final long                   duplicates;
 
         uniqueDates = fees.stream()
             .map(Fee::getDate)
             .distinct()
-            .count();
-        totalDates = fees.size();
-        if (uniqueDates < totalDates) {
+            .sorted()
+            .toList();
+        if (uniqueDates.size() < fees.size()) {
+            // We have repeated dates
             // TODO: is this really an error? It can be corrected easily
-            duplicates = (totalDates - uniqueDates);
-            log.error("Received {} fee dates, but {} are duplicates", totalDates, duplicates);
+            duplicates = (fees.size() - uniqueDates.size());
+            log.error("Received {} fee dates, but {} are duplicates", fees.size(), duplicates);
+            // TODO: set duplicates, not number
             fieldFailure = FieldFailure.of("feeDates[]", "duplicated", duplicates);
             failure = Optional.of(fieldFailure);
         } else {

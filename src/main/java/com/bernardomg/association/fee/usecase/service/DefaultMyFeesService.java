@@ -69,7 +69,7 @@ public final class DefaultMyFeesService implements MyFeesService {
         final UserDetails      userDetails;
         final Optional<Person> person;
 
-        log.debug("Getting all the fees for the user in session");
+        log.info("Getting all the fees for the user in session");
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
@@ -88,6 +88,8 @@ public final class DefaultMyFeesService implements MyFeesService {
                     .getNumber(), pageable);
             }
         }
+
+        log.debug("Got all the fees for the user in session: {}", fees);
 
         return fees;
     }

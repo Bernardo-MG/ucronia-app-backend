@@ -210,13 +210,41 @@ class TestBookServiceUpdate {
         given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
-        given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN)).willReturn(true);
+        given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(BookConstants.NUMBER, book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("isbn", "existing", BookConstants.ISBN));
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("isbn", "existing", BookConstants.ISBN_10));
+    }
+
+    @Test
+    @DisplayName("With a book with an invalid ISBN, an exception is thrown")
+    void testUpdate_InvalidIsbn() {
+        final ThrowingCallable execution;
+        final Book             book;
+
+        // GIVEN
+        book = Books.invalidIsbn();
+
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+
+        given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.INVALID_ISBN))
+            .willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(BookConstants.NUMBER, book);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN));
     }
 
     @Test

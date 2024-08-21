@@ -172,7 +172,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -192,7 +192,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
