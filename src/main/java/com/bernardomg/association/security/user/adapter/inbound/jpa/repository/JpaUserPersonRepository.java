@@ -13,8 +13,8 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
 @Transactional
 public final class JpaUserPersonRepository implements UserPersonRepository {

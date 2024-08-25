@@ -44,7 +44,7 @@ import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

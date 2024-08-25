@@ -11,11 +11,7 @@ initialize:
 logging:
   level:
     com.bernardomg: DEBUG
-    com.bernardomg.security: DEBUG
-    com.bernardomg.security.email: DEBUG
-    com.bernardomg.security.token: DEBUG
-    com.bernardomg.security.user: DEBUG
-    com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtTokenFilter: ERROR
+    com.bernardomg.security.web.whitelist.WhitelistFilterWrapper: WARN
     org.springframework.security: DEBUG
     org.springframework.security.web.FilterChainProxy: WARN
     org.springframework.security.web.authentication.AnonymousAuthenticationFilter: WARN

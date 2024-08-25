@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import lombok.AllArgsConstructor;
 

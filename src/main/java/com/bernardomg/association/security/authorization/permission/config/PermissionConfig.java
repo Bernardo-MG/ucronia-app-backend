@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityConfigurationPermissionRegister;
 import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
-import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 
 /**
  * Permission configuration.
