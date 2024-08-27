@@ -186,7 +186,7 @@
             Remove duplicated relationships before saving books.
          </action>
       </release>
-      <release version="0.5.9" date="2024-07-12" description="Fixes">
+      <release version="0.5.9" date="2024-08-12" description="Fixes">
          <action dev="bmg" type="fix">
             Fixed book creation.
          </action>
@@ -194,7 +194,7 @@
             Prepared local dev for testing monitoring.
          </action>
       </release>
-      <release version="0.5.10" date="2024-07-17" description="Fixes">
+      <release version="0.5.10" date="2024-08-17" description="Fixes">
          <action dev="bmg" type="fix">
             Fixed name validation field.
          </action>
@@ -202,7 +202,16 @@
             Corrected sorting for people.
          </action>
       </release>
-      <release version="1.0.0" date="2024-07-17" description="">
+      <release version="0.5.11" date="2024-08-21" description="Fixes">
+         <action dev="bmg" type="add">
+            ISBN validation.
+         </action>
+         <action dev="bmg" type="update">
+            Corrections to cache life.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed member fees not being shown correctly.
+         </action>
       </release>
    </body>
 </document>
