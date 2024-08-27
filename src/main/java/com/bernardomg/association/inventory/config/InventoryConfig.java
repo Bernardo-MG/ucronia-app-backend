@@ -33,7 +33,7 @@ import com.bernardomg.association.inventory.security.register.InventoryPermissio
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 
 /**
  * Transaction configuration.

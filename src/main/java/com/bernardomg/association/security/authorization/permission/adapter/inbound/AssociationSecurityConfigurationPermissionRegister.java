@@ -27,8 +27,8 @@ package com.bernardomg.association.security.authorization.permission.adapter.inb
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
-import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
  * Association security permission register.

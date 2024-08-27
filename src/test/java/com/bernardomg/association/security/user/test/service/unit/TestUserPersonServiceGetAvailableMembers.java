@@ -42,7 +42,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User person service - get person")

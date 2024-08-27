@@ -42,7 +42,7 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

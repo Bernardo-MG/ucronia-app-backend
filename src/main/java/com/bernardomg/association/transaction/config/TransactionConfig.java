@@ -40,7 +40,7 @@ import com.bernardomg.association.transaction.usecase.service.DefaultTransaction
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
-import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 
 /**
  * Transaction configuration.

@@ -8,7 +8,7 @@ import com.bernardomg.association.configuration.adapter.inbound.source.DefaultAs
 import com.bernardomg.association.configuration.security.register.AssociationConfigurationPermissionRegister;
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 
 @Configuration
 public class AssociationConfigurationConfig {

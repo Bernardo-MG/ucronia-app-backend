@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.security.user.usecase.service.UserPersonService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import lombok.AllArgsConstructor;
 

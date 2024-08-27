@@ -44,7 +44,7 @@ import com.bernardomg.association.library.author.adapter.outbound.rest.model.Aut
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

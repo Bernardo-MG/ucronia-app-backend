@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.security.user.test.config.factory;
 
-import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.user.data.domain.model.User;
 
 public final class Users {
 

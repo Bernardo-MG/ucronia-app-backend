@@ -60,7 +60,7 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

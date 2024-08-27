@@ -34,8 +34,8 @@ import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.U
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
 import com.bernardomg.association.security.user.usecase.service.UserPersonService;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 @Configuration
 public class AssociationUserConfig {

@@ -48,7 +48,7 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

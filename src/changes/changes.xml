@@ -213,5 +213,13 @@
             Fixed member fees not being shown correctly.
          </action>
       </release>
+      <release version="0.5.12" date="2024-08-27" description="Updated security dependency">
+         <action dev="bmg" type="update">
+            Updated docker image.
+         </action>
+         <action dev="bmg" type="update">
+            Updated security dependency.
+         </action>
+      </release>
    </body>
 </document>

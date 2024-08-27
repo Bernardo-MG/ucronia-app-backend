@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
