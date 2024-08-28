@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.config;
+package com.bernardomg.configuration.config;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
