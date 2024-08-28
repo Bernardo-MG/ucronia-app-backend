@@ -26,9 +26,6 @@ package com.bernardomg.association;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.email.config.EmailConfig;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -37,7 +34,6 @@ import com.bernardomg.email.config.EmailConfig;
  *
  */
 @SpringBootApplication
-@Import({ EmailConfig.class })
 public class UcroniaApplication {
 
     /**
