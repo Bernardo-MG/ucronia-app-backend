@@ -5,7 +5,7 @@ import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
-public final class ReducedMembers {
+public final class PublicMembers {
 
     public static final PublicMember active() {
         final PersonName name;

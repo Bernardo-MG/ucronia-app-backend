@@ -34,7 +34,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.security.register.MemberPermissionRegister;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.association.member.usecase.service.DefaultReducedMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
@@ -75,7 +75,7 @@ public class MemberConfig {
 
     @Bean("publicMemberService")
     public PublicMemberService getPublicMemberService(final MemberRepository memberRepository) {
-        return new DefaultReducedMemberService(memberRepository);
+        return new DefaultPublicMemberService(memberRepository);
     }
 
 }

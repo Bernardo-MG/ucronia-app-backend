@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
@@ -30,18 +31,18 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Transactional
-public final class DefaultReducedMemberService implements PublicMemberService {
+public final class DefaultPublicMemberService implements PublicMemberService {
 
     private final MemberRepository memberRepository;
 
-    public DefaultReducedMemberService(final MemberRepository memberRepo) {
+    public DefaultPublicMemberService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
-    public final Iterable<PublicMember> getAll(final Pageable pageable) {
+    public final Iterable<PublicMember> getAll(final MemberQuery query, final Pageable pageable) {
         final Pageable               pagination;
         final Iterable<Member>       members;
         final Iterable<PublicMember> result;
@@ -50,7 +51,11 @@ public final class DefaultReducedMemberService implements PublicMemberService {
 
         pagination = correctPagination(pageable);
 
-        members = memberRepository.findActive(pagination);
+        members = switch (query.getStatus()) {
+            case ACTIVE -> memberRepository.findActive(pagination);
+            case INACTIVE -> memberRepository.findInactive(pagination);
+            default -> memberRepository.findAll(pagination);
+        };
 
         if (members instanceof Page) {
             result = ((Page<Member>) members).map(this::toReduced);

@@ -62,7 +62,7 @@ public class PublicMemberController {
     @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public Iterable<PublicMember> readAll(@Valid final MemberQuery query, final Pageable pageable) {
-        return service.getAll(pageable);
+        return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)

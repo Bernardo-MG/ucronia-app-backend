@@ -41,8 +41,8 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.test.config.factory.ReducedMembers;
-import com.bernardomg.association.member.usecase.service.DefaultReducedMemberService;
+import com.bernardomg.association.member.test.config.factory.PublicMembers;
+import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +53,7 @@ class TestPublicMemberServiceGetOne {
     private MemberRepository            memberRepository;
 
     @InjectMocks
-    private DefaultReducedMemberService service;
+    private DefaultPublicMemberService service;
 
     public TestPublicMemberServiceGetOne() {
         super();
@@ -72,7 +72,7 @@ class TestPublicMemberServiceGetOne {
 
         // THEN
         Assertions.assertThat(memberOptional)
-            .contains(ReducedMembers.active());
+            .contains(PublicMembers.active());
     }
 
     @Test
