@@ -108,7 +108,7 @@ class TestPersonServiceGetAll {
         // THEN
         Assertions.assertThat(persons)
             .as("persons")
-            .isEqualTo(List.of(Persons.valid()));
+            .containsExactly(Persons.valid());
     }
 
     @Test
