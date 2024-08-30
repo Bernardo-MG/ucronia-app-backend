@@ -221,7 +221,10 @@
             Updated security dependency.
          </action>
       </release>
-      <release version="1.0.0" date="2024-08-27" description="">
+      <release version="0.5.13" date="2024-08-28" description="Updated security dependency">
+         <action dev="bmg" type="fix">
+            Updated security dependency.
+         </action>
       </release>
    </body>
 </document>
