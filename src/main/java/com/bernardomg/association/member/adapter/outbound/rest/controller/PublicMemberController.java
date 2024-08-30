@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.ReducedMember;
-import com.bernardomg.association.member.usecase.service.ReducedMemberService;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -49,26 +49,26 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/member/reduced")
+@RequestMapping("/member/public")
 @AllArgsConstructor
-public class ReducedMemberController {
+public class PublicMemberController {
 
     /**
      * Reduced member service.
      */
-    private final ReducedMemberService service;
+    private final PublicMemberService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
-    public Iterable<ReducedMember> readAll(@Valid final MemberQuery query, final Pageable pageable) {
-        return service.getAll(query, pageable);
+    public Iterable<PublicMember> readAll(@Valid final MemberQuery query, final Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
-    public ReducedMember readOne(@PathVariable("number") final Long number) {
+    public PublicMember readOne(@PathVariable("number") final Long number) {
         return service.getOne(number)
             .orElse(null);
     }

@@ -38,7 +38,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.ReducedMember;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.ReducedMembers;
@@ -46,8 +46,8 @@ import com.bernardomg.association.member.usecase.service.DefaultReducedMemberSer
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - get one")
-class TestReducedMemberServiceGetOne {
+@DisplayName("Public member service - get one")
+class TestPublicMemberServiceGetOne {
 
     @Mock
     private MemberRepository            memberRepository;
@@ -55,14 +55,14 @@ class TestReducedMemberServiceGetOne {
     @InjectMocks
     private DefaultReducedMemberService service;
 
-    public TestReducedMemberServiceGetOne() {
+    public TestPublicMemberServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<ReducedMember> memberOptional;
+        final Optional<PublicMember> memberOptional;
 
         // GIVEN
         given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));

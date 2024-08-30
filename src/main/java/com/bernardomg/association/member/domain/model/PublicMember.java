@@ -8,7 +8,7 @@ import lombok.Value;
 
 @Value
 @Builder(setterPrefix = "with")
-public final class ReducedMember {
+public final class PublicMember {
 
     private final boolean    active;
 

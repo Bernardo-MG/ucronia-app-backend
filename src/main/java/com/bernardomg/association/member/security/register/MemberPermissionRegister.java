@@ -47,13 +47,15 @@ public final class MemberPermissionRegister implements PermissionRegister {
             // Member
             ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
             ResourcePermissionPair.of("MEMBER", "UPDATE"), ResourcePermissionPair.of("MEMBER", "DELETE"),
+            // Public member
+            ResourcePermissionPair.of("PUBLIC_MEMBER", "READ"),
             // Views
-            ResourcePermissionPair.of("MEMBER", "VIEW"), ResourcePermissionPair.of("MEMBER_ADMIN", "VIEW"));
+            ResourcePermissionPair.of("PUBLIC_MEMBER", "VIEW"), ResourcePermissionPair.of("MEMBER", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER", "MEMBER_ADMIN");
+        return List.of("MEMBER", "PUBLIC_MEMBER");
     }
 
 }

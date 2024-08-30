@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.ReducedMember;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Transactional
-public final class DefaultReducedMemberService implements ReducedMemberService {
+public final class DefaultReducedMemberService implements PublicMemberService {
 
     private final MemberRepository memberRepository;
 
@@ -41,19 +40,15 @@ public final class DefaultReducedMemberService implements ReducedMemberService {
     }
 
     @Override
-    public final Iterable<ReducedMember> getAll(final MemberQuery query, final Pageable pageable) {
+    public final Iterable<PublicMember> getAll(final Pageable pageable) {
         final Pageable         pagination;
         final Iterable<Member> members;
 
-        log.debug("Reading members with sample {} and pagination {}", query, pageable);
+        log.debug("Reading members with pagination {}", pageable);
 
         pagination = correctPagination(pageable);
 
-        members = switch (query.getStatus()) {
-            case ACTIVE -> memberRepository.findActive(pagination);
-            case INACTIVE -> memberRepository.findInactive(pagination);
-            default -> memberRepository.findAll(pagination);
-        };
+        members = memberRepository.findActive(pagination);
 
         return StreamSupport.stream(members.spliterator(), false)
             .map(this::toReduced)
@@ -61,7 +56,7 @@ public final class DefaultReducedMemberService implements ReducedMemberService {
     }
 
     @Override
-    public final Optional<ReducedMember> getOne(final long number) {
+    public final Optional<PublicMember> getOne(final long number) {
         final Optional<Member> member;
 
         log.debug("Reading member {}", number);
@@ -135,8 +130,8 @@ public final class DefaultReducedMemberService implements ReducedMemberService {
         return Sort.by(orders);
     }
 
-    private final ReducedMember toReduced(final Member member) {
-        return ReducedMember.builder()
+    private final PublicMember toReduced(final Member member) {
+        return PublicMember.builder()
             .withNumber(member.getNumber())
             .withName(member.getName())
             .withActive(member.isActive())

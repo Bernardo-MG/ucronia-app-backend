@@ -48,17 +48,15 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.ReducedMember;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
-import com.bernardomg.association.member.test.config.factory.MembersQuery;
 import com.bernardomg.association.member.test.config.factory.ReducedMembers;
 import com.bernardomg.association.member.usecase.service.DefaultReducedMemberService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - get all")
-class TestReducedMemberServiceGetAll {
+@DisplayName("Public member service - get all")
+class TestPublicMemberServiceGetAll {
 
     @Mock
     private MemberRepository            memberRepository;
@@ -69,42 +67,16 @@ class TestReducedMemberServiceGetAll {
     @InjectMocks
     private DefaultReducedMemberService service;
 
-    public TestReducedMemberServiceGetAll() {
+    public TestPublicMemberServiceGetAll() {
         super();
     }
 
     @Test
-    @DisplayName("When filtering with by active it returns the active members")
-    void testGetAll_FilterActive_ReturnsData() {
-        final Iterable<ReducedMember> members;
-        final MemberQuery             memberQuery;
-        final Pageable                pageable;
-        final Page<Member>            readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
-
-        pageable = Pageable.unpaged();
-
-        memberQuery = MembersQuery.active();
-
-        // WHEN
-        members = service.getAll(memberQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .isEqualTo(List.of(ReducedMembers.active()));
-    }
-
-    @Test
     @DisplayName("When filtering with the default filter, and there is no data, it returns nothing")
-    void testGetAll_FilterDefault_NoData() {
-        final Iterable<ReducedMember> members;
-        final MemberQuery             memberQuery;
-        final Pageable                pageable;
-        final Page<Member>            readMembers;
+    void testGetAll_NoData() {
+        final Iterable<PublicMember> members;
+        final Pageable               pageable;
+        final Page<Member>           readMembers;
 
         // GIVEN
         readMembers = new PageImpl<>(List.of());
@@ -112,10 +84,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        members = service.getAll(memberQuery, pageable);
+        members = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -125,11 +95,10 @@ class TestReducedMemberServiceGetAll {
 
     @Test
     @DisplayName("When filtering with the default filter it returns all the members")
-    void testGetAll_FilterDefault_ReturnsData() {
-        final Iterable<ReducedMember> members;
-        final MemberQuery             memberQuery;
-        final Pageable                pageable;
-        final Page<Member>            readMembers;
+    void testGetAll_ReturnsData() {
+        final Iterable<PublicMember> members;
+        final Pageable               pageable;
+        final Page<Member>           readMembers;
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
@@ -137,35 +106,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        members = service.getAll(memberQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .isEqualTo(List.of(ReducedMembers.active()));
-    }
-
-    @Test
-    @DisplayName("When filtering with by active it returns the not active members")
-    void testGetAll_FilterNotActive_ReturnsData() {
-        final Iterable<ReducedMember> members;
-        final MemberQuery             memberQuery;
-        final Pageable                pageable;
-        final Page<Member>            readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
-
-        pageable = Pageable.unpaged();
-
-        memberQuery = MembersQuery.inactive();
-
-        // WHEN
-        members = service.getAll(memberQuery, pageable);
+        members = service.getAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -176,7 +118,6 @@ class TestReducedMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FullName() {
-        final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
 
@@ -186,10 +127,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = PageRequest.of(0, 1, Sort.by("fullName"));
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        service.getAll(memberQuery, pageable);
+        service.getAll(pageable);
 
         // THEN
         pageableCaptor.getValue()
@@ -206,7 +145,6 @@ class TestReducedMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_Number() {
-        final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
 
@@ -216,10 +154,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = PageRequest.of(0, 1, Sort.by("number"));
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        service.getAll(memberQuery, pageable);
+        service.getAll(pageable);
 
         // THEN
         pageableCaptor.getValue()
@@ -236,7 +172,6 @@ class TestReducedMemberServiceGetAll {
     @Test
     @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FullName() {
-        final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
 
@@ -246,10 +181,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "fullName"));
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        service.getAll(memberQuery, pageable);
+        service.getAll(pageable);
 
         // THEN
         pageableCaptor.getValue()
@@ -266,7 +199,6 @@ class TestReducedMemberServiceGetAll {
     @Test
     @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_Number() {
-        final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
 
@@ -276,10 +208,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "number"));
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        service.getAll(memberQuery, pageable);
+        service.getAll(pageable);
 
         // THEN
         pageableCaptor.getValue()
@@ -296,7 +226,6 @@ class TestReducedMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Unpaged_Asc_FullName() {
-        final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
 
@@ -306,10 +235,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = Pageable.unpaged(Sort.by("fullName"));
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        service.getAll(memberQuery, pageable);
+        service.getAll(pageable);
 
         // THEN
         pageableCaptor.getValue()
@@ -326,7 +253,6 @@ class TestReducedMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Unpaged_Asc_Number() {
-        final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
 
@@ -336,10 +262,8 @@ class TestReducedMemberServiceGetAll {
 
         pageable = Pageable.unpaged(Sort.by("number"));
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        service.getAll(memberQuery, pageable);
+        service.getAll(pageable);
 
         // THEN
         pageableCaptor.getValue()

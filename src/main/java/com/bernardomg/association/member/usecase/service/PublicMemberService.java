@@ -5,8 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.ReducedMember;
+import com.bernardomg.association.member.domain.model.PublicMember;
 
 /**
  * Reduced member service. Reduces only non sensible information.
@@ -14,18 +13,16 @@ import com.bernardomg.association.member.domain.model.ReducedMember;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ReducedMemberService {
+public interface PublicMemberService {
 
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
      *
-     * @param query
-     *            query for filtering
      * @param pageable
      *            pagination to apply
      * @return all the members matching the sample
      */
-    public Iterable<ReducedMember> getAll(final MemberQuery query, final Pageable pageable);
+    public Iterable<PublicMember> getAll(final Pageable pageable);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -34,6 +31,6 @@ public interface ReducedMemberService {
      *            number of the member to acquire
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<ReducedMember> getOne(final long number);
+    public Optional<PublicMember> getOne(final long number);
 
 }
