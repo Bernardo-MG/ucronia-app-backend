@@ -226,5 +226,7 @@
             Updated security dependency.
          </action>
       </release>
+      <release version="1.0.0" date="2024-08-28" description="">
+      </release>
    </body>
 </document>
