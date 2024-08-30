@@ -80,7 +80,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of());
-        given(memberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+        given(memberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
 
@@ -102,7 +102,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+        given(memberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
 
@@ -112,7 +112,7 @@ class TestPublicMemberServiceGetAll {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .isEqualTo(List.of(ReducedMembers.active()));
+            .containsExactly(ReducedMembers.active());
     }
 
     @Test
@@ -123,7 +123,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
+        given(memberRepository.findActive(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by("fullName"));
 
@@ -150,7 +150,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
+        given(memberRepository.findActive(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by("number"));
 
@@ -177,7 +177,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
+        given(memberRepository.findActive(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "fullName"));
 
@@ -204,7 +204,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
+        given(memberRepository.findActive(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "number"));
 
@@ -231,7 +231,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
+        given(memberRepository.findActive(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = Pageable.unpaged(Sort.by("fullName"));
 
@@ -258,7 +258,7 @@ class TestPublicMemberServiceGetAll {
 
         // GIVEN
         readMembers = new PageImpl<>(List.of(Members.active()));
-        given(memberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
+        given(memberRepository.findActive(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = Pageable.unpaged(Sort.by("number"));
 

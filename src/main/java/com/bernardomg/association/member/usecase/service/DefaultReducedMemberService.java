@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,8 +42,9 @@ public final class DefaultReducedMemberService implements PublicMemberService {
 
     @Override
     public final Iterable<PublicMember> getAll(final Pageable pageable) {
-        final Pageable         pagination;
-        final Iterable<Member> members;
+        final Pageable               pagination;
+        final Iterable<Member>       members;
+        final Iterable<PublicMember> result;
 
         log.debug("Reading members with pagination {}", pageable);
 
@@ -50,9 +52,15 @@ public final class DefaultReducedMemberService implements PublicMemberService {
 
         members = memberRepository.findActive(pagination);
 
-        return StreamSupport.stream(members.spliterator(), false)
-            .map(this::toReduced)
-            .toList();
+        if (members instanceof Page) {
+            result = ((Page<Member>) members).map(this::toReduced);
+        } else {
+            result = StreamSupport.stream(members.spliterator(), false)
+                .map(this::toReduced)
+                .toList();
+        }
+
+        return result;
     }
 
     @Override
