@@ -48,12 +48,12 @@ public final class MemberPermissionRegister implements PermissionRegister {
             ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
             ResourcePermissionPair.of("MEMBER", "UPDATE"), ResourcePermissionPair.of("MEMBER", "DELETE"),
             // Views
-            ResourcePermissionPair.of("MEMBER", "VIEW"));
+            ResourcePermissionPair.of("MEMBER", "VIEW"), ResourcePermissionPair.of("MEMBER_ADMIN", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER");
+        return List.of("MEMBER", "MEMBER_ADMIN");
     }
 
 }
