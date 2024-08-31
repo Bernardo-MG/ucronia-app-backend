@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,10 +14,9 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,9 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultPublicMemberService implements PublicMemberService {
 
-    private final MemberRepository memberRepository;
+    private final PublicMemberRepository memberRepository;
 
-    public DefaultPublicMemberService(final MemberRepository memberRepo) {
+    public DefaultPublicMemberService(final PublicMemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
@@ -43,34 +40,22 @@ public final class DefaultPublicMemberService implements PublicMemberService {
 
     @Override
     public final Iterable<PublicMember> getAll(final MemberQuery query, final Pageable pageable) {
-        final Pageable               pagination;
-        final Iterable<Member>       members;
-        final Iterable<PublicMember> result;
+        final Pageable pagination;
 
         log.debug("Reading members with pagination {}", pageable);
 
         pagination = correctPagination(pageable);
 
-        members = switch (query.getStatus()) {
+        return switch (query.getStatus()) {
             case ACTIVE -> memberRepository.findActive(pagination);
             case INACTIVE -> memberRepository.findInactive(pagination);
             default -> memberRepository.findAll(pagination);
         };
-
-        if (members instanceof Page) {
-            result = ((Page<Member>) members).map(this::toReduced);
-        } else {
-            result = StreamSupport.stream(members.spliterator(), false)
-                .map(this::toReduced)
-                .toList();
-        }
-
-        return result;
     }
 
     @Override
     public final Optional<PublicMember> getOne(final long number) {
-        final Optional<Member> member;
+        final Optional<PublicMember> member;
 
         log.debug("Reading member {}", number);
 
@@ -79,7 +64,7 @@ public final class DefaultPublicMemberService implements PublicMemberService {
             throw new MissingMemberException(number);
         }
 
-        return member.map(this::toReduced);
+        return member;
     }
 
     private final Pageable correctPagination(final Pageable pageable) {
@@ -141,14 +126,6 @@ public final class DefaultPublicMemberService implements PublicMemberService {
         orders.addAll(validOrders);
 
         return Sort.by(orders);
-    }
-
-    private final PublicMember toReduced(final Member member) {
-        return PublicMember.builder()
-            .withNumber(member.getNumber())
-            .withName(member.getName())
-            .withActive(member.isActive())
-            .build();
     }
 
 }

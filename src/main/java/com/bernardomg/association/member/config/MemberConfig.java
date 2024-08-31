@@ -28,9 +28,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberBalanceRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MonthlyMemberBalanceSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.security.register.MemberPermissionRegister;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
@@ -38,6 +42,7 @@ import com.bernardomg.association.member.usecase.service.DefaultPublicMemberServ
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
 /**
  * Member configuration.
@@ -68,13 +73,24 @@ public class MemberConfig {
         return new MemberPermissionRegister();
     }
 
+    @Bean("memberRepository")
+    public MemberRepository getMemberRepository(final MemberSpringRepository memberSpringRepo,
+            final PersonSpringRepository personSpringRepository) {
+        return new JpaMemberRepository(memberSpringRepo, personSpringRepository);
+    }
+
     @Bean("memberService")
     public MemberService getMemberService(final MemberRepository memberRepository) {
         return new DefaultMemberService(memberRepository);
     }
 
+    @Bean("publicMemberRepository")
+    public PublicMemberRepository getPublicMemberRepository(final MemberSpringRepository memberSpringRepo) {
+        return new JpaPublicMemberRepository(memberSpringRepo);
+    }
+
     @Bean("publicMemberService")
-    public PublicMemberService getPublicMemberService(final MemberRepository memberRepository) {
+    public PublicMemberService getPublicMemberService(final PublicMemberRepository memberRepository) {
         return new DefaultPublicMemberService(memberRepository);
     }
 

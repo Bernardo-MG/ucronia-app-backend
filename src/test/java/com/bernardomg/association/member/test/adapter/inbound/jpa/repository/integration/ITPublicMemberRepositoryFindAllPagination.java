@@ -31,35 +31,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
-import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.config.factory.PublicMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - pagination")
+@DisplayName("PublicMemberRepository - find all - pagination")
 @MultipleMembers
-class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
+class ITPublicMemberRepositoryFindAllPagination extends AbstractPaginationIT<PublicMember> {
 
     @Autowired
-    private MemberRepository repository;
+    private PublicMemberRepository repository;
 
-    public ITMemberRepositoryFindAllPagination() {
+    public ITPublicMemberRepositoryFindAllPagination() {
         super(5);
     }
 
     @Override
-    protected final Iterable<Member> read(final Pageable pageable) {
+    protected final Iterable<PublicMember> read(final Pageable pageable) {
         return repository.findAll(pageable);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Iterable<Member> members;
-        final Pageable         pageable;
+        final Iterable<PublicMember> members;
+        final Pageable               pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 1);
@@ -69,14 +69,14 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(1, false));
+            .containsExactly(PublicMembers.forNumber(1, false));
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Iterable<Member> members;
-        final Pageable         pageable;
+        final Iterable<PublicMember> members;
+        final Pageable               pageable;
 
         // GIVEN
         pageable = PageRequest.of(1, 1);
@@ -86,7 +86,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(2, false));
+            .containsExactly(PublicMembers.forNumber(2, false));
     }
 
 }

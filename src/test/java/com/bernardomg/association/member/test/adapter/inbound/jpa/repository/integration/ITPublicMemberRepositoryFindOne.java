@@ -22,53 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.unit;
-
-import static org.mockito.BDDMockito.given;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.config.factory.PublicMembers;
-import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("Public member service - get one")
-class TestPublicMemberServiceGetOne {
+@IntegrationTest
+@DisplayName("PublicMemberRepository - find one")
+class ITPublicMemberRepositoryFindOne {
 
-    @Mock
-    private MemberRepository           memberRepository;
-
-    @InjectMocks
-    private DefaultPublicMemberService service;
-
-    public TestPublicMemberServiceGetOne() {
-        super();
-    }
+    @Autowired
+    private PublicMemberRepository memberRepository;
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testGetOne() {
+    @DisplayName("With an active member, it is returned")
+    @ActiveMember
+    void testFindOne_Active() {
         final Optional<PublicMember> memberOptional;
 
-        // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-
         // WHEN
-        memberOptional = service.getOne(PersonConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -76,19 +61,30 @@ class TestPublicMemberServiceGetOne {
     }
 
     @Test
-    @DisplayName("When the member doesn't exist an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+    @DisplayName("With an inactive member, it is returned")
+    @InactiveMember
+    void testFindOne_Inactive() {
+        final Optional<PublicMember> memberOptional;
 
         // WHEN
-        execution = () -> service.getOne(PersonConstants.NUMBER);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+        Assertions.assertThat(memberOptional)
+            .contains(PublicMembers.inactive());
+    }
+
+    @Test
+    @DisplayName("With no member, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<PublicMember> memberOptional;
+
+        // WHEN
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .isEmpty();
     }
 
 }
