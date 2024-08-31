@@ -86,7 +86,7 @@ public final class DefaultMemberService implements MemberService {
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
         final Pageable pagination;
 
-        log.debug("Reading members with sample {} and pagination {}", query, pageable);
+        log.debug("Reading members with query {} and pagination {}", query, pageable);
 
         pagination = correctPagination(pageable);
 

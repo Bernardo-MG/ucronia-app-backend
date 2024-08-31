@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.PublicMember;
 
 /**
@@ -18,11 +19,13 @@ public interface PublicMemberService {
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
      *
+     * @param query
+     *            query for filtering
      * @param pageable
      *            pagination to apply
      * @return all the members matching the sample
      */
-    public Iterable<PublicMember> getAll(final Pageable pageable);
+    public Iterable<PublicMember> getAll(final MemberQuery query, final Pageable pageable);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

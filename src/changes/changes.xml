@@ -231,5 +231,13 @@
             Endpoint to read users with minimal data.
          </action>
       </release>
+      <release version="0.5.15" date="2024-08-31" description="Member and user fixes">
+         <action dev="bmg" type="update">
+            Filter public members by status.
+         </action>
+         <action dev="bmg" type="update">
+            Updated security dependency.
+         </action>
+      </release>
    </body>
 </document>
