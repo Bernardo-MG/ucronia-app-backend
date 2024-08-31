@@ -42,7 +42,7 @@ public final class DefaultPublicMemberService implements PublicMemberService {
     public final Iterable<PublicMember> getAll(final MemberQuery query, final Pageable pageable) {
         final Pageable pagination;
 
-        log.debug("Reading members with pagination {}", pageable);
+        log.debug("Reading public members with pagination {}", pageable);
 
         pagination = correctPagination(pageable);
 
@@ -57,7 +57,7 @@ public final class DefaultPublicMemberService implements PublicMemberService {
     public final Optional<PublicMember> getOne(final long number) {
         final Optional<PublicMember> member;
 
-        log.debug("Reading member {}", number);
+        log.debug("Reading public member {}", number);
 
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {

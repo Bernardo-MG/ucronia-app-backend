@@ -59,6 +59,8 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
         final YearMonth now;
         final YearMonth end;
 
+        log.debug("Reading monthly balance with query {} and sort {}", balance, sort);
+
         // Up to this month
         now = YearMonth.now();
         if ((balance.getEndDate() == null) || (balance.getEndDate()

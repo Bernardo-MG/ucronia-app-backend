@@ -31,12 +31,12 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     public final Iterable<PublicMember> findActive(final Pageable pageable) {
         final Page<PublicMember> members;
 
-        log.debug("Finding active users");
+        log.trace("Finding active public members");
 
         members = memberSpringRepository.findAllActivePublic(pageable)
             .map(this::toDomain);
 
-        log.debug("Found active users {}", members);
+        log.trace("Found active public members {}", members);
 
         return members;
     }
@@ -45,12 +45,12 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     public final Iterable<PublicMember> findAll(final Pageable pageable) {
         final Page<PublicMember> members;
 
-        log.debug("Finding all the members");
+        log.trace("Finding all the public members");
 
         members = memberSpringRepository.findAllPublic(pageable)
             .map(this::toDomain);
 
-        log.debug("Found all the members: {}", members);
+        log.trace("Found all the public members: {}", members);
 
         return members;
     }
@@ -59,12 +59,12 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     public final Iterable<PublicMember> findInactive(final Pageable pageable) {
         final Page<PublicMember> members;
 
-        log.debug("Finding inactive users");
+        log.trace("Finding inactive public members");
 
         members = memberSpringRepository.findAllInactivePublic(pageable)
             .map(this::toDomain);
 
-        log.debug("Found active users {}", members);
+        log.trace("Found active public members {}", members);
 
         return members;
     }
@@ -73,12 +73,12 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     public final Optional<PublicMember> findOne(final Long number) {
         final Optional<PublicMember> member;
 
-        log.debug("Finding member with number {}", number);
+        log.trace("Finding public member with number {}", number);
 
         member = memberSpringRepository.findByNumberPublic(number)
             .map(this::toDomain);
 
-        log.debug("Found member with number {}: {}", number, member);
+        log.trace("Found public member with number {}: {}", number, member);
 
         return member;
     }
