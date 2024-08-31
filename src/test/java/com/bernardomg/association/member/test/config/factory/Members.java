@@ -55,7 +55,7 @@ public final class Members {
             .build();
     }
 
-    public static final Member forIndex(final long index) {
+    public static final Member forNumber(final long index) {
         final PersonName name;
 
         name = PersonName.builder()
@@ -71,18 +71,18 @@ public final class Members {
             .build();
     }
 
-    public static final Member forIndex(final long index, final boolean active) {
+    public static final Member forNumber(final long number, final boolean active) {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName("Person " + index)
-            .withLastName("Last name " + index)
+            .withFirstName("Person " + number)
+            .withLastName("Last name " + number)
             .build();
         return Member.builder()
-            .withNumber(index * 10)
+            .withNumber(number * 10)
             .withName(name)
-            .withPhone(String.valueOf(12344 + index))
-            .withIdentifier(String.valueOf(6788 + index))
+            .withPhone(String.valueOf(12344 + number))
+            .withIdentifier(String.valueOf(6788 + number))
             .withActive(active)
             .build();
     }

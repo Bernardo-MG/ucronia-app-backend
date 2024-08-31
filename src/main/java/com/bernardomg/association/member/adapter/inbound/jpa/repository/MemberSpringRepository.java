@@ -35,6 +35,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MinimalMember;
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
@@ -70,6 +71,16 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Collection<Long> findAllActivePersonIds();
 
     @Query("""
+            SELECT m.active AS active,
+              m.person.firstName AS firstName,
+              m.person.lastName AS lastName,
+              m.person.number AS number
+            FROM Member m
+            WHERE m.active = true
+            """)
+    public Page<MinimalMember> findAllActivePublic(final Pageable pageable);
+
+    @Query("""
             SELECT m
             FROM Member m
               JOIN m.person p
@@ -93,12 +104,42 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Collection<Long> findAllInactivePersonIds();
 
     @Query("""
+            SELECT m.active AS active,
+              m.person.firstName AS firstName,
+              m.person.lastName AS lastName,
+              m.person.number AS number
+            FROM Member m
+            WHERE m.active = false
+            """)
+    public Page<MinimalMember> findAllInactivePublic(final Pageable pageable);
+
+    @Query("""
+            SELECT m.active AS active,
+              m.person.firstName AS firstName,
+              m.person.lastName AS lastName,
+              m.person.number AS number
+            FROM Member m
+            """)
+    public Page<MinimalMember> findAllPublic(final Pageable pageable);
+
+    @Query("""
             SELECT m
             FROM Member m
               JOIN m.person p
             WHERE p.number = :number
             """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+
+    @Query("""
+            SELECT m.active AS active,
+              m.person.firstName AS firstName,
+              m.person.lastName AS lastName,
+              m.person.number AS number
+            FROM Member m
+              JOIN m.person p
+            WHERE p.number = :number
+            """)
+    public Optional<MinimalMember> findByNumberPublic(@Param("number") final Long number);
 
     @Query("""
             SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS active

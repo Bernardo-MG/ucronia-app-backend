@@ -38,11 +38,17 @@ public final class JpaMemberRepository implements MemberRepository {
         final Optional<MemberEntity> read;
         final MemberEntity           member;
 
+        log.trace("Activating member {}", number);
+
+        // TODO: throw an exception if it doesn't exist
+
         read = memberSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             member = read.get();
             member.setActive(true);
             memberSpringRepository.save(member);
+
+            log.trace("Activated member {}", number);
         }
     }
 
@@ -51,32 +57,38 @@ public final class JpaMemberRepository implements MemberRepository {
         final Optional<MemberEntity> read;
         final MemberEntity           member;
 
+        log.trace("Deactivating member {}", number);
+
+        // TODO: throw an exception if it doesn't exist
+
         read = memberSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             member = read.get();
             member.setActive(false);
             memberSpringRepository.save(member);
+
+            log.trace("Deactivated member {}", number);
         }
     }
 
     @Override
     public final void delete(final long number) {
-        log.debug("Deleting fee {}", number);
+        log.trace("Deleting member {}", number);
 
         memberSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted fee {}", number);
+        log.trace("Deleted member {}", number);
     }
 
     @Override
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if fee {} exists", number);
+        log.trace("Checking if member {} exists", number);
 
         exists = memberSpringRepository.existsByNumber(number);
 
-        log.debug("Fee {} exists: {}", number, exists);
+        log.trace("Member {} exists: {}", number, exists);
 
         return exists;
     }
@@ -85,12 +97,12 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findActive(final Pageable pageable) {
         final Page<Member> members;
 
-        log.debug("Finding active users");
+        log.trace("Finding active members");
 
         members = memberSpringRepository.findAllActive(pageable)
             .map(this::toDomain);
 
-        log.debug("Found active users {}", members);
+        log.trace("Found active members: {}", members);
 
         return members;
     }
@@ -99,12 +111,12 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findAll(final Pageable pageable) {
         final Page<Member> members;
 
-        log.debug("Finding all the members");
+        log.trace("Finding all the members");
 
         members = memberSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
-        log.debug("Found all the members: {}", members);
+        log.trace("Found all the members: {}", members);
 
         return members;
     }
@@ -113,12 +125,12 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findInactive(final Pageable pageable) {
         final Page<Member> members;
 
-        log.debug("Finding inactive users");
+        log.trace("Finding inactive members");
 
         members = memberSpringRepository.findAllInactive(pageable)
             .map(this::toDomain);
 
-        log.debug("Found active users {}", members);
+        log.trace("Found active members: {}", members);
 
         return members;
     }
@@ -127,11 +139,11 @@ public final class JpaMemberRepository implements MemberRepository {
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next number for the members");
+        log.trace("Finding next number for the members");
 
         number = personSpringRepository.findNextNumber();
 
-        log.debug("Found next number for the members: {}", number);
+        log.trace("Found next number for the members: {}", number);
 
         return number;
     }
@@ -140,12 +152,12 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Optional<Member> findOne(final Long number) {
         final Optional<Member> member;
 
-        log.debug("Finding member with number {}", number);
+        log.trace("Finding member with number {}", number);
 
         member = memberSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
-        log.debug("Found member with number {}: {}", number, member);
+        log.trace("Found member with number {}: {}", number, member);
 
         return member;
     }
@@ -154,11 +166,11 @@ public final class JpaMemberRepository implements MemberRepository {
     public final boolean isActive(final long number) {
         final boolean active;
 
-        log.debug("Checking if member {} is active", number);
+        log.trace("Checking if member {} is active", number);
 
         active = memberSpringRepository.isActive(number);
 
-        log.debug("Member {} is active: {}", number, active);
+        log.trace("Member {} is active: {}", number, active);
 
         return active;
     }
@@ -171,7 +183,7 @@ public final class JpaMemberRepository implements MemberRepository {
         final MemberEntity           created;
         final Member                 saved;
 
-        log.debug("Saving member {}", member);
+        log.trace("Saving member {}", member);
 
         entity = toEntity(member);
 
@@ -196,7 +208,7 @@ public final class JpaMemberRepository implements MemberRepository {
             .map(this::toDomain)
             .get();
 
-        log.debug("Saved member {}", saved);
+        log.trace("Saved member {}", saved);
 
         return saved;
     }
