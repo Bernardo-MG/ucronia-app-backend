@@ -226,7 +226,10 @@
             Updated security dependency.
          </action>
       </release>
-      <release version="1.0.0" date="2024-08-28" description="">
+      <release version="0.5.14" date="2024-08-31" description="Read users with minimal data">
+         <action dev="bmg" type="add">
+            Endpoint to read users with minimal data.
+         </action>
       </release>
    </body>
 </document>
