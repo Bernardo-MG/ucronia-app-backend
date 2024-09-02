@@ -27,12 +27,14 @@ package com.bernardomg.association.transaction.test.adapter.inbound.jpa.reposito
 import java.time.Month;
 import java.time.YearMonth;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.config.data.annotation.OutOfOrderMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
@@ -48,7 +50,7 @@ class ITTransactionRepositoryFindInMonth {
     @Test
     @DisplayName("Only the data for the month is returned")
     @FullTransactionYear
-    void testGetForMonth_FullYear() {
+    void testFindForMonth_FullYear() {
         final YearMonth                month;
         final TransactionCalendarMonth calendar;
 
@@ -72,7 +74,7 @@ class ITTransactionRepositoryFindInMonth {
     @Test
     @DisplayName("Reading for a not existing month returns nothing")
     @FullTransactionYear
-    void testGetForMonth_FullYear_NotExisting() {
+    void testFindForMonth_FullYear_NotExisting() {
         final YearMonth                month;
         final TransactionCalendarMonth calendar;
 
@@ -95,7 +97,7 @@ class ITTransactionRepositoryFindInMonth {
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
-    void testGetForMonth_NoData() {
+    void testFindForMonth_NoData() {
         final YearMonth                month;
         final TransactionCalendarMonth calendar;
 
@@ -114,6 +116,27 @@ class ITTransactionRepositoryFindInMonth {
                 .as("transactions")
                 .isEmpty();
         });
+    }
+
+    @Test
+    @DisplayName("When the transactions are out of order they are sorted")
+    @OutOfOrderMonth
+    void testFindForMonth_Sorts() {
+        final YearMonth                month;
+        final TransactionCalendarMonth calendar;
+
+        // GIVEN
+        month = YearMonth.of(2020, Month.FEBRUARY);
+
+        // WHEN
+        calendar = repository.findInMonth(month);
+
+        // THEN
+        Assertions.assertThat(calendar.getTransactions())
+            .as("transactions")
+            .containsExactly(Transactions.forIndexAndDay(1, Month.FEBRUARY),
+                Transactions.forIndexAndDay(2, Month.FEBRUARY), Transactions.forIndexAndDay(3, Month.FEBRUARY),
+                Transactions.forIndexAndDay(4, Month.FEBRUARY));
     }
 
 }

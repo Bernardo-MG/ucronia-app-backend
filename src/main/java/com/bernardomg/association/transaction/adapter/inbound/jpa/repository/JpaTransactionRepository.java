@@ -119,8 +119,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Finding all the transactions for the month {}", date);
 
-        // TODO: test that the data is sorted
-        sort = Sort.by("date", "amount", "description");
+        sort = Sort.by("date", "description", "amount");
 
         spec = TransactionSpecifications.on(date);
         read = transactionRepository.findAll(spec, sort);
