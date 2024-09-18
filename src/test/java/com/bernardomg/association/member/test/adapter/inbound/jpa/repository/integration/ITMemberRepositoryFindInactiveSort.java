@@ -40,13 +40,13 @@ import com.bernardomg.association.member.test.config.data.annotation.MultipleIna
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - sort")
-class ITMemberRepositoryFindAllSort {
+@DisplayName("MemberRepository - find inactive")
+class ITMemberRepositoryFindInactiveSort {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITMemberRepositoryFindAllSort() {
+    public ITMemberRepositoryFindInactiveSort() {
         super();
     }
 
@@ -54,7 +54,7 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("When there are accents in the name, returns the ordered data")
     @AccentMembers
     @MultipleFees
-    void testFindAll_Accent_FirstName_Asc() {
+    void testFindInactive_Accent_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -63,7 +63,7 @@ class ITMemberRepositoryFindAllSort {
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -76,7 +76,7 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With ascending order by first name it returns the ordered data")
     @MultipleInactiveMembers
     @MultipleFees
-    void testFindAll_FirstName_Asc() {
+    void testFindInactive_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -85,7 +85,7 @@ class ITMemberRepositoryFindAllSort {
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -98,7 +98,7 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With descending order by first name it returns the ordered data")
     @MultipleInactiveMembers
     @MultipleFees
-    void testFindAll_FirstName_Desc() {
+    void testFindInactive_FirstName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -106,7 +106,7 @@ class ITMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.DESC, "person.firstName");
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -119,7 +119,7 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With ascending order by last name it returns the ordered data")
     @MultipleInactiveMembers
     @MultipleFees
-    void testFindAll_LastName_Asc() {
+    void testFindInactive_LastName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -127,7 +127,7 @@ class ITMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.ASC, "person.lastName");
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -140,7 +140,7 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With descending order by last name it returns the ordered data")
     @MultipleInactiveMembers
     @MultipleFees
-    void testFindAll_LastName_Desc() {
+    void testFindInactive_LastName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -148,7 +148,7 @@ class ITMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.DESC, "person.lastName");
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)

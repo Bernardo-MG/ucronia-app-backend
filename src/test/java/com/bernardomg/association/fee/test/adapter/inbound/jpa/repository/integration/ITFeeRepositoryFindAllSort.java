@@ -45,12 +45,12 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
+import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - sort")
-@MultipleMembers
+@MultipleInactiveMembers
 @MultipleFees
 class ITFeeRepositoryFindAllSort {
 
