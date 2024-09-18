@@ -248,13 +248,6 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
          <version>${bernardomg.framework.validation.version}</version>
-         <exclusions>
-            <exclusion>
-               <!-- SL4J API -->
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
          <!-- Spring WS Starter -->
