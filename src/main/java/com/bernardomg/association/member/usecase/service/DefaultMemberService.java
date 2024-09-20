@@ -63,6 +63,7 @@ public final class DefaultMemberService implements MemberService {
             .withName(member.getName())
             .withPhone(member.getPhone())
             .withNumber(number)
+            .withActive(false)
             .build();
 
         createMemberValidator.validate(toCreate);
