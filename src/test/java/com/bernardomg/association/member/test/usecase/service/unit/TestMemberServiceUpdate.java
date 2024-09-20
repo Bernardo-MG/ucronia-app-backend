@@ -27,8 +27,6 @@ package com.bernardomg.association.member.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -67,7 +65,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.inactive();
 
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -85,7 +83,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.inactive();
 
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.inactive())).willReturn(Members.inactive());
 
         // WHEN
@@ -106,7 +104,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(member);
@@ -124,7 +122,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.paddedWithWhitespaces();
 
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -141,7 +139,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -159,7 +157,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
