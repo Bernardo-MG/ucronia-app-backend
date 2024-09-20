@@ -166,27 +166,28 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
             final LocalDate transactionDate) {
-        final Collection<Fee>  newFees;
-        final Collection<Fee>  fees;
-        final Optional<Person> person;
-        final Collection<Fee>  created;
+        final Collection<Fee> newFees;
+        final Collection<Fee> fees;
+        final Person          person;
+        final Collection<Fee> created;
 
         log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeDates, transactionDate);
 
-        person = personRepository.findOne(personNumber);
-        if (person.isEmpty()) {
-            throw new MissingPersonException(personNumber);
-        }
+        person = personRepository.findOne(personNumber)
+            .orElseThrow(() -> {
+                log.error("Missing person {}", personNumber);
+                throw new MissingPersonException(personNumber);
+            });
 
         newFees = feeDates.stream()
-            .map(d -> toFee(person.get(), transactionDate, d))
+            .map(d -> toFee(person, transactionDate, d))
             .toList();
 
         validatorPay.validate(newFees);
 
         fees = feeRepository.save(newFees);
 
-        pay(person.get(), fees, transactionDate);
+        pay(person, fees, transactionDate);
 
         // TODO: Why can't just return the created fees?
         created = feeRepository.findAllForMemberInDates(personNumber, feeDates);

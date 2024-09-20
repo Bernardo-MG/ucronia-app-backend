@@ -11,6 +11,9 @@ import com.bernardomg.configuration.domain.exception.MissingConfigurationExcepti
 import com.bernardomg.configuration.domain.model.Configuration;
 import com.bernardomg.configuration.domain.repository.ConfigurationRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class DefaultConfigurationService implements ConfigurationService {
 
@@ -33,6 +36,7 @@ public final class DefaultConfigurationService implements ConfigurationService {
 
         configuration = configurationRepository.findOne(code);
         if (configuration.isEmpty()) {
+            log.error("Missing configuration {}", code);
             throw new MissingConfigurationException(code);
         }
 
@@ -41,18 +45,18 @@ public final class DefaultConfigurationService implements ConfigurationService {
 
     @Override
     public final Configuration update(final String code, final String value) {
-        final Configuration           toSave;
-        final Optional<Configuration> existing;
+        final Configuration toSave;
+        final Configuration existing;
 
-        existing = configurationRepository.findOne(code);
-        if (existing.isEmpty()) {
-            throw new MissingConfigurationException(code);
-        }
+        existing = configurationRepository.findOne(code)
+            .orElseThrow(() -> {
+                log.error("Missing configuration {}", code);
+                throw new MissingConfigurationException(code);
+            });
 
         toSave = Configuration.builder()
             .withCode(code)
-            .withType(existing.get()
-                .getType())
+            .withType(existing.getType())
             .withValue(value)
             .build();
 

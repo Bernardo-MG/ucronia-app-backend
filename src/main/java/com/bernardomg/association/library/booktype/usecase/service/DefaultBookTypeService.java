@@ -73,6 +73,7 @@ public final class DefaultBookTypeService implements BookTypeService {
 
         bookType = bookTypeRepository.findOne(name);
         if (bookType.isEmpty()) {
+            log.error("Missing book type {}", name);
             throw new MissingBookTypeException(name);
         }
 

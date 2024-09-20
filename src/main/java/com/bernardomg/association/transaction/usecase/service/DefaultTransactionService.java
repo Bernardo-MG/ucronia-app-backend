@@ -85,7 +85,7 @@ public final class DefaultTransactionService implements TransactionService {
 
         transaction = transactionRepository.findOne(index);
         if (transaction.isEmpty()) {
-            // TODO: change exception name
+            log.error("Missing transaction {}", index);
             throw new MissingTransactionException(index);
         }
 

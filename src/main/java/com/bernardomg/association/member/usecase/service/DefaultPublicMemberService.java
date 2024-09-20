@@ -61,6 +61,7 @@ public final class DefaultPublicMemberService implements PublicMemberService {
 
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {
+            log.error("Missing member {}", number);
             throw new MissingMemberException(number);
         }
 

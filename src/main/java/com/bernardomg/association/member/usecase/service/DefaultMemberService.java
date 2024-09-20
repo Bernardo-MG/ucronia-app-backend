@@ -105,6 +105,7 @@ public final class DefaultMemberService implements MemberService {
 
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {
+            log.error("Missing member {}", number);
             throw new MissingMemberException(number);
         }
 
@@ -113,16 +114,15 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final Member member) {
-        final Optional<Member> existing;
-        final Member           toUpdate;
+        final Member toUpdate;
 
         log.debug("Updating member {} using data {}", member.getNumber(), member);
 
         // TODO: Identificator and phone must be unique or empty
         // TODO: Apply the creation validations
 
-        existing = memberRepository.findOne(member.getNumber());
-        if (existing.isEmpty()) {
+        if (!memberRepository.exists(member.getNumber())) {
+            log.error("Missing member {}", member.getNumber());
             throw new MissingMemberException(member.getNumber());
         }
 
