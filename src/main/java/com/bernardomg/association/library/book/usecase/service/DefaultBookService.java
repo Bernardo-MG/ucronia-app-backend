@@ -145,6 +145,7 @@ public final class DefaultBookService implements BookService {
 
         book = bookRepository.findOne(number);
         if (book.isEmpty()) {
+            log.error("Missing book {}", number);
             throw new MissingBookException(number);
         }
 

@@ -142,10 +142,11 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Optional<MinimalMember> findByNumberPublic(@Param("number") final Long number);
 
     @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS active
+            SELECT m.active
             FROM Member m
-            WHERE m.active = true
+              JOIN m.person p
+            WHERE p.number = :number
             """)
-    public boolean isActive(@Param("number") final Long number);
+    public Boolean isActive(@Param("number") final Long number);
 
 }

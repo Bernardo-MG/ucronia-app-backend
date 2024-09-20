@@ -33,6 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -94,6 +95,17 @@ public class MemberController {
         service.delete(number);
     }
 
+    @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, FeeCaches.CALENDAR }, allEntries = true) })
+    public Member patch(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange change) {
+        final Member member;
+
+        member = toDomain(number, change);
+        return service.patch(member);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
@@ -134,7 +146,7 @@ public class MemberController {
             .withIdentifier(change.getIdentifier())
             .withName(name)
             .withPhone(change.getPhone())
-            .withActive(change.isActive())
+            .withActive(change.getActive())
             .build();
     }
 

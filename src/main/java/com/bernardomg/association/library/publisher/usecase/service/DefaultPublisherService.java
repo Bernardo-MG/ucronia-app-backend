@@ -73,6 +73,7 @@ public final class DefaultPublisherService implements PublisherService {
 
         publisher = publisherRepository.findOne(name);
         if (publisher.isEmpty()) {
+            log.error("Missing publisher {}", name);
             throw new MissingPublisherException(name);
         }
 

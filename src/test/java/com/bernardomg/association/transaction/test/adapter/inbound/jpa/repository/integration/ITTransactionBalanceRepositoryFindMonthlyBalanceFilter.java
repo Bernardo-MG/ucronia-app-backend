@@ -51,7 +51,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering ending before the year returns no month")
     @FullTransactionYear
-    void testGetMonthlyBalance_EndBeforeStart() {
+    void testFindMonthlyBalance_EndBeforeStart() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -73,7 +73,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering ending on December returns all the months")
     @FullTransactionYear
-    void testGetMonthlyBalance_EndDecember() {
+    void testFindMonthlyBalance_EndDecember() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -106,7 +106,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering the full year returns all the months")
     @FullTransactionYear
-    void testGetMonthlyBalance_FullYear() {
+    void testFindMonthlyBalance_FullYear() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -139,7 +139,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering by January returns only that month")
     @FullTransactionYear
-    void testGetMonthlyBalance_January() {
+    void testFindMonthlyBalance_January() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -161,7 +161,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering by January and February returns only those months")
     @FullTransactionYear
-    void testGetMonthlyBalance_JanuaryToFebruary() {
+    void testFindMonthlyBalance_JanuaryToFebruary() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -184,7 +184,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
     @FullTransactionYear
-    void testGetMonthlyBalance_RangeEndBeforeStart() {
+    void testFindMonthlyBalance_RangeEndBeforeStart() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -206,7 +206,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering beginning after the year returns no month")
     @FullTransactionYear
-    void testGetMonthlyBalance_StartAfterEnd() {
+    void testFindMonthlyBalance_StartAfterEnd() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;
@@ -228,7 +228,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @Test
     @DisplayName("Filtering beginning on January returns all the months")
     @FullTransactionYear
-    void testGetMonthlyBalance_StartInJanuary() {
+    void testFindMonthlyBalance_StartInJanuary() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
         final Sort                                  sort;

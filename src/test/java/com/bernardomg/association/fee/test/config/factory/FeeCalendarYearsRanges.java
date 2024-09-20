@@ -9,7 +9,7 @@ public final class FeeCalendarYearsRanges {
 
     public static final FeeCalendarYearsRange current() {
         return FeeCalendarYearsRange.builder()
-            .withYears(List.of(FeeConstants.YEAR))
+            .withYears(List.of(FeeConstants.YEAR_VALUE))
             .build();
     }
 

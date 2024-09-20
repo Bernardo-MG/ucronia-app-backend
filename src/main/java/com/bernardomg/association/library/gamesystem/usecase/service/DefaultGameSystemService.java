@@ -73,6 +73,7 @@ public final class DefaultGameSystemService implements GameSystemService {
 
         gameSystem = gameSystemRepository.findOne(name);
         if (gameSystem.isEmpty()) {
+            log.error("Missing game system {}", name);
             throw new MissingGameSystemException(name);
         }
 

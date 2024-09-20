@@ -46,21 +46,23 @@ public final class DefaultUserPersonService implements UserPersonService {
 
     @Override
     public final Person assignPerson(final String username, final long personNumber) {
-        final Optional<User>   readUser;
-        final Optional<Person> readPerson;
-        final UserPerson       userPerson;
+        final User       readUser;
+        final Person     readPerson;
+        final UserPerson userPerson;
 
         log.debug("Assigning person {} to {}", personNumber, username);
 
-        readUser = userRepository.findOne(username);
-        if (readUser.isEmpty()) {
-            throw new MissingUserException(username);
-        }
+        readUser = userRepository.findOne(username)
+            .orElseThrow(() -> {
+                log.error("Missing user {}", username);
+                throw new MissingUserException(username);
+            });
 
-        readPerson = personRepository.findOne(personNumber);
-        if (readPerson.isEmpty()) {
-            throw new MissingPersonException(personNumber);
-        }
+        readPerson = personRepository.findOne(personNumber)
+            .orElseThrow(() -> {
+                log.error("Missing person {}", personNumber);
+                throw new MissingPersonException(personNumber);
+            });
 
         userPerson = UserPerson.builder()
             .withUsername(username)
@@ -68,12 +70,9 @@ public final class DefaultUserPersonService implements UserPersonService {
             .build();
         assignPersonValidator.validate(userPerson);
 
-        userPersonRepository.save(readUser.get()
-            .getUsername(),
-            readPerson.get()
-                .getNumber());
+        userPersonRepository.save(readUser.getUsername(), readPerson.getNumber());
 
-        return readPerson.get();
+        return readPerson;
     }
 
     @Override
@@ -84,12 +83,10 @@ public final class DefaultUserPersonService implements UserPersonService {
 
     @Override
     public final Optional<Person> getPerson(final String username) {
-        final Optional<User> readUser;
-
         log.debug("Reading person for {}", username);
 
-        readUser = userRepository.findOne(username);
-        if (readUser.isEmpty()) {
+        if (!userRepository.exists(username)) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 

@@ -87,24 +87,22 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     @Override
     public final void returnBook(final long book, final long personNumber, final LocalDate date) {
-        final Optional<BookLending> read;
-        final BookLending           lending;
+        final BookLending read;
+        final BookLending lending;
 
         log.debug("Returning book {} from {}", book, personNumber);
 
-        read = bookLendingRepository.findOne(book, personNumber);
-        if (read.isEmpty()) {
-            throw new MissingBookLendingException(book + "-" + personNumber);
-        }
+        read = bookLendingRepository.findOne(book, personNumber)
+            .orElseThrow(() -> {
+                log.error("Missing book {}", book + "-" + personNumber);
+                throw new MissingBookLendingException(book + "-" + personNumber);
+            });
 
         // Used just for validation
         lending = BookLending.builder()
-            .withNumber(read.get()
-                .getNumber())
-            .withPerson(read.get()
-                .getPerson())
-            .withLendingDate(read.get()
-                .getLendingDate())
+            .withNumber(read.getNumber())
+            .withPerson(read.getPerson())
+            .withLendingDate(read.getLendingDate())
             .withReturnDate(date)
             .build();
 

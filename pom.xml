@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.5.15</version>
+   <version>0.5.16</version>
    <packaging>war</packaging>
 
    <name>Ucronia App Backend</name>
@@ -248,13 +248,6 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
          <version>${bernardomg.framework.validation.version}</version>
-         <exclusions>
-            <exclusion>
-               <!-- SL4J API -->
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
          <!-- Spring WS Starter -->

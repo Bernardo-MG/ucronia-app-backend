@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
+import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.association.member.test.config.data.annotation.NoLastNameMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -85,7 +85,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With multiple fees it returns all the fees")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_Multiple() {
         final Iterable<Fee> fees;

@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
+import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_EndDate() {
         final Iterable<Fee> fees;
@@ -76,7 +76,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_EndDate_NotInRange() {
         final Iterable<Fee> fees;
@@ -98,7 +98,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_InDate() {
         final Iterable<Fee> fees;
@@ -167,7 +167,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_InDate_NotExisting() {
         final Iterable<Fee> fees;
@@ -190,7 +190,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_InRange() {
         final Iterable<Fee> fees;
@@ -214,7 +214,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_StartDate() {
         final Iterable<Fee> fees;
@@ -237,7 +237,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
-    @MultipleMembers
+    @MultipleInactiveMembers
     @MultipleFees
     void testFindAll_StartDate_NotInRange() {
         final Iterable<Fee> fees;

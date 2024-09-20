@@ -27,6 +27,8 @@ package com.bernardomg.association.member.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -44,8 +46,8 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - update")
-class TestMemberServiceUpdate {
+@DisplayName("Member service - patch")
+class TestMemberServicePatch {
 
     @Mock
     private MemberRepository     memberRepository;
@@ -53,22 +55,22 @@ class TestMemberServiceUpdate {
     @InjectMocks
     private DefaultMemberService service;
 
-    public TestMemberServiceUpdate() {
+    public TestMemberServicePatch() {
         super();
     }
 
     @Test
     @DisplayName("When disabling a member, the change is persisted")
-    void testUpdate_Inactive_PersistedData() {
+    void testPatch_Inactive_PersistedData() {
         final Member member;
 
         // GIVEN
         member = Members.inactive();
 
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        service.update(member);
+        service.patch(member);
 
         // THEN
         verify(memberRepository).save(Members.inactive());
@@ -76,18 +78,18 @@ class TestMemberServiceUpdate {
 
     @Test
     @DisplayName("When disabling a member, the change is returned")
-    void testUpdate_Inactive_ReturnedData() {
+    void testPatch_Inactive_ReturnedData() {
         final Member member;
         final Member updated;
 
         // GIVEN
         member = Members.inactive();
 
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.save(Members.inactive())).willReturn(Members.inactive());
 
         // WHEN
-        updated = service.update(member);
+        updated = service.patch(member);
 
         // THEN
         Assertions.assertThat(updated)
@@ -97,17 +99,17 @@ class TestMemberServiceUpdate {
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
-    void testUpdate_NotExisting_Exception() {
+    void testPatch_NotExisting_Exception() {
         final Member           member;
         final ThrowingCallable execution;
 
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(member);
+        execution = () -> service.patch(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -115,17 +117,34 @@ class TestMemberServiceUpdate {
     }
 
     @Test
+    @DisplayName("When patching the name, the change is persisted")
+    void testPatch_OnlyName_PersistedData() {
+        final Member member;
+
+        // GIVEN
+        member = Members.nameChangePatch();
+
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+
+        // WHEN
+        service.patch(member);
+
+        // THEN
+        verify(memberRepository).save(Members.nameChange());
+    }
+
+    @Test
     @DisplayName("With a member having padding whitespaces in first name and last name, these whitespaces are removed")
-    void testUpdate_Padded_PersistedData() {
+    void testPatch_Padded_PersistedData() {
         final Member member;
 
         // GIVEN
         member = Members.paddedWithWhitespaces();
 
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        service.update(member);
+        service.patch(member);
 
         // THEN
         verify(memberRepository).save(Members.active());
@@ -133,16 +152,16 @@ class TestMemberServiceUpdate {
 
     @Test
     @DisplayName("When updating a member, the change is persisted")
-    void testUpdate_PersistedData() {
+    void testPatch_PersistedData() {
         final Member member;
 
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        service.update(member);
+        service.patch(member);
 
         // THEN
         verify(memberRepository).save(Members.nameChange());
@@ -150,18 +169,18 @@ class TestMemberServiceUpdate {
 
     @Test
     @DisplayName("When updating a member, the change is returned")
-    void testUpdate_ReturnedData() {
+    void testPatch_ReturnedData() {
         final Member member;
         final Member updated;
 
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
-        updated = service.update(member);
+        updated = service.patch(member);
 
         // THEN
         Assertions.assertThat(updated)

@@ -93,6 +93,7 @@ public final class DefaultDonorService implements DonorService {
 
         donor = donorRepository.findOne(number);
         if (donor.isEmpty()) {
+            log.error("Missing donor {}", number);
             throw new MissingDonorException(number);
         }
 

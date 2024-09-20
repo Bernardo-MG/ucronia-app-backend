@@ -97,6 +97,7 @@ public final class DefaultPersonService implements PersonService {
 
         person = personRepository.findOne(number);
         if (person.isEmpty()) {
+            log.error("Missing person {}", number);
             throw new MissingPersonException(number);
         }
 
@@ -105,15 +106,13 @@ public final class DefaultPersonService implements PersonService {
 
     @Override
     public final Person update(final Person person) {
-        final Optional<Person> existing;
-
         log.debug("Updating person {} using data {}", person.getNumber(), person);
 
         // TODO: Identificator and phone must be unique or empty
         // TODO: Apply the creation validations
 
-        existing = personRepository.findOne(person.getNumber());
-        if (existing.isEmpty()) {
+        if (!personRepository.exists(person.getNumber())) {
+            log.error("Missing person {}", person.getNumber());
             throw new MissingPersonException(person.getNumber());
         }
 

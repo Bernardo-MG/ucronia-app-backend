@@ -73,6 +73,7 @@ public final class DefaultAuthorService implements AuthorService {
 
         author = authorRepository.findOne(name);
         if (author.isEmpty()) {
+            log.error("Missing author {}", name);
             throw new MissingAuthorException(name);
         }
 

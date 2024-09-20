@@ -48,7 +48,9 @@ public final class FeeConstants {
     public static final YearMonth TWO_YEARS_BACK       = YearMonth.now()
         .minusYears(2);
 
-    public static final int       YEAR                 = 2020;
+    public static final Year      YEAR                 = Year.of(2020);
+
+    public static final int       YEAR_VALUE           = 2020;
 
     private FeeConstants() {
         super();

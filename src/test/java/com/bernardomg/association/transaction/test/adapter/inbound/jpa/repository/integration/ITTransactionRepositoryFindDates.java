@@ -56,7 +56,7 @@ class ITTransactionRepositoryFindDates {
     @Test
     @DisplayName("With two full consecutive years, a range for them is returned")
     @FullConsecutiveTransactionYears
-    void testGetRange_ConsecutiveFullYear() {
+    void testFindDates_ConsecutiveFullYear() {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
@@ -72,7 +72,7 @@ class ITTransactionRepositoryFindDates {
     @Test
     @DisplayName("With a full year, a range for the full year is returned")
     @FullTransactionYear
-    void testGetRange_FullYear() {
+    void testFindDates_FullYear() {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
@@ -88,7 +88,7 @@ class ITTransactionRepositoryFindDates {
     @Test
     @DisplayName("With multiple transactions the same day, a single month is returned")
     @MultipleTransactionsSameDay
-    void testGetRange_MultipleSameDay() {
+    void testFindDates_MultipleSameDay() {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
@@ -104,7 +104,7 @@ class ITTransactionRepositoryFindDates {
     @Test
     @DisplayName("With multiple transactions the same month, a single month is returned")
     @MultipleTransactionsSameMonth
-    void testGetRange_MultipleSameMonth() {
+    void testFindDates_MultipleSameMonth() {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
@@ -119,7 +119,7 @@ class ITTransactionRepositoryFindDates {
 
     @Test
     @DisplayName("With no data, an empty range is returned")
-    void testGetRange_NoData() {
+    void testFindDates_NoData() {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
@@ -134,7 +134,7 @@ class ITTransactionRepositoryFindDates {
     @Test
     @DisplayName("With two full not consecutive years, a range for them is returned")
     @FullNotConsecutiveTransactionYears
-    void testGetRange_NotConsecutiveFullYear() {
+    void testFindDates_NotConsecutiveFullYear() {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
