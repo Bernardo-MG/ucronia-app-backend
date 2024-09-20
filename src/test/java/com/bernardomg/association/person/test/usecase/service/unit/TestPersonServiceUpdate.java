@@ -27,8 +27,6 @@ package com.bernardomg.association.person.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +66,7 @@ class TestPersonServiceUpdate {
         // GIVEN
         person = Persons.nameChange();
 
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(person);
@@ -86,7 +84,7 @@ class TestPersonServiceUpdate {
         // GIVEN
         person = Persons.paddedWithWhitespaces();
 
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(person);
@@ -103,7 +101,7 @@ class TestPersonServiceUpdate {
         // GIVEN
         person = Persons.nameChange();
 
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(person);
@@ -121,7 +119,7 @@ class TestPersonServiceUpdate {
         // GIVEN
         person = Persons.nameChange();
 
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.save(Persons.nameChange())).willReturn(Persons.nameChange());
 
         // WHEN
