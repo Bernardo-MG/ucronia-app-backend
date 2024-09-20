@@ -18,6 +18,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.MemberNameNotEmptyRule;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -62,6 +63,7 @@ public final class DefaultMemberService implements MemberService {
             .withName(member.getName())
             .withPhone(member.getPhone())
             .withNumber(number)
+            .withActive(false)
             .build();
 
         createMemberValidator.validate(toCreate);
@@ -113,6 +115,27 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    public final Member patch(final Member member) {
+        final Member existing;
+        final Member toSave;
+
+        log.debug("Patching member {} using data {}", member.getNumber(), member);
+
+        // TODO: Identificator and phone must be unique or empty
+        // TODO: Apply the creation validations
+
+        existing = memberRepository.findOne(member.getNumber())
+            .orElseThrow(() -> {
+                log.error("Missing member {}", member.getNumber());
+                throw new MissingMemberException(member.getNumber());
+            });
+
+        toSave = copy(existing, member);
+
+        return memberRepository.save(toSave);
+    }
+
+    @Override
     public final Member update(final Member member) {
         final Member toUpdate;
 
@@ -131,10 +154,40 @@ public final class DefaultMemberService implements MemberService {
             .withIdentifier(member.getIdentifier())
             .withName(member.getName())
             .withPhone(member.getPhone())
-            .withActive(member.isActive())
+            .withActive(member.getActive())
             .build();
 
         return memberRepository.save(toUpdate);
+    }
+
+    private final Member copy(final Member existing, final Member updated) {
+        final PersonName name;
+
+        if (updated.getName() == null) {
+            name = existing.getName();
+        } else {
+            name = PersonName.builder()
+                .withFirstName(Optional.ofNullable(updated.getName()
+                    .getFirstName())
+                    .orElse(existing.getName()
+                        .getFirstName()))
+                .withLastName(Optional.ofNullable(updated.getName()
+                    .getLastName())
+                    .orElse(existing.getName()
+                        .getLastName()))
+                .build();
+        }
+        return Member.builder()
+            .withNumber(Optional.ofNullable(updated.getNumber())
+                .orElse(existing.getNumber()))
+            .withIdentifier(Optional.ofNullable(updated.getIdentifier())
+                .orElse(existing.getIdentifier()))
+            .withName(name)
+            .withPhone(Optional.ofNullable(updated.getPhone())
+                .orElse(existing.getPhone()))
+            .withActive(Optional.ofNullable(updated.getActive())
+                .orElse(existing.getActive()))
+            .build();
     }
 
     private final Pageable correctPagination(final Pageable pageable) {

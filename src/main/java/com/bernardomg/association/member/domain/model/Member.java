@@ -10,14 +10,14 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Member {
 
-    private final boolean    active;
+    private final Boolean    active;
 
     private final String     identifier;
 
     private final PersonName name;
 
     @Builder.Default
-    private final long       number = -1L;
+    private final Long       number = -1L;
 
     private final String     phone;
 

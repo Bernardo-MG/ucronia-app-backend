@@ -54,6 +54,15 @@ public interface MemberService {
     public Optional<Member> getOne(final long number);
 
     /**
+     * Patches the member for the received id with the received data.
+     *
+     * @param member
+     *            new data for the member
+     * @return the updated member
+     */
+    public Member patch(final Member member);
+
+    /**
      * Updates the member for the received id with the received data.
      *
      * @param member
