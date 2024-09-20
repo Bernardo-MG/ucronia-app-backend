@@ -164,7 +164,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final boolean isActive(final long number) {
-        final boolean active;
+        final Boolean active;
 
         log.trace("Checking if member {} is active", number);
 
@@ -172,7 +172,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Member {} is active: {}", number, active);
 
-        return active;
+        return Boolean.TRUE.equals(active);
     }
 
     @Override

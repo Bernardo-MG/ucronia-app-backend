@@ -36,16 +36,16 @@ import com.bernardomg.association.person.test.config.factory.PersonConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - activate single")
+@DisplayName("MemberRepository - is active")
 class ITMemberRepositoryIsActive {
 
     @Autowired
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With an existing active member, nothing changes")
+    @DisplayName("When the member is active, is is indicated as so")
     @ActiveMember
-    void testActivate_Active() {
+    void testIsActive_Active() {
         final boolean active;
 
         // WHEN
@@ -58,9 +58,9 @@ class ITMemberRepositoryIsActive {
     }
 
     @Test
-    @DisplayName("With an existing inactive member, it is activated")
+    @DisplayName("When the member is inactive, is is indicated as so")
     @InactiveMember
-    void testActivate_Inactive() {
+    void testIsActive_Inactive() {
         final boolean active;
 
         // WHEN
@@ -73,8 +73,8 @@ class ITMemberRepositoryIsActive {
     }
 
     @Test
-    @DisplayName("With no member, nothing changes")
-    void testActivate_NoData() {
+    @DisplayName("When the member doesn't exist, it is indicated as so")
+    void testIsActive_NoData() {
         final boolean active;
 
         // WHEN
