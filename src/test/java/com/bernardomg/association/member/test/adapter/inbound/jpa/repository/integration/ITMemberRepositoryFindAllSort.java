@@ -35,7 +35,7 @@ import org.springframework.data.domain.Sort.Direction;
 import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.AccentMembers;
+import com.bernardomg.association.member.test.config.data.annotation.AccentInactiveMembers;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -52,7 +52,7 @@ class ITMemberRepositoryFindAllSort {
 
     @Test
     @DisplayName("When there are accents in the name, returns the ordered data")
-    @AccentMembers
+    @AccentInactiveMembers
     @MultipleFees
     void testFindAll_Accent_FirstName_Asc() {
         final Iterable<Member> members;

@@ -100,7 +100,7 @@ public final class Fees {
         transaction = FeeTransaction.builder()
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
             .withPaid(false)
             .withPerson(person)
             .withTransaction(transaction)
@@ -212,7 +212,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
             .withPaid(true)
             .withPerson(person)
             .withTransaction(transaction)
@@ -232,7 +232,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
             .withPaid(true)
             .withPerson(person)
             .withTransaction(transaction)
@@ -252,7 +252,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
             .withPaid(true)
             .withPerson(person)
             .withTransaction(transaction)
@@ -272,7 +272,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
             .withPaid(true)
             .withPerson(person)
             .withTransaction(transaction)
@@ -292,7 +292,7 @@ public final class Fees {
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
             .withPaid(true)
             .withPerson(person)
             .withTransaction(transaction)

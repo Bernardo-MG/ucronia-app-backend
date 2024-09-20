@@ -39,7 +39,9 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.member.test.config.data.annotation.AccentActiveMembers;
 import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
@@ -51,6 +53,29 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Autowired
     private FeeRepository repository;
+
+    @Test
+    @DisplayName("With ascending order by name it returns the ordered data")
+    @AccentActiveMembers
+    @MultipleFees
+    void testFindAllInYear_Accents_Name_Asc() {
+        final Iterable<Fee> fees;
+        final Sort          sort;
+
+        // GIVEN
+        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
+
+        // WHEN
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(fee -> fee.getPerson()
+                .getFullName())
+            .as("fee full names")
+            .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
+                "Person o Last name 4", "Person u Last name 5");
+    }
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")

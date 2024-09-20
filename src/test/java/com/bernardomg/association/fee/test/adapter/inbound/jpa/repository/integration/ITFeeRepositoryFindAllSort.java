@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -43,22 +44,50 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
+import com.bernardomg.association.member.test.config.data.annotation.AccentInactiveMembers;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - sort")
-@MultipleInactiveMembers
-@MultipleFees
 class ITFeeRepositoryFindAllSort {
 
     @Autowired
     private FeeRepository repository;
 
     @Test
+    @DisplayName("With ascending order by name with accents it returns the ordered data")
+    @AccentInactiveMembers
+    @MultipleFees
+    void testFindAll_Accents_Name_Asc() {
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
+
+        // GIVEN
+        pageable = PageRequest.of(0, 10, Direction.ASC, "fullName");
+
+        feeQuery = FeesQuery.empty();
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(fee -> fee.getPerson()
+                .getFullName())
+            .as("fee full names")
+            .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
+                "Person o Last name 4", "Person u Last name 5");
+    }
+
+    @Test
     @DisplayName("With ascending order by date it returns the ordered data")
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_Date_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
@@ -74,13 +103,17 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
-                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
+            .extracting(Fee::getDate)
+            .as("fee dates")
+            .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY),
+                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
+                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_Date_Desc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
@@ -96,13 +129,18 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.notPaidAt(5, Month.JUNE), Fees.paidAt(4, Month.MAY), Fees.paidAt(3, Month.APRIL),
-                Fees.paidAt(2, Month.MARCH), Fees.paidAt(1, Month.FEBRUARY));
+            .extracting(Fee::getDate)
+            .as("fee dates")
+            .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE),
+                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
+                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH),
+                YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY));
     }
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_Name_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
@@ -118,13 +156,17 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
-                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
+            .extracting(fee -> fee.getPerson()
+                .getFullName())
+            .as("fee full names")
+            .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
+                "Person 4 Last name 4", "Person 5 Last name 5");
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_Name_Desc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
@@ -140,14 +182,18 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.notPaidAt(5, Month.JUNE), Fees.paidAt(4, Month.MAY), Fees.paidAt(3, Month.APRIL),
-                Fees.paidAt(2, Month.MARCH), Fees.paidAt(1, Month.FEBRUARY));
+            .extracting(fee -> fee.getPerson()
+                .getFullName())
+            .as("fee full names")
+            .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",
+                "Person 2 Last name 2", "Person 1 Last name 1");
     }
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_NotExisting() {
         final FeeQuery         feeQuery;
         final Pageable         pageable;
@@ -169,6 +215,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_Paid_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
@@ -191,6 +239,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
+    @MultipleInactiveMembers
+    @MultipleFees
     void testFindAll_Paid_Desc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
