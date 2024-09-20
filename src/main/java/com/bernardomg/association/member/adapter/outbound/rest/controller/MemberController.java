@@ -146,7 +146,7 @@ public class MemberController {
             .withIdentifier(change.getIdentifier())
             .withName(name)
             .withPhone(change.getPhone())
-            .withActive(change.isActive())
+            .withActive(change.getActive())
             .build();
     }
 

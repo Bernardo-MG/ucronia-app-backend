@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class MemberChange {
 
-    private boolean          active;
+    private Boolean          active;
 
     private String           identifier;
 
