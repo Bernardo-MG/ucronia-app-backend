@@ -55,22 +55,6 @@ public final class Members {
             .build();
     }
 
-    public static final Member forNumber(final long index) {
-        final PersonName name;
-
-        name = PersonName.builder()
-            .withFirstName("Person " + index)
-            .withLastName("Last name " + index)
-            .build();
-        return Member.builder()
-            .withNumber(index)
-            .withName(name)
-            .withPhone(String.valueOf(12344 + index))
-            .withIdentifier(String.valueOf(6788 + index))
-            .withActive(true)
-            .build();
-    }
-
     public static final Member forNumber(final long number, final boolean active) {
         final PersonName name;
 

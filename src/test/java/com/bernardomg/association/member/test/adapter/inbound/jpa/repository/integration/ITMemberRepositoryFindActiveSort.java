@@ -37,17 +37,17 @@ import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.config.data.annotation.AccentInactiveMembers;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.member.test.config.data.annotation.MultipleActiveMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - sort")
-class ITMemberRepositoryFindAllSort {
+@DisplayName("MemberRepository - find active")
+class ITMemberRepositoryFindActiveSort {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITMemberRepositoryFindAllSort() {
+    public ITMemberRepositoryFindActiveSort() {
         super();
     }
 
@@ -56,7 +56,7 @@ class ITMemberRepositoryFindAllSort {
     @AccentInactiveMembers
     @MultipleFees
     @Disabled("Database dependant")
-    void testFindAll_Accent_FirstName_Asc() {
+    void testFindActive_Accent_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -65,7 +65,7 @@ class ITMemberRepositoryFindAllSort {
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pageable);
+        members = repository.findActive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -76,9 +76,9 @@ class ITMemberRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleActiveMembers
     @MultipleFees
-    void testFindAll_FirstName_Asc() {
+    void testFindActive_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -87,7 +87,7 @@ class ITMemberRepositoryFindAllSort {
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pageable);
+        members = repository.findActive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -98,9 +98,9 @@ class ITMemberRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by first name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleActiveMembers
     @MultipleFees
-    void testFindAll_FirstName_Desc() {
+    void testFindActive_FirstName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -108,7 +108,7 @@ class ITMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.DESC, "person.firstName");
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findActive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -119,9 +119,9 @@ class ITMemberRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by last name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleActiveMembers
     @MultipleFees
-    void testFindAll_LastName_Asc() {
+    void testFindActive_LastName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -129,7 +129,7 @@ class ITMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.ASC, "person.lastName");
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findActive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -140,9 +140,9 @@ class ITMemberRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by last name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleActiveMembers
     @MultipleFees
-    void testFindAll_LastName_Desc() {
+    void testFindActive_LastName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
@@ -150,7 +150,7 @@ class ITMemberRepositoryFindAllSort {
         pageable = PageRequest.of(0, 10, Direction.DESC, "person.lastName");
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findActive(pageable);
 
         // THEN
         Assertions.assertThat(members)
