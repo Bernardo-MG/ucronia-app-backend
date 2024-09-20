@@ -153,7 +153,7 @@ public final class DefaultMemberService implements MemberService {
             .withIdentifier(member.getIdentifier())
             .withName(member.getName())
             .withPhone(member.getPhone())
-            .withActive(member.isActive())
+            .withActive(member.getActive())
             .build();
 
         return memberRepository.save(toUpdate);
@@ -184,8 +184,8 @@ public final class DefaultMemberService implements MemberService {
             .withName(name)
             .withPhone(Optional.ofNullable(updated.getPhone())
                 .orElse(existing.getPhone()))
-            .withActive(Optional.ofNullable(updated.isActive())
-                .orElse(existing.isActive()))
+            .withActive(Optional.ofNullable(updated.getActive())
+                .orElse(existing.getActive()))
             .build();
     }
 

@@ -249,7 +249,7 @@ public final class JpaMemberRepository implements MemberRepository {
             .build();
         return MemberEntity.builder()
             .withPerson(person)
-            .withActive(data.isActive())
+            .withActive(data.getActive())
             .build();
     }
 
