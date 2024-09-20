@@ -62,6 +62,7 @@ class ITFeeRepositoryFindAllSort {
     @DisplayName("With ascending order by name with accents it returns the ordered data")
     @AccentInactiveMembers
     @MultipleFees
+    @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;

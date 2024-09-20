@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
     @DisplayName("With ascending order by name with accents it returns the ordered data")
     @AccentActiveMembers
     @MultipleFees
+    @Disabled("Database dependant")
     void testFindAllForActiveMembers_Accents_Name_Asc() {
         final Iterable<Fee> fees;
         final Sort          sort;

@@ -25,6 +25,7 @@
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("When there are accents in the name, returns the ordered data")
     @AccentInactiveMembers
     @MultipleFees
+    @Disabled("Database dependant")
     void testFindAll_Accent_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
