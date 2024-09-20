@@ -46,7 +46,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - update")
+@DisplayName("Member service - patch")
 class TestMemberServicePatch {
 
     @Mock
@@ -61,7 +61,7 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("When disabling a member, the change is persisted")
-    void testUpdate_Inactive_PersistedData() {
+    void testPatch_Inactive_PersistedData() {
         final Member member;
 
         // GIVEN
@@ -78,7 +78,7 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("When disabling a member, the change is returned")
-    void testUpdate_Inactive_ReturnedData() {
+    void testPatch_Inactive_ReturnedData() {
         final Member member;
         final Member updated;
 
@@ -99,7 +99,7 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
-    void testUpdate_NotExisting_Exception() {
+    void testPatch_NotExisting_Exception() {
         final Member           member;
         final ThrowingCallable execution;
 
@@ -118,7 +118,7 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("With a member having padding whitespaces in first name and last name, these whitespaces are removed")
-    void testUpdate_Padded_PersistedData() {
+    void testPatch_Padded_PersistedData() {
         final Member member;
 
         // GIVEN
@@ -135,7 +135,7 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("When updating a member, the change is persisted")
-    void testUpdate_PersistedData() {
+    void testPatch_PersistedData() {
         final Member member;
 
         // GIVEN
@@ -152,7 +152,7 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("When updating a member, the change is returned")
-    void testUpdate_ReturnedData() {
+    void testPatch_ReturnedData() {
         final Member member;
         final Member updated;
 
