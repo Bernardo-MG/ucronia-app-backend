@@ -117,6 +117,23 @@ class TestMemberServicePatch {
     }
 
     @Test
+    @DisplayName("When patching the name, the change is persisted")
+    void testPatch_OnlyName_PersistedData() {
+        final Member member;
+
+        // GIVEN
+        member = Members.nameChangePatch();
+
+        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+
+        // WHEN
+        service.patch(member);
+
+        // THEN
+        verify(memberRepository).save(Members.nameChange());
+    }
+
+    @Test
     @DisplayName("With a member having padding whitespaces in first name and last name, these whitespaces are removed")
     void testPatch_Padded_PersistedData() {
         final Member member;

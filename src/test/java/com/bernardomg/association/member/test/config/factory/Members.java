@@ -197,6 +197,19 @@ public final class Members {
             .build();
     }
 
+    public static final Member nameChangePatch() {
+        final PersonName name;
+
+        name = PersonName.builder()
+            .withFirstName("Person 123")
+            .withLastName("Last name")
+            .build();
+        return Member.builder()
+            .withNumber(PersonConstants.NUMBER)
+            .withName(name)
+            .build();
+    }
+
     public static final Member paddedWithWhitespaces() {
         final PersonName name;
 
