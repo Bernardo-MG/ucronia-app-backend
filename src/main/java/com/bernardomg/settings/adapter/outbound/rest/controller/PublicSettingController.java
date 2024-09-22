@@ -39,7 +39,7 @@ import com.bernardomg.settings.usecase.service.SettingService;
 import lombok.AllArgsConstructor;
 
 /**
- * Configuration REST controller.
+ * Settings REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

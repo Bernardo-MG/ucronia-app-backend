@@ -46,7 +46,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Configuration REST controller.
+ * Settings REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
