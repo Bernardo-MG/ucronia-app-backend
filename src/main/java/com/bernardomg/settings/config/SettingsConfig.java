@@ -17,7 +17,7 @@ import com.bernardomg.settings.usecase.service.SettingService;
 @Configuration
 @ComponentScan({ "com.bernardomg.settings.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.settings.adapter.inbound.jpa" })
-public class SettingConfig {
+public class SettingsConfig {
 
     @Bean("settingWhitelist")
     public WhitelistRoute geSettingWhitelist() {
