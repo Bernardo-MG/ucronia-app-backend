@@ -21,7 +21,7 @@ public class SettingsConfig {
 
     @Bean("settingWhitelist")
     public WhitelistRoute geSettingWhitelist() {
-        return WhitelistRoute.of("/configuration/public/**", HttpMethod.GET);
+        return WhitelistRoute.of("/settings/public/**", HttpMethod.GET);
     }
 
     @Bean("settingService")

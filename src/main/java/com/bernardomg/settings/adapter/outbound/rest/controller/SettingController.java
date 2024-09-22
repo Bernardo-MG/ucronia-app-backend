@@ -52,7 +52,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/configuration")
+@RequestMapping("/settings")
 @AllArgsConstructor
 public class SettingController {
 

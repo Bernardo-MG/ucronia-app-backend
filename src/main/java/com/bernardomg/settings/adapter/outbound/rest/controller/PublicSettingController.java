@@ -45,7 +45,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/configuration/public")
+@RequestMapping("/settings/public")
 @AllArgsConstructor
 public class PublicSettingController {
 
