@@ -22,39 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.settings.adapter.inbound.jpa.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import java.util.Optional;
 
-import com.bernardomg.settings.config.SettingConfig;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- * Application runnable class. This allows Spring Boot to run the application.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@SpringBootApplication
-@Import({ SettingConfig.class })
-public class UcroniaApplication {
+import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntity;
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
+public interface SettingsSpringRepository extends JpaRepository<SettingsEntity, Long> {
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
-    }
+    public boolean existsByCode(final String code);
+
+    public Optional<SettingsEntity> findByCode(final String code);
 
 }

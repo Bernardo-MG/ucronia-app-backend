@@ -38,7 +38,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -49,6 +48,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,25 +56,25 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 class TestFeeServiceGetOne {
 
     @Mock
-    private AssociationConfigurationSource configurationSource;
+    private AssociationSettingsSource configurationSource;
 
     @Mock
-    private FeeRepository                  feeRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
-    private MemberRepository               memberRepository;
+    private MemberRepository          memberRepository;
 
     @Mock
-    private MessageSource                  messageSource;
+    private MessageSource             messageSource;
 
     @Mock
-    private PersonRepository               personRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
-    private DefaultFeeService              service;
+    private DefaultFeeService         service;
 
     @Mock
-    private TransactionRepository          transactionRepository;
+    private TransactionRepository     transactionRepository;
 
     @Test
     @DisplayName("When there is data it is returned")

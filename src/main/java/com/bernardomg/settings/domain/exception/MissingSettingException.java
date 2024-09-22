@@ -22,39 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.settings.domain.exception;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.settings.config.SettingConfig;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Missing configuration exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingConfig.class })
-public class UcroniaApplication {
+public final class MissingSettingException extends MissingIdException {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    public MissingSettingException(final String key) {
+        super("key", key);
     }
 
 }

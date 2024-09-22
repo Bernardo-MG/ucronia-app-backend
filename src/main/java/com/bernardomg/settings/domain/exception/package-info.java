@@ -22,39 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.settings.config.SettingConfig;
-
 /**
- * Application runnable class. This allows Spring Boot to run the application.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Fee exceptions.
  */
-@SpringBootApplication
-@Import({ SettingConfig.class })
-public class UcroniaApplication {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
-
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
-    }
-
-}
+package com.bernardomg.settings.domain.exception;
