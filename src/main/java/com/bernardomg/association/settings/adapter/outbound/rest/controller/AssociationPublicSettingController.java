@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.settings.adapter.outbound.rest.controller;
+package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
+import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSetting;
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.settings.adapter.outbound.cache.SettingsCaches;
-import com.bernardomg.settings.adapter.outbound.rest.model.PublicSetting;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 
@@ -47,7 +47,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/settings/public")
 @AllArgsConstructor
-public class PublicSettingController {
+public class AssociationPublicSettingController {
 
     private final SettingService service;
 

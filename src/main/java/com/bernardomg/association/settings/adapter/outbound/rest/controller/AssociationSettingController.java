@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.settings.adapter.outbound.rest.controller;
+package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 
 import java.util.Collection;
 
@@ -36,9 +36,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
+import com.bernardomg.association.settings.adapter.outbound.rest.model.SettingChange;
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.settings.adapter.outbound.cache.SettingsCaches;
-import com.bernardomg.settings.adapter.outbound.rest.model.SettingChange;
+import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 
@@ -54,7 +56,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/settings")
 @AllArgsConstructor
-public class SettingController {
+public class AssociationSettingController {
 
     private final SettingService service;
 
@@ -73,7 +75,7 @@ public class SettingController {
     }
 
     @PutMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Unsecured
+    @RequireResourceAccess(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { SettingsCaches.PUBLIC }, allEntries = true) })
     public Setting update(@PathVariable("code") final String code,
             @Valid @RequestBody final SettingChange configuration) {

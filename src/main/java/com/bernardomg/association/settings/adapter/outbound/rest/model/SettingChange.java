@@ -1,5 +1,5 @@
 
-package com.bernardomg.settings.adapter.outbound.rest.model;
+package com.bernardomg.association.settings.adapter.outbound.rest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

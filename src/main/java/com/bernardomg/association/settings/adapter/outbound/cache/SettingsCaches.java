@@ -1,5 +1,5 @@
 
-package com.bernardomg.settings.adapter.outbound.cache;
+package com.bernardomg.association.settings.adapter.outbound.cache;
 
 public final class SettingsCaches {
 

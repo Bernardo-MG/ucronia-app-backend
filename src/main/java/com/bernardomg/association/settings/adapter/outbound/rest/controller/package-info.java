@@ -23,7 +23,7 @@
  */
 
 /**
- * Configuration caches constants.
+ * Configuration controller.
  */
 
-package com.bernardomg.settings.adapter.outbound.cache;
+package com.bernardomg.association.settings.adapter.outbound.rest.controller;
