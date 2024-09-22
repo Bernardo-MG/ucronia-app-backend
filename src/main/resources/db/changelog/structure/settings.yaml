@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            tableName: configurations
+            tableName: settings
             columns:
               - column:
                   name: id
@@ -31,7 +31,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: 'string'
         - addAutoIncrement:
-            tableName: configurations
+            tableName: settings
             columnName: id
             columnDataType: bigint
             incrementBy: 1
@@ -46,7 +46,7 @@ databaseChangeLog:
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: sql/initial_configuration.sql
+            path: sql/initial_settings.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
