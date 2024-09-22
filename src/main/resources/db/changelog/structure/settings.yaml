@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: configuration_table
+      id: settings_table
       author: Bernardo
       changes:
         - createTable:
@@ -41,7 +41,7 @@ databaseChangeLog:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
   - changeSet:
-      id: initial_configuration
+      id: initial_settings
       author: Bernardo
       changes:
         - sqlFile:

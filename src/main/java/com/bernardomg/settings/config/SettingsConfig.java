@@ -25,13 +25,13 @@ public class SettingsConfig {
     }
 
     @Bean("settingService")
-    public SettingService getSettingService(final SettingRepository configurationRepository) {
-        return new DefaultSettingService(configurationRepository);
+    public SettingService getSettingService(final SettingRepository settingRepository) {
+        return new DefaultSettingService(settingRepository);
     }
 
     @Bean("settingRepository")
-    public SettingRepository settingRepository(final SettingsSpringRepository configurationSpringRepo) {
-        return new JpaSettingsRepository(configurationSpringRepo);
+    public SettingRepository settingRepository(final SettingsSpringRepository settingSpringRepo) {
+        return new JpaSettingsRepository(settingSpringRepo);
     }
 
 }

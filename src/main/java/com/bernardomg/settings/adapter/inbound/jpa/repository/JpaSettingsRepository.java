@@ -15,12 +15,12 @@ import com.bernardomg.settings.domain.repository.SettingRepository;
 @Transactional
 public final class JpaSettingsRepository implements SettingRepository {
 
-    private final SettingsSpringRepository configurationSpringRepository;
+    private final SettingsSpringRepository settingSpringRepository;
 
     public JpaSettingsRepository(final SettingsSpringRepository configurationSpringRepo) {
         super();
 
-        configurationSpringRepository = Objects.requireNonNull(configurationSpringRepo);
+        settingSpringRepository = Objects.requireNonNull(configurationSpringRepo);
     }
 
     @Override
@@ -28,7 +28,7 @@ public final class JpaSettingsRepository implements SettingRepository {
         final Sort sort;
 
         sort = Sort.by("code");
-        return configurationSpringRepository.findAll(sort)
+        return settingSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -36,7 +36,7 @@ public final class JpaSettingsRepository implements SettingRepository {
 
     @Override
     public final Optional<Setting> findOne(final String key) {
-        return configurationSpringRepository.findByCode(key)
+        return settingSpringRepository.findByCode(key)
             .map(this::toDomain);
     }
 
@@ -46,7 +46,7 @@ public final class JpaSettingsRepository implements SettingRepository {
         final String            text;
         final Float             value;
 
-        read = configurationSpringRepository.findByCode(key)
+        read = settingSpringRepository.findByCode(key)
             .map(this::toDomain);
         if (read.isPresent()) {
             text = read.get()
@@ -67,13 +67,13 @@ public final class JpaSettingsRepository implements SettingRepository {
 
         entity = toEntity(configuration);
 
-        existing = configurationSpringRepository.findByCode(configuration.getCode());
+        existing = settingSpringRepository.findByCode(configuration.getCode());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        saved = configurationSpringRepository.save(entity);
+        saved = settingSpringRepository.save(entity);
 
         return toDomain(saved);
     }

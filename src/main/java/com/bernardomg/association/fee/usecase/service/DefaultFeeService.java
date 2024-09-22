@@ -66,7 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultFeeService implements FeeService {
 
-    private final AssociationSettingsSource  configurationSource;
+    private final AssociationSettingsSource  settingsSource;
 
     private final FeeRepository              feeRepository;
 
@@ -90,7 +90,7 @@ public final class DefaultFeeService implements FeeService {
         memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
 
-        configurationSource = Objects.requireNonNull(configSource);
+        settingsSource = Objects.requireNonNull(configSource);
         messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
@@ -218,7 +218,7 @@ public final class DefaultFeeService implements FeeService {
             .toList();
 
         // Calculate amount
-        feeAmount = configurationSource.getFeeAmount() * feeDates.size();
+        feeAmount = settingsSource.getFeeAmount() * feeDates.size();
 
         // Register transaction
         index = transactionRepository.findNextIndex();
