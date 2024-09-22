@@ -17,10 +17,10 @@ public final class JpaSettingsRepository implements SettingRepository {
 
     private final SettingsSpringRepository settingSpringRepository;
 
-    public JpaSettingsRepository(final SettingsSpringRepository configurationSpringRepo) {
+    public JpaSettingsRepository(final SettingsSpringRepository settingSpringRepo) {
         super();
 
-        settingSpringRepository = Objects.requireNonNull(configurationSpringRepo);
+        settingSpringRepository = Objects.requireNonNull(settingSpringRepo);
     }
 
     @Override

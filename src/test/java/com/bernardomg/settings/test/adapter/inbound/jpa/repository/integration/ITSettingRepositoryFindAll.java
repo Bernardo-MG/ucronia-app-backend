@@ -19,57 +19,57 @@ import com.bernardomg.settings.test.config.factory.Settings;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ConfigurationRepository - find one")
+@DisplayName("SettingRepository - find one")
 public class ITSettingRepositoryFindAll {
 
     @Autowired
     private SettingRepository repository;
 
     @Test
-    @DisplayName("When reading a float configuration, it is returned")
+    @DisplayName("When reading a float setting, it is returned")
     @CleanSetting
     @FloatSetting
     void testFindAll_Float() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settingsSource;
 
         // WHEN
-        configurations = repository.findAll();
+        settingsSource = repository.findAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settingsSource)
+            .as("settingsSource")
             .containsExactly(Settings.floatValue());
     }
 
     @Test
-    @DisplayName("When reading a integer configuration, it is returned")
+    @DisplayName("When reading a integer setting, it is returned")
     @CleanSetting
     @IntegerSetting
     void testFindAll_Integer() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settingsSource;
 
         // WHEN
-        configurations = repository.findAll();
+        settingsSource = repository.findAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settingsSource)
+            .as("settingsSource")
             .containsExactly(Settings.intValue());
     }
 
     @Test
-    @DisplayName("When reading a string configuration, it is returned")
+    @DisplayName("When reading a string setting, it is returned")
     @CleanSetting
     @MultipleSetting
     void testFindAll_Multiple() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settingsSource;
 
         // WHEN
-        configurations = repository.findAll();
+        settingsSource = repository.findAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settingsSource)
+            .as("settingsSource")
             .containsExactly(Settings.first(), Settings.second());
     }
 
@@ -77,30 +77,30 @@ public class ITSettingRepositoryFindAll {
     @DisplayName("When reading with no data, nothing is returned")
     @CleanSetting
     void testFindAll_NoData() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settingsSource;
 
         // WHEN
-        configurations = repository.findAll();
+        settingsSource = repository.findAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settingsSource)
+            .as("settingsSource")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When reading a string configuration, it is returned")
+    @DisplayName("When reading a string setting, it is returned")
     @CleanSetting
     @StringSetting
     void testFindAll_String() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settingsSource;
 
         // WHEN
-        configurations = repository.findAll();
+        settingsSource = repository.findAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settingsSource)
+            .as("settingsSource")
             .containsExactly(Settings.stringValue());
     }
 

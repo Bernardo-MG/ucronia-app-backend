@@ -19,7 +19,7 @@ import com.bernardomg.settings.test.config.factory.Settings;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ConfigurationRepository - save")
+@DisplayName("SettingRepository - save")
 public class ITSettingRepositorySave {
 
     @Autowired
@@ -29,62 +29,62 @@ public class ITSettingRepositorySave {
     private SettingsSpringRepository settingSpringRepository;
 
     @Test
-    @DisplayName("When saving the fee amount and with no existing configuration, the configuration is persisted")
+    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
     @CleanSetting
     void testSave_NoData_Persisted() {
-        final Setting                    configuration;
-        final Collection<SettingsEntity> configurations;
+        final Setting                    setting;
+        final Collection<SettingsEntity> settings;
 
         // GIVEN
-        configuration = Settings.amount();
+        setting = Settings.amount();
 
         // WHEN
-        repository.save(configuration);
+        repository.save(setting);
 
         // THEN
-        configurations = settingSpringRepository.findAll();
+        settings = settingSpringRepository.findAll();
 
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settings)
+            .as("settings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .containsExactly(SettingEntities.amount());
     }
 
     @Test
-    @DisplayName("When saving the fee amount, the configuration is persisted")
+    @DisplayName("When saving the fee amount, the setting is persisted")
     @CleanSetting
     @FeeAmountSetting
     void testSave_Persisted() {
-        final Setting                    configuration;
-        final Collection<SettingsEntity> configurations;
+        final Setting                    setting;
+        final Collection<SettingsEntity> settings;
 
         // GIVEN
-        configuration = Settings.amount();
+        setting = Settings.amount();
 
         // WHEN
-        repository.save(configuration);
+        repository.save(setting);
 
         // THEN
-        configurations = settingSpringRepository.findAll();
+        settings = settingSpringRepository.findAll();
 
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settings)
+            .as("settings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .containsExactly(SettingEntities.amount());
     }
 
     @Test
-    @DisplayName("When saving the fee amount, the configuration is returned")
+    @DisplayName("When saving the fee amount, the setting is returned")
     @FeeAmountSetting
     void testSave_Returned() {
-        final Setting configuration;
+        final Setting setting;
         final Setting created;
 
         // GIVEN
-        configuration = Settings.amount();
+        setting = Settings.amount();
 
         // WHEN
-        created = repository.save(configuration);
+        created = repository.save(setting);
 
         // THEN
         Assertions.assertThat(created)

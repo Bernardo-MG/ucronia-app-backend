@@ -23,7 +23,7 @@ import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Configuration service - get one")
-public class TestSettingGetOne {
+public class TestSettingServiceGetOne {
 
     @InjectMocks
     private DefaultSettingService service;
@@ -32,7 +32,7 @@ public class TestSettingGetOne {
     private SettingRepository     settingRepository;
 
     @Test
-    @DisplayName("When the configuration exists, it is returned")
+    @DisplayName("When the setting exists, it is returned")
     void testGetOne_Existing() {
         final Optional<Setting> configuration;
 
@@ -49,7 +49,7 @@ public class TestSettingGetOne {
     }
 
     @Test
-    @DisplayName("When the configuration doesn't exist, nothing is returned")
+    @DisplayName("When the setting doesn't exist, nothing is returned")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 

@@ -21,7 +21,7 @@ import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Configuration service - get all")
-public class TestSettingGetAll {
+public class TestSettingServiceGetAll {
 
     @InjectMocks
     private DefaultSettingService service;
@@ -30,36 +30,36 @@ public class TestSettingGetAll {
     private SettingRepository     settingRepository;
 
     @Test
-    @DisplayName("When the configuration exists, it is returned")
+    @DisplayName("When the setting exists, it is returned")
     void testGetAll_Existing() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settings;
 
         // GIVEN
         given(settingRepository.findAll()).willReturn(List.of(Settings.stringValue()));
 
         // WHEN
-        configurations = service.getAll();
+        settings = service.getAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settings)
+            .as("settings")
             .containsExactly(Settings.stringValue());
     }
 
     @Test
-    @DisplayName("When no configuration exists, nothing is returned")
+    @DisplayName("When no setting exists, nothing is returned")
     void testGetAll_NotExisting() {
-        final Collection<Setting> configurations;
+        final Collection<Setting> settings;
 
         // GIVEN
         given(settingRepository.findAll()).willReturn(List.of());
 
         // WHEN
-        configurations = service.getAll();
+        settings = service.getAll();
 
         // THEN
-        Assertions.assertThat(configurations)
-            .as("configurations")
+        Assertions.assertThat(settings)
+            .as("settings")
             .isEmpty();
     }
 

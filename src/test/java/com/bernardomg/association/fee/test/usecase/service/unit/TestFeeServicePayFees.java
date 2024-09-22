@@ -63,7 +63,7 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private AssociationSettingsSource configurationSource;
+    private AssociationSettingsSource settingsSource;
 
     @Mock
     private FeeRepository             feeRepository;

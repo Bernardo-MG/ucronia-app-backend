@@ -18,38 +18,38 @@ import com.bernardomg.settings.test.config.factory.Settings;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ConfigurationRepository - find one")
+@DisplayName("SettingRepository - find one")
 public class ITSettingRepositoryFindOne {
 
     @Autowired
     private SettingRepository repository;
 
     @Test
-    @DisplayName("When reading a float configuration, it is returned")
+    @DisplayName("When reading a float setting, it is returned")
     @FloatSetting
     void testFindOne_Float() {
-        final Optional<Setting> configuration;
+        final Optional<Setting> setting;
 
         // WHEN
-        configuration = repository.findOne(SettingConstants.CODE);
+        setting = repository.findOne(SettingConstants.CODE);
 
         // THEN
-        Assertions.assertThat(configuration)
+        Assertions.assertThat(setting)
             .as("configuration")
             .contains(Settings.floatValue());
     }
 
     @Test
-    @DisplayName("When reading a integer configuration, it is returned")
+    @DisplayName("When reading a integer setting, it is returned")
     @IntegerSetting
     void testFindOne_Integer() {
-        final Optional<Setting> configuration;
+        final Optional<Setting> setting;
 
         // WHEN
-        configuration = repository.findOne(SettingConstants.CODE);
+        setting = repository.findOne(SettingConstants.CODE);
 
         // THEN
-        Assertions.assertThat(configuration)
+        Assertions.assertThat(setting)
             .as("configuration")
             .contains(Settings.intValue());
     }
@@ -57,28 +57,28 @@ public class ITSettingRepositoryFindOne {
     @Test
     @DisplayName("When reading with no data, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Setting> configuration;
+        final Optional<Setting> setting;
 
         // WHEN
-        configuration = repository.findOne(SettingConstants.CODE);
+        setting = repository.findOne(SettingConstants.CODE);
 
         // THEN
-        Assertions.assertThat(configuration)
+        Assertions.assertThat(setting)
             .as("configuration")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When reading a string configuration, it is returned")
+    @DisplayName("When reading a string setting, it is returned")
     @StringSetting
     void testFindOne_String() {
-        final Optional<Setting> configuration;
+        final Optional<Setting> setting;
 
         // WHEN
-        configuration = repository.findOne(SettingConstants.CODE);
+        setting = repository.findOne(SettingConstants.CODE);
 
         // THEN
-        Assertions.assertThat(configuration)
+        Assertions.assertThat(setting)
             .as("configuration")
             .contains(Settings.stringValue());
     }

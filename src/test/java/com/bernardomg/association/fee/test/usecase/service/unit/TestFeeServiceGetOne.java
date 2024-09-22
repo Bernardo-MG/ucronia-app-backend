@@ -56,7 +56,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 class TestFeeServiceGetOne {
 
     @Mock
-    private AssociationSettingsSource configurationSource;
+    private AssociationSettingsSource settingsSource;
 
     @Mock
     private FeeRepository             feeRepository;
