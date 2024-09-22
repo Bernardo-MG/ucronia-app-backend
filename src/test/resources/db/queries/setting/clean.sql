@@ -1,1 +1,1 @@
-DELETE FROM configurations;
+DELETE FROM settings;
