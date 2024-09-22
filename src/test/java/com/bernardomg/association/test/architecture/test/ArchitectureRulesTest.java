@@ -1,17 +1,17 @@
 
 package com.bernardomg.association.test.architecture.test;
 
-import com.bernardomg.association.test.architecture.rule.CacheRules;
-import com.bernardomg.association.test.architecture.rule.CodingRules;
-import com.bernardomg.association.test.architecture.rule.ConfigurationRules;
-import com.bernardomg.association.test.architecture.rule.ControllerRules;
-import com.bernardomg.association.test.architecture.rule.DependencyRules;
-import com.bernardomg.association.test.architecture.rule.JpaEntityRules;
-import com.bernardomg.association.test.architecture.rule.RepositoryRules;
 import com.bernardomg.association.test.architecture.rule.SecurityRules;
-import com.bernardomg.association.test.architecture.rule.ServiceRules;
-import com.bernardomg.association.test.architecture.rule.TransactionalRules;
-import com.bernardomg.association.test.architecture.rule.ValidationRules;
+import com.bernardomg.framework.testing.architecture.rule.CacheRules;
+import com.bernardomg.framework.testing.architecture.rule.CodingRules;
+import com.bernardomg.framework.testing.architecture.rule.ConfigurationRules;
+import com.bernardomg.framework.testing.architecture.rule.ControllerRules;
+import com.bernardomg.framework.testing.architecture.rule.DependencyRules;
+import com.bernardomg.framework.testing.architecture.rule.JpaEntityRules;
+import com.bernardomg.framework.testing.architecture.rule.RepositoryRules;
+import com.bernardomg.framework.testing.architecture.rule.ServiceRules;
+import com.bernardomg.framework.testing.architecture.rule.TransactionalRules;
+import com.bernardomg.framework.testing.architecture.rule.ValidationRules;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
