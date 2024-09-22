@@ -66,8 +66,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultFeeService implements FeeService {
 
-    private final AssociationSettingsSource  settingsSource;
-
     private final FeeRepository              feeRepository;
 
     private final MemberRepository           memberRepository;
@@ -75,6 +73,8 @@ public final class DefaultFeeService implements FeeService {
     private final MessageSource              messageSource;
 
     private final PersonRepository           personRepository;
+
+    private final AssociationSettingsSource  settingsSource;
 
     private final TransactionRepository      transactionRepository;
 

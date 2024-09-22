@@ -63,9 +63,6 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private AssociationSettingsSource settingsSource;
-
-    @Mock
     private FeeRepository             feeRepository;
 
     @Mock
@@ -79,6 +76,9 @@ class TestFeeServicePayFees {
 
     @InjectMocks
     private DefaultFeeService         service;
+
+    @Mock
+    private AssociationSettingsSource settingsSource;
 
     @Mock
     private TransactionRepository     transactionRepository;
