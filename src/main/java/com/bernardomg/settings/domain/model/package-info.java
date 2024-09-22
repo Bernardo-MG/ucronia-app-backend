@@ -23,7 +23,7 @@
  */
 
 /**
- * Configuration model.
+ * Setting model.
  */
 
 package com.bernardomg.settings.domain.model;

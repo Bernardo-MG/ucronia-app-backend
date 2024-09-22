@@ -14,6 +14,6 @@ public interface SettingRepository {
 
     public Float getFloat(final String key);
 
-    public Setting save(final Setting configuration);
+    public Setting save(final Setting setting);
 
 }

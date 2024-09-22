@@ -22,7 +22,7 @@ import com.bernardomg.settings.test.config.factory.Settings;
 import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Configuration service - get one")
+@DisplayName("Settings service - get one")
 public class TestSettingServiceGetOne {
 
     @InjectMocks
@@ -34,17 +34,17 @@ public class TestSettingServiceGetOne {
     @Test
     @DisplayName("When the setting exists, it is returned")
     void testGetOne_Existing() {
-        final Optional<Setting> configuration;
+        final Optional<Setting> settings;
 
         // GIVEN
         given(settingRepository.findOne(SettingConstants.CODE)).willReturn(Optional.of(Settings.stringValue()));
 
         // WHEN
-        configuration = service.getOne(SettingConstants.CODE);
+        settings = service.getOne(SettingConstants.CODE);
 
         // THEN
-        Assertions.assertThat(configuration)
-            .as("configuration")
+        Assertions.assertThat(settings)
+            .as("settings")
             .contains(Settings.stringValue());
     }
 

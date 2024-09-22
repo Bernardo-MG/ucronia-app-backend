@@ -60,14 +60,14 @@ public final class JpaSettingsRepository implements SettingRepository {
     }
 
     @Override
-    public final Setting save(final Setting configuration) {
+    public final Setting save(final Setting setting) {
         final SettingsEntity           entity;
         final SettingsEntity           saved;
         final Optional<SettingsEntity> existing;
 
-        entity = toEntity(configuration);
+        entity = toEntity(setting);
 
-        existing = settingSpringRepository.findByCode(configuration.getCode());
+        existing = settingSpringRepository.findByCode(setting.getCode());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());

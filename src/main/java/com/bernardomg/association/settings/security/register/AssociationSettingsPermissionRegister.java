@@ -31,7 +31,7 @@ import com.bernardomg.security.permission.initializer.usecase.PermissionRegister
 import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
- * Association configuration permission register.
+ * Association settings permission register.
  */
 public final class AssociationSettingsPermissionRegister implements PermissionRegister {
 

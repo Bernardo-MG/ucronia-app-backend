@@ -27,7 +27,7 @@ package com.bernardomg.settings.domain.exception;
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing configuration exception.
+ * Missing setting exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

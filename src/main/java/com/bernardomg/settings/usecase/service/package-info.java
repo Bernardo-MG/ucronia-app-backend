@@ -23,7 +23,7 @@
  */
 
 /**
- * Configuration services.
+ * Settings services.
  */
 
 package com.bernardomg.settings.usecase.service;

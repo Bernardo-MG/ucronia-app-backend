@@ -20,7 +20,7 @@ import com.bernardomg.settings.test.config.factory.Settings;
 import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Configuration service - get all")
+@DisplayName("Settings service - get all")
 public class TestSettingServiceGetAll {
 
     @InjectMocks

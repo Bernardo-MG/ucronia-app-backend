@@ -35,7 +35,7 @@ public class ITSettingRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(setting)
-            .as("configuration")
+            .as("settings")
             .contains(Settings.floatValue());
     }
 
@@ -50,7 +50,7 @@ public class ITSettingRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(setting)
-            .as("configuration")
+            .as("settings")
             .contains(Settings.intValue());
     }
 
@@ -64,7 +64,7 @@ public class ITSettingRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(setting)
-            .as("configuration")
+            .as("settings")
             .isEmpty();
     }
 
@@ -79,7 +79,7 @@ public class ITSettingRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(setting)
-            .as("configuration")
+            .as("settings")
             .contains(Settings.stringValue());
     }
 

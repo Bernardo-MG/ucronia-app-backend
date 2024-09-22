@@ -32,15 +32,15 @@ public final class DefaultSettingService implements SettingService {
 
     @Override
     public final Optional<Setting> getOne(final String code) {
-        final Optional<Setting> configuration;
+        final Optional<Setting> setting;
 
-        configuration = settingRepository.findOne(code);
-        if (configuration.isEmpty()) {
-            log.error("Missing configuration {}", code);
+        setting = settingRepository.findOne(code);
+        if (setting.isEmpty()) {
+            log.error("Missing setting {}", code);
             throw new MissingSettingException(code);
         }
 
-        return configuration;
+        return setting;
     }
 
     @Override
