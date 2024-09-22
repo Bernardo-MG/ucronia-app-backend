@@ -23,7 +23,7 @@
  */
 
 /**
- * Configuration configuration classes.
+ * Settings configuration classes.
  */
 
 package com.bernardomg.association.settings.config;

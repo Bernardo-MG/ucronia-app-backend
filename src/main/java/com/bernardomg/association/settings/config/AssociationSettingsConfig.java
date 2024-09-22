@@ -19,8 +19,8 @@ public class AssociationSettingsConfig {
     }
 
     @Bean("associationSettingsSource")
-    public AssociationSettingsSource getAssociationSettingsSource(final SettingRepository configurationRepo) {
-        return new AssociationPersistenceSettingsSource(configurationRepo);
+    public AssociationSettingsSource getAssociationSettingsSource(final SettingRepository settingRepo) {
+        return new AssociationPersistenceSettingsSource(settingRepo);
     }
 
 }

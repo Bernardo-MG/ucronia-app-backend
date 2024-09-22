@@ -23,7 +23,7 @@
  */
 
 /**
- * Configuration data source.
+ * Settings data source.
  */
 
 package com.bernardomg.association.settings.adapter.inbound.source;

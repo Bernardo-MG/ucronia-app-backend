@@ -33,7 +33,7 @@ import com.bernardomg.security.permission.initializer.usecase.ResourcePermission
 /**
  * Association security permission register.
  */
-public final class AssociationSecurityConfigurationPermissionRegister implements PermissionRegister {
+public final class AssociationSecurityPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<String> getActions() {

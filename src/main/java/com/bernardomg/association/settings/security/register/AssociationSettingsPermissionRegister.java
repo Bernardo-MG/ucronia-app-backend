@@ -44,19 +44,18 @@ public final class AssociationSettingsPermissionRegister implements PermissionRe
     public final Collection<ResourcePermissionPair> getPermissions() {
         // TODO: Use constants
         return List.of(
-            // Inventory
-            // Configuration
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "CREATE"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "READ"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "UPDATE"),
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "DELETE"),
+            // Settings
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "CREATE"),
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "READ"),
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "UPDATE"),
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "DELETE"),
             // Views
-            ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("ASSOCIATION_CONFIGURATION");
+        return List.of("ASSOCIATION_SETTINGS");
     }
 
 }

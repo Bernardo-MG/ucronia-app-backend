@@ -11,10 +11,10 @@ public final class AssociationPersistenceSettingsSource implements AssociationSe
 
     private final SettingRepository settingsRepository;
 
-    public AssociationPersistenceSettingsSource(final SettingRepository configurationRepo) {
+    public AssociationPersistenceSettingsSource(final SettingRepository settingRepo) {
         super();
 
-        settingsRepository = Objects.requireNonNull(configurationRepo);
+        settingsRepository = Objects.requireNonNull(settingRepo);
     }
 
     @Override
