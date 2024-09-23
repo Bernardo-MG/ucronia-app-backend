@@ -37,7 +37,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePerson;
@@ -50,6 +49,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -66,23 +66,23 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultFeeService implements FeeService {
 
-    private final AssociationConfigurationSource configurationSource;
+    private final FeeRepository              feeRepository;
 
-    private final FeeRepository                  feeRepository;
+    private final MemberRepository           memberRepository;
 
-    private final MemberRepository               memberRepository;
+    private final MessageSource              messageSource;
 
-    private final MessageSource                  messageSource;
+    private final PersonRepository           personRepository;
 
-    private final PersonRepository               personRepository;
+    private final AssociationSettingsSource  settingsSource;
 
-    private final TransactionRepository          transactionRepository;
+    private final TransactionRepository      transactionRepository;
 
-    private final Validator<Collection<Fee>>     validatorPay;
+    private final Validator<Collection<Fee>> validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final MemberRepository memberRepo, final TransactionRepository transactionRepo,
-            final AssociationConfigurationSource configSource, final MessageSource msgSource) {
+            final AssociationSettingsSource configSource, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -90,7 +90,7 @@ public final class DefaultFeeService implements FeeService {
         memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
 
-        configurationSource = Objects.requireNonNull(configSource);
+        settingsSource = Objects.requireNonNull(configSource);
         messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
@@ -218,7 +218,7 @@ public final class DefaultFeeService implements FeeService {
             .toList();
 
         // Calculate amount
-        feeAmount = configurationSource.getFeeAmount() * feeDates.size();
+        feeAmount = settingsSource.getFeeAmount() * feeDates.size();
 
         // Register transaction
         index = transactionRepository.findNextIndex();

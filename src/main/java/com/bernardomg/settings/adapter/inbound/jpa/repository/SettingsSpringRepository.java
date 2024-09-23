@@ -22,36 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.config;
+package com.bernardomg.settings.adapter.inbound.jpa.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Optional;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityPermissionRegister;
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- * Permission configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Configuration
-public class PermissionConfig {
+import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntity;
 
-    public PermissionConfig() {
-        super();
-    }
+public interface SettingsSpringRepository extends JpaRepository<SettingsEntity, Long> {
 
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityPermissionRegister();
-    }
+    public boolean existsByCode(final String code);
 
-    @Bean("miscPermissionRegister")
-    public PermissionRegister getMiscPermissionRegister() {
-        return new MiscPermissionRegister();
-    }
+    public Optional<SettingsEntity> findByCode(final String code);
 
 }
