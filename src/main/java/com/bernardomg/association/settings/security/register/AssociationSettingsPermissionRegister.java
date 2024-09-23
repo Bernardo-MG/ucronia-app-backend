@@ -22,36 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.config;
+package com.bernardomg.association.settings.security.register;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
+import java.util.List;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityPermissionRegister;
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
- * Permission configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Association settings permission register.
  */
-@Configuration
-public class PermissionConfig {
+public final class AssociationSettingsPermissionRegister implements PermissionRegister {
 
-    public PermissionConfig() {
-        super();
+    @Override
+    public final Collection<String> getActions() {
+        return List.of();
     }
 
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityPermissionRegister();
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        // TODO: Use constants
+        return List.of(
+            // Settings
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "CREATE"),
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "READ"),
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "UPDATE"),
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "DELETE"),
+            // Views
+            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "VIEW"));
     }
 
-    @Bean("miscPermissionRegister")
-    public PermissionRegister getMiscPermissionRegister() {
-        return new MiscPermissionRegister();
+    @Override
+    public final Collection<String> getResources() {
+        return List.of("ASSOCIATION_SETTINGS");
     }
 
 }

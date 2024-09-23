@@ -22,36 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.config;
+package com.bernardomg.settings.domain.exception;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityPermissionRegister;
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Permission configuration.
+ * Missing setting exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class PermissionConfig {
+public final class MissingSettingException extends MissingIdException {
 
-    public PermissionConfig() {
-        super();
-    }
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityPermissionRegister();
-    }
-
-    @Bean("miscPermissionRegister")
-    public PermissionRegister getMiscPermissionRegister() {
-        return new MiscPermissionRegister();
+    public MissingSettingException(final String key) {
+        super("key", key);
     }
 
 }

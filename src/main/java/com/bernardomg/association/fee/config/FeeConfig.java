@@ -28,7 +28,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
@@ -51,6 +50,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
@@ -106,7 +106,7 @@ public class FeeConfig {
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final MemberRepository memberRepo, final TransactionRepository transactionRepo,
-            final AssociationConfigurationSource configSource, final MessageSource msgSource) {
+            final AssociationSettingsSource configSource, final MessageSource msgSource) {
         return new DefaultFeeService(feeRepo, personRepo, memberRepo, transactionRepo, configSource, msgSource);
     }
 
