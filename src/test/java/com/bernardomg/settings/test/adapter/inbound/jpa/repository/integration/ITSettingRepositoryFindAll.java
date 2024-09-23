@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
-import com.bernardomg.settings.test.config.data.annotation.CleanSetting;
-import com.bernardomg.settings.test.config.data.annotation.FloatSetting;
-import com.bernardomg.settings.test.config.data.annotation.IntegerSetting;
-import com.bernardomg.settings.test.config.data.annotation.MultipleSetting;
-import com.bernardomg.settings.test.config.data.annotation.StringSetting;
-import com.bernardomg.settings.test.config.factory.Settings;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.settings.test.configuration.data.annotation.CleanSetting;
+import com.bernardomg.settings.test.configuration.data.annotation.FloatSetting;
+import com.bernardomg.settings.test.configuration.data.annotation.IntegerSetting;
+import com.bernardomg.settings.test.configuration.data.annotation.MultipleSetting;
+import com.bernardomg.settings.test.configuration.data.annotation.StringSetting;
+import com.bernardomg.settings.test.configuration.factory.Settings;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("SettingRepository - find one")

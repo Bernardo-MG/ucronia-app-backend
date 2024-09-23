@@ -32,15 +32,15 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.config.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.config.factory.Books;
-import com.bernardomg.association.library.lending.test.config.data.annotation.LentBookLending;
-import com.bernardomg.association.library.lending.test.config.data.annotation.LentBookLendingHistory;
-import com.bernardomg.association.library.lending.test.config.data.annotation.ReturnedBookLending;
-import com.bernardomg.association.library.lending.test.config.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.person.test.config.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.factory.Books;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
+import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - find all")

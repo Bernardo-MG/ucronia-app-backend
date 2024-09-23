@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.settings.domain.exception.MissingSettingException;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
-import com.bernardomg.settings.test.config.factory.SettingConstants;
-import com.bernardomg.settings.test.config.factory.Settings;
+import com.bernardomg.settings.test.configuration.factory.SettingConstants;
+import com.bernardomg.settings.test.configuration.factory.Settings;
 import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)

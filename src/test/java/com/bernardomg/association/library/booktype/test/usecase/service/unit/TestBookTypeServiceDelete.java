@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypeConstants;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 
 @ExtendWith(MockitoExtension.class)

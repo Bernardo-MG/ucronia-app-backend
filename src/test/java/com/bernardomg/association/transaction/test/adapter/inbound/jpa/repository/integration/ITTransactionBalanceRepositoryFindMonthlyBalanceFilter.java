@@ -33,13 +33,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
-import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionBalanceRepository - find monthly balance - filter")

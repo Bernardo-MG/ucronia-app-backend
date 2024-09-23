@@ -32,15 +32,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.config.data.annotation.FullConsecutiveTransactionYears;
-import com.bernardomg.association.transaction.config.data.annotation.FullNotConsecutiveTransactionYears;
-import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameDay;
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullConsecutiveTransactionYears;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullNotConsecutiveTransactionYears;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameDay;
+import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionCalendarMonthsRanges;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionRepository - find dates")

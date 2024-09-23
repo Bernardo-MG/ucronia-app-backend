@@ -39,13 +39,13 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
-import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.FeeCalendars;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee calendar service - get year")

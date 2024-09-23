@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.person.test.config.factory.Persons;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PersonRepository - find one")

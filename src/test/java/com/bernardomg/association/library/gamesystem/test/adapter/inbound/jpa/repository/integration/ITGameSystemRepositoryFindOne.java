@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.test.config.data.annotation.ValidGameSystem;
-import com.bernardomg.association.library.gamesystem.test.config.factory.GameSystemConstants;
-import com.bernardomg.association.library.gamesystem.test.config.factory.GameSystems;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("GameSystemRepository - find one")

@@ -32,9 +32,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.booktype.test.config.data.annotation.ValidBookType;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypes;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookTypeRepository - find all")

@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.test.config.factory.GameSystemConstants;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
 
 @ExtendWith(MockitoExtension.class)

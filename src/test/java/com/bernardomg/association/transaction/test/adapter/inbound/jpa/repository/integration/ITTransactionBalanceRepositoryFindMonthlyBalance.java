@@ -36,19 +36,19 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
-import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.config.data.annotation.DecimalsAddZeroTransaction;
-import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.test.configuration.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.configuration.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.transaction.configuration.data.annotation.DecimalsAddZeroTransaction;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.config.argument.CurrentAndPreviousMonthProvider;
-import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
-import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
+import com.bernardomg.association.transaction.test.configuration.argument.CurrentAndPreviousMonthProvider;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionBalanceRepository - find monthly balance")

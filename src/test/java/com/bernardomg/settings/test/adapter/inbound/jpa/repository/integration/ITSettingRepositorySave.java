@@ -12,11 +12,11 @@ import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntity;
 import com.bernardomg.settings.adapter.inbound.jpa.repository.SettingsSpringRepository;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
-import com.bernardomg.settings.test.config.data.annotation.CleanSetting;
-import com.bernardomg.settings.test.config.data.annotation.FeeAmountSetting;
-import com.bernardomg.settings.test.config.factory.SettingEntities;
-import com.bernardomg.settings.test.config.factory.Settings;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.settings.test.configuration.data.annotation.CleanSetting;
+import com.bernardomg.settings.test.configuration.data.annotation.FeeAmountSetting;
+import com.bernardomg.settings.test.configuration.factory.SettingEntities;
+import com.bernardomg.settings.test.configuration.factory.Settings;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("SettingRepository - save")
