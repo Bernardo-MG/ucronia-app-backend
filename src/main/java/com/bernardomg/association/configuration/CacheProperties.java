@@ -22,39 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Data;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Cache configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Validated
+@Data
+@ConfigurationProperties(prefix = "cache")
+public final class CacheProperties {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
+    @PositiveOrZero
+    private Integer expireAfterAccess = 600;
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
-    }
+    @PositiveOrZero
+    private Integer maximumSize       = 500;
 
 }

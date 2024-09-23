@@ -22,38 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Persistence configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+@EnableTransactionManagement
+public class PersistenceConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
-
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
+    public PersistenceConfiguration() {
         super();
     }
 

@@ -22,39 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.security.account.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
+import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.security.account.domain.repository.AccountRepository;
+import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.account.usecase.service.DefaultAccountService;
 
-/**
- * Application runnable class. This allows Spring Boot to run the application.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class AssociationAccountConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public AssociationAccountConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Primary
+    @Bean("memberAccountService")
+    public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
+            final UserPersonRepository userPersonRepository) {
+        final AccountService wrapped;
+
+        wrapped = new DefaultAccountService(accountRepository);
+        return new MemberAccountService(wrapped, userPersonRepository);
     }
 
 }

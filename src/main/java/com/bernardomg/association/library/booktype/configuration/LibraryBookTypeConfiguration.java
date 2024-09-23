@@ -22,39 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.library.booktype.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
+import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.JpaBookTypeRepository;
+import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
+import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
+import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Library configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class LibraryBookTypeConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public LibraryBookTypeConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("bookTypeRepository")
+    public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepo) {
+        return new JpaBookTypeRepository(bookTypeSpringRepo);
+    }
+
+    @Bean("bookTypeService")
+    public BookTypeService getBookTypeService(final BookTypeRepository bookTypeRepo) {
+        return new DefaultBookTypeService(bookTypeRepo);
     }
 
 }

@@ -22,39 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import org.springframework.boot.actuate.audit.AuditEventRepository;
+import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Audit configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class AuditConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public AuditConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("auditEventRepository")
+    public AuditEventRepository getAuditEventRepository() {
+        return new InMemoryAuditEventRepository();
     }
 
 }

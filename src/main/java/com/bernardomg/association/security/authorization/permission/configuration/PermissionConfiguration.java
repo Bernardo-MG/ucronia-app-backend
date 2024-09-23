@@ -22,39 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.security.authorization.permission.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityPermissionRegister;
+import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Permission configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class PermissionConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public PermissionConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("associationSecurityConfigurationPermissionRegister")
+    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
+        return new AssociationSecurityPermissionRegister();
+    }
+
+    @Bean("miscPermissionRegister")
+    public PermissionRegister getMiscPermissionRegister() {
+        return new MiscPermissionRegister();
     }
 
 }

@@ -22,39 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.library.gamesystem.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
+import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.JpaGameSystemRepository;
+import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
+import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Library configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class LibraryGameSystemConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public LibraryGameSystemConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("gameSystemRepository")
+    public GameSystemRepository getGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
+        return new JpaGameSystemRepository(gameSystemRepo);
+    }
+
+    @Bean("gameSystemService")
+    public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepo) {
+        return new DefaultGameSystemService(gameSystemRepo);
     }
 
 }

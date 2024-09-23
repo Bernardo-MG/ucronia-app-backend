@@ -22,39 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.person.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.JpaPersonRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.usecase.service.DefaultPersonService;
+import com.bernardomg.association.person.usecase.service.PersonService;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Person configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class PersonConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public PersonConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("personRepository")
+    public PersonRepository getPersonRepository(final PersonSpringRepository personSpringRepository) {
+        return new JpaPersonRepository(personSpringRepository);
+    }
+
+    @Bean("personService")
+    public PersonService getPersonService(final PersonRepository guestRepository) {
+        return new DefaultPersonService(guestRepository);
     }
 
 }

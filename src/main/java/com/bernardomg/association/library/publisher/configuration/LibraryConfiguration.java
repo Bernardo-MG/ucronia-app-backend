@@ -22,39 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.library.publisher.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
+import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
+import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Library configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class LibraryConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public LibraryConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("publisherRepository")
+    public PublisherRepository getPublisherRepository(final PublisherSpringRepository publisherSpringRepo) {
+        return new JpaPublisherRepository(publisherSpringRepo);
+    }
+
+    @Bean("publisherService")
+    public PublisherService getPublisherService(final PublisherRepository publisherRepository) {
+        return new DefaultPublisherService(publisherRepository);
     }
 
 }
