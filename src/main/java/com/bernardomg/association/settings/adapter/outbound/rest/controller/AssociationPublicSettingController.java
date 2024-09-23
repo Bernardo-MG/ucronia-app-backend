@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
-import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSetting;
+import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSettings;
 import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
@@ -54,7 +54,7 @@ public class AssociationPublicSettingController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     @Cacheable(cacheNames = SettingsCaches.PUBLIC)
-    public PublicSetting readOnePublic() {
+    public PublicSettings readOnePublic() {
         final String calendarId;
         final String mapId;
 
@@ -64,7 +64,7 @@ public class AssociationPublicSettingController {
         mapId = service.getOne("social.googleMap.id")
             .map(Setting::getValue)
             .orElse(null);
-        return new PublicSetting(mapId, calendarId);
+        return new PublicSettings(mapId, calendarId);
     }
 
 }
