@@ -48,7 +48,7 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.Donors;
+import com.bernardomg.association.inventory.test.configuration.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 
 @ExtendWith(MockitoExtension.class)

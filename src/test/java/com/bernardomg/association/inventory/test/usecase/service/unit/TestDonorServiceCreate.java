@@ -38,8 +38,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
-import com.bernardomg.association.inventory.test.config.factory.Donors;
+import com.bernardomg.association.inventory.test.configuration.factory.DonorConstants;
+import com.bernardomg.association.inventory.test.configuration.factory.Donors;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;

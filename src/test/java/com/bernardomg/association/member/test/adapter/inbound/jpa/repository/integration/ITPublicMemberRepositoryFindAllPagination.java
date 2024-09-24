@@ -33,9 +33,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
-import com.bernardomg.association.member.test.config.factory.PublicMembers;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest

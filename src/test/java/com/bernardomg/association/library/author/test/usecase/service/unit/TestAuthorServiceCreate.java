@@ -38,8 +38,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.author.test.config.factory.AuthorConstants;
-import com.bernardomg.association.library.author.test.config.factory.Authors;
+import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
+import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;

@@ -32,10 +32,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest

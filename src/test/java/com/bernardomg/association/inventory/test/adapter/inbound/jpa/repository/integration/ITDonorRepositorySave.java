@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.Donors;
+import com.bernardomg.association.inventory.test.configuration.factory.Donors;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.association.person.test.config.factory.PersonEntities;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("DonorRepository - save")

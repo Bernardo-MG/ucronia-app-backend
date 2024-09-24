@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;

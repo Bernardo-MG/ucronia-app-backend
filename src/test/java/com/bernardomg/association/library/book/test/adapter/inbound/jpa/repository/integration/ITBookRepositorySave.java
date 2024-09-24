@@ -29,19 +29,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.author.test.config.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.config.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.config.data.annotation.MinimalBook;
-import com.bernardomg.association.library.book.test.config.factory.BookEntities;
-import com.bernardomg.association.library.book.test.config.factory.Books;
-import com.bernardomg.association.library.booktype.test.config.data.annotation.ValidBookType;
-import com.bernardomg.association.library.gamesystem.test.config.data.annotation.ValidGameSystem;
-import com.bernardomg.association.library.publisher.test.config.data.annotation.ValidPublisher;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
+import com.bernardomg.association.library.book.test.configuration.factory.BookEntities;
+import com.bernardomg.association.library.book.test.configuration.factory.Books;
+import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
+import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
+import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - save")

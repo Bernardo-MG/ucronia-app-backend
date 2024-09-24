@@ -36,13 +36,13 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
-import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
-import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - filter")

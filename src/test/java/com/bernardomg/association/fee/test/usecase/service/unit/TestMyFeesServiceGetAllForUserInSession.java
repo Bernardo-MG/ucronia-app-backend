@@ -45,12 +45,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("My fees service - get all for user in session")

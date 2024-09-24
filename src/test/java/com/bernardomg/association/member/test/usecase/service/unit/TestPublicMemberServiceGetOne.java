@@ -40,9 +40,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
-import com.bernardomg.association.member.test.config.factory.PublicMembers;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get one")

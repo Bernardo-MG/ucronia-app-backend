@@ -30,9 +30,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.inventory.test.configuration.factory.DonorConstants;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("DonorRepository - exists")

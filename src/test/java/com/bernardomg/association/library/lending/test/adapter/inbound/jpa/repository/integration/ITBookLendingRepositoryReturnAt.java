@@ -31,18 +31,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.test.config.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.config.data.annotation.MinimalBook;
-import com.bernardomg.association.library.book.test.config.factory.BookConstants;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
+import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.library.lending.test.config.data.annotation.LentBookLending;
-import com.bernardomg.association.library.lending.test.config.factory.BookLendingEntities;
-import com.bernardomg.association.library.lending.test.config.factory.BookLendings;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
+import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingEntities;
+import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookLendingRepository - save")

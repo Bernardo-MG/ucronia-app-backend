@@ -33,17 +33,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
-import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.test.configuration.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.configuration.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.config.data.annotation.NegativeTransaction;
-import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.configuration.data.annotation.NegativeTransaction;
+import com.bernardomg.association.transaction.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
-import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
-import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionRepository - find one")

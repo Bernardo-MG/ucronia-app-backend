@@ -41,7 +41,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.config.factory.Books;
+import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.book.usecase.service.DefaultBookService;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;

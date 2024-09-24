@@ -38,8 +38,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypeConstants;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypes;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;

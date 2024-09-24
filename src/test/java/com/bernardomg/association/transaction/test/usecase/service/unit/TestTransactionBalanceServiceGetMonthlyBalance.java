@@ -41,8 +41,8 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
-import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
 
 @ExtendWith(MockitoExtension.class)

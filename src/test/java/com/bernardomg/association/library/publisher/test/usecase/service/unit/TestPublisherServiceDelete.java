@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.publisher.test.config.factory.PublisherConstants;
+import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
 
 @ExtendWith(MockitoExtension.class)

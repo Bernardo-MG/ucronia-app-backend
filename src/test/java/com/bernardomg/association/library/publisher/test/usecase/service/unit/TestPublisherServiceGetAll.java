@@ -39,7 +39,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.publisher.test.config.factory.Publishers;
+import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
 
 @ExtendWith(MockitoExtension.class)

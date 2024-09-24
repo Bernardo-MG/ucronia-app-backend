@@ -33,14 +33,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
-import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
+import com.bernardomg.association.test.configuration.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.configuration.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionCurrentBalances;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCurrentBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionBalanceRepository - find current")

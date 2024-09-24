@@ -183,11 +183,13 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.2.1</archunit.version>
+      <bernardomg.framework.test.architecture>1.0.0</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.0</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.4</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.security.version>0.4.9</bernardomg.framework.ws.security.version>
       <jjwt.version>0.12.5</jjwt.version>
       <lombok.version>1.18.32</lombok.version>
+      <slf4j.version>2.0.16</slf4j.version>
       <spring.boot.version>3.3.0</spring.boot.version>
       <spring.data.version>2024.0.1</spring.data.version>
       <spring.version>6.1.9</spring.version>
@@ -254,19 +256,18 @@
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-starter</artifactId>
          <version>${bernardomg.framework.ws.version}</version>
-         <exclusions>
-            <exclusion>
-               <!-- SL4J API -->
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
          <!-- Spring WS Security Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
          <version>${bernardomg.framework.ws.security.version}</version>
+      </dependency>
+      <dependency>
+         <!-- Architecture Tests -->
+         <groupId>com.bernardomg.framework.testing</groupId>
+         <artifactId>architecture-tests</artifactId>
+         <version>${bernardomg.framework.test.architecture}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
@@ -495,11 +496,12 @@
          <!-- SL4J API -->
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
+         <version>${slf4j.version}</version>
       </dependency>
       <dependency>
          <!-- Log4j SLF4J Bridge -->
          <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-slf4j-impl</artifactId>
+         <artifactId>log4j-slf4j2-impl</artifactId>
       </dependency>
       <dependency>
          <!-- Log4j core -->

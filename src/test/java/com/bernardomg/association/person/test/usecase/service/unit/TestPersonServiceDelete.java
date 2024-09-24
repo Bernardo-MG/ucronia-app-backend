@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)

@@ -39,7 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.author.domain.exception.AuthorHasRelationshipsException;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.author.test.config.factory.AuthorConstants;
+import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
 import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
 
 @ExtendWith(MockitoExtension.class)

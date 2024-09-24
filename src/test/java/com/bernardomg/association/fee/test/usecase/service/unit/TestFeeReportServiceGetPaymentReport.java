@@ -39,7 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeReportService;
 
 @ExtendWith(MockitoExtension.class)

@@ -13,11 +13,11 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
-import com.bernardomg.association.fee.test.config.factory.FeeEntities;
-import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - save")

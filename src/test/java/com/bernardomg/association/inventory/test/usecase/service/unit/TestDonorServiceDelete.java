@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
-import com.bernardomg.association.inventory.test.config.factory.DonorConstants;
+import com.bernardomg.association.inventory.test.configuration.factory.DonorConstants;
 import com.bernardomg.association.inventory.usecase.service.DefaultDonorService;
 
 @ExtendWith(MockitoExtension.class)

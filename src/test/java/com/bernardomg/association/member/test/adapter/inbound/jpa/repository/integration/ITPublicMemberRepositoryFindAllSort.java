@@ -32,12 +32,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
-import com.bernardomg.association.member.test.config.factory.PublicMembers;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PublicMemberRepository - find all - sort")

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionChange;
-import com.bernardomg.association.transaction.test.config.factory.TransactionChanges;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionChanges;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
