@@ -84,12 +84,12 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final boolean isActive(final Fee fee) {
         return memberRepository.isActive(fee.person()
-            .getNumber());
+            .number());
     }
 
     private final boolean notExists(final Fee fee) {
         return !feeRepository.exists(fee.person()
-            .getNumber(), fee.date());
+            .number(), fee.date());
     }
 
     private final Fee toCurrentMonth(final Fee fee) {
@@ -97,7 +97,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
         person = FeePerson.builder()
             .withNumber(fee.person()
-                .getNumber())
+                .number())
             .build();
         return Fee.builder()
             .withPerson(person)

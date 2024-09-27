@@ -65,7 +65,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(MemberCalendars.YEAR.getValue());
     }
@@ -83,7 +83,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(MemberCalendars.YEAR.getValue());
     }
@@ -101,7 +101,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.NEXT_YEAR.getValue());
     }
@@ -119,7 +119,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.NEXT_YEAR.getValue());
     }
@@ -133,7 +133,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .isEmpty();
     }
@@ -148,7 +148,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .isEmpty();
     }
@@ -166,7 +166,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.CURRENT_YEAR.getValue());
     }
@@ -184,7 +184,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.CURRENT_YEAR.getValue());
     }
@@ -202,7 +202,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.PREVIOUS_YEAR.getValue());
     }
@@ -220,7 +220,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.PREVIOUS_YEAR.getValue());
     }
@@ -239,7 +239,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsExactly(FeeConstants.PREVIOUS_YEAR.getValue(), FeeConstants.CURRENT_YEAR.getValue());
     }
@@ -258,7 +258,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsExactly(FeeConstants.PREVIOUS_YEAR.getValue(), FeeConstants.CURRENT_YEAR.getValue());
     }
@@ -277,7 +277,7 @@ class ITFeeRepositoryFindRange {
         range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.years())
             .as("year range")
             .containsExactly(FeeConstants.TWO_YEARS_BACK.getYear(), FeeConstants.CURRENT_YEAR.getValue());
     }

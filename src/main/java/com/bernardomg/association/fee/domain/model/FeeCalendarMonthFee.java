@@ -27,14 +27,8 @@ package com.bernardomg.association.fee.domain.model;
 import java.time.YearMonth;
 
 import lombok.Builder;
-import lombok.Value;
 
-@Value
 @Builder(setterPrefix = "with")
-public final class FeeCalendarMonthFee {
-
-    private final YearMonth date;
-
-    private final boolean   paid;
+public record FeeCalendarMonthFee(YearMonth date, Boolean paid) {
 
 }

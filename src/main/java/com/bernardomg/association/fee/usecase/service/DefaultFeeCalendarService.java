@@ -109,13 +109,13 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         // Member fees grouped by id
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(f -> f.person()
-                .getNumber()));
+                .number()));
         log.debug("Member fees: {}", memberFees);
 
         // Sorted ids
         memberNumbers = readFees.stream()
             .map(Fee::person)
-            .map(FeePerson::getNumber)
+            .map(FeePerson::number)
             .distinct()
             .sorted()
             .toList();
@@ -127,18 +127,18 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             months = fees.stream()
                 .map(this::toFeeMonth)
                 // Sort by month
-                .sorted(Comparator.comparing(FeeCalendarMonth::getMonth))
+                .sorted(Comparator.comparing(FeeCalendarMonth::month))
                 .toList();
             name = fees.iterator()
                 .next()
                 .person()
-                .getFullName();
+                .fullName();
             calendarFee = toFeeYear(memberNumber, name, status, year, months);
             calendarFees.add(calendarFee);
         }
         sortedCalendarFees = calendarFees.stream()
-            .sorted(Comparator.comparing(fc -> normalizeString(fc.getMember()
-                .getFullName())))
+            .sorted(Comparator.comparing(fc -> normalizeString(fc.member()
+                .fullName())))
             .collect(Collectors.toList());
 
         log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);

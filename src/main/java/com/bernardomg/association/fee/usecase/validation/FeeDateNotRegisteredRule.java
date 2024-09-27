@@ -46,7 +46,7 @@ public final class FeeDateNotRegisteredRule implements FieldRule<Collection<Fee>
             number = fees.iterator()
                 .next()
                 .person()
-                .getNumber();
+                .number();
             person = personRepository.findOne(number)
                 .get();
             // TODO: use a single query

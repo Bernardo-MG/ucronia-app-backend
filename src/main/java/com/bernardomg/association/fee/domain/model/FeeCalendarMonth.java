@@ -25,14 +25,8 @@
 package com.bernardomg.association.fee.domain.model;
 
 import lombok.Builder;
-import lombok.Value;
 
-@Value
 @Builder(setterPrefix = "with")
-public final class FeeCalendarMonth {
-
-    private final FeeCalendarMonthFee fee;
-
-    private final int                 month;
+public record FeeCalendarMonth(FeeCalendarMonthFee fee, Integer month) {
 
 }

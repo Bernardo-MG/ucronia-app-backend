@@ -442,7 +442,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final PersonEntity person;
 
         person = personSpringRepository.findByNumber(fee.person()
-            .getNumber())
+            .number())
             .get();
         return FeeEntity.builder()
             .withPerson(person)
