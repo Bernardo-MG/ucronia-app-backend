@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
+/**
+ * TODO: use comparator
+ */
 @Value
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder(setterPrefix = "with")
