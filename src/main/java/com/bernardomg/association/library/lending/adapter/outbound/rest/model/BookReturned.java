@@ -3,8 +3,6 @@ package com.bernardomg.association.library.lending.adapter.outbound.rest.model;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +18,6 @@ public class BookReturned {
 
     private long      person;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
 
 }

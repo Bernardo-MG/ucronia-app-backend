@@ -26,8 +26,6 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.time.YearMonth;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Builder;
 import lombok.Value;
 
@@ -35,7 +33,6 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class FeeCalendarMonthFee {
 
-    @JsonFormat(pattern = "yyyy-MM")
     private final YearMonth date;
 
     private final boolean   paid;
