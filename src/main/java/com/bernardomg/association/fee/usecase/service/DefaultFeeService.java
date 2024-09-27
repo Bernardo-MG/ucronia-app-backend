@@ -214,7 +214,7 @@ public final class DefaultFeeService implements FeeService {
         final Collection<YearMonth> feeDates;
 
         feeDates = fees.stream()
-            .map(Fee::getDate)
+            .map(Fee::date)
             .toList();
 
         // Calculate amount

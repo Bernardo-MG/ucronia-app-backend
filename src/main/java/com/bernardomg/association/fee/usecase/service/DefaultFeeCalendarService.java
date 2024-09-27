@@ -108,13 +108,13 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         // Member fees grouped by id
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(f -> f.getPerson()
+            .collect(Collectors.groupingBy(f -> f.person()
                 .getNumber()));
         log.debug("Member fees: {}", memberFees);
 
         // Sorted ids
         memberNumbers = readFees.stream()
-            .map(Fee::getPerson)
+            .map(Fee::person)
             .map(FeePerson::getNumber)
             .distinct()
             .sorted()
@@ -131,7 +131,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
                 .toList();
             name = fees.iterator()
                 .next()
-                .getPerson()
+                .person()
                 .getFullName();
             calendarFee = toFeeYear(memberNumber, name, status, year, months);
             calendarFees.add(calendarFee);
@@ -157,13 +157,13 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         final FeeCalendarMonthFee calendarFee;
 
         // Calendar months start at index 0, this has to be corrected
-        month = fee.getDate()
+        month = fee.date()
             .getMonth()
             .getValue();
 
         calendarFee = FeeCalendarMonthFee.builder()
-            .withDate(fee.getDate())
-            .withPaid(fee.isPaid())
+            .withDate(fee.date())
+            .withPaid(fee.paid())
             .build();
         return FeeCalendarMonth.builder()
             .withFee(calendarFee)

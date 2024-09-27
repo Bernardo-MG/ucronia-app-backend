@@ -72,7 +72,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
+            .extracting(fee -> fee.person()
                 .getFullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",

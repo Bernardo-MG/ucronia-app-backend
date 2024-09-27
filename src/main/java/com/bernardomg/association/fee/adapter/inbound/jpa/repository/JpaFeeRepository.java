@@ -312,7 +312,7 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.getNumber(), fees, transaction);
 
         feeDates = fees.stream()
-            .map(Fee::getDate)
+            .map(Fee::date)
             .toList();
 
         // TODO: just return the id
@@ -441,12 +441,12 @@ public final class JpaFeeRepository implements FeeRepository {
     private final FeeEntity toEntity(final Fee fee) {
         final PersonEntity person;
 
-        person = personSpringRepository.findByNumber(fee.getPerson()
+        person = personSpringRepository.findByNumber(fee.person()
             .getNumber())
             .get();
         return FeeEntity.builder()
             .withPerson(person)
-            .withDate(fee.getDate())
+            .withDate(fee.date())
             .build();
     }
 

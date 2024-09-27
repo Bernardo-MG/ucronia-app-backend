@@ -66,10 +66,10 @@ public final class DefaultFeeReportService implements FeeReportService {
         // TODO: user a smaller query
         fees = feeRepository.findAllInMonth(YearMonth.now());
         paid = fees.stream()
-            .filter(Fee::isPaid)
+            .filter(Fee::paid)
             .count();
         unpaid = fees.stream()
-            .filter(Predicate.not(Fee::isPaid))
+            .filter(Predicate.not(Fee::paid))
             .count();
 
         report = FeePaymentReport.builder()

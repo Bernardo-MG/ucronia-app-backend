@@ -64,7 +64,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
+            .extracting(fee -> fee.person()
                 .getFullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
@@ -87,7 +87,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
+            .extracting(fee -> fee.person()
                 .getFullName())
             .as("fee full names")
             .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
@@ -110,7 +110,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
+            .extracting(fee -> fee.person()
                 .getFullName())
             .as("fee full names")
             .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",
