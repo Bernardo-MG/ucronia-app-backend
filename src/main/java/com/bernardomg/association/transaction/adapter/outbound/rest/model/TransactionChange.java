@@ -3,8 +3,6 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,7 +19,6 @@ public final class TransactionChange {
     @NotNull
     private Float     amount;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate date;
 
