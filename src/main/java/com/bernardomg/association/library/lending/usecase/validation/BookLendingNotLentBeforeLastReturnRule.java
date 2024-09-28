@@ -28,14 +28,14 @@ public final class BookLendingNotLentBeforeLastReturnRule implements FieldRule<B
         final FieldFailure           fieldFailure;
         final Optional<BookLending>  returned;
 
-        returned = bookLendingRepository.findReturned(lending.getNumber());
-        if ((returned.isPresent()) && (lending.getLendingDate()
+        returned = bookLendingRepository.findReturned(lending.number());
+        if ((returned.isPresent()) && (lending.lendingDate()
             .isBefore(returned.get()
-                .getReturnDate()))) {
-            log.error("Lending book {} to {} on {}, which is before last return {}", lending.getNumber(),
-                lending.getPerson(), lending.getLendingDate(), returned.get()
-                    .getReturnDate());
-            fieldFailure = FieldFailure.of("lendingDate", "invalid", lending.getLendingDate());
+                .returnDate()))) {
+            log.error("Lending book {} to {} on {}, which is before last return {}", lending.number(), lending.person(),
+                lending.lendingDate(), returned.get()
+                    .returnDate());
+            fieldFailure = FieldFailure.of("lendingDate", "invalid", lending.lendingDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

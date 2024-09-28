@@ -100,9 +100,9 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         // Used just for validation
         lending = BookLending.builder()
-            .withNumber(read.getNumber())
-            .withPerson(read.getPerson())
-            .withLendingDate(read.getLendingDate())
+            .withNumber(read.number())
+            .withPerson(read.person())
+            .withLendingDate(read.lendingDate())
             .withReturnDate(date)
             .build();
 

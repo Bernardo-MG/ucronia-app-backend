@@ -21,11 +21,11 @@ public final class BookLendingNotReturnedBeforeLentRule implements FieldRule<Boo
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (lending.getReturnDate()
-            .isBefore(lending.getLendingDate())) {
-            log.error("Returning book {} from {} on {}, which is before the lent date {}", lending.getNumber(),
-                lending.getPerson(), lending.getReturnDate(), lending.getLendingDate());
-            fieldFailure = FieldFailure.of("returnDate", "invalid", lending.getReturnDate());
+        if (lending.returnDate()
+            .isBefore(lending.lendingDate())) {
+            log.error("Returning book {} from {} on {}, which is before the lent date {}", lending.number(),
+                lending.person(), lending.returnDate(), lending.lendingDate());
+            fieldFailure = FieldFailure.of("returnDate", "invalid", lending.returnDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
