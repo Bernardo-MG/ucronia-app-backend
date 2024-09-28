@@ -117,7 +117,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
     private final GameSystemEntity toEntity(final GameSystem domain) {
         return GameSystemEntity.builder()
-            .withName(domain.getName())
+            .withName(domain.name())
             .build();
     }
 

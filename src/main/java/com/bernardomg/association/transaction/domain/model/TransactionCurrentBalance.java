@@ -25,14 +25,8 @@
 package com.bernardomg.association.transaction.domain.model;
 
 import lombok.Builder;
-import lombok.Value;
 
-@Value
 @Builder(setterPrefix = "with")
-public final class TransactionCurrentBalance {
-
-    private float results;
-
-    private float total;
+public record TransactionCurrentBalance(Float results, Float total) {
 
 }

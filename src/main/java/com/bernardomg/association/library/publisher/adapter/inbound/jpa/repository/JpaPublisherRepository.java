@@ -117,7 +117,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
     private final PublisherEntity toEntity(final Publisher domain) {
         return PublisherEntity.builder()
-            .withName(domain.getName())
+            .withName(domain.name())
             .build();
     }
 

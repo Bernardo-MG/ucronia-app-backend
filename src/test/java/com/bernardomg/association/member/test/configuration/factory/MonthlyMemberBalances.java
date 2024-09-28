@@ -24,7 +24,7 @@ public final class MonthlyMemberBalances {
     public static final MonthlyMemberBalance forMonth(final YearMonth month) {
         return MonthlyMemberBalance.builder()
             .withDate(month)
-            .withTotal(1)
+            .withTotal(1L)
             .build();
     }
 

@@ -32,9 +32,9 @@ public final class PublisherNameNotExistsRule implements FieldRule<Publisher> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if ((!StringUtils.isBlank(publisher.getName())) && (publisherRepository.exists(publisher.getName()))) {
-            log.error("Existing name {}", publisher.getName());
-            fieldFailure = FieldFailure.of("name", "existing", publisher.getName());
+        if ((!StringUtils.isBlank(publisher.name())) && (publisherRepository.exists(publisher.name()))) {
+            log.error("Existing name {}", publisher.name());
+            fieldFailure = FieldFailure.of("name", "existing", publisher.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

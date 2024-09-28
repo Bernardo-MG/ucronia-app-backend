@@ -334,7 +334,7 @@ public final class JpaBookRepository implements BookRepository {
             .isPresent()) {
             bookType = bookTypeSpringRepository.findByName(domain.getBookType()
                 .get()
-                .getName());
+                .name());
         } else {
             bookType = Optional.empty();
         }
@@ -342,14 +342,14 @@ public final class JpaBookRepository implements BookRepository {
             .isPresent()) {
             gameSystem = gameSystemSpringRepository.findByName(domain.getGameSystem()
                 .get()
-                .getName());
+                .name());
         } else {
             gameSystem = Optional.empty();
         }
 
         publisherNames = domain.getPublishers()
             .stream()
-            .map(Publisher::getName)
+            .map(Publisher::name)
             .toList();
         publishers = publisherSpringRepository.findAllByNameIn(publisherNames);
 
@@ -361,7 +361,7 @@ public final class JpaBookRepository implements BookRepository {
 
         authorNames = domain.getAuthors()
             .stream()
-            .map(Author::getName)
+            .map(Author::name)
             .toList();
         authors = authorSpringRepository.findAllByNameIn(authorNames);
 

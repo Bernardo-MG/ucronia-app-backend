@@ -209,8 +209,8 @@ public final class DefaultBookService implements BookService {
         // Check authors exist
         book.getAuthors()
             .forEach(a -> {
-                if (!authorRepository.exists(a.getName())) {
-                    throw new MissingAuthorException(a.getName());
+                if (!authorRepository.exists(a.name())) {
+                    throw new MissingAuthorException(a.name());
                 }
             });
 
@@ -218,8 +218,8 @@ public final class DefaultBookService implements BookService {
         // Check publishers exist
         book.getPublishers()
             .forEach(p -> {
-                if (!publisherRepository.exists(p.getName())) {
-                    throw new MissingPublisherException(p.getName());
+                if (!publisherRepository.exists(p.name())) {
+                    throw new MissingPublisherException(p.name());
                 }
             });
 
@@ -228,10 +228,10 @@ public final class DefaultBookService implements BookService {
             .isPresent()
                 && !gameSystemRepository.exists(book.getGameSystem()
                     .get()
-                    .getName())) {
+                    .name())) {
             throw new MissingGameSystemException(book.getGameSystem()
                 .get()
-                .getName());
+                .name());
         }
 
         // Check book type exist
@@ -239,10 +239,10 @@ public final class DefaultBookService implements BookService {
             .isPresent()
                 && !bookTypeRepository.exists(book.getBookType()
                     .get()
-                    .getName())) {
+                    .name())) {
             throw new MissingBookTypeException(book.getBookType()
                 .get()
-                .getName());
+                .name());
         }
 
         // Check donor exist
