@@ -38,7 +38,6 @@ import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -71,7 +70,7 @@ public class MemberBalanceController {
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery query, final Sort sort) {
+    public Iterable<? extends MonthlyMemberBalance> monthly(final MemberBalanceQuery query, final Sort sort) {
         return service.getMonthlyBalance(query, sort);
     }
 

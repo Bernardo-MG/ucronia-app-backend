@@ -31,7 +31,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -102,7 +101,7 @@ public class FeeController {
                     // Member caches
                     MembersCaches.MEMBERS, MembersCaches.MEMBER, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE },
                     allEntries = true) })
-    public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+    public void delete(@PathVariable("date") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         service.delete(memberNumber, date);
     }
@@ -117,7 +116,7 @@ public class FeeController {
     @GetMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
-    public Fee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+    public Fee readOne(@PathVariable("date") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.getOne(memberNumber, date)
             .orElse(null);
