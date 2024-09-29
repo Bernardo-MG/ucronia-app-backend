@@ -395,6 +395,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .withDate(entity.getDate())
             .withPerson(feePerson)
             .withTransaction(feeTransaction)
+            .withPaid(false)
             .build();
     }
 

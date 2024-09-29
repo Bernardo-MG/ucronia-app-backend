@@ -70,7 +70,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         // TODO: reduce the number of queries
         feesToCreate = feesToExtend.stream()
             // Prepare for the current month
-            .map(this::toCurrentMonth)
+            .map(this::toUnpaidThisMonth)
             // Make sure the user is active
             .filter(this::isActive)
             // Make sure it doesn't exist
@@ -92,7 +92,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .number(), fee.date());
     }
 
-    private final Fee toCurrentMonth(final Fee fee) {
+    private final Fee toUnpaidThisMonth(final Fee fee) {
         final FeePerson person;
 
         person = FeePerson.builder()
@@ -102,6 +102,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         return Fee.builder()
             .withPerson(person)
             .withDate(YearMonth.now())
+            .withPaid(false)
             .build();
     }
 
