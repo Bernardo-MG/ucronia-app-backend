@@ -142,9 +142,9 @@ public final class JpaDonorRepository implements DonorRepository {
         return PersonEntity.builder()
             .withNumber(donor.number())
             .withFirstName(donor.name()
-                .getFirstName())
+                .firstName())
             .withLastName(donor.name()
-                .getLastName())
+                .lastName())
             .withPhone("")
             .withIdentifier("")
             .build();

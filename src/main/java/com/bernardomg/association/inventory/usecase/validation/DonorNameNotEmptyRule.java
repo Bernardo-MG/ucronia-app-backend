@@ -27,10 +27,10 @@ public final class DonorNameNotEmptyRule implements FieldRule<Donor> {
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(donor.name()
-            .getFirstName())) {
+            .firstName())) {
             log.error("Empty name");
             fieldFailure = FieldFailure.of("name", "empty", donor.name()
-                .getFirstName());
+                .firstName());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
