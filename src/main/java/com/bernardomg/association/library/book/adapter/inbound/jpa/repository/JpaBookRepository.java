@@ -355,7 +355,7 @@ public final class JpaBookRepository implements BookRepository {
 
         donorNumbers = domain.getDonors()
             .stream()
-            .map(Donor::getNumber)
+            .map(Donor::number)
             .toList();
         donors = personSpringRepository.findAllByNumberIn(donorNumbers);
 

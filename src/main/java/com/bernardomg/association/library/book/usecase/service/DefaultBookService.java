@@ -247,9 +247,9 @@ public final class DefaultBookService implements BookService {
 
         // Check donor exist
         for (final Donor donor : book.getDonors()) {
-            donorExists = donorRepository.exists(donor.getNumber());
+            donorExists = donorRepository.exists(donor.number());
             if (!donorExists) {
-                throw new MissingDonorException(donor.getNumber());
+                throw new MissingDonorException(donor.number());
             }
         }
 

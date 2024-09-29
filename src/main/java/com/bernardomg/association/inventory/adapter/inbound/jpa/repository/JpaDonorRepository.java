@@ -110,7 +110,7 @@ public final class JpaDonorRepository implements DonorRepository {
 
         entity = toEntity(donor);
 
-        existing = personSpringRepository.findByNumber(donor.getNumber());
+        existing = personSpringRepository.findByNumber(donor.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -140,10 +140,10 @@ public final class JpaDonorRepository implements DonorRepository {
 
     private final PersonEntity toEntity(final Donor donor) {
         return PersonEntity.builder()
-            .withNumber(donor.getNumber())
-            .withFirstName(donor.getName()
+            .withNumber(donor.number())
+            .withFirstName(donor.name()
                 .getFirstName())
-            .withLastName(donor.getName()
+            .withLastName(donor.name()
                 .getLastName())
             .withPhone("")
             .withIdentifier("")
