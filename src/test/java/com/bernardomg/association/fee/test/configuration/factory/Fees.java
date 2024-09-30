@@ -25,12 +25,7 @@ public final class Fees {
             .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.DATE, true, person, transaction);
     }
 
     public static final Fee newlyCreated() {
@@ -43,12 +38,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.DATE)
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.DATE, false, person, transaction);
     }
 
     public static final Fee noLastName() {
@@ -63,12 +53,7 @@ public final class Fees {
             .withIndex(TransactionConstants.INDEX)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.DATE, true, person, transaction);
     }
 
     public static final Fee notPaid() {
@@ -81,12 +66,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.DATE)
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.DATE, false, person, transaction);
     }
 
     public static final Fee notPaidAt(final long index, final Month month) {
@@ -99,12 +79,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), false, person, transaction);
     }
 
     public static final Fee notPaidCurrentMonth() {
@@ -117,12 +92,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.CURRENT_MONTH, false, person, transaction);
     }
 
     public static final Fee notPaidNextYear() {
@@ -135,12 +105,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.NEXT_YEAR_MONTH)
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.NEXT_YEAR_MONTH, false, person, transaction);
     }
 
     public static final Fee notPaidPreviousMonth() {
@@ -153,12 +118,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.PREVIOUS_MONTH)
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.PREVIOUS_MONTH, false, person, transaction);
     }
 
     public static final Fee notPaidTwoMonthsBack() {
@@ -171,12 +131,7 @@ public final class Fees {
             .build();
         transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.TWO_MONTHS_BACK)
-            .withPaid(false)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.TWO_MONTHS_BACK, false, person, transaction);
     }
 
     public static final Fee paid() {
@@ -191,12 +146,7 @@ public final class Fees {
             .withIndex(TransactionConstants.INDEX)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.DATE, true, person, transaction);
     }
 
     public static final Fee paidAt(final int month) {
@@ -211,12 +161,7 @@ public final class Fees {
             .withIndex((long) month)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
     }
 
     public static final Fee paidAt(final int month, final long index) {
@@ -231,12 +176,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
     }
 
     public static final Fee paidAt(final long index, final Month month) {
@@ -251,12 +191,7 @@ public final class Fees {
             .withIndex(index * 10)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
     }
 
     public static final Fee paidAtAlternative(final int month) {
@@ -271,12 +206,7 @@ public final class Fees {
             .withIndex((long) month + 29)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
     }
 
     public static final Fee paidAtNoLastName(final int month) {
@@ -291,12 +221,7 @@ public final class Fees {
             .withIndex((long) month)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(FeeConstants.YEAR_VALUE, month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
     }
 
     public static final Fee paidAtPreviousYear(final int month) {
@@ -311,12 +236,8 @@ public final class Fees {
             .withIndex((long) month)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        // TODO: don't use member calendar
+        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person, transaction);
     }
 
     public static final Fee paidAtPreviousYear(final int month, final long index) {
@@ -331,12 +252,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month))
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person, transaction);
     }
 
     public static final Fee paidCurrentMonth() {
@@ -351,12 +267,7 @@ public final class Fees {
             .withIndex(TransactionConstants.INDEX)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.CURRENT_MONTH, true, person, transaction);
     }
 
     public static final Fee paidCurrentMonth(final long index) {
@@ -371,12 +282,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.CURRENT_MONTH, true, person, transaction);
     }
 
     public static final Fee paidFirstNextYear(final long index) {
@@ -391,12 +297,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.FIRST_NEXT_YEAR_DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.FIRST_NEXT_YEAR_DATE, true, person, transaction);
     }
 
     public static final Fee paidLastInYear(final long index) {
@@ -411,12 +312,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.LAST_YEAR_DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.LAST_YEAR_DATE, true, person, transaction);
     }
 
     public static final Fee paidNextDate() {
@@ -431,12 +327,7 @@ public final class Fees {
             .withIndex(TransactionConstants.INDEX)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.NEXT_DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.NEXT_DATE, true, person, transaction);
     }
 
     public static final Fee paidNextDateWithIndex(final long index) {
@@ -451,12 +342,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.NEXT_DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.NEXT_DATE, true, person, transaction);
     }
 
     public static final Fee paidNextYear(final long index) {
@@ -471,12 +357,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(TransactionConstants.DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.NEXT_YEAR_MONTH)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.NEXT_YEAR_MONTH, true, person, transaction);
     }
 
     public static final Fee paidPreviousMonth() {
@@ -491,12 +372,7 @@ public final class Fees {
             .withIndex(TransactionConstants.INDEX)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.PREVIOUS_MONTH)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
     }
 
     public static final Fee paidPreviousMonth(final long index) {
@@ -511,12 +387,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.PREVIOUS_MONTH)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
     }
 
     public static final Fee paidPreviousMonthNew() {
@@ -531,12 +402,7 @@ public final class Fees {
             .withIndex(TransactionConstants.INDEX_SMALL)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.PREVIOUS_MONTH)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
     }
 
     public static final Fee paidTwoMonthsBack(final long index) {
@@ -551,12 +417,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.TRANSACTION_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.TWO_MONTHS_BACK)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.TWO_MONTHS_BACK, true, person, transaction);
     }
 
     public static final Fee paidWithIndex(final long index) {
@@ -571,12 +432,7 @@ public final class Fees {
             .withIndex(index)
             .withDate(FeeConstants.PAYMENT_DATE)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(FeeConstants.DATE, true, person, transaction);
     }
 
     public static final Fee toCreate() {
@@ -585,11 +441,7 @@ public final class Fees {
         person = FeePerson.builder()
             .withNumber(PersonConstants.NUMBER)
             .build();
-        return Fee.builder()
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .withPaid(false)
-            .withPerson(person)
-            .build();
+        return new Fee(FeeConstants.CURRENT_MONTH, false, person, null);
     }
 
     private Fees() {

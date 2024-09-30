@@ -375,28 +375,23 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final FeePerson      feePerson;
-        final FeeTransaction feeTransaction;
+        final FeePerson      person;
+        final FeeTransaction transaction;
         final String         name;
 
         name = (entity.getPerson()
             .getFirstName() + " "
                 + entity.getPerson()
                     .getLastName()).trim();
-        feePerson = FeePerson.builder()
+        person = FeePerson.builder()
             .withFullName(name)
             .withNumber(entity.getPerson()
                 .getNumber())
             .build();
 
-        feeTransaction = FeeTransaction.builder()
+        transaction = FeeTransaction.builder()
             .build();
-        return Fee.builder()
-            .withDate(entity.getDate())
-            .withPerson(feePerson)
-            .withTransaction(feeTransaction)
-            .withPaid(false)
-            .build();
+        return new Fee(entity.getDate(), false, person, transaction);
     }
 
     private final Fee toDomain(final MemberFee entity) {
@@ -411,12 +406,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .withIndex(entity.getTransactionIndex())
             .withDate(entity.getPaymentDate())
             .build();
-        return Fee.builder()
-            .withDate(entity.getDate())
-            .withPaid(entity.getPaid())
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
     private final Fee toDomain(final MemberFeeEntity entity) {
@@ -431,12 +421,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .withIndex(entity.getTransactionIndex())
             .withDate(entity.getPaymentDate())
             .build();
-        return Fee.builder()
-            .withDate(entity.getDate())
-            .withPaid(entity.getPaid())
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
     private final FeeEntity toEntity(final Fee fee) {

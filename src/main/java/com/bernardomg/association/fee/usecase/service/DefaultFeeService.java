@@ -262,12 +262,7 @@ public final class DefaultFeeService implements FeeService {
             .withDate(transaction)
             .withIndex(null)
             .build();
-        return Fee.builder()
-            .withPerson(feePerson)
-            .withTransaction(feeTransaction)
-            .withDate(date)
-            .withPaid(false)
-            .build();
+        return new Fee(date, false, feePerson, feeTransaction);
     }
 
 }

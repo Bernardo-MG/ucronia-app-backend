@@ -99,11 +99,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .withNumber(fee.person()
                 .number())
             .build();
-        return Fee.builder()
-            .withPerson(person)
-            .withDate(YearMonth.now())
-            .withPaid(false)
-            .build();
+        return new Fee(YearMonth.now(), false, person, null);
     }
 
 }
