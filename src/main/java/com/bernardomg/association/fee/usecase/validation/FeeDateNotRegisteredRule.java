@@ -52,7 +52,7 @@ public final class FeeDateNotRegisteredRule implements FieldRule<Collection<Fee>
             // TODO: use a single query
             existing = fees.stream()
                 .map(Fee::date)
-                .filter(date -> feeRepository.existsPaid(person.getNumber(), date))
+                .filter(date -> feeRepository.existsPaid(person.number(), date))
                 .toList();
             if (!existing.isEmpty()) {
                 log.error("Dates {} are already registered", existing);

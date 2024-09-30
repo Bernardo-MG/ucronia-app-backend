@@ -70,7 +70,7 @@ public final class DefaultUserPersonService implements UserPersonService {
             .build();
         assignPersonValidator.validate(userPerson);
 
-        userPersonRepository.save(readUser.getUsername(), readPerson.getNumber());
+        userPersonRepository.save(readUser.getUsername(), readPerson.number());
 
         return readPerson;
     }

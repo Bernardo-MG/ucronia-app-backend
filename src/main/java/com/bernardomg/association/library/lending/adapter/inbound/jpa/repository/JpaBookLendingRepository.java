@@ -192,7 +192,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         bookEntity = bookSpringRepository.findByNumber(lending.number());
         personEntity = personSpringRepository.findByNumber(lending.person()
-            .getNumber());
+            .number());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
             toCreate = toEntity(lending, bookEntity.get(), personEntity.get());

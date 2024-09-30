@@ -54,10 +54,10 @@ public final class DefaultPersonService implements PersonService {
         number = personRepository.findNextNumber();
 
         toCreate = Person.builder()
-            .withName(person.getName())
+            .withName(person.name())
             .withNumber(number)
-            .withIdentifier(person.getIdentifier())
-            .withPhone(person.getPhone())
+            .withIdentifier(person.identifier())
+            .withPhone(person.phone())
             .build();
 
         createPersonValidator.validate(toCreate);
@@ -106,14 +106,14 @@ public final class DefaultPersonService implements PersonService {
 
     @Override
     public final Person update(final Person person) {
-        log.debug("Updating person {} using data {}", person.getNumber(), person);
+        log.debug("Updating person {} using data {}", person.number(), person);
 
         // TODO: Identificator and phone must be unique or empty
         // TODO: Apply the creation validations
 
-        if (!personRepository.exists(person.getNumber())) {
-            log.error("Missing person {}", person.getNumber());
-            throw new MissingPersonException(person.getNumber());
+        if (!personRepository.exists(person.number())) {
+            log.error("Missing person {}", person.number());
+            throw new MissingPersonException(person.number());
         }
 
         return personRepository.save(person);

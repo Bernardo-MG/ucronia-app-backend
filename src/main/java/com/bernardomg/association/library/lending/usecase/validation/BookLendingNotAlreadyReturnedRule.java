@@ -29,7 +29,7 @@ public final class BookLendingNotAlreadyReturnedRule implements FieldRule<BookLe
         final Optional<BookLending>  returned;
 
         returned = bookLendingRepository.findReturned(lending.number(), lending.person()
-            .getNumber(), lending.lendingDate());
+            .number(), lending.lendingDate());
         if (returned.isPresent()) {
             log.error("Returning book {} to {} on {}, which was already returned on {}", lending.number(),
                 lending.person(), lending.returnDate(), returned.get()

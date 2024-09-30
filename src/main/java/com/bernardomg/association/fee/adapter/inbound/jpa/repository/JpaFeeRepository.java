@@ -309,7 +309,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Collection<MemberFeeEntity> read;
         final Collection<YearMonth>       feeDates;
 
-        log.debug("Paying fees for {}, using fees {} and transaction {}", person.getNumber(), fees, transaction);
+        log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
         feeDates = fees.stream()
             .map(Fee::date)
@@ -319,7 +319,7 @@ public final class JpaFeeRepository implements FeeRepository {
         transactionId = transactionSpringRepository.findByIndex(transaction.getIndex())
             .get()
             .getId();
-        read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.getNumber(), feeDates);
+        read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.number(), feeDates);
 
         // Register payments
         payments = read.stream()
@@ -335,7 +335,7 @@ public final class JpaFeeRepository implements FeeRepository {
         feePaymentSpringRepository.flush();
         memberFeeSpringRepository.flush();
 
-        log.debug("Paid fees for {}, using fees {} and transaction {}", person.getNumber(), fees, transaction);
+        log.debug("Paid fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
     }
 
     @Override

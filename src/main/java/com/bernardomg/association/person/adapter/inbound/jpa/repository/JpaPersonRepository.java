@@ -110,7 +110,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         entity = toEntity(person);
 
-        existing = personSpringRepository.findByNumber(person.getNumber());
+        existing = personSpringRepository.findByNumber(person.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -205,13 +205,13 @@ public final class JpaPersonRepository implements PersonRepository {
 
     private final PersonEntity toEntity(final Person data) {
         return PersonEntity.builder()
-            .withNumber(data.getNumber())
-            .withFirstName(data.getName()
+            .withNumber(data.number())
+            .withFirstName(data.name()
                 .firstName())
-            .withLastName(data.getName()
+            .withLastName(data.name()
                 .lastName())
-            .withIdentifier(data.getIdentifier())
-            .withPhone(data.getPhone())
+            .withIdentifier(data.identifier())
+            .withPhone(data.phone())
             .build();
     }
 

@@ -223,7 +223,7 @@ public final class DefaultFeeService implements FeeService {
         // Register transaction
         index = transactionRepository.findNextIndex();
 
-        name = person.getName()
+        name = person.name()
             .getFullName();
 
         dates = feeDates.stream()
@@ -256,7 +256,7 @@ public final class DefaultFeeService implements FeeService {
         feePerson = FeePerson.builder()
             // TODO
             .withFullName(null)
-            .withNumber(person.getNumber())
+            .withNumber(person.number())
             .build();
         feeTransaction = FeeTransaction.builder()
             .withDate(transaction)
