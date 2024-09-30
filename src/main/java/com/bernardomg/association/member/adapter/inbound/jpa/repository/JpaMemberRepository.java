@@ -187,13 +187,13 @@ public final class JpaMemberRepository implements MemberRepository {
 
         entity = toEntity(member);
 
-        existingMember = memberSpringRepository.findByNumber(member.getNumber());
+        existingMember = memberSpringRepository.findByNumber(member.number());
         if (existingMember.isPresent()) {
             entity.setId(existingMember.get()
                 .getId());
         }
 
-        existingPerson = personSpringRepository.findByNumber(member.getNumber());
+        existingPerson = personSpringRepository.findByNumber(member.number());
         if (existingPerson.isPresent()) {
             entity.getPerson()
                 .setId(existingPerson.get()
@@ -239,17 +239,17 @@ public final class JpaMemberRepository implements MemberRepository {
 
         // FIXME: load the person if it exists
         person = PersonEntity.builder()
-            .withNumber(data.getNumber())
-            .withIdentifier(data.getIdentifier())
-            .withFirstName(data.getName()
+            .withNumber(data.number())
+            .withIdentifier(data.identifier())
+            .withFirstName(data.name()
                 .firstName())
-            .withLastName(data.getName()
+            .withLastName(data.name()
                 .lastName())
-            .withPhone(data.getPhone())
+            .withPhone(data.phone())
             .build();
         return MemberEntity.builder()
             .withPerson(person)
-            .withActive(data.getActive())
+            .withActive(data.active())
             .build();
     }
 
