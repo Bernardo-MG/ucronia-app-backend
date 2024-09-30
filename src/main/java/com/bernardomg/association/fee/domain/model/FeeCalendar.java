@@ -26,9 +26,6 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.util.Collection;
 
-import lombok.Builder;
-
-@Builder(setterPrefix = "with")
 public record FeeCalendar(FeeCalendarMember member, Collection<FeeCalendarMonth> months, Integer year) {
 
 }

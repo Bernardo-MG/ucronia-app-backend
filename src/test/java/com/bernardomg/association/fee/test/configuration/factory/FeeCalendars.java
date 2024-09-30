@@ -24,11 +24,8 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidAlternative());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(months)
-            .build();
+        // TODO: don't use member calendar constants
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar activeNextYear() {
@@ -41,11 +38,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidNextYear());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
     }
 
     public static final FeeCalendar activeNotPaidCurrentMonth() {
@@ -58,11 +51,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.notPaid());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR_CURRENT.getValue())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue());
     }
 
     public static final FeeCalendar activeNotPaidNextYear() {
@@ -75,11 +64,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidNextYear());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
     }
 
     public static final FeeCalendar activeNotPaidPreviousMonth() {
@@ -92,11 +77,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.notPaidPreviousMonth());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
     }
 
     public static final FeeCalendar activeNotPaidTwoMonthsBack() {
@@ -109,11 +90,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.notPaidTwoMonthsBack());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.TWO_MONTHS_BACK_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
     }
 
     public static final FeeCalendar activePaidCurrentMonth() {
@@ -126,11 +103,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paid());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR_CURRENT.getValue())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue());
     }
 
     public static final FeeCalendar activePaidNextYear() {
@@ -143,11 +116,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidNextYear());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
     }
 
     public static final FeeCalendar activePaidTwoMonthsBack() {
@@ -160,11 +129,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidTwoMonthsBack());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.TWO_MONTHS_BACK_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
     }
 
     public static final FeeCalendar activePreviousMonth() {
@@ -177,11 +142,7 @@ public final class FeeCalendars {
             .withActive(true)
             .build();
         months = List.of(FeeMonths.paidPreviousMonth());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
     }
 
     public static final FeeCalendar currentActive() {
@@ -192,11 +153,8 @@ public final class FeeCalendars {
             .withNumber(PersonConstants.NUMBER)
             .withActive(true)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(YearMonth.now()
-                .getYear())
-            .build();
+        return new FeeCalendar(member, List.of(), YearMonth.now()
+            .getYear());
     }
 
     public static final FeeCalendar currentInactive() {
@@ -207,11 +165,8 @@ public final class FeeCalendars {
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(YearMonth.now()
-                .getYear())
-            .build();
+        return new FeeCalendar(member, List.of(), YearMonth.now()
+            .getYear());
     }
 
     public static final FeeCalendar inactive() {
@@ -224,11 +179,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaid());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar inactiveAlternative() {
@@ -241,83 +192,71 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidAlternative());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar inactivefullCalendar() {
-        final FeeCalendarMember member;
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
             .withFullName(PersonConstants.FULL_NAME)
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
-                FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
-                FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
-                FeeMonths.paidAtMonth(11), FeeMonths.paidAtMonth(12)))
-            .build();
+        months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
+            FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
+            FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
+            FeeMonths.paidAtMonth(12));
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar inactivefullCalendarAlternative() {
-        final FeeCalendarMember member;
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
             .withFullName(PersonConstants.ALTERNATIVE_FULL_NAME)
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
-                FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
-                FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
-                FeeMonths.paidAtMonth(11), FeeMonths.paidAtMonth(12)))
-            .build();
+        months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
+            FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
+            FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
+            FeeMonths.paidAtMonth(12));
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar inactivefullCalendarNoLastName() {
-        final FeeCalendarMember member;
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
             .withFullName(PersonConstants.NAME)
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
-                FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
-                FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
-                FeeMonths.paidAtMonth(11), FeeMonths.paidAtMonth(12)))
-            .build();
+        months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
+            FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
+            FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
+            FeeMonths.paidAtMonth(12));
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar inactivefullCalendarNoName() {
-        final FeeCalendarMember member;
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
             .withFullName("")
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
-                FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
-                FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
-                FeeMonths.paidAtMonth(11), FeeMonths.paidAtMonth(12)))
-            .build();
+        months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
+            FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
+            FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
+            FeeMonths.paidAtMonth(12));
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar inactiveNotPaidNextYear() {
@@ -330,11 +269,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidNextYear());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
     }
 
     public static final FeeCalendar inactiveNotPaidPreviousMonth() {
@@ -347,11 +282,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidPreviousMonth());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
     }
 
     public static final FeeCalendar inactiveNotPaidTwoMonthsBack() {
@@ -364,11 +295,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.notPaidTwoMonthsBack());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.TWO_MONTHS_BACK_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
     }
 
     public static final FeeCalendar inactivePaidCurrentMonth() {
@@ -381,11 +308,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paid());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR_CURRENT.getValue())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue());
     }
 
     public static final FeeCalendar inactivePaidNextYear() {
@@ -398,11 +321,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidNextYear());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
     }
 
     public static final FeeCalendar inactivePaidTwoMonthsBack() {
@@ -415,11 +334,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidTwoMonthsBack());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.TWO_MONTHS_BACK_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
     }
 
     public static final FeeCalendar inactivePreviousMonth() {
@@ -432,11 +347,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidPreviousMonth());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
     }
 
     public static final FeeCalendar inactivePreviousYear() {
@@ -447,45 +358,38 @@ public final class FeeCalendars {
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR_PREVIOUS.getValue())
-            .build();
+        return new FeeCalendar(member, List.of(), MemberCalendars.YEAR_PREVIOUS.getValue());
     }
 
     public static final FeeCalendar inactiveTwoConnectedFirst() {
-        final FeeCalendarMember member;
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
             .withFullName(PersonConstants.FULL_NAME)
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR_PREVIOUS.getValue())
-            .withMonths(List.of(FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.OCTOBER.getValue()),
-                FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.NOVEMBER.getValue()),
-                FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.DECEMBER.getValue())))
-            .build();
+        months = List.of(FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.OCTOBER.getValue()),
+            FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.NOVEMBER.getValue()),
+            FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.DECEMBER.getValue()));
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_PREVIOUS.getValue());
     }
 
     public static final FeeCalendar inactiveTwoConnectedSecond() {
-        final FeeCalendarMember member;
+        final FeeCalendarMember            member;
+        final Collection<FeeCalendarMonth> months;
 
         member = FeeCalendarMember.builder()
             .withFullName(PersonConstants.FULL_NAME)
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .withMonths(List.of(FeeMonths.paid(2020, Month.JANUARY.getValue()),
-                FeeMonths.paid(2020, Month.FEBRUARY.getValue()), FeeMonths.paid(2020, Month.MARCH.getValue()),
-                FeeMonths.paid(2020, Month.APRIL.getValue()), FeeMonths.paid(2020, Month.MAY.getValue()),
-                FeeMonths.paid(2020, Month.JUNE.getValue()), FeeMonths.paid(2020, Month.JULY.getValue())))
-            .build();
+        months = List.of(FeeMonths.paid(2020, Month.JANUARY.getValue()),
+            FeeMonths.paid(2020, Month.FEBRUARY.getValue()), FeeMonths.paid(2020, Month.MARCH.getValue()),
+            FeeMonths.paid(2020, Month.APRIL.getValue()), FeeMonths.paid(2020, Month.MAY.getValue()),
+            FeeMonths.paid(2020, Month.JUNE.getValue()), FeeMonths.paid(2020, Month.JULY.getValue()));
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar noLastName() {
@@ -496,10 +400,7 @@ public final class FeeCalendars {
             .withNumber(PersonConstants.NUMBER)
             .withActive(false)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.YEAR.getValue())
-            .build();
+        return new FeeCalendar(member, List.of(), MemberCalendars.YEAR.getValue());
     }
 
     public static final FeeCalendar paidTwoMonthsBack() {
@@ -512,11 +413,7 @@ public final class FeeCalendars {
             .withActive(false)
             .build();
         months = List.of(FeeMonths.paidTwoMonthsBack());
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withYear(MemberCalendars.TWO_MONTHS_BACK_DATE.getYear())
-            .withMonths(months)
-            .build();
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
     }
 
     private FeeCalendars() {

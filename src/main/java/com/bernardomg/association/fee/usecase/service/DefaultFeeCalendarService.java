@@ -188,11 +188,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .withFullName(memberName)
             .withActive(active)
             .build();
-        return FeeCalendar.builder()
-            .withMember(member)
-            .withMonths(months)
-            .withYear(year.getValue())
-            .build();
+        return new FeeCalendar(member, months,year.getValue());
     }
 
 }
