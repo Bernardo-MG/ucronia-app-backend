@@ -242,9 +242,9 @@ public final class JpaMemberRepository implements MemberRepository {
             .withNumber(data.getNumber())
             .withIdentifier(data.getIdentifier())
             .withFirstName(data.getName()
-                .getFirstName())
+                .firstName())
             .withLastName(data.getName()
-                .getLastName())
+                .lastName())
             .withPhone(data.getPhone())
             .build();
         return MemberEntity.builder()

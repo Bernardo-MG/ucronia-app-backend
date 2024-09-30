@@ -207,9 +207,9 @@ public final class JpaPersonRepository implements PersonRepository {
         return PersonEntity.builder()
             .withNumber(data.getNumber())
             .withFirstName(data.getName()
-                .getFirstName())
+                .firstName())
             .withLastName(data.getName()
-                .getLastName())
+                .lastName())
             .withIdentifier(data.getIdentifier())
             .withPhone(data.getPhone())
             .build();

@@ -27,7 +27,7 @@ public final class MemberNameNotEmptyRule implements FieldRule<Member> {
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(member.getName()
-            .getFirstName())) {
+            .firstName())) {
             log.error("Empty first name");
             fieldFailure = FieldFailure.of("name.firstName", "empty", member.getName());
             failure = Optional.of(fieldFailure);

@@ -168,13 +168,13 @@ public final class DefaultMemberService implements MemberService {
         } else {
             name = PersonName.builder()
                 .withFirstName(Optional.ofNullable(updated.getName()
-                    .getFirstName())
+                    .firstName())
                     .orElse(existing.getName()
-                        .getFirstName()))
+                        .firstName()))
                 .withLastName(Optional.ofNullable(updated.getName()
-                    .getLastName())
+                    .lastName())
                     .orElse(existing.getName()
-                        .getLastName()))
+                        .lastName()))
                 .build();
         }
         return Member.builder()

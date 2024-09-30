@@ -27,7 +27,7 @@ public final class PersonNameNotEmptyRule implements FieldRule<Person> {
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(person.getName()
-            .getFirstName())) {
+            .firstName())) {
             log.error("Empty name");
             fieldFailure = FieldFailure.of("name.firstName", "empty", person.getName());
             failure = Optional.of(fieldFailure);
