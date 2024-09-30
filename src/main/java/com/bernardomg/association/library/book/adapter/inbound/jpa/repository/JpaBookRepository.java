@@ -172,7 +172,7 @@ public final class JpaBookRepository implements BookRepository {
 
         entity = toEntity(book);
 
-        existing = bookSpringRepository.findByNumber(book.getNumber());
+        existing = bookSpringRepository.findByNumber(book.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -330,46 +330,46 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<PersonEntity>    donors;
         final Collection<AuthorEntity>    authors;
 
-        if (domain.getBookType()
+        if (domain.bookType()
             .isPresent()) {
-            bookType = bookTypeSpringRepository.findByName(domain.getBookType()
+            bookType = bookTypeSpringRepository.findByName(domain.bookType()
                 .get()
                 .name());
         } else {
             bookType = Optional.empty();
         }
-        if (domain.getGameSystem()
+        if (domain.gameSystem()
             .isPresent()) {
-            gameSystem = gameSystemSpringRepository.findByName(domain.getGameSystem()
+            gameSystem = gameSystemSpringRepository.findByName(domain.gameSystem()
                 .get()
                 .name());
         } else {
             gameSystem = Optional.empty();
         }
 
-        publisherNames = domain.getPublishers()
+        publisherNames = domain.publishers()
             .stream()
             .map(Publisher::name)
             .toList();
         publishers = publisherSpringRepository.findAllByNameIn(publisherNames);
 
-        donorNumbers = domain.getDonors()
+        donorNumbers = domain.donors()
             .stream()
             .map(Donor::number)
             .toList();
         donors = personSpringRepository.findAllByNumberIn(donorNumbers);
 
-        authorNames = domain.getAuthors()
+        authorNames = domain.authors()
             .stream()
             .map(Author::name)
             .toList();
         authors = authorSpringRepository.findAllByNameIn(authorNames);
 
         return BookEntity.builder()
-            .withNumber(domain.getNumber())
-            .withIsbn(domain.getIsbn())
-            .withTitle(domain.getTitle())
-            .withLanguage(domain.getLanguage())
+            .withNumber(domain.number())
+            .withIsbn(domain.isbn())
+            .withTitle(domain.title())
+            .withLanguage(domain.language())
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
             .withAuthors(authors)

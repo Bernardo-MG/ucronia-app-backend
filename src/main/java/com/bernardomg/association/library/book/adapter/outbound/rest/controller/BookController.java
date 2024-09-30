@@ -213,6 +213,8 @@ public class BookController {
             .withGameSystem(gameSystem)
             .withDonors(donors)
             .withNumber(number)
+            .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 

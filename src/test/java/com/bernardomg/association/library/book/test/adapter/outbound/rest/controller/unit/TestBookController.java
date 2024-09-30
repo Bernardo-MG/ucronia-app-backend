@@ -29,7 +29,7 @@ import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.test.json.JsonUtils;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordResetController")
+@DisplayName("BookController")
 class TestBookController {
 
     @InjectMocks

@@ -33,18 +33,18 @@ public final class BookIsbnValidRule implements FieldRule<Book> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (book.getIsbn()
+        if (book.isbn()
             .isBlank()
-                || ((pattern10.matcher(book.getIsbn())
+                || ((pattern10.matcher(book.isbn())
                     .matches())
-                        || (pattern13.matcher(book.getIsbn())
+                        || (pattern13.matcher(book.isbn())
                             .matches()))) {
             // Empty ISBN
             failure = Optional.empty();
         } else {
             // Invalid ISBN
-            log.error("Invalid ISBN {}", book.getIsbn());
-            fieldFailure = FieldFailure.of("isbn", "invalid", book.getIsbn());
+            log.error("Invalid ISBN {}", book.isbn());
+            fieldFailure = FieldFailure.of("isbn", "invalid", book.isbn());
             failure = Optional.of(fieldFailure);
         }
 

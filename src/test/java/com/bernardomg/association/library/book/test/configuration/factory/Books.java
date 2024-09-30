@@ -30,6 +30,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -45,6 +46,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid(), Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -60,6 +62,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -75,6 +78,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -90,6 +94,7 @@ public final class Books {
             .withBookType(Optional.empty())
             .withDonors(List.of())
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -105,6 +110,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -120,6 +126,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -135,6 +142,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -150,6 +158,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -165,6 +174,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -180,6 +190,7 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -194,8 +205,8 @@ public final class Books {
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
-            .withLent(true)
             .withLendings(List.of(BookBookLendings.lent()))
+            .withLent(true)
             .build();
     }
 
@@ -210,7 +221,6 @@ public final class Books {
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
-            .withLent(true)
             .withLendings(List.of(BookBookLending.builder()
                 .withPerson(Persons.valid())
                 .withLendingDate(LocalDate.of(2020, Month.JANUARY, 1))
@@ -235,6 +245,7 @@ public final class Books {
                     .withPerson(Persons.valid())
                     .withLendingDate(LocalDate.of(2020, Month.MAY, 10))
                     .build()))
+            .withLent(true)
             .build();
     }
 
@@ -250,6 +261,7 @@ public final class Books {
             .withBookType(Optional.empty())
             .withDonors(List.of())
             .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 
@@ -264,8 +276,8 @@ public final class Books {
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
-            .withLent(false)
             .withLendings(List.of(BookBookLendings.returned()))
+            .withLent(false)
             .build();
     }
 
@@ -280,7 +292,6 @@ public final class Books {
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
-            .withLent(false)
             .withLendings(List.of(BookBookLending.builder()
                 .withPerson(Persons.valid())
                 .withLendingDate(LocalDate.of(2020, Month.JANUARY, 1))
@@ -306,6 +317,7 @@ public final class Books {
                     .withLendingDate(LocalDate.of(2020, Month.MAY, 10))
                     .withReturnDate(LocalDate.of(2020, Month.MAY, 12))
                     .build()))
+            .withLent(false)
             .build();
     }
 
