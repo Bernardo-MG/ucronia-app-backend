@@ -19,7 +19,7 @@ import com.bernardomg.settings.test.configuration.factory.Settings;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SettingRepository - find one")
+@DisplayName("SettingRepository - find all")
 public class ITSettingRepositoryFindAll {
 
     @Autowired

@@ -15,7 +15,7 @@ public final class Settings {
     }
 
     public static final Setting floatValue() {
-        return new Setting(SettingConstants.NUMBER_TYPE, AssociationSettingsKey.FEE_AMOUNT, "10.1");
+        return new Setting(SettingConstants.NUMBER_TYPE, SettingConstants.CODE, "10.1");
     }
 
     public static final Setting intValue() {
