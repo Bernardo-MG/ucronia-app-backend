@@ -288,12 +288,15 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final FeeCalendarYearsRange findRange() {
-        final Collection<Integer>   years;
+        final Collection<Year>      years;
         final FeeCalendarYearsRange range;
 
         log.debug("Finding fees range");
 
-        years = memberFeeSpringRepository.findYears();
+        years = memberFeeSpringRepository.findYears()
+            .stream()
+            .map(Year::of)
+            .toList();
         range = new FeeCalendarYearsRange(years);
 
         log.debug("Found fees range: {}", range);

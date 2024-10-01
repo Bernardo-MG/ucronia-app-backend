@@ -24,11 +24,9 @@
 
 package com.bernardomg.association.fee.domain.model;
 
+import java.time.Year;
 import java.util.Collection;
 
-/**
- * TODO: user Year
- */
-public record FeeCalendarYearsRange(Collection<Integer> years) {
+public record FeeCalendarYearsRange(Collection<Year> years) {
 
 }

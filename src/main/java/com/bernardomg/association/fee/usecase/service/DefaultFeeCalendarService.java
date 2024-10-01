@@ -165,9 +165,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .getMonth()
             .getValue();
 
-        
         calendarFee = new FeeCalendarMonthFee(fee.date(), fee.paid());
-        return new FeeCalendarMonth(calendarFee,month);
+        return new FeeCalendarMonth(calendarFee, month);
     }
 
     private final FeeCalendar toFeeYear(final Long memberNumber, final PersonName name, final MemberStatus status,
