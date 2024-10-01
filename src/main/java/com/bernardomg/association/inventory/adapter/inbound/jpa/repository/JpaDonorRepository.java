@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -125,12 +125,9 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     private final Donor toDomain(final PersonEntity donor) {
-        final DonorName name;
+        final PersonName name;
 
-        name = DonorName.builder()
-            .withFirstName(donor.getFirstName())
-            .withLastName(donor.getLastName())
-            .build();
+        name = new PersonName(donor.getFirstName(), donor.getLastName());
 
         return new Donor(donor.getNumber(), name);
     }

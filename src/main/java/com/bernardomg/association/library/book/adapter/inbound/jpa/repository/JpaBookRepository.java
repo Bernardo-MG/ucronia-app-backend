@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
@@ -308,12 +307,9 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Donor toDonorDomain(final PersonEntity entity) {
-        final DonorName name;
+        final PersonName name;
 
-        name = DonorName.builder()
-            .withFirstName(entity.getFirstName())
-            .withLastName(entity.getLastName())
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
         return new Donor(entity.getNumber(), name);
     }
 

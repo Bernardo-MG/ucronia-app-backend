@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.inventory.domain.model;
 
-public record Donor(Long number, DonorName name) {
+import com.bernardomg.association.person.domain.model.PersonName;
+
+public record Donor(Long number, PersonName name) {
 
 }
