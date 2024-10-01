@@ -29,14 +29,10 @@ import java.util.Collection;
 
 import com.bernardomg.association.member.domain.model.PublicMember;
 
-import lombok.Builder;
-
 public record FeeCalendar(PublicMember member, Collection<FeeCalendarMonth> months, Integer year) {
 
-    @Builder(setterPrefix = "with")
     public record FeeCalendarMonth(FeeCalendarMonthFee fee, Integer month) {
 
-        @Builder(setterPrefix = "with")
         public record FeeCalendarMonthFee(YearMonth date, Boolean paid) {
 
         }
