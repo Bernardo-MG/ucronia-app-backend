@@ -11,7 +11,7 @@ public final class PublicMembers {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
         return PublicMember.builder()
@@ -39,7 +39,7 @@ public final class PublicMembers {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
         return PublicMember.builder()

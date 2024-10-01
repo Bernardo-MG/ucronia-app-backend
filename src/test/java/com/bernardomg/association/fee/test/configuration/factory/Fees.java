@@ -5,20 +5,23 @@ import java.time.Month;
 import java.time.YearMonth;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
 public final class Fees {
 
     public static final Fee alternative() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName("Person 2 Last name 2")
+        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -29,11 +32,13 @@ public final class Fees {
     }
 
     public static final Fee newlyCreated() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -42,11 +47,13 @@ public final class Fees {
     }
 
     public static final Fee noLastName() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, "");
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -57,11 +64,13 @@ public final class Fees {
     }
 
     public static final Fee notPaid() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -70,11 +79,13 @@ public final class Fees {
     }
 
     public static final Fee notPaidAt(final long index, final Month month) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName("Person " + index + " Last name " + index)
+        name = new PersonName("Person " + index, "Last name " + index);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
@@ -83,11 +94,13 @@ public final class Fees {
     }
 
     public static final Fee notPaidCurrentMonth() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -96,11 +109,13 @@ public final class Fees {
     }
 
     public static final Fee notPaidNextYear() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -109,11 +124,13 @@ public final class Fees {
     }
 
     public static final Fee notPaidPreviousMonth() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -122,11 +139,13 @@ public final class Fees {
     }
 
     public static final Fee notPaidTwoMonthsBack() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -135,11 +154,13 @@ public final class Fees {
     }
 
     public static final Fee paid() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -150,11 +171,13 @@ public final class Fees {
     }
 
     public static final Fee paidAt(final int month) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -165,11 +188,13 @@ public final class Fees {
     }
 
     public static final Fee paidAt(final int month, final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -180,11 +205,13 @@ public final class Fees {
     }
 
     public static final Fee paidAt(final long index, final Month month) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName("Person " + index + " Last name " + index)
+        name = new PersonName("Person " + index, "Last name " + index);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
@@ -195,11 +222,13 @@ public final class Fees {
     }
 
     public static final Fee paidAtAlternative(final int month) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.ALTERNATIVE_FULL_NAME)
+        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -210,11 +239,13 @@ public final class Fees {
     }
 
     public static final Fee paidAtNoLastName(final int month) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, "");
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -225,11 +256,13 @@ public final class Fees {
     }
 
     public static final Fee paidAtPreviousYear(final int month) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -241,11 +274,13 @@ public final class Fees {
     }
 
     public static final Fee paidAtPreviousYear(final int month, final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -256,11 +291,13 @@ public final class Fees {
     }
 
     public static final Fee paidCurrentMonth() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -271,11 +308,13 @@ public final class Fees {
     }
 
     public static final Fee paidCurrentMonth(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -286,11 +325,13 @@ public final class Fees {
     }
 
     public static final Fee paidFirstNextYear(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -301,11 +342,13 @@ public final class Fees {
     }
 
     public static final Fee paidLastInYear(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -316,11 +359,13 @@ public final class Fees {
     }
 
     public static final Fee paidNextDate() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -331,11 +376,13 @@ public final class Fees {
     }
 
     public static final Fee paidNextDateWithIndex(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -346,11 +393,13 @@ public final class Fees {
     }
 
     public static final Fee paidNextYear(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -361,11 +410,13 @@ public final class Fees {
     }
 
     public static final Fee paidPreviousMonth() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -376,11 +427,13 @@ public final class Fees {
     }
 
     public static final Fee paidPreviousMonth(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -391,11 +444,13 @@ public final class Fees {
     }
 
     public static final Fee paidPreviousMonthNew() {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -406,11 +461,13 @@ public final class Fees {
     }
 
     public static final Fee paidTwoMonthsBack(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -421,11 +478,13 @@ public final class Fees {
     }
 
     public static final Fee paidWithIndex(final long index) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(PersonConstants.FULL_NAME)
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
@@ -436,9 +495,12 @@ public final class Fees {
     }
 
     public static final Fee toCreate() {
-        final FeePerson person;
+        final PublicPerson person;
+        final PersonName   name;
 
-        person = FeePerson.builder()
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = PublicPerson.builder()
+            .withName(name)
             .withNumber(PersonConstants.NUMBER)
             .build();
         return new Fee(FeeConstants.CURRENT_MONTH, false, person, null);

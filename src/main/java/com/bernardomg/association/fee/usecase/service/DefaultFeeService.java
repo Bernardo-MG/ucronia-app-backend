@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -48,6 +47,7 @@ import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRul
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -224,7 +224,7 @@ public final class DefaultFeeService implements FeeService {
         index = transactionRepository.findNextIndex();
 
         name = person.name()
-            .getFullName();
+            .fullName();
 
         dates = feeDates.stream()
             .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
@@ -250,14 +250,10 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {
-        final FeePerson      feePerson;
+        final PublicPerson   feePerson;
         final FeeTransaction feeTransaction;
 
-        feePerson = FeePerson.builder()
-            // TODO
-            .withFullName(null)
-            .withNumber(person.number())
-            .build();
+        feePerson = new PublicPerson(person.number(), person.name());
         feeTransaction = FeeTransaction.builder()
             .withDate(transaction)
             .withIndex(null)

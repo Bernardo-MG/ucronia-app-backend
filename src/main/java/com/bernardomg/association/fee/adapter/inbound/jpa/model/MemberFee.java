@@ -14,9 +14,11 @@ public interface MemberFee {
 
     public LocalDate getPaymentDate();
 
+    public String getPersonFirstName();
+
     public Long getPersonId();
 
-    public String getPersonName();
+    public String getPersonLastName();
 
     public Long getPersonNumber();
 

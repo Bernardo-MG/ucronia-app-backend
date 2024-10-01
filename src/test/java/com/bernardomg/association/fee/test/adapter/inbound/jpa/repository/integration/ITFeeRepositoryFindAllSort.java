@@ -69,7 +69,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "fullName");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "firstName");
 
         feeQuery = FeesQuery.empty();
 
@@ -79,6 +79,7 @@ class ITFeeRepositoryFindAllSort {
         // THEN
         Assertions.assertThat(fees)
             .extracting(fee -> fee.person()
+                .name()
                 .fullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
@@ -148,7 +149,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "fullName");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "firstName");
 
         feeQuery = FeesQuery.empty();
 
@@ -158,6 +159,7 @@ class ITFeeRepositoryFindAllSort {
         // THEN
         Assertions.assertThat(fees)
             .extracting(fee -> fee.person()
+                .name()
                 .fullName())
             .as("fee full names")
             .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
@@ -174,7 +176,7 @@ class ITFeeRepositoryFindAllSort {
         final Pageable      pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "fullName");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "firstName");
 
         feeQuery = FeesQuery.empty();
 
@@ -184,6 +186,7 @@ class ITFeeRepositoryFindAllSort {
         // THEN
         Assertions.assertThat(fees)
             .extracting(fee -> fee.person()
+                .name()
                 .fullName())
             .as("fee full names")
             .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",

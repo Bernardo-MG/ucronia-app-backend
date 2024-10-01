@@ -39,14 +39,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarMember;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.PublicPerson;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,10 +91,11 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         final Collection<FeeCalendar> calendarFees;
         final Collection<FeeCalendar> sortedCalendarFees;
         final Collection<Long>        memberNumbers;
+        final Comparator<FeeCalendar> feeCalendarComparator;
         List<Fee>                     fees;
         FeeCalendar                   calendarFee;
         Collection<FeeCalendarMonth>  months;
-        String                        name;
+        PersonName                    name;
 
         log.info("Getting fee calendar for year {} and status {}", year, status);
 
@@ -115,7 +117,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         // Sorted ids
         memberNumbers = readFees.stream()
             .map(Fee::person)
-            .map(FeePerson::number)
+            .map(PublicPerson::number)
             .distinct()
             .sorted()
             .toList();
@@ -132,13 +134,15 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             name = fees.iterator()
                 .next()
                 .person()
-                .fullName();
+                .name();
             calendarFee = toFeeYear(memberNumber, name, status, year, months);
             calendarFees.add(calendarFee);
         }
+        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.member()
+            .name()
+            .fullName()));
         sortedCalendarFees = calendarFees.stream()
-            .sorted(Comparator.comparing(fc -> normalizeString(fc.member()
-                .fullName())))
+            .sorted(feeCalendarComparator)
             .collect(Collectors.toList());
 
         log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
@@ -171,10 +175,10 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .build();
     }
 
-    private final FeeCalendar toFeeYear(final Long memberNumber, final String memberName, final MemberStatus status,
+    private final FeeCalendar toFeeYear(final Long memberNumber, final PersonName name, final MemberStatus status,
             final Year year, final Collection<FeeCalendarMonth> months) {
-        final boolean           active;
-        final FeeCalendarMember member;
+        final boolean      active;
+        final PublicMember member;
 
         active = switch (status) {
             case ACTIVE -> true;
@@ -183,12 +187,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             default -> memberRepository.isActive(memberNumber);
         };
 
-        member = FeeCalendarMember.builder()
-            .withNumber(memberNumber)
-            .withFullName(memberName)
-            .withActive(active)
-            .build();
-        return new FeeCalendar(member, months,year.getValue());
+        member = new PublicMember(memberNumber, name, active);
+        return new FeeCalendar(member, months, year.getValue());
     }
 
 }

@@ -38,13 +38,16 @@ public class MemberFeeEntity implements Serializable {
     @Convert(converter = YearMonthDateAttributeConverter.class)
     private YearMonth         date;
 
-    @Column(name = "person_name")
-    private String            fullName;
+    @Column(name = "person_first_name")
+    private String            firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
+
+    @Column(name = "person_last_name")
+    private String            lastName;
 
     @Column(name = "paid")
     private Boolean           paid;

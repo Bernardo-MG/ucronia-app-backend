@@ -11,7 +11,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
@@ -75,7 +75,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
@@ -107,7 +107,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.ALTERNATIVE_NAME)
+            .withFirstName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .withLastName(PersonConstants.ALTERNATIVE_LAST_NAME)
             .build();
         return Member.builder()
@@ -123,7 +123,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Member.builder()
@@ -139,7 +139,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .build();
         return Member.builder()
             .withNumber(PersonConstants.NUMBER)
@@ -214,7 +214,7 @@ public final class Members {
         final PersonName name;
 
         name = PersonName.builder()
-            .withFirstName(" " + PersonConstants.NAME + " ")
+            .withFirstName(" " + PersonConstants.FIRST_NAME + " ")
             .withLastName(" " + PersonConstants.LAST_NAME + " ")
             .build();
         return Member.builder()

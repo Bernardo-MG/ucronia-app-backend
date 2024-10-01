@@ -17,7 +17,7 @@ public record PersonName(String firstName, String lastName) {
         this.lastName = StringUtils.trim(lastName);
     }
 
-    public final String getFullName() {
+    public final String fullName() {
         return String.format("%s %s", firstName, lastName)
             .trim();
     }

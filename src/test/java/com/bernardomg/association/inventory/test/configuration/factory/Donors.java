@@ -24,7 +24,7 @@ public final class Donors {
         final DonorName name;
 
         name = DonorName.builder()
-            .withFirstName(PersonConstants.NAME)
+            .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
         return Donor.builder()
