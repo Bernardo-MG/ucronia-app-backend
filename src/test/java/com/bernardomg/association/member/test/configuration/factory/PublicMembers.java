@@ -14,11 +14,7 @@ public final class PublicMembers {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return PublicMember.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withActive(true)
-            .build();
+        return new PublicMember(PersonConstants.NUMBER, name, true);
     }
 
     public static final PublicMember forNumber(final long number, final boolean active) {
@@ -28,11 +24,7 @@ public final class PublicMembers {
             .withFirstName("Person " + number)
             .withLastName("Last name " + number)
             .build();
-        return PublicMember.builder()
-            .withNumber(number * 10)
-            .withName(name)
-            .withActive(active)
-            .build();
+        return new PublicMember(number * 10, name, active);
     }
 
     public static final PublicMember inactive() {
@@ -42,11 +34,7 @@ public final class PublicMembers {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return PublicMember.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withActive(false)
-            .build();
+        return new PublicMember(PersonConstants.NUMBER, name, false);
     }
 
 }
