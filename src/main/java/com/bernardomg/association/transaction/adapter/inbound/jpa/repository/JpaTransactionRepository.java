@@ -127,10 +127,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         transactions = read.stream()
             .map(this::toDomain)
             .toList();
-        monthCalendar = TransactionCalendarMonth.builder()
-            .withDate(date)
-            .withTransactions(transactions)
-            .build();
+        monthCalendar = new TransactionCalendarMonth(date, transactions);
 
         log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
 

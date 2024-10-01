@@ -8,17 +8,11 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 public final class TransactionCalendarMonths {
 
     public static final TransactionCalendarMonth empty() {
-        return TransactionCalendarMonth.builder()
-            .withDate(TransactionConstants.MONTH)
-            .withTransactions(List.of())
-            .build();
+        return new TransactionCalendarMonth(TransactionConstants.MONTH, List.of());
     }
 
     public static final TransactionCalendarMonth single() {
-        return TransactionCalendarMonth.builder()
-            .withDate(TransactionConstants.MONTH)
-            .withTransactions(List.of(Transactions.valid()))
-            .build();
+        return new TransactionCalendarMonth(TransactionConstants.MONTH, List.of(Transactions.valid()));
     }
 
     private TransactionCalendarMonths() {
