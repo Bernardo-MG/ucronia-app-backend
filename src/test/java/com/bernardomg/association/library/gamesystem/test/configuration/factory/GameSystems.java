@@ -6,15 +6,11 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 public final class GameSystems {
 
     public static final GameSystem emptyName() {
-        return GameSystem.builder()
-            .withName(" ")
-            .build();
+        return new GameSystem(" ");
     }
 
     public static final GameSystem valid() {
-        return GameSystem.builder()
-            .withName(GameSystemConstants.NAME)
-            .build();
+        return new GameSystem(GameSystemConstants.NAME);
     }
 
 }
