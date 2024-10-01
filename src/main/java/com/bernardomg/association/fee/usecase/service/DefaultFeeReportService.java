@@ -72,7 +72,7 @@ public final class DefaultFeeReportService implements FeeReportService {
             .filter(Predicate.not(Fee::paid))
             .count();
 
-        report = new FeePaymentReport(paid,unpaid);
+        report = new FeePaymentReport(paid, unpaid);
 
         log.debug("Got payment report: {}", report);
 

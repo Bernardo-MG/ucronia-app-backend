@@ -53,10 +53,7 @@ public final class DefaultDonorService implements DonorService {
         // Set number
         number = donorRepository.findNextNumber();
 
-        toCreate = Donor.builder()
-            .withName(donor.name())
-            .withNumber(number)
-            .build();
+        toCreate = new Donor(number, donor.name());
 
         return donorRepository.save(toCreate);
     }

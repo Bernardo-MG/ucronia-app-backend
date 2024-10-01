@@ -314,10 +314,7 @@ public final class JpaBookRepository implements BookRepository {
             .withFirstName(entity.getFirstName())
             .withLastName(entity.getLastName())
             .build();
-        return Donor.builder()
-            .withNumber(entity.getNumber())
-            .withName(name)
-            .build();
+        return new Donor(entity.getNumber(), name);
     }
 
     private final BookEntity toEntity(final Book domain) {

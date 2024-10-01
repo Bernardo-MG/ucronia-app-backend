@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
+import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
@@ -174,9 +175,7 @@ public class BookController {
                 .stream()
                 .map(BookCreationDonor::getNumber)
                 .filter(Objects::nonNull)
-                .map(d -> Donor.builder()
-                    .withNumber(d)
-                    .build())
+                .map(d -> new Donor(d, new DonorName("", "")))
                 .toList();
         }
 

@@ -125,17 +125,14 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     private final Donor toDomain(final PersonEntity donor) {
-        final DonorName donorName;
+        final DonorName name;
 
-        donorName = DonorName.builder()
+        name = DonorName.builder()
             .withFirstName(donor.getFirstName())
             .withLastName(donor.getLastName())
             .build();
 
-        return Donor.builder()
-            .withNumber(donor.getNumber())
-            .withName(donorName)
-            .build();
+        return new Donor(donor.getNumber(), name);
     }
 
     private final PersonEntity toEntity(final Donor donor) {

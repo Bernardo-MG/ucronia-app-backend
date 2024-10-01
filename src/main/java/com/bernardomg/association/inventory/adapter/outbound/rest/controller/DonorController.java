@@ -110,10 +110,8 @@ public class DonorController {
             .withLastName(change.getName()
                 .getLastName())
             .build();
-        return Donor.builder()
-            .withNumber(number)
-            .withName(name)
-            .build();
+
+        return new Donor(number, name);
     }
 
 }

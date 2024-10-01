@@ -14,10 +14,7 @@ public final class Donors {
             .withFirstName(" ")
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Donor.builder()
-            .withNumber(DonorConstants.NUMBER)
-            .withName(name)
-            .build();
+        return new Donor(DonorConstants.NUMBER, name);
     }
 
     public static final Donor valid() {
@@ -27,10 +24,7 @@ public final class Donors {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Donor.builder()
-            .withNumber(DonorConstants.NUMBER)
-            .withName(name)
-            .build();
+        return new Donor(DonorConstants.NUMBER, name);
     }
 
 }
