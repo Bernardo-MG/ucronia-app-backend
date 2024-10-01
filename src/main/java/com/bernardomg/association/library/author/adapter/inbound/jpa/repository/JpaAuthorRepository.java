@@ -110,9 +110,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     private final Author toDomain(final AuthorEntity entity) {
-        return Author.builder()
-            .withName(entity.getName())
-            .build();
+        return new Author(entity.getName());
     }
 
     private final AuthorEntity toEntity(final Author domain) {

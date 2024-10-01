@@ -147,9 +147,7 @@ public class BookController {
                 .stream()
                 .map(BookCreationAuthor::getName)
                 .filter(StringUtils::isNotBlank)
-                .map(a -> Author.builder()
-                    .withName(a)
-                    .build())
+                .map(Author::new)
                 .toList();
         }
 
@@ -161,9 +159,7 @@ public class BookController {
                 .stream()
                 .map(BookCreationPublisher::getName)
                 .filter(StringUtils::isNotBlank)
-                .map(p -> Publisher.builder()
-                    .withName(p)
-                    .build())
+                .map(Publisher::new)
                 .toList();
         }
 
