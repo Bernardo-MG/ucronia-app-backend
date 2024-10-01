@@ -6,17 +6,11 @@ import com.bernardomg.association.transaction.domain.model.TransactionCurrentBal
 public final class TransactionCurrentBalances {
 
     public static final TransactionCurrentBalance amount(final float amount) {
-        return TransactionCurrentBalance.builder()
-            .withResults(amount)
-            .withTotal(amount)
-            .build();
+        return new TransactionCurrentBalance(amount, amount);
     }
 
     public static final TransactionCurrentBalance amount(final float amount, final float total) {
-        return TransactionCurrentBalance.builder()
-            .withResults(amount)
-            .withTotal(total)
-            .build();
+        return new TransactionCurrentBalance(amount, total);
     }
 
     private TransactionCurrentBalances() {

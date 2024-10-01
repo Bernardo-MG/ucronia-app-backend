@@ -63,11 +63,8 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
                 results = 0;
             }
 
-            currentBalance = Optional.of(TransactionCurrentBalance.builder()
-                .withTotal(readBalance.get()
-                    .getTotal())
-                .withResults(results)
-                .build());
+            currentBalance = Optional.of(new TransactionCurrentBalance(results, readBalance.get()
+                .getTotal()));
         }
 
         log.debug("Found current balance: {}", currentBalance);
@@ -118,11 +115,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
             .getYear(),
             entity.getMonth()
                 .getMonth());
-        return TransactionMonthlyBalance.builder()
-            .withDate(month)
-            .withTotal(entity.getTotal())
-            .withResults(entity.getResults())
-            .build();
+        return new TransactionMonthlyBalance(month, entity.getResults(), entity.getTotal());
     }
 
 }
