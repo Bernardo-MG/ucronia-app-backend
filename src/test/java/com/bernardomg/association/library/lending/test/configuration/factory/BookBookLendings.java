@@ -8,18 +8,11 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 public final class BookBookLendings {
 
     public static final BookBookLending lent() {
-        return BookBookLending.builder()
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE)
-            .build();
+        return new BookBookLending(Persons.valid(), BookConstants.LENT_DATE, null);
     }
 
     public static final BookBookLending returned() {
-        return BookBookLending.builder()
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE)
-            .withReturnDate(BookConstants.RETURNED_DATE)
-            .build();
+        return new BookBookLending(Persons.valid(), BookConstants.LENT_DATE, BookConstants.RETURNED_DATE);
     }
 
 }

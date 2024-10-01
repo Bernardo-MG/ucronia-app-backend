@@ -263,12 +263,8 @@ public final class JpaBookRepository implements BookRepository {
 
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return BookBookLending.builder()
-            .withPerson(person.orElse(Person.builder()
-                .build()))
-            .withLendingDate(entity.getLendingDate())
-            .withReturnDate(entity.getReturnDate())
-            .build();
+        return new BookBookLending(person.orElse(Person.builder()
+            .build()), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
