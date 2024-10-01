@@ -180,10 +180,8 @@ public class BookController {
             .getName()))) {
             bookType = Optional.empty();
         } else {
-            bookType = Optional.of(BookType.builder()
-                .withName(request.getBookType()
-                    .getName())
-                .build());
+            bookType = Optional.of(new BookType(request.getBookType()
+                .getName()));
         }
 
         // Game system

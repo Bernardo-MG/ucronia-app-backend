@@ -272,9 +272,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
-        return BookType.builder()
-            .withName(entity.getName())
-            .build();
+        return new BookType(entity.getName());
     }
 
     private final GameSystem toDomain(final GameSystemEntity entity) {
