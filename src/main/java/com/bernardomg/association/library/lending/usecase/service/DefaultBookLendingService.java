@@ -73,12 +73,8 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         person = personRepository.findOne(personNumber);
 
-        lending = BookLending.builder()
-            .withNumber(book)
-            .withPerson(person.orElse(Person.builder()
-                .build()))
-            .withLendingDate(date)
-            .build();
+        lending = new BookLending(book, person.orElse(Person.builder()
+            .build()), date, null);
 
         lendBookValidator.validate(lending);
 
@@ -99,12 +95,7 @@ public final class DefaultBookLendingService implements BookLendingService {
             });
 
         // Used just for validation
-        lending = BookLending.builder()
-            .withNumber(read.number())
-            .withPerson(read.person())
-            .withLendingDate(read.lendingDate())
-            .withReturnDate(date)
-            .build();
+        lending = new BookLending(read.number(), read.person(), read.lendingDate(), date);
 
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);

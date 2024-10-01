@@ -214,13 +214,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return BookLending.builder()
-            .withNumber(bookEntity.getNumber())
-            .withPerson(person.orElse(Person.builder()
-                .build()))
-            .withLendingDate(entity.getLendingDate())
-            .withReturnDate(entity.getReturnDate())
-            .build();
+        return new BookLending(bookEntity.getNumber(), person.orElse(Person.builder()
+            .build()), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
@@ -228,12 +223,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Person person;
 
         person = toDomain(personEntity);
-        return BookLending.builder()
-            .withNumber(bookEntity.getNumber())
-            .withPerson(person)
-            .withLendingDate(entity.getLendingDate())
-            .withReturnDate(entity.getReturnDate())
-            .build();
+        return new BookLending(bookEntity.getNumber(), person, entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Person toDomain(final PersonEntity entity) {
