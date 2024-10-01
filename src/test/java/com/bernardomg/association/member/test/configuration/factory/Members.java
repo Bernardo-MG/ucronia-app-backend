@@ -112,7 +112,7 @@ public final class Members {
             .withFirstName("Person 123")
             .withLastName("Last name")
             .build();
-        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, true, PersonConstants.PHONE);
     }
 
     public static final Member nameChangeActive() {
@@ -122,7 +122,7 @@ public final class Members {
             .withFirstName("Person 123")
             .withLastName("Last name")
             .build();
-        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, true, PersonConstants.PHONE);
     }
 
     public static final Member nameChangePatch() {
