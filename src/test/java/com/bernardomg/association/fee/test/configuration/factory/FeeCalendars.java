@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
+import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
 import com.bernardomg.association.person.domain.model.PersonName;

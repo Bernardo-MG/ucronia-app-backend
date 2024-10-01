@@ -3,8 +3,8 @@ package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
-import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
+import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
+import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth.FeeCalendarMonthFee;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
 
 public final class FeeMonths {

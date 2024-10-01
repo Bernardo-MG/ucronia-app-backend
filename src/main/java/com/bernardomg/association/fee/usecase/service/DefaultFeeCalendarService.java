@@ -39,8 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
-import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
+import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
+import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
