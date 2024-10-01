@@ -399,10 +399,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         // TODO: get both names
         name = new PersonName(entity.getPersonFirstName(), entity.getPersonLastName());
-        person = PublicPerson.builder()
-            .withName(name)
-            .withNumber(entity.getPersonNumber())
-            .build();
+        person = new PublicPerson(entity.getPersonNumber(), name);
         transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
@@ -413,10 +410,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final PersonName     name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        person = PublicPerson.builder()
-            .withName(name)
-            .withNumber(entity.getPersonNumber())
-            .build();
+        person = new PublicPerson(entity.getPersonNumber(), name);
         transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
