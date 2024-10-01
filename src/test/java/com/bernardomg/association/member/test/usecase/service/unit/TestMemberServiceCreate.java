@@ -73,10 +73,7 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name.firstName", "empty", PersonName.builder()
-                .withFirstName(" ")
-                .withLastName(PersonConstants.LAST_NAME)
-                .build()));
+            FieldFailure.of("name.firstName", "empty", new PersonName(" ", PersonConstants.LAST_NAME)));
     }
 
     @Test
@@ -93,9 +90,7 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name.firstName", "empty", PersonName.builder()
-                .withLastName(PersonConstants.LAST_NAME)
-                .build()));
+            FieldFailure.of("name.firstName", "empty", new PersonName("", PersonConstants.LAST_NAME)));
     }
 
     @Test

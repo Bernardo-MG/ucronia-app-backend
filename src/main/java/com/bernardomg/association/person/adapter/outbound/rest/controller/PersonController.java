@@ -118,12 +118,10 @@ public class PersonController {
     private final Person toDomain(final long number, final PersonChange change) {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(change.getName()
-                .getFirstName())
-            .withLastName(change.getName()
-                .getLastName())
-            .build();
+        name = new PersonName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
         return new Person(change.getIdentifier(), number, name, change.getPhone());
     }
 

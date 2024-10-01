@@ -278,10 +278,7 @@ public final class JpaBookRepository implements BookRepository {
     private final Person toDomain(final PersonEntity entity) {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(entity.getFirstName())
-            .withLastName(entity.getLastName())
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
     }
 

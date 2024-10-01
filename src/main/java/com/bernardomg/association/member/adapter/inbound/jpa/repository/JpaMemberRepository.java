@@ -214,19 +214,17 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     private final Member toDomain(final MemberEntity entity) {
-        final PersonName memberName;
+        final PersonName name;
 
-        memberName = PersonName.builder()
-            .withFirstName(entity.getPerson()
-                .getFirstName())
-            .withLastName(entity.getPerson()
-                .getLastName())
-            .build();
+        name = new PersonName(entity.getPerson()
+            .getFirstName(),
+            entity.getPerson()
+                .getLastName());
         return new Member(entity.getPerson()
             .getNumber(),
             entity.getPerson()
                 .getIdentifier(),
-            memberName, entity.getActive(), entity.getPerson()
+            name, entity.getActive(), entity.getPerson()
                 .getPhone());
     }
 

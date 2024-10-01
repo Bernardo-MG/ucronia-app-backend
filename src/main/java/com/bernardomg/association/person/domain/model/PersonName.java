@@ -3,9 +3,6 @@ package com.bernardomg.association.person.domain.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import lombok.Builder;
-
-@Builder(setterPrefix = "with")
 public record PersonName(String firstName, String lastName) {
 
     public PersonName(final String firstName, final String lastName) {

@@ -154,16 +154,14 @@ public final class DefaultMemberService implements MemberService {
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = PersonName.builder()
-                .withFirstName(Optional.ofNullable(updated.name()
-                    .firstName())
-                    .orElse(existing.name()
-                        .firstName()))
-                .withLastName(Optional.ofNullable(updated.name()
+            name = new PersonName(Optional.ofNullable(updated.name()
+                .firstName())
+                .orElse(existing.name()
+                    .firstName()),
+                Optional.ofNullable(updated.name()
                     .lastName())
                     .orElse(existing.name()
-                        .lastName()))
-                .build();
+                        .lastName()));
         }
         return new Member(Optional.ofNullable(updated.number())
             .orElse(existing.number()),

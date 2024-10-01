@@ -86,10 +86,7 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     private final PublicMember toDomain(final MinimalMember entity) {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(entity.getFirstName())
-            .withLastName(entity.getLastName())
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
         return new PublicMember(entity.getNumber(), name, entity.getActive());
     }
 

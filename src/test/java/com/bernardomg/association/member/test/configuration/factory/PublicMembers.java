@@ -10,30 +10,21 @@ public final class PublicMembers {
     public static final PublicMember active() {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(PersonConstants.FIRST_NAME)
-            .withLastName(PersonConstants.LAST_NAME)
-            .build();
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         return new PublicMember(PersonConstants.NUMBER, name, true);
     }
 
     public static final PublicMember forNumber(final long number, final boolean active) {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName("Person " + number)
-            .withLastName("Last name " + number)
-            .build();
+        name = new PersonName("Person " + number, "Last name " + number);
         return new PublicMember(number * 10, name, active);
     }
 
     public static final PublicMember inactive() {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(PersonConstants.FIRST_NAME)
-            .withLastName(PersonConstants.LAST_NAME)
-            .build();
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         return new PublicMember(PersonConstants.NUMBER, name, false);
     }
 
