@@ -54,11 +54,7 @@ public final class DefaultSettingService implements SettingService {
                 throw new MissingSettingException(code);
             });
 
-        toSave = Setting.builder()
-            .withCode(code)
-            .withType(existing.getType())
-            .withValue(value)
-            .build();
+        toSave = new Setting(existing.type(), code, value);
 
         return settingRepository.save(toSave);
     }

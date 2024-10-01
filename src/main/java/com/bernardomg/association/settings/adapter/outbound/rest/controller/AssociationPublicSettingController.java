@@ -59,10 +59,10 @@ public class AssociationPublicSettingController {
         final String mapId;
 
         calendarId = service.getOne("social.teamup.id")
-            .map(Setting::getValue)
+            .map(Setting::value)
             .orElse(null);
         mapId = service.getOne("social.googleMap.id")
-            .map(Setting::getValue)
+            .map(Setting::value)
             .orElse(null);
         return new PublicSettings(mapId, calendarId);
     }
