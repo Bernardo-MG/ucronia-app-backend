@@ -58,13 +58,7 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        toCreate = Member.builder()
-            .withIdentifier(member.identifier())
-            .withName(member.name())
-            .withPhone(member.phone())
-            .withNumber(number)
-            .withActive(false)
-            .build();
+        toCreate = new Member(number, member.identifier(), member.name(), false, member.phone());
 
         createMemberValidator.validate(toCreate);
 
@@ -149,13 +143,7 @@ public final class DefaultMemberService implements MemberService {
             throw new MissingMemberException(member.number());
         }
 
-        toUpdate = Member.builder()
-            .withNumber(member.number())
-            .withIdentifier(member.identifier())
-            .withName(member.name())
-            .withPhone(member.phone())
-            .withActive(member.active())
-            .build();
+        toUpdate = new Member(member.number(), member.identifier(), member.name(), member.active(), member.phone());
 
         return memberRepository.save(toUpdate);
     }
@@ -177,17 +165,14 @@ public final class DefaultMemberService implements MemberService {
                         .lastName()))
                 .build();
         }
-        return Member.builder()
-            .withNumber(Optional.ofNullable(updated.number())
-                .orElse(existing.number()))
-            .withIdentifier(Optional.ofNullable(updated.identifier())
-                .orElse(existing.identifier()))
-            .withName(name)
-            .withPhone(Optional.ofNullable(updated.phone())
-                .orElse(existing.phone()))
-            .withActive(Optional.ofNullable(updated.active())
-                .orElse(existing.active()))
-            .build();
+        return new Member(Optional.ofNullable(updated.number())
+            .orElse(existing.number()),
+            Optional.ofNullable(updated.identifier())
+                .orElse(existing.identifier()),
+            name, Optional.ofNullable(updated.active())
+                .orElse(existing.active()),
+            Optional.ofNullable(updated.phone())
+                .orElse(existing.phone()));
     }
 
     private final Pageable correctPagination(final Pageable pageable) {

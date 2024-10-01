@@ -141,13 +141,7 @@ public class MemberController {
             .withLastName(change.getName()
                 .getLastName())
             .build();
-        return Member.builder()
-            .withNumber(number)
-            .withIdentifier(change.getIdentifier())
-            .withName(name)
-            .withPhone(change.getPhone())
-            .withActive(change.getActive())
-            .build();
+        return new Member(number, change.getIdentifier(), name, change.getActive(), change.getPhone());
     }
 
     private final Member toDomain(final MemberCreation create) {
@@ -159,11 +153,7 @@ public class MemberController {
             .withLastName(create.getName()
                 .getLastName())
             .build();
-        return Member.builder()
-            .withIdentifier(create.getIdentifier())
-            .withName(name)
-            .withPhone(create.getPhone())
-            .build();
+        return new Member(null, create.getIdentifier(), name, false, create.getPhone());
     }
 
 }

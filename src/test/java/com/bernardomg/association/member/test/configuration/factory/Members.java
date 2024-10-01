@@ -14,13 +14,7 @@ public final class Members {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(true)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, true, PersonConstants.PHONE);
     }
 
     public static final Member active(final int index) {
@@ -30,13 +24,7 @@ public final class Members {
             .withFirstName("Person " + index)
             .withLastName("Last name " + index)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(true)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, true, PersonConstants.PHONE);
     }
 
     public static final Member emptyName() {
@@ -46,13 +34,7 @@ public final class Members {
             .withFirstName(" ")
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(true)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, true, PersonConstants.PHONE);
     }
 
     public static final Member forNumber(final long number, final boolean active) {
@@ -62,13 +44,7 @@ public final class Members {
             .withFirstName("Person " + number)
             .withLastName("Last name " + number)
             .build();
-        return Member.builder()
-            .withNumber(number * 10)
-            .withName(name)
-            .withPhone(String.valueOf(12344 + number))
-            .withIdentifier(String.valueOf(6788 + number))
-            .withActive(active)
-            .build();
+        return new Member(number * 10, String.valueOf(6788 + number), name, active, String.valueOf(12344 + number));
     }
 
     public static final Member inactive() {
@@ -78,13 +54,7 @@ public final class Members {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member inactive(final int index) {
@@ -94,13 +64,7 @@ public final class Members {
             .withFirstName("Person " + index)
             .withLastName("Last name " + index)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member inactiveAlternative() {
@@ -110,13 +74,7 @@ public final class Members {
             .withFirstName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .withLastName(PersonConstants.ALTERNATIVE_LAST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member inactiveWithNumber(final long number) {
@@ -126,13 +84,7 @@ public final class Members {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(number)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
+        return new Member(number, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member missingLastName() {
@@ -141,13 +93,7 @@ public final class Members {
         name = PersonName.builder()
             .withFirstName(PersonConstants.FIRST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member missingName() {
@@ -156,13 +102,7 @@ public final class Members {
         name = PersonName.builder()
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(false)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member nameChange() {
@@ -172,13 +112,7 @@ public final class Members {
             .withFirstName("Person 123")
             .withLastName("Last name")
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(true)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member nameChangeActive() {
@@ -188,13 +122,7 @@ public final class Members {
             .withFirstName("Person 123")
             .withLastName("Last name")
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(true)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, false, PersonConstants.PHONE);
     }
 
     public static final Member nameChangePatch() {
@@ -204,10 +132,7 @@ public final class Members {
             .withFirstName("Person 123")
             .withLastName("Last name")
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .build();
+        return new Member(PersonConstants.NUMBER, null, name, null, null);
     }
 
     public static final Member paddedWithWhitespaces() {
@@ -217,13 +142,7 @@ public final class Members {
             .withFirstName(" " + PersonConstants.FIRST_NAME + " ")
             .withLastName(" " + PersonConstants.LAST_NAME + " ")
             .build();
-        return Member.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withActive(true)
-            .build();
+        return new Member(PersonConstants.NUMBER, PersonConstants.IDENTIFIER, name, true, PersonConstants.PHONE);
     }
 
 }

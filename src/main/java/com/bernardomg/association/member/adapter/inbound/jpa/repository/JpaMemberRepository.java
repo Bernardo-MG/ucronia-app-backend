@@ -222,16 +222,12 @@ public final class JpaMemberRepository implements MemberRepository {
             .withLastName(entity.getPerson()
                 .getLastName())
             .build();
-        return Member.builder()
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .withIdentifier(entity.getPerson()
-                .getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPerson()
-                .getPhone())
-            .withActive(entity.getActive())
-            .build();
+        return new Member(entity.getPerson()
+            .getNumber(),
+            entity.getPerson()
+                .getIdentifier(),
+            memberName, entity.getActive(), entity.getPerson()
+                .getPhone());
     }
 
     private final MemberEntity toEntity(final Member data) {
