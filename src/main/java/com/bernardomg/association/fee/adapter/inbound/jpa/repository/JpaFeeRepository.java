@@ -388,8 +388,7 @@ public final class JpaFeeRepository implements FeeRepository {
         person = new PublicPerson(entity.getPerson()
             .getNumber(), name);
 
-        transaction = FeeTransaction.builder()
-            .build();
+        transaction = new FeeTransaction(null, null);
         return new Fee(entity.getDate(), false, person, transaction);
     }
 
@@ -404,10 +403,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .withName(name)
             .withNumber(entity.getPersonNumber())
             .build();
-        transaction = FeeTransaction.builder()
-            .withIndex(entity.getTransactionIndex())
-            .withDate(entity.getPaymentDate())
-            .build();
+        transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
@@ -421,10 +417,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .withName(name)
             .withNumber(entity.getPersonNumber())
             .build();
-        transaction = FeeTransaction.builder()
-            .withIndex(entity.getTransactionIndex())
-            .withDate(entity.getPaymentDate())
-            .build();
+        transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 

@@ -254,10 +254,7 @@ public final class DefaultFeeService implements FeeService {
         final FeeTransaction feeTransaction;
 
         feePerson = new PublicPerson(person.number(), person.name());
-        feeTransaction = FeeTransaction.builder()
-            .withDate(transaction)
-            .withIndex(null)
-            .build();
+        feeTransaction = new FeeTransaction(transaction, null);
         return new Fee(date, false, feePerson, feeTransaction);
     }
 
