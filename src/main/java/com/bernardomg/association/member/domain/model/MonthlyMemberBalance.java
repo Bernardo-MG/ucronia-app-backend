@@ -26,9 +26,6 @@ package com.bernardomg.association.member.domain.model;
 
 import java.time.YearMonth;
 
-import lombok.Builder;
-
-@Builder(setterPrefix = "with")
 public record MonthlyMemberBalance(YearMonth date, Long total) {
 
 }
