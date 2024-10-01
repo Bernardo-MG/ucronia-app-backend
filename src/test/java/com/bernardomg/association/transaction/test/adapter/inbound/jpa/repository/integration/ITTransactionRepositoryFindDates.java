@@ -60,7 +60,7 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.months())
@@ -76,7 +76,7 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.months())
@@ -92,7 +92,7 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.months())
@@ -108,7 +108,7 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.months())
@@ -123,7 +123,7 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.months())
@@ -138,7 +138,7 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
         Assertions.assertThat(range.months())

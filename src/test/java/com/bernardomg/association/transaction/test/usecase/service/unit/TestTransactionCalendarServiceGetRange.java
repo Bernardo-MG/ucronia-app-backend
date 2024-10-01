@@ -59,7 +59,7 @@ class TestTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // GIVEN
-        given(transactionRepository.findDates()).willReturn(TransactionCalendarMonthsRanges.fullYear());
+        given(transactionRepository.findRange()).willReturn(TransactionCalendarMonthsRanges.fullYear());
 
         // WHEN
         range = service.getRange();
@@ -76,7 +76,7 @@ class TestTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // GIVEN
-        given(transactionRepository.findDates()).willReturn(TransactionCalendarMonthsRanges.empty());
+        given(transactionRepository.findRange()).willReturn(TransactionCalendarMonthsRanges.empty());
 
         // WHEN
         range = service.getRange();
