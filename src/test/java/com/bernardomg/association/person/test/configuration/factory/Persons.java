@@ -13,12 +13,7 @@ public final class Persons {
             .withFirstName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .withLastName(PersonConstants.ALTERNATIVE_LAST_NAME)
             .build();
-        return Person.builder()
-            .withNumber(PersonConstants.ALTERNATIVE_NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .build();
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name, PersonConstants.PHONE);
     }
 
     public static final Person emptyName() {
@@ -28,12 +23,7 @@ public final class Persons {
             .withFirstName(" ")
             .withLastName(" ")
             .build();
-        return Person.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .build();
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE);
     }
 
     public static final Person nameChange() {
@@ -43,12 +33,7 @@ public final class Persons {
             .withFirstName("Person 123")
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Person.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .build();
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE);
     }
 
     public static final Person paddedWithWhitespaces() {
@@ -58,12 +43,7 @@ public final class Persons {
             .withFirstName(" " + PersonConstants.FIRST_NAME + " ")
             .withLastName(" " + PersonConstants.LAST_NAME + " ")
             .build();
-        return Person.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .build();
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE);
     }
 
     public static final Person valid() {
@@ -73,12 +53,7 @@ public final class Persons {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withLastName(PersonConstants.LAST_NAME)
             .build();
-        return Person.builder()
-            .withNumber(PersonConstants.NUMBER)
-            .withName(name)
-            .withPhone(PersonConstants.PHONE)
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .build();
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE);
     }
 
 }

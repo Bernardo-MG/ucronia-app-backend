@@ -53,12 +53,7 @@ public final class DefaultPersonService implements PersonService {
         // Set number
         number = personRepository.findNextNumber();
 
-        toCreate = Person.builder()
-            .withName(person.name())
-            .withNumber(number)
-            .withIdentifier(person.identifier())
-            .withPhone(person.phone())
-            .build();
+        toCreate = new Person(person.identifier(), number, person.name(), person.phone());
 
         createPersonValidator.validate(toCreate);
 

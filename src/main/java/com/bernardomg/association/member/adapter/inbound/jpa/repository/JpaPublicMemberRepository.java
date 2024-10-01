@@ -90,7 +90,7 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
             .withFirstName(entity.getFirstName())
             .withLastName(entity.getLastName())
             .build();
-        return new PublicMember(entity.getNumber(),name,entity.getActive());
+        return new PublicMember(entity.getNumber(), name, entity.getActive());
     }
 
 }

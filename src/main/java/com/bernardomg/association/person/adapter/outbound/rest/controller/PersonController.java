@@ -124,12 +124,7 @@ public class PersonController {
             .withLastName(change.getName()
                 .getLastName())
             .build();
-        return Person.builder()
-            .withNumber(number)
-            .withIdentifier(change.getIdentifier())
-            .withName(name)
-            .withPhone(change.getPhone())
-            .build();
+        return new Person(change.getIdentifier(), number, name, change.getPhone());
     }
 
 }
