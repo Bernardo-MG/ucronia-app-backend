@@ -8,9 +8,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 public final class FeeCalendarYearsRanges {
 
     public static final FeeCalendarYearsRange current() {
-        return FeeCalendarYearsRange.builder()
-            .withYears(List.of(FeeConstants.YEAR_VALUE))
-            .build();
+        return new FeeCalendarYearsRange(List.of(FeeConstants.YEAR_VALUE));
     }
 
     private FeeCalendarYearsRanges() {

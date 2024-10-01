@@ -294,9 +294,7 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Finding fees range");
 
         years = memberFeeSpringRepository.findYears();
-        range = FeeCalendarYearsRange.builder()
-            .withYears(years)
-            .build();
+        range = new FeeCalendarYearsRange(years);
 
         log.debug("Found fees range: {}", range);
 
