@@ -7,59 +7,32 @@ import com.bernardomg.settings.domain.model.Setting;
 public final class Settings {
 
     public static final Setting amount() {
-        return Setting.builder()
-            .withCode(AssociationSettingsKey.FEE_AMOUNT)
-            .withValue("1.0")
-            .withType(SettingConstants.NUMBER_TYPE)
-            .build();
+        return new Setting(SettingConstants.NUMBER_TYPE, AssociationSettingsKey.FEE_AMOUNT, "1.0");
     }
 
     public static final Setting first() {
-        return Setting.builder()
-            .withCode("a")
-            .withValue(SettingConstants.STRING_VALUE)
-            .withType(SettingConstants.STRING_TYPE)
-            .build();
+        return new Setting(SettingConstants.STRING_TYPE, "a", SettingConstants.STRING_VALUE);
     }
 
     public static final Setting floatValue() {
-        return Setting.builder()
-            .withCode(SettingConstants.CODE)
-            .withValue("10.1")
-            .withType(SettingConstants.NUMBER_TYPE)
-            .build();
+        return new Setting(SettingConstants.NUMBER_TYPE, SettingConstants.CODE, "10.1");
     }
 
     public static final Setting intValue() {
-        return Setting.builder()
-            .withCode(SettingConstants.CODE)
-            .withValue(SettingConstants.NUMBER_VALUE)
-            .withType(SettingConstants.NUMBER_TYPE)
-            .build();
+        // TODO: shouldn't all use the code constant?
+        return new Setting(SettingConstants.NUMBER_TYPE, SettingConstants.CODE, SettingConstants.NUMBER_VALUE);
     }
 
     public static final Setting second() {
-        return Setting.builder()
-            .withCode("b")
-            .withValue(SettingConstants.STRING_VALUE)
-            .withType(SettingConstants.STRING_TYPE)
-            .build();
+        return new Setting(SettingConstants.STRING_TYPE, "b", SettingConstants.STRING_VALUE);
     }
 
     public static final Setting stringValue() {
-        return Setting.builder()
-            .withCode(SettingConstants.CODE)
-            .withValue(SettingConstants.STRING_VALUE)
-            .withType(SettingConstants.STRING_TYPE)
-            .build();
+        return new Setting(SettingConstants.STRING_TYPE, SettingConstants.CODE, SettingConstants.STRING_VALUE);
     }
 
     public static final Setting valid() {
-        return Setting.builder()
-            .withCode(SettingConstants.CODE)
-            .withValue(SettingConstants.STRING_VALUE)
-            .withType(SettingConstants.STRING_TYPE)
-            .build();
+        return new Setting(SettingConstants.STRING_TYPE, SettingConstants.CODE, SettingConstants.STRING_VALUE);
     }
 
     private Settings() {

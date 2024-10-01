@@ -26,9 +26,9 @@ public final class PublisherNameNotEmptyRule implements FieldRule<Publisher> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(publisher.getName())) {
+        if (StringUtils.isBlank(publisher.name())) {
             log.error("Empty name");
-            fieldFailure = FieldFailure.of("name", "empty", publisher.getName());
+            fieldFailure = FieldFailure.of("name", "empty", publisher.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

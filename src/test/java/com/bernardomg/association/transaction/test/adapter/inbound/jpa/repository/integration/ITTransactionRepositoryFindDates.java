@@ -60,10 +60,10 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getMonths())
+        Assertions.assertThat(range.months())
             .as("months")
             .hasSize(24)
             .containsExactlyElementsOf(TransactionCalendarMonthsRanges.CONSECUTIVE_FULL_YEAR_MONTHS);
@@ -76,10 +76,10 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getMonths())
+        Assertions.assertThat(range.months())
             .as("months")
             .hasSize(12)
             .containsExactlyElementsOf(TransactionCalendarMonthsRanges.FULL_YEAR_MONTHS);
@@ -92,10 +92,10 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getMonths())
+        Assertions.assertThat(range.months())
             .as("months")
             .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
@@ -108,10 +108,10 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getMonths())
+        Assertions.assertThat(range.months())
             .as("months")
             .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
@@ -123,10 +123,10 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getMonths())
+        Assertions.assertThat(range.months())
             .as("months")
             .isEmpty();
     }
@@ -138,10 +138,10 @@ class ITTransactionRepositoryFindDates {
         final TransactionCalendarMonthsRange range;
 
         // WHEN
-        range = repository.findDates();
+        range = repository.findRange();
 
         // THEN
-        Assertions.assertThat(range.getMonths())
+        Assertions.assertThat(range.months())
             .as("months")
             .hasSize(24)
             .containsExactlyElementsOf(TransactionCalendarMonthsRanges.NOT_CONSECUTIVE_FULL_YEAR_MONTHS);

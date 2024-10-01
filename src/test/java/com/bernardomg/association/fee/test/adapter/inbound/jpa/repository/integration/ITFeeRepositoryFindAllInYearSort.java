@@ -65,15 +65,16 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
+        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
                 "Person o Last name 4", "Person u Last name 5");
@@ -108,7 +109,7 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
+        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -141,7 +142,7 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.desc("fullName"), Order.asc("date"));
+        sort = Sort.by(Order.desc("firstName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);

@@ -135,35 +135,21 @@ public class MemberController {
     private final Member toDomain(final long number, final MemberChange change) {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(change.getName()
-                .getFirstName())
-            .withLastName(change.getName()
-                .getLastName())
-            .build();
-        return Member.builder()
-            .withNumber(number)
-            .withIdentifier(change.getIdentifier())
-            .withName(name)
-            .withPhone(change.getPhone())
-            .withActive(change.getActive())
-            .build();
+        name = new PersonName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        return new Member(number, change.getIdentifier(), name, change.getActive(), change.getPhone());
     }
 
     private final Member toDomain(final MemberCreation create) {
         final PersonName name;
 
-        name = PersonName.builder()
-            .withFirstName(create.getName()
-                .getFirstName())
-            .withLastName(create.getName()
-                .getLastName())
-            .build();
-        return Member.builder()
-            .withIdentifier(create.getIdentifier())
-            .withName(name)
-            .withPhone(create.getPhone())
-            .build();
+        name = new PersonName(create.getName()
+            .getFirstName(),
+            create.getName()
+                .getLastName());
+        return new Member(null, create.getIdentifier(), name, false, create.getPhone());
     }
 
 }

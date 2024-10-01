@@ -57,15 +57,16 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "fullName");
+        sort = Sort.by(Direction.ASC, "firstName");
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
                 "Person o Last name 4", "Person u Last name 5");
@@ -80,15 +81,16 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "fullName");
+        sort = Sort.by(Direction.ASC, "firstName");
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
                 "Person 4 Last name 4", "Person 5 Last name 5");
@@ -103,15 +105,16 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Direction.DESC, "fullName");
+        sort = Sort.by(Direction.DESC, "firstName");
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",
                 "Person 2 Last name 2", "Person 1 Last name 1");

@@ -32,10 +32,10 @@ public final class BookIsbnNotExistsForAnotherRule implements FieldRule<Book> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if ((!StringUtils.isBlank(book.getIsbn()))
-                && (bookRepository.existsByIsbnForAnother(book.getNumber(), book.getIsbn()))) {
-            log.error("Existing ISBN {} for a book distinct of {}", book.getIsbn(), book.getNumber());
-            fieldFailure = FieldFailure.of("isbn", "existing", book.getIsbn());
+        if ((!StringUtils.isBlank(book.isbn()))
+                && (bookRepository.existsByIsbnForAnother(book.number(), book.isbn()))) {
+            log.error("Existing ISBN {} for a book distinct of {}", book.isbn(), book.number());
+            fieldFailure = FieldFailure.of("isbn", "existing", book.isbn());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

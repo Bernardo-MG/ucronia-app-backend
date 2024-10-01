@@ -3,22 +3,8 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.time.YearMonth;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.association.person.domain.model.PublicPerson;
 
-@Value
-@Builder(setterPrefix = "with")
-public final class Fee {
-
-    /**
-     * TODO: Rename to month
-     */
-    private final YearMonth      date;
-
-    private final boolean        paid;
-
-    private final FeePerson      person;
-
-    private final FeeTransaction transaction;
+public record Fee(YearMonth date, Boolean paid, PublicPerson person, FeeTransaction transaction) {
 
 }

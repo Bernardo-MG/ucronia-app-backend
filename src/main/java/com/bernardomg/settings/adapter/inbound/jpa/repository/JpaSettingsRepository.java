@@ -50,7 +50,7 @@ public final class JpaSettingsRepository implements SettingRepository {
             .map(this::toDomain);
         if (read.isPresent()) {
             text = read.get()
-                .getValue();
+                .value();
             value = Float.valueOf(text);
         } else {
             value = 0f;
@@ -67,7 +67,7 @@ public final class JpaSettingsRepository implements SettingRepository {
 
         entity = toEntity(setting);
 
-        existing = settingSpringRepository.findByCode(setting.getCode());
+        existing = settingSpringRepository.findByCode(setting.code());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -79,18 +79,14 @@ public final class JpaSettingsRepository implements SettingRepository {
     }
 
     private final Setting toDomain(final SettingsEntity entity) {
-        return Setting.builder()
-            .withCode(entity.getCode())
-            .withValue(entity.getValue())
-            .withType(entity.getType())
-            .build();
+        return new Setting(entity.getType(), entity.getCode(), entity.getValue());
     }
 
     private final SettingsEntity toEntity(final Setting model) {
         return SettingsEntity.builder()
-            .withCode(model.getCode())
-            .withValue(model.getValue())
-            .withType(model.getType())
+            .withCode(model.code())
+            .withValue(model.value())
+            .withType(model.type())
             .build();
     }
 

@@ -64,13 +64,10 @@ public final class DefaultUserPersonService implements UserPersonService {
                 throw new MissingPersonException(personNumber);
             });
 
-        userPerson = UserPerson.builder()
-            .withUsername(username)
-            .withNumber(personNumber)
-            .build();
+        userPerson = new UserPerson(personNumber, username);
         assignPersonValidator.validate(userPerson);
 
-        userPersonRepository.save(readUser.getUsername(), readPerson.getNumber());
+        userPersonRepository.save(readUser.getUsername(), readPerson.number());
 
         return readPerson;
     }

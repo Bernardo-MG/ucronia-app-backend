@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -110,7 +110,7 @@ public final class JpaDonorRepository implements DonorRepository {
 
         entity = toEntity(donor);
 
-        existing = personSpringRepository.findByNumber(donor.getNumber());
+        existing = personSpringRepository.findByNumber(donor.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -125,26 +125,20 @@ public final class JpaDonorRepository implements DonorRepository {
     }
 
     private final Donor toDomain(final PersonEntity donor) {
-        final DonorName donorName;
+        final PersonName name;
 
-        donorName = DonorName.builder()
-            .withFirstName(donor.getFirstName())
-            .withLastName(donor.getLastName())
-            .build();
+        name = new PersonName(donor.getFirstName(), donor.getLastName());
 
-        return Donor.builder()
-            .withNumber(donor.getNumber())
-            .withName(donorName)
-            .build();
+        return new Donor(donor.getNumber(), name);
     }
 
     private final PersonEntity toEntity(final Donor donor) {
         return PersonEntity.builder()
-            .withNumber(donor.getNumber())
-            .withFirstName(donor.getName()
-                .getFirstName())
-            .withLastName(donor.getName()
-                .getLastName())
+            .withNumber(donor.number())
+            .withFirstName(donor.name()
+                .firstName())
+            .withLastName(donor.name()
+                .lastName())
             .withPhone("")
             .withIdentifier("")
             .build();

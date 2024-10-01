@@ -85,7 +85,7 @@ public final class DefaultMyFeesService implements MyFeesService {
                 fees = List.of();
             } else {
                 fees = feeRepository.findAllForMember(person.get()
-                    .getNumber(), pageable);
+                    .number(), pageable);
             }
         }
 

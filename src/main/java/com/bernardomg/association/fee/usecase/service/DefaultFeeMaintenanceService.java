@@ -31,9 +31,9 @@ import java.util.Objects;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.model.PublicPerson;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,7 +70,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         // TODO: reduce the number of queries
         feesToCreate = feesToExtend.stream()
             // Prepare for the current month
-            .map(this::toCurrentMonth)
+            .map(this::toUnpaidThisMonth)
             // Make sure the user is active
             .filter(this::isActive)
             // Make sure it doesn't exist
@@ -83,26 +83,23 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean isActive(final Fee fee) {
-        return memberRepository.isActive(fee.getPerson()
-            .getNumber());
+        return memberRepository.isActive(fee.person()
+            .number());
     }
 
     private final boolean notExists(final Fee fee) {
-        return !feeRepository.exists(fee.getPerson()
-            .getNumber(), fee.getDate());
+        return !feeRepository.exists(fee.person()
+            .number(), fee.date());
     }
 
-    private final Fee toCurrentMonth(final Fee fee) {
-        final FeePerson person;
+    private final Fee toUnpaidThisMonth(final Fee fee) {
+        final PublicPerson person;
 
-        person = FeePerson.builder()
-            .withNumber(fee.getPerson()
-                .getNumber())
-            .build();
-        return Fee.builder()
-            .withPerson(person)
-            .withDate(YearMonth.now())
-            .build();
+        person = new PublicPerson(fee.person()
+            .number(),
+            fee.person()
+                .name());
+        return new Fee(YearMonth.now(), false, person, null);
     }
 
 }

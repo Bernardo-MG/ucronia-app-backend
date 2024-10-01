@@ -69,10 +69,10 @@ class TestFeeReportServiceGetPaymentReport {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.getPaid())
+            softly.assertThat(report.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(report.getUnpaid())
+            softly.assertThat(report.unpaid())
                 .as("paid fees")
                 .isZero();
         });
@@ -91,10 +91,10 @@ class TestFeeReportServiceGetPaymentReport {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.getPaid())
+            softly.assertThat(report.paid())
                 .as("paid fees")
                 .isEqualTo(1);
-            softly.assertThat(report.getUnpaid())
+            softly.assertThat(report.unpaid())
                 .as("paid fees")
                 .isZero();
         });
@@ -113,10 +113,10 @@ class TestFeeReportServiceGetPaymentReport {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.getPaid())
+            softly.assertThat(report.paid())
                 .as("paid fees")
                 .isEqualTo(1);
-            softly.assertThat(report.getUnpaid())
+            softly.assertThat(report.unpaid())
                 .as("paid fees")
                 .isEqualTo(1);
         });
@@ -135,10 +135,10 @@ class TestFeeReportServiceGetPaymentReport {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.getPaid())
+            softly.assertThat(report.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(report.getUnpaid())
+            softly.assertThat(report.unpaid())
                 .as("paid fees")
                 .isEqualTo(1);
         });

@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.inventory.adapter.outbound.rest.model.DonorCreation;
 import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.inventory.domain.model.DonorName;
 import com.bernardomg.association.inventory.usecase.service.DonorService;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -102,18 +102,14 @@ public class DonorController {
     }
 
     private final Donor toDomain(final long number, final DonorCreation change) {
-        final DonorName name;
+        final PersonName name;
 
-        name = DonorName.builder()
-            .withFirstName(change.getName()
-                .getFirstName())
-            .withLastName(change.getName()
-                .getLastName())
-            .build();
-        return Donor.builder()
-            .withNumber(number)
-            .withName(name)
-            .build();
+        name = new PersonName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+
+        return new Donor(number, name);
     }
 
 }

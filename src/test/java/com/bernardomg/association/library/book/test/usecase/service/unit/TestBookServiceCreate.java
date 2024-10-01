@@ -406,7 +406,7 @@ class TestBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(Books.full());
+        verify(bookRepository).save(Books.isbn10x());
     }
 
     @Test

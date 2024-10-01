@@ -19,13 +19,13 @@ public interface TransactionRepository {
 
     public Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable);
 
-    public TransactionCalendarMonthsRange findDates();
-
     public TransactionCalendarMonth findInMonth(final YearMonth date);
 
     public long findNextIndex();
 
     public Optional<Transaction> findOne(final Long index);
+
+    public TransactionCalendarMonthsRange findRange();
 
     public Transaction save(final Transaction transaction);
 

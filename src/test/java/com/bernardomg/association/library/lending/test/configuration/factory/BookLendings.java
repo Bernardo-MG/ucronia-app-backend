@@ -10,70 +10,38 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 public final class BookLendings {
 
     public static final BookLending lent() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.valid(), BookConstants.LENT_DATE, null);
     }
 
     public static final BookLending lentAlternativePerson() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.alternative(), BookConstants.LENT_DATE, null);
     }
 
     public static final BookLending lentAtReturn() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.RETURNED_DATE)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.valid(), BookConstants.RETURNED_DATE, null);
     }
 
     public static final BookLending lentLast() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE_LAST)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.valid(), BookConstants.LENT_DATE_LAST, null);
     }
 
     public static final BookLending lentToday() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(LocalDate.now())
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.valid(), LocalDate.now(), null);
     }
 
     public static final BookLending returned() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE)
-            .withReturnDate(BookConstants.RETURNED_DATE)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.valid(), BookConstants.LENT_DATE,
+            BookConstants.RETURNED_DATE);
     }
 
     public static final BookLending returnedAlternative() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.alternative())
-            .withLendingDate(BookConstants.LENT_DATE)
-            .withReturnDate(BookConstants.RETURNED_DATE)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.alternative(), BookConstants.LENT_DATE,
+            BookConstants.RETURNED_DATE);
     }
 
     public static final BookLending returnedLast() {
-        return BookLending.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withPerson(Persons.valid())
-            .withLendingDate(BookConstants.LENT_DATE_LAST)
-            .withReturnDate(BookConstants.RETURNED_DATE_LAST)
-            .build();
+        return new BookLending(BookConstants.NUMBER, Persons.valid(), BookConstants.LENT_DATE_LAST,
+            BookConstants.RETURNED_DATE_LAST);
     }
 
 }

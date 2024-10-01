@@ -6,15 +6,11 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 public final class BookTypes {
 
     public static final BookType emptyName() {
-        return BookType.builder()
-            .withName(" ")
-            .build();
+        return new BookType(" ");
     }
 
     public static final BookType valid() {
-        return BookType.builder()
-            .withName(BookTypeConstants.NAME)
-            .build();
+        return new BookType(BookTypeConstants.NAME);
     }
 
 }

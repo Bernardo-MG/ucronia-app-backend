@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
+import java.time.Year;
 import java.util.List;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
@@ -8,9 +9,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 public final class FeeCalendarYearsRanges {
 
     public static final FeeCalendarYearsRange current() {
-        return FeeCalendarYearsRange.builder()
-            .withYears(List.of(FeeConstants.YEAR_VALUE))
-            .build();
+        return new FeeCalendarYearsRange(List.of(Year.of(FeeConstants.YEAR_VALUE)));
     }
 
     private FeeCalendarYearsRanges() {

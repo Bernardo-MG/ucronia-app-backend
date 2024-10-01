@@ -108,18 +108,10 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName memberName;
+        final PersonName name;
 
-        memberName = PersonName.builder()
-            .withFirstName(entity.getFirstName())
-            .withLastName(entity.getLastName())
-            .build();
-        return Person.builder()
-            .withNumber(entity.getNumber())
-            .withIdentifier(entity.getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPhone())
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
     }
 
 }

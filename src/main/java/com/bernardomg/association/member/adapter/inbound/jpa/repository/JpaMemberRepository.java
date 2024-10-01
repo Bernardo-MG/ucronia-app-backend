@@ -187,13 +187,13 @@ public final class JpaMemberRepository implements MemberRepository {
 
         entity = toEntity(member);
 
-        existingMember = memberSpringRepository.findByNumber(member.getNumber());
+        existingMember = memberSpringRepository.findByNumber(member.number());
         if (existingMember.isPresent()) {
             entity.setId(existingMember.get()
                 .getId());
         }
 
-        existingPerson = personSpringRepository.findByNumber(member.getNumber());
+        existingPerson = personSpringRepository.findByNumber(member.number());
         if (existingPerson.isPresent()) {
             entity.getPerson()
                 .setId(existingPerson.get()
@@ -214,24 +214,18 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     private final Member toDomain(final MemberEntity entity) {
-        final PersonName memberName;
+        final PersonName name;
 
-        memberName = PersonName.builder()
-            .withFirstName(entity.getPerson()
-                .getFirstName())
-            .withLastName(entity.getPerson()
-                .getLastName())
-            .build();
-        return Member.builder()
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .withIdentifier(entity.getPerson()
-                .getIdentifier())
-            .withName(memberName)
-            .withPhone(entity.getPerson()
-                .getPhone())
-            .withActive(entity.getActive())
-            .build();
+        name = new PersonName(entity.getPerson()
+            .getFirstName(),
+            entity.getPerson()
+                .getLastName());
+        return new Member(entity.getPerson()
+            .getNumber(),
+            entity.getPerson()
+                .getIdentifier(),
+            name, entity.getActive(), entity.getPerson()
+                .getPhone());
     }
 
     private final MemberEntity toEntity(final Member data) {
@@ -239,17 +233,17 @@ public final class JpaMemberRepository implements MemberRepository {
 
         // FIXME: load the person if it exists
         person = PersonEntity.builder()
-            .withNumber(data.getNumber())
-            .withIdentifier(data.getIdentifier())
-            .withFirstName(data.getName()
-                .getFirstName())
-            .withLastName(data.getName()
-                .getLastName())
-            .withPhone(data.getPhone())
+            .withNumber(data.number())
+            .withIdentifier(data.identifier())
+            .withFirstName(data.name()
+                .firstName())
+            .withLastName(data.name()
+                .lastName())
+            .withPhone(data.phone())
             .build();
         return MemberEntity.builder()
             .withPerson(person)
-            .withActive(data.getActive())
+            .withActive(data.active())
             .build();
     }
 

@@ -57,7 +57,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
 
     @Override
     public final TransactionCalendarMonthsRange getRange() {
-        return transactionRepository.findDates();
+        return transactionRepository.findRange();
     }
 
 }

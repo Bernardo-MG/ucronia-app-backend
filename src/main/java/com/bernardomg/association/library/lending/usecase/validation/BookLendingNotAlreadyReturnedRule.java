@@ -28,13 +28,13 @@ public final class BookLendingNotAlreadyReturnedRule implements FieldRule<BookLe
         final FieldFailure           fieldFailure;
         final Optional<BookLending>  returned;
 
-        returned = bookLendingRepository.findReturned(lending.getNumber(), lending.getPerson()
-            .getNumber(), lending.getLendingDate());
+        returned = bookLendingRepository.findReturned(lending.number(), lending.person()
+            .number(), lending.lendingDate());
         if (returned.isPresent()) {
-            log.error("Returning book {} to {} on {}, which was already returned on {}", lending.getNumber(),
-                lending.getPerson(), lending.getReturnDate(), returned.get()
-                    .getReturnDate());
-            fieldFailure = FieldFailure.of("returnDate", "existing", lending.getReturnDate());
+            log.error("Returning book {} to {} on {}, which was already returned on {}", lending.number(),
+                lending.person(), lending.returnDate(), returned.get()
+                    .returnDate());
+            fieldFailure = FieldFailure.of("returnDate", "existing", lending.returnDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

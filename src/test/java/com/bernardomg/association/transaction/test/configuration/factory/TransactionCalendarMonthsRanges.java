@@ -36,15 +36,11 @@ public final class TransactionCalendarMonthsRanges {
         YearMonth.of(2022, Month.NOVEMBER), YearMonth.of(2022, Month.DECEMBER));
 
     public static final TransactionCalendarMonthsRange empty() {
-        return TransactionCalendarMonthsRange.builder()
-            .withMonths(FULL_YEAR_MONTHS)
-            .build();
+        return new TransactionCalendarMonthsRange(List.of());
     }
 
     public static final TransactionCalendarMonthsRange fullYear() {
-        return TransactionCalendarMonthsRange.builder()
-            .withMonths(FULL_YEAR_MONTHS)
-            .build();
+        return new TransactionCalendarMonthsRange(FULL_YEAR_MONTHS);
     }
 
     private TransactionCalendarMonthsRanges() {

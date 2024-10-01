@@ -24,19 +24,18 @@
 
 package com.bernardomg.association.fee.domain.model;
 
+import java.time.YearMonth;
 import java.util.Collection;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.association.member.domain.model.PublicMember;
 
-@Value
-@Builder(setterPrefix = "with")
-public final class FeeCalendar {
+public record FeeCalendar(PublicMember member, Collection<FeeCalendarMonth> months, Integer year) {
 
-    private final FeeCalendarMember            member;
+    public record FeeCalendarMonth(FeeCalendarMonthFee fee, Integer month) {
 
-    private final Collection<FeeCalendarMonth> months;
+        public record FeeCalendarMonthFee(YearMonth date, Boolean paid) {
 
-    private final int                          year;
+        }
+    }
 
 }

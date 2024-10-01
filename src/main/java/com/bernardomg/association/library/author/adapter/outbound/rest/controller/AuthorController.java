@@ -73,9 +73,7 @@ public class AuthorController {
     public Author create(@Valid @RequestBody final AuthorCreation request) {
         final Author author;
 
-        author = Author.builder()
-            .withName(request.getName())
-            .build();
+        author = new Author(request.getName());
         return service.create(author);
     }
 

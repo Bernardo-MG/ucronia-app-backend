@@ -20,7 +20,6 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.MemberFeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.association.fee.domain.model.FeePerson;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -28,6 +27,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 
@@ -287,15 +288,16 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final FeeCalendarYearsRange findRange() {
-        final Collection<Integer>   years;
+        final Collection<Year>      years;
         final FeeCalendarYearsRange range;
 
         log.debug("Finding fees range");
 
-        years = memberFeeSpringRepository.findYears();
-        range = FeeCalendarYearsRange.builder()
-            .withYears(years)
-            .build();
+        years = memberFeeSpringRepository.findYears()
+            .stream()
+            .map(Year::of)
+            .toList();
+        range = new FeeCalendarYearsRange(years);
 
         log.debug("Found fees range: {}", range);
 
@@ -309,17 +311,17 @@ public final class JpaFeeRepository implements FeeRepository {
         final Collection<MemberFeeEntity> read;
         final Collection<YearMonth>       feeDates;
 
-        log.debug("Paying fees for {}, using fees {} and transaction {}", person.getNumber(), fees, transaction);
+        log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
         feeDates = fees.stream()
-            .map(Fee::getDate)
+            .map(Fee::date)
             .toList();
 
         // TODO: just return the id
         transactionId = transactionSpringRepository.findByIndex(transaction.getIndex())
             .get()
             .getId();
-        read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.getNumber(), feeDates);
+        read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.number(), feeDates);
 
         // Register payments
         payments = read.stream()
@@ -335,7 +337,7 @@ public final class JpaFeeRepository implements FeeRepository {
         feePaymentSpringRepository.flush();
         memberFeeSpringRepository.flush();
 
-        log.debug("Paid fees for {}, using fees {} and transaction {}", person.getNumber(), fees, transaction);
+        log.debug("Paid fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
     }
 
     @Override
@@ -375,78 +377,53 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final FeePerson      feePerson;
-        final FeeTransaction feeTransaction;
-        final String         name;
+        final PublicPerson   person;
+        final FeeTransaction transaction;
+        final PersonName     name;
 
-        name = (entity.getPerson()
-            .getFirstName() + " "
-                + entity.getPerson()
-                    .getLastName()).trim();
-        feePerson = FeePerson.builder()
-            .withFullName(name)
-            .withNumber(entity.getPerson()
-                .getNumber())
-            .build();
+        name = new PersonName(entity.getPerson()
+            .getFirstName(),
+            entity.getPerson()
+                .getLastName());
+        person = new PublicPerson(entity.getPerson()
+            .getNumber(), name);
 
-        feeTransaction = FeeTransaction.builder()
-            .build();
-        return Fee.builder()
-            .withDate(entity.getDate())
-            .withPerson(feePerson)
-            .withTransaction(feeTransaction)
-            .build();
+        transaction = new FeeTransaction(null, null);
+        return new Fee(entity.getDate(), false, person, transaction);
     }
 
     private final Fee toDomain(final MemberFee entity) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(entity.getPersonName())
-            .withNumber(entity.getPersonNumber())
-            .build();
-        transaction = FeeTransaction.builder()
-            .withIndex(entity.getTransactionIndex())
-            .withDate(entity.getPaymentDate())
-            .build();
-        return Fee.builder()
-            .withDate(entity.getDate())
-            .withPaid(entity.getPaid())
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        // TODO: get both names
+        name = new PersonName(entity.getPersonFirstName(), entity.getPersonLastName());
+        person = new PublicPerson(entity.getPersonNumber(), name);
+        transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
+        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
     private final Fee toDomain(final MemberFeeEntity entity) {
-        final FeePerson      person;
+        final PublicPerson   person;
         final FeeTransaction transaction;
+        final PersonName     name;
 
-        person = FeePerson.builder()
-            .withFullName(entity.getFullName())
-            .withNumber(entity.getPersonNumber())
-            .build();
-        transaction = FeeTransaction.builder()
-            .withIndex(entity.getTransactionIndex())
-            .withDate(entity.getPaymentDate())
-            .build();
-        return Fee.builder()
-            .withDate(entity.getDate())
-            .withPaid(entity.getPaid())
-            .withPerson(person)
-            .withTransaction(transaction)
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        person = new PublicPerson(entity.getPersonNumber(), name);
+        transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
+        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
     private final FeeEntity toEntity(final Fee fee) {
         final PersonEntity person;
 
-        person = personSpringRepository.findByNumber(fee.getPerson()
-            .getNumber())
+        person = personSpringRepository.findByNumber(fee.person()
+            .number())
             .get();
         return FeeEntity.builder()
             .withPerson(person)
-            .withDate(fee.getDate())
+            .withDate(fee.date())
             .build();
     }
 
