@@ -39,8 +39,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
-import com.bernardomg.association.transaction.test.config.factory.Transactions;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
 

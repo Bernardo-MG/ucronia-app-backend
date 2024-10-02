@@ -30,7 +30,7 @@ public class LayeredArchitectureRulesTest {
         .layer("Infrastructure - Outbound")
         .definedBy("com.bernardomg.association..adapter.outbound..")
         .layer("Configuration")
-        .definedBy("com.bernardomg.association..config..")
+        .definedBy("com.bernardomg.association..configuration..")
 
         .whereLayer("Infrastructure - Outbound")
         .mayOnlyBeAccessedByLayers("Configuration")

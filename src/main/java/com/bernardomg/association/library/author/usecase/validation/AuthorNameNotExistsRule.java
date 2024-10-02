@@ -30,9 +30,9 @@ public final class AuthorNameNotExistsRule implements FieldRule<Author> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (authorRepository.exists(author.getName())) {
-            log.error("Existing name {}", author.getName());
-            fieldFailure = FieldFailure.of("name", "existing", author.getName());
+        if (authorRepository.exists(author.name())) {
+            log.error("Existing name {}", author.name());
+            fieldFailure = FieldFailure.of("name", "existing", author.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

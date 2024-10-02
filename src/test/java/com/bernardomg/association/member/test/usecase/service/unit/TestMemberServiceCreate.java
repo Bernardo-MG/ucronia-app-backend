@@ -38,10 +38,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -73,10 +73,7 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name.firstName", "empty", PersonName.builder()
-                .withFirstName(" ")
-                .withLastName(PersonConstants.LAST_NAME)
-                .build()));
+            FieldFailure.of("name.firstName", "empty", new PersonName(" ", PersonConstants.LAST_NAME)));
     }
 
     @Test
@@ -93,9 +90,7 @@ class TestMemberServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name.firstName", "empty", PersonName.builder()
-                .withLastName(PersonConstants.LAST_NAME)
-                .build()));
+            FieldFailure.of("name.firstName", "empty", new PersonName("", PersonConstants.LAST_NAME)));
     }
 
     @Test

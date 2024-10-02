@@ -73,9 +73,7 @@ public class PublisherController {
     public Publisher create(@Valid @RequestBody final PublisherCreation request) {
         final Publisher publisher;
 
-        publisher = Publisher.builder()
-            .withName(request.getName())
-            .build();
+        publisher = new Publisher(request.getName());
         return service.create(publisher);
     }
 

@@ -190,9 +190,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Saving book lending {}", lending);
 
-        bookEntity = bookSpringRepository.findByNumber(lending.getNumber());
-        personEntity = personSpringRepository.findByNumber(lending.getPerson()
-            .getNumber());
+        bookEntity = bookSpringRepository.findByNumber(lending.number());
+        personEntity = personSpringRepository.findByNumber(lending.person()
+            .number());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
             toCreate = toEntity(lending, bookEntity.get(), personEntity.get());
@@ -214,13 +214,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return BookLending.builder()
-            .withNumber(bookEntity.getNumber())
-            .withPerson(person.orElse(Person.builder()
-                .build()))
-            .withLendingDate(entity.getLendingDate())
-            .withReturnDate(entity.getReturnDate())
-            .build();
+        return new BookLending(bookEntity.getNumber(), person.orElse(new Person(null, null, null, null)),
+            entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
@@ -228,27 +223,14 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Person person;
 
         person = toDomain(personEntity);
-        return BookLending.builder()
-            .withNumber(bookEntity.getNumber())
-            .withPerson(person)
-            .withLendingDate(entity.getLendingDate())
-            .withReturnDate(entity.getReturnDate())
-            .build();
+        return new BookLending(bookEntity.getNumber(), person, entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName memberName;
+        final PersonName name;
 
-        memberName = PersonName.builder()
-            .withFirstName(entity.getFirstName())
-            .withLastName(entity.getLastName())
-            .build();
-        return Person.builder()
-            .withNumber(entity.getNumber())
-            .withName(memberName)
-            .withIdentifier(entity.getIdentifier())
-            .withPhone(entity.getPhone())
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
     }
 
     private final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
@@ -256,8 +238,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         return BookLendingEntity.builder()
             .withBookId(bookEntity.getId())
             .withPersonId(personEntity.getId())
-            .withLendingDate(domain.getLendingDate())
-            .withReturnDate(domain.getReturnDate())
+            .withLendingDate(domain.lendingDate())
+            .withReturnDate(domain.returnDate())
             .build();
     }
 

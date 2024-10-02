@@ -1,20 +1,6 @@
 
 package com.bernardomg.association.person.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder(setterPrefix = "with")
-public final class Person {
-
-    private final String     identifier;
-
-    private final PersonName name;
-
-    @Builder.Default
-    private final long       number = -1L;
-
-    private final String     phone;
+public record Person(String identifier, Long number, PersonName name, String phone) {
 
 }

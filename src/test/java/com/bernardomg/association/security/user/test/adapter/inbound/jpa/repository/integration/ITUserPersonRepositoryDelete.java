@@ -31,9 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserPersonSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
-import com.bernardomg.association.security.user.test.config.data.annotation.ValidUserWithPerson;
-import com.bernardomg.association.security.user.test.config.factory.UserConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithPerson;
+import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("UserPersonRepository - delete")

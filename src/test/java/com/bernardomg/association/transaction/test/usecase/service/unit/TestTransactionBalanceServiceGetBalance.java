@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionCurrentBalances;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCurrentBalances;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
 
 @ExtendWith(MockitoExtension.class)

@@ -18,9 +18,9 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
-import com.bernardomg.association.member.test.config.factory.MemberBalanceConstants;
-import com.bernardomg.association.member.test.config.factory.MemberBalanceQueryRequests;
-import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
+import com.bernardomg.association.member.test.configuration.factory.MemberBalanceConstants;
+import com.bernardomg.association.member.test.configuration.factory.MemberBalanceQueryRequests;
+import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
 
 @ExtendWith(MockitoExtension.class)

@@ -27,13 +27,6 @@ package com.bernardomg.association.transaction.domain.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder(setterPrefix = "with")
-public final class TransactionCalendarMonthsRange {
-
-    private final Collection<YearMonth> months;
+public record TransactionCalendarMonthsRange(Collection<YearMonth> months) {
 
 }

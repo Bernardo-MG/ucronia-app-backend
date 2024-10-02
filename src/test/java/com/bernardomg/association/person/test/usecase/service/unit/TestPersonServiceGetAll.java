@@ -49,7 +49,7 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)

@@ -33,12 +33,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.config.data.annotation.OutOfOrderMonth;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.configuration.data.annotation.OutOfOrderMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionRepository - get for month")
@@ -62,10 +62,10 @@ class ITTransactionRepositoryFindInMonth {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendar.getDate())
+            softly.assertThat(calendar.date())
                 .as("date")
                 .isEqualTo(month);
-            softly.assertThat(calendar.getTransactions())
+            softly.assertThat(calendar.transactions())
                 .as("transactions")
                 .containsExactly(Transactions.february());
         });
@@ -86,10 +86,10 @@ class ITTransactionRepositoryFindInMonth {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendar.getDate())
+            softly.assertThat(calendar.date())
                 .as("date")
                 .isEqualTo(month);
-            softly.assertThat(calendar.getTransactions())
+            softly.assertThat(calendar.transactions())
                 .as("transactions")
                 .isEmpty();
         });
@@ -109,10 +109,10 @@ class ITTransactionRepositoryFindInMonth {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendar.getDate())
+            softly.assertThat(calendar.date())
                 .as("date")
                 .isEqualTo(month);
-            softly.assertThat(calendar.getTransactions())
+            softly.assertThat(calendar.transactions())
                 .as("transactions")
                 .isEmpty();
         });
@@ -132,7 +132,7 @@ class ITTransactionRepositoryFindInMonth {
         calendar = repository.findInMonth(month);
 
         // THEN
-        Assertions.assertThat(calendar.getTransactions())
+        Assertions.assertThat(calendar.transactions())
             .as("transactions")
             .containsExactly(Transactions.forIndexAndDay(1, Month.FEBRUARY),
                 Transactions.forIndexAndDay(2, Month.FEBRUARY), Transactions.forIndexAndDay(3, Month.FEBRUARY),

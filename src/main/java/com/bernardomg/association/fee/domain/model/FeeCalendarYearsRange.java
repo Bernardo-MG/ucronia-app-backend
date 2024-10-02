@@ -24,18 +24,9 @@
 
 package com.bernardomg.association.fee.domain.model;
 
+import java.time.Year;
 import java.util.Collection;
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder(setterPrefix = "with")
-public final class FeeCalendarYearsRange {
-
-    /**
-     * TODO: user Year
-     */
-    private final Collection<Integer> years;
+public record FeeCalendarYearsRange(Collection<Year> years) {
 
 }

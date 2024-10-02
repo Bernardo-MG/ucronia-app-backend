@@ -53,10 +53,7 @@ public final class DefaultDonorService implements DonorService {
         // Set number
         number = donorRepository.findNextNumber();
 
-        toCreate = Donor.builder()
-            .withName(donor.getName())
-            .withNumber(number)
-            .build();
+        toCreate = new Donor(number, donor.name());
 
         return donorRepository.save(toCreate);
     }
@@ -103,10 +100,10 @@ public final class DefaultDonorService implements DonorService {
     @Override
     public final Donor update(final Donor donor) {
 
-        log.debug("Updating donor {} using data {}", donor.getNumber(), donor);
+        log.debug("Updating donor {} using data {}", donor.number(), donor);
 
-        if (!donorRepository.exists(donor.getNumber())) {
-            throw new MissingDonorException(donor.getNumber());
+        if (!donorRepository.exists(donor.number())) {
+            throw new MissingDonorException(donor.number());
         }
 
         updateDonorValidator.validate(donor);

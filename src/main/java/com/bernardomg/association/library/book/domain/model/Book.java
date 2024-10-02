@@ -2,7 +2,6 @@
 package com.bernardomg.association.library.book.domain.model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
@@ -13,42 +12,10 @@ import com.bernardomg.association.library.lending.domain.model.BookBookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
 
-@Value
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder(setterPrefix = "with")
-public final class Book {
-
-    @Builder.Default
-    private Collection<Author>          authors    = List.of();
-
-    @Builder.Default
-    private Optional<BookType>          bookType   = Optional.empty();
-
-    @Builder.Default
-    private Collection<Donor>           donors     = List.of();
-
-    @Builder.Default
-    private Optional<GameSystem>        gameSystem = Optional.empty();
-
-    private String                      isbn;
-
-    private String                      language;
-
-    @Builder.Default
-    private Collection<BookBookLending> lendings   = List.of();
-
-    @Builder.Default
-    private boolean                     lent       = false;
-
-    @EqualsAndHashCode.Include
-    private Long                        number;
-
-    @Builder.Default
-    private Collection<Publisher>       publishers = List.of();
-
-    private String                      title;
+public record Book(Long number, String title, String isbn, String language, Boolean lent, Collection<Author> authors,
+        Collection<Donor> donors, Collection<BookBookLending> lendings, Collection<Publisher> publishers,
+        Optional<BookType> bookType, Optional<GameSystem> gameSystem) {
 
 }

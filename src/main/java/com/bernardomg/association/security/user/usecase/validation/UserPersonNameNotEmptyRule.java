@@ -30,9 +30,9 @@ public final class UserPersonNameNotEmptyRule implements FieldRule<UserPerson> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (userPersonRepository.existsByPersonForAnotherUser(member.getUsername(), member.getNumber())) {
-            log.error("Person {} already assigned to a user", member.getNumber());
-            fieldFailure = FieldFailure.of("person", "existing", member.getNumber());
+        if (userPersonRepository.existsByPersonForAnotherUser(member.username(), member.number())) {
+            log.error("Person {} already assigned to a user", member.number());
+            fieldFailure = FieldFailure.of("person", "existing", member.number());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -31,13 +31,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.bernardomg.association.library.book.test.config.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.publisher.test.config.data.annotation.ValidPublisher;
-import com.bernardomg.association.library.publisher.test.config.factory.PublisherConstants;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
+import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PublisherRepository - delete")

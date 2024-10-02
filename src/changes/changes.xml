@@ -247,5 +247,22 @@
             Added member patch endpoint.
          </action>
       </release>
+      <release version="0.5.17" date="2024-09-02" description="Model changes">
+         <action dev="bmg" type="update">
+            Moved domain to records.
+         </action>
+         <action dev="bmg" type="update">
+            Refactored config module to settings module.
+         </action>
+         <action dev="bmg" type="update">
+            Extracted architecture tests.
+         </action>
+         <action dev="bmg" type="update">
+            Removed unneeded formatting.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed public member caching.
+         </action>
+      </release>
    </body>
 </document>

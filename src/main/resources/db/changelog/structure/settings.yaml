@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: settings_table
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: settings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: config_value
+                  type: varchar(300)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+              - column:
+                  name: value_type
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                  defaultValue: 'string'
+        - addAutoIncrement:
+            tableName: settings
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: initial_settings
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/initial_settings.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

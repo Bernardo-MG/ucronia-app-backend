@@ -4,8 +4,6 @@ package com.bernardomg.association.fee.adapter.outbound.rest.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +19,6 @@ public final class FeePayment {
     /**
      * TODO: rename to months
      */
-    @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
     private Collection<@NotNull YearMonth> feeDates;
 

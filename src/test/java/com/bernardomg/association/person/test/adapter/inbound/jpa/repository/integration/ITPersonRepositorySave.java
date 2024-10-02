@@ -33,10 +33,10 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
-import com.bernardomg.association.person.test.config.factory.PersonEntities;
-import com.bernardomg.association.person.test.config.factory.Persons;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PersonRepository - save")

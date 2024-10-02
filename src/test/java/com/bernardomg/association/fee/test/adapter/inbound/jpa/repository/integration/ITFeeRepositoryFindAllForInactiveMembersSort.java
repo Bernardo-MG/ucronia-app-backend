@@ -34,11 +34,11 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
-import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.member.test.config.data.annotation.AccentInactiveMembers;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.AccentInactiveMembers;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - sort")
@@ -57,15 +57,16 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "fullName");
+        sort = Sort.by(Direction.ASC, "firstName");
 
         // WHEN
         fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
                 "Person o Last name 4", "Person u Last name 5");
@@ -80,15 +81,16 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "fullName");
+        sort = Sort.by(Direction.ASC, "firstName");
 
         // WHEN
         fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
                 "Person 4 Last name 4", "Person 5 Last name 5");
@@ -103,15 +105,16 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Direction.DESC, "fullName");
+        sort = Sort.by(Direction.DESC, "firstName");
 
         // WHEN
         fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",
                 "Person 2 Last name 2", "Person 1 Last name 1");

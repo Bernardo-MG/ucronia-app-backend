@@ -12,17 +12,17 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
-import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
-import com.bernardomg.association.fee.test.config.factory.FeePaymentEntities;
-import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.factory.FeePaymentEntities;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.test.config.data.annotation.SinglePerson;
-import com.bernardomg.association.person.test.config.factory.Persons;
-import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
+import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.association.transaction.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - pay")

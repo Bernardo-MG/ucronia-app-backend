@@ -28,7 +28,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.bernardomg.configuration.config.ConfigurationConfig;
+import com.bernardomg.settings.configuration.SettingsConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -37,7 +37,7 @@ import com.bernardomg.configuration.config.ConfigurationConfig;
  *
  */
 @SpringBootApplication
-@Import({ ConfigurationConfig.class })
+@Import({ SettingsConfiguration.class })
 public class UcroniaApplication {
 
     /**

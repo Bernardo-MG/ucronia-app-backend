@@ -32,9 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypeEntities;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypes;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeEntities;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookTypeRepository - save")

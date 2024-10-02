@@ -34,18 +34,18 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
-import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.test.configuration.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.configuration.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
-import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("TransactionRepository - get all")

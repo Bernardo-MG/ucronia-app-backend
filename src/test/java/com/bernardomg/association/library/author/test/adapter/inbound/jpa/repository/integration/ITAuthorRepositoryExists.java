@@ -30,9 +30,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
-import com.bernardomg.association.library.author.test.config.data.annotation.ValidAuthor;
-import com.bernardomg.association.library.author.test.config.factory.AuthorConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("AuthorRepository - exists")

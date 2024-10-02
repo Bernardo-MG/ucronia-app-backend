@@ -26,17 +26,6 @@ package com.bernardomg.association.transaction.domain.model;
 
 import java.time.YearMonth;
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder(setterPrefix = "with")
-public final class TransactionMonthlyBalance {
-
-    private YearMonth date;
-
-    private float     results;
-
-    private float     total;
+public record TransactionMonthlyBalance(YearMonth date, float results, float total) {
 
 }

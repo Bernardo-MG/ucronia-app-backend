@@ -59,6 +59,7 @@ import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -146,9 +147,7 @@ public class BookController {
                 .stream()
                 .map(BookCreationAuthor::getName)
                 .filter(StringUtils::isNotBlank)
-                .map(a -> Author.builder()
-                    .withName(a)
-                    .build())
+                .map(Author::new)
                 .toList();
         }
 
@@ -160,9 +159,7 @@ public class BookController {
                 .stream()
                 .map(BookCreationPublisher::getName)
                 .filter(StringUtils::isNotBlank)
-                .map(p -> Publisher.builder()
-                    .withName(p)
-                    .build())
+                .map(Publisher::new)
                 .toList();
         }
 
@@ -174,9 +171,7 @@ public class BookController {
                 .stream()
                 .map(BookCreationDonor::getNumber)
                 .filter(Objects::nonNull)
-                .map(d -> Donor.builder()
-                    .withNumber(d)
-                    .build())
+                .map(d -> new Donor(d, new PersonName("", "")))
                 .toList();
         }
 
@@ -185,10 +180,8 @@ public class BookController {
             .getName()))) {
             bookType = Optional.empty();
         } else {
-            bookType = Optional.of(BookType.builder()
-                .withName(request.getBookType()
-                    .getName())
-                .build());
+            bookType = Optional.of(new BookType(request.getBookType()
+                .getName()));
         }
 
         // Game system
@@ -196,10 +189,8 @@ public class BookController {
             .getName()))) {
             gameSystem = Optional.empty();
         } else {
-            gameSystem = Optional.of(GameSystem.builder()
-                .withName(request.getGameSystem()
-                    .getName())
-                .build());
+            gameSystem = Optional.of(new GameSystem(request.getGameSystem()
+                .getName()));
         }
 
         // Book
@@ -213,6 +204,8 @@ public class BookController {
             .withGameSystem(gameSystem)
             .withDonors(donors)
             .withNumber(number)
+            .withLendings(List.of())
+            .withLent(false)
             .build();
     }
 

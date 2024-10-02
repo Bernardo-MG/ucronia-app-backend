@@ -39,8 +39,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.association.person.test.config.factory.Persons;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -73,7 +73,7 @@ class TestPersonServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name.firstName", "empty", PersonName.of("", "")));
+            FieldFailure.of("name.firstName", "empty", new PersonName("", "")));
     }
 
     @Test

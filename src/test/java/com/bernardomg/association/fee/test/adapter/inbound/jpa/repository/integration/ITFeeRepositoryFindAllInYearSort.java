@@ -38,15 +38,15 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.data.annotation.AlternativeFeeFullYear;
-import com.bernardomg.association.fee.test.config.data.annotation.FeeFullYear;
-import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
-import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.member.test.config.data.annotation.AccentActiveMembers;
-import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.AlternativeActiveMember;
-import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
+import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.AccentActiveMembers;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all in year - sort")
@@ -65,15 +65,16 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
+        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.getPerson()
-                .getFullName())
+            .extracting(fee -> fee.person()
+                .name()
+                .fullName())
             .as("fee full names")
             .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
                 "Person o Last name 4", "Person u Last name 5");
@@ -108,7 +109,7 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.asc("fullName"), Order.asc("date"));
+        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
@@ -141,7 +142,7 @@ class ITFeeRepositoryFindAllInYearSort {
         final Sort          sort;
 
         // GIVEN
-        sort = Sort.by(Order.desc("fullName"), Order.asc("date"));
+        sort = Sort.by(Order.desc("firstName"), Order.asc("date"));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sort);

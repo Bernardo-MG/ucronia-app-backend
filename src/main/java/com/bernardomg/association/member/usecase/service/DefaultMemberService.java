@@ -58,13 +58,7 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        toCreate = Member.builder()
-            .withIdentifier(member.getIdentifier())
-            .withName(member.getName())
-            .withPhone(member.getPhone())
-            .withNumber(number)
-            .withActive(false)
-            .build();
+        toCreate = new Member(number, member.identifier(), member.name(), false, member.phone());
 
         createMemberValidator.validate(toCreate);
 
@@ -119,15 +113,15 @@ public final class DefaultMemberService implements MemberService {
         final Member existing;
         final Member toSave;
 
-        log.debug("Patching member {} using data {}", member.getNumber(), member);
+        log.debug("Patching member {} using data {}", member.number(), member);
 
         // TODO: Identificator and phone must be unique or empty
         // TODO: Apply the creation validations
 
-        existing = memberRepository.findOne(member.getNumber())
+        existing = memberRepository.findOne(member.number())
             .orElseThrow(() -> {
-                log.error("Missing member {}", member.getNumber());
-                throw new MissingMemberException(member.getNumber());
+                log.error("Missing member {}", member.number());
+                throw new MissingMemberException(member.number());
             });
 
         toSave = copy(existing, member);
@@ -139,23 +133,17 @@ public final class DefaultMemberService implements MemberService {
     public final Member update(final Member member) {
         final Member toUpdate;
 
-        log.debug("Updating member {} using data {}", member.getNumber(), member);
+        log.debug("Updating member {} using data {}", member.number(), member);
 
         // TODO: Identificator and phone must be unique or empty
         // TODO: Apply the creation validations
 
-        if (!memberRepository.exists(member.getNumber())) {
-            log.error("Missing member {}", member.getNumber());
-            throw new MissingMemberException(member.getNumber());
+        if (!memberRepository.exists(member.number())) {
+            log.error("Missing member {}", member.number());
+            throw new MissingMemberException(member.number());
         }
 
-        toUpdate = Member.builder()
-            .withNumber(member.getNumber())
-            .withIdentifier(member.getIdentifier())
-            .withName(member.getName())
-            .withPhone(member.getPhone())
-            .withActive(member.getActive())
-            .build();
+        toUpdate = new Member(member.number(), member.identifier(), member.name(), member.active(), member.phone());
 
         return memberRepository.save(toUpdate);
     }
@@ -163,31 +151,26 @@ public final class DefaultMemberService implements MemberService {
     private final Member copy(final Member existing, final Member updated) {
         final PersonName name;
 
-        if (updated.getName() == null) {
-            name = existing.getName();
+        if (updated.name() == null) {
+            name = existing.name();
         } else {
-            name = PersonName.builder()
-                .withFirstName(Optional.ofNullable(updated.getName()
-                    .getFirstName())
-                    .orElse(existing.getName()
-                        .getFirstName()))
-                .withLastName(Optional.ofNullable(updated.getName()
-                    .getLastName())
-                    .orElse(existing.getName()
-                        .getLastName()))
-                .build();
+            name = new PersonName(Optional.ofNullable(updated.name()
+                .firstName())
+                .orElse(existing.name()
+                    .firstName()),
+                Optional.ofNullable(updated.name()
+                    .lastName())
+                    .orElse(existing.name()
+                        .lastName()));
         }
-        return Member.builder()
-            .withNumber(Optional.ofNullable(updated.getNumber())
-                .orElse(existing.getNumber()))
-            .withIdentifier(Optional.ofNullable(updated.getIdentifier())
-                .orElse(existing.getIdentifier()))
-            .withName(name)
-            .withPhone(Optional.ofNullable(updated.getPhone())
-                .orElse(existing.getPhone()))
-            .withActive(Optional.ofNullable(updated.getActive())
-                .orElse(existing.getActive()))
-            .build();
+        return new Member(Optional.ofNullable(updated.number())
+            .orElse(existing.number()),
+            Optional.ofNullable(updated.identifier())
+                .orElse(existing.identifier()),
+            name, Optional.ofNullable(updated.active())
+                .orElse(existing.active()),
+            Optional.ofNullable(updated.phone())
+                .orElse(existing.phone()));
     }
 
     private final Pageable correctPagination(final Pageable pageable) {

@@ -89,27 +89,6 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final TransactionCalendarMonthsRange findDates() {
-        final Collection<YearMonth>          months;
-        final TransactionCalendarMonthsRange dates;
-
-        log.debug("Finding the transactions range");
-
-        months = transactionRepository.findMonths()
-            .stream()
-            .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
-            .toList();
-
-        dates = TransactionCalendarMonthsRange.builder()
-            .withMonths(months)
-            .build();
-
-        log.debug("Found the transactions range: {}", dates);
-
-        return dates;
-    }
-
-    @Override
     public final TransactionCalendarMonth findInMonth(final YearMonth date) {
         final Specification<TransactionEntity> spec;
         final Collection<TransactionEntity>    read;
@@ -127,10 +106,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         transactions = read.stream()
             .map(this::toDomain)
             .toList();
-        monthCalendar = TransactionCalendarMonth.builder()
-            .withDate(date)
-            .withTransactions(transactions)
-            .build();
+        monthCalendar = new TransactionCalendarMonth(date, transactions);
 
         log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
 
@@ -162,6 +138,25 @@ public final class JpaTransactionRepository implements TransactionRepository {
         log.debug("Found transaction with index {}: {}", index, transaction);
 
         return transaction;
+    }
+
+    @Override
+    public final TransactionCalendarMonthsRange findRange() {
+        final Collection<YearMonth>          months;
+        final TransactionCalendarMonthsRange range;
+
+        log.debug("Finding the transactions range");
+
+        months = transactionRepository.findMonths()
+            .stream()
+            .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
+            .toList();
+
+        range = new TransactionCalendarMonthsRange(months);
+
+        log.debug("Found the transactions range: {}", range);
+
+        return range;
     }
 
     @Override

@@ -32,11 +32,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.config.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.config.factory.MemberEntities;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - deactivate")

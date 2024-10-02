@@ -36,7 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionCalendarMonthsRanges;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +59,7 @@ class TestTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // GIVEN
-        given(transactionRepository.findDates()).willReturn(TransactionCalendarMonthsRanges.fullYear());
+        given(transactionRepository.findRange()).willReturn(TransactionCalendarMonthsRanges.fullYear());
 
         // WHEN
         range = service.getRange();
@@ -76,7 +76,7 @@ class TestTransactionCalendarServiceGetRange {
         final TransactionCalendarMonthsRange range;
 
         // GIVEN
-        given(transactionRepository.findDates()).willReturn(TransactionCalendarMonthsRanges.empty());
+        given(transactionRepository.findRange()).willReturn(TransactionCalendarMonthsRanges.empty());
 
         // WHEN
         range = service.getRange();

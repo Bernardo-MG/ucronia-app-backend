@@ -110,7 +110,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         entity = toEntity(person);
 
-        existing = personSpringRepository.findByNumber(person.getNumber());
+        existing = personSpringRepository.findByNumber(person.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -189,29 +189,21 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName memberName;
+        final PersonName name;
 
-        memberName = PersonName.builder()
-            .withFirstName(entity.getFirstName())
-            .withLastName(entity.getLastName())
-            .build();
-        return Person.builder()
-            .withNumber(entity.getNumber())
-            .withName(memberName)
-            .withIdentifier(entity.getIdentifier())
-            .withPhone(entity.getPhone())
-            .build();
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
     }
 
     private final PersonEntity toEntity(final Person data) {
         return PersonEntity.builder()
-            .withNumber(data.getNumber())
-            .withFirstName(data.getName()
-                .getFirstName())
-            .withLastName(data.getName()
-                .getLastName())
-            .withIdentifier(data.getIdentifier())
-            .withPhone(data.getPhone())
+            .withNumber(data.number())
+            .withFirstName(data.name()
+                .firstName())
+            .withLastName(data.name()
+                .lastName())
+            .withIdentifier(data.identifier())
+            .withPhone(data.phone())
             .build();
     }
 

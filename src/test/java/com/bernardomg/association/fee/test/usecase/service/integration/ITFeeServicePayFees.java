@@ -38,20 +38,20 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.test.config.data.annotation.NotPaidFee;
-import com.bernardomg.association.fee.test.config.data.annotation.PaidFee;
-import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.test.config.factory.FeeEntities;
-import com.bernardomg.association.fee.test.config.factory.Fees;
-import com.bernardomg.association.fee.test.config.initializer.FeeInitializer;
+import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.member.test.config.data.annotation.ActiveMember;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
-import com.bernardomg.configuration.test.config.data.annotation.FeeAmountConfiguration;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
+import com.bernardomg.settings.test.configuration.data.annotation.FeeAmountSetting;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee service - pay fees")
@@ -82,7 +82,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and the fee exists but is not paid, it is set to paid")
     @ActiveMember
     @NotPaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_Existing_NotPaid_PersistedFee() {
         final List<FeeEntity> entities;
 
@@ -102,7 +102,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and the fee exists but is not paid, a single transaction is persisted")
     @ActiveMember
     @NotPaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_Existing_NotPaid_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
@@ -122,7 +122,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and the fee exists but is not paid, it returns the created data")
     @ActiveMember
     @NotPaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_Existing_NotPaid_ReturnedData() {
         final Collection<Fee> fees;
 
@@ -138,7 +138,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, it is set to paid")
     @ActiveMember
     @NotPaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
         final List<FeeEntity> entities;
 
@@ -159,7 +159,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
     @ActiveMember
     @NotPaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
@@ -180,7 +180,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is returned")
     @ActiveMember
     @NotPaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_OneExisting_NotPaid_ReturnedData() {
         final Collection<Fee> fees;
 
@@ -196,7 +196,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, multiple fees are persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_PersistedFee() {
         final List<FeeEntity> entities;
 
@@ -216,7 +216,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_PersistedRelationship() {
 
         // WHEN
@@ -231,7 +231,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
@@ -251,7 +251,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, it returns the created data")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_ReturnedData() {
         final Collection<Fee> fees;
 
@@ -267,7 +267,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, spanning two years, multiple fees are persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_TwoYears_PersistedFee() {
         final List<FeeEntity> entities;
 
@@ -287,7 +287,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_TwoYears_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
@@ -307,7 +307,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates, spanning two years, it returns the created data")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_MultipleDates_TwoYears_ReturnedData() {
         final Collection<Fee> fees;
 
@@ -341,7 +341,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid the fee is persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_PersistedFee() {
         final List<FeeEntity> entities;
 
@@ -360,7 +360,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid a fee payment is registered")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_PersistedRelationship() {
         final FeePaymentEntity  relationship;
         final FeeEntity         fee;
@@ -392,7 +392,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid a single transaction is persisted")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
@@ -412,7 +412,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid a transaction is persisted, and there is another transaction, it is persisted with the next index")
     @ActiveMember
     @PaidFee
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_PersistedTransaction_IncreaseIndex() {
         final Optional<TransactionEntity> entity;
 
@@ -432,7 +432,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid a transaction is persisted with the initial index")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_PersistedTransaction_InitialIndex() {
         final Optional<TransactionEntity> entity;
 
@@ -449,7 +449,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid it returns the created data")
     @ActiveMember
-    @FeeAmountConfiguration
+    @FeeAmountSetting
     void testCreate_ReturnedData() {
         final Collection<Fee> fees;
 

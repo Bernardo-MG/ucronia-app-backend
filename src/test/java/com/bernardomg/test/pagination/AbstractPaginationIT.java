@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 public abstract class AbstractPaginationIT<T> {

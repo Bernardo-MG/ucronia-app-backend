@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
 @Component
 public final class TransactionInitializer {

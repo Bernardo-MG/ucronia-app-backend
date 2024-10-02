@@ -1,19 +1,8 @@
 
 package com.bernardomg.association.inventory.domain.model;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
+import com.bernardomg.association.person.domain.model.PersonName;
 
-@Value
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder(setterPrefix = "with")
-public final class Donor {
-
-    private final DonorName name;
-
-    @Builder.Default
-    @EqualsAndHashCode.Include
-    private final long      number = -1L;
+public record Donor(Long number, PersonName name) {
 
 }

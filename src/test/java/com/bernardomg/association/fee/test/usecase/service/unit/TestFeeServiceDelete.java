@@ -38,15 +38,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.config.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.config.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,25 +54,25 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 class TestFeeServiceDelete {
 
     @Mock
-    private AssociationConfigurationSource configurationSource;
+    private FeeRepository             feeRepository;
 
     @Mock
-    private FeeRepository                  feeRepository;
+    private MemberRepository          memberRepository;
 
     @Mock
-    private MemberRepository               memberRepository;
+    private MessageSource             messageSource;
 
     @Mock
-    private MessageSource                  messageSource;
-
-    @Mock
-    private PersonRepository               personRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
-    private DefaultFeeService              service;
+    private DefaultFeeService         service;
 
     @Mock
-    private TransactionRepository          transactionRepository;
+    private AssociationSettingsSource settingsSource;
+
+    @Mock
+    private TransactionRepository     transactionRepository;
 
     public TestFeeServiceDelete() {
         super();

@@ -29,13 +29,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.test.config.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.config.data.annotation.MinimalBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.booktype.test.config.data.annotation.ValidBookType;
-import com.bernardomg.association.library.booktype.test.config.factory.BookTypeConstants;
-import com.bernardomg.association.person.test.config.data.annotation.ValidPerson;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
+import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookTypeRepository - has relationships")

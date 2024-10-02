@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -90,15 +91,15 @@ public final class DefaultBookService implements BookService {
         number = bookRepository.findNextNumber();
 
         // Remove duplicates
-        authors = book.getAuthors()
+        authors = book.authors()
             .stream()
             .distinct()
             .toList();
-        publishers = book.getPublishers()
+        publishers = book.publishers()
             .stream()
             .distinct()
             .toList();
-        donors = book.getDonors()
+        donors = book.donors()
             .stream()
             .distinct()
             .toList();
@@ -107,12 +108,14 @@ public final class DefaultBookService implements BookService {
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
-            .withBookType(book.getBookType())
-            .withGameSystem(book.getGameSystem())
+            .withBookType(book.bookType())
+            .withGameSystem(book.gameSystem())
             .withDonors(donors)
-            .withIsbn(book.getIsbn())
-            .withLanguage(book.getLanguage())
-            .withTitle(book.getTitle())
+            .withIsbn(book.isbn())
+            .withLanguage(book.language())
+            .withTitle(book.title())
+            .withLendings(List.of())
+            .withLent(false)
             .build();
 
         createBookValidator.validate(book);
@@ -172,15 +175,15 @@ public final class DefaultBookService implements BookService {
         validateRelationships(book);
 
         // Remove duplicates
-        authors = book.getAuthors()
+        authors = book.authors()
             .stream()
             .distinct()
             .toList();
-        publishers = book.getPublishers()
+        publishers = book.publishers()
             .stream()
             .distinct()
             .toList();
-        donors = book.getDonors()
+        donors = book.donors()
             .stream()
             .distinct()
             .toList();
@@ -189,12 +192,14 @@ public final class DefaultBookService implements BookService {
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
-            .withBookType(book.getBookType())
-            .withGameSystem(book.getGameSystem())
+            .withBookType(book.bookType())
+            .withGameSystem(book.gameSystem())
             .withDonors(donors)
-            .withIsbn(book.getIsbn())
-            .withLanguage(book.getLanguage())
-            .withTitle(book.getTitle())
+            .withIsbn(book.isbn())
+            .withLanguage(book.language())
+            .withTitle(book.title())
+            .withLendings(List.of())
+            .withLent(false)
             .build();
 
         updateBookValidator.validate(toUpdate);
@@ -207,49 +212,49 @@ public final class DefaultBookService implements BookService {
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
-        book.getAuthors()
+        book.authors()
             .forEach(a -> {
-                if (!authorRepository.exists(a.getName())) {
-                    throw new MissingAuthorException(a.getName());
+                if (!authorRepository.exists(a.name())) {
+                    throw new MissingAuthorException(a.name());
                 }
             });
 
         // TODO: add an exception for multiple missing ids
         // Check publishers exist
-        book.getPublishers()
+        book.publishers()
             .forEach(p -> {
-                if (!publisherRepository.exists(p.getName())) {
-                    throw new MissingPublisherException(p.getName());
+                if (!publisherRepository.exists(p.name())) {
+                    throw new MissingPublisherException(p.name());
                 }
             });
 
         // Check game system exist
-        if (book.getGameSystem()
+        if (book.gameSystem()
             .isPresent()
-                && !gameSystemRepository.exists(book.getGameSystem()
+                && !gameSystemRepository.exists(book.gameSystem()
                     .get()
-                    .getName())) {
-            throw new MissingGameSystemException(book.getGameSystem()
+                    .name())) {
+            throw new MissingGameSystemException(book.gameSystem()
                 .get()
-                .getName());
+                .name());
         }
 
         // Check book type exist
-        if (book.getBookType()
+        if (book.bookType()
             .isPresent()
-                && !bookTypeRepository.exists(book.getBookType()
+                && !bookTypeRepository.exists(book.bookType()
                     .get()
-                    .getName())) {
-            throw new MissingBookTypeException(book.getBookType()
+                    .name())) {
+            throw new MissingBookTypeException(book.bookType()
                 .get()
-                .getName());
+                .name());
         }
 
         // Check donor exist
-        for (final Donor donor : book.getDonors()) {
-            donorExists = donorRepository.exists(donor.getNumber());
+        for (final Donor donor : book.donors()) {
+            donorExists = donorRepository.exists(donor.number());
             if (!donorExists) {
-                throw new MissingDonorException(donor.getNumber());
+                throw new MissingDonorException(donor.number());
             }
         }
 

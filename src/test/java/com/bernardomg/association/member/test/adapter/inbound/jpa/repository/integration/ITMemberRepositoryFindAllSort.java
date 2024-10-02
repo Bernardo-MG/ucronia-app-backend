@@ -33,12 +33,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.fee.test.config.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.config.data.annotation.AccentInactiveMembers;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleInactiveMembers;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.test.configuration.data.annotation.AccentInactiveMembers;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - sort")
@@ -69,8 +69,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.getName()
-                .getFirstName())
+            .extracting(m -> m.name()
+                .firstName())
             .containsExactly("Person a", "Person é", "Person i", "Person o", "Person u");
     }
 
@@ -91,8 +91,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.getName()
-                .getFirstName())
+            .extracting(m -> m.name()
+                .firstName())
             .containsExactly("Person 1", "Person 2", "Person 3", "Person 4", "Person 5");
     }
 
@@ -112,8 +112,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.getName()
-                .getFirstName())
+            .extracting(m -> m.name()
+                .firstName())
             .containsExactly("Person 5", "Person 4", "Person 3", "Person 2", "Person 1");
     }
 
@@ -133,8 +133,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.getName()
-                .getLastName())
+            .extracting(m -> m.name()
+                .lastName())
             .containsExactly("Last name 1", "Last name 2", "Last name 3", "Last name 4", "Last name 5");
     }
 
@@ -154,8 +154,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.getName()
-                .getLastName())
+            .extracting(m -> m.name()
+                .lastName())
             .containsExactly("Last name 5", "Last name 4", "Last name 3", "Last name 2", "Last name 1");
     }
 

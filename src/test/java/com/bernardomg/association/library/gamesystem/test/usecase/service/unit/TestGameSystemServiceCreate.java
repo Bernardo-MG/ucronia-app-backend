@@ -38,8 +38,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.test.config.factory.GameSystemConstants;
-import com.bernardomg.association.library.gamesystem.test.config.factory.GameSystems;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;

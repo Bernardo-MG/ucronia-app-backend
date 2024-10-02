@@ -50,8 +50,8 @@ import org.springframework.data.domain.Sort.Order;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
-import com.bernardomg.association.member.test.config.factory.MembersQuery;
-import com.bernardomg.association.member.test.config.factory.PublicMembers;
+import com.bernardomg.association.member.test.configuration.factory.MembersQuery;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 
 @ExtendWith(MockitoExtension.class)

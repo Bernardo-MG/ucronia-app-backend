@@ -22,14 +22,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bernardomg.association.library.book.adapter.outbound.rest.controller.BookController;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
-import com.bernardomg.association.library.book.test.config.factory.BookConstants;
-import com.bernardomg.association.library.book.test.config.factory.BookCreations;
-import com.bernardomg.association.library.book.test.config.factory.Books;
+import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
+import com.bernardomg.association.library.book.test.configuration.factory.BookCreations;
+import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.test.json.JsonUtils;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordResetController")
+@DisplayName("BookController")
 class TestBookController {
 
     @InjectMocks

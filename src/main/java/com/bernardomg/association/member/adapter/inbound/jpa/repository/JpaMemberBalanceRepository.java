@@ -65,10 +65,7 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
             .getYear(),
             entity.getMonth()
                 .getMonth());
-        return MonthlyMemberBalance.builder()
-            .withDate(month)
-            .withTotal(entity.getTotal())
-            .build();
+        return new MonthlyMemberBalance(month, entity.getTotal());
     }
 
 }
