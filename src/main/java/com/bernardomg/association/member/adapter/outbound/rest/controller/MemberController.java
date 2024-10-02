@@ -76,9 +76,11 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(
-                    cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
-                    allEntries = true) })
+            evict = {
+                    @CacheEvict(
+                            cacheNames = { MembersCaches.MEMBERS, MembersCaches.PUBLIC_MEMBERS,
+                                    MembersCaches.PUBLIC_MEMBER, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
+                            allEntries = true) })
     public Member create(@Valid @RequestBody final MemberCreation creation) {
         final Member member;
 
@@ -88,9 +90,12 @@ public class MemberController {
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }),
-            @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
-                    allEntries = true) })
+    @Caching(
+            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }),
+                    @CacheEvict(
+                            cacheNames = { MembersCaches.MEMBERS, MembersCaches.PUBLIC_MEMBERS,
+                                    MembersCaches.PUBLIC_MEMBER, MembersCaches.MONTHLY_BALANCE, FeeCaches.CALENDAR },
+                            allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
@@ -98,7 +103,8 @@ public class MemberController {
     @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, FeeCaches.CALENDAR }, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.PUBLIC_MEMBERS,
+                    MembersCaches.PUBLIC_MEMBER, FeeCaches.CALENDAR }, allEntries = true) })
     public Member patch(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange change) {
         final Member member;
 
@@ -124,7 +130,8 @@ public class MemberController {
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, FeeCaches.CALENDAR }, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBERS, MembersCaches.PUBLIC_MEMBERS,
+                    MembersCaches.PUBLIC_MEMBER, FeeCaches.CALENDAR }, allEntries = true) })
     public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange change) {
         final Member member;
 
