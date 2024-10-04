@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -41,8 +42,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
@@ -55,6 +58,7 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.bus.EventBus;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -63,25 +67,28 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventBus<ApplicationEvent> eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository              feeRepository;
 
     @Mock
-    private MessageSource             messageSource;
+    private MemberRepository           memberRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private MessageSource              messageSource;
+
+    @Mock
+    private PersonRepository           personRepository;
 
     @InjectMocks
-    private DefaultFeeService         service;
+    private DefaultFeeService          service;
 
     @Mock
-    private AssociationSettingsSource settingsSource;
+    private AssociationSettingsSource  settingsSource;
 
     @Mock
-    private TransactionRepository     transactionRepository;
+    private TransactionRepository      transactionRepository;
 
     @Test
     @DisplayName("Can pay fees")
@@ -101,22 +108,6 @@ class TestFeeServicePayFees {
         Assertions.assertThat(fees)
             .as("fees")
             .containsExactly(Fees.paid());
-    }
-
-    @Test
-    @DisplayName("When paying the current month, the user is set to active")
-    void testPayFees_CurrentMonth_SetActive() {
-        // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
-        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
-        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
-            .willReturn(List.of(Fees.paid()));
-
-        // WHEN
-        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
-
-        // THEN
-        verify(memberRepository).activate(PersonConstants.NUMBER);
     }
 
     @Test
@@ -228,6 +219,23 @@ class TestFeeServicePayFees {
 
         // THEN
         verify(memberRepository, Mockito.never()).activate(PersonConstants.NUMBER);
+    }
+
+    @Test
+    @DisplayName("When paying a fee, an event is sent")
+    void testPayFees_SendEvent() {
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
+            .willReturn(List.of(Fees.paid()));
+
+        // WHEN
+        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        verify(eventBus).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
     }
 
 }

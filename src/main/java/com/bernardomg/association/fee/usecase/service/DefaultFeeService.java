@@ -32,11 +32,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -52,6 +54,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.bus.EventBus;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -65,6 +68,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional
 public final class DefaultFeeService implements FeeService {
+
+    private final EventBus<ApplicationEvent> eventBus;
 
     private final FeeRepository              feeRepository;
 
@@ -82,13 +87,15 @@ public final class DefaultFeeService implements FeeService {
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final MemberRepository memberRepo, final TransactionRepository transactionRepo,
-            final AssociationSettingsSource configSource, final MessageSource msgSource) {
+            final EventBus<ApplicationEvent> evntBus, final AssociationSettingsSource configSource,
+            final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
         personRepository = Objects.requireNonNull(personRepo);
         memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
+        eventBus = Objects.requireNonNull(evntBus);
 
         settingsSource = Objects.requireNonNull(configSource);
         messageSource = Objects.requireNonNull(msgSource);
@@ -192,10 +199,10 @@ public final class DefaultFeeService implements FeeService {
         // TODO: Why can't just return the created fees?
         created = feeRepository.findAllForMemberInDates(personNumber, feeDates);
 
-        if (feeDates.contains(YearMonth.now())) {
-            // If paying for the current month, the user is set to active
-            memberRepository.activate(personNumber);
-        }
+        // Send events for paid fees
+        created.stream()
+            .filter(Fee::paid)
+            .forEach(this::sendFeePaidEvent);
 
         log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, transactionDate);
 
@@ -247,6 +254,11 @@ public final class DefaultFeeService implements FeeService {
         feeRepository.pay(person, fees, savedTransaction);
 
         log.debug("Paid fee {} for {} with transaction {}", person, fees, savedTransaction);
+    }
+
+    private final void sendFeePaidEvent(final Fee fee) {
+        eventBus.emit(new FeePaidEvent(fee, fee.date(), fee.person()
+            .number()));
     }
 
     private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {

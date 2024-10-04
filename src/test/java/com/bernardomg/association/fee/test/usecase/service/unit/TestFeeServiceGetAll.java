@@ -35,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Pageable;
 
@@ -48,31 +49,35 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.bus.EventBus;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get all")
 class TestFeeServiceGetAll {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventBus<ApplicationEvent> eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository              feeRepository;
 
     @Mock
-    private MessageSource             messageSource;
+    private MemberRepository           memberRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private MessageSource              messageSource;
+
+    @Mock
+    private PersonRepository           personRepository;
 
     @InjectMocks
-    private DefaultFeeService         service;
+    private DefaultFeeService          service;
 
     @Mock
-    private AssociationSettingsSource settingsSource;
+    private AssociationSettingsSource  settingsSource;
 
     @Mock
-    private TransactionRepository     transactionRepository;
+    private TransactionRepository      transactionRepository;
 
     @Test
     @DisplayName("When there is data it is returned")

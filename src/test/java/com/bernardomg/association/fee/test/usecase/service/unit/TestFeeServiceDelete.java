@@ -36,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
@@ -48,31 +49,35 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.bus.EventBus;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - delete")
 class TestFeeServiceDelete {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventBus<ApplicationEvent> eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository              feeRepository;
 
     @Mock
-    private MessageSource             messageSource;
+    private MemberRepository           memberRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private MessageSource              messageSource;
+
+    @Mock
+    private PersonRepository           personRepository;
 
     @InjectMocks
-    private DefaultFeeService         service;
+    private DefaultFeeService          service;
 
     @Mock
-    private AssociationSettingsSource settingsSource;
+    private AssociationSettingsSource  settingsSource;
 
     @Mock
-    private TransactionRepository     transactionRepository;
+    private TransactionRepository      transactionRepository;
 
     public TestFeeServiceDelete() {
         super();

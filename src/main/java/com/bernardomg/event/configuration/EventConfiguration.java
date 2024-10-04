@@ -22,40 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.event.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.event.configuration.EventConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.event.bus.EventBus;
+import com.bernardomg.event.bus.SpringEventBus;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Persistence configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class EventConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public EventConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("eventBus")
+    public EventBus<ApplicationEvent> getEventBus(final ApplicationEventPublisher eventPublisher) {
+        return new SpringEventBus<>(eventPublisher);
     }
 
 }
