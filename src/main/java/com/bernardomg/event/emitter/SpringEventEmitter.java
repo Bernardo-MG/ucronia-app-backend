@@ -1,16 +1,16 @@
 
-package com.bernardomg.event.bus;
+package com.bernardomg.event.emitter;
 
 import java.util.Objects;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 
-public final class SpringEventBus<E extends ApplicationEvent> implements EventBus<E> {
+public final class SpringEventEmitter<E extends ApplicationEvent> implements EventEmitter<E> {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public SpringEventBus(final ApplicationEventPublisher eventPub) {
+    public SpringEventEmitter(final ApplicationEventPublisher eventPub) {
         super();
 
         eventPublisher = Objects.requireNonNull(eventPub);

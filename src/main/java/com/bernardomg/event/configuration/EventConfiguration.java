@@ -29,8 +29,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.event.bus.EventBus;
-import com.bernardomg.event.bus.SpringEventBus;
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.event.emitter.SpringEventEmitter;
 
 /**
  * Persistence configuration.
@@ -46,8 +46,8 @@ public class EventConfiguration {
     }
 
     @Bean("eventBus")
-    public EventBus<ApplicationEvent> getEventBus(final ApplicationEventPublisher eventPublisher) {
-        return new SpringEventBus<>(eventPublisher);
+    public EventEmitter<ApplicationEvent> getEventBus(final ApplicationEventPublisher eventPublisher) {
+        return new SpringEventEmitter<>(eventPublisher);
     }
 
 }

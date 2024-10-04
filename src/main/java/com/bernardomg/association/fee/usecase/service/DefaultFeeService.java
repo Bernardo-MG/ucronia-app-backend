@@ -54,7 +54,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.event.bus.EventBus;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -69,7 +69,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultFeeService implements FeeService {
 
-    private final EventBus<ApplicationEvent> eventBus;
+    private final EventEmitter<ApplicationEvent> eventEmitter;
 
     private final FeeRepository              feeRepository;
 
@@ -87,7 +87,7 @@ public final class DefaultFeeService implements FeeService {
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final MemberRepository memberRepo, final TransactionRepository transactionRepo,
-            final EventBus<ApplicationEvent> evntBus, final AssociationSettingsSource configSource,
+            final EventEmitter<ApplicationEvent> evntEmitter, final AssociationSettingsSource configSource,
             final MessageSource msgSource) {
         super();
 
@@ -95,7 +95,7 @@ public final class DefaultFeeService implements FeeService {
         personRepository = Objects.requireNonNull(personRepo);
         memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
-        eventBus = Objects.requireNonNull(evntBus);
+        eventEmitter = Objects.requireNonNull(evntEmitter);
 
         settingsSource = Objects.requireNonNull(configSource);
         messageSource = Objects.requireNonNull(msgSource);
@@ -257,7 +257,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
-        eventBus.emit(new FeePaidEvent(fee, fee.date(), fee.person()
+        eventEmitter.emit(new FeePaidEvent(fee, fee.date(), fee.person()
             .number()));
     }
 

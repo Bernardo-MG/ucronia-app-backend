@@ -49,14 +49,14 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.event.bus.EventBus;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get all")
 class TestFeeServiceGetAll {
 
     @Mock
-    private EventBus<ApplicationEvent> eventBus;
+    private EventEmitter<ApplicationEvent> eventBus;
 
     @Mock
     private FeeRepository              feeRepository;

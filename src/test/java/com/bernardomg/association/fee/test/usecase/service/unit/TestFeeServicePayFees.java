@@ -58,7 +58,7 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.event.bus.EventBus;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -67,7 +67,7 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private EventBus<ApplicationEvent> eventBus;
+    private EventEmitter<ApplicationEvent> eventBus;
 
     @Mock
     private FeeRepository              feeRepository;
