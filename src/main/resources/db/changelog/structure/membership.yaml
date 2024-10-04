@@ -129,6 +129,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_fee_payments_fee
                     references: association.fees(id)
+                    deleteCascade: true
               - column:
                   name: transaction_id
                   type: bigint
@@ -136,6 +137,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_fee_payments_transaction
                     references: association.transactions(id)
+                    deleteCascade: true
       modifySql:
         - append:
             dbms: mysql
