@@ -27,6 +27,7 @@ package com.bernardomg.association.member.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.member.adapter.inbound.event.FeeDeletedEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.FeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberBalanceRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
@@ -58,6 +59,11 @@ public class MemberConfiguration {
 
     public MemberConfiguration() {
         super();
+    }
+
+    @Bean("feeDeletedEventListener")
+    public FeeDeletedEventListener getFeeDeletedEventListener(final MemberStatusService service) {
+        return new FeeDeletedEventListener(service);
     }
 
     @Bean("feePaidEventListener")

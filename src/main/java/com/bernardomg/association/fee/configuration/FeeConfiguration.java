@@ -107,11 +107,9 @@ public class FeeConfiguration {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
-            final EventEmitter<ApplicationEvent> eventEmitter, final AssociationSettingsSource configSource,
-            final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepo, personRepo, memberRepo, transactionRepo, eventEmitter, configSource,
-            msgSource);
+            final TransactionRepository transactionRepo, final EventEmitter<ApplicationEvent> eventEmitter,
+            final AssociationSettingsSource configSource, final MessageSource msgSource) {
+        return new DefaultFeeService(feeRepo, personRepo, transactionRepo, eventEmitter, configSource, msgSource);
     }
 
     @Bean("myFeesService")

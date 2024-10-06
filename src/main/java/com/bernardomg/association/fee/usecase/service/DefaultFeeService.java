@@ -46,7 +46,6 @@ import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotRegisteredRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PublicPerson;
@@ -73,8 +72,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeRepository                  feeRepository;
 
-    private final MemberRepository               memberRepository;
-
     private final MessageSource                  messageSource;
 
     private final PersonRepository               personRepository;
@@ -86,14 +83,12 @@ public final class DefaultFeeService implements FeeService {
     private final Validator<Collection<Fee>>     validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
-            final EventEmitter<ApplicationEvent> evntEmitter, final AssociationSettingsSource configSource,
-            final MessageSource msgSource) {
+            final TransactionRepository transactionRepo, final EventEmitter<ApplicationEvent> evntEmitter,
+            final AssociationSettingsSource configSource, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
         personRepository = Objects.requireNonNull(personRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
         eventEmitter = Objects.requireNonNull(evntEmitter);
 
@@ -107,8 +102,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final void delete(final long personNumber, final YearMonth date) {
-        final boolean feeExists;
-        final boolean memberExists;
+        final boolean       memberExists;
+        final Optional<Fee> fee;
 
         log.info("Deleting fee for {} in {}", personNumber, date);
 
@@ -117,19 +112,15 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingPersonException(personNumber);
         }
 
-        feeExists = feeRepository.exists(personNumber, date);
-        if (!feeExists) {
+        fee = feeRepository.findOne(personNumber, date);
+        if (fee.isEmpty()) {
             throw new MissingFeeException(personNumber + " " + date.toString());
         }
 
         feeRepository.delete(personNumber, date);
 
-        // TODO: use an event
-        if (date.equals(YearMonth.now())) {
-            // If deleting for the current month, the user is set to active
-            log.debug("Deactivating member status for person {}", personNumber);
-            memberRepository.deactivate(personNumber);
-        }
+        // Send events for deleted fees
+        eventEmitter.emit(new FeePaidEvent(fee.get(), date, personNumber));
     }
 
     @Override
@@ -147,7 +138,6 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
-        final boolean       feeExists;
         final boolean       memberExists;
         final Optional<Fee> fee;
 
@@ -158,12 +148,10 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingPersonException(personNumber);
         }
 
-        feeExists = feeRepository.exists(personNumber, date);
-        if (!feeExists) {
+        fee = feeRepository.findOne(personNumber, date);
+        if (fee.isEmpty()) {
             throw new MissingFeeException(personNumber + " " + date.toString());
         }
-
-        fee = feeRepository.findOne(personNumber, date);
 
         log.debug("Got fee for {} in {}: fee", personNumber, date);
 
