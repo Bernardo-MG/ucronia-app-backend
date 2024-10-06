@@ -27,6 +27,7 @@ package com.bernardomg.association.member.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.member.adapter.inbound.event.FeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberBalanceRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
@@ -41,6 +42,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
@@ -55,6 +57,11 @@ public class MemberConfiguration {
 
     public MemberConfiguration() {
         super();
+    }
+
+    @Bean("feePaidEventListener")
+    public FeePaidEventListener getFeePaidEventListener(final MemberStatusService service) {
+        return new FeePaidEventListener(service);
     }
 
     @Bean("memberBalanceRepository")

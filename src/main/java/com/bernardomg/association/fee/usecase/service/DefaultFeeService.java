@@ -71,19 +71,19 @@ public final class DefaultFeeService implements FeeService {
 
     private final EventEmitter<ApplicationEvent> eventEmitter;
 
-    private final FeeRepository              feeRepository;
+    private final FeeRepository                  feeRepository;
 
-    private final MemberRepository           memberRepository;
+    private final MemberRepository               memberRepository;
 
-    private final MessageSource              messageSource;
+    private final MessageSource                  messageSource;
 
-    private final PersonRepository           personRepository;
+    private final PersonRepository               personRepository;
 
-    private final AssociationSettingsSource  settingsSource;
+    private final AssociationSettingsSource      settingsSource;
 
-    private final TransactionRepository      transactionRepository;
+    private final TransactionRepository          transactionRepository;
 
-    private final Validator<Collection<Fee>> validatorPay;
+    private final Validator<Collection<Fee>>     validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final MemberRepository memberRepo, final TransactionRepository transactionRepo,
