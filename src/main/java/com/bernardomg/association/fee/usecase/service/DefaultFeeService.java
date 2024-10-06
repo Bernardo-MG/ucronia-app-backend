@@ -38,6 +38,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -120,7 +121,7 @@ public final class DefaultFeeService implements FeeService {
         feeRepository.delete(personNumber, date);
 
         // Send events for deleted fees
-        eventEmitter.emit(new FeePaidEvent(fee.get(), date, personNumber));
+        eventEmitter.emit(new FeeDeletedEvent(fee.get(), date, personNumber));
     }
 
     @Override

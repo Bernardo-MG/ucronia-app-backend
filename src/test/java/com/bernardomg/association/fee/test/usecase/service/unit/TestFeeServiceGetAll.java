@@ -45,7 +45,6 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -59,25 +58,22 @@ class TestFeeServiceGetAll {
     private EventEmitter<ApplicationEvent> eventBus;
 
     @Mock
-    private FeeRepository              feeRepository;
+    private FeeRepository                  feeRepository;
 
     @Mock
-    private MemberRepository           memberRepository;
+    private MessageSource                  messageSource;
 
     @Mock
-    private MessageSource              messageSource;
-
-    @Mock
-    private PersonRepository           personRepository;
+    private PersonRepository               personRepository;
 
     @InjectMocks
-    private DefaultFeeService          service;
+    private DefaultFeeService              service;
 
     @Mock
-    private AssociationSettingsSource  settingsSource;
+    private AssociationSettingsSource      settingsSource;
 
     @Mock
-    private TransactionRepository      transactionRepository;
+    private TransactionRepository          transactionRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
