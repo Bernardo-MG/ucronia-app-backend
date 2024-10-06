@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @Transactional
-public final class DefaultMemberFeeService implements MemberStatusService {
+public final class DefaultMemberStatusService implements MemberStatusService {
 
     private final MemberRepository memberRepository;
 
-    public DefaultMemberFeeService(final MemberRepository memberRepo) {
+    public DefaultMemberStatusService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
