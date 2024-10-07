@@ -26,7 +26,7 @@ package com.bernardomg.association.member.adapter.inbound.event;
 
 import java.util.Objects;
 
-import com.bernardomg.association.event.domain.FeePaidEvent;
+import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
-public final class FeeDeletedEventListener implements EventListener<FeePaidEvent> {
+public final class FeeDeletedEventListener implements EventListener<FeeDeletedEvent> {
 
     private final MemberStatusService service;
 
@@ -49,12 +49,12 @@ public final class FeeDeletedEventListener implements EventListener<FeePaidEvent
     }
 
     @Override
-    public final Class<FeePaidEvent> getEventType() {
-        return FeePaidEvent.class;
+    public final Class<FeeDeletedEvent> getEventType() {
+        return FeeDeletedEvent.class;
     }
 
     @Override
-    public final void handle(final FeePaidEvent event) {
+    public final void handle(final FeeDeletedEvent event) {
         log.debug("Handling fee deleted event at {} for person with number {}", event.getDate(),
             event.getPersonNumber());
         service.deactivate(event.getDate(), event.getPersonNumber());
