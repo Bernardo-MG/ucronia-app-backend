@@ -26,20 +26,19 @@ package com.bernardomg.association.member.adapter.inbound.event;
 
 import java.util.Objects;
 
-import org.springframework.context.ApplicationListener;
-
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.member.usecase.service.MemberStatusService;
+import com.bernardomg.event.listener.EventListener;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Listens for login events and registers them.
+ * Listens for fee paid events and deactivates the linked member, if needed.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
-public final class FeeDeletedEventListener implements ApplicationListener<FeePaidEvent> {
+public final class FeeDeletedEventListener implements EventListener<FeePaidEvent> {
 
     private final MemberStatusService service;
 
@@ -50,7 +49,12 @@ public final class FeeDeletedEventListener implements ApplicationListener<FeePai
     }
 
     @Override
-    public final void onApplicationEvent(final FeePaidEvent event) {
+    public final Class<FeePaidEvent> getEventType() {
+        return FeePaidEvent.class;
+    }
+
+    @Override
+    public final void handle(final FeePaidEvent event) {
         log.debug("Handling fee deleted event at {} for person with number {}", event.getDate(),
             event.getPersonNumber());
         service.deactivate(event.getDate(), event.getPersonNumber());

@@ -24,13 +24,14 @@
 
 package com.bernardomg.event.configuration;
 
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
+import java.util.Collection;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SpringEventEmitter;
+import com.bernardomg.event.emitter.SynchronousEventEmitter;
+import com.bernardomg.event.listener.EventListener;
 
 /**
  * Persistence configuration.
@@ -46,8 +47,8 @@ public class EventConfiguration {
     }
 
     @Bean("eventBus")
-    public EventEmitter<ApplicationEvent> getEventBus(final ApplicationEventPublisher eventPublisher) {
-        return new SpringEventEmitter<>(eventPublisher);
+    public EventEmitter getEventBus(final Collection<EventListener<?>> listeners) {
+        return new SynchronousEventEmitter(listeners);
     }
 
 }

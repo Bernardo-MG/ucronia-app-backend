@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.fee.configuration;
 
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -107,7 +106,7 @@ public class FeeConfiguration {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final TransactionRepository transactionRepo, final EventEmitter<ApplicationEvent> eventEmitter,
+            final TransactionRepository transactionRepo, final EventEmitter eventEmitter,
             final AssociationSettingsSource configSource, final MessageSource msgSource) {
         return new DefaultFeeService(feeRepo, personRepo, transactionRepo, eventEmitter, configSource, msgSource);
     }

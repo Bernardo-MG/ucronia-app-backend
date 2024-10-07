@@ -1,8 +1,8 @@
 
 package com.bernardomg.event.emitter;
 
-public interface EventEmitter<E> {
+public interface EventEmitter {
 
-    public void emit(final E event);
+    public <E> void emit(final E event);
 
 }

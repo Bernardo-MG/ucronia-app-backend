@@ -43,7 +43,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.event.domain.FeePaidEvent;
@@ -67,25 +66,25 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private EventEmitter<ApplicationEvent> eventBus;
+    private EventEmitter              eventBus;
 
     @Mock
-    private FeeRepository                  feeRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
-    private MessageSource                  messageSource;
+    private MessageSource             messageSource;
 
     @Mock
-    private PersonRepository               personRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
-    private DefaultFeeService              service;
+    private DefaultFeeService         service;
 
     @Mock
-    private AssociationSettingsSource      settingsSource;
+    private AssociationSettingsSource settingsSource;
 
     @Mock
-    private TransactionRepository          transactionRepository;
+    private TransactionRepository     transactionRepository;
 
     @Test
     @DisplayName("Can pay fees")

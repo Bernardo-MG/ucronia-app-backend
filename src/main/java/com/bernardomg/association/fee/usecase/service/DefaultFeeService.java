@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
@@ -69,22 +68,22 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultFeeService implements FeeService {
 
-    private final EventEmitter<ApplicationEvent> eventEmitter;
+    private final EventEmitter               eventEmitter;
 
-    private final FeeRepository                  feeRepository;
+    private final FeeRepository              feeRepository;
 
-    private final MessageSource                  messageSource;
+    private final MessageSource              messageSource;
 
-    private final PersonRepository               personRepository;
+    private final PersonRepository           personRepository;
 
-    private final AssociationSettingsSource      settingsSource;
+    private final AssociationSettingsSource  settingsSource;
 
-    private final TransactionRepository          transactionRepository;
+    private final TransactionRepository      transactionRepository;
 
-    private final Validator<Collection<Fee>>     validatorPay;
+    private final Validator<Collection<Fee>> validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final TransactionRepository transactionRepo, final EventEmitter<ApplicationEvent> evntEmitter,
+            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
             final AssociationSettingsSource configSource, final MessageSource msgSource) {
         super();
 
