@@ -20,12 +20,13 @@ public final class SynchronousEventEmitter implements EventEmitter {
             .collect(Collectors.groupingBy(EventListener::getEventType));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public final <E extends AbstractEvent> void emit(final E event) {
-        final List<EventListener<?>> validListeners;
-
-        validListeners = listeners.getOrDefault(event.getClass(), List.of());
-        validListeners.forEach(l -> ((EventListener<E>) l).handle(event));
+        listeners.getOrDefault(event.getClass(), List.of())
+            .stream()
+            .map(l -> (EventListener<E>) l)
+            .forEach(l -> l.handle(event));
     }
 
 }
