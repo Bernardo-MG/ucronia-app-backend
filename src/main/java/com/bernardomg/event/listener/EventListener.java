@@ -1,7 +1,9 @@
 
 package com.bernardomg.event.listener;
 
-public interface EventListener<E> {
+import com.bernardomg.event.domain.AbstractEvent;
+
+public interface EventListener<E extends AbstractEvent> {
 
     public Class<E> getEventType();
 
