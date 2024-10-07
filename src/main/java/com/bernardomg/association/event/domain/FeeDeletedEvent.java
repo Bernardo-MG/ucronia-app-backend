@@ -27,7 +27,7 @@ package com.bernardomg.association.event.domain;
 import java.time.YearMonth;
 import java.util.Objects;
 
-import org.springframework.context.ApplicationEvent;
+import com.bernardomg.event.domain.AbstractEvent;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,7 +39,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(callSuper = true)
 @Getter
-public final class FeeDeletedEvent extends ApplicationEvent {
+public final class FeeDeletedEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7044023838333219109L;
 

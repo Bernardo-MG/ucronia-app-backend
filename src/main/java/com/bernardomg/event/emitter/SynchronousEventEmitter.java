@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.bernardomg.event.domain.AbstractEvent;
 import com.bernardomg.event.listener.EventListener;
 
 public final class SynchronousEventEmitter implements EventEmitter {
@@ -20,7 +21,7 @@ public final class SynchronousEventEmitter implements EventEmitter {
     }
 
     @Override
-    public final <E> void emit(final E event) {
+    public final <E extends AbstractEvent> void emit(final E event) {
         final List<EventListener<?>> validListeners;
 
         validListeners = listeners.getOrDefault(event.getClass(), List.of());
