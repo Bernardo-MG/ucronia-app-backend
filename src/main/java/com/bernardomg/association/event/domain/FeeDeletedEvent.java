@@ -22,40 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.event.domain;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import java.time.YearMonth;
+import java.util.Objects;
 
-import com.bernardomg.event.configuration.EventConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.event.domain.AbstractEvent;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
-public class UcroniaApplication {
+@ToString
+@EqualsAndHashCode(callSuper = true)
+@Getter
+public final class FeeDeletedEvent extends AbstractEvent {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
+    private static final long serialVersionUID = 7044023838333219109L;
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    private final YearMonth   date;
+
+    private final Long        personNumber;
+
+    public FeeDeletedEvent(final Object source, final YearMonth d, final Long number) {
+        super(source);
+
+        date = Objects.requireNonNull(d);
+        personNumber = Objects.requireNonNull(number);
     }
 
 }

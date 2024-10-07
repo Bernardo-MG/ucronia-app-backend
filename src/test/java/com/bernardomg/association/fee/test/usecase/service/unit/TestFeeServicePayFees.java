@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,22 +42,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -63,10 +66,10 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventEmitter              eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
     private MessageSource             messageSource;
@@ -104,19 +107,30 @@ class TestFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When paying the current month, the user is set to active")
-    void testPayFees_CurrentMonth_SetActive() {
+    @DisplayName("When paying the current month, an event is sent")
+    void testPayFees_CurrentMonth_SendEvent() {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
-        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paidCurrentMonth()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
-            .willReturn(List.of(Fees.paid()));
+            .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
         service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(memberRepository).activate(PersonConstants.NUMBER);
+        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(e)
+                .isInstanceOf(FeePaidEvent.class);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
+                .extracting(FeePaidEvent::getDate)
+                .isEqualTo(FeeConstants.CURRENT_MONTH);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
+                .extracting(FeePaidEvent::getPersonNumber)
+                .isEqualTo(PersonConstants.NUMBER);
+        })));
     }
 
     @Test
@@ -215,19 +229,47 @@ class TestFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When paying the previous month, the user is not set to active")
-    void testPayFees_PreviousMonth_NotSetActive() {
+    @DisplayName("When paying the previous month, an event is sent")
+    void testPayFees_PreviousMonth_SendEvent() {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
-        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paidPreviousMonth()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
-            .willReturn(List.of(Fees.paid()));
+            .willReturn(List.of(Fees.paidPreviousMonth()));
 
         // WHEN
         service.payFees(List.of(FeeConstants.PREVIOUS_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(memberRepository, Mockito.never()).activate(PersonConstants.NUMBER);
+        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(e)
+                .isInstanceOf(FeePaidEvent.class);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
+                .extracting(FeePaidEvent::getDate)
+                .isEqualTo(FeeConstants.PREVIOUS_MONTH);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
+                .extracting(FeePaidEvent::getPersonNumber)
+                .isEqualTo(PersonConstants.NUMBER);
+        })));
+    }
+
+    @Test
+    @DisplayName("When paying a fee, an event is sent")
+    void testPayFees_SendEvent() {
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
+            .willReturn(List.of(Fees.paid()));
+
+        // WHEN
+        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        verify(eventBus).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
     }
 
 }

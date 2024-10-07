@@ -44,22 +44,22 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get one")
 class TestFeeServiceGetOne {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventEmitter              eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
     private MessageSource             messageSource;
@@ -83,7 +83,6 @@ class TestFeeServiceGetOne {
 
         // GIVEN
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
@@ -96,32 +95,13 @@ class TestFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
-    void testGetOne_NoData() {
-        final Optional<Fee> fee;
-
-        // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
-
-        // WHEN
-        fee = service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(fee)
-            .as("fee")
-            .isEmpty();
-    }
-
-    @Test
     @DisplayName("With a not existing fee, an exception is thrown")
     void testGetOne_NotExistingFee() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);

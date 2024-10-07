@@ -24,40 +24,46 @@
 
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - delete")
 class TestFeeServiceDelete {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventEmitter              eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
     private MessageSource             messageSource;
@@ -79,17 +85,29 @@ class TestFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting the current month fee, the member is deactivated")
-    void testDelete_CurrentMonth_DeactivateMember() {
+    @DisplayName("When deleting the current month fee, an event is sent")
+    void testDelete_CurrentMonth_SendEvent() {
         // GIVEN
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH))
+            .willReturn(Optional.of(Fees.paidCurrentMonth()));
 
         // WHEN
         service.delete(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH);
 
         // THEN
-        verify(memberRepository).deactivate(PersonConstants.NUMBER);
+        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(e)
+                .isInstanceOf(FeeDeletedEvent.class);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
+                .extracting(FeeDeletedEvent::getDate)
+                .isEqualTo(FeeConstants.CURRENT_MONTH);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
+                .extracting(FeeDeletedEvent::getPersonNumber)
+                .isEqualTo(PersonConstants.NUMBER);
+        })));
     }
 
     @Test
@@ -99,7 +117,7 @@ class TestFeeServiceDelete {
 
         // GIVEN
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
@@ -126,17 +144,29 @@ class TestFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting the previous month fee, the member is not deactivated")
-    void testDelete_PreviousMonth_DeactivateMember() {
+    @DisplayName("When deleting the previous month fee, an event is sent")
+    void testDelete_PreviousMonth_SendEvent() {
         // GIVEN
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH))
+            .willReturn(Optional.of(Fees.paidPreviousMonth()));
 
         // WHEN
         service.delete(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH);
 
         // THEN
-        verify(memberRepository, Mockito.never()).deactivate(PersonConstants.NUMBER);
+        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(e)
+                .isInstanceOf(FeeDeletedEvent.class);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
+                .extracting(FeeDeletedEvent::getDate)
+                .isEqualTo(FeeConstants.PREVIOUS_MONTH);
+            soft.assertThat(e)
+                .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
+                .extracting(FeeDeletedEvent::getPersonNumber)
+                .isEqualTo(PersonConstants.NUMBER);
+        })));
     }
 
     @Test
@@ -144,7 +174,7 @@ class TestFeeServiceDelete {
     void testDelete_RemovesEntity() {
         // GIVEN
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
         service.delete(PersonConstants.NUMBER, FeeConstants.DATE);

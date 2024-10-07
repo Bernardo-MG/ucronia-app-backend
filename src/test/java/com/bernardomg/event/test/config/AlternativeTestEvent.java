@@ -22,40 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.event.test.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import com.bernardomg.event.domain.AbstractEvent;
 
-import com.bernardomg.event.configuration.EventConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
-public class UcroniaApplication {
+@ToString
+@EqualsAndHashCode(callSuper = true)
+@Getter
+public final class AlternativeTestEvent extends AbstractEvent {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
-    }
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    public AlternativeTestEvent(final Object source) {
+        super(source);
     }
 
 }

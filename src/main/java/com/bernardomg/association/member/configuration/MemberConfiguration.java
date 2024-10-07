@@ -27,6 +27,8 @@ package com.bernardomg.association.member.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.member.adapter.inbound.event.FeeDeletedEventListener;
+import com.bernardomg.association.member.adapter.inbound.event.FeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberBalanceRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
@@ -38,9 +40,11 @@ import com.bernardomg.association.member.domain.repository.PublicMemberRepositor
 import com.bernardomg.association.member.security.register.MemberPermissionRegister;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 
@@ -57,6 +61,16 @@ public class MemberConfiguration {
         super();
     }
 
+    @Bean("feeDeletedEventListener")
+    public FeeDeletedEventListener getFeeDeletedEventListener(final MemberStatusService service) {
+        return new FeeDeletedEventListener(service);
+    }
+
+    @Bean("feePaidEventListener")
+    public FeePaidEventListener getFeePaidEventListener(final MemberStatusService service) {
+        return new FeePaidEventListener(service);
+    }
+
     @Bean("memberBalanceRepository")
     public MemberBalanceRepository
             getMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository) {
@@ -66,6 +80,11 @@ public class MemberConfiguration {
     @Bean("memberBalanceService")
     public MemberBalanceService getMemberBalanceService(final MemberBalanceRepository memberBalanceRepository) {
         return new DefaultMemberBalanceService(memberBalanceRepository);
+    }
+
+    @Bean("memberStatusService")
+    public MemberStatusService getMemberFeeService(final MemberRepository memberRepository) {
+        return new DefaultMemberStatusService(memberRepository);
     }
 
     @Bean("memberPermissionRegister")

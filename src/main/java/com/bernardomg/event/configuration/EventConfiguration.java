@@ -22,40 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.event.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import java.util.Collection;
 
-import com.bernardomg.event.configuration.EventConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.event.emitter.SynchronousEventEmitter;
+import com.bernardomg.event.listener.EventListener;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Persistence configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
-public class UcroniaApplication {
+@Configuration
+public class EventConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    public EventConfiguration() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Bean("eventBus")
+    public EventEmitter getEventBus(final Collection<EventListener<?>> listeners) {
+        return new SynchronousEventEmitter(listeners);
     }
 
 }

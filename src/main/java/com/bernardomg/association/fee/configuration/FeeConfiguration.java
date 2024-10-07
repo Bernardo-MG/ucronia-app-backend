@@ -53,6 +53,7 @@ import com.bernardomg.association.security.user.domain.repository.UserPersonRepo
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 
 /**
@@ -105,9 +106,9 @@ public class FeeConfiguration {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
+            final TransactionRepository transactionRepo, final EventEmitter eventEmitter,
             final AssociationSettingsSource configSource, final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepo, personRepo, memberRepo, transactionRepo, configSource, msgSource);
+        return new DefaultFeeService(feeRepo, personRepo, transactionRepo, eventEmitter, configSource, msgSource);
     }
 
     @Bean("myFeesService")

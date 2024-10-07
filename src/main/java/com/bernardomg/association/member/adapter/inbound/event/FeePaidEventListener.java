@@ -22,40 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association;
+package com.bernardomg.association.member.adapter.inbound.event;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import java.util.Objects;
 
-import com.bernardomg.event.configuration.EventConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
+import com.bernardomg.association.event.domain.FeePaidEvent;
+import com.bernardomg.association.member.usecase.service.MemberStatusService;
+import com.bernardomg.event.listener.EventListener;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Listens for fee paid events and activates the linked member, if needed.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-@SpringBootApplication
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
-public class UcroniaApplication {
+@Slf4j
+public final class FeePaidEventListener implements EventListener<FeePaidEvent> {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(UcroniaApplication.class, args);
+    private final MemberStatusService service;
+
+    public FeePaidEventListener(final MemberStatusService serv) {
+        super();
+
+        service = Objects.requireNonNull(serv);
     }
 
-    /**
-     * Default constructor.
-     */
-    public UcroniaApplication() {
-        super();
+    @Override
+    public final Class<FeePaidEvent> getEventType() {
+        return FeePaidEvent.class;
+    }
+
+    @Override
+    public final void handle(final FeePaidEvent event) {
+        log.debug("Handling fee paid event at {} for person with number {}", event.getDate(), event.getPersonNumber());
+        service.activate(event.getDate(), event.getPersonNumber());
     }
 
 }
