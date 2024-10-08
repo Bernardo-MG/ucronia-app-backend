@@ -27,12 +27,15 @@ package com.bernardomg.association.security.authorization.permission.adapter.inb
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
  * Miscelaneous security permission register.
  */
+@Component
 public final class MiscPermissionRegister implements PermissionRegister {
 
     @Override
