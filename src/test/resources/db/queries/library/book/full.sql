@@ -5,7 +5,7 @@ INSERT INTO inventory.authors (id, number, name) VALUES
    (1, 1, 'Author');
 
 INSERT INTO inventory.publishers (id, name) VALUES
-   (1, 'Publisher');
+   (1, 1, 'Publisher');
 
 INSERT INTO inventory.book_types (id, name) VALUES
    (1, 'Book type');

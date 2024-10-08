@@ -14,4 +14,6 @@ public class BookCreationPublisher {
 
     private String name;
 
+    private Long   number;
+
 }

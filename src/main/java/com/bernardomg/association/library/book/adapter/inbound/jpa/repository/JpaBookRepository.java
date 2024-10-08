@@ -285,7 +285,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getName());
+        return new Publisher(entity.getNumber(), entity.getName());
     }
 
     private final Donor toDonorDomain(final PersonEntity entity) {

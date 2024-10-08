@@ -6,11 +6,11 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 public final class Publishers {
 
     public static final Publisher emptyName() {
-        return new Publisher(" ");
+        return new Publisher(-1L, " ");
     }
 
     public static final Publisher valid() {
-        return new Publisher(PublisherConstants.NAME);
+        return new Publisher(PublisherConstants.NUMBER, PublisherConstants.NAME);
     }
 
 }
