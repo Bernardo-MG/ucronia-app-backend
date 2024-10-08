@@ -74,7 +74,7 @@ public class GameSystemController {
     public GameSystem create(@Valid @RequestBody final GameSystemCreation request) {
         final GameSystem author;
 
-        author = new GameSystem(request.getName());
+        author = new GameSystem(-1L, request.getName());
         return service.create(author);
     }
 

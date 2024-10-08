@@ -27,7 +27,7 @@ public class BookCreation {
 
     }
 
-    public record GameSystem(String name) {
+    public record GameSystem(Long number, String name) {
 
     }
 
@@ -38,10 +38,16 @@ public class BookCreation {
     @Builder.Default
     private Collection<Author>    authors = List.of();
 
+    /**
+     * TODO: optional
+     */
     private BookType              bookType;
 
     private Collection<Donor>     donors;
 
+    /**
+     * TODO: optional
+     */
     private GameSystem            gameSystem;
 
     private String                isbn;

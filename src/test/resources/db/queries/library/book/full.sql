@@ -4,11 +4,11 @@ INSERT INTO inventory.books (id, number, title, isbn, language) VALUES
 INSERT INTO inventory.authors (id, number, name) VALUES
    (1, 1, 'Author');
 
-INSERT INTO inventory.publishers (id, name) VALUES
+INSERT INTO inventory.publishers (id, number, name) VALUES
    (1, 1, 'Publisher');
 
-INSERT INTO inventory.book_types (id, name) VALUES
-   (1, 'Book type');
+INSERT INTO inventory.book_types (id, number, name) VALUES
+   (1, 1, 'Book type');
 
 INSERT INTO inventory.game_systems (id, name) VALUES
    (1, 'Game system');

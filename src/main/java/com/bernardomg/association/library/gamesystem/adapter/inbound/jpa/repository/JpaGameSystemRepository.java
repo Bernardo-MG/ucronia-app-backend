@@ -112,7 +112,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     private final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getName());
+        return new GameSystem(entity.getNumber(),entity.getName());
     }
 
     private final GameSystemEntity toEntity(final GameSystem domain) {
