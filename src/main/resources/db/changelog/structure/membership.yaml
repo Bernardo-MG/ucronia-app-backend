@@ -75,6 +75,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_members_person
                     references: association.persons(id)
+                    deleteCascade: true
         - addAutoIncrement:
             schemaName: association
             tableName: members
@@ -99,6 +100,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_fees_person
                     references: association.persons(id)
+                    deleteCascade: true
               - column:
                   name: date
                   type: datetime
