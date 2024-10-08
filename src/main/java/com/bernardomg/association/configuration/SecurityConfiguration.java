@@ -22,36 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.configuration;
+package com.bernardomg.association.configuration;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.AssociationSecurityPermissionRegister;
-import com.bernardomg.association.security.authorization.permission.adapter.inbound.MiscPermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
-
-/**
- * Permission configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
 @Configuration
-public class PermissionConfiguration {
+@ComponentScan({ "com.bernardomg.association.**.security.register" })
+public class SecurityConfiguration {
 
-    public PermissionConfiguration() {
+    public SecurityConfiguration() {
         super();
-    }
-
-    @Bean("associationSecurityConfigurationPermissionRegister")
-    public PermissionRegister getAssociationSecurityConfigurationPermissionRegister() {
-        return new AssociationSecurityPermissionRegister();
-    }
-
-    @Bean("miscPermissionRegister")
-    public PermissionRegister getMiscPermissionRegister() {
-        return new MiscPermissionRegister();
     }
 
 }

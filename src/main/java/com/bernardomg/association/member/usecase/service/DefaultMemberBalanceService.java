@@ -28,6 +28,7 @@ import java.time.YearMonth;
 import java.util.Objects;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
@@ -42,8 +43,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Transactional
 @Slf4j
+@Service
+@Transactional
 public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     private final MemberBalanceRepository memberBalanceRepository;

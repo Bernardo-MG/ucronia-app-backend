@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.event.domain.FeeDeletedEvent;
@@ -65,6 +66,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Service
 @Transactional
 public final class DefaultFeeService implements FeeService {
 

@@ -35,6 +35,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -57,6 +58,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Service
 @Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 

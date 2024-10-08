@@ -27,6 +27,7 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.time.YearMonth;
 import java.util.Objects;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
@@ -39,6 +40,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Service
 @Transactional
 public final class DefaultTransactionCalendarService implements TransactionCalendarService {
 

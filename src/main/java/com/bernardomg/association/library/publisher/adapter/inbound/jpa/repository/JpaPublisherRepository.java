@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
@@ -15,6 +16,7 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 @Transactional
 public final class JpaPublisherRepository implements PublisherRepository {
 

@@ -22,8 +22,17 @@
  * SOFTWARE.
  */
 
-/**
- * Inventory configuration.
- */
+package com.bernardomg.association.configuration;
 
-package com.bernardomg.association.inventory.configuration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan({ "com.bernardomg.association.**.usecase.service" })
+public class ServiceConfiguration {
+
+    public ServiceConfiguration() {
+        super();
+    }
+
+}

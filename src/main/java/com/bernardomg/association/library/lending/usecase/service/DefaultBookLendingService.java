@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
@@ -28,6 +29,7 @@ import com.bernardomg.validation.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 @Transactional
 public final class DefaultBookLendingService implements BookLendingService {
 

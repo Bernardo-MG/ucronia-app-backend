@@ -183,7 +183,7 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.2.1</archunit.version>
-      <bernardomg.framework.test.architecture>1.0.0</bernardomg.framework.test.architecture>
+      <bernardomg.framework.test.architecture>1.0.2</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.0</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.4</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.security.version>0.4.9</bernardomg.framework.ws.security.version>

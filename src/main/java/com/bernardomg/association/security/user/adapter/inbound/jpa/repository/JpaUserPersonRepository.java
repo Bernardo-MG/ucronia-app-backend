@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
@@ -16,6 +17,7 @@ import com.bernardomg.association.security.user.domain.repository.UserPersonRepo
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
+@Repository
 @Transactional
 public final class JpaUserPersonRepository implements UserPersonRepository {
 
