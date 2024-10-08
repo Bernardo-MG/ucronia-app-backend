@@ -15,21 +15,41 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookCreation {
 
+    public record Author(Long number, String name) {
+
+    }
+
+    public record BookType(String name) {
+
+    }
+
+    public record Donor(Long number) {
+
+    }
+
+    public record GameSystem(String name) {
+
+    }
+
+    public record Publisher(Long number, String name) {
+
+    }
+
     @Builder.Default
-    private Collection<BookCreationAuthor>    authors = List.of();
+    private Collection<Author>    authors = List.of();
 
-    private BookCreationBookType              bookType;
+    private BookType              bookType;
 
-    private Collection<BookCreationDonor>     donors;
+    private Collection<Donor>     donors;
 
-    private BookCreationGameSystem            gameSystem;
+    private GameSystem            gameSystem;
 
-    private String                            isbn;
+    private String                isbn;
 
-    private String                            language;
+    private String                language;
 
-    private Collection<BookCreationPublisher> publishers;
+    private Collection<Publisher> publishers;
 
-    private String                            title;
+    private String                title;
 
 }
