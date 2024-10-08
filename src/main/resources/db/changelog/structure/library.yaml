@@ -14,15 +14,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: isbn
-                  type: varchar(13)
-                  constraints:
-                    nullable: false
-              - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    nullable: false
+              - column:
+                  name: isbn
+                  type: varchar(13)
+                  constraints:
                     nullable: false
               - column:
                   name: title
@@ -50,6 +50,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
                     nullable: false
               - column:
                   name: name

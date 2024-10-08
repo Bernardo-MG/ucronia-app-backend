@@ -14,4 +14,6 @@ public class BookCreationAuthor {
 
     private String name;
 
+    private Long   number;
+
 }

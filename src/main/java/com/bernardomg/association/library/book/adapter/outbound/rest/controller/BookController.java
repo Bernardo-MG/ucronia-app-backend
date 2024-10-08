@@ -51,7 +51,6 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationAuthor;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationDonor;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationPublisher;
 import com.bernardomg.association.library.book.domain.model.Book;
@@ -145,9 +144,8 @@ public class BookController {
         } else {
             authors = request.getAuthors()
                 .stream()
-                .map(BookCreationAuthor::getName)
-                .filter(StringUtils::isNotBlank)
-                .map(Author::new)
+                .filter(a -> StringUtils.isNotBlank(a.getName()))
+                .map(a -> new Author(a.getNumber(), a.getName()))
                 .toList();
         }
 

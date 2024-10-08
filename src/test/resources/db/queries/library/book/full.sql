@@ -1,8 +1,8 @@
 INSERT INTO inventory.books (id, number, title, isbn, language) VALUES
    (1, 1, 'Title', '1-56619-909-3', 'en');
 
-INSERT INTO inventory.authors (id, name) VALUES
-   (1, 'Author');
+INSERT INTO inventory.authors (id, number, name) VALUES
+   (1, 1, 'Author');
 
 INSERT INTO inventory.publishers (id, name) VALUES
    (1, 'Publisher');
