@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
@@ -18,6 +19,7 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Repository
 @Transactional
 public final class JpaMemberRepository implements MemberRepository {
 

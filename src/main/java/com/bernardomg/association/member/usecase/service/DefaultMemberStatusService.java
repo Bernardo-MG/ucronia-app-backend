@@ -4,6 +4,7 @@ package com.bernardomg.association.member.usecase.service;
 import java.time.YearMonth;
 import java.util.Objects;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -11,6 +12,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 @Transactional
 public final class DefaultMemberStatusService implements MemberStatusService {
 

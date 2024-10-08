@@ -5,12 +5,14 @@ import java.util.Objects;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class FeeMaintenanceScheduleTask {
 
     private final FeeMaintenanceService service;

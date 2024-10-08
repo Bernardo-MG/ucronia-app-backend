@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
@@ -36,6 +37,7 @@ import com.bernardomg.validation.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 @Transactional
 public final class DefaultBookService implements BookService {
 

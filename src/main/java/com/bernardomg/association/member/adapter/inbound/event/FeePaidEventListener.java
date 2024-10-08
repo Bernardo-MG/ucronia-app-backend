@@ -26,6 +26,8 @@ package com.bernardomg.association.member.adapter.inbound.event;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
@@ -38,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Component
 public final class FeePaidEventListener implements EventListener<FeePaidEvent> {
 
     private final MemberStatusService service;

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
@@ -23,6 +24,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Repository
 @Transactional
 public final class JpaTransactionRepository implements TransactionRepository {
 

@@ -22,38 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.gamesystem.configuration;
+package com.bernardomg.association.configuration;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
-import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.JpaGameSystemRepository;
-import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
-import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
-
-/**
- * Library configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
 @Configuration
-public class LibraryGameSystemConfiguration {
+@ComponentScan({ "com.bernardomg.association.**.usecase.service" })
+public class ServiceConfiguration {
 
-    public LibraryGameSystemConfiguration() {
+    public ServiceConfiguration() {
         super();
-    }
-
-    @Bean("gameSystemRepository")
-    public GameSystemRepository getGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
-        return new JpaGameSystemRepository(gameSystemRepo);
-    }
-
-    @Bean("gameSystemService")
-    public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepo) {
-        return new DefaultGameSystemService(gameSystemRepo);
     }
 
 }
