@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITGameSystemRepositoryFindNextNumber {
         // THEN
         Assertions.assertThat(number)
             .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+            .isEqualTo(GameSystemConstants.NUMBER + 1);
     }
 
     @Test

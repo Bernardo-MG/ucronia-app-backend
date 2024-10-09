@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITPublisherRepositoryFindNextNumber {
         // THEN
         Assertions.assertThat(number)
             .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+            .isEqualTo(PublisherConstants.NUMBER + 1);
     }
 
     @Test

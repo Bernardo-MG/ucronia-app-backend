@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITBookTypeRepositoryFindNextNumber {
         // THEN
         Assertions.assertThat(number)
             .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+            .isEqualTo(BookTypeConstants.NUMBER + 1);
     }
 
     @Test

@@ -39,11 +39,19 @@ public final class DefaultBookTypeService implements BookTypeService {
 
     @Override
     public final BookType create(final BookType type) {
+        final BookType toCreate;
+        final Long     number;
+
         log.debug("Creating book type {}", type);
 
-        createBookTypeValidator.validate(type);
+        // Set number
+        number = bookTypeRepository.findNextNumber();
 
-        return bookTypeRepository.save(type);
+        toCreate = new BookType(number, type.name());
+
+        createBookTypeValidator.validate(toCreate);
+
+        return bookTypeRepository.save(toCreate);
     }
 
     @Override

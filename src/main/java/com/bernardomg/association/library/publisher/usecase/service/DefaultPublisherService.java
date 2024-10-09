@@ -39,11 +39,19 @@ public final class DefaultPublisherService implements PublisherService {
 
     @Override
     public final Publisher create(final Publisher publisher) {
+        final Publisher toCreate;
+        final Long      number;
+
         log.debug("Creating publisher {}", publisher);
 
-        createPublisherValidator.validate(publisher);
+        // Set number
+        number = publisherRepository.findNextNumber();
 
-        return publisherRepository.save(publisher);
+        toCreate = new Publisher(number, publisher.name());
+
+        createPublisherValidator.validate(toCreate);
+
+        return publisherRepository.save(toCreate);
     }
 
     @Override
