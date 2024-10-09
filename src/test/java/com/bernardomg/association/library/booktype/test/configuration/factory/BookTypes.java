@@ -9,6 +9,10 @@ public final class BookTypes {
         return new BookType(BookTypeConstants.NUMBER, " ");
     }
 
+    public static final BookType toCreate() {
+        return new BookType(-1L, BookTypeConstants.NAME);
+    }
+
     public static final BookType valid() {
         return new BookType(BookTypeConstants.NUMBER, BookTypeConstants.NAME);
     }

@@ -67,6 +67,19 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the authors");
+
+        number = authorSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the authors: {}", number);
+
+        return number;
+    }
+
+    @Override
     public final Optional<Author> findOne(final String name) {
         final Optional<Author> author;
 
@@ -120,19 +133,6 @@ public final class JpaAuthorRepository implements AuthorRepository {
             .withNumber(domain.number())
             .withName(domain.name())
             .build();
-    }
-
-    @Override
-    public final  long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the authors");
-
-        number = authorSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the authors: {}", number);
-
-        return number;
     }
 
 }

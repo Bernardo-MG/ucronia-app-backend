@@ -67,6 +67,19 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the book types");
+
+        number = bookTypeSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the book types: {}", number);
+
+        return number;
+    }
+
+    @Override
     public final Optional<BookType> findOne(final String name) {
         final Optional<BookType> bookType;
 
@@ -120,19 +133,6 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
             .withNumber(domain.number())
             .withName(domain.name())
             .build();
-    }
-
-    @Override
-    public final  long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the book types");
-
-        number = bookTypeSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the book types: {}", number);
-
-        return number;
     }
 
 }

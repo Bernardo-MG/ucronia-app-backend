@@ -67,6 +67,8 @@ class TestGameSystemServiceCreate {
         // GIVEN
         gameSystem = GameSystems.emptyName();
 
+        given(gameSystemRepository.findNextNumber()).willReturn(GameSystemConstants.NUMBER);
+
         // WHEN
         execution = () -> service.create(gameSystem);
 
@@ -81,7 +83,9 @@ class TestGameSystemServiceCreate {
         final GameSystem       gameSystem;
 
         // GIVEN
-        gameSystem = GameSystems.valid();
+        gameSystem = GameSystems.toCreate();
+
+        given(gameSystemRepository.findNextNumber()).willReturn(GameSystemConstants.NUMBER);
 
         given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
 
@@ -99,7 +103,9 @@ class TestGameSystemServiceCreate {
         final GameSystem gameSystem;
 
         // GIVEN
-        gameSystem = GameSystems.valid();
+        gameSystem = GameSystems.toCreate();
+
+        given(gameSystemRepository.findNextNumber()).willReturn(GameSystemConstants.NUMBER);
 
         // WHEN
         service.create(gameSystem);
@@ -115,7 +121,9 @@ class TestGameSystemServiceCreate {
         final GameSystem created;
 
         // GIVEN
-        gameSystem = GameSystems.valid();
+        gameSystem = GameSystems.toCreate();
+
+        given(gameSystemRepository.findNextNumber()).willReturn(GameSystemConstants.NUMBER);
 
         given(gameSystemRepository.save(GameSystems.valid())).willReturn(GameSystems.valid());
 

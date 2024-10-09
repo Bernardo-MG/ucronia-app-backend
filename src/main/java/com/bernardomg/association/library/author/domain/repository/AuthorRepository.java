@@ -9,13 +9,13 @@ import com.bernardomg.association.library.author.domain.model.Author;
 
 public interface AuthorRepository {
 
-    public long findNextNumber();
-
     public void delete(final String name);
 
     public boolean exists(final String name);
 
     public Iterable<Author> findAll(final Pageable pageable);
+
+    public long findNextNumber();
 
     public Optional<Author> findOne(final String name);
 

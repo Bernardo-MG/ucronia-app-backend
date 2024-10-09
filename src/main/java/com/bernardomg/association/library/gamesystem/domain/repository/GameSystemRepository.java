@@ -9,13 +9,13 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 
 public interface GameSystemRepository {
 
-    public long findNextNumber();
-
     public void delete(final String name);
 
     public boolean exists(final String name);
 
     public Iterable<GameSystem> findAll(final Pageable pageable);
+
+    public long findNextNumber();
 
     public Optional<GameSystem> findOne(final String name);
 

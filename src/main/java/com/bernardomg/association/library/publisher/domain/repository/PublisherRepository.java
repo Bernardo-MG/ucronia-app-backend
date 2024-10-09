@@ -9,13 +9,13 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 public interface PublisherRepository {
 
-    public long findNextNumber();
-
     public void delete(final String name);
 
     public boolean exists(final String name);
 
     public Iterable<Publisher> findAll(final Pageable pageable);
+
+    public long findNextNumber();
 
     public Optional<Publisher> findOne(final String name);
 

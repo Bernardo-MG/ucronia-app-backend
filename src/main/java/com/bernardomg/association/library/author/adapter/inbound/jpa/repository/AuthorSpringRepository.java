@@ -37,9 +37,6 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
 
     public void deleteByName(final String name);
 
-    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Author a")
-    public Long findNextNumber();
-
     public boolean existsByName(final String name);
 
     @Query("""
@@ -54,5 +51,8 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
     public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);
 
     public Optional<AuthorEntity> findByName(final String name);
+
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Author a")
+    public Long findNextNumber();
 
 }

@@ -67,6 +67,19 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the game systems");
+
+        number = gameSystemRepository.findNextNumber();
+
+        log.debug("Found next number for the game systems: {}", number);
+
+        return number;
+    }
+
+    @Override
     public final Optional<GameSystem> findOne(final String name) {
         final Optional<GameSystem> gameSystem;
 
@@ -120,19 +133,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
             .withNumber(domain.number())
             .withName(domain.name())
             .build();
-    }
-
-    @Override
-    public final  long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the game systems");
-
-        number = gameSystemRepository.findNextNumber();
-
-        log.debug("Found next number for the game systems: {}", number);
-
-        return number;
     }
 
 }

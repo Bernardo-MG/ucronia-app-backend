@@ -36,9 +36,6 @@ public interface GameSystemSpringRepository extends JpaRepository<GameSystemEnti
 
     public void deleteByName(final String name);
 
-    @Query("SELECT COALESCE(MAX(g.number), 0) + 1 FROM GameSystem g")
-    public Long findNextNumber();
-
     public boolean existsByName(final String name);
 
     @Query("""
@@ -51,5 +48,8 @@ public interface GameSystemSpringRepository extends JpaRepository<GameSystemEnti
     public boolean existsInBook(@Param("name") final String name);
 
     public Optional<GameSystemEntity> findByName(final String name);
+
+    @Query("SELECT COALESCE(MAX(g.number), 0) + 1 FROM GameSystem g")
+    public Long findNextNumber();
 
 }
