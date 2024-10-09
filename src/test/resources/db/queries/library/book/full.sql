@@ -10,8 +10,8 @@ INSERT INTO inventory.publishers (id, number, name) VALUES
 INSERT INTO inventory.book_types (id, number, name) VALUES
    (1, 1, 'Book type');
 
-INSERT INTO inventory.game_systems (id, name) VALUES
-   (1, 'Game system');
+INSERT INTO inventory.game_systems (id, number, name) VALUES
+   (1, 1, 'Game system');
 
 INSERT INTO inventory.book_authors (book_id, author_id) VALUES
    (1, 1);

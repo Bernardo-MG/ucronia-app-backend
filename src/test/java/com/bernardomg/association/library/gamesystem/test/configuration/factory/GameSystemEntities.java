@@ -7,6 +7,7 @@ public final class GameSystemEntities {
 
     public static final GameSystemEntity valid() {
         return GameSystemEntity.builder()
+            .withNumber(GameSystemConstants.NUMBER)
             .withName(GameSystemConstants.NAME)
             .build();
     }

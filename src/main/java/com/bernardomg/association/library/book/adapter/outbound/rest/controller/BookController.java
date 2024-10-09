@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -142,8 +141,7 @@ public class BookController {
         } else {
             authors = request.getAuthors()
                 .stream()
-                .filter(a -> StringUtils.isNotBlank(a.name()))
-                .map(a -> new Author(a.number(), a.name()))
+                .map(a -> new Author(a.number(), ""))
                 .toList();
         }
 
@@ -153,8 +151,7 @@ public class BookController {
         } else {
             publishers = request.getPublishers()
                 .stream()
-                .filter(p -> StringUtils.isNotBlank(p.name()))
-                .map(p -> new Publisher(p.number(), p.name()))
+                .map(p -> new Publisher(p.number(), ""))
                 .toList();
         }
 
@@ -171,23 +168,21 @@ public class BookController {
         }
 
         // Book type
-        if ((request.getBookType() == null) || (StringUtils.isBlank(request.getBookType()
-            .name()))) {
+        if ((request.getBookType() == null) || (request.getBookType()
+            .number() == null)) {
             bookType = Optional.empty();
         } else {
             bookType = Optional.of(new BookType(request.getBookType()
-                .name()));
+                .number(), ""));
         }
 
         // Game system
-        if ((request.getGameSystem() == null) || (StringUtils.isBlank(request.getGameSystem()
-            .name()))) {
+        if ((request.getGameSystem() == null) || (request.getGameSystem()
+            .number() == null)) {
             gameSystem = Optional.empty();
         } else {
             gameSystem = Optional.of(new GameSystem(request.getGameSystem()
-                .number(),
-                request.getGameSystem()
-                    .name()));
+                .number(), ""));
         }
 
         // Book

@@ -112,11 +112,12 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getName());
+        return new BookType(entity.getNumber(), entity.getName());
     }
 
     private final BookTypeEntity toEntity(final BookType domain) {
         return BookTypeEntity.builder()
+            .withNumber(domain.number())
             .withName(domain.name())
             .build();
     }

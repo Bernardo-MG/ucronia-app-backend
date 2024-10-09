@@ -73,7 +73,7 @@ public class BookTypeController {
     public BookType create(@Valid @RequestBody final BookTypeCreation request) {
         final BookType bookType;
 
-        bookType = new BookType(request.getName());
+        bookType = new BookType(-1L, request.getName());
         return service.create(bookType);
     }
 

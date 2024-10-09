@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookCreation {
 
-    public record Author(Long number, String name) {
+    public record Author(Long number) {
 
     }
 
-    public record BookType(String name) {
+    public record BookType(Long number) {
 
     }
 
@@ -27,11 +27,11 @@ public class BookCreation {
 
     }
 
-    public record GameSystem(Long number, String name) {
+    public record GameSystem(Long number) {
 
     }
 
-    public record Publisher(Long number, String name) {
+    public record Publisher(Long number) {
 
     }
 
