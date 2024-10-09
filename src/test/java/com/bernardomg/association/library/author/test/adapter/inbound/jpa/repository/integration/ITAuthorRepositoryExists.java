@@ -48,7 +48,7 @@ class ITAuthorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(AuthorConstants.NAME);
+        exists = repository.exists(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -62,7 +62,7 @@ class ITAuthorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(AuthorConstants.NAME);
+        exists = repository.exists(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

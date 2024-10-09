@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.author.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
@@ -34,12 +35,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.author.adapter.outbound.cache.LibraryAuthorCaches;
+import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorChange;
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorCreation;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
@@ -77,12 +80,12 @@ public class AuthorController {
         return service.create(author);
     }
 
-    @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHOR }),
             @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
-    public void delete(@PathVariable("name") final String name) {
-        service.delete(name);
+    public void delete(@PathVariable("number") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,12 +95,23 @@ public class AuthorController {
         return service.getAll(pageable);
     }
 
-    @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
     @Cacheable(cacheNames = LibraryAuthorCaches.AUTHOR)
-    public Author readOne(@PathVariable("name") final String name) {
-        return service.getOne(name)
+    public Author readOne(@PathVariable("number") final long number) {
+        return service.getOne(number)
             .orElse(null);
+    }
+
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
+    public Author update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
+        final Author author;
+
+        author = new Author(-1L, change.getName());
+        return service.update(author);
     }
 
 }

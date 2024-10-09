@@ -52,7 +52,7 @@ class ITAuthorRepositoryDelete {
     @ValidAuthor
     void testDelete() {
         // WHEN
-        repository.delete(AuthorConstants.NAME);
+        repository.delete(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -66,7 +66,7 @@ class ITAuthorRepositoryDelete {
     @FullBook
     void testDelete_InBook() {
         // WHEN
-        repository.delete(AuthorConstants.NAME);
+        repository.delete(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -78,7 +78,7 @@ class ITAuthorRepositoryDelete {
     @DisplayName("With no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(AuthorConstants.NAME);
+        repository.delete(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

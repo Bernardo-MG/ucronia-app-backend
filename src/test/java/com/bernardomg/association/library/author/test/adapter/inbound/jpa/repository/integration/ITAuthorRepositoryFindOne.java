@@ -52,7 +52,7 @@ class ITAuthorRepositoryFindOne {
         final Optional<Author> author;
 
         // WHEN
-        author = repository.findOne(AuthorConstants.NAME);
+        author = repository.findOne(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(author)
@@ -66,7 +66,7 @@ class ITAuthorRepositoryFindOne {
         final Optional<Author> author;
 
         // WHEN
-        author = repository.findOne(AuthorConstants.NAME);
+        author = repository.findOne(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(author)

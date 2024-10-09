@@ -51,7 +51,7 @@ class ITAuthorRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships(AuthorConstants.NAME);
+        exists = repository.hasRelationships(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -67,7 +67,7 @@ class ITAuthorRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships("abc");
+        exists = repository.hasRelationships(-1L);
 
         // THEN
         Assertions.assertThat(exists)
@@ -81,7 +81,7 @@ class ITAuthorRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(AuthorConstants.NAME);
+        exists = repository.exists(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -97,7 +97,7 @@ class ITAuthorRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships(AuthorConstants.NAME);
+        exists = repository.hasRelationships(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -113,7 +113,7 @@ class ITAuthorRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships("abc");
+        exists = repository.hasRelationships(-1L);
 
         // THEN
         Assertions.assertThat(exists)

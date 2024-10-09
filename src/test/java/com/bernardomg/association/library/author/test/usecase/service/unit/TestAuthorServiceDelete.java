@@ -60,14 +60,14 @@ class TestAuthorServiceDelete {
     @DisplayName("When deleting an author, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(authorRepository.hasRelationships(AuthorConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(authorRepository.hasRelationships(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.delete(AuthorConstants.NAME);
+        service.delete(AuthorConstants.NUMBER);
 
         // THEN
-        verify(authorRepository).delete(AuthorConstants.NAME);
+        verify(authorRepository).delete(AuthorConstants.NUMBER);
     }
 
     @Test
@@ -76,10 +76,10 @@ class TestAuthorServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(AuthorConstants.NAME);
+        execution = () -> service.delete(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -92,11 +92,11 @@ class TestAuthorServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(authorRepository.hasRelationships(AuthorConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(authorRepository.hasRelationships(AuthorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.delete(AuthorConstants.NAME);
+        execution = () -> service.delete(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

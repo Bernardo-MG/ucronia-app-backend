@@ -216,8 +216,8 @@ public final class DefaultBookService implements BookService {
         // Check authors exist
         book.authors()
             .forEach(a -> {
-                if (!authorRepository.exists(a.name())) {
-                    throw new MissingAuthorException(a.name());
+                if (!authorRepository.exists(a.number())) {
+                    throw new MissingAuthorException(a.number());
                 }
             });
 

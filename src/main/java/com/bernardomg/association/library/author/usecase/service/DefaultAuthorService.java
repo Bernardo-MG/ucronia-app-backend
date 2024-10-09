@@ -55,19 +55,20 @@ public final class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public final void delete(final String name) {
+    public final void delete(final Long number) {
 
-        log.debug("Deleting author {}", name);
+        log.debug("Deleting author {}", number);
 
-        if (!authorRepository.exists(name)) {
-            throw new MissingAuthorException(name);
+        if (!authorRepository.exists(number)) {
+            throw new MissingAuthorException(number);
         }
 
-        if (authorRepository.hasRelationships(name)) {
-            throw new AuthorHasRelationshipsException(name);
+        // TODO: not needed
+        if (authorRepository.hasRelationships(number)) {
+            throw new AuthorHasRelationshipsException(number);
         }
 
-        authorRepository.delete(name);
+        authorRepository.delete(number);
     }
 
     @Override
@@ -76,18 +77,39 @@ public final class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public final Optional<Author> getOne(final String name) {
+    public final Optional<Author> getOne(final Long number) {
         final Optional<Author> author;
 
-        log.debug("Reading author {}", name);
+        log.debug("Reading author {}", number);
 
-        author = authorRepository.findOne(name);
+        author = authorRepository.findOne(number);
         if (author.isEmpty()) {
-            log.error("Missing author {}", name);
-            throw new MissingAuthorException(name);
+            log.error("Missing author {}", number);
+            throw new MissingAuthorException(number);
         }
 
         return author;
+    }
+
+    @Override
+    public final Author update(final Author author) {
+        final Author toCreate;
+        final Long   number;
+
+        log.debug("Creating author {}", author);
+
+        if (!authorRepository.exists(author.number())) {
+            throw new MissingAuthorException(author.number());
+        }
+
+        // Set number
+        number = authorRepository.findNextNumber();
+
+        toCreate = new Author(number, author.name());
+
+        createAuthorValidator.validate(toCreate);
+
+        return authorRepository.save(toCreate);
     }
 
 }

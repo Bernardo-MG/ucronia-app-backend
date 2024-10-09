@@ -87,7 +87,7 @@ class TestAuthorServiceCreate {
 
         given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(authorRepository.existsByName(AuthorConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(author);

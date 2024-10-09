@@ -11,10 +11,12 @@ public interface AuthorService {
 
     public Author create(final Author author);
 
-    public void delete(final String name);
+    public void delete(final Long number);
 
     public Iterable<Author> getAll(final Pageable pageable);
 
-    public Optional<Author> getOne(final String name);
+    public Optional<Author> getOne(final Long number);
+
+    public Author update(final Author author);
 
 }
