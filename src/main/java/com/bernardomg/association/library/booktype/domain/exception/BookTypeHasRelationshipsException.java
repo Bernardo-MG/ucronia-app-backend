@@ -36,8 +36,8 @@ public final class BookTypeHasRelationshipsException extends HasRelationshipExce
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public BookTypeHasRelationshipsException(final String name) {
-        super("book_type", name);
+    public BookTypeHasRelationshipsException(final Long number) {
+        super("book_type", number);
     }
 
 }

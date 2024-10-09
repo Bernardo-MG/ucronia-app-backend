@@ -55,19 +55,19 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final void delete(final String name) {
+    public final void delete(final Long number) {
 
-        log.debug("Deleting book type {}", name);
+        log.debug("Deleting book type {}", number);
 
-        if (!bookTypeRepository.exists(name)) {
-            throw new MissingBookTypeException(name);
+        if (!bookTypeRepository.exists(number)) {
+            throw new MissingBookTypeException(number);
         }
 
-        if (bookTypeRepository.hasRelationships(name)) {
-            throw new BookTypeHasRelationshipsException(name);
+        if (bookTypeRepository.hasRelationships(number)) {
+            throw new BookTypeHasRelationshipsException(number);
         }
 
-        bookTypeRepository.delete(name);
+        bookTypeRepository.delete(number);
     }
 
     @Override
@@ -76,15 +76,15 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final Optional<BookType> getOne(final String name) {
+    public final Optional<BookType> getOne(final Long number) {
         final Optional<BookType> bookType;
 
-        log.debug("Reading book type {}", name);
+        log.debug("Reading book type {}", number);
 
-        bookType = bookTypeRepository.findOne(name);
+        bookType = bookTypeRepository.findOne(number);
         if (bookType.isEmpty()) {
-            log.error("Missing book type {}", name);
-            throw new MissingBookTypeException(name);
+            log.error("Missing book type {}", number);
+            throw new MissingBookTypeException(number);
         }
 
         return bookType;

@@ -307,9 +307,9 @@ public final class JpaBookRepository implements BookRepository {
 
         if (domain.bookType()
             .isPresent()) {
-            bookType = bookTypeSpringRepository.findByName(domain.bookType()
+            bookType = bookTypeSpringRepository.findByNumber(domain.bookType()
                 .get()
-                .name());
+                .number());
         } else {
             bookType = Optional.empty();
         }

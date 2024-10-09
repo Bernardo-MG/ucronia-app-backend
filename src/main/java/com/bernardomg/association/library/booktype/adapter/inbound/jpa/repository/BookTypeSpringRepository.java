@@ -34,20 +34,22 @@ import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.Boo
 
 public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, Long> {
 
-    public void deleteByName(final String name);
+    public void deleteByNumber(final Long number);
 
     public boolean existsByName(final String name);
+
+    public boolean existsByNumber(final Long number);
 
     @Query("""
               SELECT CASE
               WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
               FROM Book b
               JOIN b.bookType t
-              WHERE t.name = :name
+              WHERE t.number = :number
             """)
-    public boolean existsInBook(@Param("name") final String name);
+    public boolean existsInBook(@Param("number") final Long number);
 
-    public Optional<BookTypeEntity> findByName(final String name);
+    public Optional<BookTypeEntity> findByNumber(final Long number);
 
     @Query("SELECT COALESCE(MAX(b.number), 0) + 1 FROM BookType b")
     public Long findNextNumber();

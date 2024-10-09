@@ -81,8 +81,8 @@ public class BookTypeController {
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPE }),
             @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
-    public void delete(@PathVariable("name") final String name) {
-        service.delete(name);
+    public void delete(@PathVariable("number") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -95,8 +95,8 @@ public class BookTypeController {
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPE)
-    public BookType readOne(@PathVariable("name") final String name) {
-        return service.getOne(name)
+    public BookType readOne(@PathVariable("number") final long number) {
+        return service.getOne(number)
             .orElse(null);
     }
 

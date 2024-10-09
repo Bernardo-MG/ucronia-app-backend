@@ -246,10 +246,10 @@ public final class DefaultBookService implements BookService {
             .isPresent()
                 && !bookTypeRepository.exists(book.bookType()
                     .get()
-                    .name())) {
+                    .number())) {
             throw new MissingBookTypeException(book.bookType()
                 .get()
-                .name());
+                .number());
         }
 
         // Check donor exist

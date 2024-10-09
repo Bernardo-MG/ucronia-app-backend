@@ -87,14 +87,14 @@ class TestBookTypeServiceCreate {
 
         given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
 
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(bookType);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name", "existing", BookTypeConstants.NAME));
+            FieldFailure.of("name", "existing", BookTypeConstants.NUMBER));
     }
 
     @Test
