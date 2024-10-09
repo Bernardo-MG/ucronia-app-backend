@@ -9,6 +9,8 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 
 public interface BookTypeRepository {
 
+    public long findNextNumber();
+
     public void delete(final String name);
 
     public boolean exists(final String name);

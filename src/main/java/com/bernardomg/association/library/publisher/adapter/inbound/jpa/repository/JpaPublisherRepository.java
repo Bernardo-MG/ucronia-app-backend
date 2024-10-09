@@ -122,4 +122,17 @@ public final class JpaPublisherRepository implements PublisherRepository {
             .build();
     }
 
+    @Override
+    public final  long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the publishers");
+
+        number = publisherSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the publishers: {}", number);
+
+        return number;
+    }
+
 }

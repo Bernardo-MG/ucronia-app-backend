@@ -122,4 +122,17 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
             .build();
     }
 
+    @Override
+    public final  long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the game systems");
+
+        number = gameSystemRepository.findNextNumber();
+
+        log.debug("Found next number for the game systems: {}", number);
+
+        return number;
+    }
+
 }

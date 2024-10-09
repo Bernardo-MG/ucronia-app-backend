@@ -39,6 +39,9 @@ public interface PublisherSpringRepository extends JpaRepository<PublisherEntity
 
     public boolean existsByName(final String name);
 
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Publisher p")
+    public Long findNextNumber();
+
     @Query("""
               SELECT CASE
               WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists

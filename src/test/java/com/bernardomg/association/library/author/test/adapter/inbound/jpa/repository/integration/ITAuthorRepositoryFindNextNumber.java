@@ -22,28 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.author.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - exists")
-class ITPersonRepositoryFindNextNumber {
+@DisplayName("AuthorRepository - exists")
+class ITAuthorRepositoryFindNextNumber {
 
     @Autowired
-    private PersonRepository repository;
+    private AuthorRepository repository;
 
     @Test
-    @DisplayName("With an existing person, it returns the next number")
-    @SinglePerson
+    @DisplayName("With an existing author, it returns the next number")
+    @ValidAuthor
     void testFindNextNumber() {
         final long number;
 
@@ -57,7 +57,7 @@ class ITPersonRepositoryFindNextNumber {
     }
 
     @Test
-    @DisplayName("With no person, it returns the initial number")
+    @DisplayName("With no author, it returns the initial number")
     void testFindNextNumber_NoData() {
         final long number;
 

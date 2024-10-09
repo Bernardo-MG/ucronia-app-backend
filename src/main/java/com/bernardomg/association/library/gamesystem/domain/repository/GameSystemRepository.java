@@ -9,6 +9,8 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 
 public interface GameSystemRepository {
 
+    public long findNextNumber();
+
     public void delete(final String name);
 
     public boolean exists(final String name);

@@ -22,28 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - exists")
-class ITPersonRepositoryFindNextNumber {
+@DisplayName("GameSystemRepository - exists")
+class ITGameSystemRepositoryFindNextNumber {
 
     @Autowired
-    private PersonRepository repository;
+    private GameSystemRepository repository;
 
     @Test
-    @DisplayName("With an existing person, it returns the next number")
-    @SinglePerson
+    @DisplayName("With an existing game system, it returns the next number")
+    @ValidGameSystem
     void testFindNextNumber() {
         final long number;
 
@@ -57,7 +57,7 @@ class ITPersonRepositoryFindNextNumber {
     }
 
     @Test
-    @DisplayName("With no person, it returns the initial number")
+    @DisplayName("With no game system, it returns the initial number")
     void testFindNextNumber_NoData() {
         final long number;
 

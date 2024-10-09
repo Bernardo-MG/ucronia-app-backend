@@ -36,6 +36,9 @@ public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, 
 
     public void deleteByName(final String name);
 
+    @Query("SELECT COALESCE(MAX(b.number), 0) + 1 FROM BookType b")
+    public Long findNextNumber();
+
     public boolean existsByName(final String name);
 
     @Query("""

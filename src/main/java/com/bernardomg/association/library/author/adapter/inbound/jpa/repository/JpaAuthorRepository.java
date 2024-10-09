@@ -122,4 +122,17 @@ public final class JpaAuthorRepository implements AuthorRepository {
             .build();
     }
 
+    @Override
+    public final  long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the authors");
+
+        number = authorSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the authors: {}", number);
+
+        return number;
+    }
+
 }

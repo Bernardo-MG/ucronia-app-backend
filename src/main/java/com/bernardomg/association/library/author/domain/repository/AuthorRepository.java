@@ -9,6 +9,8 @@ import com.bernardomg.association.library.author.domain.model.Author;
 
 public interface AuthorRepository {
 
+    public long findNextNumber();
+
     public void delete(final String name);
 
     public boolean exists(final String name);

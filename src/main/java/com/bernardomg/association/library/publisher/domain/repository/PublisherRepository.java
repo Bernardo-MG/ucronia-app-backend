@@ -9,6 +9,8 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 public interface PublisherRepository {
 
+    public long findNextNumber();
+
     public void delete(final String name);
 
     public boolean exists(final String name);
