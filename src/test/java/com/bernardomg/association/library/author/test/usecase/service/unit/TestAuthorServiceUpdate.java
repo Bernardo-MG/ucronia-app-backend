@@ -36,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
@@ -45,8 +46,8 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthorService - create")
-class TestAuthorServiceCreate {
+@DisplayName("AuthorService - update")
+class TestAuthorServiceUpdate {
 
     @Mock
     private AuthorRepository     authorRepository;
@@ -54,60 +55,59 @@ class TestAuthorServiceCreate {
     @InjectMocks
     private DefaultAuthorService service;
 
-    public TestAuthorServiceCreate() {
+    public TestAuthorServiceUpdate() {
         super();
     }
 
     @Test
     @DisplayName("With an author with an empty name, an exception is thrown")
-    void testCreate_EmptyName() {
+    void testUpdate_EmptyName() {
         final ThrowingCallable execution;
         final Author           author;
 
         // GIVEN
         author = Authors.emptyName();
 
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(author);
+        execution = () -> service.update(author);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
     }
 
     @Test
-    @DisplayName("With an author with an existing name, an exception is thrown")
-    void testCreate_ExistingName() {
-        final ThrowingCallable execution;
+    @DisplayName("With a not existing author, an exception is thrown")
+    void testUpdate_NotExisting() {
         final Author           author;
+        final ThrowingCallable execution;
 
         // GIVEN
-        author = Authors.toCreate();
+        author = Authors.valid();
 
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
-
-        given(authorRepository.existsByName(AuthorConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.create(author);
+        execution = () -> service.update(author);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingAuthorException.class);
     }
 
     @Test
     @DisplayName("With a valid author, the author is persisted")
-    void testCreate_PersistedData() {
+    void testUpdate_PersistedData() {
         final Author author;
 
         // GIVEN
-        author = Authors.toCreate();
+        author = Authors.valid();
 
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.create(author);
+        service.update(author);
 
         // THEN
         verify(authorRepository).save(Authors.valid());
@@ -115,19 +115,19 @@ class TestAuthorServiceCreate {
 
     @Test
     @DisplayName("With a valid author, the created author is returned")
-    void testCreate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final Author author;
         final Author created;
 
         // GIVEN
-        author = Authors.toCreate();
+        author = Authors.valid();
 
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
 
         given(authorRepository.save(Authors.valid())).willReturn(Authors.valid());
 
         // WHEN
-        created = service.create(author);
+        created = service.update(author);
 
         // THEN
         Assertions.assertThat(created)

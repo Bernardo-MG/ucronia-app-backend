@@ -6,7 +6,7 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 public final class Publishers {
 
     public static final Publisher emptyName() {
-        return new Publisher(-1L, " ");
+        return new Publisher(PublisherConstants.NUMBER, " ");
     }
 
     public static final Publisher toCreate() {
