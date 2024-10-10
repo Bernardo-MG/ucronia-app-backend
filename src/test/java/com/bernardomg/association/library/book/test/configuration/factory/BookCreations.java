@@ -16,7 +16,7 @@ public final class BookCreations {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
             .withPublishers(List.of())
-            .withGameSystem(new GameSystem(1L))
+            .withGameSystem(new GameSystem(null))
             .withBookType(new BookType(null))
             .withDonors(List.of())
             .build();
