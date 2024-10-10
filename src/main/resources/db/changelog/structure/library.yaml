@@ -249,7 +249,6 @@ databaseChangeLog:
                     foreignKeyName: fk_book_game_systems_book
                     references: inventory.books(id)
                     deleteCascade: true
-                    deleteCascade: true
               - column:
                   name: game_system_id
                   type: bigint
