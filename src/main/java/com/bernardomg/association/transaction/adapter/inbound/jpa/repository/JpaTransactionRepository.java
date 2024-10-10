@@ -28,12 +28,12 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaTransactionRepository implements TransactionRepository {
 
-    private final TransactionSpringRepository transactionRepository;
+    private final TransactionSpringRepository transactionSpringRepository;
 
     public JpaTransactionRepository(final TransactionSpringRepository transactionRepo) {
         super();
 
-        transactionRepository = Objects.requireNonNull(transactionRepo);
+        transactionSpringRepository = Objects.requireNonNull(transactionRepo);
     }
 
     @Override
@@ -42,9 +42,9 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Deleting transaction {}", index);
 
-        transaction = transactionRepository.findByIndex(index);
+        transaction = transactionSpringRepository.findByIndex(index);
         if (transaction.isPresent()) {
-            transactionRepository.deleteById(transaction.get()
+            transactionSpringRepository.deleteById(transaction.get()
                 .getId());
 
             log.debug("Deleted transaction {}", index);
@@ -60,7 +60,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Checking if transaction {} exists", index);
 
-        exists = transactionRepository.existsByIndex(index);
+        exists = transactionSpringRepository.existsByIndex(index);
 
         log.debug("Transaction {} exists: {}", index, exists);
 
@@ -78,9 +78,9 @@ public final class JpaTransactionRepository implements TransactionRepository {
         spec = TransactionSpecifications.fromQuery(query);
 
         if (spec.isEmpty()) {
-            page = transactionRepository.findAll(pageable);
+            page = transactionSpringRepository.findAll(pageable);
         } else {
-            page = transactionRepository.findAll(spec.get(), pageable);
+            page = transactionSpringRepository.findAll(spec.get(), pageable);
         }
 
         read = page.map(this::toDomain);
@@ -103,7 +103,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         sort = Sort.by("date", "description", "amount");
 
         spec = TransactionSpecifications.on(date);
-        read = transactionRepository.findAll(spec, sort);
+        read = transactionSpringRepository.findAll(spec, sort);
 
         transactions = read.stream()
             .map(this::toDomain)
@@ -121,7 +121,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Finding next index for the transactions");
 
-        index = transactionRepository.findNextIndex();
+        index = transactionSpringRepository.findNextIndex();
 
         log.debug("Found index {}", index);
 
@@ -134,7 +134,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Finding transaction with index {}", index);
 
-        transaction = transactionRepository.findByIndex(index)
+        transaction = transactionSpringRepository.findByIndex(index)
             .map(this::toDomain);
 
         log.debug("Found transaction with index {}: {}", index, transaction);
@@ -149,7 +149,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Finding the transactions range");
 
-        months = transactionRepository.findMonths()
+        months = transactionSpringRepository.findMonths()
             .stream()
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
@@ -172,13 +172,13 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         entity = toEntity(transaction);
 
-        existing = transactionRepository.findByIndex(transaction.getIndex());
+        existing = transactionSpringRepository.findByIndex(transaction.getIndex());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = transactionRepository.save(entity);
+        created = transactionSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved transaction {}", saved);

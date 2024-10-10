@@ -67,6 +67,8 @@ class TestPublisherServiceCreate {
         // GIVEN
         publisher = Publishers.emptyName();
 
+        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
+
         // WHEN
         execution = () -> service.create(publisher);
 
@@ -81,9 +83,11 @@ class TestPublisherServiceCreate {
         final Publisher        publisher;
 
         // GIVEN
-        publisher = Publishers.valid();
+        publisher = Publishers.toCreate();
 
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
+
+        given(publisherRepository.existsByName(PublisherConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(publisher);
@@ -99,7 +103,9 @@ class TestPublisherServiceCreate {
         final Publisher publisher;
 
         // GIVEN
-        publisher = Publishers.valid();
+        publisher = Publishers.toCreate();
+
+        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
 
         // WHEN
         service.create(publisher);
@@ -115,7 +121,9 @@ class TestPublisherServiceCreate {
         final Publisher created;
 
         // GIVEN
-        publisher = Publishers.valid();
+        publisher = Publishers.toCreate();
+
+        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
 
         given(publisherRepository.save(Publishers.valid())).willReturn(Publishers.valid());
 

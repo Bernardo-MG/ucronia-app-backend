@@ -47,7 +47,43 @@ class ITGameSystemRepositorySave {
     private GameSystemSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving, an author is persisted")
+    @DisplayName("When the game system exists, it is updated")
+    void testSave_Existing_Persisted() {
+        final GameSystem gameSystem;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        // WHEN
+        repository.save(gameSystem);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("game systems")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(GameSystemEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When the game system exists, it is returned")
+    void testSave_Existing_Returned() {
+        final GameSystem gameSystem;
+        final GameSystem created;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        // WHEN
+        created = repository.save(gameSystem);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("game system")
+            .isEqualTo(GameSystems.valid());
+    }
+
+    @Test
+    @DisplayName("When saving, a game system is persisted")
     void testSave_Persisted() {
         final GameSystem gameSystem;
 
@@ -65,7 +101,7 @@ class ITGameSystemRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving, the persisted author is returned")
+    @DisplayName("When saving, the persisted game system is returned")
     void testSave_Returned() {
         final GameSystem gameSystem;
         final GameSystem created;

@@ -37,4 +37,7 @@ public class BookTypeEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String            name;
 
+    @Column(name = "number", nullable = false, unique = true)
+    private Long              number;
+
 }

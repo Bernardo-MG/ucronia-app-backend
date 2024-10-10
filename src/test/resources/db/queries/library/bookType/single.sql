@@ -1,2 +1,2 @@
-INSERT INTO inventory.book_types (id, name) VALUES
-   (1, 'Book type');
+INSERT INTO inventory.book_types (id, number, name) VALUES
+   (1, 1, 'Book type');

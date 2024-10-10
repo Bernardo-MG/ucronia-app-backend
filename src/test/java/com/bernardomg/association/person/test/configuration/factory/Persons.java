@@ -34,6 +34,13 @@ public final class Persons {
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE);
     }
 
+    public static final Person toCreate() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person(PersonConstants.IDENTIFIER, -1L, name, PersonConstants.PHONE);
+    }
+
     public static final Person valid() {
         final PersonName name;
 

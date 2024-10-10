@@ -52,7 +52,7 @@ class ITBookTypeRepositoryDelete {
     @ValidBookType
     void testDelete() {
         // WHEN
-        repository.delete(BookTypeConstants.NAME);
+        repository.delete(BookTypeConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -66,7 +66,7 @@ class ITBookTypeRepositoryDelete {
     @FullBook
     void testDelete_InBook() {
         // WHEN
-        repository.delete(BookTypeConstants.NAME);
+        repository.delete(BookTypeConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -78,7 +78,7 @@ class ITBookTypeRepositoryDelete {
     @DisplayName("With no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(BookTypeConstants.NAME);
+        repository.delete(BookTypeConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

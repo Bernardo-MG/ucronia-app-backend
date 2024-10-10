@@ -29,16 +29,29 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final void delete(final String name) {
-        log.debug("Deleting book type {}", name);
+    public final void delete(final Long number) {
+        log.debug("Deleting book type {}", number);
 
-        bookTypeSpringRepository.deleteByName(name);
+        bookTypeSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted book type {}", name);
+        log.debug("Deleted book type {}", number);
     }
 
     @Override
-    public final boolean exists(final String name) {
+    public final boolean exists(final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if book type {} exists", number);
+
+        exists = bookTypeSpringRepository.existsByNumber(number);
+
+        log.debug("Book type {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByName(final String name) {
         final boolean exists;
 
         log.debug("Checking if book type {} exists", name);
@@ -46,6 +59,19 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         exists = bookTypeSpringRepository.existsByName(name);
 
         log.debug("Book type {} exists: {}", name, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByNameForAnother(final String name, final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if book type {} exists for a book type distinc from {}", name, number);
+
+        exists = bookTypeSpringRepository.existsByNotNumberAndName(number, name);
+
+        log.debug("Book type {} exists for a book type distinc from {}: {}", name, number, exists);
 
         return exists;
     }
@@ -67,43 +93,50 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final Optional<BookType> findOne(final String name) {
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the book types");
+
+        number = bookTypeSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the book types: {}", number);
+
+        return number;
+    }
+
+    @Override
+    public final Optional<BookType> findOne(final Long number) {
         final Optional<BookType> bookType;
 
-        log.debug("Finding book type with name {}", name);
+        log.debug("Finding book type with name {}", number);
 
-        bookType = bookTypeSpringRepository.findByName(name)
+        bookType = bookTypeSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
-        log.debug("Found book type with name {}: {}", name, bookType);
+        log.debug("Found book type with name {}: {}", number, bookType);
 
         return bookType;
     }
 
     @Override
-    public final boolean hasRelationships(final String name) {
-        final boolean exists;
-
-        log.debug("Checking if book type {} has relationships", name);
-
-        exists = bookTypeSpringRepository.existsInBook(name);
-
-        log.debug("Book type {} has relationships: {}", name, exists);
-
-        return exists;
-    }
-
-    @Override
     public final BookType save(final BookType bookType) {
-        final BookTypeEntity toCreate;
-        final BookTypeEntity created;
-        final BookType       saved;
+        final Optional<BookTypeEntity> existing;
+        final BookTypeEntity           entity;
+        final BookTypeEntity           created;
+        final BookType                 saved;
 
         log.debug("Saving book type {}", bookType);
 
-        toCreate = toEntity(bookType);
+        entity = toEntity(bookType);
 
-        created = bookTypeSpringRepository.save(toCreate);
+        existing = bookTypeSpringRepository.findByNumber(bookType.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = bookTypeSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved book type {}", saved);
@@ -112,11 +145,12 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getName());
+        return new BookType(entity.getNumber(), entity.getName());
     }
 
     private final BookTypeEntity toEntity(final BookType domain) {
         return BookTypeEntity.builder()
+            .withNumber(domain.number())
             .withName(domain.name())
             .build();
     }

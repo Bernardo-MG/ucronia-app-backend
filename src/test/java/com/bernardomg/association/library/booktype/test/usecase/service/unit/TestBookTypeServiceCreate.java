@@ -62,7 +62,12 @@ class TestBookTypeServiceCreate {
     @DisplayName("With a book type with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;
-        final BookType         bookType = BookTypes.emptyName();
+        final BookType         bookType;
+
+        // GIVEN
+        bookType = BookTypes.emptyName();
+
+        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
 
         // WHEN
         execution = () -> service.create(bookType);
@@ -75,9 +80,14 @@ class TestBookTypeServiceCreate {
     @DisplayName("With a book type with an existing name, an exception is thrown")
     void testCreate_ExistingName() {
         final ThrowingCallable execution;
-        final BookType         bookType = BookTypes.valid();
+        final BookType         bookType;
 
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        // GIVEN
+        bookType = BookTypes.toCreate();
+
+        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
+
+        given(bookTypeRepository.existsByName(BookTypeConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(bookType);
@@ -90,10 +100,15 @@ class TestBookTypeServiceCreate {
     @Test
     @DisplayName("With a valid book type, the book is persisted")
     void testCreate_PersistedData() {
-        final BookType book = BookTypes.valid();
+        final BookType bookType;
+
+        // GIVEN
+        bookType = BookTypes.toCreate();
+
+        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
 
         // WHEN
-        service.create(book);
+        service.create(bookType);
 
         // THEN
         verify(bookTypeRepository).save(BookTypes.valid());
@@ -102,16 +117,18 @@ class TestBookTypeServiceCreate {
     @Test
     @DisplayName("With a valid book type, the created book is returned")
     void testCreate_ReturnedData() {
-        final BookType book;
+        final BookType bookType;
         final BookType created;
 
         // GIVEN
-        book = BookTypes.valid();
+        bookType = BookTypes.toCreate();
+
+        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
 
         given(bookTypeRepository.save(BookTypes.valid())).willReturn(BookTypes.valid());
 
         // WHEN
-        created = service.create(book);
+        created = service.create(bookType);
 
         // THEN
         Assertions.assertThat(created)

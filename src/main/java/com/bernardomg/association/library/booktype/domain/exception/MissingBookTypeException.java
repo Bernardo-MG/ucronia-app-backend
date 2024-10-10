@@ -36,8 +36,8 @@ public final class MissingBookTypeException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingBookTypeException(final String name) {
-        super("book_type", name);
+    public MissingBookTypeException(final Long number) {
+        super("book_type", number);
     }
 
 }

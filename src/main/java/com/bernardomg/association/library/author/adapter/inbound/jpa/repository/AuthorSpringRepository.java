@@ -35,21 +35,24 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 
 public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long> {
 
-    public void deleteByName(final String name);
+    public void deleteByNumber(final Long number);
 
     public boolean existsByName(final String name);
 
     @Query("""
-               SELECT CASE
-               WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
-               FROM Book b
-               JOIN b.authors a
-               WHERE a.name = :name
+               SELECT CASE WHEN COUNT(a) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Author a
+               WHERE a.number != :number AND a.name = :name
             """)
-    public boolean existsInBook(@Param("name") final String name);
+    public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
+
+    public boolean existsByNumber(final Long number);
 
     public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);
 
-    public Optional<AuthorEntity> findByName(final String name);
+    public Optional<AuthorEntity> findByNumber(final Long number);
+
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Author a")
+    public Long findNextNumber();
 
 }

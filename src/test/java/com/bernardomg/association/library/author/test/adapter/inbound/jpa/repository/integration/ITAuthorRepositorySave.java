@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorEntities;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -45,6 +46,44 @@ class ITAuthorRepositorySave {
 
     @Autowired
     private AuthorSpringRepository springRepository;
+
+    @Test
+    @DisplayName("When the author exists, it is updated")
+    @ValidAuthor
+    void testSave_Existing_Persisted() {
+        final Author author;
+
+        // GIVEN
+        author = Authors.valid();
+
+        // WHEN
+        repository.save(author);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("authors")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(AuthorEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When the author exists, it is returned")
+    @ValidAuthor
+    void testSave_Existing_Returned() {
+        final Author author;
+        final Author created;
+
+        // GIVEN
+        author = Authors.valid();
+
+        // WHEN
+        created = repository.save(author);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("author")
+            .isEqualTo(Authors.valid());
+    }
 
     @Test
     @DisplayName("When saving, an author is persisted")
@@ -61,7 +100,7 @@ class ITAuthorRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("authors")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(AuthorEntities.valid());
+            .containsExactly(AuthorEntities.valid());
     }
 
     @Test

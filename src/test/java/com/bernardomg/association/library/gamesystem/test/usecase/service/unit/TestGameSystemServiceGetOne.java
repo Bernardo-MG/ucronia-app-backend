@@ -37,10 +37,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
 
@@ -64,10 +64,10 @@ class TestGameSystemServiceGetOne {
         final Optional<GameSystem> gameSystem;
 
         // GIVEN
-        given(gameSystemRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(GameSystems.valid()));
+        given(gameSystemRepository.findOne(GameSystemConstants.NUMBER)).willReturn(Optional.of(GameSystems.valid()));
 
         // WHEN
-        gameSystem = service.getOne(AuthorConstants.NAME);
+        gameSystem = service.getOne(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(gameSystem)
@@ -80,10 +80,10 @@ class TestGameSystemServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(gameSystemRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
+        given(gameSystemRepository.findOne(GameSystemConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(AuthorConstants.NAME);
+        execution = () -> service.getOne(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

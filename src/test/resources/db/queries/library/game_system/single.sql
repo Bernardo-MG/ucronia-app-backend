@@ -1,2 +1,2 @@
-INSERT INTO inventory.game_systems (id, name) VALUES
-   (1, 'Game system');
+INSERT INTO inventory.game_systems (id, number, name) VALUES
+   (1, 1, 'Game system');

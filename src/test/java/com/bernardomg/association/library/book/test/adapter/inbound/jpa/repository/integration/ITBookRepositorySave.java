@@ -143,6 +143,43 @@ class ITBookRepositorySave {
     }
 
     @Test
+    @DisplayName("When there are relationships, but they don't exist, these relationships are not is persisted")
+    void testSave_Full_MissingData_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
+                "gameSystem.id", "publishers.id")
+            .containsExactly(BookEntities.minimal());
+    }
+
+    @Test
+    @DisplayName("When there are relationships, but they don't exist, these relationships are not returned")
+    void testSave_Full_MissingData_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.minimal());
+    }
+
+    @Test
     @DisplayName("When there are relationships the book is persisted")
     @ValidPerson
     @ValidAuthor
@@ -190,6 +227,53 @@ class ITBookRepositorySave {
     }
 
     @Test
+    @DisplayName("When the book has a ISBN-13 it is persisted")
+    @ValidPerson
+    @ValidAuthor
+    @ValidPublisher
+    @ValidBookType
+    @ValidGameSystem
+    void testSave_Isbn13_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.isbn13();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
+                "gameSystem.id", "publishers.id")
+            .containsExactly(BookEntities.isbn13());
+    }
+
+    @Test
+    @DisplayName("When the book has a ISBN-13 it is returned")
+    @ValidPerson
+    @ValidAuthor
+    @ValidPublisher
+    @ValidBookType
+    @ValidGameSystem
+    void testSave_Isbn13_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.isbn13();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.isbn13());
+    }
+
+    @Test
     @DisplayName("When the book exists it is persisted")
     @MinimalBook
     void testSave_Minimal_Existing_Persisted() {
@@ -233,7 +317,7 @@ class ITBookRepositorySave {
         final Book book;
 
         // GIVEN
-        book = Books.full();
+        book = Books.minimal();
 
         // WHEN
         repository.save(book);

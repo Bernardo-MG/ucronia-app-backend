@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
-import com.bernardomg.association.library.publisher.domain.exception.PublisherHasRelationshipsException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
+import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -28,6 +28,8 @@ public final class DefaultPublisherService implements PublisherService {
 
     private final PublisherRepository  publisherRepository;
 
+    private final Validator<Publisher> updatePublisherValidator;
+
     public DefaultPublisherService(final PublisherRepository publisherRepo) {
         super();
 
@@ -35,51 +37,73 @@ public final class DefaultPublisherService implements PublisherService {
 
         createPublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
             new PublisherNameNotExistsRule(publisherRepository));
+        updatePublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
+            new PublisherNameNotExistsForAnotherRule(publisherRepository));
     }
 
     @Override
     public final Publisher create(final Publisher publisher) {
+        final Publisher toCreate;
+        final Long      number;
+
         log.debug("Creating publisher {}", publisher);
 
-        createPublisherValidator.validate(publisher);
+        // Set number
+        number = publisherRepository.findNextNumber();
 
-        return publisherRepository.save(publisher);
+        toCreate = new Publisher(number, publisher.name());
+
+        createPublisherValidator.validate(toCreate);
+
+        return publisherRepository.save(toCreate);
     }
 
     @Override
-    public final void delete(final String name) {
+    public final void delete(final long number) {
 
-        log.debug("Deleting author {}", name);
+        log.debug("Deleting publisher {}", number);
 
-        if (!publisherRepository.exists(name)) {
-            throw new MissingPublisherException(name);
+        if (!publisherRepository.exists(number)) {
+            throw new MissingPublisherException(number);
         }
 
-        if (publisherRepository.hasRelationships(name)) {
-            throw new PublisherHasRelationshipsException(name);
-        }
-
-        publisherRepository.delete(name);
+        publisherRepository.delete(number);
     }
 
     @Override
     public final Iterable<Publisher> getAll(final Pageable pageable) {
+        log.debug("Reading publishers with pagination {}", pageable);
+
         return publisherRepository.findAll(pageable);
     }
 
     @Override
-    public final Optional<Publisher> getOne(final String name) {
+    public final Optional<Publisher> getOne(final long number) {
         final Optional<Publisher> publisher;
 
-        log.debug("Reading author {}", name);
+        log.debug("Reading publisher {}", number);
 
-        publisher = publisherRepository.findOne(name);
+        publisher = publisherRepository.findOne(number);
         if (publisher.isEmpty()) {
-            log.error("Missing publisher {}", name);
-            throw new MissingPublisherException(name);
+            log.error("Missing publisher {}", number);
+            throw new MissingPublisherException(number);
         }
 
         return publisher;
+    }
+
+    @Override
+    public final Publisher update(final Publisher publisher) {
+        log.debug("Updating publisher {}", publisher);
+
+        if (!publisherRepository.exists(publisher.number())) {
+            throw new MissingPublisherException(publisher.number());
+        }
+
+        // Set number
+        updatePublisherValidator.validate(publisher);
+
+        return publisherRepository.save(publisher);
     }
 
 }
