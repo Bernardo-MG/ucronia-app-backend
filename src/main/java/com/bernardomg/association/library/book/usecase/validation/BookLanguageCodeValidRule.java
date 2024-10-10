@@ -29,7 +29,7 @@ public final class BookLanguageCodeValidRule implements FieldRule<Book> {
         final FieldFailure           fieldFailure;
 
         if (!languages.contains(book.language())) {
-            log.error("Invalid language code {}", book.language());
+            log.error("Invalid book language code {}", book.language());
             fieldFailure = FieldFailure.of("language", "invalid", book.language());
             failure = Optional.of(fieldFailure);
         } else {

@@ -27,7 +27,7 @@ public final class BookTitleNotEmptyRule implements FieldRule<Book> {
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(book.title())) {
-            log.error("Empty title");
+            log.error("Empty book title");
             fieldFailure = FieldFailure.of("title", "empty", book.title());
             failure = Optional.of(fieldFailure);
         } else {

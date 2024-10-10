@@ -67,6 +67,8 @@ public final class DefaultPublisherService implements PublisherService {
 
     @Override
     public final Iterable<Publisher> getAll(final Pageable pageable) {
+        log.debug("Reading publishers with pagination {}", pageable);
+
         return publisherRepository.findAll(pageable);
     }
 

@@ -67,6 +67,8 @@ public final class DefaultAuthorService implements AuthorService {
 
     @Override
     public final Iterable<Author> getAll(final Pageable pageable) {
+        log.debug("Reading authors with pagination {}", pageable);
+
         return authorRepository.findAll(pageable);
     }
 

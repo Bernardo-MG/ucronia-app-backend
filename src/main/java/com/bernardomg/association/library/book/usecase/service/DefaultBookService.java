@@ -139,6 +139,8 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
+        log.debug("Reading books with pagination {}", pageable);
+
         return bookRepository.findAll(pageable);
     }
 
