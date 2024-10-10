@@ -78,7 +78,7 @@ class TestBookServiceGetAll {
 
     @Test
     @DisplayName("When there are books, they are returned")
-    void testFindAll() {
+    void testGetAll() {
         final Pageable       pageable;
         final Iterable<Book> books;
 
@@ -98,7 +98,7 @@ class TestBookServiceGetAll {
 
     @Test
     @DisplayName("When there are no books, nothing is returned")
-    void testFindAll_NoData() {
+    void testGetAll_NoData() {
         final Pageable       pageable;
         final Iterable<Book> books;
 
