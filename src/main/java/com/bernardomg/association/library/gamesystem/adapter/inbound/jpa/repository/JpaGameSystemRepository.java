@@ -20,19 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaGameSystemRepository implements GameSystemRepository {
 
-    private final GameSystemSpringRepository gameSystemRepository;
+    private final GameSystemSpringRepository gameSystemSpringRepository;
 
     public JpaGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
         super();
 
-        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
+        gameSystemSpringRepository = Objects.requireNonNull(gameSystemRepo);
     }
 
     @Override
     public final void delete(final Long number) {
         log.debug("Deleting game system {}", number);
 
-        gameSystemRepository.deleteByNumber(number);
+        gameSystemSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted game system {}", number);
     }
@@ -43,7 +43,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Checking if game system {} exists", number);
 
-        exists = gameSystemRepository.existsByNumber(number);
+        exists = gameSystemSpringRepository.existsByNumber(number);
 
         log.debug("Game system {} exists: {}", number, exists);
 
@@ -56,7 +56,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Checking if game system {} exists", name);
 
-        exists = gameSystemRepository.existsByName(name);
+        exists = gameSystemSpringRepository.existsByName(name);
 
         log.debug("Game system {} exists: {}", name, exists);
 
@@ -70,7 +70,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game systems with pagination {}", pageable);
 
-        page = gameSystemRepository.findAll(pageable);
+        page = gameSystemSpringRepository.findAll(pageable);
 
         read = page.map(this::toDomain);
 
@@ -85,7 +85,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding next number for the game systems");
 
-        number = gameSystemRepository.findNextNumber();
+        number = gameSystemSpringRepository.findNextNumber();
 
         log.debug("Found next number for the game systems: {}", number);
 
@@ -98,7 +98,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game system with name {}", number);
 
-        gameSystem = gameSystemRepository.findByNumber(number)
+        gameSystem = gameSystemSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
         log.debug("Found game system with name {}: {}", number, gameSystem);
@@ -108,15 +108,22 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
     @Override
     public final GameSystem save(final GameSystem gameSystem) {
-        final GameSystemEntity toCreate;
-        final GameSystemEntity created;
-        final GameSystem       saved;
+        final Optional<GameSystemEntity> existing;
+        final GameSystemEntity           entity;
+        final GameSystemEntity           created;
+        final GameSystem                 saved;
 
         log.debug("Saving game system {}", gameSystem);
 
-        toCreate = toEntity(gameSystem);
+        entity = toEntity(gameSystem);
 
-        created = gameSystemRepository.save(toCreate);
+        existing = gameSystemSpringRepository.findByNumber(gameSystem.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = gameSystemSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved game system {}", saved);

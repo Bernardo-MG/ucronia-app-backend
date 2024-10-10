@@ -108,15 +108,22 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
     @Override
     public final BookType save(final BookType bookType) {
-        final BookTypeEntity toCreate;
-        final BookTypeEntity created;
-        final BookType       saved;
+        final Optional<BookTypeEntity> existing;
+        final BookTypeEntity           entity;
+        final BookTypeEntity           created;
+        final BookType                 saved;
 
         log.debug("Saving book type {}", bookType);
 
-        toCreate = toEntity(bookType);
+        entity = toEntity(bookType);
 
-        created = bookTypeSpringRepository.save(toCreate);
+        existing = bookTypeSpringRepository.findByNumber(bookType.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = bookTypeSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved book type {}", saved);

@@ -108,15 +108,22 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
     @Override
     public final Author save(final Author author) {
-        final AuthorEntity toCreate;
-        final AuthorEntity created;
-        final Author       saved;
+        final Optional<AuthorEntity> existing;
+        final AuthorEntity           entity;
+        final AuthorEntity           created;
+        final Author                 saved;
 
         log.debug("Saving author {}", author);
 
-        toCreate = toEntity(author);
+        entity = toEntity(author);
 
-        created = authorSpringRepository.save(toCreate);
+        existing = authorSpringRepository.findByNumber(author.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = authorSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved author {}", saved);

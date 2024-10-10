@@ -108,15 +108,22 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
     @Override
     public final Publisher save(final Publisher publisher) {
-        final PublisherEntity toCreate;
-        final PublisherEntity created;
-        final Publisher       saved;
+        final Optional<PublisherEntity> existing;
+        final PublisherEntity           entity;
+        final PublisherEntity           created;
+        final Publisher                 saved;
 
         log.debug("Saving publisher {}", publisher);
 
-        toCreate = toEntity(publisher);
+        entity = toEntity(publisher);
 
-        created = publisherSpringRepository.save(toCreate);
+        existing = publisherSpringRepository.findByNumber(publisher.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = publisherSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved publisher {}", saved);

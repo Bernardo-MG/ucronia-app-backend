@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
+import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeEntities;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -47,7 +48,45 @@ class ITBookTypeRepositorySave {
     private BookTypeSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving, an author is persisted")
+    @DisplayName("When the book type exists, it is updated")
+    @ValidBookType
+    void testSave_Existing_Persisted() {
+        final BookType bookType;
+
+        // GIVEN
+        bookType = BookTypes.valid();
+
+        // WHEN
+        repository.save(bookType);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("book types")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(BookTypeEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When the book type exists, it is returned")
+    @ValidBookType
+    void testSave_Existing_Returned() {
+        final BookType bookType;
+        final BookType created;
+
+        // GIVEN
+        bookType = BookTypes.valid();
+
+        // WHEN
+        created = repository.save(bookType);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book type")
+            .isEqualTo(BookTypes.valid());
+    }
+
+    @Test
+    @DisplayName("When saving, an book type is persisted")
     void testSave_Persisted() {
         final BookType bookType;
 
@@ -61,11 +100,11 @@ class ITBookTypeRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("book types")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(BookTypeEntities.valid());
+            .containsExactly(BookTypeEntities.valid());
     }
 
     @Test
-    @DisplayName("When saving, the persisted author is returned")
+    @DisplayName("When saving, the persisted book type is returned")
     void testSave_Returned() {
         final BookType bookType;
         final BookType created;
