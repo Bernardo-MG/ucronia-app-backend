@@ -17,4 +17,6 @@ public interface GameSystemService {
 
     public Optional<GameSystem> getOne(final Long number);
 
+    public GameSystem update(final GameSystem system);
+
 }

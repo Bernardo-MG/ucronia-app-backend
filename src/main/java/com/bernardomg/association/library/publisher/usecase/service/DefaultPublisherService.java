@@ -87,4 +87,18 @@ public final class DefaultPublisherService implements PublisherService {
         return publisher;
     }
 
+    @Override
+    public final Publisher update(final Publisher publisher) {
+        log.debug("Updating publisher {}", publisher);
+
+        if (!publisherRepository.exists(publisher.number())) {
+            throw new MissingPublisherException(publisher.number());
+        }
+
+        // Set number
+        createPublisherValidator.validate(publisher);
+
+        return publisherRepository.save(publisher);
+    }
+
 }

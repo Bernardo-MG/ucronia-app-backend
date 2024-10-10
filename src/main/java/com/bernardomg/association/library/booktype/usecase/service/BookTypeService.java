@@ -17,4 +17,6 @@ public interface BookTypeService {
 
     public Optional<BookType> getOne(final Long number);
 
+    public BookType update(final BookType type);
+
 }

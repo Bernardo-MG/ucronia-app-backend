@@ -86,4 +86,18 @@ public final class DefaultGameSystemService implements GameSystemService {
         return gameSystem;
     }
 
+    @Override
+    public final GameSystem update(final GameSystem system) {
+        log.debug("Updating game system {}", system);
+
+        if (!gameSystemRepository.exists(system.number())) {
+            throw new MissingGameSystemException(system.number());
+        }
+
+        // Set number
+        createGameSystemValidator.validate(system);
+
+        return gameSystemRepository.save(system);
+    }
+
 }

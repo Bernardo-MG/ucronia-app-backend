@@ -110,7 +110,7 @@ public class AuthorController {
     public Author update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
         final Author author;
 
-        author = new Author(-1L, change.getName());
+        author = new Author(number, change.getName());
         return service.update(author);
     }
 

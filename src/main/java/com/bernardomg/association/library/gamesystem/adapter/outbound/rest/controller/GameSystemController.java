@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.gamesystem.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
@@ -34,11 +35,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorChange;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.cache.LibraryGameSystemCaches;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemCreation;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
@@ -99,6 +102,17 @@ public class GameSystemController {
     public GameSystem readOne(@PathVariable("number") final long number) {
         return service.getOne(number)
             .orElse(null);
+    }
+
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
+    public GameSystem update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
+        final GameSystem gameSystem;
+
+        gameSystem = new GameSystem(number, change.getName());
+        return service.update(gameSystem);
     }
 
 }

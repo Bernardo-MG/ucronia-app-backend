@@ -87,4 +87,18 @@ public final class DefaultBookTypeService implements BookTypeService {
         return bookType;
     }
 
+    @Override
+    public final BookType update(final BookType type) {
+        log.debug("Updating book type {}", type);
+
+        if (!bookTypeRepository.exists(type.number())) {
+            throw new MissingBookTypeException(type.number());
+        }
+
+        // Set number
+        createBookTypeValidator.validate(type);
+
+        return bookTypeRepository.save(type);
+    }
+
 }
