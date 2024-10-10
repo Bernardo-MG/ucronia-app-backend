@@ -96,7 +96,7 @@ public class GameSystemController {
         return service.getAll(pageable);
     }
 
-    @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
     @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
     public GameSystem readOne(@PathVariable("number") final long number) {

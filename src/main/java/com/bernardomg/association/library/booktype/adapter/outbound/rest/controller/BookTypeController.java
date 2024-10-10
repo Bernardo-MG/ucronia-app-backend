@@ -80,7 +80,7 @@ public class BookTypeController {
         return service.create(bookType);
     }
 
-    @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPE }),
             @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
@@ -95,7 +95,7 @@ public class BookTypeController {
         return service.getAll(pageable);
     }
 
-    @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPE)
     public BookType readOne(@PathVariable("number") final long number) {
