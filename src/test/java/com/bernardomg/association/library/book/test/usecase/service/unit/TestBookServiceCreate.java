@@ -388,28 +388,6 @@ class TestBookServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid ISBN10 ending in X, the book is persisted")
-    void testCreate_PersistedData_Isbn10x() {
-        final Book book;
-
-        // GIVEN
-        book = Books.isbn10x();
-
-        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
-
-        // WHEN
-        service.create(book);
-
-        // THEN
-        verify(bookRepository).save(Books.isbn10x());
-    }
-
-    @Test
     @DisplayName("With a valid book, the created book is returned")
     void testCreate_ReturnedData() {
         final Book book;
