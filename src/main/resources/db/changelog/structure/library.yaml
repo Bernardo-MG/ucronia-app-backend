@@ -21,7 +21,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: isbn
-                  type: varchar(13)
+                  type: varchar(17)
                   constraints:
                     nullable: false
               - column:

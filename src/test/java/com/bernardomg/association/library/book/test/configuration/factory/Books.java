@@ -178,6 +178,22 @@ public final class Books {
             .build();
     }
 
+    public static final Book isbn13() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN_13)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(Optional.of(GameSystems.valid()))
+            .withBookType(Optional.of(BookTypes.valid()))
+            .withDonors(List.of(Donors.valid()))
+            .withLendings(List.of())
+            .withLent(false)
+            .build();
+    }
+
     public static final Book lentHistory() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
