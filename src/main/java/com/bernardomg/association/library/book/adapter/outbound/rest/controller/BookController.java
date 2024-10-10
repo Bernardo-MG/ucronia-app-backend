@@ -141,7 +141,7 @@ public class BookController {
         } else {
             authors = request.getAuthors()
                 .stream()
-                .map(a -> new Author(a.number(), ""))
+                .map(a -> new Author(a.getNumber(), ""))
                 .toList();
         }
 
@@ -151,7 +151,7 @@ public class BookController {
         } else {
             publishers = request.getPublishers()
                 .stream()
-                .map(p -> new Publisher(p.number(), ""))
+                .map(p -> new Publisher(p.getNumber(), ""))
                 .toList();
         }
 
@@ -161,7 +161,7 @@ public class BookController {
         } else {
             donors = request.getDonors()
                 .stream()
-                .map(BookCreation.Donor::number)
+                .map(BookCreation.Donor::getNumber)
                 .filter(Objects::nonNull)
                 .map(d -> new Donor(d, new PersonName("", "")))
                 .toList();
@@ -169,20 +169,20 @@ public class BookController {
 
         // Book type
         if ((request.getBookType() == null) || (request.getBookType()
-            .number() == null)) {
+            .getNumber() == null)) {
             bookType = Optional.empty();
         } else {
             bookType = Optional.of(new BookType(request.getBookType()
-                .number(), ""));
+                .getNumber(), ""));
         }
 
         // Game system
         if ((request.getGameSystem() == null) || (request.getGameSystem()
-            .number() == null)) {
+            .getNumber() == null)) {
             gameSystem = Optional.empty();
         } else {
             gameSystem = Optional.of(new GameSystem(request.getGameSystem()
-                .number(), ""));
+                .getNumber(), ""));
         }
 
         // Book

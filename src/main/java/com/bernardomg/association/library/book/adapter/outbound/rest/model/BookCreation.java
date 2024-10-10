@@ -15,23 +15,46 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookCreation {
 
-    public record Author(Long number) {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Author {
+
+        private Long number;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BookType {
+
+        private Long number;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Donor {
+
+        private Long number;
 
     }
 
-    public record BookType(Long number) {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GameSystem {
+
+        private Long number;
 
     }
 
-    public record Donor(Long number) {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Publisher {
 
-    }
-
-    public record GameSystem(Long number) {
-
-    }
-
-    public record Publisher(Long number) {
+        private Long number;
 
     }
 
