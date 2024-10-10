@@ -41,8 +41,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorChange;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.cache.LibraryGameSystemCaches;
+import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemChange;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemCreation;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
@@ -108,7 +108,8 @@ public class GameSystemController {
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
-    public GameSystem update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
+    public GameSystem update(@PathVariable("number") final long number,
+            @Valid @RequestBody final GameSystemChange change) {
         final GameSystem gameSystem;
 
         gameSystem = new GameSystem(number, change.getName());

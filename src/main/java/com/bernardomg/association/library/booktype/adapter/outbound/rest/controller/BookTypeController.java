@@ -41,8 +41,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorChange;
 import com.bernardomg.association.library.booktype.adapter.outbound.cache.LibraryBookTypeCaches;
+import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeChange;
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeCreation;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
@@ -107,7 +107,7 @@ public class BookTypeController {
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
-    public BookType update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
+    public BookType update(@PathVariable("number") final long number, @Valid @RequestBody final BookTypeChange change) {
         final BookType bookType;
 
         bookType = new BookType(number, change.getName());

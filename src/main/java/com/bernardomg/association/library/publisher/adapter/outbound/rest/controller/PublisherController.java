@@ -41,8 +41,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorChange;
 import com.bernardomg.association.library.publisher.adapter.outbound.cache.LibraryPublisherCaches;
+import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherChange;
 import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherCreation;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
@@ -107,7 +107,8 @@ public class PublisherController {
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryPublisherCaches.PUBLISHER, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
-    public Publisher update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
+    public Publisher update(@PathVariable("number") final long number,
+            @Valid @RequestBody final PublisherChange change) {
         final Publisher publisher;
 
         publisher = new Publisher(number, change.getName());
