@@ -244,6 +244,28 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With an ISBN-14, the book is persisted")
+    void testCreate_Isbn13_PersistedData() {
+        final Book book;
+
+        // GIVEN
+        book = Books.isbn13();
+
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository).save(Books.isbn13());
+    }
+
+    @Test
     @DisplayName("When persisting a book for a not existing author, an exception is thrown")
     void testCreate_NoAuthor() {
         final Book             book;
