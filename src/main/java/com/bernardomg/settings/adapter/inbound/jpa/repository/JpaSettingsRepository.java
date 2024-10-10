@@ -12,6 +12,9 @@ import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntity;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class JpaSettingsRepository implements SettingRepository {
 
@@ -25,28 +28,46 @@ public final class JpaSettingsRepository implements SettingRepository {
 
     @Override
     public final Collection<Setting> findAll() {
-        final Sort sort;
+        final Collection<Setting> settings;
+        final Sort                sort;
+
+        log.debug("Finding all settings");
 
         sort = Sort.by("code");
-        return settingSpringRepository.findAll(sort)
+
+        settings = settingSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
             .toList();
+
+        log.trace("Found all the settings: {}", settings);
+
+        return settings;
     }
 
     @Override
-    public final Optional<Setting> findOne(final String key) {
-        return settingSpringRepository.findByCode(key)
+    public final Optional<Setting> findOne(final String code) {
+        final Optional<Setting> setting;
+
+        log.trace("Finding setting with code {}", code);
+
+        setting = settingSpringRepository.findByCode(code)
             .map(this::toDomain);
+
+        log.trace("Found setting with code {}: {}", code, setting);
+
+        return setting;
     }
 
     @Override
-    public final Float getFloat(final String key) {
+    public final Float getFloat(final String code) {
         final Optional<Setting> read;
         final String            text;
         final Float             value;
 
-        read = settingSpringRepository.findByCode(key)
+        log.trace("Finding float setting value with code {}", code);
+
+        read = settingSpringRepository.findByCode(code)
             .map(this::toDomain);
         if (read.isPresent()) {
             text = read.get()
@@ -55,6 +76,8 @@ public final class JpaSettingsRepository implements SettingRepository {
         } else {
             value = 0f;
         }
+
+        log.trace("Found float setting value with code {}: {}", code, value);
 
         return value;
     }
@@ -65,6 +88,8 @@ public final class JpaSettingsRepository implements SettingRepository {
         final SettingsEntity           saved;
         final Optional<SettingsEntity> existing;
 
+        log.trace("Saving setting {}", setting);
+
         entity = toEntity(setting);
 
         existing = settingSpringRepository.findByCode(setting.code());
@@ -74,6 +99,8 @@ public final class JpaSettingsRepository implements SettingRepository {
         }
 
         saved = settingSpringRepository.save(entity);
+
+        log.trace("Saved setting {}", saved);
 
         return toDomain(saved);
     }

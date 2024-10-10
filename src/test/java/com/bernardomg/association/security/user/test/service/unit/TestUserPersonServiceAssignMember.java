@@ -155,7 +155,7 @@ class TestUserPersonServiceAssignPerson {
         service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
-        verify(userPersonRepository).save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        verify(userPersonRepository).assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
     }
 
     @Test
@@ -166,7 +166,8 @@ class TestUserPersonServiceAssignPerson {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
-        given(userPersonRepository.save(UserConstants.USERNAME, PersonConstants.NUMBER)).willReturn(Persons.valid());
+        given(userPersonRepository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER))
+            .willReturn(Persons.valid());
 
         // WHEN
         person = service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);

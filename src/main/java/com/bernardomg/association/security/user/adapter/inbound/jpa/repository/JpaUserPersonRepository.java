@@ -17,6 +17,9 @@ import com.bernardomg.association.security.user.domain.repository.UserPersonRepo
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 @Transactional
 public final class JpaUserPersonRepository implements UserPersonRepository {
@@ -37,59 +40,13 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final void delete(final String username) {
-        final Optional<UserEntity> user;
-
-        user = userSpringRepository.findByUsername(username);
-        if (user.isPresent()) {
-            // TODO: handle relationships
-            userPersonSpringRepository.deleteByUserId(user.get()
-                .getId());
-        }
-    }
-
-    @Override
-    public final boolean existsByPersonForAnotherUser(final String username, final long number) {
-        return userPersonSpringRepository.existsByNotUsernameAndMemberNumber(username, number);
-    }
-
-    @Override
-    public final Iterable<Person> findAllNotAssigned(final Pageable page) {
-        return userPersonSpringRepository.findAllNotAssigned(page)
-            .map(this::toDomain);
-    }
-
-    @Override
-    public final Optional<Person> findByUsername(final String username) {
-        final Optional<UserEntity>       user;
-        final Optional<UserPersonEntity> userMember;
-        final Optional<Person>           result;
-
-        user = userSpringRepository.findByUsername(username);
-        if (user.isPresent()) {
-            // TODO: Simplify this, use JPA relationships
-            userMember = userPersonSpringRepository.findByUserId(user.get()
-                .getId());
-            if ((userMember.isPresent()) && (userMember.get()
-                .getPerson() != null)) {
-                result = Optional.of(toDomain(userMember.get()
-                    .getPerson()));
-            } else {
-                result = Optional.empty();
-            }
-        } else {
-            result = Optional.empty();
-        }
-
-        return result;
-    }
-
-    @Override
-    public final Person save(final String username, final long number) {
+    public final Person assignPerson(final String username, final long number) {
         final UserPersonEntity       userMember;
         final Optional<UserEntity>   user;
         final Optional<PersonEntity> person;
         final Person                 result;
+
+        log.trace("Assigning person {} to username {}", number, username);
 
         user = userSpringRepository.findByUsername(username);
         person = personSpringRepository.findByNumber(number);
@@ -102,11 +59,88 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
                 .build();
             userPersonSpringRepository.save(userMember);
             result = toDomain(person.get());
+
+            log.trace("Assigned person {} to username {}", number, username);
         } else {
+            log.warn("Failed to assign person {} to username {}", number, username);
+
             result = null;
         }
 
         return result;
+    }
+
+    @Override
+    public final void delete(final String username) {
+        final Optional<UserEntity> user;
+
+        log.debug("Deleting user {}", username);
+
+        user = userSpringRepository.findByUsername(username);
+        if (user.isPresent()) {
+            // TODO: handle relationships
+            // TODO: why not delete by username?
+            userPersonSpringRepository.deleteByUserId(user.get()
+                .getId());
+
+            log.debug("Deleted user {}", username);
+        }
+    }
+
+    @Override
+    public final boolean existsByPersonForAnotherUser(final String username, final long number) {
+        final boolean exists;
+
+        log.trace("Checking if username {} exists for a user with a number distinct from {}", username, number);
+
+        exists = userPersonSpringRepository.existsByNotUsernameAndMemberNumber(username, number);
+
+        log.trace("Username {} exists for a user with a number distinct from {}: {}", username, number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final Iterable<Person> findAllNotAssigned(final Pageable page) {
+        final Iterable<Person> people;
+
+        log.trace("Finding all the people with pagination {}", page);
+
+        people = userPersonSpringRepository.findAllNotAssigned(page)
+            .map(this::toDomain);
+
+        log.trace("Found all the people: {}", people);
+
+        return people;
+    }
+
+    @Override
+    public final Optional<Person> findByUsername(final String username) {
+        final Optional<UserEntity>       user;
+        final Optional<UserPersonEntity> userMember;
+        final Optional<Person>           person;
+
+        log.trace("Finding person for username {}", username);
+
+        user = userSpringRepository.findByUsername(username);
+        if (user.isPresent()) {
+            // TODO: Simplify this, use JPA relationships
+            userMember = userPersonSpringRepository.findByUserId(user.get()
+                .getId());
+            if ((userMember.isPresent()) && (userMember.get()
+                .getPerson() != null)) {
+                person = Optional.of(toDomain(userMember.get()
+                    .getPerson()));
+            } else {
+                person = Optional.empty();
+            }
+        } else {
+            person = Optional.empty();
+        }
+
+        log.trace("Found person for username {}: {}", username, person);
+
+        return person;
     }
 
     private final Person toDomain(final PersonEntity entity) {

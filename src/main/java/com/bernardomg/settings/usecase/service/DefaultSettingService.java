@@ -27,12 +27,16 @@ public final class DefaultSettingService implements SettingService {
 
     @Override
     public final Collection<Setting> getAll() {
+        log.debug("Reading settings");
+
         return settingRepository.findAll();
     }
 
     @Override
     public final Optional<Setting> getOne(final String code) {
         final Optional<Setting> setting;
+
+        log.debug("Reading setting {}", code);
 
         setting = settingRepository.findOne(code);
         if (setting.isEmpty()) {
@@ -47,6 +51,8 @@ public final class DefaultSettingService implements SettingService {
     public final Setting update(final String code, final String value) {
         final Setting toSave;
         final Setting existing;
+
+        log.debug("Updating code {} with value {}", code, value);
 
         existing = settingRepository.findOne(code)
             .orElseThrow(() -> {

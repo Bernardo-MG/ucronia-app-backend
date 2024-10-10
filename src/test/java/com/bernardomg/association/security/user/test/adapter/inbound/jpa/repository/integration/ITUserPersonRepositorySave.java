@@ -61,7 +61,7 @@ class ITUserPersonRepositorySave {
         final Collection<UserPersonEntity> persons;
 
         // WHEN
-        repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        repository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         persons = userPersonSpringRepository.findAll();
@@ -95,7 +95,7 @@ class ITUserPersonRepositorySave {
         final Person person;
 
         // WHEN
-        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(person)
@@ -109,7 +109,7 @@ class ITUserPersonRepositorySave {
         final Person person;
 
         // WHEN
-        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(person)
@@ -123,7 +123,7 @@ class ITUserPersonRepositorySave {
         final Person person;
 
         // WHEN
-        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(person)
@@ -138,7 +138,7 @@ class ITUserPersonRepositorySave {
         final Collection<UserPersonEntity> persons;
 
         // WHEN
-        repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        repository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         persons = userPersonSpringRepository.findAll();
@@ -173,7 +173,7 @@ class ITUserPersonRepositorySave {
         final Person person;
 
         // WHEN
-        person = repository.save(UserConstants.USERNAME, PersonConstants.NUMBER);
+        person = repository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(person)

@@ -10,9 +10,9 @@ public interface SettingRepository {
 
     public Collection<Setting> findAll();
 
-    public Optional<Setting> findOne(final String key);
+    public Optional<Setting> findOne(final String code);
 
-    public Float getFloat(final String key);
+    public Float getFloat(final String code);
 
     public Setting save(final Setting setting);
 
