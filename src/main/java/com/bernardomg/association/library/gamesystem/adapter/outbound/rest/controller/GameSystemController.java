@@ -78,12 +78,12 @@ public class GameSystemController {
         return service.create(author);
     }
 
-    @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEM }),
             @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
-    public void delete(@PathVariable("name") final String name) {
-        service.delete(name);
+    public void delete(@PathVariable("number") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -96,8 +96,8 @@ public class GameSystemController {
     @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
     @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
-    public GameSystem readOne(@PathVariable("name") final String name) {
-        return service.getOne(name)
+    public GameSystem readOne(@PathVariable("number") final long number) {
+        return service.getOne(number)
             .orElse(null);
     }
 

@@ -36,8 +36,8 @@ public final class GameSystemHasRelationshipsException extends HasRelationshipEx
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public GameSystemHasRelationshipsException(final String name) {
-        super("game_system", name);
+    public GameSystemHasRelationshipsException(final Long number) {
+        super("game_system", number);
     }
 
 }

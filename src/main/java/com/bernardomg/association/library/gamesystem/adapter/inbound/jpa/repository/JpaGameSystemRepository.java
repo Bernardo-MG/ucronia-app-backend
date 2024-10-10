@@ -29,16 +29,29 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final void delete(final String name) {
-        log.debug("Deleting game system {}", name);
+    public final void delete(final Long number) {
+        log.debug("Deleting game system {}", number);
 
-        gameSystemRepository.deleteByName(name);
+        gameSystemRepository.deleteByNumber(number);
 
-        log.debug("Deleted game system {}", name);
+        log.debug("Deleted game system {}", number);
     }
 
     @Override
-    public final boolean exists(final String name) {
+    public final boolean exists(final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if game system {} exists", number);
+
+        exists = gameSystemRepository.existsByNumber(number);
+
+        log.debug("Game system {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByName(final String name) {
         final boolean exists;
 
         log.debug("Checking if game system {} exists", name);
@@ -80,28 +93,28 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Optional<GameSystem> findOne(final String name) {
+    public final Optional<GameSystem> findOne(final Long number) {
         final Optional<GameSystem> gameSystem;
 
-        log.debug("Finding game system with name {}", name);
+        log.debug("Finding game system with name {}", number);
 
-        gameSystem = gameSystemRepository.findByName(name)
+        gameSystem = gameSystemRepository.findByNumber(number)
             .map(this::toDomain);
 
-        log.debug("Found game system with name {}: {}", name, gameSystem);
+        log.debug("Found game system with name {}: {}", number, gameSystem);
 
         return gameSystem;
     }
 
     @Override
-    public final boolean hasRelationships(final String name) {
+    public final boolean hasRelationships(final Long number) {
         final boolean exists;
 
-        log.debug("Checking if game system {} has relationships", name);
+        log.debug("Checking if game system {} has relationships", number);
 
-        exists = gameSystemRepository.existsInBook(name);
+        exists = gameSystemRepository.existsInBook(number);
 
-        log.debug("Game system {} has relationships: {}", name, exists);
+        log.debug("Game system {} has relationships: {}", number, exists);
 
         return exists;
     }

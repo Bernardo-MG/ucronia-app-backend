@@ -59,13 +59,13 @@ class TestGameSystemServiceDelete {
     @DisplayName("When deleting a game system, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.delete(GameSystemConstants.NAME);
+        service.delete(GameSystemConstants.NUMBER);
 
         // THEN
-        verify(gameSystemRepository).delete(GameSystemConstants.NAME);
+        verify(gameSystemRepository).delete(GameSystemConstants.NUMBER);
     }
 
     @Test
@@ -74,10 +74,10 @@ class TestGameSystemServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(GameSystemConstants.NAME);
+        execution = () -> service.delete(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -52,7 +52,7 @@ class ITGameSystemRepositoryFindOne {
         final Optional<GameSystem> gameSystem;
 
         // WHEN
-        gameSystem = repository.findOne(GameSystemConstants.NAME);
+        gameSystem = repository.findOne(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(gameSystem)
@@ -66,7 +66,7 @@ class ITGameSystemRepositoryFindOne {
         final Optional<GameSystem> gameSystem;
 
         // WHEN
-        gameSystem = repository.findOne(GameSystemConstants.NAME);
+        gameSystem = repository.findOne(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(gameSystem)

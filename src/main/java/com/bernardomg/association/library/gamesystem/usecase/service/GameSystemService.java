@@ -11,10 +11,10 @@ public interface GameSystemService {
 
     public GameSystem create(final GameSystem system);
 
-    public void delete(final String name);
+    public void delete(final Long number);
 
     public Iterable<GameSystem> getAll(final Pageable pageable);
 
-    public Optional<GameSystem> getOne(final String name);
+    public Optional<GameSystem> getOne(final Long number);
 
 }

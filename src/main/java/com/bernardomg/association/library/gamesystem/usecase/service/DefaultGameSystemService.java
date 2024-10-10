@@ -54,19 +54,20 @@ public final class DefaultGameSystemService implements GameSystemService {
     }
 
     @Override
-    public final void delete(final String name) {
+    public final void delete(final Long number) {
 
-        log.debug("Deleting game system {}", name);
+        log.debug("Deleting game system {}", number);
 
-        if (!gameSystemRepository.exists(name)) {
-            throw new MissingGameSystemException(name);
+        if (!gameSystemRepository.exists(number)) {
+            throw new MissingGameSystemException(number);
         }
 
-        if (gameSystemRepository.hasRelationships(name)) {
-            throw new GameSystemHasRelationshipsException(name);
+        // TODO: this is not needed
+        if (gameSystemRepository.hasRelationships(number)) {
+            throw new GameSystemHasRelationshipsException(number);
         }
 
-        gameSystemRepository.delete(name);
+        gameSystemRepository.delete(number);
     }
 
     @Override
@@ -75,15 +76,15 @@ public final class DefaultGameSystemService implements GameSystemService {
     }
 
     @Override
-    public final Optional<GameSystem> getOne(final String name) {
+    public final Optional<GameSystem> getOne(final Long number) {
         final Optional<GameSystem> gameSystem;
 
-        log.debug("Reading game system {}", name);
+        log.debug("Reading game system {}", number);
 
-        gameSystem = gameSystemRepository.findOne(name);
+        gameSystem = gameSystemRepository.findOne(number);
         if (gameSystem.isEmpty()) {
-            log.error("Missing game system {}", name);
-            throw new MissingGameSystemException(name);
+            log.error("Missing game system {}", number);
+            throw new MissingGameSystemException(number);
         }
 
         return gameSystem;

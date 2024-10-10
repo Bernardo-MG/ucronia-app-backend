@@ -48,7 +48,7 @@ class ITGameSystemRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NAME);
+        exists = repository.exists(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -62,7 +62,7 @@ class ITGameSystemRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NAME);
+        exists = repository.exists(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

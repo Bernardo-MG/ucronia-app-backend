@@ -315,9 +315,9 @@ public final class JpaBookRepository implements BookRepository {
         }
         if (domain.gameSystem()
             .isPresent()) {
-            gameSystem = gameSystemSpringRepository.findByName(domain.gameSystem()
+            gameSystem = gameSystemSpringRepository.findByNumber(domain.gameSystem()
                 .get()
-                .name());
+                .number());
         } else {
             gameSystem = Optional.empty();
         }

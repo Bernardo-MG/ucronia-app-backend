@@ -87,7 +87,7 @@ class TestGameSystemServiceCreate {
 
         given(gameSystemRepository.findNextNumber()).willReturn(GameSystemConstants.NUMBER);
 
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
+        given(gameSystemRepository.existsByName(GameSystemConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(gameSystem);

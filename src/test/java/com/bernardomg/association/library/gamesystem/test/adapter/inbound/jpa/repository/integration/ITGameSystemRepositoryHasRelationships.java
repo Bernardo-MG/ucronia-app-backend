@@ -51,7 +51,7 @@ class ITGameSystemRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships(GameSystemConstants.NAME);
+        exists = repository.hasRelationships(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -67,7 +67,7 @@ class ITGameSystemRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships("abc");
+        exists = repository.hasRelationships(-1L);
 
         // THEN
         Assertions.assertThat(exists)
@@ -81,7 +81,7 @@ class ITGameSystemRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NAME);
+        exists = repository.exists(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -97,7 +97,7 @@ class ITGameSystemRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships(GameSystemConstants.NAME);
+        exists = repository.hasRelationships(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -113,7 +113,7 @@ class ITGameSystemRepositoryHasRelationships {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships("abc");
+        exists = repository.hasRelationships(-1L);
 
         // THEN
         Assertions.assertThat(exists)

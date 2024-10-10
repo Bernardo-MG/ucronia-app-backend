@@ -235,10 +235,10 @@ public final class DefaultBookService implements BookService {
             .isPresent()
                 && !gameSystemRepository.exists(book.gameSystem()
                     .get()
-                    .name())) {
+                    .number())) {
             throw new MissingGameSystemException(book.gameSystem()
                 .get()
-                .name());
+                .number());
         }
 
         // Check book type exist
