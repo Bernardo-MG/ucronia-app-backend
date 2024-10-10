@@ -36,8 +36,8 @@ public final class MissingPublisherException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingPublisherException(final String name) {
-        super("publisher", name);
+    public MissingPublisherException(final long number) {
+        super("publisher", number);
     }
 
 }

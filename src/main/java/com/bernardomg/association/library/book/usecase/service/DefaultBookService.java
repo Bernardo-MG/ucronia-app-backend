@@ -225,8 +225,8 @@ public final class DefaultBookService implements BookService {
         // Check publishers exist
         book.publishers()
             .forEach(p -> {
-                if (!publisherRepository.exists(p.name())) {
-                    throw new MissingPublisherException(p.name());
+                if (!publisherRepository.exists(p.number())) {
+                    throw new MissingPublisherException(p.number());
                 }
             });
 

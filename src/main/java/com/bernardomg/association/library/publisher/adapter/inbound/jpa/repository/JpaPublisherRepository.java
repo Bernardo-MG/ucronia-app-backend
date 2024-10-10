@@ -29,16 +29,29 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final void delete(final String name) {
-        log.debug("Deleting publisher {}", name);
+    public final void delete(final long number) {
+        log.debug("Deleting publisher {}", number);
 
-        publisherSpringRepository.deleteByName(name);
+        publisherSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted publisher {}", name);
+        log.debug("Deleted publisher {}", number);
     }
 
     @Override
-    public final boolean exists(final String name) {
+    public final boolean exists(final long number) {
+        final boolean exists;
+
+        log.debug("Checking if publisher {} exists", number);
+
+        exists = publisherSpringRepository.existsByNumber(number);
+
+        log.debug("Publisher {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByName(final String name) {
         final boolean exists;
 
         log.debug("Checking if publisher {} exists", name);
@@ -80,28 +93,28 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final Optional<Publisher> findOne(final String name) {
+    public final Optional<Publisher> findOne(final long number) {
         final Optional<Publisher> publisher;
 
-        log.debug("Finding publisher with name {}", name);
+        log.debug("Finding publisher with name {}", number);
 
-        publisher = publisherSpringRepository.findByName(name)
+        publisher = publisherSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
-        log.debug("Found publisher with name {}: {}", name, publisher);
+        log.debug("Found publisher with name {}: {}", number, publisher);
 
         return publisher;
     }
 
     @Override
-    public final boolean hasRelationships(final String name) {
+    public final boolean hasRelationships(final long number) {
         final boolean exists;
 
-        log.debug("Checking if publisher {} has relationships", name);
+        log.debug("Checking if publisher {} has relationships", number);
 
-        exists = publisherSpringRepository.existsInBook(name);
+        exists = publisherSpringRepository.existsInBook(number);
 
-        log.debug("Publisher {} has relationships: {}", name, exists);
+        log.debug("Publisher {} has relationships: {}", number, exists);
 
         return exists;
     }

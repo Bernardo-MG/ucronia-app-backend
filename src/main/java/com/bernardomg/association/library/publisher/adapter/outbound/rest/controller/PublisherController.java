@@ -77,12 +77,12 @@ public class PublisherController {
         return service.create(publisher);
     }
 
-    @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHER }),
             @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
-    public void delete(@PathVariable("name") final String name) {
-        service.delete(name);
+    public void delete(@PathVariable("number") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,11 +92,11 @@ public class PublisherController {
         return service.getAll(pageable);
     }
 
-    @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
     @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHER)
-    public Publisher readOne(@PathVariable("name") final String name) {
-        return service.getOne(name)
+    public Publisher readOne(@PathVariable("number") final long number) {
+        return service.getOne(number)
             .orElse(null);
     }
 

@@ -59,13 +59,13 @@ class TestPublisherServiceDelete {
     @DisplayName("When deleting a publisher, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.delete(PublisherConstants.NAME);
+        service.delete(PublisherConstants.NUMBER);
 
         // THEN
-        verify(publisherRepository).delete(PublisherConstants.NAME);
+        verify(publisherRepository).delete(PublisherConstants.NUMBER);
     }
 
     @Test
@@ -74,10 +74,10 @@ class TestPublisherServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(false);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(PublisherConstants.NAME);
+        execution = () -> service.delete(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

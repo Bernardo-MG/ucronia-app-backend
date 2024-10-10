@@ -87,7 +87,7 @@ class TestPublisherServiceCreate {
 
         given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
 
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
+        given(publisherRepository.existsByName(PublisherConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(publisher);

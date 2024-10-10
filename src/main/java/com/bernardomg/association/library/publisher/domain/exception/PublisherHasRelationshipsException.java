@@ -36,8 +36,8 @@ public final class PublisherHasRelationshipsException extends HasRelationshipExc
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public PublisherHasRelationshipsException(final String name) {
-        super("publisher", name);
+    public PublisherHasRelationshipsException(final long number) {
+        super("publisher", number);
     }
 
 }

@@ -11,10 +11,10 @@ public interface PublisherService {
 
     public Publisher create(final Publisher author);
 
-    public void delete(final String name);
+    public void delete(final long number);
 
     public Iterable<Publisher> getAll(final Pageable pageable);
 
-    public Optional<Publisher> getOne(final String name);
+    public Optional<Publisher> getOne(final long number);
 
 }

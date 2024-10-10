@@ -55,19 +55,20 @@ public final class DefaultPublisherService implements PublisherService {
     }
 
     @Override
-    public final void delete(final String name) {
+    public final void delete(final long number) {
 
-        log.debug("Deleting author {}", name);
+        log.debug("Deleting publisher {}", number);
 
-        if (!publisherRepository.exists(name)) {
-            throw new MissingPublisherException(name);
+        if (!publisherRepository.exists(number)) {
+            throw new MissingPublisherException(number);
         }
 
-        if (publisherRepository.hasRelationships(name)) {
-            throw new PublisherHasRelationshipsException(name);
+        // TODO: this is not needed
+        if (publisherRepository.hasRelationships(number)) {
+            throw new PublisherHasRelationshipsException(number);
         }
 
-        publisherRepository.delete(name);
+        publisherRepository.delete(number);
     }
 
     @Override
@@ -76,15 +77,15 @@ public final class DefaultPublisherService implements PublisherService {
     }
 
     @Override
-    public final Optional<Publisher> getOne(final String name) {
+    public final Optional<Publisher> getOne(final long number) {
         final Optional<Publisher> publisher;
 
-        log.debug("Reading author {}", name);
+        log.debug("Reading publisher {}", number);
 
-        publisher = publisherRepository.findOne(name);
+        publisher = publisherRepository.findOne(number);
         if (publisher.isEmpty()) {
-            log.error("Missing publisher {}", name);
-            throw new MissingPublisherException(name);
+            log.error("Missing publisher {}", number);
+            throw new MissingPublisherException(number);
         }
 
         return publisher;
