@@ -113,7 +113,7 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findAll(final Pageable pageable) {
         final Page<Member> members;
 
-        log.trace("Finding all the members");
+        log.trace("Finding all the members with pagination {}", pageable);
 
         members = memberSpringRepository.findAll(pageable)
             .map(this::toDomain);

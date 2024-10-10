@@ -69,7 +69,7 @@ public final class DefaultUserPersonService implements UserPersonService {
         userPerson = new UserPerson(personNumber, username);
         assignPersonValidator.validate(userPerson);
 
-        userPersonRepository.save(readUser.getUsername(), readPerson.number());
+        userPersonRepository.assignPerson(readUser.getUsername(), readPerson.number());
 
         return readPerson;
     }

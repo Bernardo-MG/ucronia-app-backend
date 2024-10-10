@@ -9,6 +9,8 @@ import com.bernardomg.association.person.domain.model.Person;
 
 public interface UserPersonRepository {
 
+    public Person assignPerson(final String username, final long number);
+
     public void delete(final String username);
 
     public boolean existsByPersonForAnotherUser(final String username, final long number);
@@ -16,7 +18,5 @@ public interface UserPersonRepository {
     public Iterable<Person> findAllNotAssigned(final Pageable page);
 
     public Optional<Person> findByUsername(final String username);
-
-    public Person save(final String username, final long number);
 
 }
