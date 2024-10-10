@@ -35,7 +35,7 @@ import com.bernardomg.association.library.gamesystem.test.configuration.factory.
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GameSystemRepository - exists")
+@DisplayName("GameSystemRepository - find next number")
 class ITGameSystemRepositoryFindNextNumber {
 
     @Autowired

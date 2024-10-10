@@ -35,7 +35,7 @@ import com.bernardomg.association.library.booktype.test.configuration.factory.Bo
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookTypeRepository - exists")
+@DisplayName("BookTypeRepository - find next number")
 class ITBookTypeRepositoryFindNextNumber {
 
     @Autowired

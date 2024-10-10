@@ -35,7 +35,7 @@ import com.bernardomg.association.library.gamesystem.test.configuration.factory.
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GameSystemRepository - existByName")
+@DisplayName("GameSystemRepository - exists by name")
 class ITGameSystemRepositoryExistsByName {
 
     @Autowired

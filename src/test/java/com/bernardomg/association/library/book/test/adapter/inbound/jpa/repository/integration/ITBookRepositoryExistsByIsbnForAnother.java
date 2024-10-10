@@ -37,7 +37,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - exists by ISBN for another")
-class ITBookRepositoryExistsByIsbnAndNumberNot {
+class ITBookRepositoryExistsByIsbnForAnother {
 
     @Autowired
     private BookRepository repository;

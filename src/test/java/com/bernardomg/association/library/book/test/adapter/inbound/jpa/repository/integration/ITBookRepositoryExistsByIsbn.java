@@ -46,7 +46,7 @@ class ITBookRepositoryExistsByIsbn {
     @DisplayName("With a book, it exists")
     @ValidPerson
     @FullBook
-    void testExists() {
+    void testExistsByIsbn() {
         final boolean exists;
 
         // WHEN
@@ -60,7 +60,7 @@ class ITBookRepositoryExistsByIsbn {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testExists_NoData() {
+    void testExistsByIsbn_NoData() {
         final boolean exists;
 
         // WHEN

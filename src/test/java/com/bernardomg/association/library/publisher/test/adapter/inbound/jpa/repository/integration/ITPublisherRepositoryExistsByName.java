@@ -35,7 +35,7 @@ import com.bernardomg.association.library.publisher.test.configuration.factory.P
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PublisherRepository - existsByName")
+@DisplayName("PublisherRepository - exists by name")
 class ITPublisherRepositoryExistsByName {
 
     @Autowired
@@ -44,7 +44,7 @@ class ITPublisherRepositoryExistsByName {
     @Test
     @DisplayName("With an publisher, it exists")
     @ValidPublisher
-    void testExists() {
+    void testExistsByName() {
         final boolean existsByName;
 
         // WHEN
@@ -58,7 +58,7 @@ class ITPublisherRepositoryExistsByName {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testExists_NoData() {
+    void testExistsByName_NoData() {
         final boolean existsByName;
 
         // WHEN

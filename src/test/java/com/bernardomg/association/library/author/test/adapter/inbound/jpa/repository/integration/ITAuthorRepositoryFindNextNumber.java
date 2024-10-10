@@ -35,7 +35,7 @@ import com.bernardomg.association.library.author.test.configuration.factory.Auth
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("AuthorRepository - exists")
+@DisplayName("AuthorRepository - find next number")
 class ITAuthorRepositoryFindNextNumber {
 
     @Autowired

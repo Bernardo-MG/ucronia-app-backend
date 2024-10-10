@@ -48,7 +48,7 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookService - find all")
+@DisplayName("BookService - get all")
 class TestBookServiceGetAll {
 
     @Mock
