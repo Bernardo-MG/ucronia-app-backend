@@ -35,38 +35,38 @@ import com.bernardomg.association.library.gamesystem.test.configuration.factory.
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GameSystemRepository - exists")
-class ITGameSystemRepositoryExists {
+@DisplayName("GameSystemRepository - existByName")
+class ITGameSystemRepositoryExistsByName {
 
     @Autowired
     private GameSystemRepository repository;
 
     @Test
-    @DisplayName("With an author, it exists")
+    @DisplayName("With an author, it existByName")
     @ValidGameSystem
-    void testExists() {
-        final boolean exists;
+    void testExistsByName() {
+        final boolean existByName;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NUMBER);
+        existByName = repository.existsByName(GameSystemConstants.NAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(existByName)
+            .as("existByName")
             .isTrue();
     }
 
     @Test
-    @DisplayName("With no data, nothing exists")
-    void testExists_NoData() {
-        final boolean exists;
+    @DisplayName("With no data, nothing existByName")
+    void testExistsByName_NoData() {
+        final boolean existByName;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NUMBER);
+        existByName = repository.existsByName(GameSystemConstants.NAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(existByName)
+            .as("existByName")
             .isFalse();
     }
 

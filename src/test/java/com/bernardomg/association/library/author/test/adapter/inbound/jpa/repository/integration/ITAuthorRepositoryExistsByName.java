@@ -22,33 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.author.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
-import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
+import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GameSystemRepository - exists")
-class ITGameSystemRepositoryExists {
+@DisplayName("AuthorRepository - exists by name")
+class ITAuthorRepositoryExistsByName {
 
     @Autowired
-    private GameSystemRepository repository;
+    private AuthorRepository repository;
 
     @Test
     @DisplayName("With an author, it exists")
-    @ValidGameSystem
-    void testExists() {
+    @ValidAuthor
+    void testExistsByName() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NUMBER);
+        exists = repository.existsByName(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)
@@ -58,11 +58,11 @@ class ITGameSystemRepositoryExists {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testExists_NoData() {
+    void testExistsByName_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NUMBER);
+        exists = repository.existsByName(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023 the original publisher or publishers.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,51 +22,51 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.publisher.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
-import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
+import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
+import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GameSystemRepository - exists")
-class ITGameSystemRepositoryExists {
+@DisplayName("PublisherRepository - existsByName")
+class ITPublisherRepositoryExistsByName {
 
     @Autowired
-    private GameSystemRepository repository;
+    private PublisherRepository repository;
 
     @Test
-    @DisplayName("With an author, it exists")
-    @ValidGameSystem
+    @DisplayName("With an publisher, it exists")
+    @ValidPublisher
     void testExists() {
-        final boolean exists;
+        final boolean existsByName;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NUMBER);
+        existsByName = repository.existsByName(PublisherConstants.NAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(existsByName)
+            .as("existsByName")
             .isTrue();
     }
 
     @Test
     @DisplayName("With no data, nothing exists")
     void testExists_NoData() {
-        final boolean exists;
+        final boolean existsByName;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NUMBER);
+        existsByName = repository.existsByName(PublisherConstants.NAME);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(existsByName)
+            .as("existsByName")
             .isFalse();
     }
 
