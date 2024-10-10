@@ -15,6 +15,8 @@ public interface AuthorRepository {
 
     public boolean existsByName(final String name);
 
+    public boolean existsByNameForAnother(final String name, final Long number);
+
     public Iterable<Author> findAll(final Pageable pageable);
 
     public long findNextNumber();

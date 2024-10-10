@@ -64,6 +64,19 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
+    public final boolean existsByNameForAnother(final String name, final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if publisher {} exists for a publisher distinct from {}", name, number);
+
+        exists = publisherSpringRepository.existsByNotNumberAndName(number, name);
+
+        log.debug("Publisher {} exists for a publisher distinct from {}: {}", name, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Iterable<Publisher> findAll(final Pageable pageable) {
         final Page<PublisherEntity> page;
         final Iterable<Publisher>   read;

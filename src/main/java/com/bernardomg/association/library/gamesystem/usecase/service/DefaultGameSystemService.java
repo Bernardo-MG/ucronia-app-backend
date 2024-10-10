@@ -12,7 +12,8 @@ import com.bernardomg.association.library.gamesystem.domain.exception.MissingGam
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotEmptyRule;
-import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistingRule;
+import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistsForAnotherRule;
+import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -27,13 +28,17 @@ public final class DefaultGameSystemService implements GameSystemService {
 
     private final GameSystemRepository  gameSystemRepository;
 
+    private final Validator<GameSystem> updateGameSystemValidator;
+
     public DefaultGameSystemService(final GameSystemRepository gameSystemRepo) {
         super();
 
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
 
         createGameSystemValidator = new FieldRuleValidator<>(new GameSystemNameNotEmptyRule(),
-            new GameSystemNameNotExistingRule(gameSystemRepository));
+            new GameSystemNameNotExistsRule(gameSystemRepository));
+        updateGameSystemValidator = new FieldRuleValidator<>(new GameSystemNameNotEmptyRule(),
+            new GameSystemNameNotExistsForAnotherRule(gameSystemRepository));
     }
 
     @Override
@@ -95,7 +100,7 @@ public final class DefaultGameSystemService implements GameSystemService {
         }
 
         // Set number
-        createGameSystemValidator.validate(system);
+        updateGameSystemValidator.validate(system);
 
         return gameSystemRepository.save(system);
     }

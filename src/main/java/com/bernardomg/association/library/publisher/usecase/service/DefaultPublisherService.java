@@ -12,6 +12,7 @@ import com.bernardomg.association.library.publisher.domain.exception.MissingPubl
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
+import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -27,6 +28,8 @@ public final class DefaultPublisherService implements PublisherService {
 
     private final PublisherRepository  publisherRepository;
 
+    private final Validator<Publisher> updatePublisherValidator;
+
     public DefaultPublisherService(final PublisherRepository publisherRepo) {
         super();
 
@@ -34,6 +37,8 @@ public final class DefaultPublisherService implements PublisherService {
 
         createPublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
             new PublisherNameNotExistsRule(publisherRepository));
+        updatePublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
+            new PublisherNameNotExistsForAnotherRule(publisherRepository));
     }
 
     @Override
@@ -96,7 +101,7 @@ public final class DefaultPublisherService implements PublisherService {
         }
 
         // Set number
-        createPublisherValidator.validate(publisher);
+        updatePublisherValidator.validate(publisher);
 
         return publisherRepository.save(publisher);
     }

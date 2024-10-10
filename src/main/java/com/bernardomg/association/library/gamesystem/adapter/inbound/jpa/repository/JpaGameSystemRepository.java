@@ -64,6 +64,19 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
+    public final boolean existsByNameForAnother(final String name, final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if game system {} exists for a game system distinct from {}", name, number);
+
+        exists = gameSystemSpringRepository.existsByNotNumberAndName(number, name);
+
+        log.debug("Game system {} exists for a game system distinct from {}: {}", name, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Iterable<GameSystem> findAll(final Pageable pageable) {
         final Page<GameSystemEntity> page;
         final Iterable<GameSystem>   read;

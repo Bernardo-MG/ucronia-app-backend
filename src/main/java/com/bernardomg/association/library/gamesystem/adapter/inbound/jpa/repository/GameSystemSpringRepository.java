@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 
@@ -36,6 +37,13 @@ public interface GameSystemSpringRepository extends JpaRepository<GameSystemEnti
     public void deleteByNumber(final long number);
 
     public boolean existsByName(final String name);
+
+    @Query("""
+               SELECT CASE WHEN COUNT(gs) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM GameSystem gs
+               WHERE gs.number != :number AND gs.name = :name
+            """)
+    public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
 
     public boolean existsByNumber(final long number);
 

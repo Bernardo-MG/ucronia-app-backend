@@ -64,6 +64,19 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
+    public final boolean existsByNameForAnother(final String name, final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if author {} exists for an author distinct from {}", name, number);
+
+        exists = authorSpringRepository.existsByNotNumberAndName(number, name);
+
+        log.debug("Author {} exists for an author distinct from {}: {}", name, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Iterable<Author> findAll(final Pageable pageable) {
         final Page<AuthorEntity> page;
         final Iterable<Author>   read;

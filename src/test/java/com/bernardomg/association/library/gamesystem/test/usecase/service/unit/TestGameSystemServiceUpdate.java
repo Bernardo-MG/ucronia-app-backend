@@ -78,6 +78,27 @@ class TestGameSystemServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a game system with a name existing for another user, an exception is thrown")
+    void testUpdate_ExistsForAnother() {
+        final GameSystem       gameSystem;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.existsByNameForAnother(GameSystemConstants.NAME, GameSystemConstants.NUMBER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(gameSystem);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", GameSystemConstants.NAME));
+    }
+
+    @Test
     @DisplayName("With a not existing game system, an exception is thrown")
     void testUpdate_NotExisting() {
         final GameSystem       gameSystem;

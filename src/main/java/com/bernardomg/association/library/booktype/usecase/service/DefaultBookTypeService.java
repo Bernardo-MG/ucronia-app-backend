@@ -12,6 +12,7 @@ import com.bernardomg.association.library.booktype.domain.exception.MissingBookT
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotEmptyRule;
+import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -27,6 +28,8 @@ public final class DefaultBookTypeService implements BookTypeService {
 
     private final Validator<BookType> createBookTypeValidator;
 
+    private final Validator<BookType> updateBookTypeValidator;
+
     public DefaultBookTypeService(final BookTypeRepository bookTypeRepo) {
         super();
 
@@ -34,6 +37,8 @@ public final class DefaultBookTypeService implements BookTypeService {
 
         createBookTypeValidator = new FieldRuleValidator<>(new BookTypeNameNotEmptyRule(),
             new BookTypeNameNotExistsRule(bookTypeRepository));
+        updateBookTypeValidator = new FieldRuleValidator<>(new BookTypeNameNotEmptyRule(),
+            new BookTypeNameNotExistsForAnotherRule(bookTypeRepository));
     }
 
     @Override
@@ -96,7 +101,7 @@ public final class DefaultBookTypeService implements BookTypeService {
         }
 
         // Set number
-        createBookTypeValidator.validate(type);
+        updateBookTypeValidator.validate(type);
 
         return bookTypeRepository.save(type);
     }

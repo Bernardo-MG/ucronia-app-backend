@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 
@@ -37,6 +38,13 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
     public void deleteByNumber(final Long number);
 
     public boolean existsByName(final String name);
+
+    @Query("""
+               SELECT CASE WHEN COUNT(a) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Author a
+               WHERE a.number != :number AND a.name = :name
+            """)
+    public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
 
     public boolean existsByNumber(final Long number);
 

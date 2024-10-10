@@ -12,6 +12,7 @@ import com.bernardomg.association.library.author.domain.exception.MissingAuthorE
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotEmptyRule;
+import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -27,6 +28,8 @@ public final class DefaultAuthorService implements AuthorService {
 
     private final Validator<Author> createAuthorValidator;
 
+    private final Validator<Author> updateAuthorValidator;
+
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
 
@@ -34,6 +37,8 @@ public final class DefaultAuthorService implements AuthorService {
 
         createAuthorValidator = new FieldRuleValidator<>(new AuthorNameNotEmptyRule(),
             new AuthorNameNotExistsRule(authorRepository));
+        updateAuthorValidator = new FieldRuleValidator<>(new AuthorNameNotEmptyRule(),
+            new AuthorNameNotExistsForAnotherRule(authorRepository));
     }
 
     @Override
@@ -95,7 +100,7 @@ public final class DefaultAuthorService implements AuthorService {
             throw new MissingAuthorException(author.number());
         }
 
-        createAuthorValidator.validate(author);
+        updateAuthorValidator.validate(author);
 
         return authorRepository.save(author);
     }

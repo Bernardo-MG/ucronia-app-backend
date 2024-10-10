@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 
@@ -36,6 +37,13 @@ public interface BookTypeSpringRepository extends JpaRepository<BookTypeEntity, 
     public void deleteByNumber(final Long number);
 
     public boolean existsByName(final String name);
+
+    @Query("""
+               SELECT CASE WHEN COUNT(bt) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM BookType bt
+               WHERE bt.number != :number AND bt.name = :name
+            """)
+    public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
 
     public boolean existsByNumber(final Long number);
 

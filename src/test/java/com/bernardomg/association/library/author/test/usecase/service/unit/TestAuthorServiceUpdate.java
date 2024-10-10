@@ -78,6 +78,25 @@ class TestAuthorServiceUpdate {
     }
 
     @Test
+    @DisplayName("With an author with a name existing for another user, an exception is thrown")
+    void testUpdate_ExistsForAnother() {
+        final Author           author;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        author = Authors.valid();
+
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(authorRepository.existsByNameForAnother(AuthorConstants.NAME, AuthorConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(author);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
+    }
+
+    @Test
     @DisplayName("With a not existing author, an exception is thrown")
     void testUpdate_NotExisting() {
         final Author           author;

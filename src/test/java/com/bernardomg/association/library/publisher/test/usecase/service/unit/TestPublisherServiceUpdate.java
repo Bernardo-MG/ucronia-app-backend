@@ -36,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -75,6 +76,27 @@ class TestPublisherServiceUpdate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+    }
+
+    @Test
+    @DisplayName("With a publisher with a name existing for another user, an exception is thrown")
+    void testUpdate_ExistsForAnother() {
+        final Publisher        publisher;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        publisher = Publishers.valid();
+
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.existsByNameForAnother(PublisherConstants.NAME, GameSystemConstants.NUMBER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(publisher);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", PublisherConstants.NAME));
     }
 
     @Test

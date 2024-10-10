@@ -78,6 +78,27 @@ class TestBookTypeServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a book type with a name existing for another user, an exception is thrown")
+    void testUpdate_ExistsForAnother() {
+        final BookType         bookType;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        bookType = BookTypes.valid();
+
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.existsByNameForAnother(BookTypeConstants.NAME, BookTypeConstants.NUMBER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(bookType);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name", "existing", BookTypeConstants.NAME));
+    }
+
+    @Test
     @DisplayName("With a not existing book type, an exception is thrown")
     void testUpdate_NotExisting() {
         final BookType         bookType;

@@ -64,6 +64,19 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
+    public final boolean existsByNameForAnother(final String name, final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if book type {} exists for a book type distinc from {}", name, number);
+
+        exists = bookTypeSpringRepository.existsByNotNumberAndName(number, name);
+
+        log.debug("Book type {} exists for a book type distinc from {}: {}", name, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Iterable<BookType> findAll(final Pageable pageable) {
         final Page<BookTypeEntity> page;
         final Iterable<BookType>   read;
