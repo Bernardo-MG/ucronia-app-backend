@@ -7,6 +7,7 @@ public final class PublisherEntities {
 
     public static final PublisherEntity valid() {
         return PublisherEntity.builder()
+            .withNumber(PublisherConstants.NUMBER)
             .withName(PublisherConstants.NAME)
             .build();
     }

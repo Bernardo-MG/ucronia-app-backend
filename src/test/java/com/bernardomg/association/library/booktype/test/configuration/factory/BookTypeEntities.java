@@ -7,6 +7,7 @@ public final class BookTypeEntities {
 
     public static final BookTypeEntity valid() {
         return BookTypeEntity.builder()
+            .withNumber(BookTypeConstants.NUMBER)
             .withName(BookTypeConstants.NAME)
             .build();
     }

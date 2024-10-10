@@ -52,7 +52,7 @@ class ITGameSystemRepositoryDelete {
     @ValidGameSystem
     void testDelete() {
         // WHEN
-        repository.delete(GameSystemConstants.NAME);
+        repository.delete(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -66,7 +66,7 @@ class ITGameSystemRepositoryDelete {
     @FullBook
     void testDelete_InBook() {
         // WHEN
-        repository.delete(GameSystemConstants.NAME);
+        repository.delete(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -78,7 +78,7 @@ class ITGameSystemRepositoryDelete {
     @DisplayName("With no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(GameSystemConstants.NAME);
+        repository.delete(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

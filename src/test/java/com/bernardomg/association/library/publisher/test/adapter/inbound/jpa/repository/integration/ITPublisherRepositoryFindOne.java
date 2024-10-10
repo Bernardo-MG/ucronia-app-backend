@@ -52,7 +52,7 @@ class ITPublisherRepositoryFindOne {
         final Optional<Publisher> publisher;
 
         // WHEN
-        publisher = repository.findOne(PublisherConstants.NAME);
+        publisher = repository.findOne(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(publisher)
@@ -66,7 +66,7 @@ class ITPublisherRepositoryFindOne {
         final Optional<Publisher> publisher;
 
         // WHEN
-        publisher = repository.findOne(PublisherConstants.NAME);
+        publisher = repository.findOne(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(publisher)

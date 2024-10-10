@@ -8,11 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.author.domain.exception.AuthorHasRelationshipsException;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotEmptyRule;
+import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -28,6 +28,8 @@ public final class DefaultAuthorService implements AuthorService {
 
     private final Validator<Author> createAuthorValidator;
 
+    private final Validator<Author> updateAuthorValidator;
+
     public DefaultAuthorService(final AuthorRepository authorRepo) {
         super();
 
@@ -35,51 +37,72 @@ public final class DefaultAuthorService implements AuthorService {
 
         createAuthorValidator = new FieldRuleValidator<>(new AuthorNameNotEmptyRule(),
             new AuthorNameNotExistsRule(authorRepository));
+        updateAuthorValidator = new FieldRuleValidator<>(new AuthorNameNotEmptyRule(),
+            new AuthorNameNotExistsForAnotherRule(authorRepository));
     }
 
     @Override
     public final Author create(final Author author) {
+        final Author toCreate;
+        final Long   number;
+
         log.debug("Creating author {}", author);
 
-        createAuthorValidator.validate(author);
+        // Set number
+        number = authorRepository.findNextNumber();
 
-        return authorRepository.save(author);
+        toCreate = new Author(number, author.name());
+
+        createAuthorValidator.validate(toCreate);
+
+        return authorRepository.save(toCreate);
     }
 
     @Override
-    public final void delete(final String name) {
+    public final void delete(final Long number) {
 
-        log.debug("Deleting author {}", name);
+        log.debug("Deleting author {}", number);
 
-        if (!authorRepository.exists(name)) {
-            throw new MissingAuthorException(name);
+        if (!authorRepository.exists(number)) {
+            throw new MissingAuthorException(number);
         }
 
-        if (authorRepository.hasRelationships(name)) {
-            throw new AuthorHasRelationshipsException(name);
-        }
-
-        authorRepository.delete(name);
+        authorRepository.delete(number);
     }
 
     @Override
     public final Iterable<Author> getAll(final Pageable pageable) {
+        log.debug("Reading authors with pagination {}", pageable);
+
         return authorRepository.findAll(pageable);
     }
 
     @Override
-    public final Optional<Author> getOne(final String name) {
+    public final Optional<Author> getOne(final Long number) {
         final Optional<Author> author;
 
-        log.debug("Reading author {}", name);
+        log.debug("Reading author {}", number);
 
-        author = authorRepository.findOne(name);
+        author = authorRepository.findOne(number);
         if (author.isEmpty()) {
-            log.error("Missing author {}", name);
-            throw new MissingAuthorException(name);
+            log.error("Missing author {}", number);
+            throw new MissingAuthorException(number);
         }
 
         return author;
+    }
+
+    @Override
+    public final Author update(final Author author) {
+        log.debug("Updating author {}", author);
+
+        if (!authorRepository.exists(author.number())) {
+            throw new MissingAuthorException(author.number());
+        }
+
+        updateAuthorValidator.validate(author);
+
+        return authorRepository.save(author);
     }
 
 }

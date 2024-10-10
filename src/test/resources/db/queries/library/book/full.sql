@@ -1,17 +1,17 @@
 INSERT INTO inventory.books (id, number, title, isbn, language) VALUES
    (1, 1, 'Title', '1-56619-909-3', 'en');
 
-INSERT INTO inventory.authors (id, name) VALUES
-   (1, 'Author');
+INSERT INTO inventory.authors (id, number, name) VALUES
+   (1, 1, 'Author');
 
-INSERT INTO inventory.publishers (id, name) VALUES
-   (1, 'Publisher');
+INSERT INTO inventory.publishers (id, number, name) VALUES
+   (1, 1, 'Publisher');
 
-INSERT INTO inventory.book_types (id, name) VALUES
-   (1, 'Book type');
+INSERT INTO inventory.book_types (id, number, name) VALUES
+   (1, 1, 'Book type');
 
-INSERT INTO inventory.game_systems (id, name) VALUES
-   (1, 'Game system');
+INSERT INTO inventory.game_systems (id, number, name) VALUES
+   (1, 1, 'Game system');
 
 INSERT INTO inventory.book_authors (book_id, author_id) VALUES
    (1, 1);

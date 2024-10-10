@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherEntities;
 import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -45,6 +46,44 @@ class ITPublisherRepositorySave {
 
     @Autowired
     private PublisherSpringRepository springRepository;
+
+    @Test
+    @DisplayName("When the publisher exists, it is updated")
+    @ValidPublisher
+    void testSave_Existing_Persisted() {
+        final Publisher publisher;
+
+        // GIVEN
+        publisher = Publishers.valid();
+
+        // WHEN
+        repository.save(publisher);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("publishers")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(PublisherEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When the publisher exists, it is updated")
+    @ValidPublisher
+    void testSave_Existing_Returned() {
+        final Publisher publisher;
+        final Publisher created;
+
+        // GIVEN
+        publisher = Publishers.valid();
+
+        // WHEN
+        created = repository.save(publisher);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("publisher")
+            .isEqualTo(Publishers.valid());
+    }
 
     @Test
     @DisplayName("When saving, an publisher is persisted")
@@ -61,7 +100,7 @@ class ITPublisherRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("publishers")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(PublisherEntities.valid());
+            .containsExactly(PublisherEntities.valid());
     }
 
     @Test

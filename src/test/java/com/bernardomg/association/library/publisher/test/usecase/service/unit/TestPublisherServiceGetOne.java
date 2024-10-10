@@ -64,10 +64,10 @@ class TestPublisherServiceGetOne {
         final Optional<Publisher> author;
 
         // GIVEN
-        given(publisherRepository.findOne(PublisherConstants.NAME)).willReturn(Optional.of(Publishers.valid()));
+        given(publisherRepository.findOne(PublisherConstants.NUMBER)).willReturn(Optional.of(Publishers.valid()));
 
         // WHEN
-        author = service.getOne(PublisherConstants.NAME);
+        author = service.getOne(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(author)
@@ -80,10 +80,10 @@ class TestPublisherServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publisherRepository.findOne(PublisherConstants.NAME)).willReturn(Optional.empty());
+        given(publisherRepository.findOne(PublisherConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(PublisherConstants.NAME);
+        execution = () -> service.getOne(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

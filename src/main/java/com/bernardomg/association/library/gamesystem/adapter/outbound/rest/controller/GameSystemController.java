@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.gamesystem.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
@@ -34,12 +35,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.gamesystem.adapter.outbound.cache.LibraryGameSystemCaches;
+import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemChange;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemCreation;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
@@ -74,16 +77,16 @@ public class GameSystemController {
     public GameSystem create(@Valid @RequestBody final GameSystemCreation request) {
         final GameSystem author;
 
-        author = new GameSystem(request.getName());
+        author = new GameSystem(-1L, request.getName());
         return service.create(author);
     }
 
-    @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEM }),
             @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
-    public void delete(@PathVariable("name") final String name) {
-        service.delete(name);
+    public void delete(@PathVariable("number") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -93,12 +96,24 @@ public class GameSystemController {
         return service.getAll(pageable);
     }
 
-    @GetMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
     @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
-    public GameSystem readOne(@PathVariable("name") final String name) {
-        return service.getOne(name)
+    public GameSystem readOne(@PathVariable("number") final long number) {
+        return service.getOne(number)
             .orElse(null);
+    }
+
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
+    public GameSystem update(@PathVariable("number") final long number,
+            @Valid @RequestBody final GameSystemChange change) {
+        final GameSystem gameSystem;
+
+        gameSystem = new GameSystem(number, change.getName());
+        return service.update(gameSystem);
     }
 
 }

@@ -7,6 +7,7 @@ public final class AuthorEntities {
 
     public static final AuthorEntity valid() {
         return AuthorEntity.builder()
+            .withNumber(AuthorConstants.NUMBER)
             .withName(AuthorConstants.NAME)
             .build();
     }

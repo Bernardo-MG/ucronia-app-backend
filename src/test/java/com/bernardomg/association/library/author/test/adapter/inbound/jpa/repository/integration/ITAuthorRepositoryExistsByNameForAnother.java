@@ -32,72 +32,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("AuthorRepository - has relationships")
-class ITAuthorRepositoryHasRelationships {
+@DisplayName("AuthorRepository - exists by name for another")
+class ITAuthorRepositoryExistsByNameForAnother {
 
     @Autowired
     private AuthorRepository repository;
 
     @Test
-    @DisplayName("With no relationship, it has no relationships")
+    @DisplayName("With another author with the same name, it exists")
     @ValidAuthor
-    void testExists() {
+    void testExistsByNameForAnother_Another() {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships(AuthorConstants.NAME);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With a book but no realationship, it has no relationships")
-    @MinimalBook
-    @ValidAuthor
-    void testExists_Book() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.hasRelationships("abc");
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With no data, it has no relationships")
-    void testExists_NoData() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(AuthorConstants.NAME);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With a relationship, it has relationships")
-    @ValidPerson
-    @FullBook
-    void testExists_Relationships() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.hasRelationships(AuthorConstants.NAME);
+        exists = repository.existsByNameForAnother(AuthorConstants.NAME, -1L);
 
         // THEN
         Assertions.assertThat(exists)
@@ -106,14 +57,27 @@ class ITAuthorRepositoryHasRelationships {
     }
 
     @Test
-    @DisplayName("With a relationship, but searching for the wrong name, it has no relationships")
-    @ValidPerson
-    @FullBook
-    void testExists_Relationships_WrongName() {
+    @DisplayName("With only the edited author, nothing exists")
+    @ValidAuthor
+    void testExistsByNameForAnother_Itself() {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships("abc");
+        exists = repository.existsByNameForAnother(AuthorConstants.NAME, AuthorConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With no data, nothing exists")
+    void testExistsByNameForAnother_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByNameForAnother(AuthorConstants.NAME, AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

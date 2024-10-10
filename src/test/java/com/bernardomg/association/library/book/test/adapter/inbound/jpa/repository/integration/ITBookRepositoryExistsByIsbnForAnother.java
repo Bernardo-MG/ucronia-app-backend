@@ -22,82 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.publisher.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
-import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
-import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
+import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PublisherRepository - has relationships")
-class ITPublisherRepositoryHasRelationships {
+@DisplayName("BookRepository - exists by ISBN for another")
+class ITBookRepositoryExistsByIsbnForAnother {
 
     @Autowired
-    private PublisherRepository repository;
+    private BookRepository repository;
 
     @Test
-    @DisplayName("With no relationship, it has no relationships")
-    @ValidPublisher
-    void testExists() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.hasRelationships(PublisherConstants.NAME);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With a book but no realationship, it has no relationships")
-    @MinimalBook
-    @ValidPublisher
-    void testExists_Book() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.hasRelationships("abc");
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With no data, it has no relationships")
-    void testExists_NoData() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(PublisherConstants.NAME);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With a relationship, it has relationships")
+    @DisplayName("With a book and another number, it exists")
     @ValidPerson
     @FullBook
-    void testExists_Relationships() {
+    void testExistsByIsbnForAnother() {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships(PublisherConstants.NAME);
+        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)
@@ -106,14 +59,28 @@ class ITPublisherRepositoryHasRelationships {
     }
 
     @Test
-    @DisplayName("With a relationship, but searching for the wrong name, it has no relationships")
-    @ValidPerson
-    @FullBook
-    void testExists_Relationships_WrongName() {
+    @DisplayName("With no data, nothing exists")
+    void testExistsByIsbnForAnother_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.hasRelationships("abc");
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With a book and the same number, it exists")
+    @ValidPerson
+    @FullBook
+    void testExistsByIsbnForAnother_SameNumber() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)

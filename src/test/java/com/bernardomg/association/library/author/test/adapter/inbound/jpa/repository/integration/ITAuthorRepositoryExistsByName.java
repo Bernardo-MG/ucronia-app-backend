@@ -22,35 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.library.author.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
+import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - exists by ISBN for another")
-class ITBookRepositoryExistsByIsbnAndNumberNot {
+@DisplayName("AuthorRepository - exists by name")
+class ITAuthorRepositoryExistsByName {
 
     @Autowired
-    private BookRepository repository;
+    private AuthorRepository repository;
 
     @Test
-    @DisplayName("With a book and another number, it exists")
-    @ValidPerson
-    @FullBook
-    void testExistsByIsbnForAnother() {
+    @DisplayName("With an author, it exists")
+    @ValidAuthor
+    void testExistsByName() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN_10);
+        exists = repository.existsByName(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)
@@ -60,27 +58,11 @@ class ITBookRepositoryExistsByIsbnAndNumberNot {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testExistsByIsbnForAnother_NoData() {
+    void testExistsByName_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With a book and the same number, it exists")
-    @ValidPerson
-    @FullBook
-    void testExistsByIsbnForAnother_SameNumber() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
+        exists = repository.existsByName(AuthorConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)

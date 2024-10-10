@@ -4,8 +4,8 @@ package com.bernardomg.association.library.book.test.configuration.factory;
 import java.util.List;
 
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationBookType;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreationGameSystem;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation.BookType;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation.GameSystem;
 
 public final class BookCreations {
 
@@ -16,12 +16,8 @@ public final class BookCreations {
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
             .withPublishers(List.of())
-            .withGameSystem(BookCreationGameSystem.builder()
-                .withName("")
-                .build())
-            .withBookType(BookCreationBookType.builder()
-                .withName("")
-                .build())
+            .withGameSystem(new GameSystem(null))
+            .withBookType(new BookType(null))
             .withDonors(List.of())
             .build();
     }

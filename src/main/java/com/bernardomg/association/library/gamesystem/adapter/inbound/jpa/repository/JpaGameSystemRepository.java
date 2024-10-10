@@ -20,32 +20,58 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaGameSystemRepository implements GameSystemRepository {
 
-    private final GameSystemSpringRepository gameSystemRepository;
+    private final GameSystemSpringRepository gameSystemSpringRepository;
 
     public JpaGameSystemRepository(final GameSystemSpringRepository gameSystemRepo) {
         super();
 
-        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
+        gameSystemSpringRepository = Objects.requireNonNull(gameSystemRepo);
     }
 
     @Override
-    public final void delete(final String name) {
-        log.debug("Deleting game system {}", name);
+    public final void delete(final Long number) {
+        log.debug("Deleting game system {}", number);
 
-        gameSystemRepository.deleteByName(name);
+        gameSystemSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted game system {}", name);
+        log.debug("Deleted game system {}", number);
     }
 
     @Override
-    public final boolean exists(final String name) {
+    public final boolean exists(final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if game system {} exists", number);
+
+        exists = gameSystemSpringRepository.existsByNumber(number);
+
+        log.debug("Game system {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByName(final String name) {
         final boolean exists;
 
         log.debug("Checking if game system {} exists", name);
 
-        exists = gameSystemRepository.existsByName(name);
+        exists = gameSystemSpringRepository.existsByName(name);
 
         log.debug("Game system {} exists: {}", name, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByNameForAnother(final String name, final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if game system {} exists for a game system distinct from {}", name, number);
+
+        exists = gameSystemSpringRepository.existsByNotNumberAndName(number, name);
+
+        log.debug("Game system {} exists for a game system distinct from {}: {}", name, number, exists);
 
         return exists;
     }
@@ -57,7 +83,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game systems with pagination {}", pageable);
 
-        page = gameSystemRepository.findAll(pageable);
+        page = gameSystemSpringRepository.findAll(pageable);
 
         read = page.map(this::toDomain);
 
@@ -67,43 +93,50 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Optional<GameSystem> findOne(final String name) {
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the game systems");
+
+        number = gameSystemSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the game systems: {}", number);
+
+        return number;
+    }
+
+    @Override
+    public final Optional<GameSystem> findOne(final Long number) {
         final Optional<GameSystem> gameSystem;
 
-        log.debug("Finding game system with name {}", name);
+        log.debug("Finding game system with name {}", number);
 
-        gameSystem = gameSystemRepository.findByName(name)
+        gameSystem = gameSystemSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
-        log.debug("Found game system with name {}: {}", name, gameSystem);
+        log.debug("Found game system with name {}: {}", number, gameSystem);
 
         return gameSystem;
     }
 
     @Override
-    public final boolean hasRelationships(final String name) {
-        final boolean exists;
-
-        log.debug("Checking if game system {} has relationships", name);
-
-        exists = gameSystemRepository.existsInBook(name);
-
-        log.debug("Game system {} has relationships: {}", name, exists);
-
-        return exists;
-    }
-
-    @Override
     public final GameSystem save(final GameSystem gameSystem) {
-        final GameSystemEntity toCreate;
-        final GameSystemEntity created;
-        final GameSystem       saved;
+        final Optional<GameSystemEntity> existing;
+        final GameSystemEntity           entity;
+        final GameSystemEntity           created;
+        final GameSystem                 saved;
 
         log.debug("Saving game system {}", gameSystem);
 
-        toCreate = toEntity(gameSystem);
+        entity = toEntity(gameSystem);
 
-        created = gameSystemRepository.save(toCreate);
+        existing = gameSystemSpringRepository.findByNumber(gameSystem.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = gameSystemSpringRepository.save(entity);
         saved = toDomain(created);
 
         log.debug("Saved game system {}", saved);
@@ -112,11 +145,12 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     private final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getName());
+        return new GameSystem(entity.getNumber(), entity.getName());
     }
 
     private final GameSystemEntity toEntity(final GameSystem domain) {
         return GameSystemEntity.builder()
+            .withNumber(domain.number())
             .withName(domain.name())
             .build();
     }

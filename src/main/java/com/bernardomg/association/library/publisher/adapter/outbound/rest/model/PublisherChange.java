@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.adapter.outbound.rest.model;
+package com.bernardomg.association.library.publisher.adapter.outbound.rest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookCreationDonor {
+public class PublisherChange {
 
-    private Long number;
+    private String name;
+
+    private Long   number;
 
 }

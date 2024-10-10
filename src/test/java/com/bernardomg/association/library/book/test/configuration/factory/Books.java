@@ -114,6 +114,38 @@ public final class Books {
             .build();
     }
 
+    public static final Book fullLent() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN_10)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(Optional.of(GameSystems.valid()))
+            .withBookType(Optional.of(BookTypes.valid()))
+            .withDonors(List.of(Donors.valid()))
+            .withLendings(List.of(BookBookLendings.lent()))
+            .withLent(true)
+            .build();
+    }
+
+    public static final Book fullReturned() {
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN_10)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(Optional.of(GameSystems.valid()))
+            .withBookType(Optional.of(BookTypes.valid()))
+            .withDonors(List.of(Donors.valid()))
+            .withLendings(List.of(BookBookLendings.returned()))
+            .withLent(false)
+            .build();
+    }
+
     public static final Book invalidIsbn() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
@@ -146,39 +178,7 @@ public final class Books {
             .build();
     }
 
-    public static final Book isbn10() {
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of(Authors.valid()))
-            .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(Optional.of(GameSystems.valid()))
-            .withBookType(Optional.of(BookTypes.valid()))
-            .withDonors(List.of(Donors.valid()))
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
-    }
-
-    public static final Book isbn10x() {
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN_10X)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of(Authors.valid()))
-            .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(Optional.of(GameSystems.valid()))
-            .withBookType(Optional.of(BookTypes.valid()))
-            .withDonors(List.of(Donors.valid()))
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
-    }
-
-    public static final Book isbn12() {
+    public static final Book isbn13() {
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(BookConstants.TITLE)
@@ -191,22 +191,6 @@ public final class Books {
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of())
             .withLent(false)
-            .build();
-    }
-
-    public static final Book lent() {
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of(Authors.valid()))
-            .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(Optional.of(GameSystems.valid()))
-            .withBookType(Optional.of(BookTypes.valid()))
-            .withDonors(List.of(Donors.valid()))
-            .withLendings(List.of(BookBookLendings.lent()))
-            .withLent(true)
             .build();
     }
 
@@ -247,22 +231,6 @@ public final class Books {
             .withBookType(Optional.empty())
             .withDonors(List.of())
             .withLendings(List.of())
-            .withLent(false)
-            .build();
-    }
-
-    public static final Book returned() {
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of(Authors.valid()))
-            .withPublishers(List.of(Publishers.valid()))
-            .withGameSystem(Optional.of(GameSystems.valid()))
-            .withBookType(Optional.of(BookTypes.valid()))
-            .withDonors(List.of(Donors.valid()))
-            .withLendings(List.of(BookBookLendings.returned()))
             .withLent(false)
             .build();
     }

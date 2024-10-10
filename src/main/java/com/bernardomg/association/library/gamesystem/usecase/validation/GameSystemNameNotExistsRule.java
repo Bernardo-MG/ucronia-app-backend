@@ -17,11 +17,11 @@ import lombok.extern.slf4j.Slf4j;
  * Checks the donor has a name.
  */
 @Slf4j
-public final class GameSystemNameNotExistingRule implements FieldRule<GameSystem> {
+public final class GameSystemNameNotExistsRule implements FieldRule<GameSystem> {
 
     private final GameSystemRepository gameSystemRepository;
 
-    public GameSystemNameNotExistingRule(final GameSystemRepository gameSystemRepo) {
+    public GameSystemNameNotExistsRule(final GameSystemRepository gameSystemRepo) {
         super();
 
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
@@ -32,8 +32,8 @@ public final class GameSystemNameNotExistingRule implements FieldRule<GameSystem
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if ((!StringUtils.isBlank(gameSystem.name())) && (gameSystemRepository.exists(gameSystem.name()))) {
-            log.error("Existing name {}", gameSystem.name());
+        if ((!StringUtils.isBlank(gameSystem.name())) && (gameSystemRepository.existsByName(gameSystem.name()))) {
+            log.error("Existing game system name {}", gameSystem.name());
             fieldFailure = FieldFailure.of("name", "existing", gameSystem.name());
             failure = Optional.of(fieldFailure);
         } else {

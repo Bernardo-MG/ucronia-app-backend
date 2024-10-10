@@ -37,10 +37,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 
@@ -64,10 +64,10 @@ class TestBookTypeServiceGetOne {
         final Optional<BookType> bookType;
 
         // GIVEN
-        given(bookTypeRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.of(BookTypes.valid()));
+        given(bookTypeRepository.findOne(BookTypeConstants.NUMBER)).willReturn(Optional.of(BookTypes.valid()));
 
         // WHEN
-        bookType = service.getOne(AuthorConstants.NAME);
+        bookType = service.getOne(BookTypeConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(bookType)
@@ -80,10 +80,10 @@ class TestBookTypeServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookTypeRepository.findOne(AuthorConstants.NAME)).willReturn(Optional.empty());
+        given(bookTypeRepository.findOne(BookTypeConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(AuthorConstants.NAME);
+        execution = () -> service.getOne(BookTypeConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

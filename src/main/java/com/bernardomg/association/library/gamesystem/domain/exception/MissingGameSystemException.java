@@ -36,8 +36,8 @@ public final class MissingGameSystemException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingGameSystemException(final String name) {
-        super("game_system", name);
+    public MissingGameSystemException(final Long number) {
+        super("game_system", number);
     }
 
 }
