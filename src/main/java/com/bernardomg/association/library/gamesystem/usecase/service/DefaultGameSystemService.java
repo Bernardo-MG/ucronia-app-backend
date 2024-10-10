@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.gamesystem.domain.exception.GameSystemHasRelationshipsException;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
@@ -60,11 +59,6 @@ public final class DefaultGameSystemService implements GameSystemService {
 
         if (!gameSystemRepository.exists(number)) {
             throw new MissingGameSystemException(number);
-        }
-
-        // TODO: this is not needed
-        if (gameSystemRepository.hasRelationships(number)) {
-            throw new GameSystemHasRelationshipsException(number);
         }
 
         gameSystemRepository.delete(number);

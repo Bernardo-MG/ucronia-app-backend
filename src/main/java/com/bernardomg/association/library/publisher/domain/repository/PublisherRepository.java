@@ -21,8 +21,6 @@ public interface PublisherRepository {
 
     public Optional<Publisher> findOne(final long number);
 
-    public boolean hasRelationships(final long number);
-
     public Publisher save(final Publisher publisher);
 
 }

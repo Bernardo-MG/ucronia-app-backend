@@ -21,8 +21,6 @@ public interface AuthorRepository {
 
     public Optional<Author> findOne(final Long number);
 
-    public boolean hasRelationships(final Long number);
-
     public Author save(final Author author);
 
 }

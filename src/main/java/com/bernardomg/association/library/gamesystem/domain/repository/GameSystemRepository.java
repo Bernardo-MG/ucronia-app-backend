@@ -21,8 +21,6 @@ public interface GameSystemRepository {
 
     public Optional<GameSystem> findOne(final Long number);
 
-    public boolean hasRelationships(final Long number);
-
     public GameSystem save(final GameSystem gameSystem);
 
 }

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.booktype.domain.exception.BookTypeHasRelationshipsException;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
@@ -61,10 +60,6 @@ public final class DefaultBookTypeService implements BookTypeService {
 
         if (!bookTypeRepository.exists(number)) {
             throw new MissingBookTypeException(number);
-        }
-
-        if (bookTypeRepository.hasRelationships(number)) {
-            throw new BookTypeHasRelationshipsException(number);
         }
 
         bookTypeRepository.delete(number);

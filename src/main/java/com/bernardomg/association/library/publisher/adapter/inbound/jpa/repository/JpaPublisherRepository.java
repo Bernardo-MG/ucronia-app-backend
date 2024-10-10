@@ -107,19 +107,6 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final boolean hasRelationships(final long number) {
-        final boolean exists;
-
-        log.debug("Checking if publisher {} has relationships", number);
-
-        exists = publisherSpringRepository.existsInBook(number);
-
-        log.debug("Publisher {} has relationships: {}", number, exists);
-
-        return exists;
-    }
-
-    @Override
     public final Publisher save(final Publisher publisher) {
         final PublisherEntity toCreate;
         final PublisherEntity created;

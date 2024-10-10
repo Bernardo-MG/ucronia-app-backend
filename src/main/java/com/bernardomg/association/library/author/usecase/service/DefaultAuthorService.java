@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.author.domain.exception.AuthorHasRelationshipsException;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
@@ -61,11 +60,6 @@ public final class DefaultAuthorService implements AuthorService {
 
         if (!authorRepository.exists(number)) {
             throw new MissingAuthorException(number);
-        }
-
-        // TODO: not needed
-        if (authorRepository.hasRelationships(number)) {
-            throw new AuthorHasRelationshipsException(number);
         }
 
         authorRepository.delete(number);

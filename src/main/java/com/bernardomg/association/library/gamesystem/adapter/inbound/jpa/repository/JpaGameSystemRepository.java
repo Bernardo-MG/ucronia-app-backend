@@ -107,19 +107,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final boolean hasRelationships(final Long number) {
-        final boolean exists;
-
-        log.debug("Checking if game system {} has relationships", number);
-
-        exists = gameSystemRepository.existsInBook(number);
-
-        log.debug("Game system {} has relationships: {}", number, exists);
-
-        return exists;
-    }
-
-    @Override
     public final GameSystem save(final GameSystem gameSystem) {
         final GameSystemEntity toCreate;
         final GameSystemEntity created;

@@ -107,19 +107,6 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public final boolean hasRelationships(final Long number) {
-        final boolean exists;
-
-        log.debug("Checking if author {} has relationships", number);
-
-        exists = authorSpringRepository.existsInBook(number);
-
-        log.debug("Author {} has relationships: {}", number, exists);
-
-        return exists;
-    }
-
-    @Override
     public final Author save(final Author author) {
         final AuthorEntity toCreate;
         final AuthorEntity created;

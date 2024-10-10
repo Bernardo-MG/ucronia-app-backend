@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
-import com.bernardomg.association.library.publisher.domain.exception.PublisherHasRelationshipsException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
@@ -61,11 +60,6 @@ public final class DefaultPublisherService implements PublisherService {
 
         if (!publisherRepository.exists(number)) {
             throw new MissingPublisherException(number);
-        }
-
-        // TODO: this is not needed
-        if (publisherRepository.hasRelationships(number)) {
-            throw new PublisherHasRelationshipsException(number);
         }
 
         publisherRepository.delete(number);

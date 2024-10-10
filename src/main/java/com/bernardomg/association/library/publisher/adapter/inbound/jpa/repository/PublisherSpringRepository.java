@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 
@@ -40,15 +39,6 @@ public interface PublisherSpringRepository extends JpaRepository<PublisherEntity
     public boolean existsByName(final String name);
 
     public boolean existsByNumber(final long number);
-
-    @Query("""
-              SELECT CASE
-              WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
-              FROM Book b
-              JOIN b.publishers p
-              WHERE p.number = :number
-            """)
-    public boolean existsInBook(@Param("number") final long number);
 
     public Collection<PublisherEntity> findAllByNameIn(final Collection<String> names);
 

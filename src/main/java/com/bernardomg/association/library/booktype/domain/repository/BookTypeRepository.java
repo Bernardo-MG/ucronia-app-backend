@@ -21,8 +21,6 @@ public interface BookTypeRepository {
 
     public Optional<BookType> findOne(final Long number);
 
-    public boolean hasRelationships(final Long number);
-
     public BookType save(final BookType bookType);
 
 }

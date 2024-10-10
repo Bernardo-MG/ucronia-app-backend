@@ -28,7 +28,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 
@@ -39,15 +38,6 @@ public interface GameSystemSpringRepository extends JpaRepository<GameSystemEnti
     public boolean existsByName(final String name);
 
     public boolean existsByNumber(final long number);
-
-    @Query("""
-              SELECT CASE
-              WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
-              FROM Book b
-              JOIN b.gameSystem g
-              WHERE g.number = :number
-            """)
-    public boolean existsInBook(@Param("number") final long number);
 
     public Optional<GameSystemEntity> findByNumber(final long number);
 
