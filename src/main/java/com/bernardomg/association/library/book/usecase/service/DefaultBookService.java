@@ -25,8 +25,10 @@ import com.bernardomg.association.library.book.usecase.validation.BookIsbnValidR
 import com.bernardomg.association.library.book.usecase.validation.BookLanguageCodeValidRule;
 import com.bernardomg.association.library.book.usecase.validation.BookTitleNotEmptyRule;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
+import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
+import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -212,7 +214,9 @@ public final class DefaultBookService implements BookService {
     }
 
     private final void validateRelationships(final Book book) {
-        boolean donorExists;
+        final Optional<GameSystem> gameSystem;
+        final Optional<BookType>   bookType;
+        boolean                    donorExists;
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
@@ -233,24 +237,18 @@ public final class DefaultBookService implements BookService {
             });
 
         // Check game system exist
-        if (book.gameSystem()
-            .isPresent()
-                && !gameSystemRepository.exists(book.gameSystem()
-                    .get()
-                    .number())) {
-            throw new MissingGameSystemException(book.gameSystem()
-                .get()
+        gameSystem = book.gameSystem();
+        if (gameSystem.isPresent() && !gameSystemRepository.exists(gameSystem.get()
+            .number())) {
+            throw new MissingGameSystemException(gameSystem.get()
                 .number());
         }
 
         // Check book type exist
-        if (book.bookType()
-            .isPresent()
-                && !bookTypeRepository.exists(book.bookType()
-                    .get()
-                    .number())) {
-            throw new MissingBookTypeException(book.bookType()
-                .get()
+        bookType = book.bookType();
+        if (bookType.isPresent() && !bookTypeRepository.exists(bookType.get()
+            .number())) {
+            throw new MissingBookTypeException(bookType.get()
                 .number());
         }
 
