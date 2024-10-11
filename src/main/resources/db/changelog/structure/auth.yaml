@@ -15,6 +15,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_user_persons_user
                     references: security.users(id)
+                    deleteCascade: true
               - column:
                   name: person_id
                   type: bigint
@@ -23,3 +24,4 @@ databaseChangeLog:
                     unique: true
                     foreignKeyName: fk_user_persons_person
                     references: association.persons(id)
+                    deleteCascade: true

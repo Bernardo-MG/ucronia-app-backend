@@ -35,8 +35,11 @@ import java.util.stream.Collectors;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.event.domain.FeeDeletedEvent;
+import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -44,7 +47,6 @@ import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotRegisteredRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PublicPerson;
@@ -52,6 +54,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -63,12 +66,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Service
 @Transactional
 public final class DefaultFeeService implements FeeService {
 
-    private final FeeRepository              feeRepository;
+    private final EventEmitter               eventEmitter;
 
-    private final MemberRepository           memberRepository;
+    private final FeeRepository              feeRepository;
 
     private final MessageSource              messageSource;
 
@@ -81,14 +85,14 @@ public final class DefaultFeeService implements FeeService {
     private final Validator<Collection<Fee>> validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
-            final MemberRepository memberRepo, final TransactionRepository transactionRepo,
+            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
             final AssociationSettingsSource configSource, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
         personRepository = Objects.requireNonNull(personRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
+        eventEmitter = Objects.requireNonNull(evntEmitter);
 
         settingsSource = Objects.requireNonNull(configSource);
         messageSource = Objects.requireNonNull(msgSource);
@@ -100,8 +104,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final void delete(final long personNumber, final YearMonth date) {
-        final boolean feeExists;
-        final boolean memberExists;
+        final boolean       memberExists;
+        final Optional<Fee> fee;
 
         log.info("Deleting fee for {} in {}", personNumber, date);
 
@@ -110,19 +114,15 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingPersonException(personNumber);
         }
 
-        feeExists = feeRepository.exists(personNumber, date);
-        if (!feeExists) {
+        fee = feeRepository.findOne(personNumber, date);
+        if (fee.isEmpty()) {
             throw new MissingFeeException(personNumber + " " + date.toString());
         }
 
         feeRepository.delete(personNumber, date);
 
-        // TODO: use an event
-        if (date.equals(YearMonth.now())) {
-            // If deleting for the current month, the user is set to active
-            log.debug("Deactivating member status for person {}", personNumber);
-            memberRepository.deactivate(personNumber);
-        }
+        // Send events for deleted fees
+        eventEmitter.emit(new FeeDeletedEvent(fee.get(), date, personNumber));
     }
 
     @Override
@@ -140,7 +140,6 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
-        final boolean       feeExists;
         final boolean       memberExists;
         final Optional<Fee> fee;
 
@@ -151,12 +150,10 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingPersonException(personNumber);
         }
 
-        feeExists = feeRepository.exists(personNumber, date);
-        if (!feeExists) {
+        fee = feeRepository.findOne(personNumber, date);
+        if (fee.isEmpty()) {
             throw new MissingFeeException(personNumber + " " + date.toString());
         }
-
-        fee = feeRepository.findOne(personNumber, date);
 
         log.debug("Got fee for {} in {}: fee", personNumber, date);
 
@@ -192,10 +189,10 @@ public final class DefaultFeeService implements FeeService {
         // TODO: Why can't just return the created fees?
         created = feeRepository.findAllForMemberInDates(personNumber, feeDates);
 
-        if (feeDates.contains(YearMonth.now())) {
-            // If paying for the current month, the user is set to active
-            memberRepository.activate(personNumber);
-        }
+        // Send events for paid fees
+        created.stream()
+            .filter(Fee::paid)
+            .forEach(this::sendFeePaidEvent);
 
         log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, transactionDate);
 
@@ -247,6 +244,11 @@ public final class DefaultFeeService implements FeeService {
         feeRepository.pay(person, fees, savedTransaction);
 
         log.debug("Paid fee {} for {} with transaction {}", person, fees, savedTransaction);
+    }
+
+    private final void sendFeePaidEvent(final Fee fee) {
+        eventEmitter.emit(new FeePaidEvent(fee, fee.date(), fee.person()
+            .number()));
     }
 
     private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {

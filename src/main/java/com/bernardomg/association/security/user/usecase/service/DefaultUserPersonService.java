@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
@@ -21,8 +22,9 @@ import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional
 @Slf4j
+@Service
+@Transactional
 public final class DefaultUserPersonService implements UserPersonService {
 
     private final Validator<UserPerson> assignPersonValidator;
@@ -67,7 +69,7 @@ public final class DefaultUserPersonService implements UserPersonService {
         userPerson = new UserPerson(personNumber, username);
         assignPersonValidator.validate(userPerson);
 
-        userPersonRepository.save(readUser.getUsername(), readPerson.number());
+        userPersonRepository.assignPerson(readUser.getUsername(), readPerson.number());
 
         return readPerson;
     }

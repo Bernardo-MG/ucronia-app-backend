@@ -48,7 +48,7 @@ class ITPublisherRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PublisherConstants.NAME);
+        exists = repository.exists(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -62,7 +62,7 @@ class ITPublisherRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PublisherConstants.NAME);
+        exists = repository.exists(PublisherConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

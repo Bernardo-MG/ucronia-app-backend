@@ -26,6 +26,20 @@ public final class BookEntities {
             .build();
     }
 
+    public static final BookEntity isbn13() {
+        return BookEntity.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(BookConstants.TITLE)
+            .withIsbn(BookConstants.ISBN_13)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of(AuthorEntities.valid()))
+            .withDonors(List.of(PersonEntities.valid()))
+            .withPublishers(List.of(PublisherEntities.valid()))
+            .withBookType(BookTypeEntities.valid())
+            .withGameSystem(GameSystemEntities.valid())
+            .build();
+    }
+
     public static final BookEntity minimal() {
         return BookEntity.builder()
             .withNumber(BookConstants.NUMBER)

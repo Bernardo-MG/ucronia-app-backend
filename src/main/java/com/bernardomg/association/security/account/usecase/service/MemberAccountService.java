@@ -12,12 +12,15 @@ import com.bernardomg.association.security.user.domain.repository.UserPersonRepo
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Default account service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Slf4j
 @Transactional
 public final class MemberAccountService implements AccountService {
 
@@ -39,6 +42,8 @@ public final class MemberAccountService implements AccountService {
         final Account           account;
         final Optional<Person>  person;
 
+        log.debug("Getting account for user in session");
+
         wrappedAccount = wrapped.getCurrentUser();
         if (wrappedAccount.isPresent()) {
             person = userPersonRepository.findByUsername(wrappedAccount.get()
@@ -55,6 +60,7 @@ public final class MemberAccountService implements AccountService {
                 .build();
             result = Optional.of(account);
         } else {
+            log.debug("Missing authentication object");
             result = wrappedAccount;
         }
 
@@ -63,6 +69,9 @@ public final class MemberAccountService implements AccountService {
 
     @Override
     public final Account update(final Account account) {
+
+        log.debug("Updating account {} using data {}", account.getUsername(), account);
+
         return wrapped.update(account);
     }
 

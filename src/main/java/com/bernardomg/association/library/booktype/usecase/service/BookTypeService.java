@@ -11,10 +11,12 @@ public interface BookTypeService {
 
     public BookType create(final BookType type);
 
-    public void delete(final String name);
+    public void delete(final Long number);
 
     public Iterable<BookType> getAll(final Pageable pageable);
 
-    public Optional<BookType> getOne(final String name);
+    public Optional<BookType> getOne(final Long number);
+
+    public BookType update(final BookType type);
 
 }

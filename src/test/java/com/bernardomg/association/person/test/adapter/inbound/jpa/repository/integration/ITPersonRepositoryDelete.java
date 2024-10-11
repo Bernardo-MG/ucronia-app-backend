@@ -25,11 +25,9 @@
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
@@ -53,7 +51,7 @@ class ITPersonRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a person, it is removed")
+    @DisplayName("When deleting a person, it is deleted")
     @SinglePerson
     void testDelete() {
         // WHEN
@@ -65,7 +63,7 @@ class ITPersonRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
+    @DisplayName("When there is no data, nothing is deleted")
     void testDelete_noData() {
         // WHEN
         personRepository.delete(PersonConstants.NUMBER);
@@ -76,18 +74,15 @@ class ITPersonRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a person with a member, it is removed")
+    @DisplayName("When deleting a person with a member, it is deleted")
     @ActiveMember
     void testDelete_withMember() {
-        final ThrowingCallable executable;
-
         // WHEN
-        executable = () -> personRepository.delete(PersonConstants.NUMBER);
+        personRepository.delete(PersonConstants.NUMBER);
 
-        // TODO: this error should be handled in the service
         // THEN
-        Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(DataIntegrityViolationException.class);
+        Assertions.assertThat(repository.count())
+            .isZero();
     }
 
 }

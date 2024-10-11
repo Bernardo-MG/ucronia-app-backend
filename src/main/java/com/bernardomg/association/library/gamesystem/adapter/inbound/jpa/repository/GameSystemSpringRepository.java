@@ -34,19 +34,22 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 
 public interface GameSystemSpringRepository extends JpaRepository<GameSystemEntity, Long> {
 
-    public void deleteByName(final String name);
+    public void deleteByNumber(final long number);
 
     public boolean existsByName(final String name);
 
     @Query("""
-              SELECT CASE
-              WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
-              FROM Book b
-              JOIN b.gameSystem g
-              WHERE g.name = :name
+               SELECT CASE WHEN COUNT(gs) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM GameSystem gs
+               WHERE gs.number != :number AND gs.name = :name
             """)
-    public boolean existsInBook(@Param("name") final String name);
+    public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
 
-    public Optional<GameSystemEntity> findByName(final String name);
+    public boolean existsByNumber(final long number);
+
+    public Optional<GameSystemEntity> findByNumber(final long number);
+
+    @Query("SELECT COALESCE(MAX(g.number), 0) + 1 FROM GameSystem g")
+    public Long findNextNumber();
 
 }

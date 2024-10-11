@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.model.Donor;
@@ -37,6 +38,7 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Repository
 @Transactional
 public final class JpaBookRepository implements BookRepository {
 
@@ -186,7 +188,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getName());
+        return new Author(entity.getNumber(), entity.getName());
     }
 
     private final Book toDomain(final BookEntity entity) {
@@ -268,11 +270,11 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getName());
+        return new BookType(entity.getNumber(), entity.getName());
     }
 
     private final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getName());
+        return new GameSystem(entity.getNumber(), entity.getName());
     }
 
     private final Person toDomain(final PersonEntity entity) {
@@ -283,7 +285,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getName());
+        return new Publisher(entity.getNumber(), entity.getName());
     }
 
     private final Donor toDonorDomain(final PersonEntity entity) {
@@ -305,17 +307,17 @@ public final class JpaBookRepository implements BookRepository {
 
         if (domain.bookType()
             .isPresent()) {
-            bookType = bookTypeSpringRepository.findByName(domain.bookType()
+            bookType = bookTypeSpringRepository.findByNumber(domain.bookType()
                 .get()
-                .name());
+                .number());
         } else {
             bookType = Optional.empty();
         }
         if (domain.gameSystem()
             .isPresent()) {
-            gameSystem = gameSystemSpringRepository.findByName(domain.gameSystem()
+            gameSystem = gameSystemSpringRepository.findByNumber(domain.gameSystem()
                 .get()
-                .name());
+                .number());
         } else {
             gameSystem = Optional.empty();
         }

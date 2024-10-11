@@ -1,9 +1,6 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.model;
 
-import java.util.Collection;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,21 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookCreation {
 
-    @Builder.Default
-    private Collection<BookCreationAuthor>    authors = List.of();
+    private String isbn;
 
-    private BookCreationBookType              bookType;
+    private String language;
 
-    private Collection<BookCreationDonor>     donors;
-
-    private BookCreationGameSystem            gameSystem;
-
-    private String                            isbn;
-
-    private String                            language;
-
-    private Collection<BookCreationPublisher> publishers;
-
-    private String                            title;
+    private String title;
 
 }

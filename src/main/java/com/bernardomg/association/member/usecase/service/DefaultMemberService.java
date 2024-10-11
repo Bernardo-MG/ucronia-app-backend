@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Service
 @Transactional
 public final class DefaultMemberService implements MemberService {
 

@@ -67,6 +67,8 @@ class TestAuthorServiceCreate {
         // GIVEN
         author = Authors.emptyName();
 
+        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
+
         // WHEN
         execution = () -> service.create(author);
 
@@ -76,14 +78,16 @@ class TestAuthorServiceCreate {
 
     @Test
     @DisplayName("With an author with an existing name, an exception is thrown")
-    void testCreate_Existing() {
+    void testCreate_ExistingName() {
         final ThrowingCallable execution;
         final Author           author;
 
         // GIVEN
-        author = Authors.valid();
+        author = Authors.toCreate();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
+        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
+
+        given(authorRepository.existsByName(AuthorConstants.NAME)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(author);
@@ -98,7 +102,9 @@ class TestAuthorServiceCreate {
         final Author author;
 
         // GIVEN
-        author = Authors.valid();
+        author = Authors.toCreate();
+
+        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
 
         // WHEN
         service.create(author);
@@ -114,7 +120,9 @@ class TestAuthorServiceCreate {
         final Author created;
 
         // GIVEN
-        author = Authors.valid();
+        author = Authors.toCreate();
+
+        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
 
         given(authorRepository.save(Authors.valid())).willReturn(Authors.valid());
 

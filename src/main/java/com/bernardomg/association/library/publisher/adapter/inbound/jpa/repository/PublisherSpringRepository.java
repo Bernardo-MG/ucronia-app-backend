@@ -35,21 +35,24 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.Pu
 
 public interface PublisherSpringRepository extends JpaRepository<PublisherEntity, Long> {
 
-    public void deleteByName(final String name);
+    public void deleteByNumber(final long number);
 
     public boolean existsByName(final String name);
 
     @Query("""
-              SELECT CASE
-              WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
-              FROM Book b
-              JOIN b.publishers p
-              WHERE p.name = :name
+               SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Publisher p
+               WHERE p.number != :number AND p.name = :name
             """)
-    public boolean existsInBook(@Param("name") final String name);
+    public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
+
+    public boolean existsByNumber(final long number);
 
     public Collection<PublisherEntity> findAllByNameIn(final Collection<String> names);
 
-    public Optional<PublisherEntity> findByName(final String name);
+    public Optional<PublisherEntity> findByNumber(final long number);
+
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Publisher p")
+    public Long findNextNumber();
 
 }

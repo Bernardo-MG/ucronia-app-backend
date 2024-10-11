@@ -36,17 +36,17 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Vali
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find next index")
+@DisplayName("BookRepository - find next number")
 class ITBookRepositoryFindNextIndex {
 
     @Autowired
     private BookRepository repository;
 
     @Test
-    @DisplayName("When there is a book the next index is correct")
+    @DisplayName("When there is a book the next number is correct")
     @ValidPerson
     @FullBook
-    void testFindNextIndex() {
+    void testFindNextNumber() {
         final long index;
 
         // WHEN
@@ -59,8 +59,8 @@ class ITBookRepositoryFindNextIndex {
     }
 
     @Test
-    @DisplayName("When there is no book the next index is correct")
-    void testFindNextIndex_NoData() {
+    @DisplayName("When there is no book the next number is correct")
+    void testFindNextNumber_NoData() {
         final long index;
 
         // WHEN

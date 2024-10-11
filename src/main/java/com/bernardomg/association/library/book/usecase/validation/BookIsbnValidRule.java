@@ -43,7 +43,7 @@ public final class BookIsbnValidRule implements FieldRule<Book> {
             failure = Optional.empty();
         } else {
             // Invalid ISBN
-            log.error("Invalid ISBN {}", book.isbn());
+            log.error("Invalid book ISBN {}", book.isbn());
             fieldFailure = FieldFailure.of("isbn", "invalid", book.isbn());
             failure = Optional.of(fieldFailure);
         }

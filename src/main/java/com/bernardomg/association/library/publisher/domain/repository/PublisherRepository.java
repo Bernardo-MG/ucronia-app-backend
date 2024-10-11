@@ -9,15 +9,19 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 public interface PublisherRepository {
 
-    public void delete(final String name);
+    public void delete(final long number);
 
-    public boolean exists(final String name);
+    public boolean exists(final long number);
+
+    public boolean existsByName(final String name);
+
+    public boolean existsByNameForAnother(final String name, final Long number);
 
     public Iterable<Publisher> findAll(final Pageable pageable);
 
-    public Optional<Publisher> findOne(final String name);
+    public long findNextNumber();
 
-    public boolean hasRelationships(final String name);
+    public Optional<Publisher> findOne(final long number);
 
     public Publisher save(final Publisher publisher);
 

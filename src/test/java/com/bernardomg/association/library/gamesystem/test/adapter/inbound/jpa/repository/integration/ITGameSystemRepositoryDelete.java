@@ -25,11 +25,9 @@
 package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
@@ -54,7 +52,7 @@ class ITGameSystemRepositoryDelete {
     @ValidGameSystem
     void testDelete() {
         // WHEN
-        repository.delete(GameSystemConstants.NAME);
+        repository.delete(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -63,28 +61,24 @@ class ITGameSystemRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When the game system is assigned to a book, an exception is thrown")
+    @DisplayName("When the game system is assigned to a book, it is deleted")
     @ValidPerson
     @FullBook
     void testDelete_InBook() {
-        final ThrowingCallable execution;
-
         // WHEN
-        execution = () -> {
-            repository.delete(GameSystemConstants.NAME);
-            springRepository.flush();
-        };
+        repository.delete(GameSystemConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(DataIntegrityViolationException.class);
+        Assertions.assertThat(springRepository.count())
+            .as("game systems")
+            .isZero();
     }
 
     @Test
     @DisplayName("With no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(GameSystemConstants.NAME);
+        repository.delete(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

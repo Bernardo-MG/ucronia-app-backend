@@ -73,7 +73,7 @@ class ITBookRepositoryFindOne {
     @ValidPerson
     @FullBook
     @LentBookLending
-    void testFindOne_Lent() {
+    void testFindOne_FullLent() {
         final Optional<Book> book;
 
         // WHEN
@@ -82,7 +82,7 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.lent());
+            .contains(Books.fullLent());
     }
 
     @Test
@@ -146,7 +146,7 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.returned());
+            .contains(Books.fullReturned());
     }
 
     @Test

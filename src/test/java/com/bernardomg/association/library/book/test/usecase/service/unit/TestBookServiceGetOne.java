@@ -80,7 +80,7 @@ class TestBookServiceGetOne {
 
     @Test
     @DisplayName("When there is a book, it is returned")
-    void testGetOneBook() {
+    void testGetOne() {
         final Optional<Book> book;
 
         // GIVEN
@@ -96,7 +96,7 @@ class TestBookServiceGetOne {
 
     @Test
     @DisplayName("When there are no books, an exception is thrown")
-    void testGetOneBook_NotExisting() {
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN

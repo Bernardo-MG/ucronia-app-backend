@@ -14,15 +14,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: isbn
-                  type: varchar(13)
-                  constraints:
-                    nullable: false
-              - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    nullable: false
+              - column:
+                  name: isbn
+                  type: varchar(17)
+                  constraints:
                     nullable: false
               - column:
                   name: title
@@ -52,6 +52,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: name
                   type: varchar(100)
                   constraints:
@@ -75,6 +81,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: name
                   type: varchar(100)
                   constraints:
@@ -98,6 +110,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: name
                   type: varchar(100)
                   constraints:
@@ -119,6 +137,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
                     nullable: false
               - column:
                   name: name
@@ -152,6 +176,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_authors_book
                     references: inventory.books(id)
+                    deleteCascade: true
               - column:
                   name: author_id
                   type: bigint
@@ -159,6 +184,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_authors_author
                     references: inventory.authors(id)
+                    deleteCascade: true
         - addPrimaryKey:
             constraintName: book_authors_key
             schemaName: inventory
@@ -175,6 +201,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_publishers_book
                     references: inventory.books(id)
+                    deleteCascade: true
               - column:
                   name: publisher_id
                   type: bigint
@@ -182,6 +209,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_publishers_publisher
                     references: inventory.publishers(id)
+                    deleteCascade: true
         - addPrimaryKey:
             constraintName: book_publishers_key
             schemaName: inventory
@@ -199,6 +227,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_book_types_book
                     references: inventory.books(id)
+                    deleteCascade: true
               - column:
                   name: book_type_id
                   type: bigint
@@ -206,6 +235,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_book_types_book_type
                     references: inventory.book_types(id)
+                    deleteCascade: true
         - createTable:
             schemaName: inventory
             tableName: book_game_systems
@@ -226,6 +256,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_game_systems_game_system
                     references: inventory.game_systems(id)
+                    deleteCascade: true
       modifySql:
         - append:
             dbms: mysql
@@ -245,6 +276,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_donors_book
                     references: inventory.books(id)
+                    deleteCascade: true
               - column:
                   name: donor_id
                   type: bigint
@@ -252,6 +284,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_donors_donor
                     references: association.persons(id)
+                    deleteCascade: true
       modifySql:
         - append:
             dbms: mysql
@@ -271,6 +304,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_lending_book
                     references: inventory.books(id)
+                    deleteCascade: true
               - column:
                   name: person_id
                   type: bigint
@@ -278,6 +312,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_book_lending_person
                     references: association.persons(id)
+                    deleteCascade: true
               - column:
                   name: lending_date
                   type: datetime

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
@@ -24,8 +25,10 @@ import com.bernardomg.association.library.book.usecase.validation.BookIsbnValidR
 import com.bernardomg.association.library.book.usecase.validation.BookLanguageCodeValidRule;
 import com.bernardomg.association.library.book.usecase.validation.BookTitleNotEmptyRule;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
+import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
+import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -36,6 +39,7 @@ import com.bernardomg.validation.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 @Transactional
 public final class DefaultBookService implements BookService {
 
@@ -90,6 +94,7 @@ public final class DefaultBookService implements BookService {
         // Get number
         number = bookRepository.findNextNumber();
 
+        // TODO: relationships are no longer received on create
         // Remove duplicates
         authors = book.authors()
             .stream()
@@ -137,6 +142,8 @@ public final class DefaultBookService implements BookService {
 
     @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
+        log.debug("Reading books with pagination {}", pageable);
+
         return bookRepository.findAll(pageable);
     }
 
@@ -208,14 +215,16 @@ public final class DefaultBookService implements BookService {
     }
 
     private final void validateRelationships(final Book book) {
-        boolean donorExists;
+        final Optional<GameSystem> gameSystem;
+        final Optional<BookType>   bookType;
+        boolean                    donorExists;
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
         book.authors()
             .forEach(a -> {
-                if (!authorRepository.exists(a.name())) {
-                    throw new MissingAuthorException(a.name());
+                if (!authorRepository.exists(a.number())) {
+                    throw new MissingAuthorException(a.number());
                 }
             });
 
@@ -223,31 +232,25 @@ public final class DefaultBookService implements BookService {
         // Check publishers exist
         book.publishers()
             .forEach(p -> {
-                if (!publisherRepository.exists(p.name())) {
-                    throw new MissingPublisherException(p.name());
+                if (!publisherRepository.exists(p.number())) {
+                    throw new MissingPublisherException(p.number());
                 }
             });
 
         // Check game system exist
-        if (book.gameSystem()
-            .isPresent()
-                && !gameSystemRepository.exists(book.gameSystem()
-                    .get()
-                    .name())) {
-            throw new MissingGameSystemException(book.gameSystem()
-                .get()
-                .name());
+        gameSystem = book.gameSystem();
+        if (gameSystem.isPresent() && !gameSystemRepository.exists(gameSystem.get()
+            .number())) {
+            throw new MissingGameSystemException(gameSystem.get()
+                .number());
         }
 
         // Check book type exist
-        if (book.bookType()
-            .isPresent()
-                && !bookTypeRepository.exists(book.bookType()
-                    .get()
-                    .name())) {
-            throw new MissingBookTypeException(book.bookType()
-                .get()
-                .name());
+        bookType = book.bookType();
+        if (bookType.isPresent() && !bookTypeRepository.exists(bookType.get()
+            .number())) {
+            throw new MissingBookTypeException(bookType.get()
+                .number());
         }
 
         // Check donor exist

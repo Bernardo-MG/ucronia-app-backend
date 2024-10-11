@@ -33,7 +33,7 @@ public final class BookIsbnNotExistsRule implements FieldRule<Book> {
         final FieldFailure           fieldFailure;
 
         if ((!StringUtils.isBlank(book.isbn())) && (bookRepository.existsByIsbn(book.isbn()))) {
-            log.error("Existing ISBN {}", book.isbn());
+            log.error("Existing book ISBN {}", book.isbn());
             fieldFailure = FieldFailure.of("isbn", "existing", book.isbn());
             failure = Optional.of(fieldFailure);
         } else {

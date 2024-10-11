@@ -98,10 +98,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.duplicatedAuthor();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
@@ -120,10 +120,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.duplicatedDonor();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
@@ -142,10 +142,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.duplicatedPublisher();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
@@ -164,10 +164,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.emptyIsbn();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -202,10 +202,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbn(BookConstants.ISBN_10)).willReturn(true);
@@ -227,10 +227,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.invalidIsbn();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbn(BookConstants.INVALID_ISBN)).willReturn(false);
@@ -244,6 +244,28 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With an ISBN-14, the book is persisted")
+    void testCreate_Isbn13_PersistedData() {
+        final Book book;
+
+        // GIVEN
+        book = Books.isbn13();
+
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository).save(Books.isbn13());
+    }
+
+    @Test
     @DisplayName("When persisting a book for a not existing author, an exception is thrown")
     void testCreate_NoAuthor() {
         final Book             book;
@@ -252,7 +274,7 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.create(book);
@@ -271,10 +293,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.create(book);
@@ -293,10 +315,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -316,9 +338,9 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.create(book);
@@ -337,8 +359,8 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.create(book);
@@ -373,10 +395,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
@@ -388,28 +410,6 @@ class TestBookServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid ISBN10 ending in X, the book is persisted")
-    void testCreate_PersistedData_Isbn10x() {
-        final Book book;
-
-        // GIVEN
-        book = Books.isbn10x();
-
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
-        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
-
-        // WHEN
-        service.create(book);
-
-        // THEN
-        verify(bookRepository).save(Books.isbn10x());
-    }
-
-    @Test
     @DisplayName("With a valid book, the created book is returned")
     void testCreate_ReturnedData() {
         final Book book;
@@ -418,10 +418,10 @@ class TestBookServiceCreate {
         // GIVEN
         book = Books.full();
 
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(publisherRepository.exists(PublisherConstants.NAME)).willReturn(true);
-        given(gameSystemRepository.exists(GameSystemConstants.NAME)).willReturn(true);
-        given(bookTypeRepository.exists(BookTypeConstants.NAME)).willReturn(true);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
         given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 

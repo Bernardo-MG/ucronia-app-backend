@@ -36,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.library.author.domain.exception.AuthorHasRelationshipsException;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
@@ -60,14 +59,13 @@ class TestAuthorServiceDelete {
     @DisplayName("When deleting an author, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(authorRepository.hasRelationships(AuthorConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.delete(AuthorConstants.NAME);
+        service.delete(AuthorConstants.NUMBER);
 
         // THEN
-        verify(authorRepository).delete(AuthorConstants.NAME);
+        verify(authorRepository).delete(AuthorConstants.NUMBER);
     }
 
     @Test
@@ -76,31 +74,14 @@ class TestAuthorServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(false);
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(AuthorConstants.NAME);
+        execution = () -> service.delete(AuthorConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingAuthorException.class);
-    }
-
-    @Test
-    @DisplayName("When the author has relationships, an exception is thrown")
-    void testDelete_Relationship_Exception() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(authorRepository.exists(AuthorConstants.NAME)).willReturn(true);
-        given(authorRepository.hasRelationships(AuthorConstants.NAME)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.delete(AuthorConstants.NAME);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(AuthorHasRelationshipsException.class);
     }
 
 }

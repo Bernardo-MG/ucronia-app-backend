@@ -44,11 +44,11 @@ class ITGameSystemRepositoryExists {
     @Test
     @DisplayName("With an author, it exists")
     @ValidGameSystem
-    void testFindOne() {
+    void testExists() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NAME);
+        exists = repository.exists(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -58,11 +58,11 @@ class ITGameSystemRepositoryExists {
 
     @Test
     @DisplayName("With no data, nothing exists")
-    void testFindOne_NoData() {
+    void testExists_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GameSystemConstants.NAME);
+        exists = repository.exists(GameSystemConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

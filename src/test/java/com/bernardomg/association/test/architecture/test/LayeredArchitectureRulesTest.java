@@ -31,6 +31,8 @@ public class LayeredArchitectureRulesTest {
         .definedBy("com.bernardomg.association..adapter.outbound..")
         .layer("Configuration")
         .definedBy("com.bernardomg.association..configuration..")
+        .layer("Event")
+        .definedBy("com.bernardomg.association..event..")
 
         .whereLayer("Infrastructure - Outbound")
         .mayOnlyBeAccessedByLayers("Configuration")
@@ -41,7 +43,7 @@ public class LayeredArchitectureRulesTest {
         .whereLayer("Use case")
         .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound")
         .whereLayer("Domain")
-        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound",
-            "Infrastructure - Outbound");
+        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound", "Infrastructure - Outbound",
+            "Event");
 
 }

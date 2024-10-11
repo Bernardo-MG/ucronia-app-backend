@@ -36,8 +36,8 @@ public final class MissingAuthorException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingAuthorException(final String name) {
-        super("author", name);
+    public MissingAuthorException(final Long number) {
+        super("author", number);
     }
 
 }

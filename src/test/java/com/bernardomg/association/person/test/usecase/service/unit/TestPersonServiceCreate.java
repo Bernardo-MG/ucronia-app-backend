@@ -99,7 +99,7 @@ class TestPersonServiceCreate {
         final Person person;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.toCreate();
 
         given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
@@ -117,7 +117,7 @@ class TestPersonServiceCreate {
         final Person created;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.toCreate();
 
         given(personRepository.save(Persons.valid())).willReturn(Persons.valid());
         given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);

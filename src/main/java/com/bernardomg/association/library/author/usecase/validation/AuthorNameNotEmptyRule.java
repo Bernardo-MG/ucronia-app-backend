@@ -27,7 +27,7 @@ public final class AuthorNameNotEmptyRule implements FieldRule<Author> {
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(author.name())) {
-            log.error("Empty name");
+            log.error("Empty author name");
             fieldFailure = FieldFailure.of("name", "empty", author.name());
             failure = Optional.of(fieldFailure);
         } else {

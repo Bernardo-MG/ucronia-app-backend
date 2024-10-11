@@ -28,6 +28,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
+import com.bernardomg.event.configuration.EventConfiguration;
 import com.bernardomg.settings.configuration.SettingsConfiguration;
 
 /**
@@ -37,7 +38,7 @@ import com.bernardomg.settings.configuration.SettingsConfiguration;
  *
  */
 @SpringBootApplication
-@Import({ SettingsConfiguration.class })
+@Import({ SettingsConfiguration.class, EventConfiguration.class })
 public class UcroniaApplication {
 
     /**

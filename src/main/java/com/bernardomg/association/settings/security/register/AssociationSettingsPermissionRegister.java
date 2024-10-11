@@ -27,12 +27,15 @@ package com.bernardomg.association.settings.security.register;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
  * Association settings permission register.
  */
+@Component
 public final class AssociationSettingsPermissionRegister implements PermissionRegister {
 
     @Override

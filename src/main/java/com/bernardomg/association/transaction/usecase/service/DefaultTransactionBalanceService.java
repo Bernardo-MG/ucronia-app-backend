@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
@@ -41,6 +42,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionBalan
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Service
 @Transactional
 public final class DefaultTransactionBalanceService implements TransactionBalanceService {
 

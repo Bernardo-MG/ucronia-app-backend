@@ -44,20 +44,20 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get all")
 class TestFeeServiceGetAll {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private EventEmitter              eventBus;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private FeeRepository             feeRepository;
 
     @Mock
     private MessageSource             messageSource;
