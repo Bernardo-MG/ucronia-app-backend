@@ -75,6 +75,29 @@ class ITPersonRepositorySave {
     }
 
     @Test
+    @DisplayName("When a person exists with an active membership, and the membership is removed, the person is persisted")
+    @MembershipActivePerson
+    void testSave_Existing_Active_RemoveMembership_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.valid();
+
+        // WHEN
+        personRepository.save(person);
+
+        // THEN
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
+                "membership.person")
+            .containsExactly(PersonEntities.valid());
+    }
+
+    @Test
     @DisplayName("When a person exists with an active membership, and an inactive membership is set, the person is persisted")
     @MembershipActivePerson
     void testSave_Existing_Active_SetInactiveMembership_PersistedData() {
