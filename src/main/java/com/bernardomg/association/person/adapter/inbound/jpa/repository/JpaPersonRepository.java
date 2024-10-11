@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
@@ -191,10 +192,17 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName name;
+        final PersonName           name;
+        final Optional<Membership> membership;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), Optional.empty());
+        if (entity.getMembership() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(entity.getMembership()
+                .getActive()));
+        }
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
