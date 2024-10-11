@@ -284,7 +284,13 @@
             Using autoscan for components.
          </action>
       </release>
-      <release version="1.0.0" date="2024-09-02" description="">
+      <release version="0.5.19" date="2024-10-11" description="Database correction">
+         <action dev="bmg" type="fix">
+            Recovered transactions permissions register.
+         </action>
+         <action dev="bmg" type="fix">
+            Changed settings namespace.
+         </action>
       </release>
    </body>
 </document>
