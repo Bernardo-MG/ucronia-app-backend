@@ -264,7 +264,25 @@
             Fixed public member caching.
          </action>
       </release>
-      <release version="1.0.0" date="2024-09-02" description="">
+      <release version="0.5.18" date="2024-09-02" description="Model corrections">
+         <action dev="bmg" type="fix">
+            DB relationships are deleted correctly.
+         </action>
+         <action dev="bmg" type="fix">
+            Library entities are identified by number, not name.
+         </action>
+         <action dev="bmg" type="update">
+            Updated dependencies.
+         </action>
+         <action dev="bmg" type="update">
+            Simplified book creation.
+         </action>
+         <action dev="bmg" type="add">
+            Testing new event approach.
+         </action>
+         <action dev="bmg" type="add">
+            Using autoscan for components.
+         </action>
       </release>
    </body>
 </document>
