@@ -4,6 +4,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: settings
             tableName: settings
             columns:
               - column:
@@ -31,6 +32,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: 'string'
         - addAutoIncrement:
+            schemaName: settings
             tableName: settings
             columnName: id
             columnDataType: bigint
