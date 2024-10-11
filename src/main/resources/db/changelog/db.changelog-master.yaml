@@ -1,6 +1,7 @@
 databaseChangeLog:
+  # General
   - include:
-      file: structure/settings.yaml
+      file: structure/configuration.yaml
       relativeToChangelogFile: true
   # Association
   - include:
