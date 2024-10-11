@@ -4,6 +4,7 @@ package com.bernardomg.association.person.test.configuration.factory;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 
 public final class Persons {
@@ -22,6 +23,26 @@ public final class Persons {
         name = new PersonName(" ", " ");
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
             Optional.empty());
+    }
+
+    public static final Person membershipActive() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(true);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
+            Optional.of(membership));
+    }
+
+    public static final Person membershipInactive() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(false);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
+            Optional.of(membership));
     }
 
     public static final Person nameChange() {

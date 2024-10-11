@@ -32,6 +32,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -76,6 +78,42 @@ class ITPersonRepositoryFindAll {
         // THEN
         Assertions.assertThat(people)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a person having an active membership, it is returned")
+    @MembershipActivePerson
+    void testFindAll_WithMembership_Active() {
+        final Iterable<Person> people;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        people = personRepository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(people)
+            .containsExactly(Persons.membershipActive());
+    }
+
+    @Test
+    @DisplayName("With a person having an inactive membership, it is returned")
+    @MembershipInactivePerson
+    void testFindAll_WithMembership_Inactive() {
+        final Iterable<Person> people;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        people = personRepository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(people)
+            .containsExactly(Persons.membershipInactive());
     }
 
 }
