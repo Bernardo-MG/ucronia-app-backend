@@ -47,6 +47,7 @@ import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChange;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -118,13 +119,20 @@ public class PersonController {
     }
 
     private final Person toDomain(final long number, final PersonChange change) {
-        final PersonName name;
+        final PersonName           name;
+        final Optional<Membership> membership;
 
         name = new PersonName(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
-        return new Person(change.getIdentifier(), number, name, change.getPhone(), Optional.empty());
+        if (change.getMembership() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(change.getMembership()
+                .active()));
+        }
+        return new Person(change.getIdentifier(), number, name, change.getPhone(), membership);
     }
 
 }
