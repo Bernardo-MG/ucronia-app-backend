@@ -239,7 +239,7 @@
             Updated security dependency.
          </action>
       </release>
-      <release version="0.5.16" date="2024-08-31" description="Fixes">
+      <release version="0.5.16" date="2024-09-21" description="Fixes">
          <action dev="bmg" type="fix">
             Fixed active query.
          </action>
@@ -247,7 +247,7 @@
             Added member patch endpoint.
          </action>
       </release>
-      <release version="0.5.17" date="2024-09-02" description="Model changes">
+      <release version="0.5.17" date="2024-10-02" description="Model changes">
          <action dev="bmg" type="update">
             Moved domain to records.
          </action>
@@ -264,7 +264,7 @@
             Fixed public member caching.
          </action>
       </release>
-      <release version="0.5.18" date="2024-09-02" description="Model corrections">
+      <release version="0.5.18" date="2024-10-11" description="Model corrections">
          <action dev="bmg" type="fix">
             DB relationships are deleted correctly.
          </action>
@@ -282,6 +282,14 @@
          </action>
          <action dev="bmg" type="add">
             Using autoscan for components.
+         </action>
+      </release>
+      <release version="0.5.19" date="2024-10-11" description="Database correction">
+         <action dev="bmg" type="fix">
+            Recovered transactions permissions register.
+         </action>
+         <action dev="bmg" type="fix">
+            Changed settings namespace.
          </action>
       </release>
    </body>

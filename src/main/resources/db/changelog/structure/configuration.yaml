@@ -3,7 +3,14 @@ databaseChangeLog:
       id: settings_table
       author: Bernardo
       changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_configuration_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
         - createTable:
+            schemaName: configuration
             tableName: settings
             columns:
               - column:
@@ -31,6 +38,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: 'string'
         - addAutoIncrement:
+            schemaName: configuration
             tableName: settings
             columnName: id
             columnDataType: bigint
