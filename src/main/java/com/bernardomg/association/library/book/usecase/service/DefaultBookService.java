@@ -94,6 +94,7 @@ public final class DefaultBookService implements BookService {
         // Get number
         number = bookRepository.findNextNumber();
 
+        // TODO: relationships are no longer received on create
         // Remove duplicates
         authors = book.authors()
             .stream()

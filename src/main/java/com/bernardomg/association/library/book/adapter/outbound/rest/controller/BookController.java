@@ -50,6 +50,7 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
@@ -119,7 +120,7 @@ public class BookController {
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
-    public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookCreation request) {
+    public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookUpdate request) {
         final Book book;
 
         // Book
@@ -129,6 +130,23 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
+        // Book
+        return Book.builder()
+            .withTitle(request.getTitle())
+            .withIsbn(request.getIsbn())
+            .withLanguage(request.getLanguage())
+            .withAuthors(List.of())
+            .withPublishers(List.of())
+            .withBookType(Optional.empty())
+            .withGameSystem(Optional.empty())
+            .withDonors(List.of())
+            .withNumber(number)
+            .withLendings(List.of())
+            .withLent(false)
+            .build();
+    }
+
+    private final Book toDomain(final BookUpdate request, final long number) {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Optional<BookType>    bookType;
@@ -161,7 +179,7 @@ public class BookController {
         } else {
             donors = request.getDonors()
                 .stream()
-                .map(BookCreation.Donor::getNumber)
+                .map(BookUpdate.Donor::getNumber)
                 .filter(Objects::nonNull)
                 .map(d -> new Donor(d, new PersonName("", "")))
                 .toList();

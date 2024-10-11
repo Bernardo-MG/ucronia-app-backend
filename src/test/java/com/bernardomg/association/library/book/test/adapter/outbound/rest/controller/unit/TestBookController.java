@@ -22,8 +22,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bernardomg.association.library.book.adapter.outbound.rest.controller.BookController;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.BookCreations;
+import com.bernardomg.association.library.book.test.configuration.factory.BookUpdates;
 import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.test.json.JsonUtils;
@@ -81,10 +83,10 @@ class TestBookController {
     @Test
     @DisplayName("Can update books")
     void testUpdateBook() throws Exception {
-        final BookCreation bookCreation;
+        final BookUpdate bookCreation;
 
         // GIVEN
-        bookCreation = BookCreations.minimal();
+        bookCreation = BookUpdates.minimal();
 
         // WHEN + THEN
         mockMvc.perform(put("/library/book/{number}", BookConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
@@ -95,10 +97,10 @@ class TestBookController {
     @Test
     @DisplayName("Can update books")
     void testUpdateBook_CallsService() throws Exception {
-        final BookCreation bookCreation;
+        final BookUpdate bookCreation;
 
         // GIVEN
-        bookCreation = BookCreations.minimal();
+        bookCreation = BookUpdates.minimal();
 
         // WHEN
         mockMvc.perform(put("/library/book/{number}", BookConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
