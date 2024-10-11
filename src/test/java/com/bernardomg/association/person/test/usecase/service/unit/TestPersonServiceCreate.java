@@ -60,6 +60,23 @@ class TestPersonServiceCreate {
     }
 
     @Test
+    @DisplayName("With a person with an active membership, the person is persisted")
+    void testCreate_ActiveMembership_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.membershipActive();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.membershipActive());
+    }
+
+    @Test
     @DisplayName("With a person with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;
@@ -92,7 +109,7 @@ class TestPersonServiceCreate {
         // THEN
         verify(personRepository).save(Persons.valid());
     }
-    
+
     @Test
     @DisplayName("With a valid person, the person is persisted")
     void testCreate_PersistedData() {

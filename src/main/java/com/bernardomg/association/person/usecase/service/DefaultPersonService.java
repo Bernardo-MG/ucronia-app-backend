@@ -55,7 +55,7 @@ public final class DefaultPersonService implements PersonService {
         // Set number
         number = personRepository.findNextNumber();
 
-        toCreate = new Person(person.identifier(), number, person.name(), person.phone(), Optional.empty());
+        toCreate = new Person(person.identifier(), number, person.name(), person.phone(), person.membership());
 
         createPersonValidator.validate(toCreate);
 
