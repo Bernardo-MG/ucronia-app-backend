@@ -92,7 +92,7 @@ class TestPersonServiceCreate {
         // THEN
         verify(personRepository).save(Persons.valid());
     }
-
+    
     @Test
     @DisplayName("With a valid person, the person is persisted")
     void testCreate_PersistedData() {

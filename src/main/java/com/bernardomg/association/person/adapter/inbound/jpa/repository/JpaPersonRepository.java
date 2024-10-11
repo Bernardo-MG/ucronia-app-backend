@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.MembershipEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
@@ -119,6 +120,11 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
+        if (entity.getMembership() != null) {
+            entity.getMembership()
+                .setPerson(entity);
+        }
+
         created = personSpringRepository.save(entity);
 
         saved = personSpringRepository.findByNumber(created.getNumber())
@@ -206,6 +212,18 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     private final PersonEntity toEntity(final Person data) {
+        final MembershipEntity membership;
+
+        if (data.membership()
+            .isPresent()) {
+            membership = MembershipEntity.builder()
+                .withActive(data.membership()
+                    .get()
+                    .active())
+                .build();
+        } else {
+            membership = null;
+        }
         return PersonEntity.builder()
             .withNumber(data.number())
             .withFirstName(data.name()
@@ -214,6 +232,7 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
+            .withMembership(membership)
             .build();
     }
 
