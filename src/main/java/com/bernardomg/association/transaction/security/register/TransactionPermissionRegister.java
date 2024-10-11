@@ -27,12 +27,15 @@ package com.bernardomg.association.transaction.security.register;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
  * Transaction permission register.
  */
+@Component
 public final class TransactionPermissionRegister implements PermissionRegister {
 
     @Override
