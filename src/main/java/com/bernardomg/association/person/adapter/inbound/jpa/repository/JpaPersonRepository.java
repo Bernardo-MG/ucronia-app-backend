@@ -194,7 +194,7 @@ public final class JpaPersonRepository implements PersonRepository {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), Optional.empty());
     }
 
     private final PersonEntity toEntity(final Person data) {

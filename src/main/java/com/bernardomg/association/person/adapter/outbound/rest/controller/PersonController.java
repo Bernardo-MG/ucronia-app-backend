@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.person.adapter.outbound.rest.controller;
 
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -122,7 +124,7 @@ public class PersonController {
             .getFirstName(),
             change.getName()
                 .getLastName());
-        return new Person(change.getIdentifier(), number, name, change.getPhone());
+        return new Person(change.getIdentifier(), number, name, change.getPhone(), Optional.empty());
     }
 
 }
