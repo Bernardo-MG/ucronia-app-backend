@@ -48,7 +48,7 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
 
     public boolean existsByNumber(final Long number);
 
-    public Collection<AuthorEntity> findAllByNameIn(final Collection<String> names);
+    public Collection<AuthorEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     public Optional<AuthorEntity> findByNumber(final Long number);
 
