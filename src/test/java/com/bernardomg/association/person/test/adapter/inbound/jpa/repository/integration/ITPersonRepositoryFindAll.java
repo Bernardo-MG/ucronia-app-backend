@@ -34,6 +34,7 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -114,6 +115,24 @@ class ITPersonRepositoryFindAll {
         // THEN
         Assertions.assertThat(people)
             .containsExactly(Persons.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("With a person without membership, it is returned")
+    @NoMembershipPerson
+    void testFindAll_WithoutMembership() {
+        final Iterable<Person> people;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        people = personRepository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(people)
+            .containsExactly(Persons.noMembership());
     }
 
 }

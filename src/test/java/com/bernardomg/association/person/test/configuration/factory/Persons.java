@@ -53,6 +53,14 @@ public final class Persons {
             Optional.empty());
     }
 
+    public static final Person noMembership() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
+            Optional.empty());
+    }
+
     public static final Person paddedWithWhitespaces() {
         final PersonName name;
 
