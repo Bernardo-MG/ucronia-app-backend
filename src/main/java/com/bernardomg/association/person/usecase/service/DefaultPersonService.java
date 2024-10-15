@@ -70,8 +70,6 @@ public final class DefaultPersonService implements PersonService {
             throw new MissingPersonException(number);
         }
 
-        // TODO: Forbid deleting when there are relationships
-
         personRepository.delete(number);
     }
 
