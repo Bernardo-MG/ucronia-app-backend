@@ -38,11 +38,14 @@ public final class DefaultPersonService implements PersonService {
 
     private final PersonRepository  personRepository;
 
+    private final Validator<Person> updatePersonValidator;
+
     public DefaultPersonService(final PersonRepository personRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
         createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
+        updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
     }
 
     @Override
@@ -110,6 +113,8 @@ public final class DefaultPersonService implements PersonService {
             log.error("Missing person {}", person.number());
             throw new MissingPersonException(person.number());
         }
+
+        updatePersonValidator.validate(person);
 
         return personRepository.save(person);
     }
