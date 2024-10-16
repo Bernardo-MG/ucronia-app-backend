@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -36,6 +37,8 @@ public final class DefaultPersonService implements PersonService {
 
     private final Validator<Person> createPersonValidator;
 
+    private final Validator<Person> patchPersonValidator;
+
     private final PersonRepository  personRepository;
 
     private final Validator<Person> updatePersonValidator;
@@ -46,6 +49,7 @@ public final class DefaultPersonService implements PersonService {
         personRepository = Objects.requireNonNull(personRepo);
         createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
         updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
+        patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
     }
 
     @Override
@@ -103,6 +107,29 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
+    public final Person patch(final Person person) {
+        final Person existing;
+        final Person toSave;
+
+        log.debug("Patching member {} using data {}", person.number(), person);
+
+        // TODO: Identificator and phone must be unique or empty
+        // TODO: Apply the creation validations
+
+        existing = personRepository.findOne(person.number())
+            .orElseThrow(() -> {
+                log.error("Missing person {}", person.number());
+                throw new MissingPersonException(person.number());
+            });
+
+        toSave = copy(existing, person);
+
+        patchPersonValidator.validate(toSave);
+
+        return personRepository.save(toSave);
+    }
+
+    @Override
     public final Person update(final Person person) {
         log.debug("Updating person {} using data {}", person.number(), person);
 
@@ -117,6 +144,31 @@ public final class DefaultPersonService implements PersonService {
         updatePersonValidator.validate(person);
 
         return personRepository.save(person);
+    }
+
+    private final Person copy(final Person existing, final Person updated) {
+        final PersonName name;
+
+        if (updated.name() == null) {
+            name = existing.name();
+        } else {
+            name = new PersonName(Optional.ofNullable(updated.name()
+                .firstName())
+                .orElse(existing.name()
+                    .firstName()),
+                Optional.ofNullable(updated.name()
+                    .lastName())
+                    .orElse(existing.name()
+                        .lastName()));
+        }
+        return new Person(Optional.ofNullable(updated.identifier())
+            .orElse(existing.identifier()),
+            Optional.ofNullable(updated.number())
+                .orElse(existing.number()),
+            name, Optional.ofNullable(updated.phone())
+                .orElse(existing.phone()),
+            Optional.ofNullable(updated.membership())
+                .orElse(Optional.empty()));
     }
 
     private final Pageable correctPagination(final Pageable pageable) {

@@ -35,6 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
+import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChange;
 import com.bernardomg.association.person.domain.model.Person;
@@ -90,6 +92,18 @@ public class PersonController {
             @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
+    }
+
+    @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, MembersCaches.PUBLIC_MEMBERS,
+                    MembersCaches.PUBLIC_MEMBER, FeeCaches.CALENDAR }, allEntries = true) })
+    public Person patch(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
+        final Person member;
+
+        member = toDomain(number, change);
+        return service.patch(member);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

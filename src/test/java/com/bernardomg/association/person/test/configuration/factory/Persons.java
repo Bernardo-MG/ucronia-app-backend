@@ -48,9 +48,16 @@ public final class Persons {
     public static final Person nameChange() {
         final PersonName name;
 
-        name = new PersonName("Person 123", PersonConstants.LAST_NAME);
+        name = new PersonName("Person 123", "Last name");
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
             Optional.empty());
+    }
+
+    public static final Person nameChangePatch() {
+        final PersonName name;
+
+        name = new PersonName("Person 123", "Last name");
+        return new Person(null, PersonConstants.NUMBER, name, null, null);
     }
 
     public static final Person noMembership() {
