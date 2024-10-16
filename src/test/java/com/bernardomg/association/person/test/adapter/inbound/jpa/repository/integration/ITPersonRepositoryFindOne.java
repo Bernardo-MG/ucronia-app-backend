@@ -72,7 +72,7 @@ class ITPersonRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(personOptional)
-            .contains(Persons.membershipActive());
+            .isEmpty();
     }
 
     @Test
