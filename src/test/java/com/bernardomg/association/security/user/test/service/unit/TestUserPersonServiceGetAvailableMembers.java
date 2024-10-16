@@ -69,14 +69,14 @@ class TestUserPersonServiceGetAvailablePersons {
         // GIVEN
         page = Pageable.unpaged();
 
-        given(userPersonRepository.findAllNotAssigned(page)).willReturn(List.of(Persons.valid()));
+        given(userPersonRepository.findAllNotAssigned(page)).willReturn(List.of(Persons.noMembership()));
 
         // WHEN
         persons = service.getAvailablePerson(page);
 
         // THEN
         Assertions.assertThat(persons)
-            .containsExactly(Persons.valid());
+            .containsExactly(Persons.noMembership());
     }
 
     @Test

@@ -92,7 +92,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE)))
             .willReturn(List.of(Fees.paid()));
@@ -110,7 +110,7 @@ class TestFeeServicePayFees {
     @DisplayName("When paying the current month, an event is sent")
     void testPayFees_CurrentMonth_SendEvent() {
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paidCurrentMonth()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
             .willReturn(List.of(Fees.paidCurrentMonth()));
@@ -140,7 +140,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE), PersonConstants.NUMBER,
@@ -158,7 +158,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of());
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of())).willReturn(List.of());
 
@@ -178,7 +178,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -198,7 +198,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -232,7 +232,7 @@ class TestFeeServicePayFees {
     @DisplayName("When paying the previous month, an event is sent")
     void testPayFees_PreviousMonth_SendEvent() {
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paidPreviousMonth()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
             .willReturn(List.of(Fees.paidPreviousMonth()));
@@ -259,7 +259,7 @@ class TestFeeServicePayFees {
     @DisplayName("When paying a fee, an event is sent")
     void testPayFees_SendEvent() {
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
         given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
             .willReturn(List.of(Fees.paid()));

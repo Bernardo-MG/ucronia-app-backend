@@ -14,7 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class PersonChange {
 
+    public record Membership(boolean active) {
+
+    }
+
     private String           identifier;
+
+    private Membership       membership;
 
     @NotNull
     @Valid

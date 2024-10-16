@@ -51,6 +51,15 @@ public interface PersonService {
     public Optional<Person> getOne(final long number);
 
     /**
+     * Patches the person for the received id with the received data.
+     *
+     * @param person
+     *            new data for the person
+     * @return the updated member
+     */
+    public Person patch(final Person person);
+
+    /**
      * Updates the person for the received id with the received data.
      *
      * @param person

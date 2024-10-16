@@ -85,6 +85,25 @@ databaseChangeLog:
             startWith: 1
         - createTable:
             schemaName: association
+            tableName: memberships
+            columns:
+              - column:
+                  name: person
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_membership_person
+                    references: association.persons(id)
+                    deleteCascade: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: 'false'
+        - createTable:
+            schemaName: association
             tableName: fees
             columns:
               - column:

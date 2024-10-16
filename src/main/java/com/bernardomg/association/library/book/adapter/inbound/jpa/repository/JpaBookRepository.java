@@ -265,8 +265,7 @@ public final class JpaBookRepository implements BookRepository {
 
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return new BookBookLending(person.orElse(new Person(null, null, null, null)), entity.getLendingDate(),
-            entity.getReturnDate());
+        return new BookBookLending(person.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
@@ -281,7 +280,8 @@ public final class JpaBookRepository implements BookRepository {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
+        // TODO: Load membership
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), Optional.empty());
     }
 
     private final Publisher toDomain(final PublisherEntity entity) {

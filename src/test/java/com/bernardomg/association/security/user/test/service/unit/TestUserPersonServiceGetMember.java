@@ -69,14 +69,15 @@ class TestUserPersonServiceGetPerson {
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         person = service.getPerson(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(person)
-            .contains(Persons.valid());
+            .contains(Persons.noMembership());
     }
 
     @Test

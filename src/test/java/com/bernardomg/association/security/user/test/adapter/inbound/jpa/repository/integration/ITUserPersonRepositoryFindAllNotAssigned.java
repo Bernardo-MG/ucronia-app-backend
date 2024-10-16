@@ -116,7 +116,7 @@ class ITUserPersonRepositoryFindAllNotAssigned {
 
         // THEN
         Assertions.assertThat(persons)
-            .containsExactly(Persons.valid());
+            .containsExactly(Persons.noMembership());
     }
 
 }

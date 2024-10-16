@@ -27,6 +27,8 @@ package com.bernardomg.association.person.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -47,8 +49,8 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Person service - update")
-class TestPersonServiceUpdate {
+@DisplayName("Person service - patch")
+class TestPersonServicePatch {
 
     @Mock
     private PersonRepository     personRepository;
@@ -56,23 +58,23 @@ class TestPersonServiceUpdate {
     @InjectMocks
     private DefaultPersonService service;
 
-    public TestPersonServiceUpdate() {
+    public TestPersonServicePatch() {
         super();
     }
 
     @Test
     @DisplayName("With a person with an empty name, an exception is thrown")
-    void testUpdate_EmptyName() {
+    void testPatch_EmptyName() {
         final ThrowingCallable execution;
         final Person           person;
 
         // GIVEN
         person = Persons.emptyName();
 
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
-        execution = () -> service.update(person);
+        execution = () -> service.patch(person);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -80,18 +82,56 @@ class TestPersonServiceUpdate {
     }
 
     @Test
+    @DisplayName("When disabling a person, the change is persisted")
+    void testPatch_Inactive_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.membershipInactive();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+
+        // WHEN
+        service.patch(person);
+
+        // THEN
+        verify(personRepository).save(Persons.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("When disabling a person, the change is returned")
+    void testPatch_Inactive_ReturnedData() {
+        final Person person;
+        final Person updated;
+
+        // GIVEN
+        person = Persons.membershipInactive();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(personRepository.save(Persons.membershipInactive())).willReturn(Persons.membershipInactive());
+
+        // WHEN
+        updated = service.patch(person);
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("person")
+            .isEqualTo(Persons.membershipInactive());
+    }
+
+    @Test
     @DisplayName("With a not existing person, an exception is thrown")
-    void testUpdate_NotExisting_Exception() {
+    void testPatch_NotExisting_Exception() {
         final Person           person;
         final ThrowingCallable execution;
 
         // GIVEN
         person = Persons.nameChange();
 
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(person);
+        execution = () -> service.patch(person);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -99,17 +139,34 @@ class TestPersonServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed")
-    void testUpdate_Padded_PersistedData() {
+    @DisplayName("When patching the name, the change is persisted")
+    void testPatch_OnlyName_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.nameChangePatch();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+
+        // WHEN
+        service.patch(person);
+
+        // THEN
+        verify(personRepository).save(Persons.nameChange());
+    }
+
+    @Test
+    @DisplayName("With a person having padding whitespaces in first name and last name, these whitespaces are removed")
+    void testPatch_Padded_PersistedData() {
         final Person person;
 
         // GIVEN
         person = Persons.paddedWithWhitespaces();
 
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
-        service.update(person);
+        service.patch(person);
 
         // THEN
         verify(personRepository).save(Persons.noMembership());
@@ -117,35 +174,35 @@ class TestPersonServiceUpdate {
 
     @Test
     @DisplayName("When updating a person, the change is persisted")
-    void testUpdate_PersistedData() {
+    void testPatch_PersistedData() {
         final Person person;
 
         // GIVEN
         person = Persons.nameChange();
 
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
-        service.update(person);
+        service.patch(person);
 
         // THEN
         verify(personRepository).save(Persons.nameChange());
     }
 
     @Test
-    @DisplayName("When updating an active person, the change is returned")
-    void testUpdate_ReturnedData() {
+    @DisplayName("When updating a person, the change is returned")
+    void testPatch_ReturnedData() {
         final Person person;
         final Person updated;
 
         // GIVEN
         person = Persons.nameChange();
 
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(personRepository.save(Persons.nameChange())).willReturn(Persons.nameChange());
 
         // WHEN
-        updated = service.update(person);
+        updated = service.patch(person);
 
         // THEN
         Assertions.assertThat(updated)

@@ -45,7 +45,7 @@ class ITFeeRepositoryPay {
         final Transaction                transaction;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
         fee = Fees.paid();
         transaction = Transactions.valid();
 
@@ -72,7 +72,7 @@ class ITFeeRepositoryPay {
         final Transaction                transaction;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
         fee = Fees.paid();
         transaction = Transactions.valid();
 

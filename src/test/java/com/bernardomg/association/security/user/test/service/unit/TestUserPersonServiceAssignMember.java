@@ -75,7 +75,7 @@ class TestUserPersonServiceAssignPerson {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         given(userPersonRepository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER))
             .willReturn(true);
@@ -95,7 +95,7 @@ class TestUserPersonServiceAssignPerson {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         given(userPersonRepository.existsByPersonForAnotherUser(UserConstants.USERNAME, PersonConstants.NUMBER))
             .willReturn(true);
@@ -149,7 +149,7 @@ class TestUserPersonServiceAssignPerson {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
@@ -165,16 +165,16 @@ class TestUserPersonServiceAssignPerson {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(userPersonRepository.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER))
-            .willReturn(Persons.valid());
+            .willReturn(Persons.noMembership());
 
         // WHEN
         person = service.assignPerson(UserConstants.USERNAME, PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(person)
-            .isEqualTo(Persons.valid());
+            .isEqualTo(Persons.noMembership());
     }
 
 }

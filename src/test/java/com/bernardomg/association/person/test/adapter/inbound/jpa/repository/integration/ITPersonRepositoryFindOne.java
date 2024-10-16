@@ -33,6 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
@@ -56,7 +59,7 @@ class ITPersonRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(personOptional)
-            .contains(Persons.valid());
+            .contains(Persons.noMembership());
     }
 
     @Test
@@ -70,6 +73,48 @@ class ITPersonRepositoryFindOne {
         // THEN
         Assertions.assertThat(personOptional)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a person having an active membership, it is returned")
+    @MembershipActivePerson
+    void testFindOne_WithMembership_Active() {
+        final Optional<Person> personOptional;
+
+        // WHEN
+        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(personOptional)
+            .contains(Persons.membershipActive());
+    }
+
+    @Test
+    @DisplayName("With a person having an inactive membership, it is returned")
+    @MembershipInactivePerson
+    void testFindOne_WithMembership_Inactive() {
+        final Optional<Person> personOptional;
+
+        // WHEN
+        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(personOptional)
+            .contains(Persons.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("With a person having without membership, it is returned")
+    @NoMembershipPerson
+    void testFindOne_WithoutMembership() {
+        final Optional<Person> personOptional;
+
+        // WHEN
+        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(personOptional)
+            .contains(Persons.noMembership());
     }
 
 }
