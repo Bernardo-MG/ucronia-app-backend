@@ -107,7 +107,7 @@ public final class DefaultPersonService implements PersonService {
         log.debug("Updating person {} using data {}", person.number(), person);
 
         // TODO: Identificator and phone must be unique or empty
-        // TODO: Apply the creation validations
+        // TODO: The membership maybe can't be removed
 
         if (!personRepository.exists(person.number())) {
             log.error("Missing person {}", person.number());
