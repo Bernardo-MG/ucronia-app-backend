@@ -50,7 +50,7 @@ class TestBookController {
 
     @Test
     @DisplayName("Can create books")
-    void testCreateBook() throws Exception {
+    void testCreate() throws Exception {
         final BookCreation bookCreation;
 
         // GIVEN
@@ -64,7 +64,7 @@ class TestBookController {
 
     @Test
     @DisplayName("When creating a book, it is sent to the service")
-    void testCreateBook_CallsService() throws Exception {
+    void testCreate_CallsService() throws Exception {
         final BookCreation bookCreation;
 
         // GIVEN
@@ -82,7 +82,7 @@ class TestBookController {
 
     @Test
     @DisplayName("Can update books")
-    void testUpdateBook() throws Exception {
+    void testUpdate() throws Exception {
         final BookUpdate bookCreation;
 
         // GIVEN
@@ -96,7 +96,7 @@ class TestBookController {
 
     @Test
     @DisplayName("Can update books")
-    void testUpdateBook_CallsService() throws Exception {
+    void testUpdate_CallsService() throws Exception {
         final BookUpdate bookCreation;
 
         // GIVEN
