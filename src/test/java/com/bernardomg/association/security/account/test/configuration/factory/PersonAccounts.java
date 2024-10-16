@@ -20,7 +20,7 @@ public final class PersonAccounts {
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
             .withEmail(UserConstants.EMAIL)
-            .withPerson(Persons.valid())
+            .withPerson(Persons.noMembership())
             .build();
     }
 

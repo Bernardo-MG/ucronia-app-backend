@@ -90,7 +90,7 @@ class TestPersonServiceUpdate {
         service.update(person);
 
         // THEN
-        verify(personRepository).save(Persons.valid());
+        verify(personRepository).save(Persons.noMembership());
     }
 
     @Test

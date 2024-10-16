@@ -76,12 +76,4 @@ public final class Persons {
         return new Person(PersonConstants.IDENTIFIER, -1L, name, PersonConstants.PHONE, Optional.empty());
     }
 
-    public static final Person valid() {
-        final PersonName name;
-
-        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
-            Optional.empty());
-    }
-
 }

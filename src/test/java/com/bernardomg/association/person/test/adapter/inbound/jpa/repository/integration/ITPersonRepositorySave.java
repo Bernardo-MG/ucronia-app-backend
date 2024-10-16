@@ -82,7 +82,7 @@ class ITPersonRepositorySave {
         final Iterable<PersonEntity> entities;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
 
         // WHEN
         personRepository.save(person);
@@ -172,7 +172,7 @@ class ITPersonRepositorySave {
         final Iterable<PersonEntity> entities;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
 
         // WHEN
         personRepository.save(person);
@@ -194,7 +194,7 @@ class ITPersonRepositorySave {
         final Person saved;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
 
         // WHEN
         saved = personRepository.save(person);
@@ -202,7 +202,7 @@ class ITPersonRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("person")
-            .isEqualTo(Persons.valid());
+            .isEqualTo(Persons.noMembership());
     }
 
     @Test
@@ -233,7 +233,7 @@ class ITPersonRepositorySave {
         final Iterable<PersonEntity> entities;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
 
         // WHEN
         personRepository.save(person);
@@ -254,7 +254,7 @@ class ITPersonRepositorySave {
         final Person saved;
 
         // GIVEN
-        person = Persons.valid();
+        person = Persons.noMembership();
 
         // WHEN
         saved = personRepository.save(person);
@@ -262,7 +262,7 @@ class ITPersonRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("person")
-            .isEqualTo(Persons.valid());
+            .isEqualTo(Persons.noMembership());
     }
 
 }

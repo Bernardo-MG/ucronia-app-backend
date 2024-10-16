@@ -61,7 +61,7 @@ class ITPersonRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(people)
-            .containsExactly(Persons.valid());
+            .containsExactly(Persons.noMembership());
     }
 
     @Test

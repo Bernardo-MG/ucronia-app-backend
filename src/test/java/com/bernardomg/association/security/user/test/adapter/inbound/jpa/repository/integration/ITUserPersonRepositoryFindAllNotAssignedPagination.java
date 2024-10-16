@@ -69,7 +69,7 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
 
         // THEN
         Assertions.assertThat(persons)
-            .containsExactly(Persons.valid());
+            .containsExactly(Persons.noMembership());
     }
 
     @Test

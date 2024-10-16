@@ -98,7 +98,7 @@ class TestPersonServiceGetAll {
         final Pageable         pageable;
 
         // GIVEN
-        given(personRepository.findAll(ArgumentMatchers.any())).willReturn(List.of(Persons.valid()));
+        given(personRepository.findAll(ArgumentMatchers.any())).willReturn(List.of(Persons.noMembership()));
 
         pageable = Pageable.unpaged();
 
@@ -108,7 +108,7 @@ class TestPersonServiceGetAll {
         // THEN
         Assertions.assertThat(persons)
             .as("persons")
-            .containsExactly(Persons.valid());
+            .containsExactly(Persons.noMembership());
     }
 
     @Test
@@ -118,7 +118,7 @@ class TestPersonServiceGetAll {
         final Page<Person> readPersons;
 
         // GIVEN
-        readPersons = new PageImpl<>(List.of(Persons.valid()));
+        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
         given(personRepository.findAll(pageableCaptor.capture())).willReturn(readPersons);
 
         pageable = PageRequest.of(0, 1, Sort.by("fullName"));
@@ -145,7 +145,7 @@ class TestPersonServiceGetAll {
         final Page<Person> readPersons;
 
         // GIVEN
-        readPersons = new PageImpl<>(List.of(Persons.valid()));
+        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
         given(personRepository.findAll(pageableCaptor.capture())).willReturn(readPersons);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "fullName"));
@@ -172,7 +172,7 @@ class TestPersonServiceGetAll {
         final Page<Person> readPersons;
 
         // GIVEN
-        readPersons = new PageImpl<>(List.of(Persons.valid()));
+        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
         given(personRepository.findAll(pageableCaptor.capture())).willReturn(readPersons);
 
         pageable = Pageable.unpaged(Sort.by("fullName"));

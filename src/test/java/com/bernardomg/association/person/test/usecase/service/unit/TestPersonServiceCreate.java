@@ -107,7 +107,7 @@ class TestPersonServiceCreate {
         service.create(person);
 
         // THEN
-        verify(personRepository).save(Persons.valid());
+        verify(personRepository).save(Persons.noMembership());
     }
 
     @Test
@@ -124,7 +124,7 @@ class TestPersonServiceCreate {
         service.create(person);
 
         // THEN
-        verify(personRepository).save(Persons.valid());
+        verify(personRepository).save(Persons.noMembership());
     }
 
     @Test
@@ -136,7 +136,7 @@ class TestPersonServiceCreate {
         // GIVEN
         person = Persons.toCreate();
 
-        given(personRepository.save(Persons.valid())).willReturn(Persons.valid());
+        given(personRepository.save(Persons.noMembership())).willReturn(Persons.noMembership());
         given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
@@ -145,7 +145,7 @@ class TestPersonServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("person")
-            .isEqualTo(Persons.valid());
+            .isEqualTo(Persons.noMembership());
     }
 
 }
