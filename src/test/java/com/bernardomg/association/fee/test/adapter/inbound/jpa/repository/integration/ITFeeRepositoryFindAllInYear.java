@@ -42,11 +42,11 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.TwoFeeY
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -213,7 +213,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a full year it returns all the data")
     @MembershipActivePerson
-    @AlternativeActiveMember
+    @AlternativeActiveMembershipPerson
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_Active_FullYear_TwoMembers() {
@@ -306,7 +306,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With user without last name it returns all data")
-    @NoLastNameMember
+    @NoLastNameMembershipPerson
     @FeeFullYear
     void testFindAllInYear_Active_NoLastName() {
         final Iterable<Fee> fees;

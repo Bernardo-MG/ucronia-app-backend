@@ -35,13 +35,13 @@ import org.springframework.data.domain.Sort.Direction;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - sort")
-@MultipleInactiveMembers
+@MultipleInactiveMembershipPerson
 @MultipleFees
 class ITMemberRepositoryFindAllSort {
 

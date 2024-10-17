@@ -47,8 +47,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.AccentInactiveMembers;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.person.test.configuration.data.annotation.AccentInactiveMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -60,7 +60,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @AccentInactiveMembers
+    @AccentInactiveMembershipPerson
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
@@ -88,7 +88,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_Date_Asc() {
         final Iterable<Fee> fees;
@@ -114,7 +114,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_Date_Desc() {
         final Iterable<Fee> fees;
@@ -141,7 +141,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Iterable<Fee> fees;
@@ -168,7 +168,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Iterable<Fee> fees;
@@ -196,7 +196,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_NotExisting() {
         final FeeQuery         feeQuery;
@@ -219,7 +219,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Iterable<Fee> fees;
@@ -243,7 +243,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Iterable<Fee> fees;

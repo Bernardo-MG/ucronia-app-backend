@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.configuration.data.annotation;
+package com.bernardomg.association.person.test.configuration.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -15,6 +15,9 @@ import org.springframework.test.context.jdbc.Sql;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface AlternativePaidFee {
+/**
+ * TODO: the persons shouldn't know about fees
+ */
+public @interface AlternativeMembershipPaidFee {
 
 }

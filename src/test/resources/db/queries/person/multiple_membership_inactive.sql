@@ -5,9 +5,9 @@ INSERT INTO association.persons (id, number, first_name, last_name, phone, ident
    (4, 40, 'Person 4', 'Last name 4', '12348', '6792'),
    (5, 50, 'Person 5', 'Last name 5', '12349', '6793');
 
-INSERT INTO association.members (id, person, active) VALUES
-   (1, 1, true),
-   (2, 2, true),
-   (3, 3, true),
-   (4, 4, true),
-   (5, 5, true);
+INSERT INTO association.members (person, active) VALUES
+   (1, false),
+   (2, false),
+   (3, false),
+   (4, false),
+   (5, false);

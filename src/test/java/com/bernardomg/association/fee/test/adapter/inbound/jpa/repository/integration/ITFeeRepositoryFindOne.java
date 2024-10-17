@@ -33,14 +33,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativePaidFee;
-import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameMember;
+import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -54,7 +54,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
     @MembershipActivePerson
-    @AlternativeActiveMember
+    @AlternativeActiveMembershipPerson
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Active_TwoMembers_Alternative() {
@@ -83,7 +83,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no last name, only the name is returned")
-    @NoLastNameMember
+    @NoLastNameMembershipPerson
     @PaidFee
     void testFindOne_NoLastName() {
         final Optional<Fee> fee;
@@ -129,7 +129,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
     @MembershipActivePerson
-    @AlternativeActiveMember
+    @AlternativeActiveMembershipPerson
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Paid_TwoMembers() {

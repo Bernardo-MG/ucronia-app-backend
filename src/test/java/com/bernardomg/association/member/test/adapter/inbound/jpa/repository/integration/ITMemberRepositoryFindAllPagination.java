@@ -33,14 +33,14 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - pagination")
-@MultipleInactiveMembers
+@MultipleInactiveMembershipPerson
 class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
     @Autowired
