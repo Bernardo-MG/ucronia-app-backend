@@ -38,6 +38,48 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
+    public final void activate(final long number) {
+        final Optional<PersonEntity> read;
+        final PersonEntity           person;
+
+        log.trace("Activating member {}", number);
+
+        // TODO: throw an exception if it doesn't exist
+
+        read = personSpringRepository.findByNumber(number);
+        if (read.isPresent()) {
+            person = read.get();
+            // TODO: check the membership exists
+            person.getMembership()
+                .setActive(true);
+            personSpringRepository.save(person);
+
+            log.trace("Activated member {}", number);
+        }
+    }
+
+    @Override
+    public final void deactivate(final long number) {
+        final Optional<PersonEntity> read;
+        final PersonEntity           person;
+
+        log.trace("Deactivating member {}", number);
+
+        // TODO: throw an exception if it doesn't exist
+
+        read = personSpringRepository.findByNumber(number);
+        if (read.isPresent()) {
+            person = read.get();
+            // TODO: check the membership exists
+            person.getMembership()
+                .setActive(false);
+            personSpringRepository.save(person);
+
+            log.trace("Deactivated member {}", number);
+        }
+    }
+
+    @Override
     public final void delete(final long number) {
         log.debug("Deleting fee {}", number);
 

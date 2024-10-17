@@ -36,44 +36,6 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final void activate(final long number) {
-        final Optional<MemberEntity> read;
-        final MemberEntity           member;
-
-        log.trace("Activating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = memberSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            member = read.get();
-            member.setActive(true);
-            memberSpringRepository.save(member);
-
-            log.trace("Activated member {}", number);
-        }
-    }
-
-    @Override
-    public final void deactivate(final long number) {
-        final Optional<MemberEntity> read;
-        final MemberEntity           member;
-
-        log.trace("Deactivating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = memberSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            member = read.get();
-            member.setActive(false);
-            memberSpringRepository.save(member);
-
-            log.trace("Deactivated member {}", number);
-        }
-    }
-
-    @Override
     public final void delete(final long number) {
         log.trace("Deleting member {}", number);
 

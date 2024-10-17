@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.person.usecase.service;
 
 import java.time.YearMonth;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultMemberStatusService implements MemberStatusService {
 
-    private final MemberRepository memberRepository;
+    private final PersonRepository personRepository;
 
-    public DefaultMemberStatusService(final MemberRepository memberRepo) {
+    public DefaultMemberStatusService(final PersonRepository personRepo) {
         super();
 
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
     }
 
     @Override
@@ -30,9 +30,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             .equals(date)) {
             log.debug("Activating member status for person {}", personNumber);
             // If paying for the current month, the user is set to active
-            memberRepository.activate(personNumber);
+            personRepository.activate(personNumber);
         }
-
     }
 
     @Override
@@ -41,9 +40,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             .equals(date)) {
             log.debug("Deactivating member status for person {}", personNumber);
             // If deleting at the current month, the user is set to inactive
-            memberRepository.deactivate(personNumber);
+            personRepository.deactivate(personNumber);
         }
-
     }
 
 }

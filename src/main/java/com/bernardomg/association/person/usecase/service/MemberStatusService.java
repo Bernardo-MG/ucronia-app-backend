@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.person.usecase.service;
 
 import java.time.YearMonth;
 

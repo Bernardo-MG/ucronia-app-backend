@@ -9,10 +9,6 @@ import com.bernardomg.association.member.domain.model.Member;
 
 public interface MemberRepository {
 
-    public void activate(final long number);
-
-    public void deactivate(final long number);
-
     public void delete(final long number);
 
     public boolean exists(final long number);

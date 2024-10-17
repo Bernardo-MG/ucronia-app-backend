@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.usecase.service.unit;
+package com.bernardomg.association.person.test.usecase.service.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -36,16 +36,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - create")
+@DisplayName("Member status service - deactivate")
 class TestMemberStatusDeactivate {
 
     @Mock
-    private MemberRepository           memberRepository;
+    private PersonRepository           personRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -68,7 +68,7 @@ class TestMemberStatusDeactivate {
         service.deactivate(date, number);
 
         // THEN
-        verify(memberRepository).deactivate(number);
+        verify(personRepository).deactivate(number);
     }
 
     @Test
@@ -86,7 +86,7 @@ class TestMemberStatusDeactivate {
         service.deactivate(date, number);
 
         // THEN
-        verify(memberRepository, Mockito.never()).deactivate(number);
+        verify(personRepository, Mockito.never()).deactivate(number);
     }
 
 }

@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.person.domain.repository.MemberBalanceRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

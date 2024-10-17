@@ -22,78 +22,78 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - activate single")
-class ITMemberRepositoryActivate {
+@DisplayName("MemberRepository - deactivate")
+class ITPersonRepositoryDeactivate {
 
     @Autowired
-    private MemberSpringRepository memberRepository;
+    private PersonSpringRepository personRepository;
 
     @Autowired
-    private MemberRepository       repository;
+    private PersonRepository       repository;
 
     @Test
-    @DisplayName("With an existing active member, nothing changes")
+    @DisplayName("With an existing active member, it is deactivated")
     @ActiveMember
-    void testActivate_Active() {
-        final Iterable<MemberEntity> entities;
+    void testDeactivate_Active() {
+        final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.deactivate(PersonConstants.NUMBER);
 
         // THEN
-        entities = memberRepository.findAll();
+        entities = personRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(PersonEntities.membershipInactive());
     }
 
     @Test
-    @DisplayName("With an existing inactive member, it is activated")
+    @DisplayName("With an existing inactive member, nothing changed")
     @InactiveMember
-    void testActivate_Inactive() {
-        final Iterable<MemberEntity> entities;
+    void testDeactivate_Inactive() {
+        final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.deactivate(PersonConstants.NUMBER);
 
         // THEN
-        entities = memberRepository.findAll();
+        entities = personRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(PersonEntities.membershipInactive());
     }
 
     @Test
     @DisplayName("With no member, nothing changes")
-    void testActivate_NoData() {
-        final Iterable<MemberEntity> entities;
+    void testDeactivate_NoData() {
+        final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.deactivate(PersonConstants.NUMBER);
 
         // THEN
-        entities = memberRepository.findAll();
+        entities = personRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
