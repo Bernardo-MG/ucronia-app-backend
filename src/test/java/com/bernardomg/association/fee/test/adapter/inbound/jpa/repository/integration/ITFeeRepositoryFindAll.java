@@ -43,9 +43,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
 import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameMember;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,7 +57,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeFullYear
     void testFindAll_FullYear() {
         final Iterable<Fee> fees;
@@ -109,7 +109,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAll_NoFee() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
@@ -154,7 +154,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Iterable<Fee> fees;
@@ -177,7 +177,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a paid fee it returns all the fees")
-    @ActiveMember
+    @MembershipActivePerson
     @PaidFee
     void testFindAll_Paid() {
         final Iterable<Fee> fees;

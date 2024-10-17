@@ -40,8 +40,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -121,7 +121,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeFullYear
     void testFindAll_InDate_FirstDay_Data() {
         final Iterable<Fee> fees;
@@ -144,7 +144,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeFullYear
     void testFindAll_InDate_LastDay_Data() {
         final Iterable<Fee> fees;

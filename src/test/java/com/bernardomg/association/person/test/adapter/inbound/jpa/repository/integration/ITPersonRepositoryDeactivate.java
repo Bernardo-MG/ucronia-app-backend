@@ -29,11 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -50,7 +50,7 @@ class ITPersonRepositoryDeactivate {
 
     @Test
     @DisplayName("With an existing active member, it is deactivated")
-    @ActiveMember
+    @MembershipActivePerson
     void testDeactivate_Active() {
         final Iterable<PersonEntity> entities;
 
@@ -68,7 +68,7 @@ class ITPersonRepositoryDeactivate {
 
     @Test
     @DisplayName("With an existing inactive member, nothing changed")
-    @InactiveMember
+    @MembershipInactivePerson
     void testDeactivate_Inactive() {
         final Iterable<PersonEntity> entities;
 

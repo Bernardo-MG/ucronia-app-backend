@@ -37,10 +37,10 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameMember;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -53,7 +53,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @AlternativeActiveMember
     @PaidFee
     @AlternativePaidFee
@@ -98,7 +98,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     void testFindOne_NotPaid() {
         final Optional<Fee> fee;
@@ -113,7 +113,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @PaidFee
     void testFindOne_Paid() {
         final Optional<Fee> fee;
@@ -128,7 +128,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @AlternativeActiveMember
     @PaidFee
     @AlternativePaidFee

@@ -37,9 +37,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Alterna
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,7 +58,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a full year, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeFullYear
     void testFindRange_FullYear() {
         final FeeCalendarYearsRange range;
@@ -74,7 +74,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a full year and two members, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @AlternativeActiveMember
     @FeeFullYear
     @AlternativeFeeFullYear
@@ -92,7 +92,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee for the next year, nothing is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_NextYear_NotPaid() {
         final FeeCalendarYearsRange range;
 
@@ -110,7 +110,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee for the next year, nothing is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_NextYear_Paid() {
         final FeeCalendarYearsRange range;
 
@@ -142,7 +142,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With no fees, the range is empty")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_NoFees() {
         final FeeCalendarYearsRange range;
 
@@ -157,7 +157,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_NotPaid() {
         final FeeCalendarYearsRange range;
 
@@ -175,7 +175,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_Paid() {
         final FeeCalendarYearsRange range;
 
@@ -193,7 +193,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_PreviousYear_NotPaid() {
         final FeeCalendarYearsRange range;
 
@@ -211,7 +211,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_PreviousYear_Paid() {
         final FeeCalendarYearsRange range;
 
@@ -229,7 +229,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years connected, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_TwoConnectedYears() {
         final FeeCalendarYearsRange range;
 
@@ -248,7 +248,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years connected and not in order, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_TwoConnectedYears_NotInOrder() {
         final FeeCalendarYearsRange range;
 
@@ -267,7 +267,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years with a gap, the year range is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindRange_TwoYearsWithGap() {
         final FeeCalendarYearsRange range;
 

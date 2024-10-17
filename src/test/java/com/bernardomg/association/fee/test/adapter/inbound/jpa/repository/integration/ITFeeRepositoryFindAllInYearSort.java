@@ -43,9 +43,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.AccentActiveMembers;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -100,7 +100,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @ActiveMember
+    @MembershipActivePerson
     @AlternativeActiveMember
     @FeeFullYear
     @AlternativeFeeFullYear
@@ -133,7 +133,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @ActiveMember
+    @MembershipActivePerson
     @AlternativeActiveMember
     @FeeFullYear
     @AlternativeFeeFullYear

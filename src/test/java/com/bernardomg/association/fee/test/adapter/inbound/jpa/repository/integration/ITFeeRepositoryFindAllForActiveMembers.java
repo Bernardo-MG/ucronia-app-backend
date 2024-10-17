@@ -35,8 +35,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,7 +51,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee in the current month, it returns the calendar")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForActiveMembers_Active_CurrentMonth_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -72,7 +72,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForActiveMembers_Active_CurrentMonth_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -93,7 +93,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForActiveMembers_Active_CurrentMonth_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -114,7 +114,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee in the current month, it returns the calendar")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForActiveMembers_Active_CurrentMonth_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -135,7 +135,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForActiveMembers_Active_CurrentMonth_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -156,7 +156,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForActiveMembers_Active_CurrentMonth_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -177,7 +177,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee in the current month, and an inactive member, it returns nothing")
-    @InactiveMember
+    @MembershipInactivePerson
     void testFindAllForActiveMembers_Inactive_CurrentMonth_NotPaid() {
         final Iterable<Fee> fees;
         final Sort          sort;
@@ -198,7 +198,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee in the current month, and an inactive member, it returns nothing")
-    @InactiveMember
+    @MembershipInactivePerson
     void testFindAllForActiveMembers_Inactive_CurrentMonth_Paid() {
         final Iterable<Fee> fees;
         final Sort          sort;

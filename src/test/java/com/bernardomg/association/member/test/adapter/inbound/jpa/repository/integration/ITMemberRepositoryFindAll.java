@@ -32,9 +32,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,7 +50,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member, it is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAll_Active() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -69,7 +69,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member, it is returned")
-    @InactiveMember
+    @MembershipInactivePerson
     void testFindAll_Inactive() {
         final Iterable<Member> members;
         final Pageable         pageable;

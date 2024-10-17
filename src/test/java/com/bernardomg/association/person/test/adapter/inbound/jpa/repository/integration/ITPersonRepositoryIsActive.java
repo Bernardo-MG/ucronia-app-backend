@@ -29,9 +29,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -44,7 +44,7 @@ class ITPersonRepositoryIsActive {
 
     @Test
     @DisplayName("When the member is active, is is indicated as so")
-    @ActiveMember
+    @MembershipActivePerson
     void testIsActive_Active() {
         final boolean active;
 
@@ -59,7 +59,7 @@ class ITPersonRepositoryIsActive {
 
     @Test
     @DisplayName("When the member is inactive, is is indicated as so")
-    @InactiveMember
+    @MembershipInactivePerson
     void testIsActive_Inactive() {
         final boolean active;
 

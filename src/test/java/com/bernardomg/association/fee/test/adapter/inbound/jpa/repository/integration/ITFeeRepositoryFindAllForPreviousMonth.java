@@ -33,8 +33,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,7 +49,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
 
     @Test
     @DisplayName("When there are no fees, nothing is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForPreviousMonth_Active_NoFee() {
         final Iterable<Fee> fees;
 
@@ -64,7 +64,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
 
     @Test
     @DisplayName("When there is a not paid fee in the previous month, for an active member, it is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForPreviousMonth_Active_NotPaid() {
         final Iterable<Fee> fees;
 
@@ -82,7 +82,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
 
     @Test
     @DisplayName("When there is a paid fee in the previous month, for an active member, it is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindAllForPreviousMonth_Active_Paid() {
         final Iterable<Fee> fees;
 
@@ -100,7 +100,7 @@ class ITFeeRepositoryFindAllForPreviousMonth {
 
     @Test
     @DisplayName("When there is a not paid fee in the previous month, for an inactive member, it is returned")
-    @InactiveMember
+    @MembershipInactivePerson
     void testFindAllForPreviousMonth_Inactive_NotPaid() {
         final Iterable<Fee> fees;
 
