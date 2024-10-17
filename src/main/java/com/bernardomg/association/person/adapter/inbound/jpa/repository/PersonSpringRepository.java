@@ -27,6 +27,8 @@ package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,7 +53,41 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
+    @Query("""
+            SELECT p
+            FROM Person p
+              JOIN p.membership m
+            WHERE m.active = true
+            """)
+    public Page<PersonEntity> findAllActive(final Pageable pageable);
+
+    @Query("""
+            SELECT p.id
+            FROM Person p
+              JOIN p.membership m
+            WHERE m.active = true
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllActiveIds();
+
     public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
+
+    @Query("""
+            SELECT p
+            FROM Person p
+              JOIN p.membership m
+            WHERE m.active = false
+            """)
+    public Page<PersonEntity> findAllInactive(final Pageable pageable);
+
+    @Query("""
+            SELECT p.id
+            FROM Person p
+              JOIN p.membership m
+            WHERE m.active = false
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllInactiveIds();
 
     public Optional<PersonEntity> findByNumber(final Long number);
 
