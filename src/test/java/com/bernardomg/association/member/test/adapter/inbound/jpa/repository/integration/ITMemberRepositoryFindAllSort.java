@@ -33,30 +33,30 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PublicMemberRepository - find all - sort")
+@DisplayName("MemberRepository - find all - sort")
 @MultipleInactiveMembers
 @MultipleFees
-class ITPublicMemberRepositoryFindAllSort {
+class ITMemberRepositoryFindAllSort {
 
     @Autowired
-    private PublicMemberRepository repository;
+    private MemberRepository repository;
 
-    public ITPublicMemberRepositoryFindAllSort() {
+    public ITMemberRepositoryFindAllSort() {
         super();
     }
 
     @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
     void testFindAll_FirstName_Asc() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
+        final Iterable<Member> members;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "person.firstName");
@@ -67,16 +67,15 @@ class ITPublicMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(PublicMembers.forNumber(1, false), PublicMembers.forNumber(2, false),
-                PublicMembers.forNumber(3, false), PublicMembers.forNumber(4, false),
-                PublicMembers.forNumber(5, false));
+            .containsExactly(Members.forNumber(1, false), Members.forNumber(2, false), Members.forNumber(3, false),
+                Members.forNumber(4, false), Members.forNumber(5, false));
     }
 
     @Test
     @DisplayName("With descending order by first name it returns the ordered data")
     void testFindAll_FirstName_Desc() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
+        final Iterable<Member> members;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "person.firstName");
@@ -86,16 +85,15 @@ class ITPublicMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(PublicMembers.forNumber(5, false), PublicMembers.forNumber(4, false),
-                PublicMembers.forNumber(3, false), PublicMembers.forNumber(2, false),
-                PublicMembers.forNumber(1, false));
+            .containsExactly(Members.forNumber(5, false), Members.forNumber(4, false), Members.forNumber(3, false),
+                Members.forNumber(2, false), Members.forNumber(1, false));
     }
 
     @Test
     @DisplayName("With ascending order by last name it returns the ordered data")
     void testFindAll_LastName_Asc() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
+        final Iterable<Member> members;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "person.lastName");
@@ -105,16 +103,15 @@ class ITPublicMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(PublicMembers.forNumber(1, false), PublicMembers.forNumber(2, false),
-                PublicMembers.forNumber(3, false), PublicMembers.forNumber(4, false),
-                PublicMembers.forNumber(5, false));
+            .containsExactly(Members.forNumber(1, false), Members.forNumber(2, false), Members.forNumber(3, false),
+                Members.forNumber(4, false), Members.forNumber(5, false));
     }
 
     @Test
     @DisplayName("With descending order by last name it returns the ordered data")
     void testFindAll_LastName_Desc() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
+        final Iterable<Member> members;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "person.lastName");
@@ -124,9 +121,8 @@ class ITPublicMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(PublicMembers.forNumber(5, false), PublicMembers.forNumber(4, false),
-                PublicMembers.forNumber(3, false), PublicMembers.forNumber(2, false),
-                PublicMembers.forNumber(1, false));
+            .containsExactly(Members.forNumber(5, false), Members.forNumber(4, false), Members.forNumber(3, false),
+                Members.forNumber(2, false), Members.forNumber(1, false));
     }
 
 }

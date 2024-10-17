@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
@@ -61,14 +61,14 @@ public class PublicMemberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBERS)
-    public Iterable<PublicMember> readAll(@Valid final MemberQuery query, final Pageable pageable) {
+    public Iterable<Member> readAll(@Valid final MemberQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBER)
-    public PublicMember readOne(@PathVariable("number") final Long number) {
+    public Member readOne(@PathVariable("number") final Long number) {
         return service.getOne(number)
             .orElse(null);
     }

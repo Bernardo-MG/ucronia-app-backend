@@ -24,91 +24,66 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PublicMemberRepository - find inactive")
-class ITPublicMemberRepositoryFindInactive {
+@DisplayName("MemberRepository - find one")
+class ITMemberRepositoryFindOne {
 
     @Autowired
-    private FeeInitializer         feeInitializer;
-
-    @Autowired
-    private PublicMemberRepository repository;
-
-    public ITPublicMemberRepositoryFindInactive() {
-        super();
-    }
+    private MemberRepository memberRepository;
 
     @Test
-    @DisplayName("With an active member, nothing is returned")
+    @DisplayName("With an active member, it is returned")
     @ActiveMember
-    void testFindInactive_Active() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
-        pageable = Pageable.unpaged();
+    void testFindOne_Active() {
+        final Optional<Member> memberOptional;
 
         // WHEN
-        members = repository.findInactive(pageable);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .isEmpty();
+        Assertions.assertThat(memberOptional)
+            .contains(Members.active());
     }
 
     @Test
     @DisplayName("With an inactive member, it is returned")
     @InactiveMember
-    void testFindInactive_Inactive() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
-        pageable = Pageable.unpaged();
+    void testFindOne_Inactive() {
+        final Optional<Member> memberOptional;
 
         // WHEN
-        members = repository.findInactive(pageable);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .containsExactly(PublicMembers.inactive());
+        Assertions.assertThat(memberOptional)
+            .contains(Members.inactive());
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
-    void testFindInactive_NoData() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
+    @DisplayName("With no member, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<Member> memberOptional;
 
         // WHEN
-        members = repository.findInactive(pageable);
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(members)
-            .as("members")
+        Assertions.assertThat(memberOptional)
             .isEmpty();
     }
 

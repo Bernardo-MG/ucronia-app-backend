@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,16 +32,16 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultPublicMemberService implements PublicMemberService {
 
-    private final PublicMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultPublicMemberService(final PublicMemberRepository memberRepo) {
+    public DefaultPublicMemberService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
-    public final Iterable<PublicMember> getAll(final MemberQuery query, final Pageable pageable) {
+    public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
         final Pageable pagination;
 
         log.debug("Reading public members with pagination {}", pageable);
@@ -56,8 +56,8 @@ public final class DefaultPublicMemberService implements PublicMemberService {
     }
 
     @Override
-    public final Optional<PublicMember> getOne(final long number) {
-        final Optional<PublicMember> member;
+    public final Optional<Member> getOne(final long number) {
+        final Optional<Member> member;
 
         log.debug("Reading public member {}", number);
 

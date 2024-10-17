@@ -38,9 +38,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
@@ -49,7 +49,7 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 class TestPublicMemberServiceGetOne {
 
     @Mock
-    private PublicMemberRepository     publicMemberRepository;
+    private MemberRepository           publicMemberRepository;
 
     @InjectMocks
     private DefaultPublicMemberService service;
@@ -61,17 +61,17 @@ class TestPublicMemberServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<PublicMember> memberOptional;
+        final Optional<Member> memberOptional;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(PublicMembers.active()));
+        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         memberOptional = service.getOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
-            .contains(PublicMembers.active());
+            .contains(Members.active());
     }
 
     @Test

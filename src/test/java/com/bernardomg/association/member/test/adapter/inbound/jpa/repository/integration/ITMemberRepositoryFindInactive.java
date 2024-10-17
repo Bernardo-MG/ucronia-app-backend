@@ -30,55 +30,42 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PublicMemberRepository - find active")
-class ITPublicMemberRepositoryFindActive {
+@DisplayName("MemberRepository - find inactive")
+class ITMemberRepositoryFindInactive {
 
     @Autowired
-    private PublicMemberRepository repository;
+    private FeeInitializer   feeInitializer;
 
-    public ITPublicMemberRepositoryFindActive() {
+    @Autowired
+    private MemberRepository repository;
+
+    public ITMemberRepositoryFindInactive() {
         super();
     }
 
     @Test
-    @DisplayName("With an active member, it returns the member")
+    @DisplayName("With an active member, nothing is returned")
     @ActiveMember
-    void testFindActive_Active() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
+    void testFindInactive_Active() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
 
         // GIVEN
+        feeInitializer.registerFeeCurrentMonth(false);
+
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = repository.findActive(pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .containsExactly(PublicMembers.active());
-    }
-
-    @Test
-    @DisplayName("With an inactive member, it returns nothing")
-    @InactiveMember
-    void testFindActive_Inactive() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        members = repository.findActive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)
@@ -87,16 +74,37 @@ class ITPublicMemberRepositoryFindActive {
     }
 
     @Test
+    @DisplayName("With an inactive member, it is returned")
+    @InactiveMember
+    void testFindInactive_Inactive() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        members = repository.findInactive(pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .as("members")
+            .containsExactly(Members.inactive());
+    }
+
+    @Test
     @DisplayName("With no data it returns nothing")
-    void testFindActive_NoData() {
-        final Iterable<PublicMember> members;
-        final Pageable               pageable;
+    void testFindInactive_NoData() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
         // WHEN
-        members = repository.findActive(pageable);
+        members = repository.findInactive(pageable);
 
         // THEN
         Assertions.assertThat(members)

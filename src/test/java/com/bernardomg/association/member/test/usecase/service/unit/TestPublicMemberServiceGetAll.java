@@ -47,11 +47,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.MembersQuery;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,7 +62,7 @@ class TestPublicMemberServiceGetAll {
     private ArgumentCaptor<Pageable>   pageableCaptor;
 
     @Mock
-    private PublicMemberRepository     publicMemberRepository;
+    private MemberRepository           publicMemberRepository;
 
     @InjectMocks
     private DefaultPublicMemberService service;
@@ -70,13 +70,13 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with by active it returns the active members")
     void testGetAll_FilterActive_ReturnsData() {
-        final Iterable<PublicMember> members;
-        final MemberQuery            memberQuery;
-        final Pageable               pageable;
-        final Page<PublicMember>     readMembers;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
@@ -95,10 +95,10 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with the default filter, and there is no data, it returns nothing")
     void testGetAll_FilterDefault_NoData() {
-        final Iterable<PublicMember> members;
-        final MemberQuery            memberQuery;
-        final Pageable               pageable;
-        final Page<PublicMember>     readMembers;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        final Page<Member>     readMembers;
 
         // GIVEN
         readMembers = new PageImpl<>(List.of());
@@ -120,13 +120,13 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with the default filter it returns all the members")
     void testGetAll_FilterDefault_ReturnsData() {
-        final Iterable<PublicMember> members;
-        final MemberQuery            memberQuery;
-        final Pageable               pageable;
-        final Page<PublicMember>     readMembers;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
@@ -145,13 +145,13 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with by active it returns the not active members")
     void testGetAll_FilterNotActive_ReturnsData() {
-        final Iterable<PublicMember> members;
-        final MemberQuery            memberQuery;
-        final Pageable               pageable;
-        final Page<PublicMember>     readMembers;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
@@ -170,12 +170,12 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FullName() {
-        final MemberQuery        memberQuery;
-        final Pageable           pageable;
-        final Page<PublicMember> readMembers;
+        final MemberQuery  memberQuery;
+        final Pageable     pageable;
+        final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by("fullName"));
@@ -200,12 +200,12 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_Number() {
-        final MemberQuery        memberQuery;
-        final Pageable           pageable;
-        final Page<PublicMember> readMembers;
+        final MemberQuery  memberQuery;
+        final Pageable     pageable;
+        final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by("number"));
@@ -230,12 +230,12 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FullName() {
-        final MemberQuery        memberQuery;
-        final Pageable           pageable;
-        final Page<PublicMember> readMembers;
+        final MemberQuery  memberQuery;
+        final Pageable     pageable;
+        final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "fullName"));
@@ -260,12 +260,12 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_Number() {
-        final MemberQuery        memberQuery;
-        final Pageable           pageable;
-        final Page<PublicMember> readMembers;
+        final MemberQuery  memberQuery;
+        final Pageable     pageable;
+        final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "number"));
@@ -290,12 +290,12 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Unpaged_Asc_FullName() {
-        final MemberQuery        memberQuery;
-        final Pageable           pageable;
-        final Page<PublicMember> readMembers;
+        final MemberQuery  memberQuery;
+        final Pageable     pageable;
+        final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = Pageable.unpaged(Sort.by("fullName"));
@@ -320,12 +320,12 @@ class TestPublicMemberServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Unpaged_Asc_Number() {
-        final MemberQuery        memberQuery;
-        final Pageable           pageable;
-        final Page<PublicMember> readMembers;
+        final MemberQuery  memberQuery;
+        final Pageable     pageable;
+        final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(PublicMembers.active()));
+        readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = Pageable.unpaged(Sort.by("number"));

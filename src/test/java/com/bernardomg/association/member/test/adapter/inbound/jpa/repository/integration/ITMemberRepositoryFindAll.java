@@ -24,66 +24,83 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PublicMemberRepository - find one")
-class ITPublicMemberRepositoryFindOne {
+@DisplayName("MemberRepository - find all")
+class ITMemberRepositoryFindAll {
 
     @Autowired
-    private PublicMemberRepository memberRepository;
+    private MemberRepository repository;
+
+    public ITMemberRepositoryFindAll() {
+        super();
+    }
 
     @Test
     @DisplayName("With an active member, it is returned")
     @ActiveMember
-    void testFindOne_Active() {
-        final Optional<PublicMember> memberOptional;
+    void testFindAll_Active() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        members = repository.findAll(pageable);
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(PublicMembers.active());
+        Assertions.assertThat(members)
+            .as("members")
+            .containsExactly(Members.active());
     }
 
     @Test
     @DisplayName("With an inactive member, it is returned")
     @InactiveMember
-    void testFindOne_Inactive() {
-        final Optional<PublicMember> memberOptional;
+    void testFindAll_Inactive() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        members = repository.findAll(pageable);
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(PublicMembers.inactive());
+        Assertions.assertThat(members)
+            .as("members")
+            .containsExactly(Members.inactive());
     }
 
     @Test
-    @DisplayName("With no member, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<PublicMember> memberOptional;
+    @DisplayName("With no data it returns nothing")
+    void testFindAll_NoData() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        members = repository.findAll(pageable);
 
         // THEN
-        Assertions.assertThat(memberOptional)
+        Assertions.assertThat(members)
+            .as("members")
             .isEmpty();
     }
 

@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
@@ -20,19 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Repository
 @Transactional
-public final class JpaPublicMemberRepository implements PublicMemberRepository {
+public final class JpaMemberRepository implements MemberRepository {
 
     private final PersonSpringRepository personSpringRepository;
 
-    public JpaPublicMemberRepository(final PersonSpringRepository personSpringRepo) {
+    public JpaMemberRepository(final PersonSpringRepository personSpringRepo) {
         super();
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
     }
 
     @Override
-    public final Iterable<PublicMember> findActive(final Pageable pageable) {
-        final Page<PublicMember> members;
+    public final Iterable<Member> findActive(final Pageable pageable) {
+        final Page<Member> members;
 
         log.trace("Finding active public members");
 
@@ -45,8 +45,8 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     }
 
     @Override
-    public final Iterable<PublicMember> findAll(final Pageable pageable) {
-        final Page<PublicMember> members;
+    public final Iterable<Member> findAll(final Pageable pageable) {
+        final Page<Member> members;
 
         log.trace("Finding all the public members");
 
@@ -59,8 +59,8 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     }
 
     @Override
-    public final Iterable<PublicMember> findInactive(final Pageable pageable) {
-        final Page<PublicMember> members;
+    public final Iterable<Member> findInactive(final Pageable pageable) {
+        final Page<Member> members;
 
         log.trace("Finding inactive public members");
 
@@ -73,8 +73,8 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     }
 
     @Override
-    public final Optional<PublicMember> findOne(final Long number) {
-        final Optional<PublicMember> member;
+    public final Optional<Member> findOne(final Long number) {
+        final Optional<Member> member;
 
         log.trace("Finding public member with number {}", number);
 
@@ -86,12 +86,12 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
         return member;
     }
 
-    private final PublicMember toDomain(final PersonEntity entity) {
+    private final Member toDomain(final PersonEntity entity) {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         // TODO: check it has membership
-        return new PublicMember(entity.getNumber(), name, entity.getMembership()
+        return new Member(entity.getNumber(), name, entity.getMembership()
             .getActive());
     }
 
