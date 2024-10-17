@@ -58,4 +58,12 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Person p")
     public Long findNextNumber();
 
+    @Query("""
+            SELECT m.active
+            FROM Person p
+              JOIN p.membership m
+            WHERE p.number = :number
+            """)
+    public Boolean isActive(@Param("number") final Long number);
+
 }

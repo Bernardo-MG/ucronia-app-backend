@@ -22,68 +22,68 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - exists")
-class ITMemberRepositoryFindNextNumber {
+@DisplayName("PersonRepository - is active")
+class ITPersonRepositoryIsActive {
 
     @Autowired
-    private MemberRepository repository;
+    private PersonRepository repository;
 
     @Test
-    @DisplayName("With an existing active member, it returns the next number")
+    @DisplayName("When the member is active, is is indicated as so")
     @ActiveMember
-    void testFindNextNumber_Active() {
-        final long number;
+    void testIsActive_Active() {
+        final boolean active;
 
         // WHEN
-        number = repository.findNextNumber();
+        active = repository.isActive(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+        Assertions.assertThat(active)
+            .as("active")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("With an existing inactive member, it returns the next number")
+    @DisplayName("When the member is inactive, is is indicated as so")
     @InactiveMember
-    void testFindNextNumber_Inactive() {
-        final long number;
+    void testIsActive_Inactive() {
+        final boolean active;
 
         // WHEN
-        number = repository.findNextNumber();
+        active = repository.isActive(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+        Assertions.assertThat(active)
+            .as("active")
+            .isFalse();
     }
 
     @Test
-    @DisplayName("With no member, it returns the initial number")
-    void testFindNextNumber_NoData() {
-        final long number;
+    @DisplayName("When the member doesn't exist, it is indicated as so")
+    void testIsActive_NoData() {
+        final boolean active;
 
         // WHEN
-        number = repository.findNextNumber();
+        active = repository.isActive(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(1);
+        Assertions.assertThat(active)
+            .as("active")
+            .isFalse();
     }
 
 }

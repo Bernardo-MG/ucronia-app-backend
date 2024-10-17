@@ -23,6 +23,8 @@ public interface PersonRepository {
 
     public Optional<Person> findOne(final Long number);
 
+    public boolean isActive(final long number);
+
     public Person save(final Person person);
 
 }

@@ -46,9 +46,9 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.model.PublicPerson;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,13 +64,13 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final FeeRepository    feeRepository;
 
-    private final MemberRepository memberRepository;
+    private final PersonRepository personRepository;
 
-    public DefaultFeeCalendarService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+    public DefaultFeeCalendarService(final FeeRepository feeRepo, final PersonRepository personRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
     }
 
     @Override
@@ -180,7 +180,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> memberRepository.isActive(memberNumber);
+            default -> personRepository.isActive(memberNumber);
         };
 
         member = new PublicMember(memberNumber, name, active);
