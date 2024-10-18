@@ -62,7 +62,7 @@ class ITPersonRepositoryActivate {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("membership.person")
             .containsExactly(PersonEntities.membershipActive());
     }
 
@@ -80,7 +80,7 @@ class ITPersonRepositoryActivate {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("membership.person")
             .containsExactly(PersonEntities.membershipActive());
     }
 
