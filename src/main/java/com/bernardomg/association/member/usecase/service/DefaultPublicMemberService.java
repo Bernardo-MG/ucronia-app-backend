@@ -93,6 +93,7 @@ public final class DefaultPublicMemberService implements PublicMemberService {
         final List<Order>     validOrders;
 
         // Full name
+        // TODO: just order from the frontend by first and last names
         fullNameOrder = received.stream()
             .filter(o -> "fullName".equals(o.getProperty()))
             .findFirst();
@@ -101,11 +102,11 @@ public final class DefaultPublicMemberService implements PublicMemberService {
         if (fullNameOrder.isPresent()) {
             if (Direction.ASC.equals(fullNameOrder.get()
                 .getDirection())) {
-                orders.add(Order.asc("person.firstName"));
-                orders.add(Order.asc("person.lastName"));
+                orders.add(Order.asc("firstName"));
+                orders.add(Order.asc("lastName"));
             } else {
-                orders.add(Order.desc("person.firstName"));
-                orders.add(Order.desc("person.lastName"));
+                orders.add(Order.desc("firstName"));
+                orders.add(Order.desc("lastName"));
             }
         }
 
