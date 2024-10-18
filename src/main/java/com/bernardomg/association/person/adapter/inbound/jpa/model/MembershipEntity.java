@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+@Entity(name = "Membership")
 @Table(schema = "association", name = "memberships")
 @Data
 @NoArgsConstructor

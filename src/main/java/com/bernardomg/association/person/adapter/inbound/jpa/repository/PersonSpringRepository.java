@@ -62,7 +62,7 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     public Page<PersonEntity> findAllActive(final Pageable pageable);
 
     @Query("""
-            SELECT p.id
+            SELECT p.id AS id
             FROM Person p
               JOIN p.membership m
             WHERE m.active = true
@@ -81,7 +81,7 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     public Page<PersonEntity> findAllInactive(final Pageable pageable);
 
     @Query("""
-            SELECT p.id
+            SELECT p.id AS id
             FROM Person p
               JOIN p.membership m
             WHERE m.active = false
