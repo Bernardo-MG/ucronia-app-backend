@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.person.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -12,10 +12,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MonthlyMemberBalanceSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MonthlyMemberBalanceSpecifications;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.association.person.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

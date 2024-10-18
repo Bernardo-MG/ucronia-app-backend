@@ -9,9 +9,9 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
+import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
-import com.bernardomg.association.person.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 

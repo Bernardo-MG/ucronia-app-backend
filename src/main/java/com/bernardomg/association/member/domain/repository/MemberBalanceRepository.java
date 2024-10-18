@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.person.domain.repository;
+package com.bernardomg.association.member.domain.repository;
 
 import java.time.YearMonth;
 
