@@ -50,7 +50,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding all the public members");
 
-        members = personSpringRepository.findAll(pageable)
+        members = personSpringRepository.findAllWithMembership(pageable)
             .map(this::toDomain);
 
         log.trace("Found all the public members: {}", members);
@@ -78,7 +78,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding public member with number {}", number);
 
-        member = personSpringRepository.findByNumber(number)
+        member = personSpringRepository.findByNumberWithMembership(number)
             .map(this::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);

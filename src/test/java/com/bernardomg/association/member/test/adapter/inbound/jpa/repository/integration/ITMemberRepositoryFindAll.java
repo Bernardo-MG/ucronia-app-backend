@@ -35,6 +35,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -89,6 +90,25 @@ class ITMemberRepositoryFindAll {
     @Test
     @DisplayName("With no data it returns nothing")
     void testFindAll_NoData() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        members = repository.findAll(pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .as("members")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a member with no membership, it returns nothing")
+    @SinglePerson
+    void testFindAll_NoMembership() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
