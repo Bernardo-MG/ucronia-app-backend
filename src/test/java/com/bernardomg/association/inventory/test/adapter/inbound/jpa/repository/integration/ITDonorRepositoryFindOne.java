@@ -35,7 +35,7 @@ import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.configuration.factory.DonorConstants;
 import com.bernardomg.association.inventory.test.configuration.factory.Donors;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,7 +47,7 @@ class ITDonorRepositoryFindOne {
 
     @Test
     @DisplayName("With an existing donor, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     void testFindOne() {
         final Optional<Donor> donor;
 

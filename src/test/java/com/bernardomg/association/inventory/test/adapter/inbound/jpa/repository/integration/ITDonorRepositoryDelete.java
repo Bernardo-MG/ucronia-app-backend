@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.configuration.factory.DonorConstants;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -63,7 +63,7 @@ class ITDonorRepositoryDelete {
 
     @Test
     @DisplayName("When a donor, it is removed")
-    @ValidPerson
+    @NoMembershipPerson
     void testDelete_RemovesEntity() {
         // WHEN
         repository.delete(DonorConstants.NUMBER);

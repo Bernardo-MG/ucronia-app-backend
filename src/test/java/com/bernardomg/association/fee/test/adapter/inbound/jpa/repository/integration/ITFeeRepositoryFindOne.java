@@ -40,7 +40,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -83,7 +83,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no last name, only the name is returned")
-    @NoLastNameMembershipPerson
+    @NoLastNameActiveMembershipPerson
     @PaidFee
     void testFindOne_NoLastName() {
         final Optional<Fee> fee;

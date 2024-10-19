@@ -36,7 +36,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -90,7 +90,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With a member with no membership, it returns nothing")
-    @SinglePerson
+    @NoMembershipPerson
     void testFindOne_NoMembership() {
         final Optional<Member> memberOptional;
 

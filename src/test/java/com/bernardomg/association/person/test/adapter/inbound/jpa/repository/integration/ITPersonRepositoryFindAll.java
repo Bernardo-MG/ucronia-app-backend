@@ -35,7 +35,6 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -48,7 +47,7 @@ class ITPersonRepositoryFindAll {
 
     @Test
     @DisplayName("With a person, it is returned")
-    @SinglePerson
+    @NoMembershipPerson
     void testFindAll() {
         final Iterable<Person> people;
         final Pageable         pageable;

@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/person/single.sql")
+@Sql("/db/queries/person/membership_active_no_last_name.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ValidPerson {
+public @interface NoLastNameActiveMembershipPerson {
 
 }

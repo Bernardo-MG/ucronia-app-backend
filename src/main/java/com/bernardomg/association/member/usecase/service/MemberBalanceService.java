@@ -38,13 +38,13 @@ import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 public interface MemberBalanceService {
 
     /**
-     * Returns the monthly membership balance.
+     * Returns the monthly member balance.
      *
      * @param balance
      *            query to filter balances
      * @param sort
      *            sorting to apply
-     * @return the monthly membership balance
+     * @return the monthly member balance
      */
     public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sort sort);
 

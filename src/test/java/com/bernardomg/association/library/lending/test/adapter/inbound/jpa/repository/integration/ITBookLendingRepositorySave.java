@@ -36,7 +36,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingEntities;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,7 +51,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the book doesnt exist, nothing is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     void testSave_NoBook() {
         final BookLending lending;
 
@@ -87,7 +87,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the book and person exist, a lending is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testSave_Persisted() {
         final BookLending lending;
@@ -107,7 +107,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving and the book and person exist, the persisted lending is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testSave_Returned() {
         final BookLending lending;

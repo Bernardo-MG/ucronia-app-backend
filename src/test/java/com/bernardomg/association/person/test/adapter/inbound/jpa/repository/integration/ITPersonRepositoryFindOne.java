@@ -36,7 +36,6 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -50,7 +49,7 @@ class ITPersonRepositoryFindOne {
 
     @Test
     @DisplayName("With a person, it is returned")
-    @SinglePerson
+    @NoMembershipPerson
     void testFindOne() {
         final Optional<Person> personOptional;
 

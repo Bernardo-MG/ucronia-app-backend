@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -43,7 +43,7 @@ class ITPersonRepositoryFindNextNumber {
 
     @Test
     @DisplayName("With an existing person, it returns the next number")
-    @SinglePerson
+    @NoMembershipPerson
     void testFindNextNumber() {
         final long number;
 

@@ -11,7 +11,7 @@ import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.configuration.factory.Donors;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -27,7 +27,7 @@ class ITDonorRepositorySave {
 
     @Test
     @DisplayName("When a donor exists, it is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     void testSave_Existing_PersistedData() {
         final Iterable<PersonEntity> donors;
         final Donor                  transaction;
@@ -49,7 +49,7 @@ class ITDonorRepositorySave {
 
     @Test
     @DisplayName("When a donor exists, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     void testSave_Existing_ReturnedData() {
         final Donor created;
         final Donor donor;

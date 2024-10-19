@@ -42,7 +42,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -99,7 +99,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
 
     @Test
     @DisplayName("With no last name it returns only the name")
-    @NoLastNameMembershipPerson
+    @NoLastNameActiveMembershipPerson
     @PaidFee
     void testFindAllForMember_Active_NoLastName() {
         final Iterable<Fee> fees;

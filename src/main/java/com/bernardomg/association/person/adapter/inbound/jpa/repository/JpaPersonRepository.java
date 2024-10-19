@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.MembershipEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
@@ -49,9 +48,7 @@ public final class JpaPersonRepository implements PersonRepository {
         read = personSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             person = read.get();
-            // TODO: check the membership exists
-            person.getMembership()
-                .setActive(true);
+            person.setActiveMember(true);
             personSpringRepository.save(person);
 
             log.trace("Activated member {}", number);
@@ -70,9 +67,7 @@ public final class JpaPersonRepository implements PersonRepository {
         read = personSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             person = read.get();
-            // TODO: check the membership exists
-            person.getMembership()
-                .setActive(false);
+            person.setActiveMember(false);
             personSpringRepository.save(person);
 
             log.trace("Deactivated member {}", number);
@@ -175,9 +170,8 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
-        if (entity.getMembership() != null) {
-            entity.getMembership()
-                .setPerson(entity);
+        if (entity.getActiveMember() != null) {
+            entity.setActiveMember(entity.getActiveMember());
         }
 
         created = personSpringRepository.save(entity);
@@ -257,25 +251,22 @@ public final class JpaPersonRepository implements PersonRepository {
         final Optional<Membership> membership;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        if (entity.getMembership() == null) {
+        if (entity.getActiveMember() == null) {
             membership = Optional.empty();
         } else {
-            membership = Optional.of(new Membership(entity.getMembership()
-                .getActive()));
+            membership = Optional.of(new Membership(entity.getActiveMember()));
         }
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final MembershipEntity membership;
+        final Boolean membership;
 
         if (data.membership()
             .isPresent()) {
-            membership = MembershipEntity.builder()
-                .withActive(data.membership()
-                    .get()
-                    .active())
-                .build();
+            membership = data.membership()
+                .get()
+                .active();
         } else {
             membership = null;
         }
@@ -287,7 +278,7 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
-            .withMembership(membership)
+            .withActiveMember(membership)
             .build();
     }
 
