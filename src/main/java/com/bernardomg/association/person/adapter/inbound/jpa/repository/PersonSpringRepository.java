@@ -27,6 +27,8 @@ package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,11 +53,75 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
+    @Query("""
+            SELECT p
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+              AND m.active = true
+            """)
+    public Page<PersonEntity> findAllActive(final Pageable pageable);
+
+    @Query("""
+            SELECT p.id AS id
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+              AND m.active = true
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllActiveIds();
+
     public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
+
+    @Query("""
+            SELECT p
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+              AND m.active = false
+            """)
+    public Page<PersonEntity> findAllInactive(final Pageable pageable);
+
+    @Query("""
+            SELECT p.id AS id
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+              AND m.active = false
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllInactiveIds();
+
+    @Query("""
+            SELECT p
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+            """)
+    public Page<PersonEntity> findAllWithMembership(final Pageable pageable);
 
     public Optional<PersonEntity> findByNumber(final Long number);
 
+    @Query("""
+            SELECT p
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+              AND p.number = :number
+            """)
+    public Optional<PersonEntity> findByNumberWithMembership(@Param("number") final Long number);
+
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Person p")
     public Long findNextNumber();
+
+    @Query("""
+            SELECT m.active
+            FROM Person p
+              JOIN p.membership m
+            WHERE m IS NOT NULL
+              AND p.number = :number
+            """)
+    public Boolean isActive(@Param("number") final Long number);
 
 }

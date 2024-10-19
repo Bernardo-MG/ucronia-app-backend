@@ -32,9 +32,10 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,7 +51,7 @@ class ITMemberRepositoryFindActive {
 
     @Test
     @DisplayName("With an active member, it returns the member")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindActive_Active() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -69,7 +70,7 @@ class ITMemberRepositoryFindActive {
 
     @Test
     @DisplayName("With an inactive member, it returns nothing")
-    @InactiveMember
+    @MembershipInactivePerson
     void testFindActive_Inactive() {
         final Iterable<Member> members;
         final Pageable         pageable;
@@ -87,8 +88,27 @@ class ITMemberRepositoryFindActive {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("With no data, it returns nothing")
     void testFindActive_NoData() {
+        final Iterable<Member> members;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        members = repository.findActive(pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .as("members")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a member with no membership, it returns nothing")
+    @SinglePerson
+    void testFindActive_NoMembership() {
         final Iterable<Member> members;
         final Pageable         pageable;
 

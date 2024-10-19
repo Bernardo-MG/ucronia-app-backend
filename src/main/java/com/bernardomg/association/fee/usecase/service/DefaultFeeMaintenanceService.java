@@ -33,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.model.PublicPerson;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,13 +50,13 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final FeeRepository    feeRepository;
 
-    private final MemberRepository memberRepository;
+    private final PersonRepository personRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final PersonRepository personRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
     }
 
     @Override
@@ -85,7 +85,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean isActive(final Fee fee) {
-        return memberRepository.isActive(fee.person()
+        return personRepository.isActive(fee.person()
             .number());
     }
 

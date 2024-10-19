@@ -9,6 +9,10 @@ import com.bernardomg.association.person.domain.model.Person;
 
 public interface PersonRepository {
 
+    public void activate(final long number);
+
+    public void deactivate(final long number);
+
     public void delete(final long number);
 
     public boolean exists(final long number);
@@ -18,6 +22,8 @@ public interface PersonRepository {
     public long findNextNumber();
 
     public Optional<Person> findOne(final Long number);
+
+    public boolean isActive(final long number);
 
     public Person save(final Person person);
 

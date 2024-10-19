@@ -45,7 +45,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
@@ -80,7 +80,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and the fee exists but is not paid, it is set to paid")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
     void testCreate_Existing_NotPaid_PersistedFee() {
@@ -94,13 +94,14 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate());
     }
 
     @Test
     @DisplayName("When a fee is paid and the fee exists but is not paid, a single transaction is persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
     void testCreate_Existing_NotPaid_PersistedTransaction() {
@@ -120,7 +121,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and the fee exists but is not paid, it returns the created data")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
     void testCreate_Existing_NotPaid_ReturnedData() {
@@ -136,7 +137,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, it is set to paid")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
@@ -151,13 +152,14 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
     @Test
     @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
     void testCreate_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
@@ -178,7 +180,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is returned")
-    @ActiveMember
+    @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
     void testCreate_MultipleDates_OneExisting_NotPaid_ReturnedData() {
@@ -195,7 +197,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, multiple fees are persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_PersistedFee() {
         final List<FeeEntity> entities;
@@ -209,13 +211,14 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_PersistedRelationship() {
 
@@ -230,7 +233,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_PersistedTransaction() {
         final List<TransactionEntity> entities;
@@ -250,7 +253,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, it returns the created data")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_ReturnedData() {
         final Collection<Fee> fees;
@@ -266,7 +269,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, spanning two years, multiple fees are persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_TwoYears_PersistedFee() {
         final List<FeeEntity> entities;
@@ -280,13 +283,14 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
     }
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_TwoYears_PersistedTransaction() {
         final List<TransactionEntity> entities;
@@ -306,7 +310,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates, spanning two years, it returns the created data")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_MultipleDates_TwoYears_ReturnedData() {
         final Collection<Fee> fees;
@@ -322,7 +326,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
-    @ActiveMember
+    @MembershipActivePerson
     void testCreate_NoAmount_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
@@ -340,7 +344,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid the fee is persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_PersistedFee() {
         final List<FeeEntity> entities;
@@ -353,13 +357,14 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate());
     }
 
     @Test
     @DisplayName("When a fee is paid a fee payment is registered")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_PersistedRelationship() {
         final FeePaymentEntity  relationship;
@@ -391,7 +396,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid a single transaction is persisted")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_PersistedTransaction() {
         final List<TransactionEntity> entities;
@@ -410,7 +415,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid a transaction is persisted, and there is another transaction, it is persisted with the next index")
-    @ActiveMember
+    @MembershipActivePerson
     @PaidFee
     @FeeAmountSetting
     void testCreate_PersistedTransaction_IncreaseIndex() {
@@ -431,7 +436,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid a transaction is persisted with the initial index")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_PersistedTransaction_InitialIndex() {
         final Optional<TransactionEntity> entity;
@@ -448,7 +453,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid it returns the created data")
-    @ActiveMember
+    @MembershipActivePerson
     @FeeAmountSetting
     void testCreate_ReturnedData() {
         final Collection<Fee> fees;

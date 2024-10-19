@@ -17,7 +17,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +28,7 @@ public class TestFeeMaintenanceService {
     private FeeRepository                feeRepository;
 
     @Mock
-    private MemberRepository             memberRepository;
+    private PersonRepository             personRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,7 +39,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -55,7 +55,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -71,7 +71,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();

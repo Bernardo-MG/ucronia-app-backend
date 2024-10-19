@@ -25,7 +25,6 @@
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +35,14 @@ import org.springframework.data.domain.Sort.Direction;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.AccentInactiveMembers;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - sort")
+@MultipleInactiveMembershipPerson
+@MultipleFees
 class ITMemberRepositoryFindAllSort {
 
     @Autowired
@@ -52,38 +53,13 @@ class ITMemberRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("When there are accents in the name, returns the ordered data")
-    @AccentInactiveMembers
-    @MultipleFees
-    @Disabled("Database dependant")
-    void testFindAll_Accent_FirstName_Asc() {
-        final Iterable<Member> members;
-        final Pageable         pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "person.firstName");
-
-        // WHEN
-        // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(m -> m.name()
-                .firstName())
-            .containsExactly("Person a", "Person é", "Person i", "Person o", "Person u");
-    }
-
-    @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
-    @MultipleInactiveMembers
-    @MultipleFees
     void testFindAll_FirstName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "person.firstName");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "firstName");
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -91,72 +67,62 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.name()
-                .firstName())
-            .containsExactly("Person 1", "Person 2", "Person 3", "Person 4", "Person 5");
+            .containsExactly(Members.forNumber(1, false), Members.forNumber(2, false), Members.forNumber(3, false),
+                Members.forNumber(4, false), Members.forNumber(5, false));
     }
 
     @Test
     @DisplayName("With descending order by first name it returns the ordered data")
-    @MultipleInactiveMembers
-    @MultipleFees
     void testFindAll_FirstName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "person.firstName");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "firstName");
 
         // WHEN
         members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.name()
-                .firstName())
-            .containsExactly("Person 5", "Person 4", "Person 3", "Person 2", "Person 1");
+            .containsExactly(Members.forNumber(5, false), Members.forNumber(4, false), Members.forNumber(3, false),
+                Members.forNumber(2, false), Members.forNumber(1, false));
     }
 
     @Test
     @DisplayName("With ascending order by last name it returns the ordered data")
-    @MultipleInactiveMembers
-    @MultipleFees
     void testFindAll_LastName_Asc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "person.lastName");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "lastName");
 
         // WHEN
         members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.name()
-                .lastName())
-            .containsExactly("Last name 1", "Last name 2", "Last name 3", "Last name 4", "Last name 5");
+            .containsExactly(Members.forNumber(1, false), Members.forNumber(2, false), Members.forNumber(3, false),
+                Members.forNumber(4, false), Members.forNumber(5, false));
     }
 
     @Test
     @DisplayName("With descending order by last name it returns the ordered data")
-    @MultipleInactiveMembers
-    @MultipleFees
     void testFindAll_LastName_Desc() {
         final Iterable<Member> members;
         final Pageable         pageable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "person.lastName");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "lastName");
 
         // WHEN
         members = repository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(members)
-            .extracting(m -> m.name()
-                .lastName())
-            .containsExactly("Last name 5", "Last name 4", "Last name 3", "Last name 2", "Last name 1");
+            .containsExactly(Members.forNumber(5, false), Members.forNumber(4, false), Members.forNumber(3, false),
+                Members.forNumber(2, false), Members.forNumber(1, false));
     }
 
 }

@@ -43,8 +43,8 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +55,7 @@ class TestFeeCalendarServiceGetYear {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
     private DefaultFeeCalendarService service;
@@ -91,7 +91,7 @@ class TestFeeCalendarServiceGetYear {
 
         given(feeRepository.findAllInYear(MemberCalendars.YEAR_CURRENT, sort))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(memberRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ALL, sort);
