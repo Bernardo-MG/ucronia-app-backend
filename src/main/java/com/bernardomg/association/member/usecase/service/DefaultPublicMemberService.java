@@ -88,7 +88,6 @@ public final class DefaultPublicMemberService implements PublicMemberService {
 
     private final Sort correctSort(final Sort received) {
         final Optional<Order> fullNameOrder;
-        final Optional<Order> numberOrder;
         final List<Order>     orders;
         final List<Order>     validOrders;
 
@@ -110,22 +109,8 @@ public final class DefaultPublicMemberService implements PublicMemberService {
             }
         }
 
-        // Number
-        numberOrder = received.stream()
-            .filter(o -> "number".equals(o.getProperty()))
-            .findFirst();
-        if (numberOrder.isPresent()) {
-            if (Direction.ASC.equals(numberOrder.get()
-                .getDirection())) {
-                orders.add(Order.asc("person.number"));
-            } else {
-                orders.add(Order.desc("person.number"));
-            }
-        }
-
         validOrders = received.stream()
             .filter(o -> !"fullName".equals(o.getProperty()))
-            .filter(o -> !"number".equals(o.getProperty()))
             .toList();
         orders.addAll(validOrders);
 

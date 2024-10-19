@@ -224,7 +224,7 @@ class TestPublicMemberServiceGetAll {
             .extracting(Pageable::getSort)
             .extracting(Sort::toList)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("person.number"));
+            .containsExactly(Order.asc("number"));
     }
 
     @Test
@@ -284,7 +284,7 @@ class TestPublicMemberServiceGetAll {
             .extracting(Pageable::getSort)
             .extracting(Sort::toList)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.desc("person.number"));
+            .containsExactly(Order.desc("number"));
     }
 
     @Test
@@ -344,7 +344,7 @@ class TestPublicMemberServiceGetAll {
             .extracting(Pageable::getSort)
             .extracting(Sort::toList)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("person.number"));
+            .containsExactly(Order.asc("number"));
     }
 
 }
