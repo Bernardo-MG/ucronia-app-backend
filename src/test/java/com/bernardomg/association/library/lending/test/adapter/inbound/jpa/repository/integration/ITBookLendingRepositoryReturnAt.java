@@ -40,7 +40,7 @@ import com.bernardomg.association.library.lending.domain.repository.BookLendingR
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingEntities;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -56,7 +56,7 @@ class ITBookLendingRepositoryReturnAt {
 
     @Test
     @DisplayName("When returning a book and the book doesnt exist, nothing is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     void testReturnAt_NoBook() {
         // WHEN
         repository.returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
@@ -69,7 +69,7 @@ class ITBookLendingRepositoryReturnAt {
 
     @Test
     @DisplayName("When returning a book and the lending doesn't exist, nothing is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testReturnAt_NoLending_NotPersisted() {
         // WHEN
@@ -83,7 +83,7 @@ class ITBookLendingRepositoryReturnAt {
 
     @Test
     @DisplayName("When returning a book and the lending doesn't exist, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testReturnAt_NoLending_Returned() {
         final Optional<BookLending> created;
@@ -112,7 +112,7 @@ class ITBookLendingRepositoryReturnAt {
 
     @Test
     @DisplayName("When returning a book and the book and person exist, a lending is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @LentBookLending
     void testReturnAt_Persisted() {
@@ -128,7 +128,7 @@ class ITBookLendingRepositoryReturnAt {
 
     @Test
     @DisplayName("When returning a book and the book and person exist, the persisted lending is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @LentBookLending
     void testReturnAt_Returned() {

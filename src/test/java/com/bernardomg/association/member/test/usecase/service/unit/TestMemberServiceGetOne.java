@@ -45,11 +45,11 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - get one")
+@DisplayName("Public member service - get one")
 class TestMemberServiceGetOne {
 
     @Mock
-    private MemberRepository     memberRepository;
+    private MemberRepository     publicMemberRepository;
 
     @InjectMocks
     private DefaultMemberService service;
@@ -64,7 +64,7 @@ class TestMemberServiceGetOne {
         final Optional<Member> memberOptional;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         memberOptional = service.getOne(PersonConstants.NUMBER);
@@ -80,7 +80,7 @@ class TestMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(PersonConstants.NUMBER);

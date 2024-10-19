@@ -42,16 +42,16 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
     public boolean existsByPersonIdAndDate(final Long personId, final YearMonth date);
 
     @Query("""
-               SELECT f.id AS id, m.id AS personId, m.person.number AS personNumber,
-                 m.person.firstName AS personFirstName,
-                 m.person.lastName AS personLastName,
+               SELECT f.id AS id, p.id AS personId, p.number AS personNumber,
+                 p.firstName AS personFirstName,
+                 p.lastName AS personLastName,
                  f.date AS date,
-                 t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN p.feeId IS NOT NULL THEN true ELSE false END AS paid
-               FROM Member m
-                 INNER JOIN Fee f ON m.id = f.personId
-                 LEFT JOIN FeePayment p ON f.id = p.feeId
-                 LEFT JOIN Transaction t ON p.transactionId = t.id
-               WHERE m.person.number = :memberNumber
+                 t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN fp.feeId IS NOT NULL THEN true ELSE false END AS paid
+               FROM Person p
+                 INNER JOIN Fee f ON p.id = f.personId
+                 LEFT JOIN FeePayment fp ON f.id = fp.feeId
+                 LEFT JOIN Transaction t ON fp.transactionId = t.id
+               WHERE p.number = :memberNumber
                  AND f.date in :feeDates
             """)
     public Collection<MemberFee> findAllByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,

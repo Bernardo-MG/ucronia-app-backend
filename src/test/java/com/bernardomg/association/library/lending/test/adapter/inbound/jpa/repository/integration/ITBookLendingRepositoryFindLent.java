@@ -40,7 +40,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,7 +52,7 @@ class ITBookLendingRepositoryFindLent {
 
     @Test
     @DisplayName("With a lending, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @LentBookLending
     void testFindLent_Lent() {
@@ -70,7 +70,7 @@ class ITBookLendingRepositoryFindLent {
 
     @Test
     @DisplayName("With a lending and a history, the last one is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @AlternativePerson
     @FullBook
     @LentBookLendingHistory
@@ -102,7 +102,7 @@ class ITBookLendingRepositoryFindLent {
 
     @Test
     @DisplayName("With a book with no history, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testFindLent_NoHistory() {
         final Optional<BookLending> lendings;
@@ -118,7 +118,7 @@ class ITBookLendingRepositoryFindLent {
 
     @Test
     @DisplayName("With a returned book, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @ReturnedBookLending
     void testFindLent_Returned() {

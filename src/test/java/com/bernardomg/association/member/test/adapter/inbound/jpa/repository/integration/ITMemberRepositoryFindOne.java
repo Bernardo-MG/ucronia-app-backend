@@ -33,9 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -48,7 +49,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With an active member, it is returned")
-    @ActiveMember
+    @MembershipActivePerson
     void testFindOne_Active() {
         final Optional<Member> memberOptional;
 
@@ -62,7 +63,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With an inactive member, it is returned")
-    @InactiveMember
+    @MembershipInactivePerson
     void testFindOne_Inactive() {
         final Optional<Member> memberOptional;
 
@@ -77,6 +78,20 @@ class ITMemberRepositoryFindOne {
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindOne_NoData() {
+        final Optional<Member> memberOptional;
+
+        // WHEN
+        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a member with no membership, it returns nothing")
+    @NoMembershipPerson
+    void testFindOne_NoMembership() {
         final Optional<Member> memberOptional;
 
         // WHEN

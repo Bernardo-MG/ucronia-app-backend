@@ -40,7 +40,7 @@ import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -55,7 +55,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book exists, and relationships are added, it is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -80,7 +80,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book exists, and relationships are added, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -104,7 +104,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book exists, and relationships are removed, it is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testSave_Existing_RemoveRelationships_Persisted() {
         final Book book;
@@ -124,7 +124,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book exists, and relationships are removed, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testSave_Existing_RemoveRelationships_Returned() {
         final Book book;
@@ -181,7 +181,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When there are relationships the book is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -205,7 +205,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When there are relationships the persisted book is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -228,7 +228,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book has a ISBN-13 it is persisted")
-    @ValidPerson
+    @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -252,7 +252,7 @@ class ITBookRepositorySave {
 
     @Test
     @DisplayName("When the book has a ISBN-13 it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType

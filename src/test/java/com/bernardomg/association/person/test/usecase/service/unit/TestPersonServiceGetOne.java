@@ -64,14 +64,14 @@ class TestPersonServiceGetOne {
         final Optional<Person> personOptional;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         personOptional = service.getOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
-            .contains(Persons.valid());
+            .contains(Persons.noMembership());
     }
 
     @Test

@@ -86,7 +86,8 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of(Fees.paid()));
 
         // WHEN
@@ -137,7 +138,8 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(Persons.noMembership()));
         given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of());
 
         // WHEN

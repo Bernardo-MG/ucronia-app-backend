@@ -11,12 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
@@ -265,8 +265,7 @@ public final class JpaBookRepository implements BookRepository {
 
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return new BookBookLending(person.orElse(new Person(null, null, null, null)), entity.getLendingDate(),
-            entity.getReturnDate());
+        return new BookBookLending(person.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookType toDomain(final BookTypeEntity entity) {
@@ -281,7 +280,8 @@ public final class JpaBookRepository implements BookRepository {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
+        // TODO: Load membership
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), Optional.empty());
     }
 
     private final Publisher toDomain(final PublisherEntity entity) {
@@ -296,8 +296,8 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookEntity toEntity(final Book domain) {
-        final Collection<String>          authorNames;
-        final Collection<String>          publisherNames;
+        final Collection<Long>            authorNumbers;
+        final Collection<Long>            publisherNumbers;
         final Collection<Long>            donorNumbers;
         final Collection<PublisherEntity> publishers;
         final Optional<BookTypeEntity>    bookType;
@@ -322,11 +322,11 @@ public final class JpaBookRepository implements BookRepository {
             gameSystem = Optional.empty();
         }
 
-        publisherNames = domain.publishers()
+        publisherNumbers = domain.publishers()
             .stream()
-            .map(Publisher::name)
+            .map(Publisher::number)
             .toList();
-        publishers = publisherSpringRepository.findAllByNameIn(publisherNames);
+        publishers = publisherSpringRepository.findAllByNumberIn(publisherNumbers);
 
         donorNumbers = domain.donors()
             .stream()
@@ -334,11 +334,11 @@ public final class JpaBookRepository implements BookRepository {
             .toList();
         donors = personSpringRepository.findAllByNumberIn(donorNumbers);
 
-        authorNames = domain.authors()
+        authorNumbers = domain.authors()
             .stream()
-            .map(Author::name)
+            .map(Author::number)
             .toList();
-        authors = authorSpringRepository.findAllByNameIn(authorNames);
+        authors = authorSpringRepository.findAllByNumberIn(authorNumbers);
 
         return BookEntity.builder()
             .withNumber(domain.number())

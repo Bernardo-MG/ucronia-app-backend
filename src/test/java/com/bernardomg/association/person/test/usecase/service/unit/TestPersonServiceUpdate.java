@@ -38,10 +38,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Person service - update")
@@ -55,6 +58,25 @@ class TestPersonServiceUpdate {
 
     public TestPersonServiceUpdate() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a person with an empty name, an exception is thrown")
+    void testUpdate_EmptyName() {
+        final ThrowingCallable execution;
+        final Person           person;
+
+        // GIVEN
+        person = Persons.emptyName();
+
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(person);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            FieldFailure.of("name.firstName", "empty", new PersonName("", "")));
     }
 
     @Test
@@ -90,7 +112,7 @@ class TestPersonServiceUpdate {
         service.update(person);
 
         // THEN
-        verify(personRepository).save(Persons.valid());
+        verify(personRepository).save(Persons.noMembership());
     }
 
     @Test

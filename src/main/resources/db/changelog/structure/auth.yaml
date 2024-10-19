@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: membership_auth
+      id: person_auth
       author: Bernardo
       changes:
         - createTable:

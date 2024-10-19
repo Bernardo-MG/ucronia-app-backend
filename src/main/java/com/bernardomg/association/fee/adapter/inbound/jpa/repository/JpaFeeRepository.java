@@ -24,7 +24,6 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
@@ -46,22 +45,19 @@ public final class JpaFeeRepository implements FeeRepository {
 
     private final MemberFeeSpringRepository   memberFeeSpringRepository;
 
-    private final MemberSpringRepository      memberSpringRepository;
-
     private final PersonSpringRepository      personSpringRepository;
 
     private final TransactionSpringRepository transactionSpringRepository;
 
     public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
             final MemberFeeSpringRepository memberFeeSpringRepo, final PersonSpringRepository personSpringRepo,
-            final MemberSpringRepository memberSpringRepo, final FeePaymentSpringRepository feePaymentSpringRepo,
+            final FeePaymentSpringRepository feePaymentSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = feeSpringRepo;
         memberFeeSpringRepository = memberFeeSpringRepo;
         personSpringRepository = personSpringRepo;
-        memberSpringRepository = memberSpringRepo;
         feePaymentSpringRepository = feePaymentSpringRepo;
         transactionSpringRepository = transactionSpringRepo;
     }
@@ -147,7 +143,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = memberSpringRepository.findAllActivePersonIds();
+        foundIds = personSpringRepository.findAllActiveIds();
 
         log.debug("Active members: {}", foundIds);
 
@@ -173,7 +169,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = memberSpringRepository.findAllInactivePersonIds();
+        foundIds = personSpringRepository.findAllInactiveIds();
 
         log.debug("Inactive members: {}", foundIds);
 

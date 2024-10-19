@@ -27,6 +27,30 @@ public final class PersonEntities {
             .build();
     }
 
+    public static final PersonEntity membershipActive() {
+        return PersonEntity.builder()
+            .withId(1L)
+            .withNumber(PersonConstants.NUMBER)
+            .withFirstName(PersonConstants.FIRST_NAME)
+            .withLastName(PersonConstants.LAST_NAME)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActiveMember(true)
+            .build();
+    }
+
+    public static final PersonEntity membershipInactive() {
+        return PersonEntity.builder()
+            .withId(1L)
+            .withNumber(PersonConstants.NUMBER)
+            .withFirstName(PersonConstants.FIRST_NAME)
+            .withLastName(PersonConstants.LAST_NAME)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActiveMember(false)
+            .build();
+    }
+
     public static final PersonEntity minimal() {
         return PersonEntity.builder()
             .withId(1L)

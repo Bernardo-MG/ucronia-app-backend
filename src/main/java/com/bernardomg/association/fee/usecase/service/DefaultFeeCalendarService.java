@@ -44,11 +44,11 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.model.PublicPerson;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,13 +64,13 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final FeeRepository    feeRepository;
 
-    private final MemberRepository memberRepository;
+    private final PersonRepository personRepository;
 
-    public DefaultFeeCalendarService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+    public DefaultFeeCalendarService(final FeeRepository feeRepo, final PersonRepository personRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        personRepository = Objects.requireNonNull(personRepo);
     }
 
     @Override
@@ -173,17 +173,17 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final FeeCalendar toFeeYear(final Long memberNumber, final PersonName name, final MemberStatus status,
             final Year year, final Collection<FeeCalendarMonth> months) {
-        final boolean      active;
-        final PublicMember member;
+        final boolean active;
+        final Member  member;
 
         active = switch (status) {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> memberRepository.isActive(memberNumber);
+            default -> personRepository.isActive(memberNumber);
         };
 
-        member = new PublicMember(memberNumber, name, active);
+        member = new Member(memberNumber, name, active);
         return new FeeCalendar(member, months, year.getValue());
     }
 

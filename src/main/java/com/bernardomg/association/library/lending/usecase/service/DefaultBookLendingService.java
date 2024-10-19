@@ -75,7 +75,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         person = personRepository.findOne(personNumber);
 
-        lending = new BookLending(book, person.orElse(new Person(null, null, null, null)), date, null);
+        lending = new BookLending(book, person.get(), date, null);
 
         lendBookValidator.validate(lending);
 

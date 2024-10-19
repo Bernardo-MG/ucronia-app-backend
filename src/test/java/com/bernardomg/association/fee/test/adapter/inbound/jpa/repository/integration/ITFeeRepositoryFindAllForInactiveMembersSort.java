@@ -36,8 +36,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.AccentInactiveMembers;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMembers;
+import com.bernardomg.association.person.test.configuration.data.annotation.AccentInactiveMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,7 +49,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @AccentInactiveMembers
+    @AccentInactiveMembershipPerson
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllForInactiveMembers_Accents_Name_Asc() {
@@ -74,7 +74,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAllForInactiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
@@ -98,7 +98,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleInactiveMembers
+    @MultipleInactiveMembershipPerson
     @MultipleFees
     void testFindAllForInactiveMembers_Name_Desc() {
         final Iterable<Fee> fees;

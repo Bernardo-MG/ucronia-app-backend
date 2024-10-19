@@ -6,7 +6,6 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.inventory.test.configuration.factory.Donors;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
@@ -206,15 +205,15 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of(
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.JANUARY, 1),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.JANUARY, 1),
                     LocalDate.of(2020, Month.JANUARY, 2)),
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.JANUARY, 4),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.JANUARY, 4),
                     LocalDate.of(2020, Month.FEBRUARY, 3)),
                 new BookBookLending(Persons.alternative(), LocalDate.of(2020, Month.FEBRUARY, 12),
                     LocalDate.of(2020, Month.FEBRUARY, 13)),
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.MAY, 4),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.MAY, 4),
                     LocalDate.of(2020, Month.MAY, 6)),
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.MAY, 10), null)))
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.MAY, 10), null)))
             .withLent(true)
             .build();
     }
@@ -247,15 +246,15 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonors(List.of(Donors.valid()))
             .withLendings(List.of(
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.JANUARY, 1),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.JANUARY, 1),
                     LocalDate.of(2020, Month.JANUARY, 2)),
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.JANUARY, 4),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.JANUARY, 4),
                     LocalDate.of(2020, Month.FEBRUARY, 3)),
                 new BookBookLending(Persons.alternative(), LocalDate.of(2020, Month.FEBRUARY, 12),
                     LocalDate.of(2020, Month.FEBRUARY, 13)),
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.MAY, 4),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.MAY, 4),
                     LocalDate.of(2020, Month.MAY, 6)),
-                new BookBookLending(Persons.valid(), LocalDate.of(2020, Month.MAY, 10),
+                new BookBookLending(Persons.noMembership(), LocalDate.of(2020, Month.MAY, 10),
                     LocalDate.of(2020, Month.MAY, 12))))
             .withLent(false)
             .build();

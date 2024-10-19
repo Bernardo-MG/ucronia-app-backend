@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.person.adapter.outbound.rest.controller;
 
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,6 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,9 +45,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
+import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChange;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -89,6 +94,18 @@ public class PersonController {
         service.delete(number);
     }
 
+    @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, MembersCaches.PUBLIC_MEMBERS,
+                    MembersCaches.PUBLIC_MEMBER, FeeCaches.CALENDAR }, allEntries = true) })
+    public Person patch(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
+        final Person member;
+
+        member = toDomain(number, change);
+        return service.patch(member);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
@@ -116,13 +133,20 @@ public class PersonController {
     }
 
     private final Person toDomain(final long number, final PersonChange change) {
-        final PersonName name;
+        final PersonName           name;
+        final Optional<Membership> membership;
 
         name = new PersonName(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
-        return new Person(change.getIdentifier(), number, name, change.getPhone());
+        if (change.getMembership() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(change.getMembership()
+                .active()));
+        }
+        return new Person(change.getIdentifier(), number, name, change.getPhone(), membership);
     }
 
 }

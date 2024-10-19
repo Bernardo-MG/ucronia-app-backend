@@ -38,7 +38,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeCalendarYearsRanges;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee calendar service - get range")
@@ -48,7 +48,7 @@ class TestFeeCalendarServiceGetRange {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private PersonRepository          personRepository;
 
     @InjectMocks
     private DefaultFeeCalendarService service;

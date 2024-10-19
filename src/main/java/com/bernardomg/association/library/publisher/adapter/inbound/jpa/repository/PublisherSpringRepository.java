@@ -48,7 +48,7 @@ public interface PublisherSpringRepository extends JpaRepository<PublisherEntity
 
     public boolean existsByNumber(final long number);
 
-    public Collection<PublisherEntity> findAllByNameIn(final Collection<String> names);
+    public Collection<PublisherEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     public Optional<PublisherEntity> findByNumber(final long number);
 

@@ -65,7 +65,8 @@ class TestMemberAccountServiceGetCurrentUser {
 
         // GIVEN
         given(wrapped.getCurrentUser()).willReturn(Optional.of(BasicAccounts.valid()));
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Persons.valid()));
+        given(userPersonRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         account = service.getCurrentUser();

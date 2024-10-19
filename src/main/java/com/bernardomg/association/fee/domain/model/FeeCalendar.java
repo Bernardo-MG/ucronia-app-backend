@@ -27,9 +27,9 @@ package com.bernardomg.association.fee.domain.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.model.Member;
 
-public record FeeCalendar(PublicMember member, Collection<FeeCalendarMonth> months, Integer year) {
+public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, Integer year) {
 
     public record FeeCalendarMonth(FeeCalendarMonthFee fee, Integer month) {
 

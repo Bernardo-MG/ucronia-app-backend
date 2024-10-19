@@ -10,14 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.inventory.domain.exception.MissingDonorException;
-import com.bernardomg.association.inventory.domain.model.Donor;
-import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsRule;
@@ -33,6 +31,8 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -51,9 +51,9 @@ public final class DefaultBookService implements BookService {
 
     private final Validator<Book>      createBookValidator;
 
-    private final DonorRepository      donorRepository;
-
     private final GameSystemRepository gameSystemRepository;
+
+    private final PersonRepository     personRepository;
 
     private final PublisherRepository  publisherRepository;
 
@@ -61,7 +61,7 @@ public final class DefaultBookService implements BookService {
 
     public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
-            final GameSystemRepository gameSystemRepo, final DonorRepository donorRepo) {
+            final GameSystemRepository gameSystemRepo, final PersonRepository personRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
@@ -69,7 +69,7 @@ public final class DefaultBookService implements BookService {
         publisherRepository = Objects.requireNonNull(publisherRepo);
         bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
-        donorRepository = Objects.requireNonNull(donorRepo);
+        personRepository = Objects.requireNonNull(personRepo);
 
         createBookValidator = new FieldRuleValidator<>(new BookTitleNotEmptyRule(), new BookLanguageCodeValidRule(),
             new BookIsbnValidRule(), new BookIsbnNotExistsRule(bookRepository));
@@ -255,9 +255,9 @@ public final class DefaultBookService implements BookService {
 
         // Check donor exist
         for (final Donor donor : book.donors()) {
-            donorExists = donorRepository.exists(donor.number());
+            donorExists = personRepository.exists(donor.number());
             if (!donorExists) {
-                throw new MissingDonorException(donor.number());
+                throw new MissingPersonException(donor.number());
             }
         }
 

@@ -39,7 +39,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,7 +51,7 @@ class ITBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there are books, they are returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testFindAll() {
         final Iterable<Book> books;
@@ -71,7 +71,7 @@ class ITBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent book, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -92,7 +92,7 @@ class ITBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent book with history, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @AlternativePerson
     @FullBook
     @LentBookLendingHistory
@@ -132,7 +132,7 @@ class ITBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned book, they are returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -153,7 +153,7 @@ class ITBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned book, they are returned")
-    @ValidPerson
+    @NoMembershipPerson
     @AlternativePerson
     @FullBook
     @ReturnedBookLendingHistory

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
@@ -33,6 +34,44 @@ public final class JpaPersonRepository implements PersonRepository {
         super();
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
+    }
+
+    @Override
+    public final void activate(final long number) {
+        final Optional<PersonEntity> read;
+        final PersonEntity           person;
+
+        log.trace("Activating member {}", number);
+
+        // TODO: throw an exception if it doesn't exist
+
+        read = personSpringRepository.findByNumber(number);
+        if (read.isPresent()) {
+            person = read.get();
+            person.setActiveMember(true);
+            personSpringRepository.save(person);
+
+            log.trace("Activated member {}", number);
+        }
+    }
+
+    @Override
+    public final void deactivate(final long number) {
+        final Optional<PersonEntity> read;
+        final PersonEntity           person;
+
+        log.trace("Deactivating member {}", number);
+
+        // TODO: throw an exception if it doesn't exist
+
+        read = personSpringRepository.findByNumber(number);
+        if (read.isPresent()) {
+            person = read.get();
+            person.setActiveMember(false);
+            personSpringRepository.save(person);
+
+            log.trace("Deactivated member {}", number);
+        }
     }
 
     @Override
@@ -102,6 +141,19 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
+    public final boolean isActive(final long number) {
+        final Boolean active;
+
+        log.trace("Checking if member {} is active", number);
+
+        active = personSpringRepository.isActive(number);
+
+        log.trace("Member {} is active: {}", number, active);
+
+        return Boolean.TRUE.equals(active);
+    }
+
+    @Override
     public final Person save(final Person person) {
         final Optional<PersonEntity> existing;
         final PersonEntity           entity;
@@ -116,6 +168,10 @@ public final class JpaPersonRepository implements PersonRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        }
+
+        if (entity.getActiveMember() != null) {
+            entity.setActiveMember(entity.getActiveMember());
         }
 
         created = personSpringRepository.save(entity);
@@ -191,13 +247,29 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName name;
+        final PersonName           name;
+        final Optional<Membership> membership;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone());
+        if (entity.getActiveMember() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(entity.getActiveMember()));
+        }
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
+        final Boolean membership;
+
+        if (data.membership()
+            .isPresent()) {
+            membership = data.membership()
+                .get()
+                .active();
+        } else {
+            membership = null;
+        }
         return PersonEntity.builder()
             .withNumber(data.number())
             .withFirstName(data.name()
@@ -206,6 +278,7 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
+            .withActiveMember(membership)
             .build();
     }
 

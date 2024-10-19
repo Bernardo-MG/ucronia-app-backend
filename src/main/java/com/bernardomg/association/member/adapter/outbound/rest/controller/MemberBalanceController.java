@@ -41,7 +41,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
 import lombok.AllArgsConstructor;
 
 /**
- * Membership balance REST controller.
+ * Member balance REST controller.
  * <p>
  * TODO: the route should show this is the balance
  *
@@ -59,13 +59,13 @@ public class MemberBalanceController {
     private final MemberBalanceService service;
 
     /**
-     * Returns the monthly membership balance.
+     * Returns the monthly member balance.
      *
      * @param query
      *            query to filter balances
      * @param sort
      *            sorting to apply
-     * @return the monthly membership balance
+     * @return the monthly member balance
      */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)

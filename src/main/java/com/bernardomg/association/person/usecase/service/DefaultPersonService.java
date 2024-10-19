@@ -1,21 +1,16 @@
 
 package com.bernardomg.association.person.usecase.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -36,13 +31,19 @@ public final class DefaultPersonService implements PersonService {
 
     private final Validator<Person> createPersonValidator;
 
+    private final Validator<Person> patchPersonValidator;
+
     private final PersonRepository  personRepository;
+
+    private final Validator<Person> updatePersonValidator;
 
     public DefaultPersonService(final PersonRepository personRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
         createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
+        updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
+        patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
     }
 
     @Override
@@ -55,7 +56,7 @@ public final class DefaultPersonService implements PersonService {
         // Set number
         number = personRepository.findNextNumber();
 
-        toCreate = new Person(person.identifier(), number, person.name(), person.phone());
+        toCreate = new Person(person.identifier(), number, person.name(), person.phone(), person.membership());
 
         createPersonValidator.validate(toCreate);
 
@@ -70,20 +71,14 @@ public final class DefaultPersonService implements PersonService {
             throw new MissingPersonException(number);
         }
 
-        // TODO: Forbid deleting when there are relationships
-
         personRepository.delete(number);
     }
 
     @Override
     public final Iterable<Person> getAll(final Pageable pageable) {
-        final Pageable pagination;
-
         log.debug("Reading persons with pagination {}", pageable);
 
-        pagination = correctPagination(pageable);
-
-        return personRepository.findAll(pagination);
+        return personRepository.findAll(pageable);
     }
 
     @Override
@@ -102,79 +97,68 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
+    public final Person patch(final Person person) {
+        final Person existing;
+        final Person toSave;
+
+        log.debug("Patching member {} using data {}", person.number(), person);
+
+        // TODO: Identificator and phone must be unique or empty
+        // TODO: Apply the creation validations
+
+        existing = personRepository.findOne(person.number())
+            .orElseThrow(() -> {
+                log.error("Missing person {}", person.number());
+                throw new MissingPersonException(person.number());
+            });
+
+        toSave = copy(existing, person);
+
+        patchPersonValidator.validate(toSave);
+
+        return personRepository.save(toSave);
+    }
+
+    @Override
     public final Person update(final Person person) {
         log.debug("Updating person {} using data {}", person.number(), person);
 
         // TODO: Identificator and phone must be unique or empty
-        // TODO: Apply the creation validations
+        // TODO: The membership maybe can't be removed
 
         if (!personRepository.exists(person.number())) {
             log.error("Missing person {}", person.number());
             throw new MissingPersonException(person.number());
         }
 
+        updatePersonValidator.validate(person);
+
         return personRepository.save(person);
     }
 
-    private final Pageable correctPagination(final Pageable pageable) {
-        final Sort     sort;
-        final Pageable page;
+    private final Person copy(final Person existing, final Person updated) {
+        final PersonName name;
 
-        // TODO: change the pagination system
-        sort = correctSort(pageable.getSort());
-
-        if (pageable.isPaged()) {
-            page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        if (updated.name() == null) {
+            name = existing.name();
         } else {
-            page = Pageable.unpaged(sort);
+            name = new PersonName(Optional.ofNullable(updated.name()
+                .firstName())
+                .orElse(existing.name()
+                    .firstName()),
+                Optional.ofNullable(updated.name()
+                    .lastName())
+                    .orElse(existing.name()
+                        .lastName()));
         }
-
-        return page;
-    }
-
-    private final Sort correctSort(final Sort received) {
-        final Optional<Order> fullNameOrder;
-        final Optional<Order> numberOrder;
-        final List<Order>     orders;
-        final List<Order>     validOrders;
-
-        // Full name
-        fullNameOrder = received.stream()
-            .filter(o -> "fullName".equals(o.getProperty()))
-            .findFirst();
-
-        orders = new ArrayList<>();
-        if (fullNameOrder.isPresent()) {
-            if (Direction.ASC.equals(fullNameOrder.get()
-                .getDirection())) {
-                orders.add(Order.asc("firstName"));
-                orders.add(Order.asc("lastName"));
-            } else {
-                orders.add(Order.desc("firstName"));
-                orders.add(Order.desc("lastName"));
-            }
-        }
-
-        // Number
-        numberOrder = received.stream()
-            .filter(o -> "number".equals(o.getProperty()))
-            .findFirst();
-        if (numberOrder.isPresent()) {
-            if (Direction.ASC.equals(numberOrder.get()
-                .getDirection())) {
-                orders.add(Order.asc("number"));
-            } else {
-                orders.add(Order.desc("number"));
-            }
-        }
-
-        validOrders = received.stream()
-            .filter(o -> !"fullName".equals(o.getProperty()))
-            .filter(o -> !"number".equals(o.getProperty()))
-            .toList();
-        orders.addAll(validOrders);
-
-        return Sort.by(orders);
+        return new Person(Optional.ofNullable(updated.identifier())
+            .orElse(existing.identifier()),
+            Optional.ofNullable(updated.number())
+                .orElse(existing.number()),
+            name, Optional.ofNullable(updated.phone())
+                .orElse(existing.phone()),
+            Optional.ofNullable(updated.membership())
+                .orElse(Optional.empty()));
     }
 
 }

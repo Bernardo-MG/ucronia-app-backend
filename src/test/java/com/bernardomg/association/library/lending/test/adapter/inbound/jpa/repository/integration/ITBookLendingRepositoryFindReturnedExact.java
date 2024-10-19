@@ -41,7 +41,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -54,7 +54,7 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("With a lending, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @LentBookLending
     void testFindReturned_Lent() {
@@ -71,7 +71,7 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("With no book, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     void testFindReturned_NoBook() {
         final Optional<BookLending> lendings;
 
@@ -86,7 +86,7 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("With no history, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testFindReturned_NoHistory() {
         final Optional<BookLending> lendings;
@@ -117,7 +117,7 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("With a returned book, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @ReturnedBookLending
     void testFindReturned_Returned() {
@@ -134,7 +134,7 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("With a returned book which has history, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @AlternativePerson
     @FullBook
     @ReturnedBookLendingHistory

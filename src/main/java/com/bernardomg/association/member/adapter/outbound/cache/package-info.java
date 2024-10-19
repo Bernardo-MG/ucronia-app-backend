@@ -23,7 +23,7 @@
  */
 
 /**
- * Association membership cache constants.
+ * Association members cache constants.
  */
 
 package com.bernardomg.association.member.adapter.outbound.cache;

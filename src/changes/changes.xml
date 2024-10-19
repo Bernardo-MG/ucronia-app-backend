@@ -292,5 +292,13 @@
             Changed settings namespace.
          </action>
       </release>
+      <release version="0.5.20" date="2024-10-19" description="">
+         <action dev="bmg" type="fix">
+            Fixed books relationships when saving.
+         </action>
+         <action dev="bmg" type="update">
+            Simplified persons and membership.
+         </action>
+      </release>
    </body>
 </document>

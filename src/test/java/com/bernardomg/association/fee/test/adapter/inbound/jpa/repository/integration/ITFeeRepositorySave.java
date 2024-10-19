@@ -16,7 +16,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -31,7 +32,7 @@ class ITFeeRepositorySave {
 
     @Test
     @DisplayName("When saving an existing fee, it is returned")
-    @SinglePerson
+    @MembershipActivePerson
     @PaidFee
     void testSave_Existing_ReturnedData() {
         final Iterable<FeeEntity> fees;
@@ -48,13 +49,14 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactly(FeeEntities.atDate());
     }
 
     @Test
     @DisplayName("Persists the data")
-    @SinglePerson
+    @MembershipActivePerson
     void testSave_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -70,13 +72,14 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
+                "person.membership.person")
             .containsExactly(FeeEntities.atDate());
     }
 
     @Test
     @DisplayName("Returns the created data")
-    @SinglePerson
+    @NoMembershipPerson
     void testSave_ReturnedData() {
         final Collection<Fee> fees;
         final Fee             fee;

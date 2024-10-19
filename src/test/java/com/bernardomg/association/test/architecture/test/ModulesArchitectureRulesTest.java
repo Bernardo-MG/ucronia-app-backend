@@ -24,8 +24,6 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.association.transaction..")
         .layer("Fees")
         .definedBy("com.bernardomg.association.fee..")
-        .layer("Inventory")
-        .definedBy("com.bernardomg.association.inventory..")
 
         // Security modules
         .layer("Users")
@@ -60,10 +58,9 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.association.library.lending..")
 
         .whereLayer("Persons")
-        .mayOnlyBeAccessedByLayers("Members", "Users", "Account", "Fees", "Library books", "Library lending",
-            "Inventory")
+        .mayOnlyBeAccessedByLayers("Members", "Users", "Account", "Fees", "Library books", "Library lending")
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Inventory", "Account")
+        .mayOnlyBeAccessedByLayers("Fees", "Account")
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")
@@ -81,9 +78,9 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Association settings")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Events")
-        .mayOnlyBeAccessedByLayers("Executable", "Association events", "Members", "Fees")
+        .mayOnlyBeAccessedByLayers("Executable", "Association events", "Members", "Fees", "Persons")
         .whereLayer("Association events")
-        .mayOnlyBeAccessedByLayers("Members", "Fees")
+        .mayOnlyBeAccessedByLayers("Members", "Fees", "Persons")
 
         // Library modules
         .whereLayer("Library authors")

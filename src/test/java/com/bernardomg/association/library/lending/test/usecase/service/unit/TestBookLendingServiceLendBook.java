@@ -73,9 +73,10 @@ class TestBookLendingServiceLendBook {
     void testLendBook() {
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
@@ -92,6 +93,7 @@ class TestBookLendingServiceLendBook {
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
@@ -110,6 +112,7 @@ class TestBookLendingServiceLendBook {
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lentAlternativePerson()));
 
@@ -132,6 +135,7 @@ class TestBookLendingServiceLendBook {
 
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
@@ -154,6 +158,7 @@ class TestBookLendingServiceLendBook {
 
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
@@ -200,9 +205,10 @@ class TestBookLendingServiceLendBook {
     void testLendBook_OnLastReturn() {
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
@@ -218,9 +224,10 @@ class TestBookLendingServiceLendBook {
     void testLendBook_Today() {
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.valid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
         service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, LocalDate.now());
