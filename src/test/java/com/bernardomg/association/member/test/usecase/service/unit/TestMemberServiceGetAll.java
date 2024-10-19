@@ -168,8 +168,8 @@ class TestMemberServiceGetAll {
     }
 
     @Test
-    @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
-    void testGetAll_Sort_Paged_Asc_FullName() {
+    @DisplayName("When sorting ascending by first name, and applying pagination, the data is returned in order")
+    void testGetAll_Sort_Paged_Asc_FirstName() {
         final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
@@ -178,7 +178,7 @@ class TestMemberServiceGetAll {
         readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
-        pageable = PageRequest.of(0, 1, Sort.by("fullName"));
+        pageable = PageRequest.of(0, 1, Sort.by("firstName"));
 
         memberQuery = MembersQuery.empty();
 
@@ -194,11 +194,11 @@ class TestMemberServiceGetAll {
             .extracting(Pageable::getSort)
             .extracting(Sort::toList)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("firstName"), Order.asc("lastName"));
+            .containsExactly(Order.asc("firstName"));
     }
 
     @Test
-    @DisplayName("When sorting ascending by full name, and applying pagination, it is corrected to the valid fields")
+    @DisplayName("When sorting ascending by number, and applying pagination, the data is returned in order")
     void testGetAll_Sort_Paged_Asc_Number() {
         final MemberQuery  memberQuery;
         final Pageable     pageable;
@@ -228,8 +228,8 @@ class TestMemberServiceGetAll {
     }
 
     @Test
-    @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
-    void testGetAll_Sort_Paged_Desc_FullName() {
+    @DisplayName("When sorting descending by first name, and applying pagination, the data is returned in order")
+    void testGetAll_Sort_Paged_Desc_FirstName() {
         final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
@@ -238,7 +238,7 @@ class TestMemberServiceGetAll {
         readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
-        pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "fullName"));
+        pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "firstName"));
 
         memberQuery = MembersQuery.empty();
 
@@ -254,11 +254,11 @@ class TestMemberServiceGetAll {
             .extracting(Pageable::getSort)
             .extracting(Sort::toList)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.desc("firstName"), Order.desc("lastName"));
+            .containsExactly(Order.desc("firstName"));
     }
 
     @Test
-    @DisplayName("When sorting descending by full name, and applying pagination, it is corrected to the valid fields")
+    @DisplayName("When sorting descending by number, and applying pagination, the data is returned in order")
     void testGetAll_Sort_Paged_Desc_Number() {
         final MemberQuery  memberQuery;
         final Pageable     pageable;
@@ -288,8 +288,8 @@ class TestMemberServiceGetAll {
     }
 
     @Test
-    @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
-    void testGetAll_Sort_Unpaged_Asc_FullName() {
+    @DisplayName("When sorting ascending by first name, and not applying pagination, the data is returned in order")
+    void testGetAll_Sort_Unpaged_Asc_FirstName() {
         final MemberQuery  memberQuery;
         final Pageable     pageable;
         final Page<Member> readMembers;
@@ -298,7 +298,7 @@ class TestMemberServiceGetAll {
         readMembers = new PageImpl<>(List.of(Members.active()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
-        pageable = Pageable.unpaged(Sort.by("fullName"));
+        pageable = Pageable.unpaged(Sort.by("firstName"));
 
         memberQuery = MembersQuery.empty();
 
@@ -314,11 +314,11 @@ class TestMemberServiceGetAll {
             .extracting(Pageable::getSort)
             .extracting(Sort::toList)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("firstName"), Order.asc("lastName"));
+            .containsExactly(Order.asc("firstName"));
     }
 
     @Test
-    @DisplayName("When sorting ascending by full name, and not applying pagination, it is corrected to the valid fields")
+    @DisplayName("When sorting ascending by number, and not applying pagination, the data is returned in order")
     void testGetAll_Sort_Unpaged_Asc_Number() {
         final MemberQuery  memberQuery;
         final Pageable     pageable;
