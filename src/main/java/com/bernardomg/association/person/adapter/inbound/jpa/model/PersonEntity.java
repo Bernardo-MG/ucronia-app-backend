@@ -3,13 +3,11 @@ package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -31,6 +29,9 @@ public class PersonEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "active_member", nullable = false)
+    private Boolean           activeMember;
+
     @Column(name = "first_name", nullable = false)
     private String            firstName;
 
@@ -44,9 +45,6 @@ public class PersonEntity implements Serializable {
 
     @Column(name = "last_name")
     private String            lastName;
-
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private MembershipEntity  membership;
 
     @Column(name = "number")
     private Long              number;

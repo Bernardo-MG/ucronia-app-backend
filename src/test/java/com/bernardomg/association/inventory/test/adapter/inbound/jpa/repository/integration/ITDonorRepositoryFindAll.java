@@ -33,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.configuration.factory.Donors;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -67,7 +67,7 @@ class ITDonorRepositoryFindAll {
 
     @Test
     @DisplayName("With a donor, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     void testFindAll_WithMember() {
         final Iterable<Donor> donors;
         final Pageable        pageable;

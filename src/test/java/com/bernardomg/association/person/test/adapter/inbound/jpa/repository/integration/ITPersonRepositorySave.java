@@ -34,7 +34,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSp
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -122,7 +122,7 @@ class ITPersonRepositorySave {
 
     @Test
     @DisplayName("When a person exists, and an active membership is added, the person is persisted")
-    @SinglePerson
+    @NoMembershipPerson
     void testSave_Existing_AddActiveMembership_PersistedData() {
         final Person                 person;
         final Iterable<PersonEntity> entities;
@@ -144,7 +144,7 @@ class ITPersonRepositorySave {
 
     @Test
     @DisplayName("When a person exists, and an inactive membership is added, the person is persisted")
-    @SinglePerson
+    @NoMembershipPerson
     void testSave_Existing_AddInactiveMembership_PersistedData() {
         final Person                 person;
         final Iterable<PersonEntity> entities;
@@ -166,7 +166,7 @@ class ITPersonRepositorySave {
 
     @Test
     @DisplayName("When a person exists, the person is persisted")
-    @SinglePerson
+    @NoMembershipPerson
     void testSave_Existing_PersistedData() {
         final Person                 person;
         final Iterable<PersonEntity> entities;
@@ -188,7 +188,7 @@ class ITPersonRepositorySave {
 
     @Test
     @DisplayName("When a person exists, the created person is returned")
-    @SinglePerson
+    @NoMembershipPerson
     void testSave_Existing_ReturnedData() {
         final Person person;
         final Person saved;

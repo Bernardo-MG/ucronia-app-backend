@@ -90,9 +90,8 @@ public final class JpaMemberRepository implements MemberRepository {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership
-        return new Member(entity.getNumber(), name, entity.getMembership()
-            .getActive());
+        // TODO: check it has membership flag
+        return new Member(entity.getNumber(), name, entity.getActiveMember());
     }
 
 }

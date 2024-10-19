@@ -32,7 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -40,7 +40,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("UserPersonRepository - find all not assigned - pagination")
-@ValidPerson
+@NoMembershipPerson
 class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginationIT<Person> {
 
     @Autowired

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
@@ -118,7 +118,7 @@ class ITUserPersonRepositorySave {
 
     @Test
     @DisplayName("When the user is missing, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     void testSave_MissingUser_ReturnedData() {
         final Person person;
 
@@ -133,7 +133,7 @@ class ITUserPersonRepositorySave {
     @Test
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
-    @ValidPerson
+    @NoMembershipPerson
     void testSave_PersistedData() {
         final Collection<UserPersonEntity> persons;
 
@@ -168,7 +168,7 @@ class ITUserPersonRepositorySave {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
-    @ValidPerson
+    @NoMembershipPerson
     void testSave_ReturnedData() {
         final Person person;
 

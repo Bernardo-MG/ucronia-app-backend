@@ -17,7 +17,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.SinglePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -79,7 +79,7 @@ class ITFeeRepositorySave {
 
     @Test
     @DisplayName("Returns the created data")
-    @SinglePerson
+    @NoMembershipPerson
     void testSave_ReturnedData() {
         final Collection<Fee> fees;
         final Fee             fee;

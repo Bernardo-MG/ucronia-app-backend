@@ -42,7 +42,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -55,7 +55,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When the book is lent, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @LentBookLending
     void testFindOne_Lent() {
@@ -72,7 +72,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When the book is lent and has history, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @AlternativePerson
     @FullBook
     @LentBookLendingHistory
@@ -90,7 +90,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With no person, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     void testFindOne_NoBook() {
         final Optional<BookLending> lendings;
 
@@ -105,7 +105,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When the book has no history, nothing is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     void testFindOne_NoHistory() {
         final Optional<BookLending> lendings;
@@ -136,7 +136,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When the book is returned, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @FullBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -153,7 +153,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When the book is returned and has history, it is returned")
-    @ValidPerson
+    @NoMembershipPerson
     @AlternativePerson
     @FullBook
     @ReturnedBookLendingHistory

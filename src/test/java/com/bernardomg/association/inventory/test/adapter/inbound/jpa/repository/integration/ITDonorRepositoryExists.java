@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.inventory.domain.repository.DonorRepository;
 import com.bernardomg.association.inventory.test.configuration.factory.DonorConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.ValidPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -43,7 +43,7 @@ class ITDonorRepositoryExists {
 
     @Test
     @DisplayName("With an existing donor, it exists")
-    @ValidPerson
+    @NoMembershipPerson
     void testExists() {
         final boolean exists;
 

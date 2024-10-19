@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.person.test.configuration.factory;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.MembershipEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 public final class PersonEntities {
@@ -29,11 +28,6 @@ public final class PersonEntities {
     }
 
     public static final PersonEntity membershipActive() {
-        final MembershipEntity membership;
-
-        membership = MembershipEntity.builder()
-            .withActive(true)
-            .build();
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
@@ -41,16 +35,11 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
-            .withMembership(membership)
+            .withActiveMember(true)
             .build();
     }
 
     public static final PersonEntity membershipInactive() {
-        final MembershipEntity membership;
-
-        membership = MembershipEntity.builder()
-            .withActive(false)
-            .build();
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
@@ -58,7 +47,7 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
-            .withMembership(membership)
+            .withActiveMember(false)
             .build();
     }
 

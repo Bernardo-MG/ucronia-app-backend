@@ -38,7 +38,7 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implementation of the membership balance service.
+ * Default implementation of the member balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
