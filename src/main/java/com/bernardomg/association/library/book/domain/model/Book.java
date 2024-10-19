@@ -4,7 +4,6 @@ package com.bernardomg.association.library.book.domain.model;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.inventory.domain.model.Donor;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
