@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.inventory.domain.model;
+package com.bernardomg.association.library.book.domain.model;
 
 import com.bernardomg.association.person.domain.model.PersonName;
 
