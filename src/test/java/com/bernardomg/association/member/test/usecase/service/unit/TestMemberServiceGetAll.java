@@ -52,20 +52,20 @@ import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.MembersQuery;
-import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get all")
-class TestPublicMemberServiceGetAll {
+class TestMemberServiceGetAll {
 
     @Captor
-    private ArgumentCaptor<Pageable>   pageableCaptor;
+    private ArgumentCaptor<Pageable> pageableCaptor;
 
     @Mock
-    private MemberRepository           publicMemberRepository;
+    private MemberRepository         publicMemberRepository;
 
     @InjectMocks
-    private DefaultPublicMemberService service;
+    private DefaultMemberService     service;
 
     @Test
     @DisplayName("When filtering with by active it returns the active members")

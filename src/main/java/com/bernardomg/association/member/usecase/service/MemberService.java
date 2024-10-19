@@ -14,7 +14,7 @@ import com.bernardomg.association.member.domain.model.MemberQuery;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PublicMemberService {
+public interface MemberService {
 
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.

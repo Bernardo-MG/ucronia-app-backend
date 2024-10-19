@@ -41,20 +41,20 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get one")
-class TestPublicMemberServiceGetOne {
+class TestMemberServiceGetOne {
 
     @Mock
-    private MemberRepository           publicMemberRepository;
+    private MemberRepository     publicMemberRepository;
 
     @InjectMocks
-    private DefaultPublicMemberService service;
+    private DefaultMemberService service;
 
-    public TestPublicMemberServiceGetOne() {
+    public TestMemberServiceGetOne() {
         super();
     }
 

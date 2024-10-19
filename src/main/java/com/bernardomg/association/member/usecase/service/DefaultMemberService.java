@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
-public final class DefaultPublicMemberService implements PublicMemberService {
+public final class DefaultMemberService implements MemberService {
 
     private final MemberRepository memberRepository;
 
-    public DefaultPublicMemberService(final MemberRepository memberRepo) {
+    public DefaultMemberService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);

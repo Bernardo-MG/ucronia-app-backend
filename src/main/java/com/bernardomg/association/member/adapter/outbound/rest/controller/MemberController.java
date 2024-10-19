@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
-import com.bernardomg.association.member.usecase.service.PublicMemberService;
+import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -51,12 +51,12 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/member/public")
 @AllArgsConstructor
-public class PublicMemberController {
+public class MemberController {
 
     /**
      * Reduced member service.
      */
-    private final PublicMemberService service;
+    private final MemberService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
