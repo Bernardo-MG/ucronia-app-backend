@@ -300,10 +300,12 @@
             Simplified persons and membership.
          </action>
       </release>
-      <release version="0.5.20" date="2024-10-20" description="Fixed person sorting">
+      <release version="0.5.21" date="2024-10-20" description="Fixed person sorting">
          <action dev="bmg" type="fix">
             Fixed person sorting.
          </action>
+      </release>
+      <release version="1.0.0" date="2024-10-20" description="">
       </release>
    </body>
 </document>
