@@ -1,17 +1,11 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,13 +93,10 @@ public final class JpaPersonRepository implements PersonRepository {
     @Override
     public final Iterable<Person> findAll(final Pageable pageable) {
         final Page<Person> persons;
-        final Pageable     pagination;
 
         log.debug("Finding all the persons");
 
-        pagination = correctPagination(pageable);
-
-        persons = personSpringRepository.findAll(pagination)
+        persons = personSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
         log.debug("Found all the persons: {}", persons);
@@ -183,67 +174,6 @@ public final class JpaPersonRepository implements PersonRepository {
         log.debug("Saved person {}", saved);
 
         return saved;
-    }
-
-    private final Pageable correctPagination(final Pageable pageable) {
-        final Sort     sort;
-        final Pageable page;
-
-        // TODO: change the pagination system
-        sort = correctSort(pageable.getSort());
-
-        if (pageable.isPaged()) {
-            page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        } else {
-            page = Pageable.unpaged(sort);
-        }
-
-        return page;
-    }
-
-    private final Sort correctSort(final Sort received) {
-        final Optional<Order> fullNameOrder;
-        final Optional<Order> numberOrder;
-        final List<Order>     orders;
-        final List<Order>     validOrders;
-
-        // Full name
-        fullNameOrder = received.stream()
-            .filter(o -> "fullName".equals(o.getProperty()))
-            .findFirst();
-
-        orders = new ArrayList<>();
-        if (fullNameOrder.isPresent()) {
-            if (Direction.ASC.equals(fullNameOrder.get()
-                .getDirection())) {
-                orders.add(Order.asc("firstName"));
-                orders.add(Order.asc("lastName"));
-            } else {
-                orders.add(Order.desc("firstName"));
-                orders.add(Order.desc("lastName"));
-            }
-        }
-
-        // Number
-        numberOrder = received.stream()
-            .filter(o -> "number".equals(o.getProperty()))
-            .findFirst();
-        if (numberOrder.isPresent()) {
-            if (Direction.ASC.equals(numberOrder.get()
-                .getDirection())) {
-                orders.add(Order.asc("number"));
-            } else {
-                orders.add(Order.desc("number"));
-            }
-        }
-
-        validOrders = received.stream()
-            .filter(o -> !"fullName".equals(o.getProperty()))
-            .filter(o -> !"number".equals(o.getProperty()))
-            .toList();
-        orders.addAll(validOrders);
-
-        return Sort.by(orders);
     }
 
     private final Person toDomain(final PersonEntity entity) {
