@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.event.domain;
 
+import java.time.Month;
+
 import com.bernardomg.event.domain.AbstractEvent;
 
 import lombok.EqualsAndHashCode;
@@ -38,10 +40,17 @@ import lombok.ToString;
 @Getter
 public final class MonthStartEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 7044023838333219109L;
+    private static final long serialVersionUID = 7173269718677701462L;
 
-    public MonthStartEvent(final Object source) {
+    private final Month       month;
+
+    private final int         year;
+
+    public MonthStartEvent(final Object source, final int yr, final Month mnth) {
         super(source);
+
+        year = yr;
+        month = mnth;
     }
 
 }

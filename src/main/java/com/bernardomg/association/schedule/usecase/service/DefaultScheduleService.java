@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.schedule.usecase.service;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 import com.bernardomg.association.event.domain.MonthStartEvent;
@@ -18,7 +19,10 @@ public final class DefaultScheduleService implements ScheduleService {
 
     @Override
     public void monthStarts() {
-        eventEmitter.emit(new MonthStartEvent(this));
+        final LocalDate date;
+
+        date = LocalDate.now();
+        eventEmitter.emit(new MonthStartEvent(this, date.getYear(), date.getMonth()));
     }
 
 }
