@@ -233,7 +233,7 @@ public final class JpaPersonRepository implements PersonRepository {
         if (entity.getActiveMember() == null) {
             membership = Optional.empty();
         } else {
-            membership = Optional.of(new Membership(entity.getActiveMember()));
+            membership = Optional.of(new Membership(entity.getActiveMember(), entity.getRenewMembership()));
         }
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
     }
@@ -258,7 +258,9 @@ public final class JpaPersonRepository implements PersonRepository {
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
             .withActiveMember(membership)
-            .withRenewMembership(true)
+            .withRenewMembership(data.membership()
+                .get()
+                .renew())
             .build();
     }
 

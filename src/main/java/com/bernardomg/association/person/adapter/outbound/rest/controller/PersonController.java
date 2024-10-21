@@ -144,7 +144,9 @@ public class PersonController {
             membership = Optional.empty();
         } else {
             membership = Optional.of(new Membership(change.getMembership()
-                .active()));
+                .active(),
+                change.getMembership()
+                    .renew()));
         }
         return new Person(change.getIdentifier(), number, name, change.getPhone(), membership);
     }
