@@ -22,45 +22,46 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.person.adapter.inbound.event;
+package com.bernardomg.association.schedule.test.usecase.service.unit;
 
-import java.util.Objects;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.assertArg;
+import static org.mockito.Mockito.verify;
 
-import org.springframework.stereotype.Component;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.event.domain.FeeDeletedEvent;
-import com.bernardomg.association.person.usecase.service.MemberStatusService;
-import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.association.event.domain.MonthStartEvent;
+import com.bernardomg.association.schedule.usecase.service.DefaultScheduleService;
+import com.bernardomg.event.emitter.EventEmitter;
 
-import lombok.extern.slf4j.Slf4j;
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Schedule service - month starts")
+class TestScheduleServiceMonthStarts {
 
-/**
- * Listens for fee paid events and deactivates the linked member, if needed.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-@Slf4j
-@Component
-public final class FeeDeletedEventListener implements EventListener<FeeDeletedEvent> {
+    @Mock
+    private EventEmitter           eventEmitter;
 
-    private final MemberStatusService service;
+    @InjectMocks
+    private DefaultScheduleService service;
 
-    public FeeDeletedEventListener(final MemberStatusService serv) {
+    public TestScheduleServiceMonthStarts() {
         super();
-
-        service = Objects.requireNonNull(serv);
     }
 
-    @Override
-    public final Class<FeeDeletedEvent> getEventType() {
-        return FeeDeletedEvent.class;
-    }
+    @Test
+    @DisplayName("When operation is called an event is sent")
+    void testGetAll_NoData() {
 
-    @Override
-    public final void handle(final FeeDeletedEvent event) {
-        log.debug("Handling fee deleted event at {} for person with number {}", event.getDate(),
-            event.getPersonNumber());
-        service.deactivate(event.getDate(), event.getPersonNumber());
+        // WHEN
+        service.monthStarts();
+
+        // THEN
+        verify(eventEmitter).emit(assertArg(e -> assertThat(e).isInstanceOf(MonthStartEvent.class)));
     }
 
 }

@@ -13,6 +13,7 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -24,6 +25,7 @@ public final class PersonEntities {
             .withLastName("Last name")
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -36,6 +38,7 @@ public final class PersonEntities {
             .withPhone("12345")
             .withIdentifier("6789")
             .withActiveMember(true)
+            .withRenewMembership(true)
             .build();
     }
 
@@ -48,6 +51,7 @@ public final class PersonEntities {
             .withPhone("12345")
             .withIdentifier("6789")
             .withActiveMember(false)
+            .withRenewMembership(true)
             .build();
     }
 
@@ -59,6 +63,7 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("")
             .withIdentifier("")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -69,6 +74,7 @@ public final class PersonEntities {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -80,6 +86,7 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -91,6 +98,7 @@ public final class PersonEntities {
             .withLastName("Last name " + index)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 

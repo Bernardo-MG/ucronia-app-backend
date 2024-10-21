@@ -29,7 +29,7 @@ public class PersonEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "active_member", nullable = false)
+    @Column(name = "active_member")
     private Boolean           activeMember;
 
     @Column(name = "first_name", nullable = false)
@@ -51,5 +51,8 @@ public class PersonEntity implements Serializable {
 
     @Column(name = "phone")
     private String            phone;
+
+    @Column(name = "renew_membership")
+    private Boolean           renewMembership;
 
 }

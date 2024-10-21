@@ -22,33 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.event.configuration;
-
-import java.util.Collection;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SynchronousEventEmitter;
-import com.bernardomg.event.listener.EventListener;
-
 /**
- * Persistence configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Schedules tasks.
  */
-@Configuration
-public class EventConfiguration {
 
-    public EventConfiguration() {
-        super();
-    }
-
-    @Bean("eventEmitter")
-    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
-        return new SynchronousEventEmitter(listeners);
-    }
-
-}
+package com.bernardomg.association.schedule.adapter.inbound.schedule;

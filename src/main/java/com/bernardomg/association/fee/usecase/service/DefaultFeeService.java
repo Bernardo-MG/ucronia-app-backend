@@ -49,7 +49,6 @@ import com.bernardomg.association.fee.usecase.validation.FeeDateNotRegisteredRul
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -252,10 +251,10 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {
-        final PublicPerson   feePerson;
+        final Fee.Person     feePerson;
         final FeeTransaction feeTransaction;
 
-        feePerson = new PublicPerson(person.number(), person.name());
+        feePerson = new Fee.Person(person.number(), person.name());
         feeTransaction = new FeeTransaction(transaction, null);
         return new Fee(date, false, feePerson, feeTransaction);
     }

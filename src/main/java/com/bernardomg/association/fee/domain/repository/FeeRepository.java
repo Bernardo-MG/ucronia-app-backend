@@ -33,8 +33,6 @@ public interface FeeRepository {
 
     public Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates);
 
-    public Collection<Fee> findAllForPreviousMonth();
-
     public Collection<Fee> findAllInMonth(final YearMonth date);
 
     public Collection<Fee> findAllInYear(final Year year, final Sort sort);

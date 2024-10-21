@@ -60,7 +60,7 @@ import com.bernardomg.event.emitter.EventEmitter;
 class TestFeeServiceDelete {
 
     @Mock
-    private EventEmitter              eventBus;
+    private EventEmitter              eventEmitter;
 
     @Mock
     private FeeRepository             feeRepository;
@@ -96,7 +96,7 @@ class TestFeeServiceDelete {
         service.delete(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH);
 
         // THEN
-        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+        verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(e)
                 .isInstanceOf(FeeDeletedEvent.class);
             soft.assertThat(e)
@@ -155,7 +155,7 @@ class TestFeeServiceDelete {
         service.delete(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH);
 
         // THEN
-        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+        verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(e)
                 .isInstanceOf(FeeDeletedEvent.class);
             soft.assertThat(e)

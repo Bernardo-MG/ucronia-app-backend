@@ -22,33 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.event.configuration;
+package com.bernardomg.association.person.adapter.inbound.event;
 
-import java.util.Collection;
+import java.util.Objects;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SynchronousEventEmitter;
+import com.bernardomg.association.event.domain.FeeDeletedEvent;
+import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Persistence configuration.
+ * Listens for fee paid events and deactivates the linked member, if needed.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-@Configuration
-public class EventConfiguration {
+@Slf4j
+@Component
+public final class DeactivateMemberOnFeeDeletedEventListener implements EventListener<FeeDeletedEvent> {
 
-    public EventConfiguration() {
+    private final MemberStatusService service;
+
+    public DeactivateMemberOnFeeDeletedEventListener(final MemberStatusService serv) {
         super();
+
+        service = Objects.requireNonNull(serv);
     }
 
-    @Bean("eventEmitter")
-    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
-        return new SynchronousEventEmitter(listeners);
+    @Override
+    public final Class<FeeDeletedEvent> getEventType() {
+        return FeeDeletedEvent.class;
+    }
+
+    @Override
+    public final void handle(final FeeDeletedEvent event) {
+        log.debug("Handling fee deleted event at {} for person with number {}", event.getDate(),
+            event.getPersonNumber());
+        service.deactivate(event.getDate(), event.getPersonNumber());
     }
 
 }
