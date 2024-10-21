@@ -59,7 +59,7 @@ class TestMemberStatusDeactivateNotRenewed {
     @DisplayName("When activating a member to renew, the member is activated")
     void testActivateRenewed() {
         // GIVEN
-        given(personRepository.findAllToDeactivateDueToNoRenewal()).willReturn(List.of(Persons.membershipActive()));
+        given(personRepository.findAllToActivateDueToRenewal()).willReturn(List.of(Persons.membershipActive()));
 
         // WHEN
         service.activateRenewed();
