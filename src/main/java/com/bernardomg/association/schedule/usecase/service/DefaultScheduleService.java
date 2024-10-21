@@ -5,11 +5,11 @@ import java.time.YearMonth;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.event.emitter.EventEmitter;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 /**
