@@ -22,33 +22,46 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.event.configuration;
+package com.bernardomg.association.schedule.test.usecase.service.unit;
 
-import java.util.Collection;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.assertArg;
+import static org.mockito.Mockito.verify;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.event.domain.MonthStartEvent;
+import com.bernardomg.association.schedule.usecase.service.DefaultScheduleService;
 import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SynchronousEventEmitter;
-import com.bernardomg.event.listener.EventListener;
 
-/**
- * Persistence configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Configuration
-public class EventConfiguration {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Schedule service - month starts")
+class TestScheduleServiceMonthStarts {
 
-    public EventConfiguration() {
+    @Mock
+    private EventEmitter           eventEmitter;
+
+    @InjectMocks
+    private DefaultScheduleService service;
+
+    public TestScheduleServiceMonthStarts() {
         super();
     }
 
-    @Bean("eventEmitter")
-    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
-        return new SynchronousEventEmitter(listeners);
+    @Test
+    @DisplayName("When operation is called an event is sent")
+    void testGetAll_NoData() {
+
+        // WHEN
+        service.monthStarts();
+
+        // THEN
+        verify(eventEmitter).emit(assertArg(e -> assertThat(e).isInstanceOf(MonthStartEvent.class)));
     }
 
 }

@@ -22,33 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.event.configuration;
+package com.bernardomg.association.event.domain;
 
-import java.util.Collection;
+import com.bernardomg.event.domain.AbstractEvent;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SynchronousEventEmitter;
-import com.bernardomg.event.listener.EventListener;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
- * Persistence configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * New month has started event.
  */
-@Configuration
-public class EventConfiguration {
+@ToString
+@EqualsAndHashCode(callSuper = true)
+@Getter
+public final class MonthStartEvent extends AbstractEvent {
 
-    public EventConfiguration() {
-        super();
-    }
+    private static final long serialVersionUID = 7044023838333219109L;
 
-    @Bean("eventEmitter")
-    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
-        return new SynchronousEventEmitter(listeners);
+    public MonthStartEvent(final Object source) {
+        super(source);
     }
 
 }
