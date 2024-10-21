@@ -35,7 +35,7 @@ import com.bernardomg.event.listener.EventListener;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Listens for the month start event and registers fees for the members.
+ * Listens for the month start event and registers fees for the active members.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */

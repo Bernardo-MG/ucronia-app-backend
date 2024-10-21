@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
@@ -61,20 +62,16 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     @Override
     public final void registerMonthFees() {
-        final Collection<Fee> feesToExtend;
-        final Collection<Fee> feesToCreate;
+        final Collection<Fee>    feesToCreate;
+        final Collection<Person> toRenew;
 
         log.info("Registering fees for this month");
 
         // Find fees to extend into the current month
-        feesToExtend = feeRepository.findAllForPreviousMonth();
-
-        // TODO: reduce the number of queries
-        feesToCreate = feesToExtend.stream()
+        toRenew = personRepository.findAllToRenew();
+        feesToCreate = toRenew.stream()
             // Prepare for the current month
             .map(this::toUnpaidThisMonth)
-            // Make sure the user is active
-            .filter(this::isActive)
             // Make sure it doesn't exist
             .filter(this::notExists)
             .toList();
@@ -84,23 +81,15 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         log.debug("Registered {} fees for this month", feesToCreate.size());
     }
 
-    private final boolean isActive(final Fee fee) {
-        return personRepository.isActive(fee.person()
-            .number());
-    }
-
     private final boolean notExists(final Fee fee) {
         return !feeRepository.exists(fee.person()
             .number(), fee.date());
     }
 
-    private final Fee toUnpaidThisMonth(final Fee fee) {
+    private final Fee toUnpaidThisMonth(final Person feePerson) {
         final PublicPerson person;
 
-        person = new PublicPerson(fee.person()
-            .number(),
-            fee.person()
-                .name());
+        person = new PublicPerson(feePerson.number(), feePerson.name());
         return new Fee(YearMonth.now(), false, person, null);
     }
 

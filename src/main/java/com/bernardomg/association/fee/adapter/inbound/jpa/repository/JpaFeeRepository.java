@@ -214,26 +214,6 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllForPreviousMonth() {
-        final YearMonth       previousMonth;
-        final Collection<Fee> fees;
-
-        previousMonth = YearMonth.now()
-            .minusMonths(1);
-
-        log.debug("Finding all fees for the previous month: {}", previousMonth);
-
-        fees = memberFeeSpringRepository.findAllByDate(previousMonth)
-            .stream()
-            .map(this::toDomain)
-            .toList();
-
-        log.debug("Found all fees for the previous month: {}", fees);
-
-        return fees;
-    }
-
-    @Override
     public final Collection<Fee> findAllInMonth(final YearMonth date) {
         final Collection<Fee> fees;
 

@@ -19,6 +19,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
@@ -34,12 +35,11 @@ public class TestFeeMaintenanceService {
     private DefaultFeeMaintenanceService service;
 
     @Test
-    @DisplayName("When there is a fee on the previous month and none in the current a new one is saved")
+    @DisplayName("When there is a member to renew a new fee is saved")
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findAllToRenew()).willReturn(List.of(Persons.membershipActive()));
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -50,12 +50,11 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("When the fee exists nothing is saved")
+    @DisplayName("When there is a member to renew, but the fee already exists, nothing is saved")
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findAllToRenew()).willReturn(List.of(Persons.membershipActive()));
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -66,12 +65,11 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("When the user is not active nothing is saved")
+    @DisplayName("When there are no members to renew, nothing is saved")
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
-        given(feeRepository.findAllForPreviousMonth()).willReturn(List.of(Fees.paidPreviousMonth()));
-        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
         service.registerMonthFees();
