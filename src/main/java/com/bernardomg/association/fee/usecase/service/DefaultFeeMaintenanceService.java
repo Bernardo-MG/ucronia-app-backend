@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -87,9 +86,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final Fee toUnpaidThisMonth(final Person feePerson) {
-        final PublicPerson person;
+        final Fee.Person person;
 
-        person = new PublicPerson(feePerson.number(), feePerson.name());
+        person = new Fee.Person(feePerson.number(), feePerson.name());
         return new Fee(YearMonth.now(), false, person, null);
     }
 
