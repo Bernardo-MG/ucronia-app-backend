@@ -28,6 +28,7 @@ public class MonthStartScheduleTask {
     public void registerMonthFees() {
         log.info("Notifying new month");
         service.monthStarts();
+        log.info("Notified new month");
     }
 
 }

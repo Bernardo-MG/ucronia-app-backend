@@ -22,8 +22,45 @@
  * SOFTWARE.
  */
 
-/**
- * Association fee schedules tasks.
- */
+package com.bernardomg.association.fee.adapter.inbound.event;
 
-package com.bernardomg.association.fee.adapter.inbound.schedule;
+import java.util.Objects;
+
+import org.springframework.stereotype.Component;
+
+import com.bernardomg.association.event.domain.MonthStartEvent;
+import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
+import com.bernardomg.event.listener.EventListener;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Listens for the month start event and registers fees for the members.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+@Slf4j
+@Component
+public final class RegisterFeesOnMonthStartEventListener implements EventListener<MonthStartEvent> {
+
+    private final FeeMaintenanceService service;
+
+    public RegisterFeesOnMonthStartEventListener(final FeeMaintenanceService serv) {
+        super();
+
+        service = Objects.requireNonNull(serv);
+    }
+
+    @Override
+    public final Class<MonthStartEvent> getEventType() {
+        return MonthStartEvent.class;
+    }
+
+    @Override
+    public final void handle(final MonthStartEvent event) {
+        log.debug("Handling month start event");
+        service.registerMonthFees();
+        log.info("Handled month start event");
+    }
+
+}
