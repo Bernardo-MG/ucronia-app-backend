@@ -70,7 +70,11 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
 
     public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
 
+    public Collection<PersonEntity> findAllByRenewMembershipFalseAndActiveMemberTrue();
+
     public Collection<PersonEntity> findAllByRenewMembershipTrue();
+
+    public Collection<PersonEntity> findAllByRenewMembershipTrueAndActiveMemberFalse();
 
     @Query("""
             SELECT p

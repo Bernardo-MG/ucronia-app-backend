@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.schedule.usecase.service;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.event.emitter.EventEmitter;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public final class DefaultScheduleService implements ScheduleService {
 
@@ -22,10 +25,9 @@ public final class DefaultScheduleService implements ScheduleService {
 
     @Override
     public void monthStarts() {
-        final LocalDate date;
-
-        date = LocalDate.now();
-        eventEmitter.emit(new MonthStartEvent(this, date.getYear(), date.getMonth()));
+        log.debug("Sending month start event");
+        eventEmitter.emit(new MonthStartEvent(this, YearMonth.now()));
+        log.debug("Sent month start event");
     }
 
 }

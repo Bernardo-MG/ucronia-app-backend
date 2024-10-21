@@ -41,20 +41,20 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all to renew")
-class ITPersonRepositoryFindAllToRenew {
+@DisplayName("PersonRepository - find all to activate due to renewal")
+class ITPersonRepositoryFindAllToActivateDueToRenewal {
 
     @Autowired
     private PersonRepository repository;
 
     @Test
-    @DisplayName("With an active membership to not renew, nothing is returned")
+    @DisplayName("With a membership to not renew and active, nothing is returned")
     @MembershipActiveToNotRenewPerson
-    void testFindAllToRenew_ToNotRenewActive() {
+    void testFindAllToActivateDueToRenewal_ToNotRenewActive() {
         final Collection<Person> persons;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        persons = repository.findAllToActivateDueToRenewal();
 
         // THEN
         Assertions.assertThat(persons)
@@ -63,13 +63,13 @@ class ITPersonRepositoryFindAllToRenew {
     }
 
     @Test
-    @DisplayName("With an inactive membership to not renew, nothing is returned")
+    @DisplayName("With a membership to not renew and active, nothing is returned")
     @MembershipInactiveToNotRenewPerson
-    void testFindAllToRenew_ToNotRenewInactive() {
+    void testFindAllToActivateDueToRenewal_ToNotRenewInactive() {
         final Collection<Person> persons;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        persons = repository.findAllToActivateDueToRenewal();
 
         // THEN
         Assertions.assertThat(persons)
@@ -78,28 +78,28 @@ class ITPersonRepositoryFindAllToRenew {
     }
 
     @Test
-    @DisplayName("With an active membership to renew, it is returned")
+    @DisplayName("With a membership to renew and active, it is returned")
     @MembershipActiveToRenewPerson
-    void testFindAllToRenew_ToRenewActive() {
+    void testFindAllToActivateDueToRenewal_ToRenewActive() {
         final Collection<Person> persons;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        persons = repository.findAllToActivateDueToRenewal();
 
         // THEN
         Assertions.assertThat(persons)
             .as("persons")
-            .containsExactly(Persons.membershipActive());
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With an inactive membership to renew, it is returned")
+    @DisplayName("With a membership to renew and active, it is returned")
     @MembershipInactiveToRenewPerson
-    void testFindAllToRenew_ToRenewInactive() {
+    void testFindAllToActivateDueToRenewal_ToRenewInactive() {
         final Collection<Person> persons;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        persons = repository.findAllToActivateDueToRenewal();
 
         // THEN
         Assertions.assertThat(persons)

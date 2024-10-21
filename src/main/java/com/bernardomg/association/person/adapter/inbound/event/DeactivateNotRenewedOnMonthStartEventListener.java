@@ -22,30 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.event;
+package com.bernardomg.association.person.adapter.inbound.event;
 
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.event.domain.MonthStartEvent;
-import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
+import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Listens for the month start event and registers fees for the active members.
+ * Listens for the month start event and deactivates members which are not renewed.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
 @Component
-public final class RegisterFeesOnMonthStartEventListener implements EventListener<MonthStartEvent> {
+public final class DeactivateNotRenewedOnMonthStartEventListener implements EventListener<MonthStartEvent> {
 
-    private final FeeMaintenanceService service;
+    private final MemberStatusService service;
 
-    public RegisterFeesOnMonthStartEventListener(final FeeMaintenanceService serv) {
+    public DeactivateNotRenewedOnMonthStartEventListener(final MemberStatusService serv) {
         super();
 
         service = Objects.requireNonNull(serv);
@@ -58,9 +58,9 @@ public final class RegisterFeesOnMonthStartEventListener implements EventListene
 
     @Override
     public final void handle(final MonthStartEvent event) {
-        log.debug("Registering fees at the start of {}", event.getMonth());
-        service.registerMonthFees();
-        log.debug("Registered fees at the start of {}", event.getMonth());
+        log.debug("Deactivating members not renewing at the start of {}", event.getMonth());
+        service.deactivateNotRenewed();
+        log.debug("Deactivated members not renewing at the start of {}", event.getMonth());
     }
 
 }

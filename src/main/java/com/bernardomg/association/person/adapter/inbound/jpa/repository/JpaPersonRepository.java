@@ -106,6 +106,38 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
+    public final Collection<Person> findAllToActivateDueToRenewal() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the members to renew and activate");
+
+        persons = personSpringRepository.findAllByRenewMembershipTrueAndActiveMemberFalse()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the members to renew and activate: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllToDeactivateDueToNoRenewal() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the members to not renew and deactivate");
+
+        persons = personSpringRepository.findAllByRenewMembershipFalseAndActiveMemberTrue()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the members to not renew and deactivate: {}", persons);
+
+        return persons;
+    }
+
+    @Override
     public final Collection<Person> findAllToRenew() {
         final Collection<Person> persons;
 

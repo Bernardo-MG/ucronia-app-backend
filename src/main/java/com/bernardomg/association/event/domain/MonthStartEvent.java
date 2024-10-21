@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.event.domain;
 
-import java.time.Month;
+import java.time.YearMonth;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
@@ -42,15 +42,12 @@ public final class MonthStartEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7173269718677701462L;
 
-    private final Month       month;
+    private final YearMonth   month;
 
-    private final int         year;
-
-    public MonthStartEvent(final Object source, final int yr, final Month mnth) {
+    public MonthStartEvent(final Object source, final YearMonth date) {
         super(source);
 
-        year = yr;
-        month = mnth;
+        month = date;
     }
 
 }

@@ -14,7 +14,7 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 public final class Fees {
 
     public static final Fee alternative() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -25,7 +25,7 @@ public final class Fees {
     }
 
     public static final Fee newlyCreated() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -36,7 +36,7 @@ public final class Fees {
     }
 
     public static final Fee noLastName() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -47,7 +47,7 @@ public final class Fees {
     }
 
     public static final Fee notPaid() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -58,7 +58,7 @@ public final class Fees {
     }
 
     public static final Fee notPaidAt(final long index, final Month month) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -69,7 +69,7 @@ public final class Fees {
     }
 
     public static final Fee notPaidCurrentMonth() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -80,7 +80,7 @@ public final class Fees {
     }
 
     public static final Fee notPaidNextYear() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -91,7 +91,7 @@ public final class Fees {
     }
 
     public static final Fee notPaidPreviousMonth() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -102,7 +102,7 @@ public final class Fees {
     }
 
     public static final Fee notPaidTwoMonthsBack() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -113,7 +113,7 @@ public final class Fees {
     }
 
     public static final Fee paid() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -124,7 +124,7 @@ public final class Fees {
     }
 
     public static final Fee paidAt(final int month) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -135,7 +135,7 @@ public final class Fees {
     }
 
     public static final Fee paidAt(final int month, final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -146,7 +146,7 @@ public final class Fees {
     }
 
     public static final Fee paidAt(final long index, final Month month) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -157,7 +157,7 @@ public final class Fees {
     }
 
     public static final Fee paidAtAlternative(final int month) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -168,7 +168,7 @@ public final class Fees {
     }
 
     public static final Fee paidAtNoLastName(final int month) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -179,7 +179,7 @@ public final class Fees {
     }
 
     public static final Fee paidAtPreviousYear(final int month) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -191,7 +191,7 @@ public final class Fees {
     }
 
     public static final Fee paidAtPreviousYear(final int month, final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -202,7 +202,7 @@ public final class Fees {
     }
 
     public static final Fee paidCurrentMonth() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -213,7 +213,7 @@ public final class Fees {
     }
 
     public static final Fee paidCurrentMonth(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -224,7 +224,7 @@ public final class Fees {
     }
 
     public static final Fee paidFirstNextYear(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -235,7 +235,7 @@ public final class Fees {
     }
 
     public static final Fee paidLastInYear(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -246,7 +246,7 @@ public final class Fees {
     }
 
     public static final Fee paidNextDate() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -257,7 +257,7 @@ public final class Fees {
     }
 
     public static final Fee paidNextDateWithIndex(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -268,7 +268,7 @@ public final class Fees {
     }
 
     public static final Fee paidNextYear(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -280,7 +280,7 @@ public final class Fees {
     }
 
     public static final Fee paidPreviousMonth() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -291,7 +291,7 @@ public final class Fees {
     }
 
     public static final Fee paidPreviousMonth(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -302,7 +302,7 @@ public final class Fees {
     }
 
     public static final Fee paidPreviousMonthNew() {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -313,7 +313,7 @@ public final class Fees {
     }
 
     public static final Fee paidTwoMonthsBack(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -324,7 +324,7 @@ public final class Fees {
     }
 
     public static final Fee paidWithIndex(final long index) {
-        final Fee.Person   person;
+        final Fee.Person     person;
         final FeeTransaction transaction;
         final PersonName     name;
 
@@ -336,7 +336,7 @@ public final class Fees {
 
     public static final Fee toCreate() {
         final Fee.Person person;
-        final PersonName   name;
+        final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
