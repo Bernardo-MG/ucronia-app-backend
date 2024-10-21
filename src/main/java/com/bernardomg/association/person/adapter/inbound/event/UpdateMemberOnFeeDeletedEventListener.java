@@ -41,11 +41,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-public final class FeeDeletedEventListener implements EventListener<FeeDeletedEvent> {
+public final class UpdateMemberOnFeeDeletedEventListener implements EventListener<FeeDeletedEvent> {
 
     private final MemberStatusService service;
 
-    public FeeDeletedEventListener(final MemberStatusService serv) {
+    public UpdateMemberOnFeeDeletedEventListener(final MemberStatusService serv) {
         super();
 
         service = Objects.requireNonNull(serv);

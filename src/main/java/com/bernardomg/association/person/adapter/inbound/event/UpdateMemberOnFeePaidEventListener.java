@@ -41,11 +41,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-public final class FeePaidEventListener implements EventListener<FeePaidEvent> {
+public final class UpdateMemberOnFeePaidEventListener implements EventListener<FeePaidEvent> {
 
     private final MemberStatusService service;
 
-    public FeePaidEventListener(final MemberStatusService serv) {
+    public UpdateMemberOnFeePaidEventListener(final MemberStatusService serv) {
         super();
 
         service = Objects.requireNonNull(serv);
