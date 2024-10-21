@@ -28,39 +28,38 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.event.domain.FeeDeletedEvent;
+import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Listens for fee paid events and deactivates the linked member, if needed.
+ * Listens for fee paid events and activates the linked member, if needed.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
 @Component
-public final class UpdateMemberOnFeeDeletedEventListener implements EventListener<FeeDeletedEvent> {
+public final class ActivateMemberOnFeePaidEventListener implements EventListener<FeePaidEvent> {
 
     private final MemberStatusService service;
 
-    public UpdateMemberOnFeeDeletedEventListener(final MemberStatusService serv) {
+    public ActivateMemberOnFeePaidEventListener(final MemberStatusService serv) {
         super();
 
         service = Objects.requireNonNull(serv);
     }
 
     @Override
-    public final Class<FeeDeletedEvent> getEventType() {
-        return FeeDeletedEvent.class;
+    public final Class<FeePaidEvent> getEventType() {
+        return FeePaidEvent.class;
     }
 
     @Override
-    public final void handle(final FeeDeletedEvent event) {
-        log.debug("Handling fee deleted event at {} for person with number {}", event.getDate(),
-            event.getPersonNumber());
-        service.deactivate(event.getDate(), event.getPersonNumber());
+    public final void handle(final FeePaidEvent event) {
+        log.debug("Handling fee paid event at {} for person with number {}", event.getDate(), event.getPersonNumber());
+        service.activate(event.getDate(), event.getPersonNumber());
     }
 
 }
