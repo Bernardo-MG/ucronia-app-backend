@@ -4,9 +4,12 @@ package com.bernardomg.association.schedule.usecase.service;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.stereotype.Service;
+
 import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.event.emitter.EventEmitter;
 
+@Service
 public final class DefaultScheduleService implements ScheduleService {
 
     private final EventEmitter eventEmitter;
