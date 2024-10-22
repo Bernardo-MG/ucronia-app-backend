@@ -22,7 +22,7 @@ public final class Persons {
         final Membership membership;
 
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
-        membership = new Membership(false);
+        membership = new Membership(false, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name, PersonConstants.PHONE,
             Optional.of(membership));
     }
