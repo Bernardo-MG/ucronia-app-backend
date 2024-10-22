@@ -24,10 +24,6 @@ public interface PersonRepository {
 
     public Iterable<Person> findAll(final Pageable pageable);
 
-    public Collection<Person> findAllToActivateDueToRenewal();
-
-    public Collection<Person> findAllToDeactivateDueToNoRenewal();
-
     public Collection<Person> findAllToRenew();
 
     public Collection<Person> findAllWithRenewalMismatch();

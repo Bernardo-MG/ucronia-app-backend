@@ -12,7 +12,7 @@ public final class PersonChanges {
         final Membership       membership;
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        membership = new Membership(true);
+        membership = new Membership(true, true);
         return PersonChange.builder()
             .withIdentifier(PersonConstants.IDENTIFIER)
             .withMembership(membership)
@@ -26,7 +26,7 @@ public final class PersonChanges {
         final Membership       membership;
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        membership = new Membership(false);
+        membership = new Membership(false, true);
         return PersonChange.builder()
             .withIdentifier(PersonConstants.IDENTIFIER)
             .withMembership(membership)
