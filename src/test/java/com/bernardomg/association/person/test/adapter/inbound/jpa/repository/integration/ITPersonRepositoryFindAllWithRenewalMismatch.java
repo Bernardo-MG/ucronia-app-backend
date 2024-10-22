@@ -48,7 +48,7 @@ class ITPersonRepositoryFindAllWithRenewalMismatch {
     private PersonRepository repository;
 
     @Test
-    @DisplayName("With an active membership to not renew, nothing is returned")
+    @DisplayName("With an active membership to not renew, it is returned")
     @MembershipActiveToNotRenewPerson
     void testFindAllWithRenewalMismatch_ToNotRenewActive() {
         final Collection<Person> persons;
@@ -59,7 +59,7 @@ class ITPersonRepositoryFindAllWithRenewalMismatch {
         // THEN
         Assertions.assertThat(persons)
             .as("persons")
-            .containsExactly(Persons.membershipActive());
+            .containsExactly(Persons.membershipActiveNoRenew());
     }
 
     @Test
@@ -78,7 +78,7 @@ class ITPersonRepositoryFindAllWithRenewalMismatch {
     }
 
     @Test
-    @DisplayName("With an active membership to renew, it is returned")
+    @DisplayName("With an active membership to renew, nothing is returned")
     @MembershipActiveToRenewPerson
     void testFindAllWithRenewalMismatch_ToRenewActive() {
         final Collection<Person> persons;

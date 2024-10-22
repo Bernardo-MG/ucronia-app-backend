@@ -45,6 +45,16 @@ public final class Persons {
             Optional.of(membership));
     }
 
+    public static final Person membershipActiveNoRenew() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(true, false);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
+            Optional.of(membership));
+    }
+
     public static final Person membershipInactive() {
         final PersonName name;
         final Membership membership;
