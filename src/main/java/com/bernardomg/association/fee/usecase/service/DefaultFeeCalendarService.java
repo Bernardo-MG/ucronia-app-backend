@@ -47,7 +47,6 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.domain.model.PublicPerson;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -119,7 +118,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         // Sorted ids
         memberNumbers = readFees.stream()
             .map(Fee::person)
-            .map(PublicPerson::number)
+            .map(Fee.Person::number)
             .distinct()
             .sorted()
             .toList();

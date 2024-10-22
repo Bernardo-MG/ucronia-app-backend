@@ -22,33 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.event.configuration;
+package com.bernardomg.association.person.adapter.inbound.event;
 
-import java.util.Collection;
+import java.util.Objects;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SynchronousEventEmitter;
+import com.bernardomg.association.event.domain.MonthStartEvent;
+import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Persistence configuration.
+ * Listens for the month start event and applies the renewal status.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-@Configuration
-public class EventConfiguration {
+@Slf4j
+@Component
+public final class ApplyRenewalOnMonthStartEventListener implements EventListener<MonthStartEvent> {
 
-    public EventConfiguration() {
+    private final MemberStatusService service;
+
+    public ApplyRenewalOnMonthStartEventListener(final MemberStatusService serv) {
         super();
+
+        service = Objects.requireNonNull(serv);
     }
 
-    @Bean("eventEmitter")
-    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
-        return new SynchronousEventEmitter(listeners);
+    @Override
+    public final Class<MonthStartEvent> getEventType() {
+        return MonthStartEvent.class;
+    }
+
+    @Override
+    public final void handle(final MonthStartEvent event) {
+        log.debug("Activating members renewing at the start of {}", event.getMonth());
+        service.applyRenewal();
+        log.debug("Activated members renewing at the start of {}", event.getMonth());
     }
 
 }

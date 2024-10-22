@@ -45,6 +45,10 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: true
+              - column:
+                  name: renew_membership
+                  type: boolean
+                  defaultValue: true
         - addAutoIncrement:
             schemaName: association
             tableName: persons

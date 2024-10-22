@@ -70,6 +70,12 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
 
     public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
 
+    public Collection<PersonEntity> findAllByRenewMembershipFalseAndActiveMemberTrue();
+
+    public Collection<PersonEntity> findAllByRenewMembershipTrue();
+
+    public Collection<PersonEntity> findAllByRenewMembershipTrueAndActiveMemberFalse();
+
     @Query("""
             SELECT p
             FROM Person p
@@ -91,6 +97,13 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             WHERE p.activeMember IS NOT NULL
             """)
     public Page<PersonEntity> findAllWithMembership(final Pageable pageable);
+
+    @Query("""
+            SELECT p
+            FROM Person p
+            WHERE p.activeMember != p.renewMembership
+            """)
+    public Collection<PersonEntity> findAllWithRenewalMismatch();
 
     public Optional<PersonEntity> findByNumber(final Long number);
 

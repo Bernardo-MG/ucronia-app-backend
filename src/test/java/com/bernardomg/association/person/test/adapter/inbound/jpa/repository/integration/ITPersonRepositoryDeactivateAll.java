@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,8 +41,8 @@ import com.bernardomg.association.person.test.configuration.factory.PersonEntiti
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - activate")
-class ITPersonRepositoryActivate {
+@DisplayName("PersonRepository - deactivate all")
+class ITPersonRepositoryDeactivateAll {
 
     @Autowired
     private PersonSpringRepository personRepository;
@@ -49,13 +51,13 @@ class ITPersonRepositoryActivate {
     private PersonRepository       repository;
 
     @Test
-    @DisplayName("With an existing active member, nothing changes")
+    @DisplayName("With an existing active member, it is deactivated")
     @MembershipActivePerson
-    void testActivate_Active() {
+    void testDeactivateAll_Active() {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.deactivateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
         entities = personRepository.findAll();
@@ -63,17 +65,17 @@ class ITPersonRepositoryActivate {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("membership.person")
-            .containsExactly(PersonEntities.membershipActive());
+            .containsExactly(PersonEntities.membershipInactive());
     }
 
     @Test
-    @DisplayName("With an existing inactive member, it is activated")
+    @DisplayName("With an existing inactive member, nothing changed")
     @MembershipInactivePerson
-    void testActivate_Inactive() {
+    void testDeactivateAll_Inactive() {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.deactivateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
         entities = personRepository.findAll();
@@ -81,16 +83,16 @@ class ITPersonRepositoryActivate {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("membership.person")
-            .containsExactly(PersonEntities.membershipActive());
+            .containsExactly(PersonEntities.membershipInactive());
     }
 
     @Test
     @DisplayName("With no member, nothing changes")
-    void testActivate_NoData() {
+    void testDeactivateAll_NoData() {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.deactivateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
         entities = personRepository.findAll();

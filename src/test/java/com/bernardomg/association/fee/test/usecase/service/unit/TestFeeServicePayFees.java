@@ -66,7 +66,7 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServicePayFees {
 
     @Mock
-    private EventEmitter              eventBus;
+    private EventEmitter              eventEmitter;
 
     @Mock
     private FeeRepository             feeRepository;
@@ -119,7 +119,7 @@ class TestFeeServicePayFees {
         service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+        verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(e)
                 .isInstanceOf(FeePaidEvent.class);
             soft.assertThat(e)
@@ -241,7 +241,7 @@ class TestFeeServicePayFees {
         service.payFees(List.of(FeeConstants.PREVIOUS_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(eventBus).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
+        verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(e)
                 .isInstanceOf(FeePaidEvent.class);
             soft.assertThat(e)
@@ -268,7 +268,7 @@ class TestFeeServicePayFees {
         service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        verify(eventBus).emit(assertArg(e -> Assertions.assertThat(e)
+        verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
             .isInstanceOf(FeePaidEvent.class)));
     }
 

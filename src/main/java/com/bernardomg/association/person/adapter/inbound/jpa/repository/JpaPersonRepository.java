@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,6 +51,19 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
+    public final void activateAll(final Collection<Long> numbers) {
+        final Collection<PersonEntity> read;
+
+        log.trace("Activating members {}", numbers);
+
+        read = personSpringRepository.findAllByNumberIn(numbers);
+        read.forEach(p -> p.setActiveMember(true));
+        personSpringRepository.saveAll(read);
+
+        log.trace("Activated members {}", numbers);
+    }
+
+    @Override
     public final void deactivate(final long number) {
         final Optional<PersonEntity> read;
         final PersonEntity           person;
@@ -66,6 +80,19 @@ public final class JpaPersonRepository implements PersonRepository {
 
             log.trace("Deactivated member {}", number);
         }
+    }
+
+    @Override
+    public final void deactivateAll(final Collection<Long> numbers) {
+        final Collection<PersonEntity> read;
+
+        log.trace("Deactivating members {}", numbers);
+
+        read = personSpringRepository.findAllByNumberIn(numbers);
+        read.forEach(p -> p.setActiveMember(false));
+        personSpringRepository.saveAll(read);
+
+        log.trace("Deactivated members {}", numbers);
     }
 
     @Override
@@ -100,6 +127,70 @@ public final class JpaPersonRepository implements PersonRepository {
             .map(this::toDomain);
 
         log.debug("Found all the persons: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllToActivateDueToRenewal() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the members to renew and activate");
+
+        persons = personSpringRepository.findAllByRenewMembershipTrueAndActiveMemberFalse()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the members to renew and activate: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllToDeactivateDueToNoRenewal() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the members to not renew and deactivate");
+
+        persons = personSpringRepository.findAllByRenewMembershipFalseAndActiveMemberTrue()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the members to not renew and deactivate: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllToRenew() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the members to renew");
+
+        persons = personSpringRepository.findAllByRenewMembershipTrue()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the members to renew: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllWithRenewalMismatch() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the people with a renewal mismatch");
+
+        persons = personSpringRepository.findAllWithRenewalMismatch()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the people with a renewal mismatch: {}", persons);
 
         return persons;
     }
@@ -209,6 +300,7 @@ public final class JpaPersonRepository implements PersonRepository {
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
             .withActiveMember(membership)
+            .withRenewMembership(true)
             .build();
     }
 

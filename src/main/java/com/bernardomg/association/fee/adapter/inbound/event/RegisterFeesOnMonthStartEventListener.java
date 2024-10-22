@@ -22,44 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.person.adapter.inbound.event;
+package com.bernardomg.association.fee.adapter.inbound.event;
 
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.event.domain.FeePaidEvent;
-import com.bernardomg.association.person.usecase.service.MemberStatusService;
+import com.bernardomg.association.event.domain.MonthStartEvent;
+import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 import com.bernardomg.event.listener.EventListener;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Listens for fee paid events and activates the linked member, if needed.
+ * Listens for the month start event and registers fees for the active members.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
 @Component
-public final class FeePaidEventListener implements EventListener<FeePaidEvent> {
+public final class RegisterFeesOnMonthStartEventListener implements EventListener<MonthStartEvent> {
 
-    private final MemberStatusService service;
+    private final FeeMaintenanceService service;
 
-    public FeePaidEventListener(final MemberStatusService serv) {
+    public RegisterFeesOnMonthStartEventListener(final FeeMaintenanceService serv) {
         super();
 
         service = Objects.requireNonNull(serv);
     }
 
     @Override
-    public final Class<FeePaidEvent> getEventType() {
-        return FeePaidEvent.class;
+    public final Class<MonthStartEvent> getEventType() {
+        return MonthStartEvent.class;
     }
 
     @Override
-    public final void handle(final FeePaidEvent event) {
-        log.debug("Handling fee paid event at {} for person with number {}", event.getDate(), event.getPersonNumber());
-        service.activate(event.getDate(), event.getPersonNumber());
+    public final void handle(final MonthStartEvent event) {
+        log.debug("Registering fees at the start of {}", event.getMonth());
+        service.registerMonthFees();
+        log.debug("Registered fees at the start of {}", event.getMonth());
     }
 
 }

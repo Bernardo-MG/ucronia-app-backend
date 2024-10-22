@@ -22,8 +22,32 @@
  * SOFTWARE.
  */
 
-/**
- * Association fee schedules tasks.
- */
+package com.bernardomg.association.event.domain;
 
-package com.bernardomg.association.fee.adapter.inbound.schedule;
+import java.time.YearMonth;
+
+import com.bernardomg.event.domain.AbstractEvent;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/**
+ * New month has started event.
+ */
+@ToString
+@EqualsAndHashCode(callSuper = true)
+@Getter
+public final class MonthStartEvent extends AbstractEvent {
+
+    private static final long serialVersionUID = 7173269718677701462L;
+
+    private final YearMonth   month;
+
+    public MonthStartEvent(final Object source, final YearMonth date) {
+        super(source);
+
+        month = date;
+    }
+
+}
