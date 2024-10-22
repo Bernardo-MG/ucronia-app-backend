@@ -154,6 +154,22 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
+    public final Collection<Person> findAllWithRenewalMismatch() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the people with a renewal mismatch");
+
+        persons = personSpringRepository.findAllWithRenewalMismatch()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the people with a renewal mismatch: {}", persons);
+
+        return persons;
+    }
+
+    @Override
     public final long findNextNumber() {
         final long number;
 

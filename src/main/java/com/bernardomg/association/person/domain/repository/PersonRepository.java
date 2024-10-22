@@ -26,6 +26,8 @@ public interface PersonRepository {
 
     public Collection<Person> findAllToRenew();
 
+    public Collection<Person> findAllWithRenewalMismatch();
+
     public long findNextNumber();
 
     public Optional<Person> findOne(final Long number);

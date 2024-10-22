@@ -51,6 +51,31 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
+    public final void applyRenewal() {
+        final Collection<Person> persons;
+
+        log.debug("Applying membership renewals");
+
+        persons = personRepository.findAllWithRenewalMismatch();
+
+        // TODO: try to do in a single query
+        persons.stream()
+            .filter(p -> !p.membership()
+                .get()
+                .active())
+            .map(Person::number)
+            .forEach(personRepository::activate);
+
+        // TODO: try to do in a single query
+        persons.stream()
+            .filter(p -> p.membership()
+                .get()
+                .active())
+            .map(Person::number)
+            .forEach(personRepository::deactivate);
+    }
+
+    @Override
     public final void deactivate(final YearMonth date, final Long personNumber) {
         if (YearMonth.now()
             .equals(date)) {
