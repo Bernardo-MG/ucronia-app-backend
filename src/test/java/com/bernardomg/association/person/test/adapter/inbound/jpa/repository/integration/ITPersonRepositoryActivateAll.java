@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,8 +41,8 @@ import com.bernardomg.association.person.test.configuration.factory.PersonEntiti
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - activate")
-class ITPersonRepositoryActivate {
+@DisplayName("PersonRepository - activate all")
+class ITPersonRepositoryActivateAll {
 
     @Autowired
     private PersonSpringRepository personRepository;
@@ -51,11 +53,11 @@ class ITPersonRepositoryActivate {
     @Test
     @DisplayName("With an existing active member, nothing changes")
     @MembershipActivePerson
-    void testActivate_Active() {
+    void testActivateAll_Active() {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.activateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
         entities = personRepository.findAll();
@@ -69,11 +71,11 @@ class ITPersonRepositoryActivate {
     @Test
     @DisplayName("With an existing inactive member, it is activated")
     @MembershipInactivePerson
-    void testActivate_Inactive() {
+    void testActivateAll_Inactive() {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.activateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
         entities = personRepository.findAll();
@@ -86,11 +88,11 @@ class ITPersonRepositoryActivate {
 
     @Test
     @DisplayName("With no member, nothing changes")
-    void testActivate_NoData() {
+    void testActivateAll_NoData() {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        repository.activateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
         entities = personRepository.findAll();

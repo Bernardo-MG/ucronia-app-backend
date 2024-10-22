@@ -67,8 +67,8 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository, Mockito.never()).activate(ArgumentMatchers.anyLong());
-        verify(personRepository).deactivate(PersonConstants.NUMBER);
+        verify(personRepository, Mockito.never()).activateAll(ArgumentMatchers.anyCollection());
+        verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
     }
 
     @Test
@@ -82,8 +82,8 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).activate(PersonConstants.ALTERNATIVE_NUMBER);
-        verify(personRepository).deactivate(PersonConstants.NUMBER);
+        verify(personRepository).deactivateAll(List.of(PersonConstants.ALTERNATIVE_NUMBER));
+        verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
     }
 
     @Test
@@ -96,8 +96,8 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).activate(PersonConstants.NUMBER);
-        verify(personRepository, Mockito.never()).deactivate(ArgumentMatchers.anyLong());
+        verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
+        verify(personRepository, Mockito.never()).deactivateAll(ArgumentMatchers.anyCollection());
     }
 
 }

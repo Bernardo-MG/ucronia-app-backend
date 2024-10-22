@@ -51,6 +51,19 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
+    public final void activateAll(final Collection<Long> numbers) {
+        final Collection<PersonEntity> read;
+
+        log.trace("Activating members {}", numbers);
+
+        read = personSpringRepository.findAllByNumberIn(numbers);
+        read.forEach(p -> p.setActiveMember(true));
+        personSpringRepository.saveAll(read);
+
+        log.trace("Activated members {}", numbers);
+    }
+
+    @Override
     public final void deactivate(final long number) {
         final Optional<PersonEntity> read;
         final PersonEntity           person;
@@ -67,6 +80,19 @@ public final class JpaPersonRepository implements PersonRepository {
 
             log.trace("Deactivated member {}", number);
         }
+    }
+
+    @Override
+    public final void deactivateAll(final Collection<Long> numbers) {
+        final Collection<PersonEntity> read;
+
+        log.trace("Deactivating members {}", numbers);
+
+        read = personSpringRepository.findAllByNumberIn(numbers);
+        read.forEach(p -> p.setActiveMember(false));
+        personSpringRepository.saveAll(read);
+
+        log.trace("Deactivated members {}", numbers);
     }
 
     @Override

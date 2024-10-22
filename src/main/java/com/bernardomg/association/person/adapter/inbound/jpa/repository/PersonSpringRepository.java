@@ -103,7 +103,7 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             FROM Person p
             WHERE p.activeMember != p.renewMembership
             """)
-    public Page<PersonEntity> findAllWithRenewalMismatch();
+    public Collection<PersonEntity> findAllWithRenewalMismatch();
 
     public Optional<PersonEntity> findByNumber(final Long number);
 

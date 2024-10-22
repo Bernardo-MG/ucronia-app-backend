@@ -12,7 +12,11 @@ public interface PersonRepository {
 
     public void activate(final long number);
 
+    public void activateAll(final Collection<Long> numbers);
+
     public void deactivate(final long number);
+
+    public void deactivateAll(final Collection<Long> numbers);
 
     public void delete(final long number);
 
