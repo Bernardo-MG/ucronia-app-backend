@@ -7,10 +7,8 @@ public interface MemberStatusService {
 
     public void activate(final YearMonth date, final Long personNumber);
 
-    public void activateRenewed();
+    public void applyRenewal();
 
     public void deactivate(final YearMonth date, final Long personNumber);
-
-    public void deactivateNotRenewed();
 
 }

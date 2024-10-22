@@ -17,6 +17,16 @@ public final class Persons {
             Optional.empty());
     }
 
+    public static final Person alternativeMembershipInactive() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
+        membership = new Membership(false);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name, PersonConstants.PHONE,
+            Optional.of(membership));
+    }
+
     public static final Person emptyName() {
         final PersonName name;
 
