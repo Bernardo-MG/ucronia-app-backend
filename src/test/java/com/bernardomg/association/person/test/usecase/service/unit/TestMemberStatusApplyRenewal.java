@@ -32,10 +32,8 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -67,7 +65,7 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository, Mockito.never()).activateAll(ArgumentMatchers.anyCollection());
+        verify(personRepository).activateAll(List.of());
         verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
     }
 
@@ -82,7 +80,7 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).deactivateAll(List.of(PersonConstants.ALTERNATIVE_NUMBER));
+        verify(personRepository).activateAll(List.of(PersonConstants.ALTERNATIVE_NUMBER));
         verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
     }
 
@@ -96,8 +94,8 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
-        verify(personRepository, Mockito.never()).deactivateAll(ArgumentMatchers.anyCollection());
+        verify(personRepository).activateAll(List.of(PersonConstants.NUMBER));
+        verify(personRepository).deactivateAll(List.of());
     }
 
 }
