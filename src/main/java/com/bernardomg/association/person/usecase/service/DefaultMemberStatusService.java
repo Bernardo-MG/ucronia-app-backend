@@ -37,17 +37,30 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void activateRenewed() {
+    public final void applyRenewal() {
         final Collection<Person> persons;
+        final Collection<Long>   toActivate;
+        final Collection<Long>   toDeactivate;
 
-        log.debug("Activating renewed memberships");
+        log.debug("Applying membership renewals");
 
-        persons = personRepository.findAllToActivateDueToRenewal();
+        persons = personRepository.findAllWithRenewalMismatch();
 
-        // TODO: try to do in a single query
-        persons.stream()
+        toActivate = persons.stream()
+            .filter(p -> !p.membership()
+                .get()
+                .active())
             .map(Person::number)
-            .forEach(personRepository::activate);
+            .toList();
+        personRepository.activateAll(toActivate);
+
+        toDeactivate = persons.stream()
+            .filter(p -> p.membership()
+                .get()
+                .active())
+            .map(Person::number)
+            .toList();
+        personRepository.deactivateAll(toDeactivate);
     }
 
     @Override
@@ -58,20 +71,6 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             // If deleting at the current month, the user is set to inactive
             personRepository.deactivate(personNumber);
         }
-    }
-
-    @Override
-    public final void deactivateNotRenewed() {
-        final Collection<Person> persons;
-
-        log.debug("Deactivating not renewed memberships");
-
-        persons = personRepository.findAllToDeactivateDueToNoRenewal();
-
-        // TODO: try to do in a single query
-        persons.stream()
-            .map(Person::number)
-            .forEach(personRepository::deactivate);
     }
 
 }

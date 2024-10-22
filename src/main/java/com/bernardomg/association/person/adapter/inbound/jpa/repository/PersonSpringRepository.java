@@ -98,6 +98,13 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
             """)
     public Page<PersonEntity> findAllWithMembership(final Pageable pageable);
 
+    @Query("""
+            SELECT p
+            FROM Person p
+            WHERE p.activeMember != p.renewMembership
+            """)
+    public Collection<PersonEntity> findAllWithRenewalMismatch();
+
     public Optional<PersonEntity> findByNumber(final Long number);
 
     @Query("""
