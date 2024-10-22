@@ -132,38 +132,6 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final Collection<Person> findAllToActivateDueToRenewal() {
-        final Collection<Person> persons;
-
-        log.debug("Finding all the members to renew and activate");
-
-        persons = personSpringRepository.findAllByRenewMembershipTrueAndActiveMemberFalse()
-            .stream()
-            .map(this::toDomain)
-            .toList();
-
-        log.debug("Found all the members to renew and activate: {}", persons);
-
-        return persons;
-    }
-
-    @Override
-    public final Collection<Person> findAllToDeactivateDueToNoRenewal() {
-        final Collection<Person> persons;
-
-        log.debug("Finding all the members to not renew and deactivate");
-
-        persons = personSpringRepository.findAllByRenewMembershipFalseAndActiveMemberTrue()
-            .stream()
-            .map(this::toDomain)
-            .toList();
-
-        log.debug("Found all the members to not renew and deactivate: {}", persons);
-
-        return persons;
-    }
-
-    @Override
     public final Collection<Person> findAllToRenew() {
         final Collection<Person> persons;
 
@@ -282,14 +250,19 @@ public final class JpaPersonRepository implements PersonRepository {
 
     private final PersonEntity toEntity(final Person data) {
         final Boolean membership;
+        final boolean renew;
 
         if (data.membership()
             .isPresent()) {
             membership = data.membership()
                 .get()
                 .active();
+            renew = data.membership()
+                .get()
+                .renew();
         } else {
             membership = null;
+            renew = true;
         }
         return PersonEntity.builder()
             .withNumber(data.number())
@@ -300,9 +273,7 @@ public final class JpaPersonRepository implements PersonRepository {
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
             .withActiveMember(membership)
-            .withRenewMembership(data.membership()
-                .get()
-                .renew())
+            .withRenewMembership(renew)
             .build();
     }
 
