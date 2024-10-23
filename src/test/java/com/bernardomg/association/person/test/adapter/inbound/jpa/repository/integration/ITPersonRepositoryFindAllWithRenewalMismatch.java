@@ -37,6 +37,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Memb
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActiveToRenewPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactiveToNotRenewPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactiveToRenewPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -46,6 +47,21 @@ class ITPersonRepositoryFindAllWithRenewalMismatch {
 
     @Autowired
     private PersonRepository repository;
+
+    @Test
+    @DisplayName("With no membership, nothing is returned")
+    @NoMembershipPerson
+    void testFindAllWithRenewalMismatch_NoMembership() {
+        final Collection<Person> persons;
+
+        // WHEN
+        persons = repository.findAllWithRenewalMismatch();
+
+        // THEN
+        Assertions.assertThat(persons)
+            .as("persons")
+            .isEmpty();
+    }
 
     @Test
     @DisplayName("With an active membership to not renew, it is returned")
