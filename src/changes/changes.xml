@@ -305,7 +305,13 @@
             Fixed person sorting.
          </action>
       </release>
-      <release version="1.0.0" date="2024-10-20" description="">
+      <release version="0.5.22" date="2024-10-20" description="Membership flags">
+         <action dev="bmg" type="update">
+            Extracted membership flag.
+         </action>
+         <action dev="bmg" type="update">
+            Added membership renewal flag.
+         </action>
       </release>
    </body>
 </document>
