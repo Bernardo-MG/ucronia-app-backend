@@ -2,11 +2,13 @@
 package com.bernardomg.association.person.usecase.service;
 
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,33 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             // If paying for the current month, the user is set to active
             personRepository.activate(personNumber);
         }
+    }
+
+    @Override
+    public final void applyRenewal() {
+        final Collection<Person> persons;
+        final Collection<Long>   toActivate;
+        final Collection<Long>   toDeactivate;
+
+        log.debug("Applying membership renewals");
+
+        persons = personRepository.findAllWithRenewalMismatch();
+
+        toActivate = persons.stream()
+            .filter(p -> !p.membership()
+                .get()
+                .active())
+            .map(Person::number)
+            .toList();
+        personRepository.activateAll(toActivate);
+
+        toDeactivate = persons.stream()
+            .filter(p -> p.membership()
+                .get()
+                .active())
+            .map(Person::number)
+            .toList();
+        personRepository.deactivateAll(toDeactivate);
     }
 
     @Override

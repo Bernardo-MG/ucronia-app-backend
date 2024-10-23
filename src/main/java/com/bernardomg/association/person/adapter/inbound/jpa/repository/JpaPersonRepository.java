@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,11 +43,24 @@ public final class JpaPersonRepository implements PersonRepository {
         read = personSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             person = read.get();
-            person.setActiveMember(true);
+            person.setActive(true);
             personSpringRepository.save(person);
 
             log.trace("Activated member {}", number);
         }
+    }
+
+    @Override
+    public final void activateAll(final Collection<Long> numbers) {
+        final Collection<PersonEntity> read;
+
+        log.trace("Activating members {}", numbers);
+
+        read = personSpringRepository.findAllByNumberIn(numbers);
+        read.forEach(p -> p.setActive(true));
+        personSpringRepository.saveAll(read);
+
+        log.trace("Activated members {}", numbers);
     }
 
     @Override
@@ -61,11 +75,24 @@ public final class JpaPersonRepository implements PersonRepository {
         read = personSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             person = read.get();
-            person.setActiveMember(false);
+            person.setActive(false);
             personSpringRepository.save(person);
 
             log.trace("Deactivated member {}", number);
         }
+    }
+
+    @Override
+    public final void deactivateAll(final Collection<Long> numbers) {
+        final Collection<PersonEntity> read;
+
+        log.trace("Deactivating members {}", numbers);
+
+        read = personSpringRepository.findAllByNumberIn(numbers);
+        read.forEach(p -> p.setActive(false));
+        personSpringRepository.saveAll(read);
+
+        log.trace("Deactivated members {}", numbers);
     }
 
     @Override
@@ -100,6 +127,38 @@ public final class JpaPersonRepository implements PersonRepository {
             .map(this::toDomain);
 
         log.debug("Found all the persons: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllToRenew() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the members to renew");
+
+        persons = personSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the members to renew: {}", persons);
+
+        return persons;
+    }
+
+    @Override
+    public final Collection<Person> findAllWithRenewalMismatch() {
+        final Collection<Person> persons;
+
+        log.debug("Finding all the people with a renewal mismatch");
+
+        persons = personSpringRepository.findAllWithRenewalMismatch()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all the people with a renewal mismatch: {}", persons);
 
         return persons;
     }
@@ -161,8 +220,9 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
-        if (entity.getActiveMember() != null) {
-            entity.setActiveMember(entity.getActiveMember());
+        if (entity.getMember()) {
+            entity.setMember(entity.getMember());
+            entity.setActive(entity.getActive());
         }
 
         created = personSpringRepository.save(entity);
@@ -181,24 +241,32 @@ public final class JpaPersonRepository implements PersonRepository {
         final Optional<Membership> membership;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        if (entity.getActiveMember() == null) {
+        if (!entity.getMember()) {
             membership = Optional.empty();
         } else {
-            membership = Optional.of(new Membership(entity.getActiveMember()));
+            membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final Boolean membership;
+        final boolean member;
+        final boolean active;
+        final boolean renew;
 
         if (data.membership()
             .isPresent()) {
-            membership = data.membership()
+            member = true;
+            active = data.membership()
                 .get()
                 .active();
+            renew = data.membership()
+                .get()
+                .renew();
         } else {
-            membership = null;
+            member = false;
+            active = true;
+            renew = true;
         }
         return PersonEntity.builder()
             .withNumber(data.number())
@@ -208,7 +276,9 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
-            .withActiveMember(membership)
+            .withMember(member)
+            .withActive(active)
+            .withRenewMembership(renew)
             .build();
     }
 

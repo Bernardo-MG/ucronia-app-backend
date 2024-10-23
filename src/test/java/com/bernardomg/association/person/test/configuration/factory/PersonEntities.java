@@ -13,6 +13,7 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -24,6 +25,7 @@ public final class PersonEntities {
             .withLastName("Last name")
             .withPhone("12345")
             .withIdentifier("6789")
+            .withRenewMembership(true)
             .build();
     }
 
@@ -35,7 +37,9 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
-            .withActiveMember(true)
+            .withMember(true)
+            .withActive(true)
+            .withRenewMembership(true)
             .build();
     }
 
@@ -47,7 +51,9 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
-            .withActiveMember(false)
+            .withMember(true)
+            .withActive(false)
+            .withRenewMembership(true)
             .build();
     }
 
@@ -59,6 +65,9 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("")
             .withIdentifier("")
+            .withMember(false)
+            .withActive(false)
+            .withRenewMembership(true)
             .build();
     }
 
@@ -69,10 +78,13 @@ public final class PersonEntities {
             .withFirstName(PersonConstants.FIRST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withMember(false)
+            .withActive(false)
+            .withRenewMembership(true)
             .build();
     }
 
-    public static final PersonEntity valid() {
+    public static final PersonEntity noMembership() {
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
@@ -80,10 +92,13 @@ public final class PersonEntities {
             .withLastName(PersonConstants.LAST_NAME)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withMember(false)
+            .withActive(true)
+            .withRenewMembership(true)
             .build();
     }
 
-    public static final PersonEntity valid(final int index) {
+    public static final PersonEntity noMembership(final int index) {
         return PersonEntity.builder()
             .withId(1L)
             .withNumber(PersonConstants.NUMBER)
@@ -91,6 +106,9 @@ public final class PersonEntities {
             .withLastName("Last name " + index)
             .withPhone("12345")
             .withIdentifier("6789")
+            .withMember(false)
+            .withActive(false)
+            .withRenewMembership(true)
             .build();
     }
 

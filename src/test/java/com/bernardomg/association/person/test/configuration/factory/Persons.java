@@ -17,6 +17,16 @@ public final class Persons {
             Optional.empty());
     }
 
+    public static final Person alternativeMembershipInactive() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
+        membership = new Membership(false, true);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name, PersonConstants.PHONE,
+            Optional.of(membership));
+    }
+
     public static final Person emptyName() {
         final PersonName name;
 
@@ -30,7 +40,17 @@ public final class Persons {
         final Membership membership;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        membership = new Membership(true);
+        membership = new Membership(true, true);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
+            Optional.of(membership));
+    }
+
+    public static final Person membershipActiveNoRenew() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(true, false);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
             Optional.of(membership));
     }
@@ -40,7 +60,7 @@ public final class Persons {
         final Membership membership;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        membership = new Membership(false);
+        membership = new Membership(false, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.PHONE,
             Optional.of(membership));
     }

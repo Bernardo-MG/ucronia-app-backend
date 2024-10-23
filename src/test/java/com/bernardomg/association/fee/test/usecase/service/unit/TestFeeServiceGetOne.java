@@ -56,7 +56,7 @@ import com.bernardomg.event.emitter.EventEmitter;
 class TestFeeServiceGetOne {
 
     @Mock
-    private EventEmitter              eventBus;
+    private EventEmitter              eventEmitter;
 
     @Mock
     private FeeRepository             feeRepository;

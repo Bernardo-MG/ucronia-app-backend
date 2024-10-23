@@ -53,6 +53,7 @@ class TestSynchronousEventEmitter {
 
     @Test
     @DisplayName("When there are multiple listeners for an event, they all handle the event")
+    @SuppressWarnings("unchecked")
     void testEmit_MultipleRegisteredListener() {
         final SynchronousEventEmitter      emitter;
         final Collection<EventListener<?>> listeners;
@@ -100,6 +101,7 @@ class TestSynchronousEventEmitter {
 
     @Test
     @DisplayName("When there is a listener for an event, it handles the event")
+    @SuppressWarnings("unchecked")
     void testEmit_RegisteredListener() {
         final SynchronousEventEmitter      emitter;
         final Collection<EventListener<?>> listeners;
@@ -124,6 +126,7 @@ class TestSynchronousEventEmitter {
 
     @Test
     @DisplayName("When there is a listener for another event, it doesn't handle the event")
+    @SuppressWarnings("unchecked")
     void testEmit_RegisteredListenerForAnother() {
         final SynchronousEventEmitter      emitter;
         final Collection<EventListener<?>> listeners;

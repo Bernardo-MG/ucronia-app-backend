@@ -200,18 +200,21 @@ public final class JpaBookRepository implements BookRepository {
         final boolean                     lent;
         final Collection<BookBookLending> lendings;
 
+        // Game system
         if (entity.getGameSystem() == null) {
             gameSystem = Optional.empty();
         } else {
             gameSystem = Optional.of(toDomain(entity.getGameSystem()));
         }
 
+        // Book type
         if (entity.getBookType() == null) {
             bookType = Optional.empty();
         } else {
             bookType = Optional.of(toDomain(entity.getBookType()));
         }
 
+        // Publishers
         if (entity.getPublishers() == null) {
             publishers = List.of();
         } else {
@@ -221,6 +224,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
 
+        // Authors
         if (entity.getAuthors() == null) {
             authors = List.of();
         } else {
@@ -230,6 +234,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
 
+        // Donors
         if (entity.getDonors() == null) {
             donors = List.of();
         } else {
@@ -239,6 +244,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
 
+        // Lendings
         lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
             .stream()
             .map(this::toDomain)
@@ -305,6 +311,7 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<PersonEntity>    donors;
         final Collection<AuthorEntity>    authors;
 
+        // Book type
         if (domain.bookType()
             .isPresent()) {
             bookType = bookTypeSpringRepository.findByNumber(domain.bookType()
@@ -313,6 +320,8 @@ public final class JpaBookRepository implements BookRepository {
         } else {
             bookType = Optional.empty();
         }
+
+        // Game system
         if (domain.gameSystem()
             .isPresent()) {
             gameSystem = gameSystemSpringRepository.findByNumber(domain.gameSystem()
@@ -322,18 +331,21 @@ public final class JpaBookRepository implements BookRepository {
             gameSystem = Optional.empty();
         }
 
+        // Publishers
         publisherNumbers = domain.publishers()
             .stream()
             .map(Publisher::number)
             .toList();
         publishers = publisherSpringRepository.findAllByNumberIn(publisherNumbers);
 
+        // Donors
         donorNumbers = domain.donors()
             .stream()
             .map(Donor::number)
             .toList();
         donors = personSpringRepository.findAllByNumberIn(donorNumbers);
 
+        // Authors
         authorNumbers = domain.authors()
             .stream()
             .map(Author::number)

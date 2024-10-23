@@ -56,31 +56,37 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     @Query("""
             SELECT p
             FROM Person p
-            WHERE p.activeMember = true
+            WHERE p.member = true
+              AND p.active = true
             """)
     public Page<PersonEntity> findAllActive(final Pageable pageable);
 
     @Query("""
             SELECT p.id AS id
             FROM Person p
-            WHERE p.activeMember = true
+            WHERE p.member = true
+              AND p.active = true
             ORDER BY id ASC
             """)
     public Collection<Long> findAllActiveIds();
+
+    public Collection<PersonEntity> findAllByMemberTrueAndRenewMembershipTrue();
 
     public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     @Query("""
             SELECT p
             FROM Person p
-            WHERE p.activeMember = false
+            WHERE p.member = true
+              AND p.active = false
             """)
     public Page<PersonEntity> findAllInactive(final Pageable pageable);
 
     @Query("""
             SELECT p.id AS id
             FROM Person p
-            WHERE p.activeMember = false
+            WHERE p.member = true
+              AND p.active = false
             ORDER BY id ASC
             """)
     public Collection<Long> findAllInactiveIds();
@@ -88,16 +94,24 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     @Query("""
             SELECT p
             FROM Person p
-            WHERE p.activeMember IS NOT NULL
+            WHERE p.member = true
             """)
     public Page<PersonEntity> findAllWithMembership(final Pageable pageable);
+
+    @Query("""
+            SELECT p
+            FROM Person p
+            WHERE p.member = true
+              AND p.active != p.renewMembership
+            """)
+    public Collection<PersonEntity> findAllWithRenewalMismatch();
 
     public Optional<PersonEntity> findByNumber(final Long number);
 
     @Query("""
             SELECT p
             FROM Person p
-            WHERE p.activeMember IS NOT NULL
+            WHERE p.member = true
               AND p.number = :number
             """)
     public Optional<PersonEntity> findByNumberWithMembership(@Param("number") final Long number);
@@ -106,9 +120,9 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     public Long findNextNumber();
 
     @Query("""
-            SELECT p.activeMember
+            SELECT p.active
             FROM Person p
-            WHERE p.activeMember IS NOT NULL
+            WHERE p.member = true
               AND p.number = :number
             """)
     public Boolean isActive(@Param("number") final Long number);

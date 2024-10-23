@@ -46,8 +46,8 @@ public class EventConfiguration {
         super();
     }
 
-    @Bean("eventBus")
-    public EventEmitter getEventBus(final Collection<EventListener<?>> listeners) {
+    @Bean("eventEmitter")
+    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
         return new SynchronousEventEmitter(listeners);
     }
 

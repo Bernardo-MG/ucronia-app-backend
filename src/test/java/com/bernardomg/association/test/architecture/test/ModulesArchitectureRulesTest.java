@@ -8,9 +8,11 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-@AnalyzeClasses(packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.configuration",
-        "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa", "com.bernardomg.settings",
-        "com.bernardomg.event" }, importOptions = ImportOption.DoNotIncludeTests.class)
+@AnalyzeClasses(
+        packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.configuration",
+                "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa", "com.bernardomg.settings",
+                "com.bernardomg.event", "com.bernardomg.association.schedule" },
+        importOptions = ImportOption.DoNotIncludeTests.class)
 public class ModulesArchitectureRulesTest {
 
     @ArchTest
@@ -42,6 +44,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.association.event..")
         .layer("Executable")
         .definedBy("com.bernardomg.association")
+        .layer("Schedules")
+        .definedBy("com.bernardomg.association.schedule..")
 
         // Library modules
         .layer("Library authors")
@@ -78,9 +82,11 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Association settings")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Events")
-        .mayOnlyBeAccessedByLayers("Executable", "Association events", "Members", "Fees", "Persons")
+        .mayOnlyBeAccessedByLayers("Executable", "Association events", "Members", "Fees", "Persons", "Schedules")
         .whereLayer("Association events")
-        .mayOnlyBeAccessedByLayers("Members", "Fees", "Persons")
+        .mayOnlyBeAccessedByLayers("Members", "Fees", "Persons", "Schedules")
+        .whereLayer("Schedules")
+        .mayNotBeAccessedByAnyLayer()
 
         // Library modules
         .whereLayer("Library authors")

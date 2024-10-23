@@ -39,7 +39,7 @@ import com.bernardomg.association.person.test.configuration.factory.PersonEntiti
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - deactivate")
+@DisplayName("PersonRepository - deactivate")
 class ITPersonRepositoryDeactivate {
 
     @Autowired
