@@ -94,7 +94,7 @@ class ITPersonRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
                 "membership.person")
-            .containsExactly(PersonEntities.valid());
+            .containsExactly(PersonEntities.noMembership());
     }
 
     @Test
@@ -183,7 +183,7 @@ class ITPersonRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(PersonEntities.valid());
+            .containsExactly(PersonEntities.noMembership());
     }
 
     @Test
@@ -244,7 +244,7 @@ class ITPersonRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(PersonEntities.valid());
+            .containsExactly(PersonEntities.noMembership());
     }
 
     @Test

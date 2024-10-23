@@ -29,8 +29,8 @@ public class PersonEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "active_member")
-    private Boolean           activeMember;
+    @Column(name = "active", nullable = false)
+    private Boolean           active;
 
     @Column(name = "first_name", nullable = false)
     private String            firstName;
@@ -45,6 +45,9 @@ public class PersonEntity implements Serializable {
 
     @Column(name = "last_name")
     private String            lastName;
+
+    @Column(name = "member", nullable = false)
+    private Boolean           member;
 
     @Column(name = "number")
     private Long              number;

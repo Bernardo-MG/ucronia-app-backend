@@ -41,10 +41,17 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: ''
               - column:
-                  name: active_member
+                  name: member
                   type: boolean
                   constraints:
-                    nullable: true
+                    nullable: false
+                  defaultValue: false
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: true
               - column:
                   name: renew_membership
                   type: boolean
