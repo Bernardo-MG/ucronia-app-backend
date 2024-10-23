@@ -320,7 +320,7 @@ public final class JpaBookRepository implements BookRepository {
         } else {
             bookType = Optional.empty();
         }
-        
+
         // Game system
         if (domain.gameSystem()
             .isPresent()) {

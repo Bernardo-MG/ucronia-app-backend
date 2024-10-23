@@ -137,7 +137,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         log.debug("Finding all the members to renew");
 
-        persons = personSpringRepository.findAllByRenewMembershipTrue()
+        persons = personSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
             .stream()
             .map(this::toDomain)
             .toList();
