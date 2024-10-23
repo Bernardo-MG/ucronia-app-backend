@@ -43,7 +43,7 @@ public final class JpaPersonRepository implements PersonRepository {
         read = personSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             person = read.get();
-            person.setActiveMember(true);
+            person.setActive(true);
             personSpringRepository.save(person);
 
             log.trace("Activated member {}", number);
@@ -57,7 +57,7 @@ public final class JpaPersonRepository implements PersonRepository {
         log.trace("Activating members {}", numbers);
 
         read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActiveMember(true));
+        read.forEach(p -> p.setActive(true));
         personSpringRepository.saveAll(read);
 
         log.trace("Activated members {}", numbers);
@@ -75,7 +75,7 @@ public final class JpaPersonRepository implements PersonRepository {
         read = personSpringRepository.findByNumber(number);
         if (read.isPresent()) {
             person = read.get();
-            person.setActiveMember(false);
+            person.setActive(false);
             personSpringRepository.save(person);
 
             log.trace("Deactivated member {}", number);
@@ -89,7 +89,7 @@ public final class JpaPersonRepository implements PersonRepository {
         log.trace("Deactivating members {}", numbers);
 
         read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActiveMember(false));
+        read.forEach(p -> p.setActive(false));
         personSpringRepository.saveAll(read);
 
         log.trace("Deactivated members {}", numbers);
@@ -220,8 +220,9 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
-        if (entity.getActiveMember() != null) {
-            entity.setActiveMember(entity.getActiveMember());
+        if (entity.getMember()) {
+            entity.setMember(entity.getMember());
+            entity.setActive(entity.getActive());
         }
 
         created = personSpringRepository.save(entity);
@@ -240,28 +241,31 @@ public final class JpaPersonRepository implements PersonRepository {
         final Optional<Membership> membership;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        if (entity.getActiveMember() == null) {
+        if (!entity.getMember()) {
             membership = Optional.empty();
         } else {
-            membership = Optional.of(new Membership(entity.getActiveMember(), entity.getRenewMembership()));
+            membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final Boolean membership;
+        final boolean member;
+        final boolean active;
         final boolean renew;
 
         if (data.membership()
             .isPresent()) {
-            membership = data.membership()
+            member = true;
+            active = data.membership()
                 .get()
                 .active();
             renew = data.membership()
                 .get()
                 .renew();
         } else {
-            membership = null;
+            member = false;
+            active = true;
             renew = true;
         }
         return PersonEntity.builder()
@@ -272,7 +276,8 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
-            .withActiveMember(membership)
+            .withMember(member)
+            .withActive(active)
             .withRenewMembership(renew)
             .build();
     }

@@ -13,7 +13,7 @@ public final class UserMemberEntities {
 
     public static final UserPersonEntity valid() {
         return UserPersonEntity.builder()
-            .withPerson(PersonEntities.valid())
+            .withPerson(PersonEntities.noMembership())
             .withUser(enabledUser())
             .build();
     }
