@@ -103,6 +103,47 @@ class ITBookRepositorySave {
     }
 
     @Test
+    @DisplayName("When the book exists, and relationships also already exist, it is persisted")
+    @NoMembershipPerson
+    @FullBook
+    void testSave_Existing_ExistingRelationships_Persisted() {
+        final Book book;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
+                "gameSystem.id", "publishers.id")
+            .contains(BookEntities.full());
+    }
+
+    @Test
+    @DisplayName("When the book exists, and relationships also already exist, it is returned")
+    @NoMembershipPerson
+    @FullBook
+    void testSave_Existing_ExistingRelationships_Returned() {
+        final Book book;
+        final Book created;
+
+        // GIVEN
+        book = Books.full();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(Books.full());
+    }
+
+    @Test
     @DisplayName("When the book exists, and relationships are removed, it is persisted")
     @NoMembershipPerson
     @FullBook
