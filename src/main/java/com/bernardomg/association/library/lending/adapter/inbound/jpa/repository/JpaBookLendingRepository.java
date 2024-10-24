@@ -100,6 +100,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         bookEntity = bookSpringRepository.findByNumber(book);
 
         if (bookEntity.isPresent()) {
+            // TODO: use a join
             lending = bookLendingSpringRepository
                 .findFirstByBookIdAndReturnDateIsNotNullOrderByReturnDateDesc(bookEntity.get()
                     .getId())
