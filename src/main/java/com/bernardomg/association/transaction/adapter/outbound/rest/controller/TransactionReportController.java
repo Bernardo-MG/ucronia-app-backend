@@ -83,7 +83,7 @@ public class TransactionReportController {
         return ResponseEntity.ok()
             .headers(headers)
             .contentLength(bytes.length)
-            .contentType(new MediaType("application/vnd.ms-excel"))
+            .contentType(new MediaType("application", "vnd.ms-excel"))
             .body(new InputStreamResource(new ByteArrayInputStream(bytes)));
     }
 
