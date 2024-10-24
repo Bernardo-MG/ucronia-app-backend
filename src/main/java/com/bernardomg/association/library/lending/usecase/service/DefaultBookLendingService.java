@@ -101,6 +101,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
+        // TODO: isn't this too complex for the repository?
         bookLendingRepository.returnAt(book, personNumber, date);
     }
 
