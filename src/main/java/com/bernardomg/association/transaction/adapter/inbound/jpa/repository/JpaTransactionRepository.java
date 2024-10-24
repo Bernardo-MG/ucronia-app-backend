@@ -68,6 +68,22 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
+    public final Collection<Transaction> findAll() {
+        final Collection<Transaction> read;
+
+        log.debug("Finding all transactions");
+
+        read = transactionSpringRepository.findAll()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found transactions {}", read);
+
+        return read;
+    }
+
+    @Override
     public final Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable) {
         final Page<TransactionEntity>                    page;
         final Optional<Specification<TransactionEntity>> spec;

@@ -65,7 +65,7 @@ class TestTransactionServiceCreate {
         service.create(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.valid());
+        verify(transactionRepository).save(Transactions.positive());
     }
 
     @Test
@@ -74,7 +74,7 @@ class TestTransactionServiceCreate {
         final Transaction transaction;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         given(transactionRepository.findNextIndex()).willReturn(PersonConstants.NUMBER);
 
@@ -82,7 +82,7 @@ class TestTransactionServiceCreate {
         service.create(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.valid());
+        verify(transactionRepository).save(Transactions.positive());
     }
 
     @Test
@@ -92,9 +92,9 @@ class TestTransactionServiceCreate {
         final Transaction created;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
-        given(transactionRepository.save(Transactions.valid())).willReturn(Transactions.valid());
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
         given(transactionRepository.findNextIndex()).willReturn(PersonConstants.NUMBER);
 
         // WHEN
@@ -103,7 +103,7 @@ class TestTransactionServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("transaction")
-            .isEqualTo(Transactions.valid());
+            .isEqualTo(Transactions.positive());
     }
 
 }

@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.domain.repository;
 
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public interface TransactionRepository {
     public void delete(final long index);
 
     public boolean exists(final long index);
+
+    public Collection<Transaction> findAll();
 
     public Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable);
 
