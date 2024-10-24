@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -24,18 +26,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
-public final class DefaultTransactionFileService implements TransactionFileService {
+public final class DefaultTransactionReportService implements TransactionReportService {
 
     private final TransactionRepository transactionRepository;
 
-    public DefaultTransactionFileService(final TransactionRepository transactionRepo) {
+    public DefaultTransactionReportService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
     }
 
     @Override
-    public final Workbook getExcel() {
+    public final ByteArrayOutputStream getExcel() {
         final Collection<Transaction> transactions;
         final Workbook                workbook;
 
@@ -48,7 +50,7 @@ public final class DefaultTransactionFileService implements TransactionFileServi
         transactions = transactionRepository.findAll();
         loadWorkbook(workbook, transactions);
 
-        return workbook;
+        return toStream(workbook);
     }
 
     private final Workbook generateWorkbook() {
@@ -130,6 +132,21 @@ public final class DefaultTransactionFileService implements TransactionFileServi
             index++;
         }
 
+    }
+
+    private final ByteArrayOutputStream toStream(final Workbook workbook) {
+        final ByteArrayOutputStream outputStream;
+
+        outputStream = new ByteArrayOutputStream();
+        try {
+            workbook.write(outputStream);
+            workbook.close(); // Make sure to close the workbook
+        } catch (final IOException e) {
+            // TODO: user a better exception
+            throw new RuntimeException(e);
+        }
+
+        return outputStream;
     }
 
 }
