@@ -68,12 +68,12 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Collection<Transaction> findAll() {
+    public final Collection<Transaction> findAll(final Sort sort) {
         final Collection<Transaction> read;
 
         log.debug("Finding all transactions");
 
-        read = transactionSpringRepository.findAll()
+        read = transactionSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
             .toList();

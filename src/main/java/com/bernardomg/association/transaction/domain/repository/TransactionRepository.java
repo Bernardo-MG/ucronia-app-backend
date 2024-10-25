@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
@@ -18,7 +19,7 @@ public interface TransactionRepository {
 
     public boolean exists(final long index);
 
-    public Collection<Transaction> findAll();
+    public Collection<Transaction> findAll(final Sort sort);
 
     public Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable);
 

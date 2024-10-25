@@ -3,6 +3,7 @@ package com.bernardomg.association.transaction.usecase.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -15,6 +16,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultTransactionReportService implements TransactionReportService {
 
+    private final DateTimeFormatter     dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     private final TransactionRepository transactionRepository;
 
     public DefaultTransactionReportService(final TransactionRepository transactionRepo) {
@@ -40,6 +44,7 @@ public final class DefaultTransactionReportService implements TransactionReportS
     public final ByteArrayOutputStream getExcel() {
         final Collection<Transaction> transactions;
         final Workbook                workbook;
+        final Sort                    sort;
 
         log.debug("Creating excel");
 
@@ -47,7 +52,8 @@ public final class DefaultTransactionReportService implements TransactionReportS
 
         workbook = generateWorkbook();
 
-        transactions = transactionRepository.findAll();
+        sort = Sort.by("date", "number", "description");
+        transactions = transactionRepository.findAll(sort);
         loadWorkbook(workbook, transactions);
 
         return toStream(workbook);
@@ -118,7 +124,8 @@ public final class DefaultTransactionReportService implements TransactionReportS
             cell.setCellStyle(style);
 
             cell = row.createCell(1);
-            cell.setCellValue(transaction.getDate());
+            cell.setCellValue(transaction.getDate()
+                .format(dateFormatter));
             cell.setCellStyle(style);
 
             cell = row.createCell(2);

@@ -28,6 +28,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -44,15 +45,20 @@ class ITTransactionRepositoryFindAll {
 
     public ITTransactionRepositoryFindAll() {
         super();
+        // TODO: test sorting
     }
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Transaction> transactions;
+        final Sort                  sort;
+
+        // GIVEN
+        sort = Sort.unsorted();
 
         // WHEN
-        transactions = repository.findAll();
+        transactions = repository.findAll(sort);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -64,9 +70,13 @@ class ITTransactionRepositoryFindAll {
     @PositiveTransaction
     void testFindAll_Transaction() {
         final Iterable<Transaction> transactions;
+        final Sort                  sort;
+
+        // GIVEN
+        sort = Sort.unsorted();
 
         // WHEN
-        transactions = repository.findAll();
+        transactions = repository.findAll(sort);
 
         // THEN
         Assertions.assertThat(transactions)
