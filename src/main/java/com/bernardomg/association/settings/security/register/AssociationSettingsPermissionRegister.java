@@ -48,12 +48,12 @@ public final class AssociationSettingsPermissionRegister implements PermissionRe
         // TODO: Use constants
         return List.of(
             // Settings
-            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "CREATE"),
-            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "READ"),
-            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "UPDATE"),
-            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "DELETE"),
+            new ResourcePermissionPair("ASSOCIATION_SETTINGS", "CREATE"),
+            new ResourcePermissionPair("ASSOCIATION_SETTINGS", "READ"),
+            new ResourcePermissionPair("ASSOCIATION_SETTINGS", "UPDATE"),
+            new ResourcePermissionPair("ASSOCIATION_SETTINGS", "DELETE"),
             // Views
-            ResourcePermissionPair.of("ASSOCIATION_SETTINGS", "VIEW"));
+            new ResourcePermissionPair("ASSOCIATION_SETTINGS", "VIEW"));
     }
 
     @Override

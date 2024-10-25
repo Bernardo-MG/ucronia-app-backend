@@ -48,10 +48,10 @@ public final class PeoplePermissionRegister implements PermissionRegister {
         // TODO: Use constants
         return List.of(
             // Member
-            ResourcePermissionPair.of("PERSON", "CREATE"), ResourcePermissionPair.of("PERSON", "READ"),
-            ResourcePermissionPair.of("PERSON", "UPDATE"), ResourcePermissionPair.of("PERSON", "DELETE"),
+            new ResourcePermissionPair("PERSON", "CREATE"), new ResourcePermissionPair("PERSON", "READ"),
+            new ResourcePermissionPair("PERSON", "UPDATE"), new ResourcePermissionPair("PERSON", "DELETE"),
             // Views
-            ResourcePermissionPair.of("PERSON", "VIEW"));
+            new ResourcePermissionPair("PERSON", "VIEW"));
     }
 
     @Override
