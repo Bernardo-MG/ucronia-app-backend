@@ -147,7 +147,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
+        failure = new FieldFailure("duplicated", "feeDates[].duplicated", "feeDates[]", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -186,7 +186,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", List.of(FeeConstants.DATE));
+        failure = new FieldFailure("existing", "feeDates[].existing", "feeDates[]", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -206,7 +206,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", List.of(FeeConstants.DATE));
+        failure = new FieldFailure("existing", "feeDates[].existing", "feeDates[]", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

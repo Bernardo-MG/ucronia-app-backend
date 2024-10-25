@@ -46,12 +46,12 @@ public final class FeePermissionRegister implements PermissionRegister {
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
         // TODO: Use constants
-        return List.of(ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
-            ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
+        return List.of(new ResourcePermissionPair("FEE", "CREATE"), new ResourcePermissionPair("FEE", "READ"),
+            new ResourcePermissionPair("FEE", "UPDATE"), new ResourcePermissionPair("FEE", "DELETE"),
             // My fees
-            ResourcePermissionPair.of("MY_FEES", "READ"),
+            new ResourcePermissionPair("MY_FEES", "READ"),
             // Views
-            ResourcePermissionPair.of("MY_FEES", "VIEW"), ResourcePermissionPair.of("FEE", "VIEW"));
+            new ResourcePermissionPair("MY_FEES", "VIEW"), new ResourcePermissionPair("FEE", "VIEW"));
     }
 
     @Override
