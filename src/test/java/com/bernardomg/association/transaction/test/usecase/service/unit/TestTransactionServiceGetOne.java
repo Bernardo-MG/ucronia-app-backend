@@ -64,7 +64,8 @@ class TestTransactionServiceGetOne {
         final Optional<Transaction> transaction;
 
         // GIVEN
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(Transactions.valid()));
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
 
         // WHEN
         transaction = service.getOne(TransactionConstants.INDEX);
@@ -72,7 +73,7 @@ class TestTransactionServiceGetOne {
         // THEN
         Assertions.assertThat(transaction)
             .as("transaction")
-            .contains(Transactions.valid());
+            .contains(Transactions.positive());
     }
 
     @Test

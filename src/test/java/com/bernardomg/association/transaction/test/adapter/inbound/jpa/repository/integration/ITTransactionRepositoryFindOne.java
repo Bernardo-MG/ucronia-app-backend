@@ -66,7 +66,7 @@ class ITTransactionRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(transactionOptional)
-            .contains(Transactions.valid());
+            .contains(Transactions.positive());
     }
 
     @ParameterizedTest(name = "Amount: {0}")

@@ -67,7 +67,7 @@ class TestTransactionServiceUpdate {
         service.update(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.valid());
+        verify(transactionRepository).save(Transactions.positive());
     }
 
     @Test
@@ -76,7 +76,7 @@ class TestTransactionServiceUpdate {
         final Transaction transaction;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
@@ -84,7 +84,7 @@ class TestTransactionServiceUpdate {
         service.update(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.valid());
+        verify(transactionRepository).save(Transactions.positive());
     }
 
     @Test
@@ -94,9 +94,9 @@ class TestTransactionServiceUpdate {
         final Transaction updated;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
-        given(transactionRepository.save(Transactions.valid())).willReturn(Transactions.valid());
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
@@ -105,7 +105,7 @@ class TestTransactionServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("transaction")
-            .isEqualTo(Transactions.valid());
+            .isEqualTo(Transactions.positive());
     }
 
     @Test
@@ -115,7 +115,7 @@ class TestTransactionServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(false);
 

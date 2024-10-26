@@ -100,7 +100,7 @@ class ITTransactionRepositorySave {
         final Transaction transaction;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         // WHEN
         created = repository.save(transaction);
@@ -108,7 +108,7 @@ class ITTransactionRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
-            .isEqualTo(Transactions.valid());
+            .isEqualTo(Transactions.positive());
     }
 
     @Test
@@ -118,7 +118,7 @@ class ITTransactionRepositorySave {
         final Transaction                 transaction;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         // WHEN
         repository.save(transaction);
@@ -139,7 +139,7 @@ class ITTransactionRepositorySave {
         final Transaction transaction;
 
         // GIVEN
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         // WHEN
         created = repository.save(transaction);
@@ -147,7 +147,7 @@ class ITTransactionRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
-            .isEqualTo(Transactions.valid());
+            .isEqualTo(Transactions.positive());
     }
 
 }
