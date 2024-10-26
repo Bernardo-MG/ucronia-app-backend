@@ -48,7 +48,7 @@ public final class AssociationSecurityPermissionRegister implements PermissionRe
         // TODO: Use constants
         return List.of(
             // Views
-            ResourcePermissionPair.of("SECURITY", "VIEW"));
+            new ResourcePermissionPair("SECURITY", "VIEW"));
     }
 
     @Override

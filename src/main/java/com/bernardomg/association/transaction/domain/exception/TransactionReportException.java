@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,38 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.authorization.permission.adapter.inbound;
-
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
+package com.bernardomg.association.transaction.domain.exception;
 
 /**
- * Miscelaneous security permission register.
+ * Missing transaction exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-@Component
-public final class MiscPermissionRegister implements PermissionRegister {
+public final class TransactionReportException extends RuntimeException {
 
-    @Override
-    public final Collection<String> getActions() {
-        return List.of();
-    }
+    private static final long serialVersionUID = -861254928892689094L;
 
-    @Override
-    public final Collection<ResourcePermissionPair> getPermissions() {
-        // TODO: Use constants
-        return List.of(
-            // Views
-            new ResourcePermissionPair("ACTIVITY_CALENDAR", "VIEW"));
-    }
-
-    @Override
-    public final Collection<String> getResources() {
-        return List.of("ACTIVITY_CALENDAR");
+    public TransactionReportException() {
+        super("Error generating report");
     }
 
 }
