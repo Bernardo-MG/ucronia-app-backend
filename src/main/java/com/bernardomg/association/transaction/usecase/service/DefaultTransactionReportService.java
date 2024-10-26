@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.transaction.domain.exception.TransactionReportException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
@@ -152,8 +153,8 @@ public final class DefaultTransactionReportService implements TransactionReportS
             workbook.write(outputStream);
             workbook.close(); // Make sure to close the workbook
         } catch (final IOException e) {
-            // TODO: user a better exception
-            throw new RuntimeException(e);
+            log.error(e.getLocalizedMessage(), e);
+            throw new TransactionReportException();
         }
 
         return outputStream;
