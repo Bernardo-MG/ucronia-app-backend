@@ -3,14 +3,13 @@ package com.bernardomg.association.transaction.usecase.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -29,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 public final class DefaultTransactionReportService implements TransactionReportService {
+
+    private static final DecimalFormat  decimalFormat = new DecimalFormat("0.00");
 
     private final DateTimeFormatter     dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -52,7 +53,7 @@ public final class DefaultTransactionReportService implements TransactionReportS
 
         workbook = generateWorkbook();
 
-        sort = Sort.by("date", "number", "description");
+        sort = Sort.by("date", "index", "description");
         transactions = transactionRepository.findAll(sort);
         loadWorkbook(workbook, transactions);
 
@@ -70,14 +71,14 @@ public final class DefaultTransactionReportService implements TransactionReportS
         workbook = new XSSFWorkbook();
 
         sheet = workbook.createSheet("Transacciones");
-        sheet.setColumnWidth(0, 6000);
-        sheet.setColumnWidth(1, 4000);
+        sheet.setColumnWidth(0, 3000);
+        sheet.setColumnWidth(1, 3000);
+        sheet.setColumnWidth(2, 4000);
+        sheet.setColumnWidth(3, 15000);
 
         header = sheet.createRow(0);
 
         headerStyle = workbook.createCellStyle();
-        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         font = workbook.createFont();
         font.setFontName("Arial");
@@ -110,6 +111,7 @@ public final class DefaultTransactionReportService implements TransactionReportS
         int             index;
         Row             row;
         Cell            cell;
+        String          date;
 
         style = workbook.createCellStyle();
         style.setWrapText(true);
@@ -123,13 +125,14 @@ public final class DefaultTransactionReportService implements TransactionReportS
             cell.setCellValue(transaction.getIndex());
             cell.setCellStyle(style);
 
+            date = transaction.getDate()
+                .format(dateFormatter);
             cell = row.createCell(1);
-            cell.setCellValue(transaction.getDate()
-                .format(dateFormatter));
+            cell.setCellValue(date);
             cell.setCellStyle(style);
 
             cell = row.createCell(2);
-            cell.setCellValue(transaction.getAmount());
+            cell.setCellValue(decimalFormat.format(transaction.getAmount()));
             cell.setCellStyle(style);
 
             cell = row.createCell(3);
