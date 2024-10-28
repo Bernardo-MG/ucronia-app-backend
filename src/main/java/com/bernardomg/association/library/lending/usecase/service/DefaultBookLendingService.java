@@ -75,7 +75,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         person = personRepository.findOne(personNumber);
 
-        lending = new BookLending(book, person.get(), date, null);
+        lending = new BookLending(book, person.get(), date);
 
         lendBookValidator.validate(lending);
 
@@ -95,12 +95,12 @@ public final class DefaultBookLendingService implements BookLendingService {
                 throw new MissingBookLendingException(book + "-" + personNumber);
             });
 
-        // Used just for validation
-        lending = new BookLending(read.number(), read.person(), read.lendingDate(), date);
+        lending = read.returned(date);
 
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
+        // TODO: why this? Just save the lending
         bookLendingRepository.returnAt(book, personNumber, date);
     }
 
