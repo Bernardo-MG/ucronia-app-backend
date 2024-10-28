@@ -75,7 +75,7 @@ public final class DefaultBookLendingService implements BookLendingService {
                 throw new MissingPersonException(personNumber);
             });
 
-        lending = new BookLending(book, person.get(), date);
+        lending = new BookLending(book, person, date);
 
         lendBookValidator.validate(lending);
 
