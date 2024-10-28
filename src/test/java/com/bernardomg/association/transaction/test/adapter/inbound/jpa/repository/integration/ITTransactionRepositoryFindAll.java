@@ -24,27 +24,16 @@
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.test.configuration.argument.AroundZeroArgumentsProvider;
-import com.bernardomg.association.test.configuration.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,109 +41,46 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITTransactionRepositoryFindAll {
 
     @Autowired
-    private TransactionRepository       repository;
-
-    @Autowired
-    private TransactionSpringRepository springRepository;
+    private TransactionRepository repository;
 
     public ITTransactionRepositoryFindAll() {
         super();
-    }
-
-    @ParameterizedTest(name = "Amount: {0}")
-    @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("With a transaction with value around zero, it returns it")
-    void testFindAll_AroundZero(final Float amount) {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        springRepository.save(TransactionEntities.forAmount(amount));
-
-        pageable = Pageable.unpaged();
-
-        transactionQuery = TransactionsQueries.empty();
-
-        // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forAmount(amount));
-    }
-
-    @ParameterizedTest(name = "Amount: {0}")
-    @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("With a decimal transaction, it returns it")
-    void testFindAll_Decimal(final Float amount) {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
-
-        // GIVEN
-        springRepository.save(TransactionEntities.forAmount(amount));
-
-        pageable = Pageable.unpaged();
-
-        transactionQuery = TransactionsQueries.empty();
-
-        // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forAmount(amount));
+        // TODO: test sorting
     }
 
     @Test
-    @DisplayName("With a full year, it returns all the transactions")
-    @FullTransactionYear
-    void testFindAll_FullYear() {
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindAll_NoData() {
         final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Sort                  sort;
 
         // GIVEN
-        pageable = Pageable.unpaged();
-
-        transactionQuery = TransactionsQueries.empty();
+        sort = Sort.unsorted();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(sort);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactlyInAnyOrder(Transactions.forIndex(1, Month.JANUARY),
-                Transactions.forIndex(2, Month.FEBRUARY), Transactions.forIndex(3, Month.MARCH),
-                Transactions.forIndex(4, Month.APRIL), Transactions.forIndex(5, Month.MAY),
-                Transactions.forIndex(6, Month.JUNE), Transactions.forIndex(7, Month.JULY),
-                Transactions.forIndex(8, Month.AUGUST), Transactions.forIndex(9, Month.SEPTEMBER),
-                Transactions.forIndex(10, Month.OCTOBER), Transactions.forIndex(11, Month.NOVEMBER),
-                Transactions.forIndex(12, Month.DECEMBER));
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With multiple transactions in the month, it returns all the transactions")
-    @MultipleTransactionsSameMonth
-    void testFindAll_Multiple() {
+    @DisplayName("When there is a transaction, it is returned")
+    @PositiveTransaction
+    void testFindAll_Transaction() {
         final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Sort                  sort;
 
         // GIVEN
-        pageable = Pageable.unpaged();
-
-        transactionQuery = TransactionsQueries.empty();
+        sort = Sort.unsorted();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(sort);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
-                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
+            .containsExactly(Transactions.positive());
     }
 
 }

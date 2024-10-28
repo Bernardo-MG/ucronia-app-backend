@@ -70,7 +70,7 @@ class TestTransactionServiceGetAll {
 
         transactionQuery = TransactionsQueries.empty();
 
-        given(transactionRepository.findAll(transactionQuery, pageable)).willReturn(List.of(Transactions.valid()));
+        given(transactionRepository.findAll(transactionQuery, pageable)).willReturn(List.of(Transactions.positive()));
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -78,7 +78,7 @@ class TestTransactionServiceGetAll {
         // THEN
         Assertions.assertThat(transactions)
             .as("transactions")
-            .containsExactly(Transactions.valid());
+            .containsExactly(Transactions.positive());
     }
 
     @Test

@@ -12,7 +12,7 @@ public final class TransactionCalendarMonths {
     }
 
     public static final TransactionCalendarMonth single() {
-        return new TransactionCalendarMonth(TransactionConstants.MONTH, List.of(Transactions.valid()));
+        return new TransactionCalendarMonth(TransactionConstants.MONTH, List.of(Transactions.positive()));
     }
 
     private TransactionCalendarMonths() {

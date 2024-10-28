@@ -47,7 +47,7 @@ class ITFeeRepositoryPay {
         // GIVEN
         person = Persons.noMembership();
         fee = Fees.paid();
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         // WHEN
         repository.pay(person, List.of(fee), transaction);
@@ -74,7 +74,7 @@ class ITFeeRepositoryPay {
         // GIVEN
         person = Persons.noMembership();
         fee = Fees.paid();
-        transaction = Transactions.valid();
+        transaction = Transactions.positive();
 
         // WHEN
         repository.pay(person, List.of(fee), transaction);

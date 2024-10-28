@@ -90,7 +90,7 @@ public final class Transactions {
             .build();
     }
 
-    public static final Transaction valid() {
+    public static final Transaction positive() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
             .withAmount(1)

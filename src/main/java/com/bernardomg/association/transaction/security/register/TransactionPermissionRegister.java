@@ -48,12 +48,12 @@ public final class TransactionPermissionRegister implements PermissionRegister {
         // TODO: Use constants
         return List.of(
             // Transaction
-            ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
-            ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
+            new ResourcePermissionPair("TRANSACTION", "CREATE"), new ResourcePermissionPair("TRANSACTION", "READ"),
+            new ResourcePermissionPair("TRANSACTION", "UPDATE"), new ResourcePermissionPair("TRANSACTION", "DELETE"),
             // Balance
-            ResourcePermissionPair.of("BALANCE", "READ"),
+            new ResourcePermissionPair("BALANCE", "READ"),
             // Views
-            ResourcePermissionPair.of("FUNDS", "VIEW"));
+            new ResourcePermissionPair("FUNDS", "VIEW"));
     }
 
     @Override
