@@ -49,7 +49,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/member/public")
+@RequestMapping("/member")
 @AllArgsConstructor
 public class MemberController {
 
