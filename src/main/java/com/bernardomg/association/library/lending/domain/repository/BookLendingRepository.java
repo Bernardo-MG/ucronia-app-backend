@@ -16,8 +16,6 @@ public interface BookLendingRepository {
 
     public Optional<BookLending> findReturned(final long book, final long person, final LocalDate date);
 
-    public Optional<BookLending> returnAt(final long book, final long person, final LocalDate date);
-
     public BookLending save(final BookLending lending);
 
 }

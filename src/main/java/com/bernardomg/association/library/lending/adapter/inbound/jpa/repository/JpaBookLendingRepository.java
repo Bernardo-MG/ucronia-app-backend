@@ -75,6 +75,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         personEntity = personSpringRepository.findByNumber(person);
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
+            // TODO: isn't this way too complicated?
             lending = bookLendingSpringRepository.findFirstByBookIdAndPersonIdOrderByReturnDateDesc(bookEntity.get()
                 .getId(),
                 personEntity.get()
@@ -138,45 +139,6 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             log.debug("Found returned book lending for book {}: {}", book, lending);
         } else {
             log.debug("Book {} not found", book);
-            lending = Optional.empty();
-        }
-
-        return lending;
-    }
-
-    @Override
-    public final Optional<BookLending> returnAt(final long book, final long person, final LocalDate date) {
-        final Optional<BookLendingEntity> readLending;
-        final Optional<BookLending>       lending;
-        final BookLendingEntity           lendingEntity;
-        final BookLendingEntity           lentEntity;
-        final Optional<BookEntity>        bookEntity;
-        final Optional<PersonEntity>      personEntity;
-
-        log.debug("Returning book {} from person {} at {}", book, person, date);
-
-        bookEntity = bookSpringRepository.findByNumber(book);
-        personEntity = personSpringRepository.findByNumber(person);
-
-        if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            readLending = bookLendingSpringRepository.findFirstByBookIdAndPersonIdOrderByReturnDateDesc(bookEntity.get()
-                .getId(),
-                personEntity.get()
-                    .getId());
-            if (readLending.isEmpty()) {
-                log.warn("Missing book lending for book {} and person {} at {}", book, person, date);
-                lending = Optional.empty();
-            } else {
-                lendingEntity = readLending.get();
-                lendingEntity.setReturnDate(date);
-                lentEntity = bookLendingSpringRepository.save(lendingEntity);
-                lending = Optional.of(lentEntity)
-                    .map(m -> toDomain(m, bookEntity.get(), personEntity.get()));
-
-                log.debug("Returned book {} from person {} at {}: {}", book, person, date, lending);
-            }
-        } else {
-            log.debug("Book {} or person {} not found", book, person);
             lending = Optional.empty();
         }
 

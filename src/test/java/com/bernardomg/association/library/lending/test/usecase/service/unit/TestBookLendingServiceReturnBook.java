@@ -78,8 +78,7 @@ class TestBookLendingServiceReturnBook {
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
-        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER,
-            BookConstants.RETURNED_DATE);
+        verify(bookLendingRepository).save(BookLendings.returned());
     }
 
     @Test
@@ -131,8 +130,7 @@ class TestBookLendingServiceReturnBook {
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
-        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER,
-            BookConstants.RETURNED_DATE);
+        verify(bookLendingRepository).save(BookLendings.returned());
     }
 
     @Test
@@ -208,7 +206,7 @@ class TestBookLendingServiceReturnBook {
         service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        verify(bookLendingRepository).returnAt(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        verify(bookLendingRepository).save(BookLendings.returnedWhenLent());
     }
 
 }
