@@ -58,7 +58,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void lendBook(final long book, final long personNumber, final LocalDate date) {
+    public final BookLending lendBook(final long book, final long personNumber, final LocalDate date) {
         final BookLending lending;
         final Person      person;
 
@@ -79,11 +79,11 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         lendBookValidator.validate(lending);
 
-        bookLendingRepository.save(lending);
+        return bookLendingRepository.save(lending);
     }
 
     @Override
-    public final void returnBook(final long book, final long personNumber, final LocalDate date) {
+    public final BookLending returnBook(final long book, final long personNumber, final LocalDate date) {
         final BookLending read;
         final BookLending lending;
 
@@ -100,7 +100,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
-        bookLendingRepository.save(lending);
+        return bookLendingRepository.save(lending);
     }
 
 }

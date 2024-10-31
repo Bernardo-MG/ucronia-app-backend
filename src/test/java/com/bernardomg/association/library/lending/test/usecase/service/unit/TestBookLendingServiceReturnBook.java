@@ -42,6 +42,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.exception.MissingBookLendingException;
+import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
@@ -65,21 +66,6 @@ class TestBookLendingServiceReturnBook {
 
     @InjectMocks
     private DefaultBookLendingService service;
-
-    @Test
-    @DisplayName("When returning a book, it is persisted")
-    void testReturnBook() {
-
-        // GIVEN
-        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
-            .willReturn(Optional.of(BookLendings.lent()));
-
-        // WHEN
-        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
-
-        // THEN
-        verify(bookLendingRepository).save(BookLendings.returned());
-    }
 
     @Test
     @DisplayName("When returning a book which was already returned, an exception is thrown")
@@ -134,6 +120,21 @@ class TestBookLendingServiceReturnBook {
     }
 
     @Test
+    @DisplayName("When returning a book, it is persisted")
+    void testReturnBook_PersistedData() {
+
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+
+        // WHEN
+        service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        verify(bookLendingRepository).save(BookLendings.returned());
+    }
+
+    @Test
     @DisplayName("When returning a book before it was lent, an exception is thrown")
     void testReturnBook_ReturnBeforeLent_Exception() {
         final ThrowingCallable execution;
@@ -173,6 +174,25 @@ class TestBookLendingServiceReturnBook {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+    }
+
+    @Test
+    @DisplayName("When returning a book, it is returned")
+    void testReturnBook_ReturnedData() {
+        final BookLending lending;
+
+        // GIVEN
+        given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
+            .willReturn(Optional.of(BookLendings.lent()));
+        given(bookLendingRepository.save(BookLendings.returned())).willReturn(BookLendings.returned());
+
+        // WHEN
+        lending = service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEqualTo(BookLendings.returned());
     }
 
     @Test
