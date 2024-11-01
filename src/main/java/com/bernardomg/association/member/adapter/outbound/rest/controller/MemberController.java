@@ -59,15 +59,15 @@ public class MemberController {
     private final MemberService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBERS)
+    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public Iterable<Member> readAll(@Valid final MemberQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "PUBLIC_MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBER)
+    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.MEMBER)
     public Member readOne(@PathVariable("number") final Long number) {
         return service.getOne(number)
             .orElse(null);

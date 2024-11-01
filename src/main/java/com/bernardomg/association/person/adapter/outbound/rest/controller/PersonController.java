@@ -96,9 +96,9 @@ public class PersonController {
 
     @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, MembersCaches.PUBLIC_MEMBERS,
-                    MembersCaches.PUBLIC_MEMBER, FeeCaches.CALENDAR }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") }, evict = { @CacheEvict(
+            cacheNames = { PersonsCaches.PERSONS, MembersCaches.MEMBERS, MembersCaches.MEMBER, FeeCaches.CALENDAR },
+            allEntries = true) })
     public Person patch(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
         final Person member;
 
