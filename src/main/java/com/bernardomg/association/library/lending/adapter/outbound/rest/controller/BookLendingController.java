@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLent;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookReturned;
+import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
@@ -66,16 +67,16 @@ public class BookLendingController {
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = {
             @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
-    public void lendBook(@Valid @RequestBody final BookLent lending) {
-        service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
+    public BookLending lendBook(@Valid @RequestBody final BookLent lending) {
+        return service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
     @Caching(evict = {
             @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
-    public void returnBook(@Valid @RequestBody final BookReturned lending) {
-        service.returnBook(lending.getBook(), lending.getPerson(), lending.getReturnDate());
+    public BookLending returnBook(@Valid @RequestBody final BookReturned lending) {
+        return service.returnBook(lending.getBook(), lending.getPerson(), lending.getReturnDate());
     }
 
 }
