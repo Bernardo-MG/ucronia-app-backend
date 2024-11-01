@@ -60,7 +60,8 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                  AND l.returnDate IS NULL
                ORDER BY l.returnDate DESC
             """)
-    public List<BookLendingEntity> findForBookLent(@Param("bookNumber") final long bookNumber, final Pageable pageable);
+    public List<BookLendingEntity> findAllForBookLent(@Param("bookNumber") final long bookNumber,
+            final Pageable pageable);
 
     @Query("""
                SELECT l
@@ -70,7 +71,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                  AND l.returnDate IS NOT NULL
                ORDER BY l.returnDate DESC
             """)
-    public List<BookLendingEntity> findForBookReturned(@Param("bookNumber") final long bookNumber,
+    public List<BookLendingEntity> findAllForBookReturned(@Param("bookNumber") final long bookNumber,
             final Pageable pageable);
 
     @Query("""
@@ -84,7 +85,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                  AND l.returnDate IS NOT NULL
                ORDER BY l.returnDate DESC
             """)
-    public List<BookLendingEntity> findReturned(@Param("bookNumber") final long bookNumber,
+    public List<BookLendingEntity> findAllReturned(@Param("bookNumber") final long bookNumber,
             @Param("personNumber") final long personNumber, @Param("lendingDate") final LocalDate lendingDate,
             final Pageable pageable);
 

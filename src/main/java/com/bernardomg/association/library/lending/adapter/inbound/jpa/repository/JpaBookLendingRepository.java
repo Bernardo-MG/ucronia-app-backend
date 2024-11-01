@@ -49,7 +49,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         log.debug("Finding lent book lending for book {}", bookNumber);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findForBookLent(bookNumber, pageable)
+        lending = bookLendingSpringRepository.findAllForBookLent(bookNumber, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
@@ -85,7 +85,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         log.debug("Finding returned book lending for book {}", bookNumber);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findForBookReturned(bookNumber, pageable)
+        lending = bookLendingSpringRepository.findAllForBookReturned(bookNumber, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
@@ -104,7 +104,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         log.debug("Finding returned book {} for person {} and date {}", bookNumber, personNumber, lendingDate);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findReturned(bookNumber, personNumber, lendingDate, pageable)
+        lending = bookLendingSpringRepository.findAllReturned(bookNumber, personNumber, lendingDate, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
