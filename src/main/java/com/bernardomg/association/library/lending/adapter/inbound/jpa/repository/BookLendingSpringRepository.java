@@ -26,26 +26,66 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.repositor
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingId;
 
 public interface BookLendingSpringRepository extends JpaRepository<BookLendingEntity, BookLendingId> {
 
+    @Query("""
+               SELECT l
+               FROM BookLending l
+                 INNER JOIN Book b ON b.id = l.bookId
+                 INNER JOIN Person p ON p.id = l.personId
+               WHERE b.number = :bookNumber
+                 AND p.number = :personNumber
+               ORDER BY l.returnDate DESC
+            """)
+    public List<BookLendingEntity> find(@Param("bookNumber") final long bookNumber,
+            @Param("personNumber") final long personNumber, final Pageable pageable);
+
     public Collection<BookLendingEntity> findAllByBookId(Long id);
 
-    public Optional<BookLendingEntity>
-            findFirstByBookIdAndPersonIdAndLendingDateAndReturnDateIsNotNullOrderByReturnDateDesc(final long book,
-                    final long person, final LocalDate date);
+    @Query("""
+               SELECT l
+               FROM BookLending l
+                 INNER JOIN Book b ON b.id = l.bookId
+               WHERE b.number = :bookNumber
+                 AND l.returnDate IS NULL
+               ORDER BY l.returnDate DESC
+            """)
+    public List<BookLendingEntity> findForBookLent(@Param("bookNumber") final long bookNumber, final Pageable pageable);
 
-    public Optional<BookLendingEntity> findFirstByBookIdAndPersonIdOrderByReturnDateDesc(final long book,
-            final long person);
+    @Query("""
+               SELECT l
+               FROM BookLending l
+                 INNER JOIN Book b ON b.id = l.bookId
+               WHERE b.number = :bookNumber
+                 AND l.returnDate IS NOT NULL
+               ORDER BY l.returnDate DESC
+            """)
+    public List<BookLendingEntity> findForBookReturned(@Param("bookNumber") final long bookNumber,
+            final Pageable pageable);
 
-    public Optional<BookLendingEntity> findFirstByBookIdAndReturnDateIsNotNullOrderByReturnDateDesc(final Long bookId);
-
-    public Optional<BookLendingEntity> findFirstByBookIdAndReturnDateIsNull(final Long bookId);
+    @Query("""
+               SELECT l
+               FROM BookLending l
+                 INNER JOIN Book b ON b.id = l.bookId
+                 INNER JOIN Person p ON p.id = l.personId
+               WHERE b.number = :bookNumber
+                 AND p.number = :personNumber
+                 AND l.lendingDate = :lendingDate
+                 AND l.returnDate IS NOT NULL
+               ORDER BY l.returnDate DESC
+            """)
+    public List<BookLendingEntity> findReturned(@Param("bookNumber") final long bookNumber,
+            @Param("personNumber") final long personNumber, @Param("lendingDate") final LocalDate lendingDate,
+            final Pageable pageable);
 
 }

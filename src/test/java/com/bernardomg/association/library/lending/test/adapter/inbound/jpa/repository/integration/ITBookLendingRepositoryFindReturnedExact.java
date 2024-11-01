@@ -58,14 +58,14 @@ class ITBookLendingRepositoryFindReturnedExact {
     @FullBook
     @LentBookLending
     void testFindReturned_Lent() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -73,14 +73,14 @@ class ITBookLendingRepositoryFindReturnedExact {
     @DisplayName("With no book, nothing is returned")
     @NoMembershipPerson
     void testFindReturned_NoBook() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -89,14 +89,14 @@ class ITBookLendingRepositoryFindReturnedExact {
     @NoMembershipPerson
     @FullBook
     void testFindReturned_NoHistory() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -104,14 +104,14 @@ class ITBookLendingRepositoryFindReturnedExact {
     @DisplayName("With no person, nothing is returned")
     @MinimalBook
     void testFindReturned_NoPerson() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -121,14 +121,14 @@ class ITBookLendingRepositoryFindReturnedExact {
     @FullBook
     @ReturnedBookLending
     void testFindReturned_Returned() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.returned());
     }
 
@@ -139,14 +139,14 @@ class ITBookLendingRepositoryFindReturnedExact {
     @FullBook
     @ReturnedBookLendingHistory
     void testFindReturned_Returned_History() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.returned());
     }
 
