@@ -14,14 +14,6 @@ public interface BookLendingRepository {
 
     public Optional<BookLending> findReturned(final long bookNumber);
 
-    /**
-     * TODO: return a boolean
-     *
-     * @param book
-     * @param person
-     * @param date
-     * @return
-     */
     public Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
             final LocalDate lendingDate);
 
