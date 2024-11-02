@@ -3,7 +3,6 @@ package com.bernardomg.association.library.lending.usecase.service;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,31 +58,32 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final void lendBook(final long book, final long personNumber, final LocalDate date) {
-        final BookLending      lending;
-        final Optional<Person> person;
+    public final BookLending lendBook(final long book, final long personNumber, final LocalDate date) {
+        final BookLending lending;
+        final Person      person;
 
         log.debug("Lending book {} to {}", book, personNumber);
 
         if (!bookRepository.exists(book)) {
+            log.debug("Missing book {}", book);
             throw new MissingBookException(book);
         }
 
-        if (!personRepository.exists(personNumber)) {
-            throw new MissingPersonException(personNumber);
-        }
+        person = personRepository.findOne(personNumber)
+            .orElseThrow(() -> {
+                log.debug("Missing person {}", personNumber);
+                throw new MissingPersonException(personNumber);
+            });
 
-        person = personRepository.findOne(personNumber);
-
-        lending = new BookLending(book, person.get(), date, null);
+        lending = new BookLending(book, person, date);
 
         lendBookValidator.validate(lending);
 
-        bookLendingRepository.save(lending);
+        return bookLendingRepository.save(lending);
     }
 
     @Override
-    public final void returnBook(final long book, final long personNumber, final LocalDate date) {
+    public final BookLending returnBook(final long book, final long personNumber, final LocalDate date) {
         final BookLending read;
         final BookLending lending;
 
@@ -95,13 +95,12 @@ public final class DefaultBookLendingService implements BookLendingService {
                 throw new MissingBookLendingException(book + "-" + personNumber);
             });
 
-        // Used just for validation
-        lending = new BookLending(read.number(), read.person(), read.lendingDate(), date);
+        lending = read.returned(date);
 
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
-        bookLendingRepository.returnAt(book, personNumber, date);
+        return bookLendingRepository.save(lending);
     }
 
 }

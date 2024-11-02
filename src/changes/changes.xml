@@ -318,5 +318,10 @@
             Export transactions to excel.
          </action>
       </release>
+      <release version="0.5.24" date="2024-11-02" description="Lending corrections">
+         <action dev="bmg" type="fix">
+            Corrected lending.
+         </action>
+      </release>
    </body>
 </document>

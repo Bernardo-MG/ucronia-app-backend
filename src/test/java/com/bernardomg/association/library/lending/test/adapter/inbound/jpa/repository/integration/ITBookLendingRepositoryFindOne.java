@@ -59,14 +59,14 @@ class ITBookLendingRepositoryFindOne {
     @FullBook
     @LentBookLending
     void testFindOne_Lent() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.lent());
     }
 
@@ -77,14 +77,14 @@ class ITBookLendingRepositoryFindOne {
     @FullBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.lentLast());
     }
 
@@ -92,14 +92,14 @@ class ITBookLendingRepositoryFindOne {
     @DisplayName("With no person, nothing is returned")
     @NoMembershipPerson
     void testFindOne_NoBook() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -108,14 +108,14 @@ class ITBookLendingRepositoryFindOne {
     @NoMembershipPerson
     @FullBook
     void testFindOne_NoHistory() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -123,14 +123,14 @@ class ITBookLendingRepositoryFindOne {
     @DisplayName("With no person, nothing is returned")
     @MinimalBook
     void testFindOne_NoPerson() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -140,14 +140,14 @@ class ITBookLendingRepositoryFindOne {
     @FullBook
     @ReturnedBookLending
     void testFindOne_Returned() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.returned());
     }
 
@@ -158,14 +158,14 @@ class ITBookLendingRepositoryFindOne {
     @FullBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.returnedLast());
     }
 

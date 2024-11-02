@@ -44,4 +44,9 @@ public final class BookLendings {
             BookConstants.RETURNED_DATE_LAST);
     }
 
+    public static final BookLending returnedWhenLent() {
+        return new BookLending(BookConstants.NUMBER, Persons.noMembership(), BookConstants.LENT_DATE,
+            BookConstants.LENT_DATE);
+    }
+
 }

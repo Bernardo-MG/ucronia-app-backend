@@ -8,15 +8,14 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 
 public interface BookLendingRepository {
 
-    public Optional<BookLending> findLent(final long book);
+    public Optional<BookLending> findLent(final long bookNumber);
 
-    public Optional<BookLending> findOne(final long book, final long person);
+    public Optional<BookLending> findOne(final long bookNumber, final long personNumber);
 
-    public Optional<BookLending> findReturned(final long book);
+    public Optional<BookLending> findReturned(final long bookNumber);
 
-    public Optional<BookLending> findReturned(final long book, final long person, final LocalDate date);
-
-    public Optional<BookLending> returnAt(final long book, final long person, final LocalDate date);
+    public Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
+            final LocalDate lendingDate);
 
     public BookLending save(final BookLending lending);
 

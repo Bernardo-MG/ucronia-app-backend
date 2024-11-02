@@ -26,7 +26,7 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.reposit
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.BookBookLending;
+import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -192,13 +192,13 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Book toDomain(final BookEntity entity) {
-        final Collection<Publisher>       publishers;
-        final Optional<GameSystem>        gameSystem;
-        final Optional<BookType>          bookType;
-        final Collection<Donor>           donors;
-        final Collection<Author>          authors;
-        final boolean                     lent;
-        final Collection<BookBookLending> lendings;
+        final Collection<Publisher>   publishers;
+        final Optional<GameSystem>    gameSystem;
+        final Optional<BookType>      bookType;
+        final Collection<Donor>       donors;
+        final Collection<Author>      authors;
+        final boolean                 lent;
+        final Collection<BookLending> lendings;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -247,7 +247,7 @@ public final class JpaBookRepository implements BookRepository {
         // Lendings
         lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
             .stream()
-            .map(this::toDomain)
+            .map(l -> toDomain(entity.getNumber(), l))
             .toList();
 
         lent = bookSpringRepository.isLent(entity.getId());
@@ -266,20 +266,20 @@ public final class JpaBookRepository implements BookRepository {
             .build();
     }
 
-    private final BookBookLending toDomain(final BookLendingEntity entity) {
-        final Optional<Person> person;
-
-        person = personSpringRepository.findById(entity.getPersonId())
-            .map(this::toDomain);
-        return new BookBookLending(person.get(), entity.getLendingDate(), entity.getReturnDate());
-    }
-
     private final BookType toDomain(final BookTypeEntity entity) {
         return new BookType(entity.getNumber(), entity.getName());
     }
 
     private final GameSystem toDomain(final GameSystemEntity entity) {
         return new GameSystem(entity.getNumber(), entity.getName());
+    }
+
+    private final BookLending toDomain(final Long number, final BookLendingEntity entity) {
+        final Optional<Person> person;
+
+        person = personSpringRepository.findById(entity.getPersonId())
+            .map(this::toDomain);
+        return new BookLending(number, person.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Person toDomain(final PersonEntity entity) {

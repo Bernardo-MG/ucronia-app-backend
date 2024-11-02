@@ -42,6 +42,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
+import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
@@ -69,30 +70,12 @@ class TestBookLendingServiceLendBook {
     private DefaultBookLendingService service;
 
     @Test
-    @DisplayName("When lending a book, it is persisted with the current date")
-    void testLendBook() {
-
-        // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
-        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
-
-        // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
-
-        // THEN
-        verify(bookLendingRepository).save(BookLendings.lent());
-    }
-
-    @Test
     @DisplayName("When lending a book which is already lent, an exception is thrown")
     void testLendBook_AlreadyLent_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
 
@@ -111,7 +94,6 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lentAlternativePerson()));
@@ -134,7 +116,6 @@ class TestBookLendingServiceLendBook {
         date = BookConstants.RETURNED_DATE.minusDays(1);
 
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
@@ -157,7 +138,6 @@ class TestBookLendingServiceLendBook {
             .plusDays(1);
 
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
@@ -190,7 +170,7 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
@@ -207,7 +187,6 @@ class TestBookLendingServiceLendBook {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
@@ -220,13 +199,48 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
+    @DisplayName("When lending a book, it is persisted with the current date")
+    void testLendBook_PersistedData() {
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+
+        // WHEN
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        verify(bookLendingRepository).save(BookLendings.lent());
+    }
+
+    @Test
+    @DisplayName("When lending a book, it is returned with the current date")
+    void testLendBook_ReturnedData() {
+        final BookLending lending;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(bookLendingRepository.save(BookLendings.lent())).willReturn(BookLendings.lent());
+
+        // WHEN
+        lending = service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEqualTo(BookLendings.lent());
+    }
+
+    @Test
     @DisplayName("When lending a book today, it is persisted with the current date")
     void testLendBook_Today() {
 
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN

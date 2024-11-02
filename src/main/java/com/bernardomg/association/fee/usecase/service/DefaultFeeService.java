@@ -103,8 +103,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final void delete(final long personNumber, final YearMonth date) {
-        final boolean       memberExists;
-        final Optional<Fee> fee;
+        final boolean memberExists;
+        final Fee     fee;
 
         log.info("Deleting fee for {} in {}", personNumber, date);
 
@@ -113,15 +113,16 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingPersonException(personNumber);
         }
 
-        fee = feeRepository.findOne(personNumber, date);
-        if (fee.isEmpty()) {
-            throw new MissingFeeException(personNumber + " " + date.toString());
-        }
+        fee = feeRepository.findOne(personNumber, date)
+            .orElseThrow(() -> {
+                log.error("Missing fee for {} in {}", personNumber, date);
+                throw new MissingFeeException(personNumber + " " + date.toString());
+            });
 
         feeRepository.delete(personNumber, date);
 
         // Send events for deleted fees
-        eventEmitter.emit(new FeeDeletedEvent(fee.get(), date, personNumber));
+        eventEmitter.emit(new FeeDeletedEvent(fee, date, personNumber));
     }
 
     @Override

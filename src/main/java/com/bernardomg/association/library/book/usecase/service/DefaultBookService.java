@@ -217,25 +217,31 @@ public final class DefaultBookService implements BookService {
     private final void validateRelationships(final Book book) {
         final Optional<GameSystem> gameSystem;
         final Optional<BookType>   bookType;
-        boolean                    donorExists;
+        final Optional<Author>     invalidAuthor;
+        final Optional<Publisher>  invalidPublisher;
+        final Optional<Donor>      invalidDonor;
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
-        book.authors()
-            .forEach(a -> {
-                if (!authorRepository.exists(a.number())) {
-                    throw new MissingAuthorException(a.number());
-                }
-            });
+        invalidAuthor = book.authors()
+            .stream()
+            .filter(d -> !authorRepository.exists(d.number()))
+            .findAny();
+        if (invalidAuthor.isPresent()) {
+            throw new MissingAuthorException(invalidAuthor.get()
+                .number());
+        }
 
         // TODO: add an exception for multiple missing ids
         // Check publishers exist
-        book.publishers()
-            .forEach(p -> {
-                if (!publisherRepository.exists(p.number())) {
-                    throw new MissingPublisherException(p.number());
-                }
-            });
+        invalidPublisher = book.publishers()
+            .stream()
+            .filter(d -> !publisherRepository.exists(d.number()))
+            .findAny();
+        if (invalidPublisher.isPresent()) {
+            throw new MissingPublisherException(invalidPublisher.get()
+                .number());
+        }
 
         // Check game system exist
         gameSystem = book.gameSystem();
@@ -253,12 +259,14 @@ public final class DefaultBookService implements BookService {
                 .number());
         }
 
-        // Check donor exist
-        for (final Donor donor : book.donors()) {
-            donorExists = personRepository.exists(donor.number());
-            if (!donorExists) {
-                throw new MissingPersonException(donor.number());
-            }
+        // Check donors exist
+        invalidDonor = book.donors()
+            .stream()
+            .filter(d -> !personRepository.exists(d.number()))
+            .findAny();
+        if (invalidDonor.isPresent()) {
+            throw new MissingPersonException(invalidDonor.get()
+                .number());
         }
 
     }

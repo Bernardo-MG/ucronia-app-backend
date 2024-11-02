@@ -56,14 +56,14 @@ class ITBookLendingRepositoryFindLent {
     @FullBook
     @LentBookLending
     void testFindLent_Lent() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findLent(BookConstants.NUMBER);
+        lending = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             // FIXME: should return the person
             .contains(BookLendings.lent());
     }
@@ -75,28 +75,28 @@ class ITBookLendingRepositoryFindLent {
     @FullBook
     @LentBookLendingHistory
     void testFindLent_Lent_History() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findLent(BookConstants.NUMBER);
+        lending = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .contains(BookLendings.lentLast());
     }
 
     @Test
     @DisplayName("With no data, nothing is returned")
     void testFindLent_NoData() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findLent(BookConstants.NUMBER);
+        lending = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -105,14 +105,14 @@ class ITBookLendingRepositoryFindLent {
     @NoMembershipPerson
     @FullBook
     void testFindLent_NoHistory() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findLent(BookConstants.NUMBER);
+        lending = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 
@@ -122,14 +122,14 @@ class ITBookLendingRepositoryFindLent {
     @FullBook
     @ReturnedBookLending
     void testFindLent_Returned() {
-        final Optional<BookLending> lendings;
+        final Optional<BookLending> lending;
 
         // WHEN
-        lendings = repository.findLent(BookConstants.NUMBER);
+        lending = repository.findLent(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(lendings)
-            .as("lendings")
+        Assertions.assertThat(lending)
+            .as("lending")
             .isEmpty();
     }
 

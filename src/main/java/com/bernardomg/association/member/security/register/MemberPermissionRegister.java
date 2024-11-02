@@ -48,17 +48,14 @@ public final class MemberPermissionRegister implements PermissionRegister {
         // TODO: Use constants
         return List.of(
             // Member
-            new ResourcePermissionPair("MEMBER", "CREATE"), new ResourcePermissionPair("MEMBER", "READ"),
-            new ResourcePermissionPair("MEMBER", "UPDATE"), new ResourcePermissionPair("MEMBER", "DELETE"),
-            // Public member
-            new ResourcePermissionPair("PUBLIC_MEMBER", "READ"),
+            new ResourcePermissionPair("MEMBER", "READ"),
             // Views
-            new ResourcePermissionPair("PUBLIC_MEMBER", "VIEW"), new ResourcePermissionPair("MEMBER", "VIEW"));
+            new ResourcePermissionPair("MEMBER", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("MEMBER", "PUBLIC_MEMBER");
+        return List.of("MEMBER");
     }
 
 }
