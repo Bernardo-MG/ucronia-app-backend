@@ -25,15 +25,27 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: supertitle
+                  type: varchar(100)
+              - column:
                   name: title
                   type: varchar(100)
                   constraints:
                     nullable: false
               - column:
+                  name: subtitle
+                  type: varchar(100)
+              - column:
                   name: language
                   type: varchar(15)
                   constraints:
                     nullable: false
+              - column:
+                  name: publish_date
+                  type: datetime
+              - column:
+                  name: donation_date
+                  type: datetime
         - addAutoIncrement:
             schemaName: inventory
             tableName: books
