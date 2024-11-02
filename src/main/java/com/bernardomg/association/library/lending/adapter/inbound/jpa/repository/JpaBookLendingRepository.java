@@ -147,7 +147,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Optional<Person>     person;
         final Optional<BookEntity> bookEntity;
 
-        bookEntity = bookSpringRepository.findByNumber(entity.getBookId());
+        bookEntity = bookSpringRepository.findById(entity.getBookId());
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
         return new BookLending(bookEntity.get()
