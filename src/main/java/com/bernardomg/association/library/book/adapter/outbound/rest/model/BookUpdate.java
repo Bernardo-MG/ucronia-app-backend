@@ -77,7 +77,11 @@ public class BookUpdate {
 
     private String                language;
 
+    private String                pretitle;
+
     private Collection<Publisher> publishers;
+
+    private String                subtitle;
 
     private String                title;
 

@@ -17,6 +17,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
@@ -199,6 +200,7 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<Author>      authors;
         final boolean                 lent;
         final Collection<BookLending> lendings;
+        final Title                   title;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -250,11 +252,13 @@ public final class JpaBookRepository implements BookRepository {
             .map(l -> toDomain(entity.getNumber(), l))
             .toList();
 
+        title = new Title(entity.getSupertitle(), entity.getTitle(), entity.getSubtitle());
+
         lent = bookSpringRepository.isLent(entity.getId());
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
-            .withTitle(entity.getTitle())
+            .withTitle(title)
             .withLanguage(entity.getLanguage())
             .withAuthors(authors)
             .withPublishers(publishers)
@@ -355,7 +359,12 @@ public final class JpaBookRepository implements BookRepository {
         return BookEntity.builder()
             .withNumber(domain.number())
             .withIsbn(domain.isbn())
-            .withTitle(domain.title())
+            .withSupertitle(domain.title()
+                .supertitle())
+            .withTitle(domain.title()
+                .title())
+            .withSubtitle(domain.title()
+                .subtitle())
             .withLanguage(domain.language())
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))

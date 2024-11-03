@@ -16,6 +16,10 @@ public class BookCreation {
 
     private String language;
 
+    private String pretitle;
+
+    private String subtitle;
+
     private String title;
 
 }

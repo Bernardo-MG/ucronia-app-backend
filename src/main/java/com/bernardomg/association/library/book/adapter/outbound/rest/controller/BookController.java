@@ -52,6 +52,7 @@ import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookC
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
@@ -130,9 +131,11 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
-        // Book
+        final Title title;
+
+        title = new Title(request.getPretitle(), request.getTitle(), request.getSubtitle());
         return Book.builder()
-            .withTitle(request.getTitle())
+            .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withAuthors(List.of())
@@ -152,6 +155,7 @@ public class BookController {
         final Optional<BookType>    bookType;
         final Optional<GameSystem>  gameSystem;
         final Collection<Donor>     donors;
+        final Title                 title;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -203,9 +207,9 @@ public class BookController {
                 .getNumber(), ""));
         }
 
-        // Book
+        title = new Title(request.getPretitle(), request.getTitle(), request.getSubtitle());
         return Book.builder()
-            .withTitle(request.getTitle())
+            .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withAuthors(authors)

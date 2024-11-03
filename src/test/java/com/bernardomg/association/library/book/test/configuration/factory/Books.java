@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -18,9 +19,12 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 public final class Books {
 
     public static final Book duplicatedAuthor() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid(), Authors.valid()))
@@ -34,9 +38,12 @@ public final class Books {
     }
 
     public static final Book duplicatedDonor() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -50,9 +57,12 @@ public final class Books {
     }
 
     public static final Book duplicatedPublisher() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -66,9 +76,12 @@ public final class Books {
     }
 
     public static final Book emptyIsbn() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn("")
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -82,9 +95,12 @@ public final class Books {
     }
 
     public static final Book emptyTitle() {
+        final Title title;
+
+        title = new Title("", " ", "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(" ")
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
@@ -98,9 +114,12 @@ public final class Books {
     }
 
     public static final Book full() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -114,9 +133,12 @@ public final class Books {
     }
 
     public static final Book fullLent() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -130,9 +152,12 @@ public final class Books {
     }
 
     public static final Book fullReturned() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -146,9 +171,12 @@ public final class Books {
     }
 
     public static final Book invalidIsbn() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.INVALID_ISBN)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -162,9 +190,12 @@ public final class Books {
     }
 
     public static final Book invalidLanguage() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage("abc")
             .withAuthors(List.of(Authors.valid()))
@@ -178,9 +209,12 @@ public final class Books {
     }
 
     public static final Book isbn13() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_13)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -194,9 +228,12 @@ public final class Books {
     }
 
     public static final Book lentHistory() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
@@ -219,9 +256,12 @@ public final class Books {
     }
 
     public static final Book minimal() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())
@@ -235,9 +275,12 @@ public final class Books {
     }
 
     public static final Book returnedHistory() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
-            .withTitle(BookConstants.TITLE)
+            .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(Authors.valid()))
