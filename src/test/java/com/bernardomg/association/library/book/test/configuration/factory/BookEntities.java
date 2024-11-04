@@ -15,7 +15,9 @@ public final class BookEntities {
     public static final BookEntity full() {
         return BookEntity.builder()
             .withNumber(BookConstants.NUMBER)
+            .withSupertitle(BookConstants.SUPERTITLE)
             .withTitle(BookConstants.TITLE)
+            .withSubtitle(BookConstants.SUBTITLE)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(AuthorEntities.valid()))

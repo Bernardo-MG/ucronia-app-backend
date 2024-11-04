@@ -116,7 +116,7 @@ public final class Books {
     public static final Book full() {
         final Title title;
 
-        title = new Title("", BookConstants.TITLE, "");
+        title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)

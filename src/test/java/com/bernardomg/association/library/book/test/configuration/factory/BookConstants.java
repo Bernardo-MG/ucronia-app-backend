@@ -26,6 +26,10 @@ public final class BookConstants {
 
     public static final LocalDate RETURNED_DATE_LAST = LocalDate.of(2020, Month.MAY, 12);
 
+    public static final String    SUBTITLE           = "Subtitle";
+
+    public static final String    SUPERTITLE         = "Supertitle";
+
     public static final String    TITLE              = "Title";
 
 }
