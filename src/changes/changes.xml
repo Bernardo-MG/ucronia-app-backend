@@ -323,7 +323,13 @@
             Corrected lending.
          </action>
       </release>
-      <release version="1.0.0" date="2024-11-02" description="">
+      <release version="0.5.25" date="2024-11-11" description="Create unpaid fees">
+         <action dev="bmg" type="add">
+            Allow creating unpaid fees.
+         </action>
+         <action dev="bmg" type="fix">
+            Activate renewal when activating member.
+         </action>
       </release>
    </body>
 </document>
