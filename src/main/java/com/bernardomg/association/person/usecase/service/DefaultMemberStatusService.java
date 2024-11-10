@@ -32,6 +32,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             .equals(date)) {
             log.debug("Activating member status for person {}", personNumber);
             // If paying for the current month, the user is set to active
+            // TODO: modify in the service and save
             personRepository.activate(personNumber);
         }
     }

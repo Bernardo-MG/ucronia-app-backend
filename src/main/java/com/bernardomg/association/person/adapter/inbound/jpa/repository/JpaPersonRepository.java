@@ -44,6 +44,7 @@ public final class JpaPersonRepository implements PersonRepository {
         if (read.isPresent()) {
             person = read.get();
             person.setActive(true);
+            person.setRenewMembership(true);
             personSpringRepository.save(person);
 
             log.trace("Activated member {}", number);
