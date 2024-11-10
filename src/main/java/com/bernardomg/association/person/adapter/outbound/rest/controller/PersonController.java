@@ -78,7 +78,13 @@ public class PersonController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "PERSON", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = {
+                    // Person caches
+                    PersonsCaches.PERSONS,
+                    // Fee caches
+                    FeeCaches.CALENDAR,
+                    // Member caches
+                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public Person create(@Valid @RequestBody final PersonChange change) {
         final Person member;
 
@@ -88,17 +94,27 @@ public class PersonController {
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSON }),
-            @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSON }), @CacheEvict(cacheNames = {
+            // Person caches
+            PersonsCaches.PERSONS,
+            // Fee caches
+            FeeCaches.CALENDAR,
+            // Member caches
+            MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
 
     @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") }, evict = { @CacheEvict(
-            cacheNames = { PersonsCaches.PERSONS, MembersCaches.MEMBERS, MembersCaches.MEMBER, FeeCaches.CALENDAR },
-            allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Person caches
+                    PersonsCaches.PERSONS,
+                    // Fee caches
+                    FeeCaches.CALENDAR,
+                    // Member caches
+                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public Person patch(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
         final Person member;
 
@@ -124,7 +140,13 @@ public class PersonController {
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSONS, FeeCaches.CALENDAR }, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = {
+                    // Person caches
+                    PersonsCaches.PERSONS,
+                    // Fee caches
+                    FeeCaches.CALENDAR,
+                    // Member caches
+                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public Person update(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
         final Person member;
 
