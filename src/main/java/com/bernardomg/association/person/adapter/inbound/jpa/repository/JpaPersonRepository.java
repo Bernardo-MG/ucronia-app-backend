@@ -227,6 +227,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         created = personSpringRepository.save(entity);
 
+        // TODO: Why not returning the saved one?
         saved = personSpringRepository.findByNumber(created.getNumber())
             .map(this::toDomain)
             .get();
