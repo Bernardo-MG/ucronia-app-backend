@@ -83,7 +83,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
-    void testCreate_Existing_NotPaid_PersistedFee() {
+    void testPayFees_Existing_NotPaid_PersistedFee() {
         final List<FeeEntity> entities;
 
         // WHEN
@@ -104,7 +104,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
-    void testCreate_Existing_NotPaid_PersistedTransaction() {
+    void testPayFees_Existing_NotPaid_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
         // WHEN
@@ -124,7 +124,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
-    void testCreate_Existing_NotPaid_ReturnedData() {
+    void testPayFees_Existing_NotPaid_ReturnedData() {
         final Collection<Fee> fees;
 
         // WHEN
@@ -140,7 +140,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
-    void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
+    void testPayFees_MultipleDates_OneExisting_NotPaid_PersistedFee() {
         final List<FeeEntity> entities;
 
         // WHEN
@@ -162,7 +162,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
-    void testCreate_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
+    void testPayFees_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
         // WHEN
@@ -183,7 +183,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @NotPaidFee
     @FeeAmountSetting
-    void testCreate_MultipleDates_OneExisting_NotPaid_ReturnedData() {
+    void testPayFees_MultipleDates_OneExisting_NotPaid_ReturnedData() {
         final Collection<Fee> fees;
 
         // WHEN
@@ -199,7 +199,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, multiple fees are persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_PersistedFee() {
+    void testPayFees_MultipleDates_PersistedFee() {
         final List<FeeEntity> entities;
 
         // WHEN
@@ -220,7 +220,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_PersistedRelationship() {
+    void testPayFees_MultipleDates_PersistedRelationship() {
 
         // WHEN
         service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
@@ -235,7 +235,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_PersistedTransaction() {
+    void testPayFees_MultipleDates_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
         // WHEN
@@ -255,7 +255,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, it returns the created data")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_ReturnedData() {
+    void testPayFees_MultipleDates_ReturnedData() {
         final Collection<Fee> fees;
 
         // WHEN
@@ -271,7 +271,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, spanning two years, multiple fees are persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_TwoYears_PersistedFee() {
+    void testPayFees_MultipleDates_TwoYears_PersistedFee() {
         final List<FeeEntity> entities;
 
         // WHEN
@@ -292,7 +292,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_TwoYears_PersistedTransaction() {
+    void testPayFees_MultipleDates_TwoYears_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
         // WHEN
@@ -312,7 +312,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, spanning two years, it returns the created data")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_MultipleDates_TwoYears_ReturnedData() {
+    void testPayFees_MultipleDates_TwoYears_ReturnedData() {
         final Collection<Fee> fees;
 
         // WHEN
@@ -327,7 +327,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
     @MembershipActivePerson
-    void testCreate_NoAmount_PersistedTransaction() {
+    void testPayFees_NoAmount_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
         // WHEN
@@ -346,7 +346,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid the fee is persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_PersistedFee() {
+    void testPayFees_PersistedFee() {
         final List<FeeEntity> entities;
 
         // WHEN
@@ -366,7 +366,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid a fee payment is registered")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_PersistedRelationship() {
+    void testPayFees_PersistedRelationship() {
         final FeePaymentEntity  relationship;
         final FeeEntity         fee;
         final TransactionEntity transaction;
@@ -398,7 +398,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid a single transaction is persisted")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_PersistedTransaction() {
+    void testPayFees_PersistedTransaction() {
         final List<TransactionEntity> entities;
 
         // WHEN
@@ -418,7 +418,7 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @PaidFee
     @FeeAmountSetting
-    void testCreate_PersistedTransaction_IncreaseIndex() {
+    void testPayFees_PersistedTransaction_IncreaseIndex() {
         final Optional<TransactionEntity> entity;
 
         // GIVEN
@@ -438,7 +438,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid a transaction is persisted with the initial index")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_PersistedTransaction_InitialIndex() {
+    void testPayFees_PersistedTransaction_InitialIndex() {
         final Optional<TransactionEntity> entity;
 
         // WHEN
@@ -455,7 +455,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid it returns the created data")
     @MembershipActivePerson
     @FeeAmountSetting
-    void testCreate_ReturnedData() {
+    void testPayFees_ReturnedData() {
         final Collection<Fee> fees;
 
         // WHEN

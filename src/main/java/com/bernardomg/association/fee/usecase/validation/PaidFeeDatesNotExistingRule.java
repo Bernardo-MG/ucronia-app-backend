@@ -17,17 +17,17 @@ import com.bernardomg.validation.validator.FieldRule;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Checks the fee's dates are not registed. There is an special case, as dates for unpaid fees are ignored, to allow
+ * Checks the fee's dates are not registered. There is an special case, as dates for unpaid fees are ignored, to allow
  * paying those dates.
  */
 @Slf4j
-public final class FeeDateNotRegisteredRule implements FieldRule<Collection<Fee>> {
+public final class PaidFeeDatesNotExistingRule implements FieldRule<Collection<Fee>> {
 
     private final FeeRepository    feeRepository;
 
     private final PersonRepository personRepository;
 
-    public FeeDateNotRegisteredRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
+    public PaidFeeDatesNotExistingRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
@@ -56,6 +56,7 @@ public final class FeeDateNotRegisteredRule implements FieldRule<Collection<Fee>
                 .toList();
             if (!existing.isEmpty()) {
                 log.error("Dates {} are already registered", existing);
+                // TODO: this is not a field in the model
                 fieldFailure = FieldFailure.of("feeDates[]", "existing", existing);
                 failure = Optional.of(fieldFailure);
             } else {

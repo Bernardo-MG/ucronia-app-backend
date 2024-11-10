@@ -45,8 +45,9 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.usecase.validation.FeeDateNotRegisteredRule;
+import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
+import com.bernardomg.association.fee.usecase.validation.PaidFeeDatesNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -81,6 +82,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final TransactionRepository      transactionRepository;
 
+    private final Validator<Fee>             validatorCreate;
+
     private final Validator<Collection<Fee>> validatorPay;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
@@ -98,7 +101,35 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorPay = new FieldRuleValidator<>(new FeeNoDuplicatedDatesRule(),
-            new FeeDateNotRegisteredRule(personRepository, feeRepository));
+            new PaidFeeDatesNotExistingRule(personRepository, feeRepository));
+
+        // TODO: Test validation
+        validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
+    }
+
+    @Override
+    public final Fee createUnpaidFee(final YearMonth feeDate, final Long personNumber) {
+        final Fee    newFee;
+        final Fee    fee;
+        final Person person;
+
+        log.info("Creating unpaid fee for {} for month {}", personNumber, feeDate);
+
+        person = personRepository.findOne(personNumber)
+            .orElseThrow(() -> {
+                log.error("Missing person {}", personNumber);
+                throw new MissingPersonException(personNumber);
+            });
+
+        newFee = toFee(person, feeDate);
+
+        validatorCreate.validate(newFee);
+
+        fee = feeRepository.save(newFee);
+
+        log.info("Created unpaid fee for {} for month {}", personNumber, feeDate);
+
+        return fee;
     }
 
     @Override
@@ -162,13 +193,13 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
-            final LocalDate transactionDate) {
+            final LocalDate payDate) {
         final Collection<Fee> newFees;
         final Collection<Fee> fees;
         final Person          person;
         final Collection<Fee> created;
 
-        log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeDates, transactionDate);
+        log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeDates, payDate);
 
         person = personRepository.findOne(personNumber)
             .orElseThrow(() -> {
@@ -177,14 +208,15 @@ public final class DefaultFeeService implements FeeService {
             });
 
         newFees = feeDates.stream()
-            .map(d -> toFee(person, transactionDate, d))
+            .map(d -> toFee(person, d))
             .toList();
 
         validatorPay.validate(newFees);
 
         fees = feeRepository.save(newFees);
 
-        pay(person, fees, transactionDate);
+        // TODO: why not create saved?
+        pay(person, fees, payDate);
 
         // TODO: Why can't just return the created fees?
         created = feeRepository.findAllForMemberInDates(personNumber, feeDates);
@@ -194,7 +226,7 @@ public final class DefaultFeeService implements FeeService {
             .filter(Fee::paid)
             .forEach(this::sendFeePaidEvent);
 
-        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, transactionDate);
+        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, payDate);
 
         return created;
     }
@@ -251,12 +283,12 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final Fee toFee(final Person person, final LocalDate transaction, final YearMonth date) {
+    private final Fee toFee(final Person person, final YearMonth date) {
         final Fee.Person     feePerson;
         final FeeTransaction feeTransaction;
 
         feePerson = new Fee.Person(person.number(), person.name());
-        feeTransaction = new FeeTransaction(transaction, null);
+        feeTransaction = new FeeTransaction(null, null);
         return new Fee(date, false, feePerson, feeTransaction);
     }
 

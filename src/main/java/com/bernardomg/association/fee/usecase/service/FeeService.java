@@ -20,6 +20,18 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 public interface FeeService {
 
     /**
+     * Pays fees for a member. This creates the fees for the received months, and registers a payment on the received
+     * date.
+     *
+     * @param feeDate
+     *            date of the fee
+     * @param personNumber
+     *            member paying the fees
+     * @return the new unpaid fee
+     */
+    public Fee createUnpaidFee(final YearMonth feeDate, final Long personNumber);
+
+    /**
      * Deletes the fee for the received member in the received date.
      *
      * @param personNumber
@@ -60,11 +72,11 @@ public interface FeeService {
      *            dates of the fees being paid
      * @param personNumber
      *            member paying the fees
-     * @param transactionDate
+     * @param payDate
      *            date of the payment
      * @return all the paid fees
      */
     public Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
-            final LocalDate transactionDate);
+            final LocalDate payDate);
 
 }

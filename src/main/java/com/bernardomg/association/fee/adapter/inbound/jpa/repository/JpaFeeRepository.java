@@ -339,6 +339,22 @@ public final class JpaFeeRepository implements FeeRepository {
         return saved;
     }
 
+    @Override
+    public final Fee save(final Fee fee) {
+        final FeeEntity entity;
+        final FeeEntity saved;
+
+        log.debug("Saving fee {}", fee);
+
+        entity = toEntity(fee);
+        loadId(entity);
+        saved = feeSpringRepository.save(entity);
+
+        log.debug("Saved fee {}", fee);
+
+        return toDomain(saved);
+    }
+
     private final void loadId(final FeeEntity fee) {
         final Long                id;
         final Optional<FeeEntity> read;
