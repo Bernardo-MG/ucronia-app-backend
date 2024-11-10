@@ -1,6 +1,9 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +21,8 @@ import com.bernardomg.association.person.test.configuration.data.annotation.NoMe
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - save")
-class ITFeeRepositorySave {
+@DisplayName("FeeRepository - save collection")
+class ITFeeRepositorySaveCollection {
 
     @Autowired
     private FeeRepository       repository;
@@ -39,7 +42,7 @@ class ITFeeRepositorySave {
         fee = Fees.paid();
 
         // WHEN
-        repository.save(fee);
+        repository.save(List.of(fee));
 
         // THEN
         fees = springRepository.findAll();
@@ -62,7 +65,7 @@ class ITFeeRepositorySave {
         fee = Fees.paid();
 
         // WHEN
-        repository.save(fee);
+        repository.save(List.of(fee));
 
         // THEN
         fees = springRepository.findAll();
@@ -78,19 +81,19 @@ class ITFeeRepositorySave {
     @DisplayName("Returns the created data")
     @NoMembershipPerson
     void testSave_ReturnedData() {
-        final Fee created;
-        final Fee fee;
+        final Collection<Fee> fees;
+        final Fee             fee;
 
         // GIVEN
         fee = Fees.paid();
 
         // WHEN
-        created = repository.save(fee);
+        fees = repository.save(List.of(fee));
 
         // THEN
-        Assertions.assertThat(created)
+        Assertions.assertThat(fees)
             .as("fees")
-            .isEqualTo(Fees.newlyCreated());
+            .containsExactly(Fees.newlyCreated());
     }
 
 }

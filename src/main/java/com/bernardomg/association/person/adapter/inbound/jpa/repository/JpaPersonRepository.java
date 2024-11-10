@@ -44,6 +44,7 @@ public final class JpaPersonRepository implements PersonRepository {
         if (read.isPresent()) {
             person = read.get();
             person.setActive(true);
+            person.setRenewMembership(true);
             personSpringRepository.save(person);
 
             log.trace("Activated member {}", number);
@@ -227,6 +228,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         created = personSpringRepository.save(entity);
 
+        // TODO: Why not returning the saved one?
         saved = personSpringRepository.findByNumber(created.getNumber())
             .map(this::toDomain)
             .get();
