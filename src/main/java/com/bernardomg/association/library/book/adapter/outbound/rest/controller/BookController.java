@@ -131,9 +131,21 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
-        final Title title;
+        final Title  title;
+        final String supertitle;
+        final String subtitle;
 
-        title = new Title(request.getPretitle(), request.getTitle(), request.getSubtitle());
+        if (request.getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = request.getSupertitle();
+        }
+        if (request.getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = request.getSubtitle();
+        }
+        title = new Title(supertitle, request.getTitle(), subtitle);
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
@@ -156,6 +168,8 @@ public class BookController {
         final Optional<GameSystem>  gameSystem;
         final Collection<Donor>     donors;
         final Title                 title;
+        final String                supertitle;
+        final String                subtitle;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -207,7 +221,17 @@ public class BookController {
                 .getNumber(), ""));
         }
 
-        title = new Title(request.getPretitle(), request.getTitle(), request.getSubtitle());
+        if (request.getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = request.getSupertitle();
+        }
+        if (request.getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = request.getSubtitle();
+        }
+        title = new Title(supertitle, request.getTitle(), subtitle);
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())

@@ -191,7 +191,7 @@ class TestBookServiceUpdate {
         execution = () -> service.update(BookConstants.NUMBER, book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", Books.emptyTitle().title()));
     }
 
     @Test

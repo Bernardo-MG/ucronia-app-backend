@@ -31,7 +31,9 @@ public final class BookEntities {
     public static final BookEntity isbn13() {
         return BookEntity.builder()
             .withNumber(BookConstants.NUMBER)
+            .withSupertitle(BookConstants.SUPERTITLE)
             .withTitle(BookConstants.TITLE)
+            .withSubtitle(BookConstants.SUBTITLE)
             .withIsbn(BookConstants.ISBN_13)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of(AuthorEntities.valid()))
@@ -45,7 +47,23 @@ public final class BookEntities {
     public static final BookEntity minimal() {
         return BookEntity.builder()
             .withNumber(BookConstants.NUMBER)
+            .withSupertitle("")
             .withTitle(BookConstants.TITLE)
+            .withSubtitle("")
+            .withIsbn(BookConstants.ISBN_10)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withAuthors(List.of())
+            .withDonors(List.of())
+            .withPublishers(List.of())
+            .build();
+    }
+
+    public static final BookEntity noRelationships() {
+        return BookEntity.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withSupertitle(BookConstants.SUPERTITLE)
+            .withTitle(BookConstants.TITLE)
+            .withSubtitle(BookConstants.SUBTITLE)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)
             .withAuthors(List.of())

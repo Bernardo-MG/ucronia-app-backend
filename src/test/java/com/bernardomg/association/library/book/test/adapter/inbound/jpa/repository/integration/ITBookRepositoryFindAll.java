@@ -87,7 +87,7 @@ class ITBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.fullLent());
+            .containsExactly(Books.lent());
     }
 
     @Test
@@ -148,7 +148,7 @@ class ITBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.fullReturned());
+            .containsExactly(Books.returned());
     }
 
     @Test

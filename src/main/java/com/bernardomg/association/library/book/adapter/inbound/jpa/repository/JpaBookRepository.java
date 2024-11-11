@@ -201,6 +201,8 @@ public final class JpaBookRepository implements BookRepository {
         final boolean                 lent;
         final Collection<BookLending> lendings;
         final Title                   title;
+        final String                  supertitle;
+        final String                  subtitle;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -252,7 +254,17 @@ public final class JpaBookRepository implements BookRepository {
             .map(l -> toDomain(entity.getNumber(), l))
             .toList();
 
-        title = new Title(entity.getSupertitle(), entity.getTitle(), entity.getSubtitle());
+        if (entity.getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = entity.getSupertitle();
+        }
+        if (entity.getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = entity.getSubtitle();
+        }
+        title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
         return Book.builder()
