@@ -6,7 +6,7 @@ import java.time.Month;
 
 public final class BookConstants {
 
-    public static final LocalDate DONATION_DATE      = LocalDate.of(2019, Month.JANUARY, 1);
+    public static final LocalDate DONATION_DATE      = LocalDate.of(1995, Month.JANUARY, 2);
 
     public static final String    INVALID_ISBN       = "abc";
 
