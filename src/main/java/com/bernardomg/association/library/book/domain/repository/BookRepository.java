@@ -15,7 +15,7 @@ public interface BookRepository {
 
     public boolean existsByIsbn(final String isbn);
 
-    public boolean existsByIsbnForAnother(final Long number, final String isbn);
+    public boolean existsByIsbnForAnother(final long number, final String isbn);
 
     public Iterable<Book> findAll(final Pageable pageable);
 

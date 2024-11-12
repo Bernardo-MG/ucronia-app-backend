@@ -15,8 +15,8 @@ import lombok.Builder;
 
 @Builder(setterPrefix = "with")
 // TODO: the donation is optional
-public record Book(Long number, Title title, String isbn, String language, LocalDate publishDate, Donation donation,
-        Boolean lent, Collection<Author> authors, Collection<BookLending> lendings, Collection<Publisher> publishers,
+public record Book(long number, Title title, String isbn, String language, LocalDate publishDate, Donation donation,
+        boolean lent, Collection<Author> authors, Collection<BookLending> lendings, Collection<Publisher> publishers,
         Optional<BookType> bookType, Optional<GameSystem> gameSystem) {
 
     public record Donation(LocalDate donationDate, Collection<Donor> donors) {

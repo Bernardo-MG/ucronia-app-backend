@@ -29,7 +29,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final void delete(final long number) {
         log.debug("Deleting book type {}", number);
 
         bookTypeSpringRepository.deleteByNumber(number);
@@ -38,7 +38,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final boolean exists(final Long number) {
+    public final boolean exists(final long number) {
         final boolean exists;
 
         log.debug("Checking if book type {} exists", number);
@@ -64,7 +64,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final boolean existsByNameForAnother(final String name, final Long number) {
+    public final boolean existsByNameForAnother(final String name, final long number) {
         final boolean exists;
 
         log.debug("Checking if book type {} exists for a book type distinc from {}", name, number);
@@ -106,7 +106,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final Optional<BookType> findOne(final Long number) {
+    public final Optional<BookType> findOne(final long number) {
         final Optional<BookType> bookType;
 
         log.debug("Finding book type with name {}", number);

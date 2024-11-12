@@ -275,7 +275,7 @@ public final class Books {
         final Donation donation;
 
         title = new Title("", BookConstants.TITLE, "");
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(null, List.of());
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)

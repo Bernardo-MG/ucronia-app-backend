@@ -109,7 +109,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final boolean existsByIsbnForAnother(final Long number, final String isbn) {
+    public final boolean existsByIsbnForAnother(final long number, final String isbn) {
         final boolean exists;
 
         log.debug("Checking if book with ISBN {} and number not {} exists", isbn, number);

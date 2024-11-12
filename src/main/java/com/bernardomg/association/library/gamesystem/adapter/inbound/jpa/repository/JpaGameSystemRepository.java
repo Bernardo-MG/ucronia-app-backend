@@ -29,7 +29,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final void delete(final long number) {
         log.debug("Deleting game system {}", number);
 
         gameSystemSpringRepository.deleteByNumber(number);
@@ -38,7 +38,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final boolean exists(final Long number) {
+    public final boolean exists(final long number) {
         final boolean exists;
 
         log.debug("Checking if game system {} exists", number);
@@ -64,7 +64,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final boolean existsByNameForAnother(final String name, final Long number) {
+    public final boolean existsByNameForAnother(final String name, final long number) {
         final boolean exists;
 
         log.debug("Checking if game system {} exists for a game system distinct from {}", name, number);
@@ -106,7 +106,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Optional<GameSystem> findOne(final Long number) {
+    public final Optional<GameSystem> findOne(final long number) {
         final Optional<GameSystem> gameSystem;
 
         log.debug("Finding game system with name {}", number);
