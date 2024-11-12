@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.model;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -84,5 +85,7 @@ public class BookUpdate {
     private String                supertitle;
 
     private String                title;
+    
+    private LocalDate publishDate;
 
 }

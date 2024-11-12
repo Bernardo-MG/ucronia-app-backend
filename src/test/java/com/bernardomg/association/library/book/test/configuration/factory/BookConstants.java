@@ -14,6 +14,7 @@ public final class BookConstants {
 
     public static final String    LANGUAGE           = "en";
 
+    public static final LocalDate PUBLISH_DATE          = LocalDate.of(1990, Month.JANUARY, 1);
     public static final LocalDate LENT_DATE          = LocalDate.of(2020, Month.JANUARY, 1);
 
     public static final LocalDate LENT_DATE_LAST     = LocalDate.of(2020, Month.MAY, 10);

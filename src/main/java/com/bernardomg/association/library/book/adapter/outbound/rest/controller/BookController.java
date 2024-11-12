@@ -236,6 +236,7 @@ public class BookController {
             .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
+            .withPublishDate(request.getPublishDate())
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(bookType)
