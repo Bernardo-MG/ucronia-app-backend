@@ -16,6 +16,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
@@ -203,6 +204,7 @@ public final class JpaBookRepository implements BookRepository {
         final Title                   title;
         final String                  supertitle;
         final String                  subtitle;
+        final Donation                donation;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -267,6 +269,7 @@ public final class JpaBookRepository implements BookRepository {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
+        donation = new Donation(entity.getDonationDate(), donors);
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
@@ -277,7 +280,7 @@ public final class JpaBookRepository implements BookRepository {
             .withPublishers(publishers)
             .withGameSystem(gameSystem)
             .withBookType(bookType)
-            .withDonors(donors)
+            .withDonation(donation)
             .withLent(lent)
             .withLendings(lendings)
             .build();
@@ -356,7 +359,8 @@ public final class JpaBookRepository implements BookRepository {
         publishers = publisherSpringRepository.findAllByNumberIn(publisherNumbers);
 
         // Donors
-        donorNumbers = domain.donors()
+        donorNumbers = domain.donation()
+            .donors()
             .stream()
             .map(Donor::number)
             .toList();
@@ -380,6 +384,8 @@ public final class JpaBookRepository implements BookRepository {
                 .subtitle())
             .withLanguage(domain.language())
             .withPublishDate(domain.publishDate())
+            .withDonationDate(domain.donation()
+                .donationDate())
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
             .withAuthors(authors)

@@ -51,6 +51,7 @@ import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBoo
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.usecase.service.BookService;
@@ -131,9 +132,10 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
-        final Title  title;
-        final String supertitle;
-        final String subtitle;
+        final Title    title;
+        final String   supertitle;
+        final String   subtitle;
+        final Donation donation;
 
         if (request.getSupertitle() == null) {
             supertitle = "";
@@ -145,7 +147,9 @@ public class BookController {
         } else {
             subtitle = request.getSubtitle();
         }
+
         title = new Title(supertitle, request.getTitle(), subtitle);
+        donation = new Donation(null, List.of());
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
@@ -154,7 +158,7 @@ public class BookController {
             .withPublishers(List.of())
             .withBookType(Optional.empty())
             .withGameSystem(Optional.empty())
-            .withDonors(List.of())
+            .withDonation(donation)
             .withNumber(number)
             .withLendings(List.of())
             .withLent(false)
@@ -170,6 +174,7 @@ public class BookController {
         final Title                 title;
         final String                supertitle;
         final String                subtitle;
+        final Donation              donation;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -232,6 +237,7 @@ public class BookController {
             subtitle = request.getSubtitle();
         }
         title = new Title(supertitle, request.getTitle(), subtitle);
+        donation = new Donation(request.getDonationDate(), donors);
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
@@ -241,7 +247,7 @@ public class BookController {
             .withPublishers(publishers)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
-            .withDonors(donors)
+            .withDonation(donation)
             .withNumber(number)
             .withLendings(List.of())
             .withLent(false)

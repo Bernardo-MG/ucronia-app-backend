@@ -67,6 +67,8 @@ public class BookUpdate {
      */
     private BookType              bookType;
 
+    private LocalDate             donationDate;
+
     private Collection<Donor>     donors;
 
     /**
@@ -78,6 +80,8 @@ public class BookUpdate {
 
     private String                language;
 
+    private LocalDate             publishDate;
+
     private Collection<Publisher> publishers;
 
     private String                subtitle;
@@ -85,7 +89,5 @@ public class BookUpdate {
     private String                supertitle;
 
     private String                title;
-    
-    private LocalDate publishDate;
 
 }

@@ -15,6 +15,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
@@ -84,6 +85,7 @@ public final class DefaultBookService implements BookService {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
+        final Donation              donation;
 
         log.debug("Creating book {}", book);
 
@@ -104,18 +106,21 @@ public final class DefaultBookService implements BookService {
             .stream()
             .distinct()
             .toList();
-        donors = book.donors()
+        donors = book.donation()
+            .donors()
             .stream()
             .distinct()
             .toList();
 
+        donation = new Donation(book.donation()
+            .donationDate(), donors);
         toCreate = Book.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(book.bookType())
             .withGameSystem(book.gameSystem())
-            .withDonors(donors)
+            .withDonation(donation)
             .withIsbn(book.isbn())
             .withLanguage(book.language())
             .withPublishDate(book.publishDate())
@@ -169,6 +174,7 @@ public final class DefaultBookService implements BookService {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
+        final Donation              donation;
 
         log.debug("Updating book with number {} using data {}", number, book);
 
@@ -191,18 +197,21 @@ public final class DefaultBookService implements BookService {
             .stream()
             .distinct()
             .toList();
-        donors = book.donors()
+        donors = book.donation()
+            .donors()
             .stream()
             .distinct()
             .toList();
 
+        donation = new Donation(book.donation()
+            .donationDate(), donors);
         toUpdate = Book.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(book.bookType())
             .withGameSystem(book.gameSystem())
-            .withDonors(donors)
+            .withDonation(donation)
             .withIsbn(book.isbn())
             .withLanguage(book.language())
             .withPublishDate(book.publishDate())
@@ -262,7 +271,8 @@ public final class DefaultBookService implements BookService {
         }
 
         // Check donors exist
-        invalidDonor = book.donors()
+        invalidDonor = book.donation()
+            .donors()
             .stream()
             .filter(d -> !personRepository.exists(d.number()))
             .findAny();
