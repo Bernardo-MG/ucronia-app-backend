@@ -14,6 +14,7 @@ import com.bernardomg.association.library.author.domain.exception.MissingAuthorE
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
+import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -32,7 +33,6 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -289,7 +289,7 @@ public final class DefaultBookService implements BookService {
         if (invalidDonor.isPresent()) {
             log.error("Missing donor {}", invalidDonor.get()
                 .number());
-            throw new MissingPersonException(invalidDonor.get()
+            throw new MissingDonorException(invalidDonor.get()
                 .number());
         }
 
