@@ -140,6 +140,7 @@ public final class DefaultBookService implements BookService {
         log.debug("Deleting book {}", number);
 
         if (!bookRepository.exists(number)) {
+            log.error("Missing book {}", number);
             throw new MissingBookException(number);
         }
 
@@ -183,6 +184,7 @@ public final class DefaultBookService implements BookService {
 
         // Check book exists
         if (!bookRepository.exists(number)) {
+            log.error("Missing book {}", number);
             throw new MissingBookException(number);
         }
 
@@ -239,6 +241,8 @@ public final class DefaultBookService implements BookService {
             .filter(d -> !authorRepository.exists(d.number()))
             .findAny();
         if (invalidAuthor.isPresent()) {
+            log.error("Missing author {}", invalidAuthor.get()
+                .number());
             throw new MissingAuthorException(invalidAuthor.get()
                 .number());
         }
@@ -250,6 +254,8 @@ public final class DefaultBookService implements BookService {
             .filter(d -> !publisherRepository.exists(d.number()))
             .findAny();
         if (invalidPublisher.isPresent()) {
+            log.error("Missing publisher {}", invalidPublisher.get()
+                .number());
             throw new MissingPublisherException(invalidPublisher.get()
                 .number());
         }
@@ -258,6 +264,8 @@ public final class DefaultBookService implements BookService {
         gameSystem = book.gameSystem();
         if (gameSystem.isPresent() && !gameSystemRepository.exists(gameSystem.get()
             .number())) {
+            log.error("Missing game system {}", gameSystem.get()
+                .number());
             throw new MissingGameSystemException(gameSystem.get()
                 .number());
         }
@@ -266,6 +274,8 @@ public final class DefaultBookService implements BookService {
         bookType = book.bookType();
         if (bookType.isPresent() && !bookTypeRepository.exists(bookType.get()
             .number())) {
+            log.error("Missing book type {}", bookType.get()
+                .number());
             throw new MissingBookTypeException(bookType.get()
                 .number());
         }
@@ -277,6 +287,8 @@ public final class DefaultBookService implements BookService {
             .filter(d -> !personRepository.exists(d.number()))
             .findAny();
         if (invalidDonor.isPresent()) {
+            log.error("Missing donor {}", invalidDonor.get()
+                .number());
             throw new MissingPersonException(invalidDonor.get()
                 .number());
         }
