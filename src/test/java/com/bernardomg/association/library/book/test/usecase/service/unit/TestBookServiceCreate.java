@@ -41,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
+import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -55,7 +56,6 @@ import com.bernardomg.association.library.gamesystem.test.configuration.factory.
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -327,7 +327,7 @@ class TestBookServiceCreate {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
+            .isInstanceOf(MissingDonorException.class);
     }
 
     @Test

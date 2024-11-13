@@ -35,7 +35,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -57,7 +57,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -79,7 +79,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid(), Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -101,7 +101,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -109,10 +109,8 @@ public final class Books {
 
     public static final Book emptyTitle() {
         final Title    title;
-        final Donation donation;
 
         title = new Title("", " ", "");
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
@@ -123,7 +121,7 @@ public final class Books {
             .withPublishers(List.of())
             .withGameSystem(Optional.empty())
             .withBookType(Optional.empty())
-            .withDonation(donation)
+            .withDonation(Optional.empty())
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -145,7 +143,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -167,7 +165,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -189,7 +187,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -211,7 +209,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -233,7 +231,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of(BookLendings.lent()))
             .withLent(true)
             .build();
@@ -255,7 +253,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of(
                 new BookLending(BookConstants.NUMBER, Persons.noMembership(), LocalDate.of(2020, Month.JANUARY, 1),
                     LocalDate.of(2020, Month.JANUARY, 2)),
@@ -271,11 +269,9 @@ public final class Books {
     }
 
     public static final Book minimal() {
-        final Title    title;
-        final Donation donation;
+        final Title title;
 
         title = new Title("", BookConstants.TITLE, "");
-        donation = new Donation(null, List.of());
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
@@ -285,7 +281,7 @@ public final class Books {
             .withPublishers(List.of())
             .withGameSystem(Optional.empty())
             .withBookType(Optional.empty())
-            .withDonation(donation)
+            .withDonation(Optional.empty())
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -293,10 +289,8 @@ public final class Books {
 
     public static final Book noRelationships() {
         final Title    title;
-        final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(null, List.of());
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
@@ -307,7 +301,7 @@ public final class Books {
             .withPublishers(List.of())
             .withGameSystem(Optional.empty())
             .withBookType(Optional.empty())
-            .withDonation(donation)
+            .withDonation(Optional.empty())
             .withLendings(List.of())
             .withLent(false)
             .build();
@@ -329,7 +323,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of(BookLendings.returned()))
             .withLent(false)
             .build();
@@ -351,7 +345,7 @@ public final class Books {
             .withPublishers(List.of(Publishers.valid()))
             .withGameSystem(Optional.of(GameSystems.valid()))
             .withBookType(Optional.of(BookTypes.valid()))
-            .withDonation(donation)
+            .withDonation(Optional.of(donation))
             .withLendings(List.of(
                 new BookLending(BookConstants.NUMBER, Persons.noMembership(), LocalDate.of(2020, Month.JANUARY, 1),
                     LocalDate.of(2020, Month.JANUARY, 2)),

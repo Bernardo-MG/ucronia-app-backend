@@ -85,7 +85,7 @@ public final class DefaultBookService implements BookService {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
-        final Donation              donation;
+        final Optional<Donation>    donation;
 
         log.debug("Creating book {}", book);
 
@@ -106,14 +106,21 @@ public final class DefaultBookService implements BookService {
             .stream()
             .distinct()
             .toList();
-        donors = book.donation()
-            .donors()
-            .stream()
-            .distinct()
-            .toList();
+        if (book.donation()
+            .isPresent()) {
+            donors = book.donation()
+                .get()
+                .donors()
+                .stream()
+                .distinct()
+                .toList();
 
-        donation = new Donation(book.donation()
-            .donationDate(), donors);
+            donation = Optional.of(new Donation(book.donation()
+                .get()
+                .donationDate(), donors));
+        } else {
+            donation = Optional.empty();
+        }
         toCreate = Book.builder()
             .withNumber(number)
             .withAuthors(authors)
@@ -175,7 +182,7 @@ public final class DefaultBookService implements BookService {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
-        final Donation              donation;
+        final Optional<Donation>    donation;
 
         log.debug("Updating book with number {} using data {}", number, book);
 
@@ -199,14 +206,21 @@ public final class DefaultBookService implements BookService {
             .stream()
             .distinct()
             .toList();
-        donors = book.donation()
-            .donors()
-            .stream()
-            .distinct()
-            .toList();
+        if (book.donation()
+            .isPresent()) {
+            donors = book.donation()
+                .get()
+                .donors()
+                .stream()
+                .distinct()
+                .toList();
 
-        donation = new Donation(book.donation()
-            .donationDate(), donors);
+            donation = Optional.of(new Donation(book.donation()
+                .get()
+                .donationDate(), donors));
+        } else {
+            donation = Optional.empty();
+        }
         toUpdate = Book.builder()
             .withNumber(number)
             .withAuthors(authors)
@@ -282,7 +296,8 @@ public final class DefaultBookService implements BookService {
 
         // Check donors exist
         invalidDonor = book.donation()
-            .donors()
+            .map(Donation::donors)
+            .orElse(List.of())
             .stream()
             .filter(d -> !personRepository.exists(d.number()))
             .findAny();

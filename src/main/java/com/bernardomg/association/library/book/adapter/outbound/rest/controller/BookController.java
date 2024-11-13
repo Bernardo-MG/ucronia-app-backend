@@ -132,10 +132,9 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
-        final Title    title;
-        final String   supertitle;
-        final String   subtitle;
-        final Donation donation;
+        final Title  title;
+        final String supertitle;
+        final String subtitle;
 
         if (request.getSupertitle() == null) {
             supertitle = "";
@@ -149,7 +148,6 @@ public class BookController {
         }
 
         title = new Title(supertitle, request.getTitle(), subtitle);
-        donation = new Donation(null, List.of());
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
@@ -158,7 +156,7 @@ public class BookController {
             .withPublishers(List.of())
             .withBookType(Optional.empty())
             .withGameSystem(Optional.empty())
-            .withDonation(donation)
+            .withDonation(Optional.empty())
             .withNumber(number)
             .withLendings(List.of())
             .withLent(false)
@@ -174,7 +172,7 @@ public class BookController {
         final Title                 title;
         final String                supertitle;
         final String                subtitle;
-        final Donation              donation;
+        final Optional<Donation>    donation;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -237,7 +235,11 @@ public class BookController {
             subtitle = request.getSubtitle();
         }
         title = new Title(supertitle, request.getTitle(), subtitle);
-        donation = new Donation(request.getDonationDate(), donors);
+        if (request.getDonationDate() == null) {
+            donation = Optional.empty();
+        } else {
+            donation = Optional.of(new Donation(request.getDonationDate(), donors));
+        }
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())

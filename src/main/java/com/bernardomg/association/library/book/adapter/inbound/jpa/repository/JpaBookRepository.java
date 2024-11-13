@@ -204,7 +204,7 @@ public final class JpaBookRepository implements BookRepository {
         final Title                   title;
         final String                  supertitle;
         final String                  subtitle;
-        final Donation                donation;
+        final Optional<Donation>      donation;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -269,7 +269,11 @@ public final class JpaBookRepository implements BookRepository {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
-        donation = new Donation(entity.getDonationDate(), donors);
+        if (donors.isEmpty()) {
+            donation = Optional.empty();
+        } else {
+            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
+        }
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
@@ -359,12 +363,18 @@ public final class JpaBookRepository implements BookRepository {
         publishers = publisherSpringRepository.findAllByNumberIn(publisherNumbers);
 
         // Donors
-        donorNumbers = domain.donation()
-            .donors()
-            .stream()
-            .map(Donor::number)
-            .toList();
-        donors = personSpringRepository.findAllByNumberIn(donorNumbers);
+        if (domain.donation()
+            .isPresent()) {
+            donorNumbers = domain.donation()
+                .get()
+                .donors()
+                .stream()
+                .map(Donor::number)
+                .toList();
+            donors = personSpringRepository.findAllByNumberIn(donorNumbers);
+        } else {
+            donors = List.of();
+        }
 
         // Authors
         authorNumbers = domain.authors()
@@ -385,7 +395,8 @@ public final class JpaBookRepository implements BookRepository {
             .withLanguage(domain.language())
             .withPublishDate(domain.publishDate())
             .withDonationDate(domain.donation()
-                .donationDate())
+                .map(Donation::donationDate)
+                .orElse(null))
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
             .withAuthors(authors)
