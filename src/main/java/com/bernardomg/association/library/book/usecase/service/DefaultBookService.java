@@ -86,6 +86,7 @@ public final class DefaultBookService implements BookService {
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
         final Optional<Donation>    donation;
+        final Book                  created;
 
         log.debug("Creating book {}", book);
 
@@ -138,7 +139,11 @@ public final class DefaultBookService implements BookService {
 
         createBookValidator.validate(book);
 
-        return bookRepository.save(toCreate);
+        created = bookRepository.save(toCreate);
+
+        log.debug("Created book {}", book);
+
+        return created;
     }
 
     @Override
@@ -152,13 +157,21 @@ public final class DefaultBookService implements BookService {
         }
 
         bookRepository.delete(number);
+
+        log.debug("Deleted book {}", number);
     }
 
     @Override
     public final Iterable<Book> getAll(final Pageable pageable) {
+        final Iterable<Book> books;
+
         log.debug("Reading books with pagination {}", pageable);
 
-        return bookRepository.findAll(pageable);
+        books = bookRepository.findAll(pageable);
+
+        log.debug("Read books with pagination {}", pageable);
+
+        return books;
     }
 
     @Override
@@ -173,6 +186,8 @@ public final class DefaultBookService implements BookService {
             throw new MissingBookException(number);
         }
 
+        log.debug("Read book {}", number);
+
         return book;
     }
 
@@ -183,6 +198,7 @@ public final class DefaultBookService implements BookService {
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
         final Optional<Donation>    donation;
+        final Book                  updated;
 
         log.debug("Updating book with number {} using data {}", number, book);
 
@@ -238,7 +254,11 @@ public final class DefaultBookService implements BookService {
 
         updateBookValidator.validate(toUpdate);
 
-        return bookRepository.save(toUpdate);
+        updated = bookRepository.save(toUpdate);
+
+        log.debug("Updated book with number {} using data {}", number, book);
+
+        return updated;
     }
 
     private final void validateRelationships(final Book book) {

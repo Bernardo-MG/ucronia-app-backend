@@ -4,7 +4,6 @@ package com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.reposi
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,14 +77,12 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
     @Override
     public final Iterable<GameSystem> findAll(final Pageable pageable) {
-        final Page<GameSystemEntity> page;
-        final Iterable<GameSystem>   read;
+        final Iterable<GameSystem> read;
 
         log.debug("Finding game systems with pagination {}", pageable);
 
-        page = gameSystemSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        read = gameSystemSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found game systems {}", read);
 

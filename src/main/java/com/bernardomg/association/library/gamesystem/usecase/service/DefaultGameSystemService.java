@@ -44,6 +44,7 @@ public final class DefaultGameSystemService implements GameSystemService {
     @Override
     public final GameSystem create(final GameSystem system) {
         final GameSystem toCreate;
+        final GameSystem created;
         final Long       number;
 
         log.debug("Creating game system {}", system);
@@ -54,7 +55,11 @@ public final class DefaultGameSystemService implements GameSystemService {
 
         createGameSystemValidator.validate(toCreate);
 
-        return gameSystemRepository.save(toCreate);
+        created = gameSystemRepository.save(toCreate);
+
+        log.debug("Created game system {}", system);
+
+        return created;
     }
 
     @Override
@@ -67,13 +72,21 @@ public final class DefaultGameSystemService implements GameSystemService {
         }
 
         gameSystemRepository.delete(number);
+
+        log.debug("Deleted game system {}", number);
     }
 
     @Override
     public final Iterable<GameSystem> getAll(final Pageable pageable) {
+        final Iterable<GameSystem> gameSystems;
+
         log.debug("Reading game systems with pagination {}", pageable);
 
-        return gameSystemRepository.findAll(pageable);
+        gameSystems = gameSystemRepository.findAll(pageable);
+
+        log.debug("Reading game systems with pagination {}", pageable);
+
+        return gameSystems;
     }
 
     @Override
@@ -88,11 +101,15 @@ public final class DefaultGameSystemService implements GameSystemService {
             throw new MissingGameSystemException(number);
         }
 
+        log.debug("Read game system {}", number);
+
         return gameSystem;
     }
 
     @Override
     public final GameSystem update(final GameSystem system) {
+        final GameSystem gameSystem;
+
         log.debug("Updating game system {}", system);
 
         if (!gameSystemRepository.exists(system.number())) {
@@ -102,7 +119,11 @@ public final class DefaultGameSystemService implements GameSystemService {
         // Set number
         updateGameSystemValidator.validate(system);
 
-        return gameSystemRepository.save(system);
+        gameSystem = gameSystemRepository.save(system);
+
+        log.debug("Updated game system {}", system);
+
+        return gameSystem;
     }
 
 }

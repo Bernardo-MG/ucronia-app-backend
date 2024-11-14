@@ -4,7 +4,6 @@ package com.bernardomg.association.library.booktype.adapter.inbound.jpa.reposito
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,14 +77,12 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
     @Override
     public final Iterable<BookType> findAll(final Pageable pageable) {
-        final Page<BookTypeEntity> page;
-        final Iterable<BookType>   read;
+        final Iterable<BookType> read;
 
         log.debug("Finding book types with pagination {}", pageable);
 
-        page = bookTypeSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        read = bookTypeSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found book types {}", read);
 

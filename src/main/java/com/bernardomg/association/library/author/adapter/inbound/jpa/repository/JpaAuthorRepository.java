@@ -4,7 +4,6 @@ package com.bernardomg.association.library.author.adapter.inbound.jpa.repository
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,14 +77,12 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
     @Override
     public final Iterable<Author> findAll(final Pageable pageable) {
-        final Page<AuthorEntity> page;
-        final Iterable<Author>   read;
+        final Iterable<Author> read;
 
         log.debug("Finding authors with pagination {}", pageable);
 
-        page = authorSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        read = authorSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found authors {}", read);
 

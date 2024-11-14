@@ -4,7 +4,6 @@ package com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposit
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,14 +77,12 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
     @Override
     public final Iterable<Publisher> findAll(final Pageable pageable) {
-        final Page<PublisherEntity> page;
-        final Iterable<Publisher>   read;
+        final Iterable<Publisher> read;
 
         log.debug("Finding publishers with pagination {}", pageable);
 
-        page = publisherSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        read = publisherSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found publishers {}", read);
 

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,14 +122,12 @@ public final class JpaBookRepository implements BookRepository {
 
     @Override
     public final Iterable<Book> findAll(final Pageable pageable) {
-        final Page<BookEntity> page;
-        final Iterable<Book>   read;
+        final Iterable<Book> read;
 
         log.debug("Finding books with pagination {}", pageable);
 
-        page = bookSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        read = bookSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found books {}", read);
 

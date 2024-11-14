@@ -44,6 +44,7 @@ public final class DefaultPublisherService implements PublisherService {
     @Override
     public final Publisher create(final Publisher publisher) {
         final Publisher toCreate;
+        final Publisher created;
         final Long      number;
 
         log.debug("Creating publisher {}", publisher);
@@ -55,7 +56,11 @@ public final class DefaultPublisherService implements PublisherService {
 
         createPublisherValidator.validate(toCreate);
 
-        return publisherRepository.save(toCreate);
+        created = publisherRepository.save(toCreate);
+
+        log.debug("Created publisher {}", publisher);
+
+        return created;
     }
 
     @Override
@@ -68,13 +73,21 @@ public final class DefaultPublisherService implements PublisherService {
         }
 
         publisherRepository.delete(number);
+
+        log.debug("Deleted publisher {}", number);
     }
 
     @Override
     public final Iterable<Publisher> getAll(final Pageable pageable) {
+        final Iterable<Publisher> publishers;
+
         log.debug("Reading publishers with pagination {}", pageable);
 
-        return publisherRepository.findAll(pageable);
+        publishers = publisherRepository.findAll(pageable);
+
+        log.debug("Read publishers with pagination {}", pageable);
+
+        return publishers;
     }
 
     @Override
@@ -89,11 +102,15 @@ public final class DefaultPublisherService implements PublisherService {
             throw new MissingPublisherException(number);
         }
 
+        log.debug("Read publisher {}", number);
+
         return publisher;
     }
 
     @Override
     public final Publisher update(final Publisher publisher) {
+        final Publisher created;
+
         log.debug("Updating publisher {}", publisher);
 
         if (!publisherRepository.exists(publisher.number())) {
@@ -103,7 +120,11 @@ public final class DefaultPublisherService implements PublisherService {
         // Set number
         updatePublisherValidator.validate(publisher);
 
-        return publisherRepository.save(publisher);
+        created = publisherRepository.save(publisher);
+
+        log.debug("Updated publisher {}", publisher);
+
+        return created;
     }
 
 }
