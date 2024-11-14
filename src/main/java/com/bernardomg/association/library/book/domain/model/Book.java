@@ -14,7 +14,6 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import lombok.Builder;
 
 @Builder(setterPrefix = "with")
-// TODO: the donation is optional
 public record Book(long number, Title title, String isbn, String language, LocalDate publishDate, boolean lent,
         Collection<Author> authors, Collection<BookLending> lendings, Collection<Publisher> publishers,
         Optional<Donation> donation, Optional<BookType> bookType, Optional<GameSystem> gameSystem) {
