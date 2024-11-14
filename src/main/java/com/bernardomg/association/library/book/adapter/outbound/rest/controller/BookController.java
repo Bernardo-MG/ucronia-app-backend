@@ -136,18 +136,23 @@ public class BookController {
         final String supertitle;
         final String subtitle;
 
-        if (request.getSupertitle() == null) {
+        if (request.getTitle()
+            .getSupertitle() == null) {
             supertitle = "";
         } else {
-            supertitle = request.getSupertitle();
+            supertitle = request.getTitle()
+                .getSupertitle();
         }
-        if (request.getSubtitle() == null) {
+        if (request.getTitle()
+            .getSubtitle() == null) {
             subtitle = "";
         } else {
-            subtitle = request.getSubtitle();
+            subtitle = request.getTitle()
+                .getSubtitle();
         }
 
-        title = new Title(supertitle, request.getTitle(), subtitle);
+        title = new Title(supertitle, request.getTitle()
+            .getTitle(), subtitle);
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
@@ -224,17 +229,22 @@ public class BookController {
                 .getNumber(), ""));
         }
 
-        if (request.getSupertitle() == null) {
+        if (request.getTitle()
+            .getSupertitle() == null) {
             supertitle = "";
         } else {
-            supertitle = request.getSupertitle();
+            supertitle = request.getTitle()
+                .getSupertitle();
         }
-        if (request.getSubtitle() == null) {
+        if (request.getTitle()
+            .getSubtitle() == null) {
             subtitle = "";
         } else {
-            subtitle = request.getSubtitle();
+            subtitle = request.getTitle()
+                .getSubtitle();
         }
-        title = new Title(supertitle, request.getTitle(), subtitle);
+        title = new Title(supertitle, request.getTitle()
+            .getTitle(), subtitle);
         if (request.getDonationDate() == null) {
             donation = Optional.empty();
         } else {

@@ -84,10 +84,6 @@ public class BookUpdate {
 
     private Collection<Publisher> publishers;
 
-    private String                subtitle;
-
-    private String                supertitle;
-
-    private String                title;
+    private BookChangeTitle       title;
 
 }
