@@ -118,7 +118,7 @@ public final class DefaultBookService implements BookService {
 
             donation = Optional.of(new Donation(book.donation()
                 .get()
-                .donationDate(), donors));
+                .date(), donors));
         } else {
             donation = Optional.empty();
         }
@@ -233,7 +233,7 @@ public final class DefaultBookService implements BookService {
 
             donation = Optional.of(new Donation(book.donation()
                 .get()
-                .donationDate(), donors));
+                .date(), donors));
         } else {
             donation = Optional.empty();
         }

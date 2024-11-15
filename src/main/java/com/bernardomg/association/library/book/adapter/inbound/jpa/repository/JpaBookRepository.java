@@ -392,7 +392,7 @@ public final class JpaBookRepository implements BookRepository {
             .withLanguage(domain.language())
             .withPublishDate(domain.publishDate())
             .withDonationDate(domain.donation()
-                .map(Donation::donationDate)
+                .map(Donation::date)
                 .orElse(null))
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
