@@ -64,7 +64,7 @@ class ITBookRepositoryDelete {
     private BookSpringRepository       springRepository;
 
     @Test
-    @DisplayName("With an book, it is deleted")
+    @DisplayName("With a book, it is deleted")
     @NoMembershipPerson
     @FullBook
     void testDelete() {

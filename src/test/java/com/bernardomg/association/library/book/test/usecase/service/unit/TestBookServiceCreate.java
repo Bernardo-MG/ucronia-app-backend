@@ -389,6 +389,28 @@ class TestBookServiceCreate {
     }
 
     @Test
+    @DisplayName("With a book with padded title, the book is persisted")
+    void testCreate_Padded_PersistedData() {
+        final Book book;
+
+        // GIVEN
+        book = Books.paddedWithWhitespaces();
+
+        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
+
+        // WHEN
+        service.create(book);
+
+        // THEN
+        verify(bookRepository).save(Books.full());
+    }
+
+    @Test
     @DisplayName("With a valid book, the book is persisted")
     void testCreate_PersistedData() {
         final Book book;

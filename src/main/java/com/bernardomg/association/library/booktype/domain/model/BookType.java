@@ -1,6 +1,13 @@
 
 package com.bernardomg.association.library.booktype.domain.model;
 
-public record BookType(long number, String name) {
+import org.apache.commons.lang3.StringUtils;
+
+public record BookType(Long number, String name) {
+
+    public BookType(final Long number, final String name) {
+        this.number = number;
+        this.name = StringUtils.trim(name);
+    }
 
 }

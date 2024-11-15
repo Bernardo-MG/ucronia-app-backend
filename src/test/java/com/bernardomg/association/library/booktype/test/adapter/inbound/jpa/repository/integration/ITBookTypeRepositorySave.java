@@ -86,7 +86,7 @@ class ITBookTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving, an book type is persisted")
+    @DisplayName("When saving, a book type is persisted")
     void testSave_Persisted() {
         final BookType bookType;
 

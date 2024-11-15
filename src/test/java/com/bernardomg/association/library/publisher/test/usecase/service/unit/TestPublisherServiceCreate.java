@@ -73,7 +73,7 @@ class TestPublisherServiceCreate {
         execution = () -> service.create(publisher);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test
@@ -95,6 +95,23 @@ class TestPublisherServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             FieldFailure.of("name", "existing", PublisherConstants.NAME));
+    }
+
+    @Test
+    @DisplayName("With a publisher with padded name, the publisher is persisted")
+    void testCreate_Padded_PersistedData() {
+        final Publisher publisher;
+
+        // GIVEN
+        publisher = Publishers.padded();
+
+        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
+
+        // WHEN
+        service.create(publisher);
+
+        // THEN
+        verify(publisherRepository).save(Publishers.valid());
     }
 
     @Test

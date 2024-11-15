@@ -307,6 +307,29 @@ public final class Books {
             .build();
     }
 
+    public static final Book paddedWithWhitespaces() {
+        final Title    title;
+        final Donation donation;
+
+        title = new Title(" " + BookConstants.SUPERTITLE + " ", " " + BookConstants.TITLE + " ",
+            " " + BookConstants.SUBTITLE + " ");
+        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(title)
+            .withIsbn(BookConstants.ISBN_10)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withPublishDate(BookConstants.PUBLISH_DATE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(Optional.of(GameSystems.valid()))
+            .withBookType(Optional.of(BookTypes.valid()))
+            .withDonation(Optional.of(donation))
+            .withLendings(List.of())
+            .withLent(false)
+            .build();
+    }
+
     public static final Book returned() {
         final Title    title;
         final Donation donation;
