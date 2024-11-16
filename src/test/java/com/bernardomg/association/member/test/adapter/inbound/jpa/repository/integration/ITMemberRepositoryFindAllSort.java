@@ -67,8 +67,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(1, false), Members.forNumber(2, false), Members.forNumber(3, false),
-                Members.forNumber(4, false), Members.forNumber(5, false));
+            .containsExactly(Members.forNumber(1), Members.forNumber(2), Members.forNumber(3), Members.forNumber(4),
+                Members.forNumber(5));
     }
 
     @Test
@@ -85,8 +85,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(5, false), Members.forNumber(4, false), Members.forNumber(3, false),
-                Members.forNumber(2, false), Members.forNumber(1, false));
+            .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
+                Members.forNumber(1));
     }
 
     @Test
@@ -103,8 +103,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(1, false), Members.forNumber(2, false), Members.forNumber(3, false),
-                Members.forNumber(4, false), Members.forNumber(5, false));
+            .containsExactly(Members.forNumber(1), Members.forNumber(2), Members.forNumber(3), Members.forNumber(4),
+                Members.forNumber(5));
     }
 
     @Test
@@ -121,8 +121,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(5, false), Members.forNumber(4, false), Members.forNumber(3, false),
-                Members.forNumber(2, false), Members.forNumber(1, false));
+            .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
+                Members.forNumber(1));
     }
 
 }

@@ -69,7 +69,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(1, false));
+            .containsExactly(Members.forNumber(1));
     }
 
     @Test
@@ -86,7 +86,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
         // THEN
         Assertions.assertThat(members)
-            .containsExactly(Members.forNumber(2, false));
+            .containsExactly(Members.forNumber(2));
     }
 
 }

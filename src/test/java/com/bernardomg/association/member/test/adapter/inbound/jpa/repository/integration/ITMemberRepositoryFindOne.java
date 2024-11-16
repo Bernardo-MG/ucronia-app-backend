@@ -58,7 +58,7 @@ class ITMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(memberOptional)
-            .contains(Members.active());
+            .contains(Members.valid());
     }
 
     @Test
@@ -72,7 +72,7 @@ class ITMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(memberOptional)
-            .contains(Members.inactive());
+            .contains(Members.valid());
     }
 
     @Test

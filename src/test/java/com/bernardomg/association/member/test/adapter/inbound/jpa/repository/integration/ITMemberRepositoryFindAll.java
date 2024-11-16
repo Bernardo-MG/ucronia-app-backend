@@ -65,7 +65,7 @@ class ITMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.active());
+            .containsExactly(Members.valid());
     }
 
     @Test
@@ -84,7 +84,7 @@ class ITMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.inactive());
+            .containsExactly(Members.valid());
     }
 
     @Test
