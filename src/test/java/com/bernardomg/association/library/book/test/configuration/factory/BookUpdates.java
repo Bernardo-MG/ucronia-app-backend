@@ -6,6 +6,7 @@ import java.util.List;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookChangeTitle;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate.BookType;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate.Donation;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate.GameSystem;
 
 public final class BookUpdates {
@@ -24,7 +25,7 @@ public final class BookUpdates {
             .withPublishers(List.of())
             .withGameSystem(new GameSystem(null))
             .withBookType(new BookType(null))
-            .withDonors(List.of())
+            .withDonation(new Donation(null, null))
             .build();
     }
 

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.controller;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -177,6 +178,7 @@ public class BookController {
         final Title                 title;
         final String                supertitle;
         final String                subtitle;
+        final LocalDate             donationDate;
         final Optional<Donation>    donation;
 
         // Authors
@@ -199,18 +201,6 @@ public class BookController {
                 .toList();
         }
 
-        // Donors
-        if (request.getDonors() == null) {
-            donors = List.of();
-        } else {
-            donors = request.getDonors()
-                .stream()
-                .map(BookUpdate.Donor::getNumber)
-                .filter(Objects::nonNull)
-                .map(d -> new Donor(d, new PersonName("", "")))
-                .toList();
-        }
-
         // Book type
         if ((request.getBookType() == null) || (request.getBookType()
             .getNumber() == null)) {
@@ -229,6 +219,36 @@ public class BookController {
                 .getNumber(), ""));
         }
 
+        // Donation
+        if (request.getDonation() == null) {
+            donation = Optional.empty();
+        } else {
+            if (request.getDonation()
+                .getDonors() == null) {
+                donors = List.of();
+            } else {
+                donors = request.getDonation()
+                    .getDonors()
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(d -> new Donor(d.getNumber(), new PersonName("", "")))
+                    .toList();
+            }
+            if (request.getDonation()
+                .getDate() == null) {
+                donationDate = null;
+            } else {
+                donationDate = request.getDonation()
+                    .getDate();
+            }
+            if ((donationDate == null) && (donors.isEmpty())) {
+                donation = Optional.empty();
+            } else {
+                donation = Optional.of(new Donation(donationDate, donors));
+            }
+        }
+
+        // Title
         if (request.getTitle()
             .getSupertitle() == null) {
             supertitle = "";
@@ -245,11 +265,6 @@ public class BookController {
         }
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        if (request.getDonationDate() == null) {
-            donation = Optional.empty();
-        } else {
-            donation = Optional.of(new Donation(request.getDonationDate(), donors));
-        }
         return Book.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())

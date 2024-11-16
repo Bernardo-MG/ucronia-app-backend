@@ -35,10 +35,19 @@ public class BookUpdate {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class Donation {
+
+        private LocalDate         date;
+
+        private Collection<Donor> donors;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Donor {
 
         private Long number;
-
     }
 
     @Data
@@ -67,9 +76,7 @@ public class BookUpdate {
      */
     private BookType              bookType;
 
-    private LocalDate             donationDate;
-
-    private Collection<Donor>     donors;
+    private Donation              donation;
 
     /**
      * TODO: optional
