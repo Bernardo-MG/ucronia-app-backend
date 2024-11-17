@@ -332,9 +332,11 @@ public final class Books {
     }
 
     public static final Book noRelationships() {
-        final Title title;
+        final Title    title;
+        final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
+        donation = new Donation(BookConstants.DONATION_DATE, List.of());
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
@@ -345,7 +347,7 @@ public final class Books {
             .withPublishers(List.of())
             .withGameSystem(Optional.empty())
             .withBookType(Optional.empty())
-            .withDonation(Optional.empty())
+            .withDonation(Optional.of(donation))
             .withLendings(List.of())
             .withLent(false)
             .build();
