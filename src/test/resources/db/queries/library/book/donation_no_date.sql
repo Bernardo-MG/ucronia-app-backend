@@ -1,5 +1,5 @@
 INSERT INTO inventory.books (id, number, supertitle, title, subtitle, isbn, publish_date, donation_date, language) VALUES
-   (1, 1, 'Supertitle', 'Title', 'Subtitle', '1-56619-909-3', '1990-01-01', '1995-01-02', 'en');
+   (1, 1, 'Supertitle', 'Title', 'Subtitle', '1-56619-909-3', '1990-01-01', null, 'en');
 
 INSERT INTO inventory.authors (id, number, name) VALUES
    (1, 1, 'Author');

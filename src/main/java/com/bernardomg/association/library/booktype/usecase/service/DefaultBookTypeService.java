@@ -44,6 +44,7 @@ public final class DefaultBookTypeService implements BookTypeService {
     @Override
     public final BookType create(final BookType type) {
         final BookType toCreate;
+        final BookType created;
         final Long     number;
 
         log.debug("Creating book type {}", type);
@@ -55,7 +56,11 @@ public final class DefaultBookTypeService implements BookTypeService {
 
         createBookTypeValidator.validate(toCreate);
 
-        return bookTypeRepository.save(toCreate);
+        created = bookTypeRepository.save(toCreate);
+
+        log.debug("Created book type {}", type);
+
+        return created;
     }
 
     @Override
@@ -68,13 +73,21 @@ public final class DefaultBookTypeService implements BookTypeService {
         }
 
         bookTypeRepository.delete(number);
+
+        log.debug("Deleted book type {}", number);
     }
 
     @Override
     public final Iterable<BookType> getAll(final Pageable pageable) {
+        final Iterable<BookType> books;
+
         log.debug("Reading book types with pagination {}", pageable);
 
-        return bookTypeRepository.findAll(pageable);
+        books = bookTypeRepository.findAll(pageable);
+
+        log.debug("Read book types with pagination {}", pageable);
+
+        return books;
     }
 
     @Override
@@ -89,11 +102,15 @@ public final class DefaultBookTypeService implements BookTypeService {
             throw new MissingBookTypeException(number);
         }
 
+        log.debug("Read book type {}", number);
+
         return bookType;
     }
 
     @Override
     public final BookType update(final BookType type) {
+        final BookType bookType;
+
         log.debug("Updating book type {}", type);
 
         if (!bookTypeRepository.exists(type.number())) {
@@ -103,7 +120,11 @@ public final class DefaultBookTypeService implements BookTypeService {
         // Set number
         updateBookTypeValidator.validate(type);
 
-        return bookTypeRepository.save(type);
+        bookType = bookTypeRepository.save(type);
+
+        log.debug("Updated book type {}", type);
+
+        return bookType;
     }
 
 }

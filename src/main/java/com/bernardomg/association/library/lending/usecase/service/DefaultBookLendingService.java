@@ -61,6 +61,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     public final BookLending lendBook(final long book, final long personNumber, final LocalDate date) {
         final BookLending lending;
         final Person      person;
+        final BookLending created;
 
         log.debug("Lending book {} to {}", book, personNumber);
 
@@ -79,13 +80,18 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         lendBookValidator.validate(lending);
 
-        return bookLendingRepository.save(lending);
+        created = bookLendingRepository.save(lending);
+
+        log.debug("Lent book {} to {}", book, personNumber);
+
+        return created;
     }
 
     @Override
     public final BookLending returnBook(final long book, final long personNumber, final LocalDate date) {
         final BookLending read;
         final BookLending lending;
+        final BookLending returned;
 
         log.debug("Returning book {} from {}", book, personNumber);
 
@@ -100,7 +106,11 @@ public final class DefaultBookLendingService implements BookLendingService {
         // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
-        return bookLendingRepository.save(lending);
+        returned = bookLendingRepository.save(lending);
+
+        log.debug("Returned book {} from {}", book, personNumber);
+
+        return returned;
     }
 
 }

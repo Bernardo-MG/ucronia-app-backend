@@ -30,6 +30,9 @@ import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.test.json.JsonUtils;
 
+/**
+ * TODO: test donation is parsed
+ */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookController")
 class TestBookController {

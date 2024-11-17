@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.model;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,10 +35,19 @@ public class BookUpdate {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class Donation {
+
+        private LocalDate         date;
+
+        private Collection<Donor> donors;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Donor {
 
         private Long number;
-
     }
 
     @Data
@@ -66,7 +76,7 @@ public class BookUpdate {
      */
     private BookType              bookType;
 
-    private Collection<Donor>     donors;
+    private Donation              donation;
 
     /**
      * TODO: optional
@@ -77,8 +87,10 @@ public class BookUpdate {
 
     private String                language;
 
+    private LocalDate             publishDate;
+
     private Collection<Publisher> publishers;
 
-    private String                title;
+    private BookChangeTitle       title;
 
 }

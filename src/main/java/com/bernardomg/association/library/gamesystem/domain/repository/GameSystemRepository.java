@@ -9,19 +9,19 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 
 public interface GameSystemRepository {
 
-    public void delete(final Long number);
+    public void delete(final long number);
 
-    public boolean exists(final Long number);
+    public boolean exists(final long number);
 
     public boolean existsByName(final String name);
 
-    public boolean existsByNameForAnother(final String name, final Long number);
+    public boolean existsByNameForAnother(final String name, final long number);
 
     public Iterable<GameSystem> findAll(final Pageable pageable);
 
     public long findNextNumber();
 
-    public Optional<GameSystem> findOne(final Long number);
+    public Optional<GameSystem> findOne(final long number);
 
     public GameSystem save(final GameSystem gameSystem);
 

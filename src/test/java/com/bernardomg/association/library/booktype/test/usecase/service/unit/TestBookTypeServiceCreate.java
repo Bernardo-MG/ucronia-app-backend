@@ -73,7 +73,7 @@ class TestBookTypeServiceCreate {
         execution = () -> service.create(bookType);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test
@@ -95,6 +95,23 @@ class TestBookTypeServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             FieldFailure.of("name", "existing", BookTypeConstants.NAME));
+    }
+
+    @Test
+    @DisplayName("With a book type with padded name, the book is persisted")
+    void testCreate_Padded_PersistedData() {
+        final BookType bookType;
+
+        // GIVEN
+        bookType = BookTypes.padded();
+
+        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
+
+        // WHEN
+        service.create(bookType);
+
+        // THEN
+        verify(bookTypeRepository).save(BookTypes.valid());
     }
 
     @Test

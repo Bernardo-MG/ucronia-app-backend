@@ -74,7 +74,7 @@ class TestGameSystemServiceUpdate {
         execution = () -> service.update(gameSystem);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test

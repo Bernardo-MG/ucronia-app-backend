@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,9 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
@@ -107,7 +108,7 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    public final boolean existsByIsbnForAnother(final Long number, final String isbn) {
+    public final boolean existsByIsbnForAnother(final long number, final String isbn) {
         final boolean exists;
 
         log.debug("Checking if book with ISBN {} and number not {} exists", isbn, number);
@@ -121,14 +122,12 @@ public final class JpaBookRepository implements BookRepository {
 
     @Override
     public final Iterable<Book> findAll(final Pageable pageable) {
-        final Page<BookEntity> page;
-        final Iterable<Book>   read;
+        final Iterable<Book> read;
 
         log.debug("Finding books with pagination {}", pageable);
 
-        page = bookSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        read = bookSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found books {}", read);
 
@@ -199,6 +198,10 @@ public final class JpaBookRepository implements BookRepository {
         final Collection<Author>      authors;
         final boolean                 lent;
         final Collection<BookLending> lendings;
+        final Title                   title;
+        final String                  supertitle;
+        final String                  subtitle;
+        final Optional<Donation>      donation;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -234,7 +237,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
 
-        // Donors
+        // Donation
         if (entity.getDonors() == null) {
             donors = List.of();
         } else {
@@ -243,6 +246,15 @@ public final class JpaBookRepository implements BookRepository {
                 .map(this::toDonorDomain)
                 .toList();
         }
+        if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
+            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
+        } else if (entity.getDonationDate() != null) {
+            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
+        } else if (!donors.isEmpty()) {
+            donation = Optional.of(new Donation(null, donors));
+        } else {
+            donation = Optional.empty();
+        }
 
         // Lendings
         lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
@@ -250,17 +262,30 @@ public final class JpaBookRepository implements BookRepository {
             .map(l -> toDomain(entity.getNumber(), l))
             .toList();
 
+        if (entity.getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = entity.getSupertitle();
+        }
+        if (entity.getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = entity.getSubtitle();
+        }
+        title = new Title(supertitle, entity.getTitle(), subtitle);
+
         lent = bookSpringRepository.isLent(entity.getId());
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())
-            .withTitle(entity.getTitle())
+            .withTitle(title)
             .withLanguage(entity.getLanguage())
+            .withPublishDate(entity.getPublishDate())
             .withAuthors(authors)
             .withPublishers(publishers)
             .withGameSystem(gameSystem)
             .withBookType(bookType)
-            .withDonors(donors)
+            .withDonation(donation)
             .withLent(lent)
             .withLendings(lendings)
             .build();
@@ -339,11 +364,18 @@ public final class JpaBookRepository implements BookRepository {
         publishers = publisherSpringRepository.findAllByNumberIn(publisherNumbers);
 
         // Donors
-        donorNumbers = domain.donors()
-            .stream()
-            .map(Donor::number)
-            .toList();
-        donors = personSpringRepository.findAllByNumberIn(donorNumbers);
+        if (domain.donation()
+            .isPresent()) {
+            donorNumbers = domain.donation()
+                .get()
+                .donors()
+                .stream()
+                .map(Donor::number)
+                .toList();
+            donors = personSpringRepository.findAllByNumberIn(donorNumbers);
+        } else {
+            donors = List.of();
+        }
 
         // Authors
         authorNumbers = domain.authors()
@@ -355,8 +387,17 @@ public final class JpaBookRepository implements BookRepository {
         return BookEntity.builder()
             .withNumber(domain.number())
             .withIsbn(domain.isbn())
-            .withTitle(domain.title())
+            .withSupertitle(domain.title()
+                .supertitle())
+            .withTitle(domain.title()
+                .title())
+            .withSubtitle(domain.title()
+                .subtitle())
             .withLanguage(domain.language())
+            .withPublishDate(domain.publishDate())
+            .withDonationDate(domain.donation()
+                .map(Donation::date)
+                .orElse(null))
             .withBookType(bookType.orElse(null))
             .withGameSystem(gameSystem.orElse(null))
             .withAuthors(authors)

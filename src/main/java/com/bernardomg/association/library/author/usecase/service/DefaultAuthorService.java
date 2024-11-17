@@ -44,6 +44,7 @@ public final class DefaultAuthorService implements AuthorService {
     @Override
     public final Author create(final Author author) {
         final Author toCreate;
+        final Author created;
         final Long   number;
 
         log.debug("Creating author {}", author);
@@ -55,7 +56,11 @@ public final class DefaultAuthorService implements AuthorService {
 
         createAuthorValidator.validate(toCreate);
 
-        return authorRepository.save(toCreate);
+        created = authorRepository.save(toCreate);
+
+        log.debug("Created author {}", author);
+
+        return created;
     }
 
     @Override
@@ -68,13 +73,21 @@ public final class DefaultAuthorService implements AuthorService {
         }
 
         authorRepository.delete(number);
+
+        log.debug("Deleted author {}", number);
     }
 
     @Override
     public final Iterable<Author> getAll(final Pageable pageable) {
+        final Iterable<Author> authors;
+
         log.debug("Reading authors with pagination {}", pageable);
 
-        return authorRepository.findAll(pageable);
+        authors = authorRepository.findAll(pageable);
+
+        log.debug("Read authors with pagination {}", pageable);
+
+        return authors;
     }
 
     @Override
@@ -89,11 +102,15 @@ public final class DefaultAuthorService implements AuthorService {
             throw new MissingAuthorException(number);
         }
 
+        log.debug("Read author {}", number);
+
         return author;
     }
 
     @Override
     public final Author update(final Author author) {
+        final Author updated;
+
         log.debug("Updating author {}", author);
 
         if (!authorRepository.exists(author.number())) {
@@ -102,7 +119,11 @@ public final class DefaultAuthorService implements AuthorService {
 
         updateAuthorValidator.validate(author);
 
-        return authorRepository.save(author);
+        updated = authorRepository.save(author);
+
+        log.debug("Updated author {}", author);
+
+        return updated;
     }
 
 }

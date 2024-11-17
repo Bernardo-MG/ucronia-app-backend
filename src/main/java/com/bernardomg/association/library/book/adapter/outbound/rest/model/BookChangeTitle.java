@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookCreation {
+public class BookChangeTitle {
 
-    private String          isbn;
+    private String subtitle;
 
-    private String          language;
+    private String supertitle;
 
-    private BookChangeTitle title;
+    private String title;
 
 }

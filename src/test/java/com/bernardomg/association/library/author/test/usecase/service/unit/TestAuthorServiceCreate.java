@@ -73,7 +73,7 @@ class TestAuthorServiceCreate {
         execution = () -> service.create(author);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test
@@ -94,6 +94,23 @@ class TestAuthorServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
+    }
+
+    @Test
+    @DisplayName("With an author with padded name, the author is persisted")
+    void testCreate_Padded_PersistedData() {
+        final Author author;
+
+        // GIVEN
+        author = Authors.padded();
+
+        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
+
+        // WHEN
+        service.create(author);
+
+        // THEN
+        verify(authorRepository).save(Authors.valid());
     }
 
     @Test
