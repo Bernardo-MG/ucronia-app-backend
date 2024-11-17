@@ -182,8 +182,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             default -> personRepository.isActive(memberNumber);
         };
 
-        member = new Member(memberNumber, name, active);
-        return new FeeCalendar(member, months, year.getValue());
+        member = new Member(memberNumber, name);
+        return new FeeCalendar(member, months, year.getValue(), active);
     }
 
 }

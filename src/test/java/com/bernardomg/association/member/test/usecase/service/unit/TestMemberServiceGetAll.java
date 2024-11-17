@@ -76,7 +76,7 @@ class TestMemberServiceGetAll {
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
@@ -126,7 +126,7 @@ class TestMemberServiceGetAll {
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
@@ -151,7 +151,7 @@ class TestMemberServiceGetAll {
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
 
         pageable = Pageable.unpaged();
@@ -175,7 +175,7 @@ class TestMemberServiceGetAll {
         final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by("firstName"));
@@ -205,7 +205,7 @@ class TestMemberServiceGetAll {
         final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by("number"));
@@ -235,7 +235,7 @@ class TestMemberServiceGetAll {
         final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "firstName"));
@@ -265,7 +265,7 @@ class TestMemberServiceGetAll {
         final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "number"));
@@ -295,7 +295,7 @@ class TestMemberServiceGetAll {
         final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = Pageable.unpaged(Sort.by("firstName"));
@@ -325,7 +325,7 @@ class TestMemberServiceGetAll {
         final Page<Member> readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.active()));
+        readMembers = new PageImpl<>(List.of(Members.valid()));
         given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
 
         pageable = Pageable.unpaged(Sort.by("number"));
