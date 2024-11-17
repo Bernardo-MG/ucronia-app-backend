@@ -19,6 +19,50 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 
 public final class Books {
 
+    public static final Book donationNoDate() {
+        final Title    title;
+        final Donation donation;
+
+        title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
+        donation = new Donation(null, List.of(Donors.valid()));
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(title)
+            .withIsbn(BookConstants.ISBN_10)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withPublishDate(BookConstants.PUBLISH_DATE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(Optional.of(GameSystems.valid()))
+            .withBookType(Optional.of(BookTypes.valid()))
+            .withDonation(Optional.of(donation))
+            .withLendings(List.of())
+            .withLent(false)
+            .build();
+    }
+
+    public static final Book donationNoDonors() {
+        final Title    title;
+        final Donation donation;
+
+        title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
+        donation = new Donation(BookConstants.DONATION_DATE, List.of());
+        return Book.builder()
+            .withNumber(BookConstants.NUMBER)
+            .withTitle(title)
+            .withIsbn(BookConstants.ISBN_10)
+            .withLanguage(BookConstants.LANGUAGE)
+            .withPublishDate(BookConstants.PUBLISH_DATE)
+            .withAuthors(List.of(Authors.valid()))
+            .withPublishers(List.of(Publishers.valid()))
+            .withGameSystem(Optional.of(GameSystems.valid()))
+            .withBookType(Optional.of(BookTypes.valid()))
+            .withDonation(Optional.of(donation))
+            .withLendings(List.of())
+            .withLent(false)
+            .build();
+    }
+
     public static final Book duplicatedAuthor() {
         final Title    title;
         final Donation donation;

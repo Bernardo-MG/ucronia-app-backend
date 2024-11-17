@@ -237,7 +237,7 @@ public final class JpaBookRepository implements BookRepository {
                 .toList();
         }
 
-        // Donors
+        // Donation
         if (entity.getDonors() == null) {
             donors = List.of();
         } else {
@@ -245,6 +245,15 @@ public final class JpaBookRepository implements BookRepository {
                 .stream()
                 .map(this::toDonorDomain)
                 .toList();
+        }
+        if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
+            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
+        } else if (entity.getDonationDate() != null) {
+            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
+        } else if (!donors.isEmpty()) {
+            donation = Optional.of(new Donation(null, donors));
+        } else {
+            donation = Optional.empty();
         }
 
         // Lendings
@@ -266,11 +275,6 @@ public final class JpaBookRepository implements BookRepository {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
-        if (donors.isEmpty()) {
-            donation = Optional.empty();
-        } else {
-            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
-        }
         return Book.builder()
             .withNumber(entity.getNumber())
             .withIsbn(entity.getIsbn())

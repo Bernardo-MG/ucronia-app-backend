@@ -33,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -51,6 +53,37 @@ class ITBookRepositoryFindOne {
 
     @Autowired
     private BookRepository repository;
+
+    @Test
+    @DisplayName("With a book with a donation without date, it is returned")
+    @NoMembershipPerson
+    @DonationNoDateBook
+    void testFindOne_DonationNoDate() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.donationNoDate());
+    }
+
+    @Test
+    @DisplayName("With a book with a donation without donors, it is returned")
+    @DonationNoDonorsBook
+    void testFindOne_DonationNoDonors() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.donationNoDonors());
+    }
 
     @Test
     @DisplayName("With a full book, it is returned")
