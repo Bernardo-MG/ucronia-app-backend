@@ -17,6 +17,7 @@ public final class PersonChanges {
             .withIdentifier(PersonConstants.IDENTIFIER)
             .withMembership(membership)
             .withName(name)
+            .withBirthDate(PersonConstants.BIRTH_DATE)
             .withPhone(PersonConstants.PHONE)
             .build();
     }
@@ -31,6 +32,7 @@ public final class PersonChanges {
             .withIdentifier(PersonConstants.IDENTIFIER)
             .withMembership(membership)
             .withName(name)
+            .withBirthDate(PersonConstants.BIRTH_DATE)
             .withPhone(PersonConstants.PHONE)
             .build();
     }
@@ -42,6 +44,7 @@ public final class PersonChanges {
         return PersonChange.builder()
             .withIdentifier(PersonConstants.IDENTIFIER)
             .withName(name)
+            .withBirthDate(PersonConstants.BIRTH_DATE)
             .withPhone(PersonConstants.PHONE)
             .build();
     }

@@ -279,6 +279,7 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
+            .withBirthDate(data.birthDate())
             .withMember(member)
             .withActive(active)
             .withRenewMembership(renew)
