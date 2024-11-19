@@ -188,7 +188,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         entity = toEntity(transaction);
 
-        existing = transactionSpringRepository.findByIndex(transaction.getIndex());
+        existing = transactionSpringRepository.findByIndex(transaction.index());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -213,10 +213,10 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
     private final TransactionEntity toEntity(final Transaction transaction) {
         return TransactionEntity.builder()
-            .withIndex(transaction.getIndex())
-            .withDescription(transaction.getDescription())
-            .withDate(transaction.getDate())
-            .withAmount(transaction.getAmount())
+            .withIndex(transaction.index())
+            .withDescription(transaction.description())
+            .withDate(transaction.date())
+            .withAmount(transaction.amount())
             .build();
     }
 

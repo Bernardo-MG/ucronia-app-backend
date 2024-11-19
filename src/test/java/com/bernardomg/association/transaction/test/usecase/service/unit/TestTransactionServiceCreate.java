@@ -52,7 +52,7 @@ class TestTransactionServiceCreate {
     private TransactionRepository     transactionRepository;
 
     @Test
-    @DisplayName("With a valid member, the member is persisted")
+    @DisplayName("With a member with padded name, the member is persisted")
     void testCreate_Padded_PersistedData() {
         final Transaction transaction;
 

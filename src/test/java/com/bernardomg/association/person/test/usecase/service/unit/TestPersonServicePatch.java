@@ -156,7 +156,7 @@ class TestPersonServicePatch {
     }
 
     @Test
-    @DisplayName("With a person having padding whitespaces in first name and last name, these whitespaces are removed")
+    @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed")
     void testPatch_Padded_PersistedData() {
         final Person person;
 

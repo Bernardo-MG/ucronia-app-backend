@@ -123,21 +123,21 @@ public final class DefaultTransactionReportService implements TransactionReportS
             row = sheet.createRow(index);
 
             cell = row.createCell(0);
-            cell.setCellValue(transaction.getIndex());
+            cell.setCellValue(transaction.index());
             cell.setCellStyle(style);
 
-            date = transaction.getDate()
+            date = transaction.date()
                 .format(dateFormatter);
             cell = row.createCell(1);
             cell.setCellValue(date);
             cell.setCellStyle(style);
 
             cell = row.createCell(2);
-            cell.setCellValue(decimalFormat.format(transaction.getAmount()));
+            cell.setCellValue(decimalFormat.format(transaction.amount()));
             cell.setCellStyle(style);
 
             cell = row.createCell(3);
-            cell.setCellValue(transaction.getDescription());
+            cell.setCellValue(transaction.description());
             cell.setCellStyle(style);
 
             index++;

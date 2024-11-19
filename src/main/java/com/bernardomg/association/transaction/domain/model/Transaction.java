@@ -3,19 +3,18 @@ package com.bernardomg.association.transaction.domain.model;
 
 import java.time.LocalDate;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Builder;
-import lombok.Data;
 
-@Data
 @Builder(setterPrefix = "with")
-public final class Transaction {
+public record Transaction(float amount, LocalDate date, String description, long index) {
 
-    private float     amount;
-
-    private LocalDate date;
-
-    private String    description;
-
-    private long      index;
+    public Transaction(final float amount, final LocalDate date, final String description, final long index) {
+        this.amount = amount;
+        this.date = date;
+        this.description = StringUtils.trim(description);
+        this.index = index;
+    }
 
 }

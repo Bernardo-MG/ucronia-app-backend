@@ -41,21 +41,15 @@ public final class DefaultTransactionService implements TransactionService {
 
         log.debug("Creating transaction {}", transaction);
 
-        toCreate = Transaction.builder()
-            .withIndex(transaction.getIndex())
-            .withAmount(transaction.getAmount())
-            .withDate(transaction.getDate())
-            .withDescription(transaction.getDescription())
-            .build();
-
-        // Set index
+        // Get index
         index = transactionRepository.findNextIndex();
-        toCreate.setIndex(index);
 
-        // Trim strings
-        // TODO: should be done by the model
-        toCreate.setDescription(toCreate.getDescription()
-            .trim());
+        toCreate = Transaction.builder()
+            .withIndex(index)
+            .withAmount(transaction.amount())
+            .withDate(transaction.date())
+            .withDescription(transaction.description())
+            .build();
 
         return transactionRepository.save(toCreate);
     }
@@ -99,25 +93,20 @@ public final class DefaultTransactionService implements TransactionService {
         final boolean     exists;
         final Transaction toUpdate;
 
-        log.debug("Updating transaction with index {} using data {}", transaction.getIndex(), transaction);
+        log.debug("Updating transaction with index {} using data {}", transaction.index(), transaction);
 
-        exists = transactionRepository.exists(transaction.getIndex());
+        exists = transactionRepository.exists(transaction.index());
         if (!exists) {
             // TODO: change exception name
-            throw new MissingTransactionException(transaction.getIndex());
+            throw new MissingTransactionException(transaction.index());
         }
 
         toUpdate = Transaction.builder()
-            .withIndex(transaction.getIndex())
-            .withAmount(transaction.getAmount())
-            .withDate(transaction.getDate())
-            .withDescription(transaction.getDescription())
+            .withIndex(transaction.index())
+            .withAmount(transaction.amount())
+            .withDate(transaction.date())
+            .withDescription(transaction.description())
             .build();
-
-        // TODO: the model should do this
-        // Trim strings
-        toUpdate.setDescription(toUpdate.getDescription()
-            .trim());
 
         return transactionRepository.save(toUpdate);
     }

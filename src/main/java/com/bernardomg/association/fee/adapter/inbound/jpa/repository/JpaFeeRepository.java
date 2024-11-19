@@ -295,7 +295,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .toList();
 
         // TODO: just return the id
-        transactionId = transactionSpringRepository.findByIndex(transaction.getIndex())
+        transactionId = transactionSpringRepository.findByIndex(transaction.index())
             .get()
             .getId();
         read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.number(), feeDates);
