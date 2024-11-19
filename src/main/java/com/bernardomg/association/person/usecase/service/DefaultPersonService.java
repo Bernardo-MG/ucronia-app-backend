@@ -56,7 +56,8 @@ public final class DefaultPersonService implements PersonService {
         // Set number
         number = personRepository.findNextNumber();
 
-        toCreate = new Person(person.identifier(), number, person.name(), person.phone(), person.membership());
+        toCreate = new Person(person.identifier(), number, person.name(), person.birthDate(), person.phone(),
+            person.membership());
 
         createPersonValidator.validate(toCreate);
 
@@ -155,7 +156,9 @@ public final class DefaultPersonService implements PersonService {
             .orElse(existing.identifier()),
             Optional.ofNullable(updated.number())
                 .orElse(existing.number()),
-            name, Optional.ofNullable(updated.phone())
+            name, Optional.ofNullable(updated.birthDate())
+                .orElse(existing.birthDate()),
+            Optional.ofNullable(updated.phone())
                 .orElse(existing.phone()),
             Optional.ofNullable(updated.membership())
                 .orElse(Optional.empty()));

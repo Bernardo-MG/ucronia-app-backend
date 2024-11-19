@@ -158,6 +158,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             final PersonEntity personEntity) {
         final Person person;
 
+        // TODO: should not contain all the member data
         person = toDomain(personEntity);
         return new BookLending(bookEntity.getNumber(), person, entity.getLendingDate(), entity.getReturnDate());
     }
@@ -167,7 +168,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         // TODO: Load membership
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), Optional.empty());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
+            Optional.empty());
     }
 
     private final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,

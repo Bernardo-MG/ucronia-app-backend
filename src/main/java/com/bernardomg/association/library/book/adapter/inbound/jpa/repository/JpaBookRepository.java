@@ -302,6 +302,7 @@ public final class JpaBookRepository implements BookRepository {
     private final BookLending toDomain(final Long number, final BookLendingEntity entity) {
         final Optional<Person> person;
 
+        // TODO: should not contain all the member data
         person = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
         return new BookLending(number, person.get(), entity.getLendingDate(), entity.getReturnDate());
@@ -312,7 +313,8 @@ public final class JpaBookRepository implements BookRepository {
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         // TODO: Load membership
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), Optional.empty());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
+            Optional.empty());
     }
 
     private final Publisher toDomain(final PublisherEntity entity) {
