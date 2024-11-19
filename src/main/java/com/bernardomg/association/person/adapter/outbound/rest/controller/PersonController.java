@@ -170,7 +170,7 @@ public class PersonController {
                 change.getMembership()
                     .renew()));
         }
-        return new Person(change.getIdentifier(), number, name, change.getPhone(), membership);
+        return new Person(change.getIdentifier(), number, name, change.getBirthDate(), change.getPhone(), membership);
     }
 
 }

@@ -248,7 +248,8 @@ public final class JpaPersonRepository implements PersonRepository {
         } else {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
+            membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
