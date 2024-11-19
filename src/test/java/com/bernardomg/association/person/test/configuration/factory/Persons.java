@@ -88,7 +88,7 @@ public final class Persons {
             Optional.empty());
     }
 
-    public static final Person paddedWithWhitespaces() {
+    public static final Person padded() {
         final PersonName name;
 
         name = new PersonName(" " + PersonConstants.FIRST_NAME + " ", " " + PersonConstants.LAST_NAME + " ");

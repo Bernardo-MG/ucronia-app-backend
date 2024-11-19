@@ -104,7 +104,7 @@ class TestPersonServiceUpdate {
         final Person person;
 
         // GIVEN
-        person = Persons.paddedWithWhitespaces();
+        person = Persons.padded();
 
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 

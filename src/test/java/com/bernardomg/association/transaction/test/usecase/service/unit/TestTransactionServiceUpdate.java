@@ -59,7 +59,7 @@ class TestTransactionServiceUpdate {
         final Transaction transaction;
 
         // GIVEN
-        transaction = Transactions.paddedWithWhitespaces();
+        transaction = Transactions.padded();
 
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 

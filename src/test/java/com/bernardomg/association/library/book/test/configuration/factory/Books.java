@@ -353,7 +353,7 @@ public final class Books {
             .build();
     }
 
-    public static final Book paddedWithWhitespaces() {
+    public static final Book padded() {
         final Title    title;
         final Donation donation;
 

@@ -161,7 +161,7 @@ class TestPersonServicePatch {
         final Person person;
 
         // GIVEN
-        person = Persons.paddedWithWhitespaces();
+        person = Persons.padded();
 
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 

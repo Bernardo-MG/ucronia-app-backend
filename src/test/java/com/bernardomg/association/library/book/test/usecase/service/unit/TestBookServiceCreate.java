@@ -394,7 +394,7 @@ class TestBookServiceCreate {
         final Book book;
 
         // GIVEN
-        book = Books.paddedWithWhitespaces();
+        book = Books.padded();
 
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);

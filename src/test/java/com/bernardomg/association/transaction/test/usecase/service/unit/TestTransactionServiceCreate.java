@@ -57,7 +57,7 @@ class TestTransactionServiceCreate {
         final Transaction transaction;
 
         // GIVEN
-        transaction = Transactions.paddedWithWhitespaces();
+        transaction = Transactions.padded();
 
         given(transactionRepository.findNextIndex()).willReturn(PersonConstants.NUMBER);
 
