@@ -48,6 +48,7 @@ import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChange;
+import com.bernardomg.association.person.adapter.outbound.rest.model.PersonCreation;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
@@ -85,10 +86,10 @@ public class PersonController {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public Person create(@Valid @RequestBody final PersonChange change) {
+    public Person create(@Valid @RequestBody final PersonCreation creation) {
         final Person member;
 
-        member = toDomain(-1, change);
+        member = toDomain(creation);
         return service.create(member);
     }
 
@@ -171,6 +172,25 @@ public class PersonController {
                     .renew()));
         }
         return new Person(change.getIdentifier(), number, name, change.getBirthDate(), change.getPhone(), membership);
+    }
+
+    private final Person toDomain(final PersonCreation change) {
+        final PersonName           name;
+        final Optional<Membership> membership;
+
+        name = new PersonName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        if (change.getMembership() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(change.getMembership()
+                .active(),
+                change.getMembership()
+                    .active()));
+        }
+        return new Person("", -1L, name, null, "", membership);
     }
 
 }
