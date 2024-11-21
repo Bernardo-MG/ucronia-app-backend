@@ -45,6 +45,13 @@ public final class Persons {
             PersonConstants.PHONE, Optional.of(membership));
     }
 
+    public static final Person membershipActiveNew() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.empty());
+    }
+
     public static final Person membershipActiveNoRenew() {
         final PersonName name;
         final Membership membership;
@@ -63,6 +70,13 @@ public final class Persons {
         membership = new Membership(false, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
             PersonConstants.PHONE, Optional.of(membership));
+    }
+
+    public static final Person membershipInactiveNew() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.empty());
     }
 
     public static final Person nameChange() {
@@ -86,6 +100,13 @@ public final class Persons {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
             PersonConstants.PHONE, Optional.empty());
+    }
+
+    public static final Person noMembershipNew() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.empty());
     }
 
     public static final Person padded() {
