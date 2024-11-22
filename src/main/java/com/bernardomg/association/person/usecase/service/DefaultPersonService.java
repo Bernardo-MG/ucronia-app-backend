@@ -4,7 +4,6 @@ package com.bernardomg.association.person.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +12,8 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -76,10 +77,10 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public final Iterable<Person> getAll(final Pageable pageable) {
-        log.debug("Reading persons with pagination {}", pageable);
+    public final Iterable<Person> getAll(final Pagination pagination, final Sorting sorting) {
+        log.debug("Reading persons with pagination {} and sorting {}", pagination, sorting);
 
-        return personRepository.findAll(pageable);
+        return personRepository.findAll(pagination, sorting);
     }
 
     @Override

@@ -24,7 +24,10 @@
 
 package com.bernardomg.association.person.test.usecase.service.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -33,37 +36,30 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Property;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Person service - get all")
 class TestPersonServiceGetAll {
 
-    @Captor
-    private ArgumentCaptor<Pageable> pageableCaptor;
-
     @Mock
-    private PersonRepository         personRepository;
+    private PersonRepository     personRepository;
 
     @InjectMocks
-    private DefaultPersonService     service;
+    private DefaultPersonService service;
 
     public TestPersonServiceGetAll() {
         super();
@@ -73,17 +69,19 @@ class TestPersonServiceGetAll {
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
         final Iterable<Person> persons;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Page<Person>     readPersons;
 
         // GIVEN
-        readPersons = new PageImpl<>(List.of());
-        given(personRepository.findAll(ArgumentMatchers.any())).willReturn(readPersons);
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
-        pageable = Pageable.unpaged();
+        readPersons = new PageImpl<>(List.of());
+        given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
 
         // WHEN
-        persons = service.getAll(pageable);
+        persons = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
@@ -95,15 +93,18 @@ class TestPersonServiceGetAll {
     @DisplayName("When getting all the persons, it returns all the persons")
     void testGetAll_ReturnsData() {
         final Iterable<Person> persons;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        given(personRepository.findAll(ArgumentMatchers.any())).willReturn(List.of(Persons.noMembership()));
+        given(personRepository.findAll(ArgumentMatchers.any(), ArgumentMatchers.any()))
+            .willReturn(List.of(Persons.noMembership()));
 
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        persons = service.getAll(pageable);
+        persons = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
@@ -114,83 +115,49 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FirstName() {
-        final Pageable     pageable;
+        final Pagination   pagination;
+        final Sorting      sorting;
         final Page<Person> readPersons;
 
         // GIVEN
-        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
-        given(personRepository.findAll(pageableCaptor.capture())).willReturn(readPersons);
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.asc("firstName");
 
-        pageable = PageRequest.of(0, 1, Sort.by("firstName"));
+        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
+        given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
 
         // WHEN
-        service.getAll(pageable);
+        service.getAll(pagination, sorting);
 
         // THEN
-        // TODO: avoid captors
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
+        verify(personRepository).findAll(ArgumentMatchers.any(), assertArg(s -> assertThat(s).as("sort")
+            .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("firstName"));
+            .containsExactly(Property.asc("firstName"))));
     }
 
     @Test
     @DisplayName("When sorting descending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FirstName() {
-        final Pageable     pageable;
+        final Pagination   pagination;
+        final Sorting      sorting;
         final Page<Person> readPersons;
 
         // GIVEN
-        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
-        given(personRepository.findAll(pageableCaptor.capture())).willReturn(readPersons);
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.desc("firstName");
 
-        pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "firstName"));
+        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
+        given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
 
         // WHEN
-        service.getAll(pageable);
+        service.getAll(pagination, sorting);
 
         // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
+        verify(personRepository).findAll(ArgumentMatchers.any(), assertArg(s -> assertThat(s).as("sort")
+            .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.desc("firstName"));
-    }
-
-    @Test
-    @DisplayName("When sorting ascending by first name, and not applying pagination, it is corrected to the valid fields")
-    void testGetAll_Sort_Unpaged_Asc_FirstName() {
-        final Pageable     pageable;
-        final Page<Person> readPersons;
-
-        // GIVEN
-        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
-        given(personRepository.findAll(pageableCaptor.capture())).willReturn(readPersons);
-
-        pageable = Pageable.unpaged(Sort.by("firstName"));
-
-        // WHEN
-        service.getAll(pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("firstName"));
+            .containsExactly(Property.desc("firstName"))));
     }
 
 }
