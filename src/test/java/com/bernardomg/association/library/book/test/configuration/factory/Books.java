@@ -12,7 +12,6 @@ import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 
@@ -299,15 +298,12 @@ public final class Books {
             .withDonation(Optional.of(donation))
             // TODO: user lendings factory
             .withLendings(List.of(
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.JANUARY, 1),
-                    LocalDate.of(2020, Month.JANUARY, 2)),
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.JANUARY, 4),
-                    LocalDate.of(2020, Month.FEBRUARY, 3)),
-                new BookLending(BookConstants.NUMBER, Borrowers.alternative(), LocalDate.of(2020, Month.FEBRUARY, 12),
+                BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 1), LocalDate.of(2020, Month.JANUARY, 2)),
+                BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 4), LocalDate.of(2020, Month.FEBRUARY, 3)),
+                BookLendings.returnedAlternative(LocalDate.of(2020, Month.FEBRUARY, 12),
                     LocalDate.of(2020, Month.FEBRUARY, 13)),
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.MAY, 4),
-                    LocalDate.of(2020, Month.MAY, 6)),
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.MAY, 10), null)))
+                BookLendings.returned(LocalDate.of(2020, Month.MAY, 4), LocalDate.of(2020, Month.MAY, 6)),
+                BookLendings.lent(LocalDate.of(2020, Month.MAY, 10))))
             .withLent(true)
             .build();
     }
@@ -416,16 +412,12 @@ public final class Books {
             .withBookType(Optional.of(BookTypes.valid()))
             .withDonation(Optional.of(donation))
             .withLendings(List.of(
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.JANUARY, 1),
-                    LocalDate.of(2020, Month.JANUARY, 2)),
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.JANUARY, 4),
-                    LocalDate.of(2020, Month.FEBRUARY, 3)),
-                new BookLending(BookConstants.NUMBER, Borrowers.alternative(), LocalDate.of(2020, Month.FEBRUARY, 12),
+                BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 1), LocalDate.of(2020, Month.JANUARY, 2)),
+                BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 4), LocalDate.of(2020, Month.FEBRUARY, 3)),
+                BookLendings.returnedAlternative(LocalDate.of(2020, Month.FEBRUARY, 12),
                     LocalDate.of(2020, Month.FEBRUARY, 13)),
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.MAY, 4),
-                    LocalDate.of(2020, Month.MAY, 6)),
-                new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.of(2020, Month.MAY, 10),
-                    LocalDate.of(2020, Month.MAY, 12))))
+                BookLendings.returned(LocalDate.of(2020, Month.MAY, 4), LocalDate.of(2020, Month.MAY, 6)),
+                BookLendings.returned(LocalDate.of(2020, Month.MAY, 10), LocalDate.of(2020, Month.MAY, 12))))
             .withLent(false)
             .build();
     }
