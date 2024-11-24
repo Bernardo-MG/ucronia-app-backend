@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.book.test.configuration.factory;
 
-import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Book.Donor;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 

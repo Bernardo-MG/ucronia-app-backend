@@ -10,6 +10,7 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.Builder;
 
@@ -22,4 +23,7 @@ public record Book(long number, Title title, String isbn, String language, Local
 
     }
 
+    public record Donor(long number, PersonName name) {
+
+    }
 }
