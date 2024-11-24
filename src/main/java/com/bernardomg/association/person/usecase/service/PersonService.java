@@ -37,7 +37,7 @@ public interface PersonService {
      *
      * @param pagination
      *            pagination to apply
-     * @param Sorting
+     * @param sorting
      *            sorting to apply
      * @return all the persons matching the sample
      */
