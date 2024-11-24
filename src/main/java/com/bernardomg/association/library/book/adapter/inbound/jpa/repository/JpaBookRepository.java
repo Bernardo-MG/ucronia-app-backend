@@ -16,7 +16,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Book.Donation;
-import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Book.Donor;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
@@ -28,12 +28,12 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
+import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 
 import lombok.extern.slf4j.Slf4j;
@@ -300,21 +300,19 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookLending toDomain(final Long number, final BookLendingEntity entity) {
-        final Optional<Person> person;
+        final Optional<Borrower> borrower;
 
         // TODO: should not contain all the member data
-        person = personSpringRepository.findById(entity.getPersonId())
+        borrower = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return new BookLending(number, person.get(), entity.getLendingDate(), entity.getReturnDate());
+        return new BookLending(number, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
-    private final Person toDomain(final PersonEntity entity) {
+    private final Borrower toDomain(final PersonEntity entity) {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        // TODO: Load membership
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
-            Optional.empty());
+        return new Borrower(entity.getNumber(), name);
     }
 
     private final Publisher toDomain(final PublisherEntity entity) {

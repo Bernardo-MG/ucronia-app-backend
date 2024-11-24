@@ -16,7 +16,7 @@ public class BookReturned {
 
     private long      book;
 
-    private long      person;
+    private long      borrower;
 
     private LocalDate returnDate;
 

@@ -53,7 +53,7 @@ import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookC
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Book.Donation;
-import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Book.Donor;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
