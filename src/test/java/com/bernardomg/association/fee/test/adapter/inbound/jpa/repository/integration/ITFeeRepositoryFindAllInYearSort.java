@@ -144,7 +144,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC),
-            new Sorting.Property("date", Sorting.Direction.DESC)));
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
