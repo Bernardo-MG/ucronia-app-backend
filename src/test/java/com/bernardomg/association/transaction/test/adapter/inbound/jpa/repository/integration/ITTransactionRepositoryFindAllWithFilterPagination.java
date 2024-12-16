@@ -25,13 +25,14 @@
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -39,6 +40,9 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -54,9 +58,29 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         super(5);
     }
 
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+
+        if (order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+
+        return new Sorting.Property(order.getProperty(), direction);
+    }
+
     @Override
     protected final Iterable<Transaction> read(final Pageable pageable) {
-        return repository.findAll(TransactionsQueries.empty(), pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = new Sorting(pageable.getSort()
+            .stream()
+            .map(this::toProperty)
+            .toList());
+        return repository.findAll(TransactionsQueries.empty(), pagination, sorting);
     }
 
     @Test
@@ -64,15 +88,17 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
     void testFindAll_Page1() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 1);
+        pagination = new Pagination(0, 1);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -84,15 +110,17 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
     void testFindAll_Page2() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(1, 1);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)

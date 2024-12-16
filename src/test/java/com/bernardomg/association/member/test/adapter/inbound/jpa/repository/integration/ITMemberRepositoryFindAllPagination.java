@@ -88,7 +88,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(0, 1);
         sorting = new Sorting(List.of());
 
         // WHEN
@@ -107,7 +107,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 1);
         sorting = new Sorting(List.of());
 
         // WHEN

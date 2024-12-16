@@ -7,8 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,10 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
+import com.bernardomg.data.domain.Sorting.Property;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,15 +90,20 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable) {
+    public final Iterable<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
+            final Sorting sorting) {
         final Page<TransactionEntity>                    page;
         final Optional<Specification<TransactionEntity>> spec;
         final Iterable<Transaction>                      read;
+        final Pageable                                   pageable;
+        final Sort                                       sort;
 
-        log.debug("Finding transactions with sample {} and pagination {}", query, pageable);
+        log.debug("Finding transactions with sample {} and pagination {} and sorting {}", query, pagination, sorting);
 
         spec = TransactionSpecifications.fromQuery(query);
 
+        sort = toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         if (spec.isEmpty()) {
             page = transactionSpringRepository.findAll(pageable);
         } else {
@@ -218,6 +229,25 @@ public final class JpaTransactionRepository implements TransactionRepository {
             .withDate(transaction.date())
             .withAmount(transaction.amount())
             .build();
+    }
+
+    private final Order toOrder(final Property property) {
+        final Order order;
+
+        if (Direction.ASC.equals(property.direction())) {
+            order = Order.asc(property.name());
+        } else {
+            order = Order.desc(property.name());
+        }
+
+        return order;
+    }
+
+    private final Sort toSort(final Sorting sorting) {
+        return Sort.by(sorting.properties()
+            .stream()
+            .map(this::toOrder)
+            .toList());
     }
 
 }

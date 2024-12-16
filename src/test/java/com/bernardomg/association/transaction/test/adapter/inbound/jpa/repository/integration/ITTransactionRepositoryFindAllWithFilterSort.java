@@ -25,15 +25,13 @@
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
@@ -42,6 +40,8 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,15 +57,17 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     void testFindAll_Date_Asc() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "date");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -79,15 +81,17 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     void testFindAll_Date_Desc() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "date");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -101,15 +105,17 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     void testFindAll_Description_Asc() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "description");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.ASC)));
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -123,15 +129,17 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     void testFindAll_Description_Desc() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "description");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.DESC)));
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -144,16 +152,18 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @DisplayName("Ordering by a not existing field generates an error")
     void testGetAll_NotExisting() {
         final TransactionQuery transactionQuery;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final ThrowingCallable executable;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        executable = () -> repository.findAll(transactionQuery, pageable)
+        executable = () -> repository.findAll(transactionQuery, pagination, sorting)
             .iterator();
 
         // THEN

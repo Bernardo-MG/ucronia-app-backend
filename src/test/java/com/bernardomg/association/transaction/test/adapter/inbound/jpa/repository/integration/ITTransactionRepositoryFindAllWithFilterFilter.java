@@ -26,12 +26,12 @@ package com.bernardomg.association.transaction.test.adapter.inbound.jpa.reposito
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
@@ -40,6 +40,8 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -59,15 +61,17 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     void testFindAll_AfterDate() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.startDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -82,15 +86,17 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     void testFindAll_BeforeDate() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.endDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -104,15 +110,17 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     void testFindAll_InDate() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -125,15 +133,17 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     void testFindAll_InDate_FirstDay() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -146,16 +156,18 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     void testFindAll_InDate_LastDay() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         // TODO: This is not the last day of the year
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.DECEMBER, 1));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)

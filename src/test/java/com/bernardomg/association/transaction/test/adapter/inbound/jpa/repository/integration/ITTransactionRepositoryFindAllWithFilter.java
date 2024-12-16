@@ -25,6 +25,7 @@
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.test.configuration.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.configuration.argument.DecimalArgumentsProvider;
@@ -45,6 +45,8 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -67,17 +69,19 @@ class ITTransactionRepositoryFindAllWithFilter {
     void testFindAll_AroundZero(final Float amount) {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
         springRepository.save(TransactionEntities.forAmount(amount));
 
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -90,17 +94,19 @@ class ITTransactionRepositoryFindAllWithFilter {
     void testFindAll_Decimal(final Float amount) {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
         springRepository.save(TransactionEntities.forAmount(amount));
 
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -113,15 +119,17 @@ class ITTransactionRepositoryFindAllWithFilter {
     void testFindAll_FullYear() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -140,15 +148,17 @@ class ITTransactionRepositoryFindAllWithFilter {
     void testFindAll_Multiple() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pageable);
+        transactions = repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)

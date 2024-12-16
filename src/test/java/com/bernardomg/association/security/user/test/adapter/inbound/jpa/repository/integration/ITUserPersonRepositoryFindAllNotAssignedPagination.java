@@ -88,7 +88,7 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(0, 1);
         sorting = new Sorting(List.of());
 
         // WHEN
@@ -107,7 +107,7 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 1);
         sorting = new Sorting(List.of());
 
         // WHEN
