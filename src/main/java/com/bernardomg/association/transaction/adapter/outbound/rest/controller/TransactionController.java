@@ -127,7 +127,7 @@ public class TransactionController {
      *
      * @param transaction
      *            query to filter transactions
-     * @param page
+     * @param pageable
      *            pagination to apply
      * @return a page for the transactions matching the sample
      */
