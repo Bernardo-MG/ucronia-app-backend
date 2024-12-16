@@ -4,7 +4,10 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,10 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
+import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
@@ -101,12 +108,16 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAllNotAssigned(final Pageable page) {
+    public final Iterable<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
         final Iterable<Person> people;
+        final Pageable         pageable;
+        final Sort             sort;
 
-        log.trace("Finding all the people with pagination {}", page);
+        log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
 
-        people = userPersonSpringRepository.findAllNotAssigned(page)
+        sort = toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        people = userPersonSpringRepository.findAllNotAssigned(pageable)
             .map(this::toDomain);
 
         log.trace("Found all the people: {}", people);
@@ -149,6 +160,25 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
             Optional.empty());
+    }
+
+    private final Order toOrder(final Property property) {
+        final Order order;
+
+        if (Direction.ASC.equals(property.direction())) {
+            order = Order.asc(property.name());
+        } else {
+            order = Order.desc(property.name());
+        }
+
+        return order;
+    }
+
+    private final Sort toSort(final Sorting sorting) {
+        return Sort.by(sorting.properties()
+            .stream()
+            .map(this::toOrder)
+            .toList());
     }
 
 }
