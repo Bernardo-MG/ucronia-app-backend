@@ -26,13 +26,12 @@ package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integ
 
 import java.time.Month;
 import java.time.Year;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -47,6 +46,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Alte
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -64,15 +64,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_CurrentMonth_NotPaid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -85,15 +86,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_CurrentMonth_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -106,15 +108,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_CurrentMonth_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -127,15 +130,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_CurrentMonth_Paid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -148,15 +152,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_CurrentMonth_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -169,15 +174,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_CurrentMonth_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -191,13 +197,14 @@ class ITFeeRepositoryFindAllInYear {
     @FeeFullYear
     void testFindAllInYear_Active_FullYear() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -218,13 +225,14 @@ class ITFeeRepositoryFindAllInYear {
     @AlternativeFeeFullYear
     void testFindAllInYear_Active_FullYear_TwoMembers() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -248,15 +256,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_NextYear_NotPaid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(false);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -269,15 +278,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_NextYear_Paid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(true);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -290,13 +300,14 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_NoFees() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -310,13 +321,14 @@ class ITFeeRepositoryFindAllInYear {
     @FeeFullYear
     void testFindAllInYear_Active_NoLastName() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -335,15 +347,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_PreviousMonth_NotPaid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -356,15 +369,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_PreviousMonth_Paid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.PREVIOUS_MONTH.getYear()), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -378,13 +392,14 @@ class ITFeeRepositoryFindAllInYear {
     @TwoFeeYearsConnected
     void testFindAllInYear_Active_TwoConnectedYears_First() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR_PREVIOUS, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR_PREVIOUS, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -400,13 +415,14 @@ class ITFeeRepositoryFindAllInYear {
     @TwoFeeYearsConnected
     void testFindAllInYear_Active_TwoConnectedYears_Second() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -422,15 +438,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_TwoMonthsBack_NotPaid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -443,15 +460,16 @@ class ITFeeRepositoryFindAllInYear {
     @MembershipActivePerson
     void testFindAllInYear_Active_TwoMonthsBack_Paid() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
 
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sort);
+        fees = repository.findAllInYear(Year.of(FeeConstants.TWO_MONTHS_BACK.getYear()), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -465,13 +483,14 @@ class ITFeeRepositoryFindAllInYear {
     @FeeFullYear
     void testFindAllInYear_Inactive_FullYear() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -488,13 +507,14 @@ class ITFeeRepositoryFindAllInYear {
     @DisplayName("With no data, it returns nothing")
     void testFindAllInYear_NoData() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sort);
+        fees = repository.findAllInYear(FeeConstants.CURRENT_YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)

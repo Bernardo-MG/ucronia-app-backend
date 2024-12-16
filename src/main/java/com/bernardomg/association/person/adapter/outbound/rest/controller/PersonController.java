@@ -132,23 +132,14 @@ public class PersonController {
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
     public Iterable<Person> readAll(final Pageable pageable) {
         final Pagination pagination;
-        final Sorting sorting;
-        
+        final Sorting    sorting;
+
         pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
-        sorting = new Sorting(pageable.getSort().stream().map(this::toProperty).toList());
+        sorting = new Sorting(pageable.getSort()
+            .stream()
+            .map(this::toProperty)
+            .toList());
         return service.getAll(pagination, sorting);
-    }
-    
-    private final Sorting.Property toProperty(final Sort.Order order) {
-        final Direction direction;
-        
-        if(order.isAscending()) {
-            direction = Direction.ASC;
-        } else {
-            direction = Direction.DESC;
-        }
-        
-        return new Sorting.Property(order.getProperty(), direction);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -212,6 +203,18 @@ public class PersonController {
                     .active()));
         }
         return new Person("", -1L, name, null, "", membership);
+    }
+
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+
+        if (order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+
+        return new Sorting.Property(order.getProperty(), direction);
     }
 
 }

@@ -25,14 +25,12 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -44,6 +42,8 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Memb
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -59,13 +59,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @FeeFullYear
     void testFindAllForMember_Active_FullYear() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 20, Direction.ASC, "date");
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -83,13 +85,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @MembershipActivePerson
     void testFindAllForMember_Active_NoFee() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -103,13 +107,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @PaidFee
     void testFindAllForMember_Active_NoLastName() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -123,13 +129,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @NotPaidFee
     void testFindAllForMember_Active_NotPaid() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -143,13 +151,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @PaidFee
     void testFindAllForMember_Active_Paid() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -163,13 +173,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @PaidFee
     void testFindAllForMember_Active_WrongMember() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(-1L, pageable);
+        fees = repository.findAllForMember(-1L, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -183,13 +195,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @NotPaidFee
     void testFindAllForMember_Inactive_NotPaid() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -203,13 +217,15 @@ class ITFeeRepositoryfindAllForMemberForMember {
     @PaidFee
     void testFindAllForMember_Inactive_Paid() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForMember(PersonConstants.NUMBER, pageable);
+        fees = repository.findAllForMember(PersonConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

@@ -36,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -47,6 +46,8 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
@@ -79,17 +80,19 @@ class TestFeeServiceGetAll {
     void testGetAll() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         feeQuery = FeesQuery.empty();
 
-        given(feeRepository.findAll(feeQuery, pageable)).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(List.of(Fees.paid()));
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = service.getAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -102,17 +105,19 @@ class TestFeeServiceGetAll {
     void testGetAll_NoData() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         feeQuery = FeesQuery.empty();
 
-        given(feeRepository.findAll(feeQuery, pageable)).willReturn(List.of());
+        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        fees = service.getAll(feeQuery, pageable);
+        fees = service.getAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

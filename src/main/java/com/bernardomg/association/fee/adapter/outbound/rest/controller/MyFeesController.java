@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -56,7 +60,27 @@ public class MyFeesController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)
     public Iterable<Fee> readAll(final Pageable pageable) {
-        return service.getAllForUserInSession(pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = new Sorting(pageable.getSort()
+            .stream()
+            .map(this::toProperty)
+            .toList());
+        return service.getAllForUserInSession(pagination, sorting);
+    }
+
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+
+        if (order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+
+        return new Sorting.Property(order.getProperty(), direction);
     }
 
 }

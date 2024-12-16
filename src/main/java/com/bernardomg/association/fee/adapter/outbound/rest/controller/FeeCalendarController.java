@@ -39,6 +39,8 @@ import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarQue
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -90,7 +92,24 @@ public class FeeCalendarController {
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
     public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
             final Sort sort) {
-        return service.getYear(Year.of(year), request.getStatus(), sort);
+        final Sorting sorting;
+
+        sorting = new Sorting(sort.stream()
+            .map(this::toProperty)
+            .toList());
+        return service.getYear(Year.of(year), request.getStatus(), sorting);
+    }
+
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+
+        if (order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+
+        return new Sorting.Property(order.getProperty(), direction);
     }
 
 }
