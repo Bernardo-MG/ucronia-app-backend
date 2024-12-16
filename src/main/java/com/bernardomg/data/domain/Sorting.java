@@ -9,7 +9,7 @@ import io.jsonwebtoken.lang.Arrays;
 public record Sorting(Collection<Property> properties) {
 
     public static final Sorting unsorted() {
-        return Sorting.unsorted();
+        return new Sorting(List.of());
     }
 
     public static final Sorting asc(final String property) {
