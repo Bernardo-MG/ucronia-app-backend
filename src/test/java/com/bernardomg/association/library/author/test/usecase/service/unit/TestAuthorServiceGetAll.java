@@ -66,7 +66,7 @@ class TestAuthorServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(authorRepository.findAll(pagination, sorting)).willReturn(List.of(Authors.valid()));
 
@@ -88,7 +88,7 @@ class TestAuthorServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(authorRepository.findAll(pagination, sorting)).willReturn(List.of());
 

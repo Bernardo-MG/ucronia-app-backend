@@ -16,6 +16,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 /**
  * TOOD: why is this annotation needed? Seems to be a problem with transactions
+ *
  * @param <T>
  */
 @IntegrationTest

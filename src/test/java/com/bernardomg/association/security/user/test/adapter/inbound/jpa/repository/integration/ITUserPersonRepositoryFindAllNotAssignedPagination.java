@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,7 +64,7 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
 
         // GIVEN
         pagination = new Pagination(0, 1);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         persons = repository.findAllNotAssigned(pagination, sorting);
@@ -85,7 +83,7 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
 
         // GIVEN
         pagination = new Pagination(1, 1);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         members = repository.findAllNotAssigned(pagination, sorting);

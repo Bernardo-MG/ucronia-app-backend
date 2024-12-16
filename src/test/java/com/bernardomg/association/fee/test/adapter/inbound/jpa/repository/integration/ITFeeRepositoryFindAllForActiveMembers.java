@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,7 +59,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR, sorting);
@@ -82,7 +80,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.NEXT_YEAR, sorting);
@@ -103,7 +101,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.PREVIOUS_YEAR, sorting);
@@ -124,7 +122,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR, sorting);
@@ -145,7 +143,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.NEXT_YEAR, sorting);
@@ -166,7 +164,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.PREVIOUS_YEAR, sorting);
@@ -187,7 +185,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR, sorting);
@@ -208,7 +206,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR, sorting);
@@ -226,7 +224,7 @@ class ITFeeRepositoryFindAllForActiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         fees = repository.findAllForActiveMembers(FeeConstants.CURRENT_YEAR, sorting);

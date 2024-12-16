@@ -67,7 +67,7 @@ class TestMemberServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         readMembers = List.of(Members.valid());
         given(publicMemberRepository.findActive(pagination, sorting)).willReturn(readMembers);
@@ -94,7 +94,7 @@ class TestMemberServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         readMembers = List.of();
         given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
@@ -121,7 +121,7 @@ class TestMemberServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         readMembers = List.of(Members.valid());
         given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
@@ -148,7 +148,7 @@ class TestMemberServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         readMembers = List.of(Members.valid());
         given(publicMemberRepository.findInactive(pagination, sorting)).willReturn(readMembers);

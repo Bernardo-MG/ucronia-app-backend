@@ -70,7 +70,7 @@ class TestUserPersonServiceGetAvailablePersons {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(List.of(Persons.noMembership()));
 
@@ -91,7 +91,7 @@ class TestUserPersonServiceGetAvailablePersons {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(List.of());
 

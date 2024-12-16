@@ -25,7 +25,6 @@
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
-import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -70,7 +69,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
 
         // GIVEN
         pagination = new Pagination(0, 1);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
@@ -92,7 +91,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
 
         // GIVEN
         pagination = new Pagination(1, 1);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 

@@ -26,7 +26,6 @@ package com.bernardomg.association.transaction.test.adapter.inbound.jpa.reposito
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +65,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.startDate(LocalDate.of(2020, Month.JANUARY, 2));
 
@@ -91,7 +90,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.endDate(LocalDate.of(2020, Month.JANUARY, 2));
 
@@ -115,7 +114,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2));
 
@@ -138,7 +137,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1));
 
@@ -161,7 +160,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // TODO: This is not the last day of the year
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.DECEMBER, 1));

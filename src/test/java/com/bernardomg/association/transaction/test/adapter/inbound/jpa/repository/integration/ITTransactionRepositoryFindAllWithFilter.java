@@ -25,7 +25,6 @@
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
-import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -76,7 +75,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         springRepository.save(TransactionEntities.forAmount(amount));
 
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
@@ -101,7 +100,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         springRepository.save(TransactionEntities.forAmount(amount));
 
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
@@ -124,7 +123,7 @@ class ITTransactionRepositoryFindAllWithFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
@@ -153,7 +152,7 @@ class ITTransactionRepositoryFindAllWithFilter {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 

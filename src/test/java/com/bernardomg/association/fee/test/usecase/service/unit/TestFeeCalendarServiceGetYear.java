@@ -67,7 +67,7 @@ class TestFeeCalendarServiceGetYear {
         final Sorting               sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(feeRepository.findAllForActiveMembers(MemberCalendars.YEAR_CURRENT, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
@@ -87,7 +87,7 @@ class TestFeeCalendarServiceGetYear {
         final Sorting               sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(feeRepository.findAllInYear(MemberCalendars.YEAR_CURRENT, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
@@ -108,7 +108,7 @@ class TestFeeCalendarServiceGetYear {
         final Sorting               sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(feeRepository.findAllForInactiveMembers(MemberCalendars.YEAR_CURRENT, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));

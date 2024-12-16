@@ -85,7 +85,7 @@ class TestFeeServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -110,7 +110,7 @@ class TestFeeServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 

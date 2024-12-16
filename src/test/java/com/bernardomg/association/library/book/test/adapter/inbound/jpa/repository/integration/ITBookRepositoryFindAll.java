@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,7 +61,7 @@ class ITBookRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         books = repository.findAll(pagination, sorting);
@@ -86,7 +84,7 @@ class ITBookRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         books = repository.findAll(pagination, sorting);
@@ -110,7 +108,7 @@ class ITBookRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         books = repository.findAll(pagination, sorting);
@@ -130,7 +128,7 @@ class ITBookRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         books = repository.findAll(pagination, sorting);
@@ -153,7 +151,7 @@ class ITBookRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         books = repository.findAll(pagination, sorting);
@@ -177,7 +175,7 @@ class ITBookRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         books = repository.findAll(pagination, sorting);

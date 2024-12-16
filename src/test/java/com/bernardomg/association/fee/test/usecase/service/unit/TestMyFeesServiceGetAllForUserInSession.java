@@ -81,7 +81,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(authentication.getPrincipal()).willReturn(userDetails);
@@ -112,7 +112,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(authentication.getPrincipal()).willReturn(
             new AnonymousAuthenticationToken("key", "principal", List.of(new SimpleGrantedAuthority("role"))));
@@ -138,7 +138,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(authentication.getPrincipal()).willReturn(userDetails);
@@ -168,7 +168,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(authentication.getPrincipal()).willReturn(userDetails);

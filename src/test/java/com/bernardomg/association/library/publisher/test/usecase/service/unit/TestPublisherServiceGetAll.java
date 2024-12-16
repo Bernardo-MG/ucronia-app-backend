@@ -66,7 +66,7 @@ class TestPublisherServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(publisherRepository.findAll(pagination, sorting)).willReturn(List.of(Publishers.valid()));
 
@@ -88,7 +88,7 @@ class TestPublisherServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(publisherRepository.findAll(pagination, sorting)).willReturn(List.of());
 

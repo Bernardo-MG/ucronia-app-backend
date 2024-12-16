@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,7 +64,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
         // GIVEN
         pagination = new Pagination(0, 1);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         members = repository.findAll(pagination, sorting);
@@ -85,7 +83,7 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
         // GIVEN
         pagination = new Pagination(1, 1);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         // WHEN
         members = repository.findAll(pagination, sorting);

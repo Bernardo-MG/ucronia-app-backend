@@ -86,7 +86,7 @@ class TestBookServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(bookRepository.findAll(pagination, sorting)).willReturn(List.of(Books.full()));
 
@@ -108,7 +108,7 @@ class TestBookServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 20);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         given(bookRepository.findAll(pagination, sorting)).willReturn(List.of());
 

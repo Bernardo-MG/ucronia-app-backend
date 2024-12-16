@@ -69,7 +69,7 @@ class TestTransactionServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
@@ -95,7 +95,7 @@ class TestTransactionServiceGetAll {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = new Sorting(List.of());
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
