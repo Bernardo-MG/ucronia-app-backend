@@ -31,8 +31,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -43,7 +41,6 @@ import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -60,32 +57,8 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
         super(5);
     }
 
-    private final Sorting.Property toProperty(final Sort.Order order) {
-        final Direction direction;
-
-        if (order.isAscending()) {
-            direction = Direction.ASC;
-        } else {
-            direction = Direction.DESC;
-        }
-
-        return new Sorting.Property(order.getProperty(), direction);
-    }
-
     @Override
-    protected Iterable<Fee> read(final Pageable pageable) {
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        if (pageable.isPaged()) {
-            pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
-        } else {
-            pagination = new Pagination(0, 10);
-        }
-        sorting = new Sorting(pageable.getSort()
-            .stream()
-            .map(this::toProperty)
-            .toList());
+    protected Iterable<Fee> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAll(FeesQuery.empty(), pagination, sorting);
     }
 

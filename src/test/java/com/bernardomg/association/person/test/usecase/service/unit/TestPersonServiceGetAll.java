@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -40,8 +41,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -68,16 +67,16 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Page<Person>     readPersons;
+        final Iterable<Person>   persons;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Person> readPersons;
 
         // GIVEN
         pagination = new Pagination(0, 100);
         sorting = Sorting.unsorted();
 
-        readPersons = new PageImpl<>(List.of());
+        readPersons = List.of();
         given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
 
         // WHEN
@@ -115,15 +114,15 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FirstName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final Page<Person> readPersons;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Person> readPersons;
 
         // GIVEN
         pagination = new Pagination(0, 100);
         sorting = Sorting.asc("firstName");
 
-        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
+        readPersons = List.of(Persons.noMembership());
         given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
 
         // WHEN
@@ -139,15 +138,15 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When sorting descending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FirstName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final Page<Person> readPersons;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Person> readPersons;
 
         // GIVEN
         pagination = new Pagination(0, 100);
         sorting = Sorting.desc("firstName");
 
-        readPersons = new PageImpl<>(List.of(Persons.noMembership()));
+        readPersons = List.of(Persons.noMembership());
         given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
 
         // WHEN

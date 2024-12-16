@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
@@ -13,6 +12,7 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
 import com.bernardomg.association.member.test.configuration.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -27,14 +27,14 @@ class ITMemberBalanceRepositoryFindInRange {
     @MembershipActivePerson
     @FeeFullYear
     void testFindInRange_End() {
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(null, MemberBalanceConstants.START_MONTH.plusMonths(2), sort);
+        balances = memberBalanceRepository.findInRange(null, MemberBalanceConstants.START_MONTH.plusMonths(2), sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -49,14 +49,14 @@ class ITMemberBalanceRepositoryFindInRange {
     @MembershipActivePerson
     @FeeFullYear
     void testFindInRange_NoRange() {
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
+        balances = memberBalanceRepository.findInRange(null, null, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -78,14 +78,14 @@ class ITMemberBalanceRepositoryFindInRange {
     @Test
     @DisplayName("When reading all with no data, nothing is returned")
     void testFindInRange_NoRange_NoData() {
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(null, null, sort);
+        balances = memberBalanceRepository.findInRange(null, null, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -98,15 +98,15 @@ class ITMemberBalanceRepositoryFindInRange {
     @MembershipActivePerson
     @FeeFullYear
     void testFindInRange_Range() {
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         // WHEN
         balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1),
-            MemberBalanceConstants.START_MONTH.plusMonths(3), sort);
+            MemberBalanceConstants.START_MONTH.plusMonths(3), sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -121,14 +121,14 @@ class ITMemberBalanceRepositoryFindInRange {
     @MembershipActivePerson
     @FeeFullYear
     void testFindInRange_Start() {
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1), null, sort);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1), null, sorting);
 
         // THEN
         Assertions.assertThat(balances)

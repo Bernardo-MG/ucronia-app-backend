@@ -27,7 +27,6 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 import java.time.Year;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +39,6 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -91,25 +89,8 @@ public class FeeCalendarController {
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
     public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
-            final Sort sort) {
-        final Sorting sorting;
-
-        sorting = new Sorting(sort.stream()
-            .map(this::toProperty)
-            .toList());
+            final Sorting sorting) {
         return service.getYear(Year.of(year), request.getStatus(), sorting);
-    }
-
-    private final Sorting.Property toProperty(final Sort.Order order) {
-        final Direction direction;
-
-        if (order.isAscending()) {
-            direction = Direction.ASC;
-        } else {
-            direction = Direction.DESC;
-        }
-
-        return new Sorting.Property(order.getProperty(), direction);
     }
 
 }

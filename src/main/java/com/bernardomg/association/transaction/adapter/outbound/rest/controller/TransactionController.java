@@ -28,8 +28,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,7 +48,6 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -127,22 +124,17 @@ public class TransactionController {
      *
      * @param transaction
      *            query to filter transactions
-     * @param pageable
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page for the transactions matching the sample
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
-    public Iterable<Transaction> readAll(@Valid final TransactionQuery transaction, final Pageable pageable) {
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
-        sorting = new Sorting(pageable.getSort()
-            .stream()
-            .map(this::toProperty)
-            .toList());
+    public Iterable<Transaction> readAll(@Valid final TransactionQuery transaction, final Pagination pagination,
+            final Sorting sorting) {
         return service.getAll(transaction, pagination, sorting);
     }
 
@@ -197,18 +189,6 @@ public class TransactionController {
             .withDate(change.getDate())
             .withDescription(change.getDescription())
             .build();
-    }
-
-    private final Sorting.Property toProperty(final Sort.Order order) {
-        final Direction direction;
-
-        if (order.isAscending()) {
-            direction = Direction.ASC;
-        } else {
-            direction = Direction.DESC;
-        }
-
-        return new Sorting.Property(order.getProperty(), direction);
     }
 
 }

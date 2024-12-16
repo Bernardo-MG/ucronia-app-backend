@@ -1,0 +1,45 @@
+
+package com.bernardomg.data.springframework;
+
+import org.springframework.core.MethodParameter;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
+
+import com.bernardomg.data.domain.Pagination;
+
+public final class PaginationArgumentResolver implements HandlerMethodArgumentResolver {
+
+    @Override
+    public final Object resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer,
+            final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
+        final String pageParam;
+        final String sizeParam;
+        final int    page;
+        final int    size;
+
+        pageParam = webRequest.getParameter("page");
+        if (pageParam == null) {
+            page = 0;
+        } else {
+            page = Integer.parseInt(pageParam);
+        }
+
+        sizeParam = webRequest.getParameter("size");
+        if (sizeParam == null) {
+            size = 10;
+        } else {
+            size = Integer.parseInt(sizeParam);
+        }
+
+        return new Pagination(page, size);
+    }
+
+    @Override
+    public final boolean supportsParameter(final MethodParameter parameter) {
+        return parameter.getParameterType()
+            .equals(Pagination.class);
+    }
+
+}

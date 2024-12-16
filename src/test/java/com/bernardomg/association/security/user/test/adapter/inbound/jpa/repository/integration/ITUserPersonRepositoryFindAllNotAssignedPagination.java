@@ -30,8 +30,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
@@ -39,7 +37,6 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -55,32 +52,8 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
         super(1);
     }
 
-    private final Sorting.Property toProperty(final Sort.Order order) {
-        final Direction direction;
-
-        if (order.isAscending()) {
-            direction = Direction.ASC;
-        } else {
-            direction = Direction.DESC;
-        }
-
-        return new Sorting.Property(order.getProperty(), direction);
-    }
-
     @Override
-    protected final Iterable<Person> read(final Pageable pageable) {
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        if (pageable.isPaged()) {
-            pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
-        } else {
-            pagination = new Pagination(0, 10);
-        }
-        sorting = new Sorting(pageable.getSort()
-            .stream()
-            .map(this::toProperty)
-            .toList());
+    protected final Iterable<Person> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAllNotAssigned(pagination, sorting);
     }
 

@@ -26,20 +26,16 @@ package com.bernardomg.association.member.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
@@ -54,32 +50,26 @@ import com.bernardomg.data.domain.Sorting;
 @DisplayName("Public member service - get all")
 class TestMemberServiceGetAll {
 
-    /**
-     * TODO: avoid captors
-     */
-    @Captor
-    private ArgumentCaptor<Pageable> pageableCaptor;
-
     @Mock
-    private MemberRepository         publicMemberRepository;
+    private MemberRepository     publicMemberRepository;
 
     @InjectMocks
-    private DefaultMemberService     service;
+    private DefaultMemberService service;
 
     @Test
     @DisplayName("When filtering with by active it returns the active members")
     void testGetAll_FilterActive_ReturnsData() {
-        final Iterable<Member> members;
-        final MemberQuery      memberQuery;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Page<Member>     readMembers;
+        final Iterable<Member>   members;
+        final MemberQuery        memberQuery;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Member> readMembers;
 
         // GIVEN
         pagination = new Pagination(0, 10);
         sorting = new Sorting(List.of());
 
-        readMembers = new PageImpl<>(List.of(Members.valid()));
+        readMembers = List.of(Members.valid());
         given(publicMemberRepository.findActive(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.active();
@@ -96,17 +86,17 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with the default filter, and there is no data, it returns nothing")
     void testGetAll_FilterDefault_NoData() {
-        final Iterable<Member> members;
-        final MemberQuery      memberQuery;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Page<Member>     readMembers;
+        final Iterable<Member>   members;
+        final MemberQuery        memberQuery;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Member> readMembers;
 
         // GIVEN
         pagination = new Pagination(0, 10);
         sorting = new Sorting(List.of());
 
-        readMembers = new PageImpl<>(List.of());
+        readMembers = List.of();
         given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.empty();
@@ -123,17 +113,17 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with the default filter it returns all the members")
     void testGetAll_FilterDefault_ReturnsData() {
-        final Iterable<Member> members;
-        final MemberQuery      memberQuery;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Page<Member>     readMembers;
+        final Iterable<Member>   members;
+        final MemberQuery        memberQuery;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Member> readMembers;
 
         // GIVEN
         pagination = new Pagination(0, 10);
         sorting = new Sorting(List.of());
 
-        readMembers = new PageImpl<>(List.of(Members.valid()));
+        readMembers = List.of(Members.valid());
         given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.empty();
@@ -150,17 +140,17 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When filtering with by active it returns the not active members")
     void testGetAll_FilterNotActive_ReturnsData() {
-        final Iterable<Member> members;
-        final MemberQuery      memberQuery;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Page<Member>     readMembers;
+        final Iterable<Member>   members;
+        final MemberQuery        memberQuery;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Collection<Member> readMembers;
 
         // GIVEN
         pagination = new Pagination(0, 10);
         sorting = new Sorting(List.of());
 
-        readMembers = new PageImpl<>(List.of(Members.valid()));
+        readMembers = List.of(Members.valid());
         given(publicMemberRepository.findInactive(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.inactive();

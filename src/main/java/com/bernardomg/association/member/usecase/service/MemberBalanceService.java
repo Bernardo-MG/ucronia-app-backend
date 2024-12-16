@@ -24,10 +24,9 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import org.springframework.data.domain.Sort;
-
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Member balance service.
@@ -42,10 +41,10 @@ public interface MemberBalanceService {
      *
      * @param balance
      *            query to filter balances
-     * @param sort
+     * @param sorting
      *            sorting to apply
      * @return the monthly member balance
      */
-    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sort sort);
+    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sorting sorting);
 
 }

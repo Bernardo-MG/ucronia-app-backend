@@ -31,8 +31,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -42,7 +40,6 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -58,32 +55,8 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         super(5);
     }
 
-    private final Sorting.Property toProperty(final Sort.Order order) {
-        final Direction direction;
-
-        if (order.isAscending()) {
-            direction = Direction.ASC;
-        } else {
-            direction = Direction.DESC;
-        }
-
-        return new Sorting.Property(order.getProperty(), direction);
-    }
-
     @Override
-    protected final Iterable<Transaction> read(final Pageable pageable) {
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        if (pageable.isPaged()) {
-            pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
-        } else {
-            pagination = new Pagination(0, 10);
-        }
-        sorting = new Sorting(pageable.getSort()
-            .stream()
-            .map(this::toProperty)
-            .toList());
+    protected final Iterable<Transaction> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAll(TransactionsQueries.empty(), pagination, sorting);
     }
 
