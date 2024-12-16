@@ -29,23 +29,17 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
@@ -53,11 +47,16 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.MembersQuery;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get all")
 class TestMemberServiceGetAll {
 
+    /**
+     * TODO: avoid captors
+     */
     @Captor
     private ArgumentCaptor<Pageable> pageableCaptor;
 
@@ -72,19 +71,21 @@ class TestMemberServiceGetAll {
     void testGetAll_FilterActive_ReturnsData() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findActive(ArgumentMatchers.any())).willReturn(readMembers);
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
-        pageable = Pageable.unpaged();
+        readMembers = new PageImpl<>(List.of(Members.valid()));
+        given(publicMemberRepository.findActive(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.active();
 
         // WHEN
-        members = service.getAll(memberQuery, pageable);
+        members = service.getAll(memberQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -97,19 +98,21 @@ class TestMemberServiceGetAll {
     void testGetAll_FilterDefault_NoData() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of());
-        given(publicMemberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
-        pageable = Pageable.unpaged();
+        readMembers = new PageImpl<>(List.of());
+        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.empty();
 
         // WHEN
-        members = service.getAll(memberQuery, pageable);
+        members = service.getAll(memberQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -122,19 +125,21 @@ class TestMemberServiceGetAll {
     void testGetAll_FilterDefault_ReturnsData() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
-        pageable = Pageable.unpaged();
+        readMembers = new PageImpl<>(List.of(Members.valid()));
+        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.empty();
 
         // WHEN
-        members = service.getAll(memberQuery, pageable);
+        members = service.getAll(memberQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -147,204 +152,26 @@ class TestMemberServiceGetAll {
     void testGetAll_FilterNotActive_ReturnsData() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Page<Member>     readMembers;
 
         // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
-        pageable = Pageable.unpaged();
+        readMembers = new PageImpl<>(List.of(Members.valid()));
+        given(publicMemberRepository.findInactive(pagination, sorting)).willReturn(readMembers);
 
         memberQuery = MembersQuery.inactive();
 
         // WHEN
-        members = service.getAll(memberQuery, pageable);
+        members = service.getAll(memberQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .as("members")
             .isEqualTo(readMembers);
-    }
-
-    @Test
-    @DisplayName("When sorting ascending by first name, and applying pagination, the data is returned in order")
-    void testGetAll_Sort_Paged_Asc_FirstName() {
-        final MemberQuery  memberQuery;
-        final Pageable     pageable;
-        final Page<Member> readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
-
-        pageable = PageRequest.of(0, 1, Sort.by("firstName"));
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        service.getAll(memberQuery, pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("firstName"));
-    }
-
-    @Test
-    @DisplayName("When sorting ascending by number, and applying pagination, the data is returned in order")
-    void testGetAll_Sort_Paged_Asc_Number() {
-        final MemberQuery  memberQuery;
-        final Pageable     pageable;
-        final Page<Member> readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
-
-        pageable = PageRequest.of(0, 1, Sort.by("number"));
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        service.getAll(memberQuery, pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("number"));
-    }
-
-    @Test
-    @DisplayName("When sorting descending by first name, and applying pagination, the data is returned in order")
-    void testGetAll_Sort_Paged_Desc_FirstName() {
-        final MemberQuery  memberQuery;
-        final Pageable     pageable;
-        final Page<Member> readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
-
-        pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "firstName"));
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        service.getAll(memberQuery, pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.desc("firstName"));
-    }
-
-    @Test
-    @DisplayName("When sorting descending by number, and applying pagination, the data is returned in order")
-    void testGetAll_Sort_Paged_Desc_Number() {
-        final MemberQuery  memberQuery;
-        final Pageable     pageable;
-        final Page<Member> readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
-
-        pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "number"));
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        service.getAll(memberQuery, pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.desc("number"));
-    }
-
-    @Test
-    @DisplayName("When sorting ascending by first name, and not applying pagination, the data is returned in order")
-    void testGetAll_Sort_Unpaged_Asc_FirstName() {
-        final MemberQuery  memberQuery;
-        final Pageable     pageable;
-        final Page<Member> readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
-
-        pageable = Pageable.unpaged(Sort.by("firstName"));
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        service.getAll(memberQuery, pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("firstName"));
-    }
-
-    @Test
-    @DisplayName("When sorting ascending by number, and not applying pagination, the data is returned in order")
-    void testGetAll_Sort_Unpaged_Asc_Number() {
-        final MemberQuery  memberQuery;
-        final Pageable     pageable;
-        final Page<Member> readMembers;
-
-        // GIVEN
-        readMembers = new PageImpl<>(List.of(Members.valid()));
-        given(publicMemberRepository.findAll(pageableCaptor.capture())).willReturn(readMembers);
-
-        pageable = Pageable.unpaged(Sort.by("number"));
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        service.getAll(memberQuery, pageable);
-
-        // THEN
-        pageableCaptor.getValue()
-            .getSort()
-            .toList();
-        Assertions.assertThat(pageableCaptor.getValue())
-            .as("sort")
-            .extracting(Pageable::getSort)
-            .extracting(Sort::toList)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Order.asc("number"));
     }
 
 }

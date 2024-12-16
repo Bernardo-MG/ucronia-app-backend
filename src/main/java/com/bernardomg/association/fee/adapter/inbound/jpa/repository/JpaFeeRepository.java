@@ -202,14 +202,15 @@ public final class JpaFeeRepository implements FeeRepository {
         final Pageable      pageable;
         final Sort          sort;
 
-        log.debug("Finding all fees for member {}pagination {} and sorting {}", number, pagination, sorting);
+        log.debug("Finding all fees for member {} with pagination {} and sorting {}", number, pagination, sorting);
 
         sort = toSort(sorting);
         pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         found = memberFeeSpringRepository.findAllByPersonNumber(number, pageable)
             .map(this::toDomain);
 
-        log.debug("Found all fees for member {}pagination {} and sorting {}: {}", number, pagination, sorting, found);
+        log.debug("Found all fees for member {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+            found);
 
         return found;
     }

@@ -24,17 +24,22 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -50,22 +55,44 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
         super(5);
     }
 
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+
+        if (order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+
+        return new Sorting.Property(order.getProperty(), direction);
+    }
+
     @Override
     protected final Iterable<Member> read(final Pageable pageable) {
-        return repository.findAll(pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = new Sorting(pageable.getSort()
+            .stream()
+            .map(this::toProperty)
+            .toList());
+        return repository.findAll(pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 1);
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -76,13 +103,15 @@ class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

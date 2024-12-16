@@ -24,11 +24,12 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -36,6 +37,8 @@ import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,13 +57,15 @@ class ITMemberRepositoryFindAll {
     @MembershipActivePerson
     void testFindAll_Active() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -73,13 +78,15 @@ class ITMemberRepositoryFindAll {
     @MembershipInactivePerson
     void testFindAll_Inactive() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -91,13 +98,15 @@ class ITMemberRepositoryFindAll {
     @DisplayName("With no data it returns nothing")
     void testFindAll_NoData() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -110,13 +119,15 @@ class ITMemberRepositoryFindAll {
     @NoMembershipPerson
     void testFindAll_NoMembership() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

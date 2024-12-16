@@ -24,19 +24,20 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,14 +57,16 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With ascending order by first name it returns the ordered data")
     void testFindAll_FirstName_Asc() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "firstName");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -75,13 +78,15 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With descending order by first name it returns the ordered data")
     void testFindAll_FirstName_Desc() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "firstName");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -93,13 +98,15 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With ascending order by last name it returns the ordered data")
     void testFindAll_LastName_Asc() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.ASC, "lastName");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -111,13 +118,15 @@ class ITMemberRepositoryFindAllSort {
     @DisplayName("With descending order by last name it returns the ordered data")
     void testFindAll_LastName_Desc() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 10, Direction.DESC, "lastName");
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
 
         // WHEN
-        members = repository.findAll(pageable);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
