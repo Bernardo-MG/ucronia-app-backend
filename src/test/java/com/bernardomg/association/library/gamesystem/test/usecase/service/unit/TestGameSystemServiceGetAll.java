@@ -35,12 +35,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("GameSystemService - get all")
@@ -59,16 +60,18 @@ class TestGameSystemServiceGetAll {
     @Test
     @DisplayName("When there are game systems, they are returned")
     void testGetAll() {
-        final Pageable             pageable;
+        final Pagination           pagination;
+        final Sorting              sorting;
         final Iterable<GameSystem> systems;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
-        given(gameSystemRepository.findAll(pageable)).willReturn(List.of(GameSystems.valid()));
+        given(gameSystemRepository.findAll(pagination, sorting)).willReturn(List.of(GameSystems.valid()));
 
         // WHEN
-        systems = service.getAll(pageable);
+        systems = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(systems)
@@ -79,16 +82,18 @@ class TestGameSystemServiceGetAll {
     @Test
     @DisplayName("When there are no game systems, nothing is returned")
     void testGetAll_NoData() {
-        final Pageable             pageable;
+        final Pagination           pagination;
+        final Sorting              sorting;
         final Iterable<GameSystem> systems;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
-        given(gameSystemRepository.findAll(pageable)).willReturn(List.of());
+        given(gameSystemRepository.findAll(pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        systems = service.getAll(pageable);
+        systems = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(systems)

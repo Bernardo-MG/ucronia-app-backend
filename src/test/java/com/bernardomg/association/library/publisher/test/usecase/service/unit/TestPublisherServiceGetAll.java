@@ -35,12 +35,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PublisherService - get all")
@@ -59,16 +60,18 @@ class TestPublisherServiceGetAll {
     @Test
     @DisplayName("When there are publishers, they are returned")
     void testGetAll() {
-        final Pageable            pageable;
+        final Pagination          pagination;
+        final Sorting             sorting;
         final Iterable<Publisher> publishers;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
-        given(publisherRepository.findAll(pageable)).willReturn(List.of(Publishers.valid()));
+        given(publisherRepository.findAll(pagination, sorting)).willReturn(List.of(Publishers.valid()));
 
         // WHEN
-        publishers = service.getAll(pageable);
+        publishers = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(publishers)
@@ -79,16 +82,18 @@ class TestPublisherServiceGetAll {
     @Test
     @DisplayName("When there are no publishers, nothing is returned")
     void testGetAll_NoData() {
-        final Pageable            pageable;
+        final Pagination          pagination;
+        final Sorting             sorting;
         final Iterable<Publisher> publishers;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
-        given(publisherRepository.findAll(pageable)).willReturn(List.of());
+        given(publisherRepository.findAll(pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        publishers = service.getAll(pageable);
+        publishers = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(publishers)

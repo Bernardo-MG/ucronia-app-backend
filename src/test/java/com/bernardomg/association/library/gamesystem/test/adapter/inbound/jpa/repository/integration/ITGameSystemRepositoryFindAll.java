@@ -24,16 +24,19 @@
 
 package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,13 +51,15 @@ class ITGameSystemRepositoryFindAll {
     @ValidGameSystem
     void testFindAll() {
         final Iterable<GameSystem> gameSystems;
-        final Pageable             pageable;
+        final Pagination           pagination;
+        final Sorting              sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        gameSystems = repository.findAll(pageable);
+        gameSystems = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(gameSystems)
@@ -66,13 +71,15 @@ class ITGameSystemRepositoryFindAll {
     @DisplayName("When there are no game systems, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<GameSystem> gameSystems;
-        final Pageable             pageable;
+        final Pagination           pagination;
+        final Sorting              sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        gameSystems = repository.findAll(pageable);
+        gameSystems = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(gameSystems)

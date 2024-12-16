@@ -4,7 +4,6 @@ package com.bernardomg.association.library.booktype.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotEmptyRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -78,14 +79,14 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final Iterable<BookType> getAll(final Pageable pageable) {
+    public final Iterable<BookType> getAll(final Pagination pagination, final Sorting sorting) {
         final Iterable<BookType> books;
 
-        log.debug("Reading book types with pagination {}", pageable);
+        log.debug("Reading book types with pagination {} and sorting {}", pagination, sorting);
 
-        books = bookTypeRepository.findAll(pageable);
+        books = bookTypeRepository.findAll(pagination, sorting);
 
-        log.debug("Read book types with pagination {}", pageable);
+        log.debug("Read book types with pagination {} and sorting {}", pagination, sorting);
 
         return books;
     }

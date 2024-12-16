@@ -3,9 +3,9 @@ package com.bernardomg.association.library.gamesystem.domain.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 public interface GameSystemRepository {
 
@@ -17,7 +17,7 @@ public interface GameSystemRepository {
 
     public boolean existsByNameForAnother(final String name, final long number);
 
-    public Iterable<GameSystem> findAll(final Pageable pageable);
+    public Iterable<GameSystem> findAll(final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();
 

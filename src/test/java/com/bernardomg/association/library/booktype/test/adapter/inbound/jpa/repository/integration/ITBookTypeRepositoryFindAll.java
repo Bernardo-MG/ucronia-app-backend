@@ -24,16 +24,19 @@
 
 package com.bernardomg.association.library.booktype.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,13 +51,15 @@ class ITBookTypeRepositoryFindAll {
     @ValidBookType
     void testFindAll() {
         final Iterable<BookType> bookTypes;
-        final Pageable           pageable;
+        final Pagination         pagination;
+        final Sorting            sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        bookTypes = repository.findAll(pageable);
+        bookTypes = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(bookTypes)
@@ -66,13 +71,15 @@ class ITBookTypeRepositoryFindAll {
     @DisplayName("When there are no book types, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<BookType> bookTypes;
-        final Pageable           pageable;
+        final Pagination         pagination;
+        final Sorting            sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
         // WHEN
-        bookTypes = repository.findAll(pageable);
+        bookTypes = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(bookTypes)

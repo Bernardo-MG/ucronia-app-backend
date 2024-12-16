@@ -35,12 +35,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookTypeService - get all")
@@ -52,23 +53,21 @@ class TestBookTypeServiceGetAll {
     @InjectMocks
     private DefaultBookTypeService service;
 
-    public TestBookTypeServiceGetAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When there are book types, they are returned")
     void testGetAll() {
-        final Pageable           pageable;
+        final Pagination         pagination;
+        final Sorting            sorting;
         final Iterable<BookType> types;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
-        given(bookTypeRepository.findAll(pageable)).willReturn(List.of(BookTypes.valid()));
+        given(bookTypeRepository.findAll(pagination, sorting)).willReturn(List.of(BookTypes.valid()));
 
         // WHEN
-        types = service.getAll(pageable);
+        types = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(types)
@@ -79,16 +78,18 @@ class TestBookTypeServiceGetAll {
     @Test
     @DisplayName("When there are no book types, nothing is returned")
     void testGetAll_NoData() {
-        final Pageable           pageable;
+        final Pagination         pagination;
+        final Sorting            sorting;
         final Iterable<BookType> types;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of());
 
-        given(bookTypeRepository.findAll(pageable)).willReturn(List.of());
+        given(bookTypeRepository.findAll(pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        types = service.getAll(pageable);
+        types = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(types)

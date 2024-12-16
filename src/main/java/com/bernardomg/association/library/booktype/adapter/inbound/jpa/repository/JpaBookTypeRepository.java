@@ -4,13 +4,20 @@ package com.bernardomg.association.library.booktype.adapter.inbound.jpa.reposito
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
+import com.bernardomg.data.domain.Sorting.Property;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,11 +83,15 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final Iterable<BookType> findAll(final Pageable pageable) {
+    public final Iterable<BookType> findAll(final Pagination pagination, final Sorting sorting) {
         final Iterable<BookType> read;
+        final Pageable           pageable;
+        final Sort               sort;
 
-        log.debug("Finding book types with pagination {}", pageable);
+        log.debug("Finding book types with pagination {} and sorting {}", pagination, sorting);
 
+        sort = toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         read = bookTypeSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
@@ -150,6 +161,25 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
             .withNumber(domain.number())
             .withName(domain.name())
             .build();
+    }
+
+    private final Order toOrder(final Property property) {
+        final Order order;
+
+        if (Direction.ASC.equals(property.direction())) {
+            order = Order.asc(property.name());
+        } else {
+            order = Order.desc(property.name());
+        }
+
+        return order;
+    }
+
+    private final Sort toSort(final Sorting sorting) {
+        return Sort.by(sorting.properties()
+            .stream()
+            .map(this::toOrder)
+            .toList());
     }
 
 }

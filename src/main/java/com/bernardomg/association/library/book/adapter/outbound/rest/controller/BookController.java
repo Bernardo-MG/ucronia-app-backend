@@ -35,6 +35,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +61,9 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -108,7 +112,15 @@ public class BookController {
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.BOOKS)
     public Iterable<Book> readAll(final Pageable pageable) {
-        return service.getAll(pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = new Sorting(pageable.getSort()
+            .stream()
+            .map(this::toProperty)
+            .toList());
+        return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -279,6 +291,18 @@ public class BookController {
             .withLendings(List.of())
             .withLent(false)
             .build();
+    }
+
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+
+        if (order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+
+        return new Sorting.Property(order.getProperty(), direction);
     }
 
 }

@@ -4,7 +4,6 @@ package com.bernardomg.association.library.publisher.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -78,14 +79,14 @@ public final class DefaultPublisherService implements PublisherService {
     }
 
     @Override
-    public final Iterable<Publisher> getAll(final Pageable pageable) {
+    public final Iterable<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
         final Iterable<Publisher> publishers;
 
-        log.debug("Reading publishers with pagination {}", pageable);
+        log.debug("Reading publishers with pagination {} and sorting {}", pagination, sorting);
 
-        publishers = publisherRepository.findAll(pageable);
+        publishers = publisherRepository.findAll(pagination, sorting);
 
-        log.debug("Read publishers with pagination {}", pageable);
+        log.debug("Read publishers with pagination {} and sorting {}", pagination, sorting);
 
         return publishers;
     }
