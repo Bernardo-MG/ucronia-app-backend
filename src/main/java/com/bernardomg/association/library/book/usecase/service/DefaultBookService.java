@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +33,8 @@ import com.bernardomg.association.library.publisher.domain.exception.MissingPubl
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -162,14 +163,14 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Iterable<Book> getAll(final Pageable pageable) {
+    public final Iterable<Book> getAll(final Pagination pagination, final Sorting sorting) {
         final Iterable<Book> books;
 
-        log.debug("Reading books with pagination {}", pageable);
+        log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
 
-        books = bookRepository.findAll(pageable);
+        books = bookRepository.findAll(pagination, sorting);
 
-        log.debug("Read books with pagination {}", pageable);
+        log.debug("Read books with pagination {} and sorting {}", pagination, sorting);
 
         return books;
     }

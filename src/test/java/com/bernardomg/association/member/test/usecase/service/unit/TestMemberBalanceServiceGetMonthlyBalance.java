@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
@@ -22,6 +21,7 @@ import com.bernardomg.association.member.test.configuration.factory.MemberBalanc
 import com.bernardomg.association.member.test.configuration.factory.MemberBalanceQueryRequests;
 import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member balance service - get monthly balance")
@@ -37,19 +37,19 @@ class TestMemberBalanceServiceGetMonthlyBalance {
     @DisplayName("Returns the queried data")
     void testGetMonthlyBalance() {
         final MemberBalanceQuery             query;
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         given(memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
-            MemberBalanceConstants.CURRENT_MONTH, sort)).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
+            MemberBalanceConstants.CURRENT_MONTH, sorting)).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
 
         query = MemberBalanceQueryRequests.previousAndThis();
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -61,38 +61,38 @@ class TestMemberBalanceServiceGetMonthlyBalance {
     @DisplayName("Can't read beyond the current month")
     void testGetMonthlyBalance_LimitsAtCurrent() {
         final MemberBalanceQuery query;
-        final Sort               sort;
+        final Sorting            sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = MemberBalanceQueryRequests.aroundCurrent();
 
         // WHEN
-        service.getMonthlyBalance(query, sort);
+        service.getMonthlyBalance(query, sorting);
 
         // THEN
         Mockito.verify(memberBalanceRepository)
-            .findInRange(MemberBalanceConstants.PREVIOUS_MONTH, MemberBalanceConstants.CURRENT_MONTH, sort);
+            .findInRange(MemberBalanceConstants.PREVIOUS_MONTH, MemberBalanceConstants.CURRENT_MONTH, sorting);
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetMonthlyBalance_NoData() {
         final MemberBalanceQuery             query;
-        final Sort                           sort;
+        final Sorting                        sorting;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         given(memberBalanceRepository.findInRange(MemberBalanceConstants.PREVIOUS_MONTH,
-            MemberBalanceConstants.CURRENT_MONTH, sort)).willReturn(List.of());
+            MemberBalanceConstants.CURRENT_MONTH, sorting)).willReturn(List.of());
 
         query = MemberBalanceQueryRequests.previousAndThis();
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)

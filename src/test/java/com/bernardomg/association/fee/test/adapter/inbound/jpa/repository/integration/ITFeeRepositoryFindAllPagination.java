@@ -30,8 +30,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -40,6 +38,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -57,8 +57,8 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     }
 
     @Override
-    protected Iterable<Fee> read(final Pageable pageable) {
-        return repository.findAll(FeesQuery.empty(), pageable);
+    protected Iterable<Fee> read(final Pagination pagination, final Sorting sorting) {
+        return repository.findAll(FeesQuery.empty(), pagination, sorting);
     }
 
     @Test
@@ -66,15 +66,17 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     void testFindAll_Page1() {
         final FeeQuery      feeQuery;
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 1);
+        pagination = new Pagination(0, 1);
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -87,15 +89,17 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     void testFindAll_Page2() {
         final FeeQuery      feeQuery;
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(1, 1);
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

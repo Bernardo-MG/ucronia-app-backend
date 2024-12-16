@@ -35,7 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.model.Book;
@@ -46,6 +45,8 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - get all")
@@ -79,16 +80,18 @@ class TestBookServiceGetAll {
     @Test
     @DisplayName("When there are books, they are returned")
     void testGetAll() {
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
         final Iterable<Book> books;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
-        given(bookRepository.findAll(pageable)).willReturn(List.of(Books.full()));
+        given(bookRepository.findAll(pagination, sorting)).willReturn(List.of(Books.full()));
 
         // WHEN
-        books = service.getAll(pageable);
+        books = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -99,16 +102,18 @@ class TestBookServiceGetAll {
     @Test
     @DisplayName("When there are no books, nothing is returned")
     void testGetAll_NoData() {
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
         final Iterable<Book> books;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
-        given(bookRepository.findAll(pageable)).willReturn(List.of());
+        given(bookRepository.findAll(pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        books = service.getAll(pageable);
+        books = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)

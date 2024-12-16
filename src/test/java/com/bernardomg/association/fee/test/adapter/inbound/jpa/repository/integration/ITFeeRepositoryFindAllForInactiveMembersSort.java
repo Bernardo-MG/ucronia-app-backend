@@ -24,13 +24,13 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -38,6 +38,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.AccentInactiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,13 +55,13 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
     @Disabled("Database dependant")
     void testFindAllForInactiveMembers_Accents_Name_Asc() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "firstName");
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -78,13 +79,13 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
     @MultipleFees
     void testFindAllForInactiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "firstName");
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -102,13 +103,13 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
     @MultipleFees
     void testFindAllForInactiveMembers_Name_Desc() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Direction.DESC, "firstName");
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
 
         // WHEN
-        fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sort);
+        fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)

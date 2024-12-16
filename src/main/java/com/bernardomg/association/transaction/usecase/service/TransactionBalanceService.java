@@ -26,11 +26,10 @@ package com.bernardomg.association.transaction.usecase.service;
 
 import java.util.Collection;
 
-import org.springframework.data.domain.Sort;
-
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Transaction balance service.
@@ -51,11 +50,11 @@ public interface TransactionBalanceService {
      *
      * @param query
      *            query to filter balances
-     * @param sort
+     * @param sorting
      *            sorting to apply
      * @return the monthly balances
      */
     public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
-            final Sort sort);
+            final Sorting sorting);
 
 }

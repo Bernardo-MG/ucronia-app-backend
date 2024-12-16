@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +39,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +66,7 @@ public final class DefaultMyFeesService implements MyFeesService {
     }
 
     @Override
-    public final Iterable<Fee> getAllForUserInSession(final Pageable pageable) {
+    public final Iterable<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
         final Authentication   authentication;
         final Iterable<Fee>    fees;
         final UserDetails      userDetails;
@@ -87,7 +88,7 @@ public final class DefaultMyFeesService implements MyFeesService {
                 fees = List.of();
             } else {
                 fees = feeRepository.findAllForMember(person.get()
-                    .number(), pageable);
+                    .number(), pagination, sorting);
             }
         }
 

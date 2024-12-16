@@ -6,14 +6,13 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 public interface FeeRepository {
 
@@ -23,19 +22,19 @@ public interface FeeRepository {
 
     public boolean existsPaid(final Long number, final YearMonth date);
 
-    public Iterable<Fee> findAll(final FeeQuery query, final Pageable pageable);
+    public Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Fee> findAllForActiveMembers(final Year year, final Sort sort);
+    public Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting);
 
-    public Collection<Fee> findAllForInactiveMembers(final Year year, final Sort sort);
+    public Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting);
 
-    public Iterable<Fee> findAllForMember(final Long number, final Pageable pageable);
+    public Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
 
     public Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates);
 
     public Collection<Fee> findAllInMonth(final YearMonth date);
 
-    public Collection<Fee> findAllInYear(final Year year, final Sort sort);
+    public Collection<Fee> findAllInYear(final Year year, final Sorting sorting);
 
     public Optional<Fee> findOne(final Long number, final YearMonth date);
 

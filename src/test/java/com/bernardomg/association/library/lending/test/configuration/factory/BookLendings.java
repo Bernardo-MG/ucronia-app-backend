@@ -13,6 +13,10 @@ public final class BookLendings {
         return new BookLending(BookConstants.NUMBER, Borrowers.valid(), BookConstants.LENT_DATE, null);
     }
 
+    public static final BookLending lent(final LocalDate lent) {
+        return new BookLending(BookConstants.NUMBER, Borrowers.valid(), lent, null);
+    }
+
     public static final BookLending lentAlternativePerson() {
         return new BookLending(BookConstants.NUMBER, Borrowers.alternative(), BookConstants.LENT_DATE, null);
     }
@@ -29,29 +33,22 @@ public final class BookLendings {
         return new BookLending(BookConstants.NUMBER, Borrowers.valid(), LocalDate.now(), null);
     }
 
-    public static final BookLending returned(final LocalDate lent, final LocalDate returned) {
-        return new BookLending(BookConstants.NUMBER, Borrowers.valid(), lent,
-            returned);
-    }
-
-    public static final BookLending returnedAlternative(final LocalDate lent, final LocalDate returned) {
-        return new BookLending(BookConstants.NUMBER, Borrowers.alternative(), lent,
-            returned);
-    }
-
-    public static final BookLending lent(final LocalDate lent) {
-        return new BookLending(BookConstants.NUMBER, Borrowers.valid(), lent,
-            null);
-    }
-
     public static final BookLending returned() {
         return new BookLending(BookConstants.NUMBER, Borrowers.valid(), BookConstants.LENT_DATE,
             BookConstants.RETURNED_DATE);
     }
 
+    public static final BookLending returned(final LocalDate lent, final LocalDate returned) {
+        return new BookLending(BookConstants.NUMBER, Borrowers.valid(), lent, returned);
+    }
+
     public static final BookLending returnedAlternative() {
         return new BookLending(BookConstants.NUMBER, Borrowers.alternative(), BookConstants.LENT_DATE,
             BookConstants.RETURNED_DATE);
+    }
+
+    public static final BookLending returnedAlternative(final LocalDate lent, final LocalDate returned) {
+        return new BookLending(BookConstants.NUMBER, Borrowers.alternative(), lent, returned);
     }
 
     public static final BookLending returnedLast() {

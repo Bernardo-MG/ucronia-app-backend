@@ -15,13 +15,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.domain.exception.TransactionReportException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Sorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,7 +46,7 @@ public final class DefaultTransactionReportService implements TransactionReportS
     public final ByteArrayOutputStream getExcel() {
         final Collection<Transaction> transactions;
         final Workbook                workbook;
-        final Sort                    sort;
+        final Sorting                 sort;
 
         log.debug("Creating excel");
 
@@ -54,7 +54,7 @@ public final class DefaultTransactionReportService implements TransactionReportS
 
         workbook = generateWorkbook();
 
-        sort = Sort.by("date", "index", "description");
+        sort = Sorting.by("date", "index", "description");
         transactions = transactionRepository.findAll(sort);
         loadWorkbook(workbook, transactions);
 

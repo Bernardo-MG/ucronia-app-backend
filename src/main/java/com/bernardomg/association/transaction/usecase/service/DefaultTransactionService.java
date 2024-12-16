@@ -4,7 +4,6 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +11,8 @@ import com.bernardomg.association.transaction.domain.exception.MissingTransactio
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,8 +70,9 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final TransactionQuery query, final Pageable pageable) {
-        return transactionRepository.findAll(query, pageable);
+    public final Iterable<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
+            final Sorting sorting) {
+        return transactionRepository.findAll(query, pagination, sorting);
     }
 
     @Override

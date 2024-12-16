@@ -25,14 +25,12 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -46,6 +44,8 @@ import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,15 +62,17 @@ class ITFeeRepositoryFindAll {
     void testFindAll_FullYear() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 20, Direction.ASC, "date");
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -90,15 +92,17 @@ class ITFeeRepositoryFindAll {
     void testFindAll_Multiple() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -113,15 +117,17 @@ class ITFeeRepositoryFindAll {
     void testFindAll_NoFee() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -136,15 +142,17 @@ class ITFeeRepositoryFindAll {
     void testFindAll_NoLastName() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -159,15 +167,17 @@ class ITFeeRepositoryFindAll {
     void testFindAll_NotPaid() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -182,15 +192,17 @@ class ITFeeRepositoryFindAll {
     void testFindAll_Paid() {
         final Iterable<Fee> fees;
         final FeeQuery      feeQuery;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pageable);
+        fees = repository.findAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

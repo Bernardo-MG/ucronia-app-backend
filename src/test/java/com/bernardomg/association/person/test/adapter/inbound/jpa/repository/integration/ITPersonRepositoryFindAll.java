@@ -28,7 +28,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -36,6 +35,8 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Memb
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,13 +51,15 @@ class ITPersonRepositoryFindAll {
     @NoMembershipPerson
     void testFindAll() {
         final Iterable<Person> people;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        people = personRepository.findAll(pageable);
+        people = personRepository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -67,13 +70,15 @@ class ITPersonRepositoryFindAll {
     @DisplayName("With no person, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Person> people;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        people = personRepository.findAll(pageable);
+        people = personRepository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -85,13 +90,15 @@ class ITPersonRepositoryFindAll {
     @MembershipActivePerson
     void testFindAll_WithMembership_Active() {
         final Iterable<Person> people;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        people = personRepository.findAll(pageable);
+        people = personRepository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -103,13 +110,15 @@ class ITPersonRepositoryFindAll {
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive() {
         final Iterable<Person> people;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        people = personRepository.findAll(pageable);
+        people = personRepository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -121,13 +130,15 @@ class ITPersonRepositoryFindAll {
     @NoMembershipPerson
     void testFindAll_WithoutMembership() {
         final Iterable<Person> people;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 100);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        people = personRepository.findAll(pageable);
+        people = personRepository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
