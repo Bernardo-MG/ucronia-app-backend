@@ -75,7 +75,11 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         final Pagination pagination;
         final Sorting    sorting;
 
-        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        if (pageable.isPaged()) {
+            pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        } else {
+            pagination = new Pagination(0, 10);
+        }
         sorting = new Sorting(pageable.getSort()
             .stream()
             .map(this::toProperty)

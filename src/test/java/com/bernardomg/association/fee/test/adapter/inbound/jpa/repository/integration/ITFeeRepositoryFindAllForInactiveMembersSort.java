@@ -106,7 +106,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
 
         // WHEN
         fees = repository.findAllForInactiveMembers(FeeConstants.YEAR, sorting);
