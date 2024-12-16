@@ -81,7 +81,7 @@ public class FeeCalendarController {
      *            year to read
      * @param request
      *            request data
-     * @param sort
+     * @param sorting
      *            sorting to apply
      * @return all the member fees for a year
      */
