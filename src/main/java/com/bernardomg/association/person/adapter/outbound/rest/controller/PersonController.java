@@ -30,6 +30,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +56,7 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -88,7 +91,9 @@ public class PersonController {
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public Person create(@Valid @RequestBody final PersonCreation creation) {
-        final Person member = toDomain(creation);
+        final Person member;
+
+        member = toDomain(creation);
         return service.create(member);
     }
 
@@ -116,15 +121,34 @@ public class PersonController {
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public Person patch(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
-        final Person member = toDomain(number, change);
+        final Person member;
+
+        member = toDomain(number, change);
         return service.patch(member);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
-    public Iterable<Person> readAll(final Pagination pagination, final Sorting sorting) {
+    public Iterable<Person> readAll(final Pageable pageable) {
+        final Pagination pagination;
+        final Sorting sorting;
+        
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = new Sorting(pageable.getSort().stream().map(this::toProperty).toList());
         return service.getAll(pagination, sorting);
+    }
+    
+    private final Sorting.Property toProperty(final Sort.Order order) {
+        final Direction direction;
+        
+        if(order.isAscending()) {
+            direction = Direction.ASC;
+        } else {
+            direction = Direction.DESC;
+        }
+        
+        return new Sorting.Property(order.getProperty(), direction);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -146,7 +170,9 @@ public class PersonController {
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public Person update(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
-        final Person member = toDomain(number, change);
+        final Person member;
+
+        member = toDomain(number, change);
         return service.update(member);
     }
 
