@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +19,7 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -133,7 +131,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         log.debug("Finding all the persons");
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         persons = personSpringRepository.findAll(pageable)
             .map(this::toDomain);
@@ -295,25 +293,6 @@ public final class JpaPersonRepository implements PersonRepository {
             .withActive(active)
             .withRenewMembership(renew)
             .build();
-    }
-
-    private final Order toOrder(final Property property) {
-        final Order order;
-
-        if (Direction.ASC.equals(property.direction())) {
-            order = Order.asc(property.name());
-        } else {
-            order = Order.desc(property.name());
-        }
-
-        return order;
-    }
-
-    private final Sort toSort(final Sorting sorting) {
-        return Sort.by(sorting.properties()
-            .stream()
-            .map(this::toOrder)
-            .toList());
     }
 
 }

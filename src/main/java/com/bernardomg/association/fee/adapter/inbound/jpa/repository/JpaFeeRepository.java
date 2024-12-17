@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +33,7 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.Tra
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -125,7 +123,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         spec = MemberFeeSpecifications.fromQuery(query);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         if (spec.isEmpty()) {
             page = memberFeeSpringRepository.findAll(pageable);
@@ -157,7 +155,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Active members: {}", foundIds);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
@@ -185,7 +183,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Inactive members: {}", foundIds);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
@@ -204,7 +202,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding all fees for member {} with pagination {} and sorting {}", number, pagination, sorting);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         found = memberFeeSpringRepository.findAllByPersonNumber(number, pageable)
             .map(this::toDomain);
@@ -259,7 +257,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         fees = memberFeeSpringRepository.findAllInRange(start, end, sort)
             .stream()
             .map(this::toDomain)
@@ -439,25 +437,6 @@ public final class JpaFeeRepository implements FeeRepository {
             .withPerson(person)
             .withDate(fee.date())
             .build();
-    }
-
-    private final Order toOrder(final Property property) {
-        final Order order;
-
-        if (Direction.ASC.equals(property.direction())) {
-            order = Order.asc(property.name());
-        } else {
-            order = Order.desc(property.name());
-        }
-
-        return order;
-    }
-
-    private final Sort toSort(final Sorting sorting) {
-        return Sort.by(sorting.properties()
-            .stream()
-            .map(this::toOrder)
-            .toList());
     }
 
 }

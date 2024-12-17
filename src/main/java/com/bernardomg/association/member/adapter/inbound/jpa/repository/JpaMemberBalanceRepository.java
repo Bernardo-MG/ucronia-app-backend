@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +16,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.specification.Month
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,7 +48,7 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         // Specification from the request
         spec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         if (spec.isPresent()) {
             balances = monthlyMemberBalanceRepository.findAll(spec.get(), sort);
         } else {
@@ -74,25 +72,6 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
             entity.getMonth()
                 .getMonth());
         return new MonthlyMemberBalance(month, entity.getTotal());
-    }
-
-    private final Order toOrder(final Property property) {
-        final Order order;
-
-        if (Direction.ASC.equals(property.direction())) {
-            order = Order.asc(property.name());
-        } else {
-            order = Order.desc(property.name());
-        }
-
-        return order;
-    }
-
-    private final Sort toSort(final Sorting sorting) {
-        return Sort.by(sorting.properties()
-            .stream()
-            .map(this::toOrder)
-            .toList());
     }
 
 }

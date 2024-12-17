@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +19,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionCurrentBal
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,7 +102,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
             spec = limitSpec;
         }
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         balance = monthlyBalanceRepository.findAll(spec, sort);
 
         monthlyBalance = balance.stream()
@@ -124,25 +122,6 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
             entity.getMonth()
                 .getMonth());
         return new TransactionMonthlyBalance(month, entity.getResults(), entity.getTotal());
-    }
-
-    private final Order toOrder(final Property property) {
-        final Order order;
-
-        if (Direction.ASC.equals(property.direction())) {
-            order = Order.asc(property.name());
-        } else {
-            order = Order.desc(property.name());
-        }
-
-        return order;
-    }
-
-    private final Sort toSort(final Sorting sorting) {
-        return Sort.by(sorting.properties()
-            .stream()
-            .map(this::toOrder)
-            .toList());
     }
 
 }

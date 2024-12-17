@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +15,7 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,7 +88,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game systems with pagination {} and sorting {}", pagination, sorting);
 
-        sort = toSort(sorting);
+        sort = SpringSorting.toSort(sorting);
         pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         read = gameSystemSpringRepository.findAll(pageable)
             .map(this::toDomain);
@@ -161,25 +159,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
             .withNumber(domain.number())
             .withName(domain.name())
             .build();
-    }
-
-    private final Order toOrder(final Property property) {
-        final Order order;
-
-        if (Direction.ASC.equals(property.direction())) {
-            order = Order.asc(property.name());
-        } else {
-            order = Order.desc(property.name());
-        }
-
-        return order;
-    }
-
-    private final Sort toSort(final Sorting sorting) {
-        return Sort.by(sorting.properties()
-            .stream()
-            .map(this::toOrder)
-            .toList());
     }
 
 }
