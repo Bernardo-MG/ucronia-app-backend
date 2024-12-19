@@ -212,6 +212,7 @@ public final class DefaultFeeService implements FeeService {
             .map(d -> toFee(person, d))
             .toList();
 
+        // TODO: reject paying in the future
         validatorPay.validate(newFees);
 
         fees = feeRepository.save(newFees);

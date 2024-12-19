@@ -69,6 +69,8 @@ public interface FeeService {
     /**
      * Pays fees for a member. This creates the fees for the received months, and registers a payment on the received
      * date.
+     * <p>
+     * TODO: use a payment model?
      *
      * @param feeDates
      *            dates of the fees being paid
