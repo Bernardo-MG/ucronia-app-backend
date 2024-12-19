@@ -2,7 +2,6 @@
 package com.bernardomg.association.transaction.usecase.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -18,17 +17,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.transaction.domain.exception.TransactionReportException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.excel.ExcelParsing;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @Transactional
-public final class DefaultTransactionReportService implements TransactionReportService {
+public final class ExcelPoiTransactionReportService implements TransactionReportService {
 
     private static final DecimalFormat  decimalFormat = new DecimalFormat("0.00");
 
@@ -36,14 +35,14 @@ public final class DefaultTransactionReportService implements TransactionReportS
 
     private final TransactionRepository transactionRepository;
 
-    public DefaultTransactionReportService(final TransactionRepository transactionRepo) {
+    public ExcelPoiTransactionReportService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
     }
 
     @Override
-    public final ByteArrayOutputStream getExcel() {
+    public final ByteArrayOutputStream getReport() {
         final Collection<Transaction> transactions;
         final Workbook                workbook;
         final Sorting                 sort;
@@ -58,7 +57,7 @@ public final class DefaultTransactionReportService implements TransactionReportS
         transactions = transactionRepository.findAll(sort);
         loadWorkbook(workbook, transactions);
 
-        return toStream(workbook);
+        return ExcelParsing.toStream(workbook);
     }
 
     private final Workbook generateWorkbook() {
@@ -143,21 +142,6 @@ public final class DefaultTransactionReportService implements TransactionReportS
             index++;
         }
 
-    }
-
-    private final ByteArrayOutputStream toStream(final Workbook workbook) {
-        final ByteArrayOutputStream outputStream;
-
-        outputStream = new ByteArrayOutputStream();
-        try {
-            workbook.write(outputStream);
-            workbook.close(); // Make sure to close the workbook
-        } catch (final IOException e) {
-            log.error(e.getLocalizedMessage(), e);
-            throw new TransactionReportException();
-        }
-
-        return outputStream;
     }
 
 }

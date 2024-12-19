@@ -24,19 +24,17 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
+import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -69,22 +67,10 @@ public class TransactionReportController {
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     public ResponseEntity<InputStreamResource> readAll() throws IOException {
         final ByteArrayOutputStream stream;
-        final byte[]                bytes;
-        final HttpHeaders           headers;
 
-        stream = service.getExcel();
+        stream = service.getReport();
 
-        bytes = stream.toByteArray();
-
-        // Set headers for the response
-        headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transactions.xlsx");
-
-        return ResponseEntity.ok()
-            .headers(headers)
-            .contentLength(bytes.length)
-            .contentType(new MediaType("application", "vnd.ms-excel"))
-            .body(new InputStreamResource(new ByteArrayInputStream(bytes)));
+        return ExcelResponses.response(stream);
     }
 
 }

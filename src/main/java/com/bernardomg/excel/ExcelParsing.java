@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.excel;
 
-/**
- * Missing transaction exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class TransactionReportException extends RuntimeException {
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
-    private static final long serialVersionUID = -861254928892689094L;
+import org.apache.poi.ss.usermodel.Workbook;
 
-    public TransactionReportException() {
-        super("Error generating report");
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public final class ExcelParsing {
+
+    public static final ByteArrayOutputStream toStream(final Workbook workbook) {
+        final ByteArrayOutputStream outputStream;
+
+        outputStream = new ByteArrayOutputStream();
+        try {
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (final IOException e) {
+            log.error(e.getLocalizedMessage(), e);
+            throw new ExcelParsingException();
+        }
+
+        return outputStream;
     }
 
 }
