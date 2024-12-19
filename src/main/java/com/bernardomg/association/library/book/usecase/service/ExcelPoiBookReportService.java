@@ -1,9 +1,7 @@
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DecimalFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,8 +14,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
 
@@ -26,25 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
-public final class ExcelPoiTransactionReportService implements TransactionReportService {
+public final class ExcelPoiBookReportService implements BookReportService {
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final BookRepository bookRepository;
 
-    private static final DecimalFormat     decimalFormat = new DecimalFormat("0.00");
-
-    private final TransactionRepository    transactionRepository;
-
-    public ExcelPoiTransactionReportService(final TransactionRepository transactionRepo) {
+    public ExcelPoiBookReportService(final BookRepository bookRepo) {
         super();
 
-        transactionRepository = Objects.requireNonNull(transactionRepo);
+        bookRepository = Objects.requireNonNull(bookRepo);
     }
 
     @Override
     public final ByteArrayOutputStream getReport() {
-        final Iterable<Transaction> transactions;
-        final Workbook              workbook;
-        final Sorting               sort;
+        final Iterable<Book> books;
+        final Workbook       workbook;
+        final Sorting        sort;
 
         log.debug("Creating excel");
 
@@ -52,9 +46,9 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
 
         workbook = generateWorkbook();
 
-        sort = Sorting.by("date", "index", "description");
-        transactions = transactionRepository.findAll(sort);
-        loadWorkbook(workbook, transactions);
+        sort = Sorting.by("title", "language", "isbn");
+        books = bookRepository.findAll(sort);
+        loadWorkbook(workbook, books);
 
         return ExcelParsing.toStream(workbook);
     }
@@ -69,11 +63,10 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
 
         workbook = new XSSFWorkbook();
 
-        sheet = workbook.createSheet("Transacciones");
+        sheet = workbook.createSheet("Libros");
         sheet.setColumnWidth(0, 3000);
         sheet.setColumnWidth(1, 3000);
-        sheet.setColumnWidth(2, 4000);
-        sheet.setColumnWidth(3, 15000);
+        sheet.setColumnWidth(2, 3000);
 
         header = sheet.createRow(0);
 
@@ -86,56 +79,46 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
         headerStyle.setFont(font);
 
         headerCell = header.createCell(0);
-        headerCell.setCellValue("Índice");
+        headerCell.setCellValue("Título");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(1);
-        headerCell.setCellValue("Fecha");
+        headerCell.setCellValue("Idioma");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(2);
-        headerCell.setCellValue("Importe");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(3);
-        headerCell.setCellValue("Descripción");
+        headerCell.setCellValue("ISBN");
         headerCell.setCellStyle(headerStyle);
 
         return workbook;
     }
 
-    private final void loadWorkbook(final Workbook workbook, final Iterable<Transaction> transactions) {
+    private final void loadWorkbook(final Workbook workbook, final Iterable<Book> books) {
         final CellStyle style;
         final Sheet     sheet;
         int             index;
         Row             row;
         Cell            cell;
-        String          date;
 
         style = workbook.createCellStyle();
         style.setWrapText(true);
 
         sheet = workbook.getSheetAt(0);
         index = 1;
-        for (final Transaction transaction : transactions) {
+        for (final Book book : books) {
             row = sheet.createRow(index);
 
             cell = row.createCell(0);
-            cell.setCellValue(transaction.index());
+            cell.setCellValue(book.title()
+                .fullTitle());
             cell.setCellStyle(style);
 
-            date = transaction.date()
-                .format(dateFormatter);
-            cell = row.createCell(1);
-            cell.setCellValue(date);
+            cell = row.createCell(0);
+            cell.setCellValue(book.language());
             cell.setCellStyle(style);
 
-            cell = row.createCell(2);
-            cell.setCellValue(decimalFormat.format(transaction.amount()));
-            cell.setCellStyle(style);
-
-            cell = row.createCell(3);
-            cell.setCellValue(transaction.description());
+            cell = row.createCell(0);
+            cell.setCellValue(book.isbn());
             cell.setCellStyle(style);
 
             index++;
