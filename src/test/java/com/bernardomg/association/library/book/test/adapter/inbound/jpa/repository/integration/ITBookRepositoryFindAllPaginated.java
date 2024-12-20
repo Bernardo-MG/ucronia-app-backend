@@ -39,12 +39,13 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find all")
-class ITBookRepositoryFindAll {
+@DisplayName("BookRepository - find all - paginated")
+class ITBookRepositoryFindAllPaginated {
 
     @Autowired
     private BookRepository repository;
@@ -55,13 +56,15 @@ class ITBookRepositoryFindAll {
     @FullBook
     void testFindAll() {
         final Iterable<Book> books;
+        final Pagination     pagination;
         final Sorting        sorting;
 
         // GIVEN
+        pagination = new Pagination(0, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(sorting);
+        books = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -76,13 +79,15 @@ class ITBookRepositoryFindAll {
     @LentBookLending
     void testFindAll_Lent() {
         final Iterable<Book> books;
+        final Pagination     pagination;
         final Sorting        sorting;
 
         // GIVEN
+        pagination = new Pagination(0, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(sorting);
+        books = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -98,13 +103,15 @@ class ITBookRepositoryFindAll {
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
         final Iterable<Book> books;
+        final Pagination     pagination;
         final Sorting        sorting;
 
         // GIVEN
+        pagination = new Pagination(0, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(sorting);
+        books = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -116,13 +123,15 @@ class ITBookRepositoryFindAll {
     @DisplayName("When there are no books, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Book> books;
+        final Pagination     pagination;
         final Sorting        sorting;
 
         // GIVEN
+        pagination = new Pagination(0, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(sorting);
+        books = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -137,13 +146,15 @@ class ITBookRepositoryFindAll {
     @ReturnedBookLending
     void testFindAll_Returned() {
         final Iterable<Book> books;
+        final Pagination     pagination;
         final Sorting        sorting;
 
         // GIVEN
+        pagination = new Pagination(0, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(sorting);
+        books = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -159,13 +170,15 @@ class ITBookRepositoryFindAll {
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {
         final Iterable<Book> books;
+        final Pagination     pagination;
         final Sorting        sorting;
 
         // GIVEN
+        pagination = new Pagination(0, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(sorting);
+        books = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)

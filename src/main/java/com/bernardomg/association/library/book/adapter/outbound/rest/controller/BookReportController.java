@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.library.book.adapter.outbound.rest.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
+import com.bernardomg.association.library.book.usecase.service.BookReportService;
 import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
@@ -47,19 +47,19 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/funds/transaction")
+@RequestMapping("/library/book")
 @AllArgsConstructor
-public class TransactionReportController {
+public class BookReportController {
 
     /**
-     * Transaction report service.
+     * Book report service.
      */
-    private final TransactionReportService service;
+    private final BookReportService service;
 
     /**
-     * Returns an Excel report with all the transactions.
+     * Returns an Excel report with all the books.
      *
-     * @return an Excel report with all the transactions
+     * @return an Excel report with all the books
      * @throws IOException
      *             if there was a problem processing the excel
      */

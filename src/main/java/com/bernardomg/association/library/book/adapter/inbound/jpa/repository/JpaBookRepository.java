@@ -144,6 +144,24 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     @Override
+    public final Collection<Book> findAll(final Sorting sorting) {
+        final Collection<Book> read;
+        final Sort             sort;
+
+        log.debug("Finding books with sorting {}", sorting);
+
+        sort = SpringSorting.toSort(sorting);
+        read = bookSpringRepository.findAll(sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found books {}", read);
+
+        return read;
+    }
+
+    @Override
     public final long findNextNumber() {
         final long number;
 
