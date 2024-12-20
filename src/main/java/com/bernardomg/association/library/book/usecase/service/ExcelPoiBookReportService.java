@@ -2,7 +2,9 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -14,8 +16,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.booktype.domain.model.BookType;
+import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
+import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
 
@@ -26,7 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class ExcelPoiBookReportService implements BookReportService {
 
-    private final BookRepository bookRepository;
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    private final BookRepository           bookRepository;
 
     public ExcelPoiBookReportService(final BookRepository bookRepo) {
         super();
@@ -65,8 +73,16 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
         sheet = workbook.createSheet("Libros");
         sheet.setColumnWidth(0, 3000);
-        sheet.setColumnWidth(1, 3000);
+        sheet.setColumnWidth(1, 17000);
         sheet.setColumnWidth(2, 3000);
+        sheet.setColumnWidth(3, 5000);
+        sheet.setColumnWidth(4, 3000);
+        sheet.setColumnWidth(4, 5000);
+        sheet.setColumnWidth(5, 5000);
+        sheet.setColumnWidth(6, 5000);
+        sheet.setColumnWidth(7, 5000);
+        sheet.setColumnWidth(8, 5000);
+        sheet.setColumnWidth(9, 3000);
 
         header = sheet.createRow(0);
 
@@ -79,15 +95,43 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerStyle.setFont(font);
 
         headerCell = header.createCell(0);
-        headerCell.setCellValue("Título");
+        headerCell.setCellValue("Número");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(1);
-        headerCell.setCellValue("Idioma");
+        headerCell.setCellValue("Título completo");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(2);
+        headerCell.setCellValue("Idioma");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(3);
         headerCell.setCellValue("ISBN");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(4);
+        headerCell.setCellValue("Publicación");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(5);
+        headerCell.setCellValue("Sistema");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(6);
+        headerCell.setCellValue("Tipo");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(7);
+        headerCell.setCellValue("Autores");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(8);
+        headerCell.setCellValue("Editores");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(9);
+        headerCell.setCellValue("Prestado");
         headerCell.setCellStyle(headerStyle);
 
         return workbook;
@@ -109,16 +153,57 @@ public final class ExcelPoiBookReportService implements BookReportService {
             row = sheet.createRow(index);
 
             cell = row.createCell(0);
+            cell.setCellValue(book.number());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(1);
             cell.setCellValue(book.title()
                 .fullTitle());
             cell.setCellStyle(style);
 
-            cell = row.createCell(0);
+            cell = row.createCell(2);
             cell.setCellValue(book.language());
             cell.setCellStyle(style);
 
-            cell = row.createCell(0);
+            cell = row.createCell(3);
             cell.setCellValue(book.isbn());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(4);
+            if (book.publishDate() != null) {
+                cell.setCellValue(book.publishDate()
+                    .format(dateFormatter));
+            }
+            cell.setCellStyle(style);
+
+            cell = row.createCell(5);
+            cell.setCellValue(book.gameSystem()
+                .map(GameSystem::name)
+                .orElse(""));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(6);
+            cell.setCellValue(book.bookType()
+                .map(BookType::name)
+                .orElse(""));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(7);
+            cell.setCellValue(book.authors()
+                .stream()
+                .map(Author::name)
+                .collect(Collectors.joining(", ")));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(8);
+            cell.setCellValue(book.publishers()
+                .stream()
+                .map(Publisher::name)
+                .collect(Collectors.joining(", ")));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(9);
+            cell.setCellValue(book.lent());
             cell.setCellStyle(style);
 
             index++;
