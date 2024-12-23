@@ -21,6 +21,7 @@ import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
+import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
@@ -82,7 +83,10 @@ public final class ExcelPoiBookReportService implements BookReportService {
         sheet.setColumnWidth(6, 5000);
         sheet.setColumnWidth(7, 5000);
         sheet.setColumnWidth(8, 5000);
-        sheet.setColumnWidth(9, 3000);
+        sheet.setColumnWidth(9, 5000);
+        sheet.setColumnWidth(10, 5000);
+        sheet.setColumnWidth(11, 3000);
+        sheet.setColumnWidth(11, 3000);
 
         header = sheet.createRow(0);
 
@@ -134,6 +138,18 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerCell.setCellValue("Prestado");
         headerCell.setCellStyle(headerStyle);
 
+        headerCell = header.createCell(10);
+        headerCell.setCellValue("Socio");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(11);
+        headerCell.setCellValue("Fecha");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(12);
+        headerCell.setCellValue("Días");
+        headerCell.setCellStyle(headerStyle);
+
         return workbook;
     }
 
@@ -143,6 +159,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         int             index;
         Row             row;
         Cell            cell;
+        BookLending     lending;
 
         style = workbook.createCellStyle();
         style.setWrapText(true);
@@ -205,6 +222,28 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell = row.createCell(9);
             cell.setCellValue(book.lent());
             cell.setCellStyle(style);
+
+            if (book.lent()) {
+                lending = book.lendings()
+                    .stream()
+                    .reduce((first, second) -> second)
+                    .get();
+
+                cell = row.createCell(10);
+                cell.setCellValue(lending.borrower()
+                    .name()
+                    .fullName());
+                cell.setCellStyle(style);
+
+                cell = row.createCell(11);
+                cell.setCellValue(lending.lendingDate()
+                    .format(dateFormatter));
+                cell.setCellStyle(style);
+
+                cell = row.createCell(12);
+                cell.setCellValue(lending.getDays());
+                cell.setCellStyle(style);
+            }
 
             index++;
         }
