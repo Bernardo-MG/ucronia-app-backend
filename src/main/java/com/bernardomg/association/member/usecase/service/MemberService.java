@@ -3,10 +3,10 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Reduced member service. Reduces only non sensible information.
@@ -21,11 +21,13 @@ public interface MemberService {
      *
      * @param query
      *            query for filtering
-     * @param pageable
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the members matching the sample
      */
-    public Iterable<Member> getAll(final MemberQuery query, final Pageable pageable);
+    public Iterable<Member> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

@@ -4,7 +4,6 @@ package com.bernardomg.association.library.booktype.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotEmptyRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -44,6 +45,7 @@ public final class DefaultBookTypeService implements BookTypeService {
     @Override
     public final BookType create(final BookType type) {
         final BookType toCreate;
+        final BookType created;
         final Long     number;
 
         log.debug("Creating book type {}", type);
@@ -55,7 +57,11 @@ public final class DefaultBookTypeService implements BookTypeService {
 
         createBookTypeValidator.validate(toCreate);
 
-        return bookTypeRepository.save(toCreate);
+        created = bookTypeRepository.save(toCreate);
+
+        log.debug("Created book type {}", type);
+
+        return created;
     }
 
     @Override
@@ -68,13 +74,21 @@ public final class DefaultBookTypeService implements BookTypeService {
         }
 
         bookTypeRepository.delete(number);
+
+        log.debug("Deleted book type {}", number);
     }
 
     @Override
-    public final Iterable<BookType> getAll(final Pageable pageable) {
-        log.debug("Reading book types with pagination {}", pageable);
+    public final Iterable<BookType> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<BookType> books;
 
-        return bookTypeRepository.findAll(pageable);
+        log.debug("Reading book types with pagination {} and sorting {}", pagination, sorting);
+
+        books = bookTypeRepository.findAll(pagination, sorting);
+
+        log.debug("Read book types with pagination {} and sorting {}", pagination, sorting);
+
+        return books;
     }
 
     @Override
@@ -89,11 +103,15 @@ public final class DefaultBookTypeService implements BookTypeService {
             throw new MissingBookTypeException(number);
         }
 
+        log.debug("Read book type {}", number);
+
         return bookType;
     }
 
     @Override
     public final BookType update(final BookType type) {
+        final BookType bookType;
+
         log.debug("Updating book type {}", type);
 
         if (!bookTypeRepository.exists(type.number())) {
@@ -103,7 +121,11 @@ public final class DefaultBookTypeService implements BookTypeService {
         // Set number
         updateBookTypeValidator.validate(type);
 
-        return bookTypeRepository.save(type);
+        bookType = bookTypeRepository.save(type);
+
+        log.debug("Updated book type {}", type);
+
+        return bookType;
     }
 
 }

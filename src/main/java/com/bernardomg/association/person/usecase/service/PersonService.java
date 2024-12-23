@@ -3,9 +3,9 @@ package com.bernardomg.association.person.usecase.service;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Person service. Supports all the CRUD operations.
@@ -35,11 +35,13 @@ public interface PersonService {
     /**
      * Returns all the persons matching the sample. If the sample fields are empty, then all the persons are returned.
      *
-     * @param pageable
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the persons matching the sample
      */
-    public Iterable<Person> getAll(final Pageable pageable);
+    public Iterable<Person> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the person for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -32,9 +33,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -46,6 +44,7 @@ import com.bernardomg.association.member.test.configuration.factory.MemberCalend
 import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,13 +61,14 @@ class ITFeeRepositoryFindAllInYearSort {
     @Disabled("Database dependant")
     void testFindAllInYear_Accents_Name_Asc() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -83,14 +83,14 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     void testFindAllInYear_NoData() {
-        final Sort             sort;
         final ThrowingCallable execution;
+        final Sorting          sorting;
 
         // GIVEN
-        sort = Sort.by(Direction.ASC, "abc");
+        sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
         // WHEN
-        execution = () -> repository.findAllInYear(MemberCalendars.YEAR, sort)
+        execution = () -> repository.findAllInYear(MemberCalendars.YEAR, sorting)
             .iterator();
 
         // THEN
@@ -106,13 +106,14 @@ class ITFeeRepositoryFindAllInYearSort {
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Asc() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.asc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -139,13 +140,14 @@ class ITFeeRepositoryFindAllInYearSort {
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Desc() {
         final Iterable<Fee> fees;
-        final Sort          sort;
+        final Sorting       sorting;
 
         // GIVEN
-        sort = Sort.by(Order.desc("firstName"), Order.asc("date"));
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC),
+            new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sort);
+        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)

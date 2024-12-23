@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +13,10 @@ import com.bernardomg.association.library.author.domain.exception.MissingAuthorE
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
+import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.Book;
-import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
+import com.bernardomg.association.library.book.domain.model.Book.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsRule;
@@ -31,8 +32,9 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -84,6 +86,8 @@ public final class DefaultBookService implements BookService {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
+        final Optional<Donation>    donation;
+        final Book                  created;
 
         log.debug("Creating book {}", book);
 
@@ -104,20 +108,31 @@ public final class DefaultBookService implements BookService {
             .stream()
             .distinct()
             .toList();
-        donors = book.donors()
-            .stream()
-            .distinct()
-            .toList();
+        if (book.donation()
+            .isPresent()) {
+            donors = book.donation()
+                .get()
+                .donors()
+                .stream()
+                .distinct()
+                .toList();
 
+            donation = Optional.of(new Donation(book.donation()
+                .get()
+                .date(), donors));
+        } else {
+            donation = Optional.empty();
+        }
         toCreate = Book.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(book.bookType())
             .withGameSystem(book.gameSystem())
-            .withDonors(donors)
+            .withDonation(donation)
             .withIsbn(book.isbn())
             .withLanguage(book.language())
+            .withPublishDate(book.publishDate())
             .withTitle(book.title())
             .withLendings(List.of())
             .withLent(false)
@@ -125,7 +140,11 @@ public final class DefaultBookService implements BookService {
 
         createBookValidator.validate(book);
 
-        return bookRepository.save(toCreate);
+        created = bookRepository.save(toCreate);
+
+        log.debug("Created book {}", book);
+
+        return created;
     }
 
     @Override
@@ -134,17 +153,26 @@ public final class DefaultBookService implements BookService {
         log.debug("Deleting book {}", number);
 
         if (!bookRepository.exists(number)) {
+            log.error("Missing book {}", number);
             throw new MissingBookException(number);
         }
 
         bookRepository.delete(number);
+
+        log.debug("Deleted book {}", number);
     }
 
     @Override
-    public final Iterable<Book> getAll(final Pageable pageable) {
-        log.debug("Reading books with pagination {}", pageable);
+    public final Iterable<Book> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<Book> books;
 
-        return bookRepository.findAll(pageable);
+        log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
+
+        books = bookRepository.findAll(pagination, sorting);
+
+        log.debug("Read books with pagination {} and sorting {}", pagination, sorting);
+
+        return books;
     }
 
     @Override
@@ -159,6 +187,8 @@ public final class DefaultBookService implements BookService {
             throw new MissingBookException(number);
         }
 
+        log.debug("Read book {}", number);
+
         return book;
     }
 
@@ -168,6 +198,8 @@ public final class DefaultBookService implements BookService {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
+        final Optional<Donation>    donation;
+        final Book                  updated;
 
         log.debug("Updating book with number {} using data {}", number, book);
 
@@ -176,6 +208,7 @@ public final class DefaultBookService implements BookService {
 
         // Check book exists
         if (!bookRepository.exists(number)) {
+            log.error("Missing book {}", number);
             throw new MissingBookException(number);
         }
 
@@ -190,20 +223,31 @@ public final class DefaultBookService implements BookService {
             .stream()
             .distinct()
             .toList();
-        donors = book.donors()
-            .stream()
-            .distinct()
-            .toList();
+        if (book.donation()
+            .isPresent()) {
+            donors = book.donation()
+                .get()
+                .donors()
+                .stream()
+                .distinct()
+                .toList();
 
+            donation = Optional.of(new Donation(book.donation()
+                .get()
+                .date(), donors));
+        } else {
+            donation = Optional.empty();
+        }
         toUpdate = Book.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(book.bookType())
             .withGameSystem(book.gameSystem())
-            .withDonors(donors)
+            .withDonation(donation)
             .withIsbn(book.isbn())
             .withLanguage(book.language())
+            .withPublishDate(book.publishDate())
             .withTitle(book.title())
             .withLendings(List.of())
             .withLent(false)
@@ -211,7 +255,11 @@ public final class DefaultBookService implements BookService {
 
         updateBookValidator.validate(toUpdate);
 
-        return bookRepository.save(toUpdate);
+        updated = bookRepository.save(toUpdate);
+
+        log.debug("Updated book with number {} using data {}", number, book);
+
+        return updated;
     }
 
     private final void validateRelationships(final Book book) {
@@ -228,6 +276,8 @@ public final class DefaultBookService implements BookService {
             .filter(d -> !authorRepository.exists(d.number()))
             .findAny();
         if (invalidAuthor.isPresent()) {
+            log.error("Missing author {}", invalidAuthor.get()
+                .number());
             throw new MissingAuthorException(invalidAuthor.get()
                 .number());
         }
@@ -239,6 +289,8 @@ public final class DefaultBookService implements BookService {
             .filter(d -> !publisherRepository.exists(d.number()))
             .findAny();
         if (invalidPublisher.isPresent()) {
+            log.error("Missing publisher {}", invalidPublisher.get()
+                .number());
             throw new MissingPublisherException(invalidPublisher.get()
                 .number());
         }
@@ -247,6 +299,8 @@ public final class DefaultBookService implements BookService {
         gameSystem = book.gameSystem();
         if (gameSystem.isPresent() && !gameSystemRepository.exists(gameSystem.get()
             .number())) {
+            log.error("Missing game system {}", gameSystem.get()
+                .number());
             throw new MissingGameSystemException(gameSystem.get()
                 .number());
         }
@@ -255,17 +309,23 @@ public final class DefaultBookService implements BookService {
         bookType = book.bookType();
         if (bookType.isPresent() && !bookTypeRepository.exists(bookType.get()
             .number())) {
+            log.error("Missing book type {}", bookType.get()
+                .number());
             throw new MissingBookTypeException(bookType.get()
                 .number());
         }
 
         // Check donors exist
-        invalidDonor = book.donors()
+        invalidDonor = book.donation()
+            .map(Donation::donors)
+            .orElse(List.of())
             .stream()
             .filter(d -> !personRepository.exists(d.number()))
             .findAny();
         if (invalidDonor.isPresent()) {
-            throw new MissingPersonException(invalidDonor.get()
+            log.error("Missing donor {}", invalidDonor.get()
+                .number());
+            throw new MissingDonorException(invalidDonor.get()
                 .number());
         }
 

@@ -31,7 +31,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
@@ -39,6 +38,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBal
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,15 +54,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_EndBeforeStart() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.endDate(2019, Month.DECEMBER);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -76,15 +76,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_EndDecember() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.endDate(2020, Month.DECEMBER);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -109,15 +109,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_FullYear() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.range(2020, Month.JANUARY, Month.DECEMBER);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -142,15 +142,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_January() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.range(2020, Month.JANUARY, Month.JANUARY);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -164,15 +164,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_JanuaryToFebruary() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.range(2020, Month.JANUARY, Month.FEBRUARY);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -187,15 +187,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_RangeEndBeforeStart() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.range(2020, Month.DECEMBER, Month.JANUARY);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -209,15 +209,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_StartAfterEnd() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.startDate(2021, Month.JANUARY);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -231,15 +231,15 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     void testFindMonthlyBalance_StartInJanuary() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sort                                  sort;
+        final Sorting                               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
         query = TransactionBalanceQueries.startDate(2020, Month.JANUARY);
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sort);
+        balances = repository.findMonthlyBalance(query, sorting);
 
         // THEN
         Assertions.assertThat(balances)

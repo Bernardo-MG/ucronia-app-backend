@@ -35,7 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
@@ -43,6 +42,8 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - get all")
@@ -63,17 +64,20 @@ class TestTransactionServiceGetAll {
     void testGetAll() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
-        given(transactionRepository.findAll(transactionQuery, pageable)).willReturn(List.of(Transactions.positive()));
+        given(transactionRepository.findAll(transactionQuery, pagination, sorting))
+            .willReturn(List.of(Transactions.positive()));
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = service.getAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -86,17 +90,19 @@ class TestTransactionServiceGetAll {
     void testGetAll_NoData() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Pageable              pageable;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();
 
-        given(transactionRepository.findAll(transactionQuery, pageable)).willReturn(List.of());
+        given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pageable);
+        transactions = service.getAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)

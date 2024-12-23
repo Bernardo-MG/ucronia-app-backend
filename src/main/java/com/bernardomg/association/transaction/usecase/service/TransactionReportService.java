@@ -5,6 +5,6 @@ import java.io.ByteArrayOutputStream;
 
 public interface TransactionReportService {
 
-    public ByteArrayOutputStream getExcel();
+    public ByteArrayOutputStream getReport();
 
 }

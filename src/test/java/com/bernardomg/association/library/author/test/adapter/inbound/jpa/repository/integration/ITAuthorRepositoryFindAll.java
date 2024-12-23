@@ -28,12 +28,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,13 +49,15 @@ class ITAuthorRepositoryFindAll {
     @ValidAuthor
     void testFindAll() {
         final Iterable<Author> authors;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        authors = repository.findAll(pageable);
+        authors = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(authors)
@@ -66,13 +69,15 @@ class ITAuthorRepositoryFindAll {
     @DisplayName("When there are no authors, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Author> authors;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        authors = repository.findAll(pageable);
+        authors = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(authors)

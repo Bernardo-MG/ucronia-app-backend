@@ -26,7 +26,9 @@ public final class BookLendingNotReturnedInFutureRule implements FieldRule<BookL
         now = LocalDate.now();
         if (now.isBefore(lending.returnDate())) {
             log.error("Returned book {} to {} on {}, which is after current date {}", lending.number(),
-                lending.person(), lending.returnDate(), now);
+                lending.borrower()
+                    .number(),
+                lending.returnDate(), now);
             fieldFailure = FieldFailure.of("returnDate", "invalid", lending.returnDate());
             failure = Optional.of(fieldFailure);
         } else {

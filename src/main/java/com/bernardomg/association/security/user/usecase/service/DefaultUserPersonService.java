@@ -4,7 +4,6 @@ package com.bernardomg.association.security.user.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.model.UserPerson;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.usecase.validation.UserPersonNameNotEmptyRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -75,9 +76,9 @@ public final class DefaultUserPersonService implements UserPersonService {
     }
 
     @Override
-    public final Iterable<Person> getAvailablePerson(final Pageable page) {
+    public final Iterable<Person> getAvailablePerson(final Pagination pagination, final Sorting sorting) {
         log.debug("Reading all available persons");
-        return userPersonRepository.findAllNotAssigned(page);
+        return userPersonRepository.findAllNotAssigned(pagination, sorting);
     }
 
     @Override

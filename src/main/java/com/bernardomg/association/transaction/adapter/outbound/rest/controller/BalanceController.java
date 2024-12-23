@@ -27,7 +27,6 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +37,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -77,7 +77,7 @@ public class BalanceController {
      *
      * @param balance
      *            query to filter balances
-     * @param sort
+     * @param sorting
      *            sorting to apply
      * @return the monthly balance
      */
@@ -85,8 +85,8 @@ public class BalanceController {
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
     public Collection<? extends TransactionMonthlyBalance>
-            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sort sort) {
-        return service.getMonthlyBalance(balance, sort);
+            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sorting sorting) {
+        return service.getMonthlyBalance(balance, sorting);
     }
 
 }

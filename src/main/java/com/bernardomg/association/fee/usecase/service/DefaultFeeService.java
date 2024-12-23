@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +53,8 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -157,12 +158,12 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<Fee> getAll(final FeeQuery query, final Pageable pageable) {
+    public final Iterable<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
         final Iterable<Fee> fees;
 
         log.info("Getting all fees with query {}", query);
 
-        fees = feeRepository.findAll(query, pageable);
+        fees = feeRepository.findAll(query, pagination, sorting);
 
         log.debug("Got all fees with query {}: {}", query, fees);
 
@@ -211,6 +212,7 @@ public final class DefaultFeeService implements FeeService {
             .map(d -> toFee(person, d))
             .toList();
 
+        // TODO: reject paying in the future
         validatorPay.validate(newFees);
 
         fees = feeRepository.save(newFees);

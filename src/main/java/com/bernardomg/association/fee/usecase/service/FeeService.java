@@ -6,10 +6,10 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Fee admin service.
@@ -46,11 +46,13 @@ public interface FeeService {
      *
      * @param query
      *            sample for filtering
-     * @param pageable
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the fees matching the sample
      */
-    public Iterable<Fee> getAll(final FeeQuery query, final Pageable pageable);
+    public Iterable<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the fee for the received member in the received date, if it exists. Otherwise an empty {@code Optional}
@@ -67,6 +69,8 @@ public interface FeeService {
     /**
      * Pays fees for a member. This creates the fees for the received months, and registers a payment on the received
      * date.
+     * <p>
+     * TODO: use a payment model?
      *
      * @param feeDates
      *            dates of the fees being paid

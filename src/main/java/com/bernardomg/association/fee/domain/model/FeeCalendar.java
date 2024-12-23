@@ -29,7 +29,7 @@ import java.util.Collection;
 
 import com.bernardomg.association.member.domain.model.Member;
 
-public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, Integer year) {
+public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, Integer year, Boolean active) {
 
     public record FeeCalendarMonth(FeeCalendarMonthFee fee, Integer month) {
 

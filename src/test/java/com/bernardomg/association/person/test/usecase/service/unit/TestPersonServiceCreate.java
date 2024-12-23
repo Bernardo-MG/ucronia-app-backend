@@ -99,7 +99,7 @@ class TestPersonServiceCreate {
         final Person person;
 
         // GIVEN
-        person = Persons.paddedWithWhitespaces();
+        person = Persons.padded();
 
         given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
 

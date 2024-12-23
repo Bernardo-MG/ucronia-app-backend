@@ -28,13 +28,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
@@ -51,21 +51,23 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
     }
 
     @Override
-    protected final Iterable<Person> read(final Pageable pageable) {
-        return repository.findAllNotAssigned(pageable);
+    protected final Iterable<Person> read(final Pagination pagination, final Sorting sorting) {
+        return repository.findAllNotAssigned(pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
         final Iterable<Person> persons;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(0, 1);
+        pagination = new Pagination(0, 1);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        persons = repository.findAllNotAssigned(pageable);
+        persons = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
@@ -76,13 +78,15 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
         final Iterable<Person> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(1, 1);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAllNotAssigned(pageable);
+        members = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

@@ -21,10 +21,10 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.ALTERNATIVE_NUMBER, name, true);
+        member = new Member(PersonConstants.ALTERNATIVE_NUMBER, name);
         months = List.of(FeeMonths.paidAlternative());
         // TODO: don't use member calendar constants
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), true);
     }
 
     public static final FeeCalendar activeNextYear() {
@@ -33,9 +33,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidNextYear());
-        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear(), true);
     }
 
     public static final FeeCalendar activeNotPaidCurrentMonth() {
@@ -44,9 +44,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaid());
-        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue(), true);
     }
 
     public static final FeeCalendar activeNotPaidNextYear() {
@@ -55,9 +55,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaidNextYear());
-        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear(), false);
     }
 
     public static final FeeCalendar activeNotPaidPreviousMonth() {
@@ -66,9 +66,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaidPreviousMonth());
-        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear(), true);
     }
 
     public static final FeeCalendar activeNotPaidTwoMonthsBack() {
@@ -77,9 +77,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaidTwoMonthsBack());
-        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear(), true);
     }
 
     public static final FeeCalendar activePaidCurrentMonth() {
@@ -88,9 +88,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paid());
-        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue(), true);
     }
 
     public static final FeeCalendar activePaidNextYear() {
@@ -99,9 +99,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidNextYear());
-        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear(), true);
     }
 
     public static final FeeCalendar activePaidTwoMonthsBack() {
@@ -110,9 +110,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidTwoMonthsBack());
-        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear(), true);
     }
 
     public static final FeeCalendar activePreviousMonth() {
@@ -121,9 +121,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidPreviousMonth());
-        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear(), true);
     }
 
     public static final FeeCalendar currentActive() {
@@ -131,9 +131,9 @@ public final class FeeCalendars {
         final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, true);
+        member = new Member(PersonConstants.NUMBER, name);
         return new FeeCalendar(member, List.of(), YearMonth.now()
-            .getYear());
+            .getYear(), true);
     }
 
     public static final FeeCalendar currentInactive() {
@@ -141,9 +141,9 @@ public final class FeeCalendars {
         final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         return new FeeCalendar(member, List.of(), YearMonth.now()
-            .getYear());
+            .getYear(), false);
     }
 
     public static final FeeCalendar inactive() {
@@ -152,9 +152,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaid());
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar inactiveAlternative() {
@@ -163,9 +163,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
-        member = new Member(PersonConstants.ALTERNATIVE_NUMBER, name, false);
+        member = new Member(PersonConstants.ALTERNATIVE_NUMBER, name);
         months = List.of(FeeMonths.notPaidAlternative());
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar inactivefullCalendar() {
@@ -174,12 +174,12 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
             FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
             FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
             FeeMonths.paidAtMonth(12));
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar inactivefullCalendarAlternative() {
@@ -188,12 +188,12 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
-        member = new Member(PersonConstants.ALTERNATIVE_NUMBER, name, false);
+        member = new Member(PersonConstants.ALTERNATIVE_NUMBER, name);
         months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
             FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
             FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
             FeeMonths.paidAtMonth(12));
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar inactivefullCalendarNoLastName() {
@@ -202,12 +202,12 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
             FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
             FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
             FeeMonths.paidAtMonth(12));
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar inactivefullCalendarNoName() {
@@ -216,12 +216,12 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName("", "");
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
             FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
             FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10), FeeMonths.paidAtMonth(11),
             FeeMonths.paidAtMonth(12));
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar inactiveNotPaidNextYear() {
@@ -230,9 +230,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaidNextYear());
-        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear(), false);
     }
 
     public static final FeeCalendar inactiveNotPaidPreviousMonth() {
@@ -241,9 +241,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaidPreviousMonth());
-        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear(), false);
     }
 
     public static final FeeCalendar inactiveNotPaidTwoMonthsBack() {
@@ -252,9 +252,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.notPaidTwoMonthsBack());
-        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear(), false);
     }
 
     public static final FeeCalendar inactivePaidCurrentMonth() {
@@ -263,9 +263,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paid());
-        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_CURRENT.getValue(), false);
     }
 
     public static final FeeCalendar inactivePaidNextYear() {
@@ -274,9 +274,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidNextYear());
-        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.NEXT_YEAR_DATE.getYear(), false);
     }
 
     public static final FeeCalendar inactivePaidTwoMonthsBack() {
@@ -285,9 +285,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidTwoMonthsBack());
-        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear(), false);
     }
 
     public static final FeeCalendar inactivePreviousMonth() {
@@ -296,9 +296,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidPreviousMonth());
-        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.PREVIOUS_MONTH_DATE.getYear(), false);
     }
 
     public static final FeeCalendar inactivePreviousYear() {
@@ -306,8 +306,8 @@ public final class FeeCalendars {
         final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
-        return new FeeCalendar(member, List.of(), MemberCalendars.YEAR_PREVIOUS.getValue());
+        member = new Member(PersonConstants.NUMBER, name);
+        return new FeeCalendar(member, List.of(), MemberCalendars.YEAR_PREVIOUS.getValue(), false);
     }
 
     public static final FeeCalendar inactiveTwoConnectedFirst() {
@@ -316,11 +316,11 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.OCTOBER.getValue()),
             FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.NOVEMBER.getValue()),
             FeeMonths.paid(MemberCalendars.YEAR_PREVIOUS.getValue(), Month.DECEMBER.getValue()));
-        return new FeeCalendar(member, months, MemberCalendars.YEAR_PREVIOUS.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR_PREVIOUS.getValue(), false);
     }
 
     public static final FeeCalendar inactiveTwoConnectedSecond() {
@@ -329,12 +329,12 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paid(2020, Month.JANUARY.getValue()),
             FeeMonths.paid(2020, Month.FEBRUARY.getValue()), FeeMonths.paid(2020, Month.MARCH.getValue()),
             FeeMonths.paid(2020, Month.APRIL.getValue()), FeeMonths.paid(2020, Month.MAY.getValue()),
             FeeMonths.paid(2020, Month.JUNE.getValue()), FeeMonths.paid(2020, Month.JULY.getValue()));
-        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue());
+        return new FeeCalendar(member, months, MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar noLastName() {
@@ -342,8 +342,8 @@ public final class FeeCalendars {
         final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, "");
-        member = new Member(PersonConstants.NUMBER, name, false);
-        return new FeeCalendar(member, List.of(), MemberCalendars.YEAR.getValue());
+        member = new Member(PersonConstants.NUMBER, name);
+        return new FeeCalendar(member, List.of(), MemberCalendars.YEAR.getValue(), false);
     }
 
     public static final FeeCalendar paidTwoMonthsBack() {
@@ -352,9 +352,9 @@ public final class FeeCalendars {
         final PersonName                   name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        member = new Member(PersonConstants.NUMBER, name, false);
+        member = new Member(PersonConstants.NUMBER, name);
         months = List.of(FeeMonths.paidTwoMonthsBack());
-        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear());
+        return new FeeCalendar(member, months, MemberCalendars.TWO_MONTHS_BACK_DATE.getYear(), false);
     }
 
     private FeeCalendars() {

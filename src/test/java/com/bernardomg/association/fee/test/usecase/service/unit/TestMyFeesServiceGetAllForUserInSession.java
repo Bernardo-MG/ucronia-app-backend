@@ -36,7 +36,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,6 +50,8 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("My fees service - get all for user in session")
@@ -75,10 +76,12 @@ class TestMyFeesServiceGetAllForUserInSession {
     @DisplayName("When there is data it is returned")
     void testGetAllForUserInSession() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(authentication.getPrincipal()).willReturn(userDetails);
@@ -88,10 +91,11 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         given(userPersonRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(Persons.noMembership()));
-        given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of(Fees.paid()));
+        given(feeRepository.findAllForMember(PersonConstants.NUMBER, pagination, sorting))
+            .willReturn(List.of(Fees.paid()));
 
         // WHEN
-        fees = myFeesService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -103,10 +107,12 @@ class TestMyFeesServiceGetAllForUserInSession {
     @DisplayName("When the user is anonymous, nothing is returned")
     void testGetAllForUserInSession_Anonymous() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
 
         given(authentication.getPrincipal()).willReturn(
             new AnonymousAuthenticationToken("key", "principal", List.of(new SimpleGrantedAuthority("role"))));
@@ -115,7 +121,7 @@ class TestMyFeesServiceGetAllForUserInSession {
             .setAuthentication(authentication);
 
         // WHEN
-        fees = myFeesService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -127,10 +133,12 @@ class TestMyFeesServiceGetAllForUserInSession {
     @DisplayName("When there is no data nothing is returned")
     void testGetAllForUserInSession_NoData() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(authentication.getPrincipal()).willReturn(userDetails);
@@ -140,10 +148,10 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         given(userPersonRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(Persons.noMembership()));
-        given(feeRepository.findAllForMember(PersonConstants.NUMBER, pageable)).willReturn(List.of());
+        given(feeRepository.findAllForMember(PersonConstants.NUMBER, pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        fees = myFeesService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -155,10 +163,12 @@ class TestMyFeesServiceGetAllForUserInSession {
     @DisplayName("When the user has no member, nothing is returned")
     void testGetAllForUserInSession_NoMember() {
         final Iterable<Fee> fees;
-        final Pageable      pageable;
+        final Pagination    pagination;
+        final Sorting       sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(authentication.getPrincipal()).willReturn(userDetails);
@@ -169,7 +179,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        fees = myFeesService.getAllForUserInSession(pageable);
+        fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

@@ -4,14 +4,18 @@ package com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.reposi
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +33,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final void delete(final long number) {
         log.debug("Deleting game system {}", number);
 
         gameSystemSpringRepository.deleteByNumber(number);
@@ -38,7 +42,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final boolean exists(final Long number) {
+    public final boolean exists(final long number) {
         final boolean exists;
 
         log.debug("Checking if game system {} exists", number);
@@ -64,7 +68,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final boolean existsByNameForAnother(final String name, final Long number) {
+    public final boolean existsByNameForAnother(final String name, final long number) {
         final boolean exists;
 
         log.debug("Checking if game system {} exists for a game system distinct from {}", name, number);
@@ -77,15 +81,17 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Iterable<GameSystem> findAll(final Pageable pageable) {
-        final Page<GameSystemEntity> page;
-        final Iterable<GameSystem>   read;
+    public final Iterable<GameSystem> findAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<GameSystem> read;
+        final Pageable             pageable;
+        final Sort                 sort;
 
-        log.debug("Finding game systems with pagination {}", pageable);
+        log.debug("Finding game systems with pagination {} and sorting {}", pagination, sorting);
 
-        page = gameSystemSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        sort = SpringSorting.toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        read = gameSystemSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found game systems {}", read);
 
@@ -106,7 +112,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Optional<GameSystem> findOne(final Long number) {
+    public final Optional<GameSystem> findOne(final long number) {
         final Optional<GameSystem> gameSystem;
 
         log.debug("Finding game system with name {}", number);

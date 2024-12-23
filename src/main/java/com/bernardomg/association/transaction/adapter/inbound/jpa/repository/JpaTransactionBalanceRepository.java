@@ -18,6 +18,8 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,12 +78,13 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
 
     @Override
     public final Collection<TransactionMonthlyBalance> findMonthlyBalance(final TransactionBalanceQuery query,
-            final Sort sort) {
+            final Sorting sorting) {
         final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
         final Specification<MonthlyBalanceEntity>           limitSpec;
         final Specification<MonthlyBalanceEntity>           spec;
         final Collection<MonthlyBalanceEntity>              balance;
         final Collection<TransactionMonthlyBalance>         monthlyBalance;
+        final Sort                                          sort;
 
         log.debug("Finding monthly balance");
 
@@ -99,6 +102,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
             spec = limitSpec;
         }
 
+        sort = SpringSorting.toSort(sorting);
         balance = monthlyBalanceRepository.findAll(spec, sort);
 
         monthlyBalance = balance.stream()

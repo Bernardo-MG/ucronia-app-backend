@@ -69,7 +69,7 @@ public final class TransactionChanges {
             .build();
     }
 
-    public static final TransactionChange paddedWithWhitespaces() {
+    public static final TransactionChange padded() {
         return TransactionChange.builder()
             .withDescription(" Transaction ")
             .withAmount(1F)

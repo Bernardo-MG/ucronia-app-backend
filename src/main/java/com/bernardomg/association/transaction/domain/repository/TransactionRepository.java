@@ -5,13 +5,12 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 public interface TransactionRepository {
 
@@ -19,9 +18,10 @@ public interface TransactionRepository {
 
     public boolean exists(final long index);
 
-    public Collection<Transaction> findAll(final Sort sort);
+    public Collection<Transaction> findAll(final Sorting sorting);
 
-    public Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable);
+    public Iterable<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
+            final Sorting sorting);
 
     public TransactionCalendarMonth findInMonth(final YearMonth date);
 

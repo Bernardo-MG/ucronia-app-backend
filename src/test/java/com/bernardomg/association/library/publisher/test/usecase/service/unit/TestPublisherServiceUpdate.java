@@ -75,7 +75,7 @@ class TestPublisherServiceUpdate {
         execution = () -> service.update(publisher);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test

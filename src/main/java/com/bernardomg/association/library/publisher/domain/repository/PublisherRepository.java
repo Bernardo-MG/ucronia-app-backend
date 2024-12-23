@@ -3,9 +3,9 @@ package com.bernardomg.association.library.publisher.domain.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 public interface PublisherRepository {
 
@@ -17,7 +17,7 @@ public interface PublisherRepository {
 
     public boolean existsByNameForAnother(final String name, final Long number);
 
-    public Iterable<Publisher> findAll(final Pageable pageable);
+    public Iterable<Publisher> findAll(final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();
 

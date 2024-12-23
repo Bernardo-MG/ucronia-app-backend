@@ -25,7 +25,6 @@
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +35,8 @@ import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -61,8 +62,9 @@ public class MemberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
-    public Iterable<Member> readAll(@Valid final MemberQuery query, final Pageable pageable) {
-        return service.getAll(query, pageable);
+    public Iterable<Member> readAll(@Valid final MemberQuery query, final Pagination pagination,
+            final Sorting sorting) {
+        return service.getAll(query, pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.controller;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.security.user.usecase.service.UserPersonService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -93,8 +94,8 @@ public class UserPersonController {
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Iterable<Person> readAvailable(final Pageable pageable) {
-        return service.getAvailablePerson(pageable);
+    public Iterable<Person> readAvailable(final Pagination pagination, final Sorting sorting) {
+        return service.getAvailablePerson(pagination, sorting);
     }
 
     /**

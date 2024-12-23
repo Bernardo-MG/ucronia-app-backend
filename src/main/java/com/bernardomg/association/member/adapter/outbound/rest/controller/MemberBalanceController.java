@@ -25,7 +25,6 @@
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +34,7 @@ import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -63,15 +63,15 @@ public class MemberBalanceController {
      *
      * @param query
      *            query to filter balances
-     * @param sort
+     * @param sorting
      *            sorting to apply
      * @return the monthly member balance
      */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(final MemberBalanceQuery query, final Sort sort) {
-        return service.getMonthlyBalance(query, sort);
+    public Iterable<? extends MonthlyMemberBalance> monthly(final MemberBalanceQuery query, final Sorting sorting) {
+        return service.getMonthlyBalance(query, sorting);
     }
 
 }

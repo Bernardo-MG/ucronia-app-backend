@@ -28,7 +28,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
@@ -40,6 +39,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -55,13 +55,13 @@ class ITBookRepositoryFindAll {
     @FullBook
     void testFindAll() {
         final Iterable<Book> books;
-        final Pageable       pageable;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.findAll(sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -76,18 +76,18 @@ class ITBookRepositoryFindAll {
     @LentBookLending
     void testFindAll_Lent() {
         final Iterable<Book> books;
-        final Pageable       pageable;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.findAll(sorting);
 
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.fullLent());
+            .containsExactly(Books.lent());
     }
 
     @Test
@@ -98,13 +98,13 @@ class ITBookRepositoryFindAll {
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
         final Iterable<Book> books;
-        final Pageable       pageable;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.findAll(sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -116,13 +116,13 @@ class ITBookRepositoryFindAll {
     @DisplayName("When there are no books, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Book> books;
-        final Pageable       pageable;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.findAll(sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -137,18 +137,18 @@ class ITBookRepositoryFindAll {
     @ReturnedBookLending
     void testFindAll_Returned() {
         final Iterable<Book> books;
-        final Pageable       pageable;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.findAll(sorting);
 
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .containsExactly(Books.fullReturned());
+            .containsExactly(Books.returned());
     }
 
     @Test
@@ -159,13 +159,13 @@ class ITBookRepositoryFindAll {
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {
         final Iterable<Book> books;
-        final Pageable       pageable;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        sorting = Sorting.unsorted();
 
         // WHEN
-        books = repository.findAll(pageable);
+        books = repository.findAll(sorting);
 
         // THEN
         Assertions.assertThat(books)

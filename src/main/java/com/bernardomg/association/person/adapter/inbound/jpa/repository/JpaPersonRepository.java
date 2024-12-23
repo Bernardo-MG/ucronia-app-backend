@@ -6,7 +6,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,9 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -119,11 +124,15 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAll(final Pageable pageable) {
+    public final Iterable<Person> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<Person> persons;
+        final Pageable     pageable;
+        final Sort         sort;
 
         log.debug("Finding all the persons");
 
+        sort = SpringSorting.toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         persons = personSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
@@ -248,7 +257,8 @@ public final class JpaPersonRepository implements PersonRepository {
         } else {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getPhone(), membership);
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
+            membership);
     }
 
     private final PersonEntity toEntity(final Person data) {
@@ -278,6 +288,7 @@ public final class JpaPersonRepository implements PersonRepository {
                 .lastName())
             .withIdentifier(data.identifier())
             .withPhone(data.phone())
+            .withBirthDate(data.birthDate())
             .withMember(member)
             .withActive(active)
             .withRenewMembership(renew)

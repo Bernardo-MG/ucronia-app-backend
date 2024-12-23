@@ -73,7 +73,7 @@ class TestGameSystemServiceCreate {
         execution = () -> service.create(gameSystem);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", " "));
+        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
     }
 
     @Test
@@ -95,6 +95,23 @@ class TestGameSystemServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             FieldFailure.of("name", "existing", GameSystemConstants.NAME));
+    }
+
+    @Test
+    @DisplayName("With a game system with padded name, the game system is persisted")
+    void testCreate_Padded_PersistedData() {
+        final GameSystem gameSystem;
+
+        // GIVEN
+        gameSystem = GameSystems.padded();
+
+        given(gameSystemRepository.findNextNumber()).willReturn(GameSystemConstants.NUMBER);
+
+        // WHEN
+        service.create(gameSystem);
+
+        // THEN
+        verify(gameSystemRepository).save(GameSystems.valid());
     }
 
     @Test

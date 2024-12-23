@@ -4,14 +4,18 @@ package com.bernardomg.association.library.booktype.adapter.inbound.jpa.reposito
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +33,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final void delete(final long number) {
         log.debug("Deleting book type {}", number);
 
         bookTypeSpringRepository.deleteByNumber(number);
@@ -38,7 +42,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final boolean exists(final Long number) {
+    public final boolean exists(final long number) {
         final boolean exists;
 
         log.debug("Checking if book type {} exists", number);
@@ -64,7 +68,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final boolean existsByNameForAnother(final String name, final Long number) {
+    public final boolean existsByNameForAnother(final String name, final long number) {
         final boolean exists;
 
         log.debug("Checking if book type {} exists for a book type distinc from {}", name, number);
@@ -77,15 +81,17 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final Iterable<BookType> findAll(final Pageable pageable) {
-        final Page<BookTypeEntity> page;
-        final Iterable<BookType>   read;
+    public final Iterable<BookType> findAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<BookType> read;
+        final Pageable           pageable;
+        final Sort               sort;
 
-        log.debug("Finding book types with pagination {}", pageable);
+        log.debug("Finding book types with pagination {} and sorting {}", pagination, sorting);
 
-        page = bookTypeSpringRepository.findAll(pageable);
-
-        read = page.map(this::toDomain);
+        sort = SpringSorting.toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        read = bookTypeSpringRepository.findAll(pageable)
+            .map(this::toDomain);
 
         log.debug("Found book types {}", read);
 
@@ -106,7 +112,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     @Override
-    public final Optional<BookType> findOne(final Long number) {
+    public final Optional<BookType> findOne(final long number) {
         final Optional<BookType> bookType;
 
         log.debug("Finding book type with name {}", number);

@@ -76,7 +76,7 @@ public class BookLendingController {
     @Caching(evict = {
             @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
     public BookLending returnBook(@Valid @RequestBody final BookReturned lending) {
-        return service.returnBook(lending.getBook(), lending.getPerson(), lending.getReturnDate());
+        return service.returnBook(lending.getBook(), lending.getBorrower(), lending.getReturnDate());
     }
 
 }

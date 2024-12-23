@@ -4,7 +4,6 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +11,8 @@ import com.bernardomg.association.transaction.domain.exception.MissingTransactio
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,21 +42,15 @@ public final class DefaultTransactionService implements TransactionService {
 
         log.debug("Creating transaction {}", transaction);
 
-        toCreate = Transaction.builder()
-            .withIndex(transaction.getIndex())
-            .withAmount(transaction.getAmount())
-            .withDate(transaction.getDate())
-            .withDescription(transaction.getDescription())
-            .build();
-
-        // Set index
+        // Get index
         index = transactionRepository.findNextIndex();
-        toCreate.setIndex(index);
 
-        // Trim strings
-        // TODO: should be done by the model
-        toCreate.setDescription(toCreate.getDescription()
-            .trim());
+        toCreate = Transaction.builder()
+            .withIndex(index)
+            .withAmount(transaction.amount())
+            .withDate(transaction.date())
+            .withDescription(transaction.description())
+            .build();
 
         return transactionRepository.save(toCreate);
     }
@@ -75,8 +70,9 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final TransactionQuery query, final Pageable pageable) {
-        return transactionRepository.findAll(query, pageable);
+    public final Iterable<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
+            final Sorting sorting) {
+        return transactionRepository.findAll(query, pagination, sorting);
     }
 
     @Override
@@ -99,25 +95,20 @@ public final class DefaultTransactionService implements TransactionService {
         final boolean     exists;
         final Transaction toUpdate;
 
-        log.debug("Updating transaction with index {} using data {}", transaction.getIndex(), transaction);
+        log.debug("Updating transaction with index {} using data {}", transaction.index(), transaction);
 
-        exists = transactionRepository.exists(transaction.getIndex());
+        exists = transactionRepository.exists(transaction.index());
         if (!exists) {
             // TODO: change exception name
-            throw new MissingTransactionException(transaction.getIndex());
+            throw new MissingTransactionException(transaction.index());
         }
 
         toUpdate = Transaction.builder()
-            .withIndex(transaction.getIndex())
-            .withAmount(transaction.getAmount())
-            .withDate(transaction.getDate())
-            .withDescription(transaction.getDescription())
+            .withIndex(transaction.index())
+            .withAmount(transaction.amount())
+            .withDate(transaction.date())
+            .withDescription(transaction.description())
             .build();
-
-        // TODO: the model should do this
-        // Trim strings
-        toUpdate.setDescription(toUpdate.getDescription()
-            .trim());
 
         return transactionRepository.save(toUpdate);
     }

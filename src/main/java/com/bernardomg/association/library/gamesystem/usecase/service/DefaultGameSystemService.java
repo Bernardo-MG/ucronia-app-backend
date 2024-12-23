@@ -4,7 +4,6 @@ package com.bernardomg.association.library.gamesystem.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotEmptyRule;
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistsRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -44,6 +45,7 @@ public final class DefaultGameSystemService implements GameSystemService {
     @Override
     public final GameSystem create(final GameSystem system) {
         final GameSystem toCreate;
+        final GameSystem created;
         final Long       number;
 
         log.debug("Creating game system {}", system);
@@ -54,7 +56,11 @@ public final class DefaultGameSystemService implements GameSystemService {
 
         createGameSystemValidator.validate(toCreate);
 
-        return gameSystemRepository.save(toCreate);
+        created = gameSystemRepository.save(toCreate);
+
+        log.debug("Created game system {}", system);
+
+        return created;
     }
 
     @Override
@@ -67,13 +73,21 @@ public final class DefaultGameSystemService implements GameSystemService {
         }
 
         gameSystemRepository.delete(number);
+
+        log.debug("Deleted game system {}", number);
     }
 
     @Override
-    public final Iterable<GameSystem> getAll(final Pageable pageable) {
-        log.debug("Reading game systems with pagination {}", pageable);
+    public final Iterable<GameSystem> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<GameSystem> gameSystems;
 
-        return gameSystemRepository.findAll(pageable);
+        log.debug("Reading game systems with pagination {} and sorting {}", pagination, sorting);
+
+        gameSystems = gameSystemRepository.findAll(pagination, sorting);
+
+        log.debug("Reading game systems with pagination {} and sorting {}", pagination, sorting);
+
+        return gameSystems;
     }
 
     @Override
@@ -88,11 +102,15 @@ public final class DefaultGameSystemService implements GameSystemService {
             throw new MissingGameSystemException(number);
         }
 
+        log.debug("Read game system {}", number);
+
         return gameSystem;
     }
 
     @Override
     public final GameSystem update(final GameSystem system) {
+        final GameSystem gameSystem;
+
         log.debug("Updating game system {}", system);
 
         if (!gameSystemRepository.exists(system.number())) {
@@ -102,7 +120,11 @@ public final class DefaultGameSystemService implements GameSystemService {
         // Set number
         updateGameSystemValidator.validate(system);
 
-        return gameSystemRepository.save(system);
+        gameSystem = gameSystemRepository.save(system);
+
+        log.debug("Updated game system {}", system);
+
+        return gameSystem;
     }
 
 }

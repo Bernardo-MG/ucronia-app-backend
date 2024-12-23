@@ -28,7 +28,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +45,8 @@ import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.B
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeCreation;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -91,8 +92,8 @@ public class BookTypeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPES)
-    public Iterable<BookType> readAll(final Pageable pageable) {
-        return service.getAll(pageable);
+    public Iterable<BookType> readAll(final Pagination pagination, final Sorting sorting) {
+        return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)

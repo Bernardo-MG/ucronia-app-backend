@@ -24,11 +24,12 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
 import com.bernardomg.association.member.domain.model.Member;
@@ -37,6 +38,8 @@ import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,15 +61,17 @@ class ITMemberRepositoryFindInactive {
     @MembershipActivePerson
     void testFindInactive_Active() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        members = repository.findInactive(pageable);
+        members = repository.findInactive(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -79,33 +84,37 @@ class ITMemberRepositoryFindInactive {
     @MembershipInactivePerson
     void testFindInactive_Inactive() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        members = repository.findInactive(pageable);
+        members = repository.findInactive(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.inactive());
+            .containsExactly(Members.valid());
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
     void testFindInactive_NoData() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        members = repository.findInactive(pageable);
+        members = repository.findInactive(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -118,13 +127,15 @@ class ITMemberRepositoryFindInactive {
     @NoMembershipPerson
     void testFindInactive_NoMembership() {
         final Iterable<Member> members;
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        members = repository.findInactive(pageable);
+        members = repository.findInactive(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

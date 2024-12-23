@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +35,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Default implementation of the balance service.
@@ -73,8 +73,8 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
 
     @Override
     public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
-            final Sort sort) {
-        return transactionBalanceRepository.findMonthlyBalance(query, sort);
+            final Sorting sorting) {
+        return transactionBalanceRepository.findMonthlyBalance(query, sorting);
     }
 
 }

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.library.book.domain.exception;
+
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing transaction exception.
+ * Missing donor exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class TransactionReportException extends RuntimeException {
+public final class MissingDonorException extends MissingIdException {
 
-    private static final long serialVersionUID = -861254928892689094L;
+    private static final long serialVersionUID = -534547975981655791L;
 
-    public TransactionReportException() {
-        super("Error generating report");
+    public MissingDonorException(final long index) {
+        super("donor", index);
     }
 
 }

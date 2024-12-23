@@ -81,7 +81,7 @@ public final class Transactions {
             .build();
     }
 
-    public static final Transaction paddedWithWhitespaces() {
+    public static final Transaction padded() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
             .withDescription(" Transaction ")

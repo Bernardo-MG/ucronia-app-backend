@@ -4,7 +4,6 @@ package com.bernardomg.association.library.author.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.library.author.domain.repository.AuthorReposit
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotEmptyRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -44,6 +45,7 @@ public final class DefaultAuthorService implements AuthorService {
     @Override
     public final Author create(final Author author) {
         final Author toCreate;
+        final Author created;
         final Long   number;
 
         log.debug("Creating author {}", author);
@@ -55,7 +57,11 @@ public final class DefaultAuthorService implements AuthorService {
 
         createAuthorValidator.validate(toCreate);
 
-        return authorRepository.save(toCreate);
+        created = authorRepository.save(toCreate);
+
+        log.debug("Created author {}", author);
+
+        return created;
     }
 
     @Override
@@ -68,13 +74,21 @@ public final class DefaultAuthorService implements AuthorService {
         }
 
         authorRepository.delete(number);
+
+        log.debug("Deleted author {}", number);
     }
 
     @Override
-    public final Iterable<Author> getAll(final Pageable pageable) {
-        log.debug("Reading authors with pagination {}", pageable);
+    public final Iterable<Author> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<Author> authors;
 
-        return authorRepository.findAll(pageable);
+        log.debug("Reading authors with pagination {} and sorting {}", pagination, sorting);
+
+        authors = authorRepository.findAll(pagination, sorting);
+
+        log.debug("Read authors with pagination {} and sorting {}", pagination, sorting);
+
+        return authors;
     }
 
     @Override
@@ -89,11 +103,15 @@ public final class DefaultAuthorService implements AuthorService {
             throw new MissingAuthorException(number);
         }
 
+        log.debug("Read author {}", number);
+
         return author;
     }
 
     @Override
     public final Author update(final Author author) {
+        final Author updated;
+
         log.debug("Updating author {}", author);
 
         if (!authorRepository.exists(author.number())) {
@@ -102,7 +120,11 @@ public final class DefaultAuthorService implements AuthorService {
 
         updateAuthorValidator.validate(author);
 
-        return authorRepository.save(author);
+        updated = authorRepository.save(author);
+
+        log.debug("Updated author {}", author);
+
+        return updated;
     }
 
 }

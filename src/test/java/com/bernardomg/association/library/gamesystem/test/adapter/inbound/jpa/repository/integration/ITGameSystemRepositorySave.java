@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemEntities;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -66,6 +67,7 @@ class ITGameSystemRepositorySave {
 
     @Test
     @DisplayName("When the game system exists, it is returned")
+    @ValidGameSystem
     void testSave_Existing_Returned() {
         final GameSystem gameSystem;
         final GameSystem created;

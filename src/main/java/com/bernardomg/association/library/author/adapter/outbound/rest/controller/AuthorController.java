@@ -28,7 +28,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +45,8 @@ import com.bernardomg.association.library.author.adapter.outbound.rest.model.Aut
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorCreation;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -91,8 +92,8 @@ public class AuthorController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
     @Cacheable(cacheNames = LibraryAuthorCaches.AUTHORS)
-    public Iterable<Author> readAll(final Pageable pageable) {
-        return service.getAll(pageable);
+    public Iterable<Author> readAll(final Pagination pagination, final Sorting sorting) {
+        return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)

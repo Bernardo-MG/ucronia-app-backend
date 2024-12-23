@@ -2,6 +2,7 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +32,9 @@ public class PersonEntity implements Serializable {
 
     @Column(name = "active", nullable = false)
     private Boolean           active;
+
+    @Column(name = "birth_date")
+    private LocalDate         birthDate;
 
     @Column(name = "first_name", nullable = false)
     private String            firstName;

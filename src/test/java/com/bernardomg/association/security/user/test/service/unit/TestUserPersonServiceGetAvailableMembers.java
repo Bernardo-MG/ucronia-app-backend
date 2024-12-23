@@ -35,13 +35,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,15 +65,17 @@ class TestUserPersonServiceGetAvailablePersons {
     @DisplayName("When there are not assigned persons, these are returned")
     void testGetPerson() {
         final Iterable<Person> persons;
-        final Pageable         page;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        page = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
-        given(userPersonRepository.findAllNotAssigned(page)).willReturn(List.of(Persons.noMembership()));
+        given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(List.of(Persons.noMembership()));
 
         // WHEN
-        persons = service.getAvailablePerson(page);
+        persons = service.getAvailablePerson(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
@@ -83,15 +86,17 @@ class TestUserPersonServiceGetAvailablePersons {
     @DisplayName("When there are no not assigned persons, nothing is returned")
     void testGetPerson_NoPerson() {
         final Iterable<Person> persons;
-        final Pageable         page;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
-        page = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
-        given(userPersonRepository.findAllNotAssigned(page)).willReturn(List.of());
+        given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        persons = service.getAvailablePerson(page);
+        persons = service.getAvailablePerson(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)

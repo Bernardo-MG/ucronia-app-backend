@@ -35,12 +35,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AuthorService - get all")
@@ -59,16 +60,18 @@ class TestAuthorServiceGetAll {
     @Test
     @DisplayName("When there are authors, they are returned")
     void testGetAll() {
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Iterable<Author> authors;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
-        given(authorRepository.findAll(pageable)).willReturn(List.of(Authors.valid()));
+        given(authorRepository.findAll(pagination, sorting)).willReturn(List.of(Authors.valid()));
 
         // WHEN
-        authors = service.getAll(pageable);
+        authors = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(authors)
@@ -79,16 +82,18 @@ class TestAuthorServiceGetAll {
     @Test
     @DisplayName("When there are no authors, nothing is returned")
     void testGetAll_NoData() {
-        final Pageable         pageable;
+        final Pagination       pagination;
+        final Sorting          sorting;
         final Iterable<Author> authors;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(0, 20);
+        sorting = Sorting.unsorted();
 
-        given(authorRepository.findAll(pageable)).willReturn(List.of());
+        given(authorRepository.findAll(pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        authors = service.getAll(pageable);
+        authors = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(authors)

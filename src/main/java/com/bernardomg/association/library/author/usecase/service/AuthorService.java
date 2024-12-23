@@ -3,9 +3,9 @@ package com.bernardomg.association.library.author.usecase.service;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
 public interface AuthorService {
 
@@ -13,7 +13,7 @@ public interface AuthorService {
 
     public void delete(final Long number);
 
-    public Iterable<Author> getAll(final Pageable pageable);
+    public Iterable<Author> getAll(final Pagination pagination, final Sorting sorting);
 
     public Optional<Author> getOne(final Long number);
 

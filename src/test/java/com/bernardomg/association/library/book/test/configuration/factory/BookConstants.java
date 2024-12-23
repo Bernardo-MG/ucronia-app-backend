@@ -6,6 +6,8 @@ import java.time.Month;
 
 public final class BookConstants {
 
+    public static final LocalDate DONATION_DATE      = LocalDate.of(1995, Month.JANUARY, 2);
+
     public static final String    INVALID_ISBN       = "abc";
 
     public static final String    ISBN_10            = "1-56619-909-3";
@@ -22,9 +24,15 @@ public final class BookConstants {
 
     public static final long      NUMBER             = 1L;
 
+    public static final LocalDate PUBLISH_DATE       = LocalDate.of(1990, Month.JANUARY, 1);
+
     public static final LocalDate RETURNED_DATE      = LocalDate.of(2020, Month.JANUARY, 2);
 
     public static final LocalDate RETURNED_DATE_LAST = LocalDate.of(2020, Month.MAY, 12);
+
+    public static final String    SUBTITLE           = "Subtitle";
+
+    public static final String    SUPERTITLE         = "Supertitle";
 
     public static final String    TITLE              = "Title";
 

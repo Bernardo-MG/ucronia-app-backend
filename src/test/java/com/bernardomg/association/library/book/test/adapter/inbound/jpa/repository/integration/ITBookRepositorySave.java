@@ -199,7 +199,7 @@ class ITBookRepositorySave {
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
                 "gameSystem.id", "publishers.id")
-            .containsExactly(BookEntities.minimal());
+            .containsExactly(BookEntities.noRelationships());
     }
 
     @Test
@@ -217,7 +217,7 @@ class ITBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(Books.minimal());
+            .isEqualTo(Books.noRelationships());
     }
 
     @Test

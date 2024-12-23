@@ -65,7 +65,7 @@ class ITTransactionRepositorySave {
         transaction = repository.save(transactionRequest);
 
         // THEN
-        Assertions.assertThat(transaction.getAmount())
+        Assertions.assertThat(transaction.amount())
             .as("amount")
             .isEqualTo(amount);
     }

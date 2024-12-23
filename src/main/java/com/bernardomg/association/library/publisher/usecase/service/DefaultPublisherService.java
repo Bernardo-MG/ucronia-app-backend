@@ -4,7 +4,6 @@ package com.bernardomg.association.library.publisher.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,8 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -44,6 +45,7 @@ public final class DefaultPublisherService implements PublisherService {
     @Override
     public final Publisher create(final Publisher publisher) {
         final Publisher toCreate;
+        final Publisher created;
         final Long      number;
 
         log.debug("Creating publisher {}", publisher);
@@ -55,7 +57,11 @@ public final class DefaultPublisherService implements PublisherService {
 
         createPublisherValidator.validate(toCreate);
 
-        return publisherRepository.save(toCreate);
+        created = publisherRepository.save(toCreate);
+
+        log.debug("Created publisher {}", publisher);
+
+        return created;
     }
 
     @Override
@@ -68,13 +74,21 @@ public final class DefaultPublisherService implements PublisherService {
         }
 
         publisherRepository.delete(number);
+
+        log.debug("Deleted publisher {}", number);
     }
 
     @Override
-    public final Iterable<Publisher> getAll(final Pageable pageable) {
-        log.debug("Reading publishers with pagination {}", pageable);
+    public final Iterable<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<Publisher> publishers;
 
-        return publisherRepository.findAll(pageable);
+        log.debug("Reading publishers with pagination {} and sorting {}", pagination, sorting);
+
+        publishers = publisherRepository.findAll(pagination, sorting);
+
+        log.debug("Read publishers with pagination {} and sorting {}", pagination, sorting);
+
+        return publishers;
     }
 
     @Override
@@ -89,11 +103,15 @@ public final class DefaultPublisherService implements PublisherService {
             throw new MissingPublisherException(number);
         }
 
+        log.debug("Read publisher {}", number);
+
         return publisher;
     }
 
     @Override
     public final Publisher update(final Publisher publisher) {
+        final Publisher created;
+
         log.debug("Updating publisher {}", publisher);
 
         if (!publisherRepository.exists(publisher.number())) {
@@ -103,7 +121,11 @@ public final class DefaultPublisherService implements PublisherService {
         // Set number
         updatePublisherValidator.validate(publisher);
 
-        return publisherRepository.save(publisher);
+        created = publisherRepository.save(publisher);
+
+        log.debug("Updated publisher {}", publisher);
+
+        return created;
     }
 
 }

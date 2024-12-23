@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookCreation {
 
-    private String isbn;
+    private String          isbn;
 
-    private String language;
+    private String          language;
 
-    private String title;
+    private BookChangeTitle title;
 
 }

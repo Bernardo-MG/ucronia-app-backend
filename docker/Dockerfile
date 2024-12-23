@@ -26,7 +26,7 @@ EXPOSE 8080
 EXPOSE 8000
 
 # Health check
-HEALTHCHECK --interval=30s --retries=5 --timeout=10s CMD curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1
+HEALTHCHECK --interval=30s --retries=5 --timeout=10s CMD wget -T5 -qO- http://localhost:8080/actuator/health | grep UP || exit 1
 
 # Create runner user
 RUN addgroup -S runners && \

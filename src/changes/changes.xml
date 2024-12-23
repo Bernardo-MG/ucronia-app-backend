@@ -331,5 +331,19 @@
             Activate renewal when activating member.
          </action>
       </release>
+      <release version="0.5.26" date="2024-12-23" description="Book excel report">
+         <action dev="bmg" type="add">
+            Extended lending info.
+         </action>
+         <action dev="bmg" type="add">
+            Excel books report.
+         </action>
+         <action dev="bmg" type="update">
+            Cleaned up models.
+         </action>
+         <action dev="bmg" type="fix">
+            Hid people data where it was not needed, leaving only names.
+         </action>
+      </release>
    </body>
 </document>

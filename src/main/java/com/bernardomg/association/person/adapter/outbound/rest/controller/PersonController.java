@@ -30,7 +30,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,10 +47,13 @@ import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChange;
+import com.bernardomg.association.person.adapter.outbound.rest.model.PersonCreation;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -85,10 +87,10 @@ public class PersonController {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public Person create(@Valid @RequestBody final PersonChange change) {
+    public Person create(@Valid @RequestBody final PersonCreation creation) {
         final Person member;
 
-        member = toDomain(-1, change);
+        member = toDomain(creation);
         return service.create(member);
     }
 
@@ -125,8 +127,8 @@ public class PersonController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
-    public Iterable<Person> readAll(final Pageable pageable) {
-        return service.getAll(pageable);
+    public Iterable<Person> readAll(final Pagination pagination, final Sorting sorting) {
+        return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -170,7 +172,26 @@ public class PersonController {
                 change.getMembership()
                     .renew()));
         }
-        return new Person(change.getIdentifier(), number, name, change.getPhone(), membership);
+        return new Person(change.getIdentifier(), number, name, change.getBirthDate(), change.getPhone(), membership);
+    }
+
+    private final Person toDomain(final PersonCreation change) {
+        final PersonName           name;
+        final Optional<Membership> membership;
+
+        name = new PersonName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        if (change.getMembership() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(change.getMembership()
+                .active(),
+                change.getMembership()
+                    .active()));
+        }
+        return new Person("", -1L, name, null, "", membership);
     }
 
 }

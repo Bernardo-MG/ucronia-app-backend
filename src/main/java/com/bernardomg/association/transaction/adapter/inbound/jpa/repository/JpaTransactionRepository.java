@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,6 +21,9 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,11 +72,13 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Collection<Transaction> findAll(final Sort sort) {
+    public final Collection<Transaction> findAll(final Sorting sorting) {
         final Collection<Transaction> read;
+        final Sort                    sort;
 
-        log.debug("Finding all transactions");
+        log.debug("Finding all transactions sorting by {}", sorting);
 
+        sort = SpringSorting.toSort(sorting);
         read = transactionSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
@@ -84,15 +90,20 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable) {
+    public final Iterable<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
+            final Sorting sorting) {
         final Page<TransactionEntity>                    page;
         final Optional<Specification<TransactionEntity>> spec;
         final Iterable<Transaction>                      read;
+        final Pageable                                   pageable;
+        final Sort                                       sort;
 
-        log.debug("Finding transactions with sample {} and pagination {}", query, pageable);
+        log.debug("Finding transactions with sample {} and pagination {} and sorting {}", query, pagination, sorting);
 
         spec = TransactionSpecifications.fromQuery(query);
 
+        sort = SpringSorting.toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         if (spec.isEmpty()) {
             page = transactionSpringRepository.findAll(pageable);
         } else {
@@ -188,7 +199,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         entity = toEntity(transaction);
 
-        existing = transactionSpringRepository.findByIndex(transaction.getIndex());
+        existing = transactionSpringRepository.findByIndex(transaction.index());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -213,10 +224,10 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
     private final TransactionEntity toEntity(final Transaction transaction) {
         return TransactionEntity.builder()
-            .withIndex(transaction.getIndex())
-            .withDescription(transaction.getDescription())
-            .withDate(transaction.getDate())
-            .withAmount(transaction.getAmount())
+            .withIndex(transaction.index())
+            .withDescription(transaction.description())
+            .withDate(transaction.date())
+            .withAmount(transaction.amount())
             .build();
     }
 

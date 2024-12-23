@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +47,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Sorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,7 +86,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    public final Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sort sort) {
+    public final Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting) {
         final Collection<Fee>         readFees;
         final Map<Object, List<Fee>>  memberFees;
         final Collection<FeeCalendar> calendarFees;
@@ -102,9 +102,9 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         // Select query based on status
         readFees = switch (status) {
-            case ACTIVE -> feeRepository.findAllForActiveMembers(year, sort);
-            case INACTIVE -> feeRepository.findAllForInactiveMembers(year, sort);
-            default -> feeRepository.findAllInYear(year, sort);
+            case ACTIVE -> feeRepository.findAllForActiveMembers(year, sorting);
+            case INACTIVE -> feeRepository.findAllForInactiveMembers(year, sorting);
+            default -> feeRepository.findAllInYear(year, sorting);
         };
 
         log.debug("Read fees: {}", readFees);
@@ -182,8 +182,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             default -> personRepository.isActive(memberNumber);
         };
 
-        member = new Member(memberNumber, name, active);
-        return new FeeCalendar(member, months, year.getValue());
+        member = new Member(memberNumber, name);
+        return new FeeCalendar(member, months, year.getValue(), active);
     }
 
 }

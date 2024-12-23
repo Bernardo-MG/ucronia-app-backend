@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.controller;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +34,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,12 +51,16 @@ import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBoo
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.domain.model.Book;
-import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
+import com.bernardomg.association.library.book.domain.model.Book.Donor;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.usecase.service.BookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -104,8 +108,8 @@ public class BookController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.BOOKS)
-    public Iterable<Book> readAll(final Pageable pageable) {
-        return service.getAll(pageable);
+    public Iterable<Book> readAll(final Pagination pagination, final Sorting sorting) {
+        return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -130,16 +134,36 @@ public class BookController {
     }
 
     private final Book toDomain(final BookCreation request, final long number) {
-        // Book
+        final Title  title;
+        final String supertitle;
+        final String subtitle;
+
+        if (request.getTitle()
+            .getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = request.getTitle()
+                .getSupertitle();
+        }
+        if (request.getTitle()
+            .getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = request.getTitle()
+                .getSubtitle();
+        }
+
+        title = new Title(supertitle, request.getTitle()
+            .getTitle(), subtitle);
         return Book.builder()
-            .withTitle(request.getTitle())
+            .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withAuthors(List.of())
             .withPublishers(List.of())
             .withBookType(Optional.empty())
             .withGameSystem(Optional.empty())
-            .withDonors(List.of())
+            .withDonation(Optional.empty())
             .withNumber(number)
             .withLendings(List.of())
             .withLent(false)
@@ -152,6 +176,11 @@ public class BookController {
         final Optional<BookType>    bookType;
         final Optional<GameSystem>  gameSystem;
         final Collection<Donor>     donors;
+        final Title                 title;
+        final String                supertitle;
+        final String                subtitle;
+        final LocalDate             donationDate;
+        final Optional<Donation>    donation;
 
         // Authors
         if (request.getAuthors() == null) {
@@ -173,18 +202,6 @@ public class BookController {
                 .toList();
         }
 
-        // Donors
-        if (request.getDonors() == null) {
-            donors = List.of();
-        } else {
-            donors = request.getDonors()
-                .stream()
-                .map(BookUpdate.Donor::getNumber)
-                .filter(Objects::nonNull)
-                .map(d -> new Donor(d, new PersonName("", "")))
-                .toList();
-        }
-
         // Book type
         if ((request.getBookType() == null) || (request.getBookType()
             .getNumber() == null)) {
@@ -203,16 +220,62 @@ public class BookController {
                 .getNumber(), ""));
         }
 
-        // Book
+        // Donation
+        if (request.getDonation() == null) {
+            donation = Optional.empty();
+        } else {
+            if (request.getDonation()
+                .getDonors() == null) {
+                donors = List.of();
+            } else {
+                donors = request.getDonation()
+                    .getDonors()
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(d -> new Donor(d.getNumber(), new PersonName("", "")))
+                    .toList();
+            }
+            if (request.getDonation()
+                .getDate() == null) {
+                donationDate = null;
+            } else {
+                donationDate = request.getDonation()
+                    .getDate();
+            }
+            if ((donationDate == null) && (donors.isEmpty())) {
+                donation = Optional.empty();
+            } else {
+                donation = Optional.of(new Donation(donationDate, donors));
+            }
+        }
+
+        // Title
+        if (request.getTitle()
+            .getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = request.getTitle()
+                .getSupertitle();
+        }
+        if (request.getTitle()
+            .getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = request.getTitle()
+                .getSubtitle();
+        }
+        title = new Title(supertitle, request.getTitle()
+            .getTitle(), subtitle);
         return Book.builder()
-            .withTitle(request.getTitle())
+            .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
+            .withPublishDate(request.getPublishDate())
             .withAuthors(authors)
             .withPublishers(publishers)
             .withBookType(bookType)
             .withGameSystem(gameSystem)
-            .withDonors(donors)
+            .withDonation(donation)
             .withNumber(number)
             .withLendings(List.of())
             .withLent(false)

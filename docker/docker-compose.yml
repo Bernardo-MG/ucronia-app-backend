@@ -20,7 +20,7 @@ services:
       # Initial schemas
       - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
     networks:
-      - app
+      - db
   association-backend:
     build:
       context: ../
@@ -31,14 +31,6 @@ services:
     depends_on:
       association-db:
         condition: service_healthy
-    links:
-      - "association-db"
-    healthcheck:
-      test: "wget -T5 -qO- http://localhost:8080/actuator/health | grep UP || exit 1"
-      interval: 2s
-      timeout: 3s
-      retries: 5
-      start_period: 60s
     env_file:
       - .env
     environment:
@@ -46,12 +38,15 @@ services:
       - spring.profiles.active=dev
       # Logs
       - logging.file.path=./logs
-      # JDBC
+      # DB
       - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
+      - spring.datasource.username=postgres
+      - spring.datasource.password=password
     volumes:
       - association-logs:/app/logs
     networks:
       - app
+      - db
   #============#
   # MONITORING #
   #============#
@@ -64,8 +59,6 @@ services:
     depends_on:
       association-backend:
         condition: service_healthy
-    links:
-      - "association-backend"
     networks:
       - monitoring
       - app
@@ -77,9 +70,6 @@ services:
         condition: service_healthy
       loki:
         condition: service_healthy
-    links:
-      - "association-backend"
-      - "loki"
     volumes:
       - ./promtail-config.yaml:/etc/promtail/config.yaml
       - association-logs:/logs
@@ -94,8 +84,6 @@ services:
     depends_on:
       association-backend:
         condition: service_healthy
-    links:
-      - "association-backend"
     healthcheck:
       test: wget --quiet --tries=1 --output-document=- http://localhost:3100/ready | grep -q -w ready || exit 1
       interval: 10s
@@ -104,6 +92,7 @@ services:
       start_period: 20s 
     networks:
       - monitoring
+      - app
   grafana:
     image: grafana/grafana:11.1.1
     ports:
@@ -122,4 +111,5 @@ volumes:
   association-logs:
 networks:
   app:
+  db:
   monitoring:

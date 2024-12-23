@@ -35,7 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -46,6 +45,7 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee calendar service - get year")
@@ -63,17 +63,17 @@ class TestFeeCalendarServiceGetYear {
     @Test
     @DisplayName("When filtering by active the correct query is used")
     void testGetYear_Active() {
-        final Sort                  sort;
         final Iterable<FeeCalendar> calendars;
+        final Sorting               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllForActiveMembers(MemberCalendars.YEAR_CURRENT, sort))
+        given(feeRepository.findAllForActiveMembers(MemberCalendars.YEAR_CURRENT, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -83,18 +83,18 @@ class TestFeeCalendarServiceGetYear {
     @Test
     @DisplayName("When filtering by all the correct query is used")
     void testGetYear_All() {
-        final Sort                  sort;
         final Iterable<FeeCalendar> calendars;
+        final Sorting               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllInYear(MemberCalendars.YEAR_CURRENT, sort))
+        given(feeRepository.findAllInYear(MemberCalendars.YEAR_CURRENT, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
         given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ALL, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -104,17 +104,17 @@ class TestFeeCalendarServiceGetYear {
     @Test
     @DisplayName("When filtering by inactive the correct query is used")
     void testGetYear_Inactive() {
-        final Sort                  sort;
         final Iterable<FeeCalendar> calendars;
+        final Sorting               sorting;
 
         // GIVEN
-        sort = Sort.unsorted();
+        sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllForInactiveMembers(MemberCalendars.YEAR_CURRENT, sort))
+        given(feeRepository.findAllForInactiveMembers(MemberCalendars.YEAR_CURRENT, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.INACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)

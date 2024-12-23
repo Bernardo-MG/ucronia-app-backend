@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,6 +31,9 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -107,16 +111,20 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAll(final FeeQuery query, final Pageable pageable) {
+    public final Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
         final Page<MemberFeeEntity>                    page;
         final Optional<Specification<MemberFeeEntity>> spec;
         final Iterable<Fee>                            found;
+        final Pageable                                 pageable;
+        final Sort                                     sort;
         // TODO: Test reading with no first or last name
 
-        log.debug("Finding all fees with sample {} and pagination {}", query, pageable);
+        log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
         spec = MemberFeeSpecifications.fromQuery(query);
 
+        sort = SpringSorting.toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         if (spec.isEmpty()) {
             page = memberFeeSpringRepository.findAll(pageable);
         } else {
@@ -125,17 +133,18 @@ public final class JpaFeeRepository implements FeeRepository {
 
         found = page.map(this::toDomain);
 
-        log.debug("Found all fees with sample {} and pagination {}: {}", query, pageable, found);
+        log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
 
         return found;
     }
 
     @Override
-    public final Collection<Fee> findAllForActiveMembers(final Year year, final Sort sort) {
+    public final Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting) {
         final Collection<Long> foundIds;
         final YearMonth        start;
         final YearMonth        end;
         final Collection<Fee>  found;
+        final Sort             sort;
 
         log.debug("Finding all fees for active members in year {}", year);
 
@@ -146,6 +155,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Active members: {}", foundIds);
 
+        sort = SpringSorting.toSort(sorting);
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
@@ -157,11 +167,12 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllForInactiveMembers(final Year year, final Sort sort) {
+    public final Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting) {
         final Collection<Long> foundIds;
         final YearMonth        start;
         final YearMonth        end;
         final Collection<Fee>  found;
+        final Sort             sort;
 
         log.debug("Finding all fees for inactive members in year {}", year);
 
@@ -172,6 +183,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Inactive members: {}", foundIds);
 
+        sort = SpringSorting.toSort(sorting);
         found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
@@ -183,15 +195,20 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAllForMember(final Long number, final Pageable pageable) {
+    public final Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
         final Iterable<Fee> found;
+        final Pageable      pageable;
+        final Sort          sort;
 
-        log.debug("Finding all fees for member {} and pagination {}", number, pageable);
+        log.debug("Finding all fees for member {} with pagination {} and sorting {}", number, pagination, sorting);
 
+        sort = SpringSorting.toSort(sorting);
+        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
         found = memberFeeSpringRepository.findAllByPersonNumber(number, pageable)
             .map(this::toDomain);
 
-        log.debug("Found all fees for member {} and pagination {}: {}", number, pageable, found);
+        log.debug("Found all fees for member {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+            found);
 
         return found;
     }
@@ -229,16 +246,18 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllInYear(final Year year, final Sort sort) {
+    public final Collection<Fee> findAllInYear(final Year year, final Sorting sorting) {
         final YearMonth       start;
         final YearMonth       end;
         final Collection<Fee> fees;
+        final Sort            sort;
 
         log.debug("Finding all fees in year {}", year);
 
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
+        sort = SpringSorting.toSort(sorting);
         fees = memberFeeSpringRepository.findAllInRange(start, end, sort)
             .stream()
             .map(this::toDomain)
@@ -295,7 +314,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .toList();
 
         // TODO: just return the id
-        transactionId = transactionSpringRepository.findByIndex(transaction.getIndex())
+        transactionId = transactionSpringRepository.findByIndex(transaction.index())
             .get()
             .getId();
         read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.number(), feeDates);
