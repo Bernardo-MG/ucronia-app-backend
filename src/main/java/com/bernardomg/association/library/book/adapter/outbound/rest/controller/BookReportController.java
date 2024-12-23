@@ -64,7 +64,7 @@ public class BookReportController {
      *             if there was a problem processing the excel
      */
     @GetMapping(produces = "application/vnd.ms-excel")
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     public ResponseEntity<InputStreamResource> readAll() throws IOException {
         final ByteArrayOutputStream stream;
 
