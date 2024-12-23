@@ -345,5 +345,7 @@
             Hid people data where it was not needed, leaving only names.
          </action>
       </release>
+      <release version="1.0.0" date="2024-12-23" description="">
+      </release>
    </body>
 </document>
