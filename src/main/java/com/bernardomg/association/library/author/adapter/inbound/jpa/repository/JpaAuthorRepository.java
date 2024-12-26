@@ -4,9 +4,7 @@ package com.bernardomg.association.library.author.adapter.inbound.jpa.repository
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +13,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringSorting;
+import com.bernardomg.data.springframework.SpringPagination;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,12 +82,10 @@ public final class JpaAuthorRepository implements AuthorRepository {
     public final Iterable<Author> findAll(final Pagination pagination, final Sorting sorting) {
         final Iterable<Author> read;
         final Pageable         pageable;
-        final Sort             sort;
 
         log.debug("Finding authors with pagination {} and sorting {}", pagination, sorting);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         read = authorSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
