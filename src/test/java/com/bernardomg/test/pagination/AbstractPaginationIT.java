@@ -49,7 +49,7 @@ public abstract class AbstractPaginationIT<T> {
 
         // GIVEN
         pagination = new Pagination(page, 1);
-        sorting = sortField.map(Sorting::by)
+        sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 
         // WHEN
@@ -70,7 +70,7 @@ public abstract class AbstractPaginationIT<T> {
 
         // GIVEN
         pagination = new Pagination(0, 10);
-        sorting = sortField.map(Sorting::by)
+        sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 
         // WHEN
@@ -93,7 +93,7 @@ public abstract class AbstractPaginationIT<T> {
         // GIVEN
         currentPage = 0;
         pagination = new Pagination(currentPage, 1);
-        sorting = sortField.map(Sorting::by)
+        sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 
         // WHEN
@@ -126,7 +126,7 @@ public abstract class AbstractPaginationIT<T> {
 
         // GIVEN
         pagination = new Pagination(0, 1);
-        sorting = sortField.map(Sorting::by)
+        sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 
         // WHEN

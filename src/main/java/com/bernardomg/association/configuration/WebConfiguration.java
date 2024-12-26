@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.bernardomg.data.springframework.PaginationArgumentResolver;
-import com.bernardomg.data.springframework.SortingArgumentResolver;
+import com.bernardomg.ws.springframework.request.PaginationArgumentResolver;
+import com.bernardomg.ws.springframework.request.SortingArgumentResolver;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
