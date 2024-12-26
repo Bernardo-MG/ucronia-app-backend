@@ -93,7 +93,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();

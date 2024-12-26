@@ -90,7 +90,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.empty();

@@ -88,11 +88,11 @@ public abstract class AbstractPaginationIT<T> {
         final Page<T>    data;
         final Pagination pagination;
         final Sorting    sorting;
-        final int        currentPage;
+        final int        page;
 
         // GIVEN
-        currentPage = 0;
-        pagination = new Pagination(currentPage, 1);
+        page = 1;
+        pagination = new Pagination(page, 1);
         sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 
@@ -110,7 +110,7 @@ public abstract class AbstractPaginationIT<T> {
                 .isEqualTo(totalElements);
             softly.assertThat(data.getNumber())
                 .as("page number")
-                .isEqualTo(currentPage);
+                .isEqualTo(page - 1);
             softly.assertThat(data.getTotalPages())
                 .as("total number of pages")
                 .isEqualTo(totalElements);
