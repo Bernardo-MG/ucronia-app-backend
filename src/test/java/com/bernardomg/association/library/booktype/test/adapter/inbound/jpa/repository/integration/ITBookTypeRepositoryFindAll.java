@@ -53,7 +53,7 @@ class ITBookTypeRepositoryFindAll {
         final Sorting            sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
@@ -73,7 +73,7 @@ class ITBookTypeRepositoryFindAll {
         final Sorting            sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // WHEN

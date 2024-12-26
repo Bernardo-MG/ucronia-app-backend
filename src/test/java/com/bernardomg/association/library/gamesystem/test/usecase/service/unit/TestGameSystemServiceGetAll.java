@@ -65,7 +65,7 @@ class TestGameSystemServiceGetAll {
         final Iterable<GameSystem> systems;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         given(gameSystemRepository.findAll(pagination, sorting)).willReturn(List.of(GameSystems.valid()));
@@ -87,7 +87,7 @@ class TestGameSystemServiceGetAll {
         final Iterable<GameSystem> systems;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         given(gameSystemRepository.findAll(pagination, sorting)).willReturn(List.of());

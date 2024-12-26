@@ -55,7 +55,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
         workbook = generateWorkbook();
 
-        sort = Sorting.by("title", "language", "isbn");
+        sort = Sorting.asc("title", "language", "isbn");
         books = bookRepository.findAll(sort);
         loadWorkbook(workbook, books);
 

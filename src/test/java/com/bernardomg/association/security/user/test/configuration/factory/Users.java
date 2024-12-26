@@ -11,9 +11,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 

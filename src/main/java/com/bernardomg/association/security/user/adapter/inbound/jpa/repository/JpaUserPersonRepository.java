@@ -4,9 +4,7 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +16,7 @@ import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPe
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringSorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
@@ -109,12 +107,10 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     public final Iterable<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
         final Iterable<Person> people;
         final Pageable         pageable;
-        final Sort             sort;
 
         log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         people = userPersonSpringRepository.findAllNotAssigned(pageable)
             .map(this::toDomain);
 

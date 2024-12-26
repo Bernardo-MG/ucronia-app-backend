@@ -55,7 +55,7 @@ class ITPersonRepositoryFindAll {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         // WHEN
@@ -74,7 +74,7 @@ class ITPersonRepositoryFindAll {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         // WHEN
@@ -94,7 +94,7 @@ class ITPersonRepositoryFindAll {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         // WHEN
@@ -114,7 +114,7 @@ class ITPersonRepositoryFindAll {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         // WHEN
@@ -134,7 +134,7 @@ class ITPersonRepositoryFindAll {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         // WHEN

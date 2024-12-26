@@ -5,9 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +16,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSp
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringSorting;
+import com.bernardomg.data.springframework.SpringPagination;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,12 +37,10 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findActive(final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
         final Pageable     pageable;
-        final Sort         sort;
 
         log.trace("Finding active public members with pagination {} and sorting {}", pagination, sorting);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         members = personSpringRepository.findAllActive(pageable)
             .map(this::toDomain);
 
@@ -57,12 +53,10 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
         final Pageable     pageable;
-        final Sort         sort;
 
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         members = personSpringRepository.findAllWithMembership(pageable)
             .map(this::toDomain);
 
@@ -75,12 +69,10 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Iterable<Member> findInactive(final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
         final Pageable     pageable;
-        final Sort         sort;
 
         log.trace("Finding inactive public members with pagination {} and sorting {}", pagination, sorting);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         members = personSpringRepository.findAllInactive(pageable)
             .map(this::toDomain);
 

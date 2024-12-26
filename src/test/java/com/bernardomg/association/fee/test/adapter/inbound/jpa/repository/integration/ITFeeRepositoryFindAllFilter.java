@@ -64,7 +64,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.FEBRUARY));
@@ -89,7 +89,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
@@ -113,7 +113,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.MARCH));
@@ -138,7 +138,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
@@ -163,7 +163,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.DECEMBER));
@@ -188,7 +188,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.NOVEMBER));
@@ -213,7 +213,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.inRange(YearMonth.of(2020, Month.FEBRUARY), YearMonth.of(2020, Month.MAY));
@@ -239,7 +239,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JUNE));
@@ -264,7 +264,7 @@ class ITFeeRepositoryGetAllFilter {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JULY));

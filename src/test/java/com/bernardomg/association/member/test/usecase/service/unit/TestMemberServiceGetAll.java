@@ -66,7 +66,7 @@ class TestMemberServiceGetAll {
         final Collection<Member> readMembers;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         readMembers = List.of(Members.valid());
@@ -93,7 +93,7 @@ class TestMemberServiceGetAll {
         final Collection<Member> readMembers;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         readMembers = List.of();
@@ -120,7 +120,7 @@ class TestMemberServiceGetAll {
         final Collection<Member> readMembers;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         readMembers = List.of(Members.valid());
@@ -147,7 +147,7 @@ class TestMemberServiceGetAll {
         final Collection<Member> readMembers;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         readMembers = List.of(Members.valid());

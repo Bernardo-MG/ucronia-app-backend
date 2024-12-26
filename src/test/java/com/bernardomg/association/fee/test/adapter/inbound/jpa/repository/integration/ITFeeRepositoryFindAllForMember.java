@@ -63,7 +63,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -89,7 +89,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -111,7 +111,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -133,7 +133,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -155,7 +155,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -177,7 +177,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -199,7 +199,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
@@ -221,7 +221,7 @@ class ITFeeRepositoryfindAllForMemberForMember {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN

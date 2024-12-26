@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -39,6 +38,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSp
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
@@ -129,12 +129,10 @@ public final class JpaBookRepository implements BookRepository {
     public final Iterable<Book> findAll(final Pagination pagination, final Sorting sorting) {
         final Iterable<Book> read;
         final Pageable       pageable;
-        final Sort           sort;
 
         log.debug("Finding books with pagination {} and sorting {}", pagination, sorting);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         read = bookSpringRepository.findAll(pageable)
             .map(this::toDomain);
 

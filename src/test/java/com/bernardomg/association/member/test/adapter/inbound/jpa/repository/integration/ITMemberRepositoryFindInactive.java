@@ -67,7 +67,7 @@ class ITMemberRepositoryFindInactive {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
@@ -90,7 +90,7 @@ class ITMemberRepositoryFindInactive {
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
@@ -110,7 +110,7 @@ class ITMemberRepositoryFindInactive {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
@@ -131,7 +131,7 @@ class ITMemberRepositoryFindInactive {
         final Sorting          sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
