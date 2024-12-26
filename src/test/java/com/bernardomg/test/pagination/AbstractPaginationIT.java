@@ -69,7 +69,7 @@ public abstract class AbstractPaginationIT<T> {
         final Sorting     sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 
@@ -125,7 +125,7 @@ public abstract class AbstractPaginationIT<T> {
         final Sorting     sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 1);
+        pagination = new Pagination(1, 1);
         sorting = sortField.map(Sorting::asc)
             .orElse(Sorting.unsorted());
 

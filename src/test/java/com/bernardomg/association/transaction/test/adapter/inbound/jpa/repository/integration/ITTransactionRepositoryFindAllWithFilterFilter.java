@@ -64,7 +64,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.startDate(LocalDate.of(2020, Month.JANUARY, 2));
@@ -89,7 +89,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.endDate(LocalDate.of(2020, Month.JANUARY, 2));
@@ -113,7 +113,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2));
@@ -136,7 +136,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1));
@@ -159,7 +159,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // TODO: This is not the last day of the year

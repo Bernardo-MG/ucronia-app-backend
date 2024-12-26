@@ -73,7 +73,7 @@ class TestPersonServiceGetAll {
         final Collection<Person> readPersons;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         readPersons = List.of();
@@ -99,7 +99,7 @@ class TestPersonServiceGetAll {
         given(personRepository.findAll(ArgumentMatchers.any(), ArgumentMatchers.any()))
             .willReturn(List.of(Persons.noMembership()));
 
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
         // WHEN
@@ -119,7 +119,7 @@ class TestPersonServiceGetAll {
         final Collection<Person> readPersons;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
 
         readPersons = List.of(Persons.noMembership());
@@ -143,7 +143,7 @@ class TestPersonServiceGetAll {
         final Collection<Person> readPersons;
 
         // GIVEN
-        pagination = new Pagination(0, 100);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
 
         readPersons = List.of(Persons.noMembership());

@@ -61,7 +61,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         transactionQuery = TransactionsQueries.empty();
@@ -85,7 +85,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
 
         transactionQuery = TransactionsQueries.empty();
@@ -109,7 +109,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.ASC)));
 
         transactionQuery = TransactionsQueries.empty();
@@ -133,7 +133,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         final Sorting               sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.DESC)));
 
         transactionQuery = TransactionsQueries.empty();
@@ -157,7 +157,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         final ThrowingCallable executable;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
         transactionQuery = TransactionsQueries.empty();
