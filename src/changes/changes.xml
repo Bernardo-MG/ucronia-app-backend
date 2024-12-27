@@ -345,7 +345,13 @@
             Hid people data where it was not needed, leaving only names.
          </action>
       </release>
-      <release version="1.0.0" date="2024-12-23" description="">
+      <release version="0.5.27" date="2024-12-27" description="Pagination fix">
+         <action dev="bmg" type="fix">
+            Fixed pagination errors.
+         </action>
+         <action dev="bmg" type="update">
+            Updated dependencies.
+         </action>
       </release>
    </body>
 </document>
