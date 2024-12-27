@@ -61,7 +61,7 @@ class TestBookTypeServiceGetAll {
         final Iterable<BookType> types;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         given(bookTypeRepository.findAll(pagination, sorting)).willReturn(List.of(BookTypes.valid()));
@@ -83,7 +83,7 @@ class TestBookTypeServiceGetAll {
         final Iterable<BookType> types;
 
         // GIVEN
-        pagination = new Pagination(0, 20);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         given(bookTypeRepository.findAll(pagination, sorting)).willReturn(List.of());

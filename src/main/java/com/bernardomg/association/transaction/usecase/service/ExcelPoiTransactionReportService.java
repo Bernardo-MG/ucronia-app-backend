@@ -52,7 +52,7 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
 
         workbook = generateWorkbook();
 
-        sort = Sorting.by("date", "index", "description");
+        sort = Sorting.asc("date", "index", "description");
         transactions = transactionRepository.findAll(sort);
         loadWorkbook(workbook, transactions);
 

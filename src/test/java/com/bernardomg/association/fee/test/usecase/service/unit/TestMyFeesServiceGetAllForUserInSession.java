@@ -80,7 +80,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
@@ -111,7 +111,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         given(authentication.getPrincipal()).willReturn(
@@ -137,7 +137,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
@@ -167,7 +167,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         final Sorting       sorting;
 
         // GIVEN
-        pagination = new Pagination(0, 10);
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);

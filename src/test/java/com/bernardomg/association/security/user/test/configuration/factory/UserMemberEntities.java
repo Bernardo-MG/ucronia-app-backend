@@ -26,9 +26,9 @@ public final class UserMemberEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withRoles(List.of())
             .build();
     }

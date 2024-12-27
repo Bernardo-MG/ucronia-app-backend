@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,6 +22,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
 import lombok.extern.slf4j.Slf4j;
@@ -96,14 +96,12 @@ public final class JpaTransactionRepository implements TransactionRepository {
         final Optional<Specification<TransactionEntity>> spec;
         final Iterable<Transaction>                      read;
         final Pageable                                   pageable;
-        final Sort                                       sort;
 
         log.debug("Finding transactions with sample {} and pagination {} and sorting {}", query, pagination, sorting);
 
         spec = TransactionSpecifications.fromQuery(query);
 
-        sort = SpringSorting.toSort(sorting);
-        pageable = PageRequest.of(pagination.page(), pagination.size(), sort);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         if (spec.isEmpty()) {
             page = transactionSpringRepository.findAll(pageable);
         } else {
