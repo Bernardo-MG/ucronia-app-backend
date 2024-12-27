@@ -94,6 +94,14 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: transaction_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fee_payments_transaction
+                    references: association.transactions(id)
+                    deleteCascade: true
         - addAutoIncrement:
             schemaName: association
             tableName: fees
@@ -106,27 +114,6 @@ databaseChangeLog:
             schemaName: association
             tableName: fees
             columnNames: 'person_id, date'
-        - createTable:
-            schemaName: association
-            tableName: fee_payments
-            columns:
-              - column:
-                  name: fee_id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-                    foreignKeyName: fk_fee_payments_fee
-                    references: association.fees(id)
-                    deleteCascade: true
-              - column:
-                  name: transaction_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_fee_payments_transaction
-                    references: association.transactions(id)
-                    deleteCascade: true
       modifySql:
         - append:
             dbms: mysql

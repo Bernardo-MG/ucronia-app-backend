@@ -52,4 +52,7 @@ public class FeeEntity implements Serializable {
     @Column(name = "person_id", insertable = false, updatable = false)
     private Long              personId;
 
+    @Column(name = "transaction_id", nullable = true, unique = true)
+    private Long              transactionId;
+
 }

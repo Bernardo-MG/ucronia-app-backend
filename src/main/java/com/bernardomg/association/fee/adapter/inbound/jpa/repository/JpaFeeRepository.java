@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFee;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.MemberFeeSpecifications;
@@ -42,8 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
-    private final FeePaymentSpringRepository  feePaymentSpringRepository;
-
     private final FeeSpringRepository         feeSpringRepository;
 
     private final MemberFeeSpringRepository   memberFeeSpringRepository;
@@ -54,14 +51,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
     public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
             final MemberFeeSpringRepository memberFeeSpringRepo, final PersonSpringRepository personSpringRepo,
-            final FeePaymentSpringRepository feePaymentSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = feeSpringRepo;
         memberFeeSpringRepository = memberFeeSpringRepo;
         personSpringRepository = personSpringRepo;
-        feePaymentSpringRepository = feePaymentSpringRepo;
         transactionSpringRepository = transactionSpringRepo;
     }
 
@@ -298,10 +293,9 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final void pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
-        final long                        transactionId;
-        final Iterable<FeePaymentEntity>  payments;
-        final Collection<MemberFeeEntity> read;
-        final Collection<YearMonth>       feeDates;
+        final long                  transactionId;
+        final Collection<FeeEntity> read;
+        final Collection<YearMonth> feeDates;
 
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
@@ -313,21 +307,13 @@ public final class JpaFeeRepository implements FeeRepository {
         transactionId = transactionSpringRepository.findByIndex(transaction.index())
             .get()
             .getId();
-        read = memberFeeSpringRepository.findAllByPersonNumberAndDateIn(person.number(), feeDates);
+        read = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(person.number(), feeDates);
 
         // Register payments
-        payments = read.stream()
-            .map(MemberFeeEntity::getId)
-            .map(id -> FeePaymentEntity.builder()
-                .withFeeId(id)
-                .withTransactionId(transactionId)
-                .build())
-            .toList();
-        feePaymentSpringRepository.saveAll(payments);
-
-        transactionSpringRepository.flush();
-        feePaymentSpringRepository.flush();
-        memberFeeSpringRepository.flush();
+        for (final FeeEntity fee : read) {
+            fee.setTransactionId(transactionId);
+        }
+        feeSpringRepository.saveAll(read);
 
         log.debug("Paid fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
     }
