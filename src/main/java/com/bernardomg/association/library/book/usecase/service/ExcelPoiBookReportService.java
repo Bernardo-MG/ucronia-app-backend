@@ -86,10 +86,12 @@ public final class ExcelPoiBookReportService implements BookReportService {
         sheet.setColumnWidth(6, 5000);
         sheet.setColumnWidth(7, 5000);
         sheet.setColumnWidth(8, 5000);
-        sheet.setColumnWidth(9, 5000);
-        sheet.setColumnWidth(10, 5000);
-        sheet.setColumnWidth(11, 3000);
-        sheet.setColumnWidth(11, 3000);
+        sheet.setColumnWidth(9, 15000);
+        sheet.setColumnWidth(10, 3000);
+        sheet.setColumnWidth(11, 5000);
+        sheet.setColumnWidth(12, 5000);
+        sheet.setColumnWidth(13, 3000);
+        sheet.setColumnWidth(14, 3000);
 
         header = sheet.createRow(0);
 
