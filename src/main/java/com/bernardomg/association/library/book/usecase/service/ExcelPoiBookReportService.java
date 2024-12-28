@@ -18,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Book.Donation;
+import com.bernardomg.association.library.book.domain.model.Book.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
 
@@ -135,18 +138,26 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(9);
-        headerCell.setCellValue("Prestado");
+        headerCell.setCellValue("Donantes");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(10);
-        headerCell.setCellValue("Socio");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(11);
         headerCell.setCellValue("Fecha");
         headerCell.setCellStyle(headerStyle);
 
+        headerCell = header.createCell(11);
+        headerCell.setCellValue("Prestado");
+        headerCell.setCellStyle(headerStyle);
+
         headerCell = header.createCell(12);
+        headerCell.setCellValue("Socio");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(13);
+        headerCell.setCellValue("Fecha");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(14);
         headerCell.setCellValue("Días");
         headerCell.setCellStyle(headerStyle);
 
@@ -160,6 +171,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         Row             row;
         Cell            cell;
         BookLending     lending;
+        Donation        donation;
 
         style = workbook.createCellStyle();
         style.setWrapText(true);
@@ -219,7 +231,28 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 .collect(Collectors.joining(", ")));
             cell.setCellStyle(style);
 
-            cell = row.createCell(9);
+            if (book.donation()
+                .isPresent()) {
+                donation = book.donation()
+                    .get();
+
+                cell = row.createCell(9);
+                cell.setCellValue(donation.donors()
+                    .stream()
+                    .map(Donor::name)
+                    .map(PersonName::fullName)
+                    .collect(Collectors.joining(", ")));
+                cell.setCellStyle(style);
+
+                if (donation.date() != null) {
+                    cell = row.createCell(10);
+                    cell.setCellValue(donation.date()
+                        .format(dateFormatter));
+                    cell.setCellStyle(style);
+                }
+            }
+
+            cell = row.createCell(11);
             cell.setCellValue(book.lent());
             cell.setCellStyle(style);
 
@@ -229,18 +262,18 @@ public final class ExcelPoiBookReportService implements BookReportService {
                     .reduce((first, second) -> second)
                     .get();
 
-                cell = row.createCell(10);
+                cell = row.createCell(12);
                 cell.setCellValue(lending.borrower()
                     .name()
                     .fullName());
                 cell.setCellStyle(style);
 
-                cell = row.createCell(11);
+                cell = row.createCell(13);
                 cell.setCellValue(lending.lendingDate()
                     .format(dateFormatter));
                 cell.setCellStyle(style);
 
-                cell = row.createCell(12);
+                cell = row.createCell(14);
                 cell.setCellValue(lending.getDays());
                 cell.setCellStyle(style);
             }
