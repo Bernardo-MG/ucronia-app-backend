@@ -235,7 +235,6 @@ databaseChangeLog:
                   name: book_id
                   type: bigint
                   constraints:
-                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_book_types_book
                     references: inventory.books(id)
@@ -248,6 +247,11 @@ databaseChangeLog:
                     foreignKeyName: fk_book_book_types_book_type
                     references: inventory.book_types(id)
                     deleteCascade: true
+        - addPrimaryKey:
+            constraintName: book_book_types_key
+            schemaName: inventory
+            tableName: book_book_types
+            columnNames: 'book_id, book_type_id'
         - createTable:
             schemaName: inventory
             tableName: book_game_systems
@@ -256,7 +260,6 @@ databaseChangeLog:
                   name: book_id
                   type: bigint
                   constraints:
-                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_book_game_systems_book
                     references: inventory.books(id)
@@ -269,6 +272,11 @@ databaseChangeLog:
                     foreignKeyName: fk_book_game_systems_game_system
                     references: inventory.game_systems(id)
                     deleteCascade: true
+        - addPrimaryKey:
+            constraintName: book_game_systems_key
+            schemaName: inventory
+            tableName: book_game_systems
+            columnNames: 'book_id, game_system_id'
       modifySql:
         - append:
             dbms: mysql
@@ -297,6 +305,11 @@ databaseChangeLog:
                     foreignKeyName: fk_book_donors_donor
                     references: association.persons(id)
                     deleteCascade: true
+        - addPrimaryKey:
+            constraintName: book_donors_key
+            schemaName: inventory
+            tableName: book_donors
+            columnNames: 'book_id, donor_id'
       modifySql:
         - append:
             dbms: mysql

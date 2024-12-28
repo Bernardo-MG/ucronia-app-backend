@@ -88,7 +88,7 @@ public final class Books {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid(), Donors.valid()));
         return Book.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
