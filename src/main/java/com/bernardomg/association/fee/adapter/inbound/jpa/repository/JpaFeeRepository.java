@@ -238,7 +238,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding all fees in month {}", date);
 
-        fees = memberFeeSpringRepository.findAllByDate(date)
+        fees = feeSpringRepository.findAllByDate(date)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -282,7 +282,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding fee for member {} in date {}", number, date);
 
-        found = memberFeeSpringRepository.findByPersonNumberAndDate(number, date)
+        found = feeSpringRepository.findByPersonNumberAndDate(number, date)
             .map(this::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);

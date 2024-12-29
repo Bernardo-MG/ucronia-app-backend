@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -34,13 +35,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
     public void deleteByPersonIdAndDate(final Long personId, final YearMonth date);
 
     public boolean existsByPersonIdAndDate(final Long personId, final YearMonth date);
+
+    /**
+     * Returns all the fees in the received date.
+     *
+     * @param date
+     *            date to filter by
+     * @return all the fees in the date
+     */
+    public List<FeeEntity> findAllByDate(final YearMonth date);
 
     @Query("""
                SELECT f
@@ -66,12 +75,12 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
      */
     @Query("""
             SELECT f
-            FROM MemberFee f
+            FROM Fee f
                INNER JOIN Person p ON p.id = f.personId
             WHERE f.date >= :start
               AND f.date <= :end
             """)
-    public Collection<MemberFeeEntity> findAllInRange(@Param("start") final YearMonth start,
+    public Collection<FeeEntity> findAllInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, final Sort sort);
 
     /**
@@ -108,5 +117,16 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
      * @return fee for the member in the date
      */
     public Optional<FeeEntity> findByPersonIdAndDate(final Long personId, final YearMonth date);
+
+    /**
+     * Finds the fee for the member in the date.
+     *
+     * @param memberNumber
+     *            member to filter by
+     * @param date
+     *            date to filter by
+     * @return fee for the member in the date
+     */
+    public Optional<FeeEntity> findByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
 
 }
