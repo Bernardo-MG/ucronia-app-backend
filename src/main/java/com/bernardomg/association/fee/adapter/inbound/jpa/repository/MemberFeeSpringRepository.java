@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.YearMonth;
-import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -34,13 +31,5 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 
 public interface MemberFeeSpringRepository
         extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
-
-    public boolean existsByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
-
-    public boolean existsByPersonNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
-            final boolean paid);
-
-    public Collection<MemberFeeEntity> findAllByPersonNumberAndDateIn(final Long memberNumber,
-            final Collection<YearMonth> feeDates);
 
 }

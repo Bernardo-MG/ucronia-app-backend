@@ -42,7 +42,25 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
     public void deleteByPersonIdAndDate(final Long personId, final YearMonth date);
 
-    public boolean existsByPersonIdAndDate(final Long personId, final YearMonth date);
+    @Query("""
+               SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Fee f
+                 INNER JOIN Person p ON p.id = f.personId
+               WHERE p.number = :number
+                 AND f.date = :date
+            """)
+    public boolean existsByPersonNumberAndDate(@Param("number") final Long number, @Param("date") final YearMonth date);
+
+    @Query("""
+               SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Fee f
+                 INNER JOIN Person p ON p.id = f.personId
+               WHERE p.number = :number
+                 AND f.date = :date
+                 AND f.transactionId IS NOT NULL
+            """)
+    public boolean existsByPersonNumberAndDateAndPaid(@Param("number") final Long number,
+            @Param("date") final YearMonth date);
 
     /**
      * Returns all the fees in the received date.

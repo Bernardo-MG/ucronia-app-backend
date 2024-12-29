@@ -86,7 +86,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("checking a fee exists for member {} in date {}", number, date);
 
-        exists = memberFeeSpringRepository.existsByPersonNumberAndDate(number, date);
+        exists = feeSpringRepository.existsByPersonNumberAndDate(number, date);
 
         log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -99,8 +99,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("checking a paid fee exists for member {} in date {}", number, date);
 
-        // TODO: the boolean is not needed
-        exists = memberFeeSpringRepository.existsByPersonNumberAndDateAndPaid(number, date, true);
+        exists = feeSpringRepository.existsByPersonNumberAndDateAndPaid(number, date);
 
         log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
 
