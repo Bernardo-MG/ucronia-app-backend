@@ -28,6 +28,7 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -50,6 +51,30 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
             """)
     public Collection<FeeEntity> findAllFeesByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
             @Param("feeDates") final Collection<YearMonth> feeDates);
+
+    /**
+     * Returns all member fees with any of the received ids, and which are inside the received range.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @param ids
+     *            ids of the members to filter by
+     * @param sort
+     *            sorting information
+     * @return all member fees filtered by id and date range
+     */
+    @Query("""
+            SELECT f
+            FROM Fee f
+               INNER JOIN Person p ON p.id = f.personId
+            WHERE f.date >= :start
+              AND f.date <= :end
+              AND f.personId IN :ids
+            """)
+    public Collection<FeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
     /**
      * Finds the fee for the member in the date.

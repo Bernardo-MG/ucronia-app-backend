@@ -82,29 +82,6 @@ public interface MemberFeeSpringRepository
             @Param("end") final YearMonth end, final Sort sort);
 
     /**
-     * Returns all member fees with any of the received ids, and which are inside the received range.
-     *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
-     * @param ids
-     *            ids of the members to filter by
-     * @param sort
-     *            sorting information
-     * @return all member fees filtered by id and date range
-     */
-    @Query("""
-            SELECT f
-            FROM MemberFee f
-            WHERE f.date >= :start
-              AND f.date <= :end
-              AND f.personId IN :ids
-            """)
-    public Collection<MemberFeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
-
-    /**
      * Finds the fee for the member in the date.
      *
      * @param memberNumber

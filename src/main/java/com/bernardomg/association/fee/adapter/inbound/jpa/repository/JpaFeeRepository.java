@@ -5,6 +5,7 @@ import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -39,6 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
+
+    private static final Collection<String>   PERSON_PROPERTIES = List.of("firstName", "lastName", "member", "number");
 
     private final FeeSpringRepository         feeSpringRepository;
 
@@ -137,6 +140,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final YearMonth        end;
         final Collection<Fee>  found;
         final Sort             sort;
+        final Sorting          correctedSorting;
 
         log.debug("Finding all fees for active members in year {}", year);
 
@@ -147,8 +151,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Active members: {}", foundIds);
 
-        sort = SpringSorting.toSort(sorting);
-        found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
+        correctedSorting = new Sorting(sorting.properties()
+            .stream()
+            .map(this::correct)
+            .toList());
+        sort = SpringSorting.toSort(correctedSorting);
+        found = feeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -165,6 +173,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final YearMonth        end;
         final Collection<Fee>  found;
         final Sort             sort;
+        final Sorting          correctedSorting;
 
         log.debug("Finding all fees for inactive members in year {}", year);
 
@@ -175,8 +184,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Inactive members: {}", foundIds);
 
-        sort = SpringSorting.toSort(sorting);
-        found = memberFeeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
+        correctedSorting = new Sorting(sorting.properties()
+            .stream()
+            .map(this::correct)
+            .toList());
+        sort = SpringSorting.toSort(correctedSorting);
+        found = feeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -353,6 +366,18 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Saved fee {}", fee);
 
         return toDomain(saved);
+    }
+
+    private final Sorting.Property correct(final Sorting.Property property) {
+        final Sorting.Property corrected;
+
+        if (PERSON_PROPERTIES.contains(property.name())) {
+            corrected = new Sorting.Property("p." + property.name(), property.direction());
+        } else {
+            corrected = property;
+        }
+
+        return corrected;
     }
 
     private final void loadId(final FeeEntity fee) {
