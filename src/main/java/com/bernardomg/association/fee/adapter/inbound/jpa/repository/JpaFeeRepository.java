@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFee;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.MemberFeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -26,6 +25,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.data.domain.Pagination;
@@ -209,7 +209,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding all fees for member {} in dates {}", number, feeDates);
 
-        fees = feeSpringRepository.findAllByPersonNumberAndDateIn(number, feeDates)
+        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeDates)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -370,9 +370,11 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person                  person;
+        final Fee.Transaction             transaction;
+        final Optional<TransactionEntity> transactionEntity;
+        final PersonName                  name;
+        final Boolean                     paid;
 
         name = new PersonName(entity.getPerson()
             .getFirstName(),
@@ -381,20 +383,21 @@ public final class JpaFeeRepository implements FeeRepository {
         person = new Fee.Person(entity.getPerson()
             .getNumber(), name);
 
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(entity.getDate(), false, person, transaction);
-    }
-
-    private final Fee toDomain(final MemberFee entity) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
-
-        // TODO: get both names
-        name = new PersonName(entity.getPersonFirstName(), entity.getPersonLastName());
-        person = new Fee.Person(entity.getPersonNumber(), name);
-        transaction = new Fee.Transaction(entity.getPaymentDate(), entity.getTransactionIndex());
-        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
+        paid = entity.getTransactionId() != null;
+        if (paid) {
+            transactionEntity = transactionSpringRepository.findById(entity.getTransactionId());
+            if (transactionEntity.isPresent()) {
+                transaction = new Fee.Transaction(transactionEntity.get()
+                    .getDate(),
+                    transactionEntity.get()
+                        .getIndex());
+            } else {
+                transaction = new Fee.Transaction(null, null);
+            }
+        } else {
+            transaction = new Fee.Transaction(null, null);
+        }
+        return new Fee(entity.getDate(), paid, person, transaction);
     }
 
     private final Fee toDomain(final MemberFeeEntity entity) {

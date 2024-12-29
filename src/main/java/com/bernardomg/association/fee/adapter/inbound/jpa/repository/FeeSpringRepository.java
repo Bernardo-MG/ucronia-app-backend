@@ -33,28 +33,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFee;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
     public void deleteByPersonIdAndDate(final Long personId, final YearMonth date);
 
     public boolean existsByPersonIdAndDate(final Long personId, final YearMonth date);
-
-    @Query("""
-               SELECT f.id AS id, p.id AS personId, p.number AS personNumber,
-                 p.firstName AS personFirstName,
-                 p.lastName AS personLastName,
-                 f.date AS date,
-                 t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN f.transactionId IS NOT NULL THEN true ELSE false END AS paid
-               FROM Person p
-                 INNER JOIN Fee f ON p.id = f.personId
-                 LEFT JOIN Transaction t ON f.transactionId = t.id
-               WHERE p.number = :memberNumber
-                 AND f.date in :feeDates
-            """)
-    public Collection<MemberFee> findAllByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
-            @Param("feeDates") final Collection<YearMonth> feeDates);
 
     @Query("""
                SELECT f
