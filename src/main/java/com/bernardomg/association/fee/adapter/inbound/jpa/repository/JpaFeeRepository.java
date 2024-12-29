@@ -254,14 +254,19 @@ public final class JpaFeeRepository implements FeeRepository {
         final YearMonth       end;
         final Collection<Fee> fees;
         final Sort            sort;
+        final Sorting         correctedSorting;
 
         log.debug("Finding all fees in year {}", year);
 
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        sort = SpringSorting.toSort(sorting);
-        fees = memberFeeSpringRepository.findAllInRange(start, end, sort)
+        correctedSorting = new Sorting(sorting.properties()
+            .stream()
+            .map(this::correct)
+            .toList());
+        sort = SpringSorting.toSort(correctedSorting);
+        fees = feeSpringRepository.findAllInRange(start, end, sort)
             .stream()
             .map(this::toDomain)
             .toList();

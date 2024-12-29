@@ -31,11 +31,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 
@@ -60,26 +58,6 @@ public interface MemberFeeSpringRepository
 
     public Collection<MemberFeeEntity> findAllByPersonNumberAndDateIn(final Long memberNumber,
             final Collection<YearMonth> feeDates);
-
-    /**
-     * Returns all member fees inside the received range.
-     *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
-     * @param sort
-     *            sorting information
-     * @return all member fees filtered by date range
-     */
-    @Query("""
-            SELECT f
-            FROM MemberFee f
-            WHERE f.date >= :start
-              AND f.date <= :end
-            """)
-    public Collection<MemberFeeEntity> findAllInRange(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, final Sort sort);
 
     /**
      * Finds the fee for the member in the date.

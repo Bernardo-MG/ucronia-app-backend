@@ -34,6 +34,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
@@ -51,6 +52,27 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
             """)
     public Collection<FeeEntity> findAllFeesByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
             @Param("feeDates") final Collection<YearMonth> feeDates);
+
+    /**
+     * Returns all member fees inside the received range.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @param sort
+     *            sorting information
+     * @return all member fees filtered by date range
+     */
+    @Query("""
+            SELECT f
+            FROM MemberFee f
+               INNER JOIN Person p ON p.id = f.personId
+            WHERE f.date >= :start
+              AND f.date <= :end
+            """)
+    public Collection<MemberFeeEntity> findAllInRange(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end, final Sort sort);
 
     /**
      * Returns all member fees with any of the received ids, and which are inside the received range.
