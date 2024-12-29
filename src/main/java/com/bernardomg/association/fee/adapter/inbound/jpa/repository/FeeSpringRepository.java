@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -50,6 +52,14 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
      * @return all the fees in the date
      */
     public List<FeeEntity> findAllByDate(final YearMonth date);
+
+    @Query("""
+            SELECT f
+            FROM Fee f
+               INNER JOIN Person p ON p.id = f.personId
+            WHERE p.number = :number
+            """)
+    public Page<FeeEntity> findAllByPersonNumber(@Param("number") final Long number, final Pageable pageable);
 
     @Query("""
                SELECT f
@@ -128,5 +138,18 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
      * @return fee for the member in the date
      */
     public Optional<FeeEntity> findByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
+
+    /**
+     * Returns all the years based on the existing fees.
+     *
+     * @return all the years for the existing fees
+     */
+    @Query("""
+            SELECT extract(year from f.date) AS feeYear
+            FROM MemberFee f
+             GROUP BY feeYear
+             ORDER BY feeYear ASC
+            """)
+    public Collection<Integer> findYears();
 
 }

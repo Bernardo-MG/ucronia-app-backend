@@ -203,11 +203,16 @@ public final class JpaFeeRepository implements FeeRepository {
     public final Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
         final Iterable<Fee> found;
         final Pageable      pageable;
+        final Sorting       correctedSorting;
 
         log.debug("Finding all fees for member {} with pagination {} and sorting {}", number, pagination, sorting);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        found = memberFeeSpringRepository.findAllByPersonNumber(number, pageable)
+        correctedSorting = new Sorting(sorting.properties()
+            .stream()
+            .map(this::correct)
+            .toList());
+        pageable = SpringPagination.toPageable(pagination, correctedSorting);
+        found = feeSpringRepository.findAllByPersonNumber(number, pageable)
             .map(this::toDomain);
 
         log.debug("Found all fees for member {} with pagination {} and sorting {}: {}", number, pagination, sorting,
@@ -297,7 +302,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding fees range");
 
-        years = memberFeeSpringRepository.findYears()
+        years = feeSpringRepository.findYears()
             .stream()
             .map(Year::of)
             .toList();

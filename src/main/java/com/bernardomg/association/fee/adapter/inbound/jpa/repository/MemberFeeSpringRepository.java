@@ -27,11 +27,8 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 import java.time.YearMonth;
 import java.util.Collection;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
 
@@ -43,22 +40,7 @@ public interface MemberFeeSpringRepository
     public boolean existsByPersonNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
             final boolean paid);
 
-    public Page<MemberFeeEntity> findAllByPersonNumber(final Long memberNumber, final Pageable pageable);
-
     public Collection<MemberFeeEntity> findAllByPersonNumberAndDateIn(final Long memberNumber,
             final Collection<YearMonth> feeDates);
-
-    /**
-     * Returns all the years based on the existing fees.
-     *
-     * @return all the years for the existing fees
-     */
-    @Query("""
-            SELECT extract(year from f.date) AS feeYear
-            FROM MemberFee f
-             GROUP BY feeYear
-             ORDER BY feeYear ASC
-            """)
-    public Collection<Integer> findYears();
 
 }
