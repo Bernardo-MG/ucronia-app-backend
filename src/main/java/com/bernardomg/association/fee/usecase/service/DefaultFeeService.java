@@ -42,7 +42,6 @@ import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
@@ -286,11 +285,11 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toFee(final Person person, final YearMonth date) {
-        final Fee.Person     feePerson;
-        final FeeTransaction feeTransaction;
+        final Fee.Person      feePerson;
+        final Fee.Transaction feeTransaction;
 
         feePerson = new Fee.Person(person.number(), person.name());
-        feeTransaction = new FeeTransaction(null, null);
+        feeTransaction = new Fee.Transaction(null, null);
         return new Fee(date, false, feePerson, feeTransaction);
     }
 

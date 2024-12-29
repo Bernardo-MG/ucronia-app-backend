@@ -21,7 +21,6 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.specification.MemberFe
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
@@ -371,9 +370,9 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person     person;
-        final FeeTransaction transaction;
-        final PersonName     name;
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
 
         name = new PersonName(entity.getPerson()
             .getFirstName(),
@@ -382,30 +381,30 @@ public final class JpaFeeRepository implements FeeRepository {
         person = new Fee.Person(entity.getPerson()
             .getNumber(), name);
 
-        transaction = new FeeTransaction(null, null);
+        transaction = new Fee.Transaction(null, null);
         return new Fee(entity.getDate(), false, person, transaction);
     }
 
     private final Fee toDomain(final MemberFee entity) {
-        final Fee.Person     person;
-        final FeeTransaction transaction;
-        final PersonName     name;
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
 
         // TODO: get both names
         name = new PersonName(entity.getPersonFirstName(), entity.getPersonLastName());
         person = new Fee.Person(entity.getPersonNumber(), name);
-        transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
+        transaction = new Fee.Transaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
     private final Fee toDomain(final MemberFeeEntity entity) {
-        final Fee.Person     person;
-        final FeeTransaction transaction;
-        final PersonName     name;
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         person = new Fee.Person(entity.getPersonNumber(), name);
-        transaction = new FeeTransaction(entity.getPaymentDate(), entity.getTransactionIndex());
+        transaction = new Fee.Transaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 

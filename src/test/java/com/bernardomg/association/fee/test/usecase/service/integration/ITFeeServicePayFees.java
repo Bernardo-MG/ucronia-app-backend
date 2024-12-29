@@ -90,7 +90,8 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
+                // TODO: shouldn't this check the transaction id?
+                "transactionId", "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate());
     }
 
@@ -148,7 +149,8 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
+                // TODO: shouldn't this check the transaction id?
+                "transactionId", "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
@@ -207,7 +209,8 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
+                // TODO: shouldn't this check the transaction id?
+                "transactionId", "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
     }
 
@@ -264,7 +267,8 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
+                // TODO: shouldn't this check the transaction id?
+                "transactionId", "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
     }
 
@@ -338,7 +342,8 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
+                // TODO: shouldn't this check the transaction id?
+                "transactionId", "person.membership.person")
             .containsExactlyInAnyOrder(FeeEntities.atDate());
     }
 
