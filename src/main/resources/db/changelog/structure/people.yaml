@@ -129,11 +129,6 @@ databaseChangeLog:
       author: Bernardo
       changes:
         -  createView:
-            remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, p.id AS person_id, p.number AS person_number, p.first_name AS person_first_name, p.last_name AS person_last_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN f.transaction_id IS NOT NULL THEN true ELSE false END AS paid FROM association.persons p INNER JOIN association.fees f ON p.id = f.person_id LEFT JOIN association.transactions t ON f.transaction_id = t.id
-            schemaName: association
-            viewName: member_fees
-        -  createView:
             remarks: Monthly member balance
             selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM association.fees GROUP BY month_year) AS subquery
             schemaName: association

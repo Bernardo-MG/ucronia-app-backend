@@ -15,8 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.specification.MemberFeeSpecifications;
+import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -44,19 +43,15 @@ public final class JpaFeeRepository implements FeeRepository {
 
     private final FeeSpringRepository         feeSpringRepository;
 
-    private final MemberFeeSpringRepository   memberFeeSpringRepository;
-
     private final PersonSpringRepository      personSpringRepository;
 
     private final TransactionSpringRepository transactionSpringRepository;
 
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
-            final MemberFeeSpringRepository memberFeeSpringRepo, final PersonSpringRepository personSpringRepo,
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final PersonSpringRepository personSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = feeSpringRepo;
-        memberFeeSpringRepository = memberFeeSpringRepo;
         personSpringRepository = personSpringRepo;
         transactionSpringRepository = transactionSpringRepo;
     }
@@ -107,15 +102,15 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
-        final Optional<Specification<MemberFeeEntity>> spec;
-        final Iterable<Fee>                            found;
-        final Pageable                                 pageable;
-        final Sorting                                  correctedSorting;
+        final Optional<Specification<FeeEntity>> spec;
+        final Iterable<Fee>                      found;
+        final Pageable                           pageable;
+        final Sorting                            correctedSorting;
         // TODO: Test reading with no first or last name
 
         log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
-        spec = MemberFeeSpecifications.fromQuery(query);
+        spec = FeeSpecifications.fromQuery(query);
 
         if (spec.isEmpty()) {
             correctedSorting = new Sorting(sorting.properties()
@@ -127,7 +122,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .map(this::toDomain);
         } else {
             pageable = SpringPagination.toPageable(pagination, sorting);
-            found = memberFeeSpringRepository.findAll(spec.get(), pageable)
+            found = feeSpringRepository.findAll(spec.get(), pageable)
                 .map(this::toDomain);
         }
 
@@ -430,17 +425,6 @@ public final class JpaFeeRepository implements FeeRepository {
         } else {
             transaction = new Fee.Transaction(null, null);
         }
-        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
-    }
-
-    private final Fee toDomain(final MemberFeeEntity entity) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        person = new Fee.Person(entity.getPersonNumber(), name);
-        transaction = new Fee.Transaction(entity.getPaymentDate(), entity.getTransactionIndex());
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 

@@ -6,25 +6,25 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.MemberFeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 
-public final class MemberFeeSpecifications {
+public final class FeeSpecifications {
 
-    public static Specification<MemberFeeEntity> after(final YearMonth date) {
+    public static Specification<FeeEntity> after(final YearMonth date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<MemberFeeEntity> before(final YearMonth date) {
+    public static Specification<FeeEntity> before(final YearMonth date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<MemberFeeEntity> between(final YearMonth start, final YearMonth end) {
+    public static Specification<FeeEntity> between(final YearMonth start, final YearMonth end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<MemberFeeEntity>> fromQuery(final FeeQuery request) {
-        final Optional<Specification<MemberFeeEntity>> spec;
+    public static Optional<Specification<FeeEntity>> fromQuery(final FeeQuery request) {
+        final Optional<Specification<FeeEntity>> spec;
 
         if (request.getDate() != null) {
             spec = Optional.of(on(request.getDate()));
@@ -41,11 +41,11 @@ public final class MemberFeeSpecifications {
         return spec;
     }
 
-    public static Specification<MemberFeeEntity> on(final YearMonth date) {
+    public static Specification<FeeEntity> on(final YearMonth date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 
-    private MemberFeeSpecifications() {
+    private FeeSpecifications() {
         super();
     }
 
