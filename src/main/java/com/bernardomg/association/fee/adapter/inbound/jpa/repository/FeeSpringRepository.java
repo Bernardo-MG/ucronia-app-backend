@@ -135,6 +135,13 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
     public Collection<FeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
+    @Query("""
+            SELECT f
+            FROM Fee f
+               INNER JOIN Person p ON p.id = f.personId
+            """)
+    public Page<FeeEntity> findAllWithPerson(final Pageable pageable);
+
     /**
      * Finds the fee for the member in the date.
      *

@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -108,24 +107,29 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
-        final Page<MemberFeeEntity>                    page;
         final Optional<Specification<MemberFeeEntity>> spec;
         final Iterable<Fee>                            found;
         final Pageable                                 pageable;
+        final Sorting                                  correctedSorting;
         // TODO: Test reading with no first or last name
 
         log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
         spec = MemberFeeSpecifications.fromQuery(query);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
         if (spec.isEmpty()) {
-            page = memberFeeSpringRepository.findAll(pageable);
+            correctedSorting = new Sorting(sorting.properties()
+                .stream()
+                .map(this::correct)
+                .toList());
+            pageable = SpringPagination.toPageable(pagination, correctedSorting);
+            found = feeSpringRepository.findAllWithPerson(pageable)
+                .map(this::toDomain);
         } else {
-            page = memberFeeSpringRepository.findAll(spec.get(), pageable);
+            pageable = SpringPagination.toPageable(pagination, sorting);
+            found = memberFeeSpringRepository.findAll(spec.get(), pageable)
+                .map(this::toDomain);
         }
-
-        found = page.map(this::toDomain);
 
         log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
 
@@ -314,9 +318,9 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final void pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
-        final long                  transactionId;
-        final Collection<FeeEntity> read;
-        final Collection<YearMonth> feeDates;
+        final Optional<TransactionEntity> transactionEntity;
+        final Collection<FeeEntity>       read;
+        final Collection<YearMonth>       feeDates;
 
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
@@ -324,15 +328,18 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(Fee::date)
             .toList();
 
-        // TODO: just return the id
-        transactionId = transactionSpringRepository.findByIndex(transaction.index())
-            .get()
-            .getId();
+        transactionEntity = transactionSpringRepository.findByIndex(transaction.index());
+        if (transactionEntity.isEmpty()) {
+            log.error("Missing transaction with index {}", transaction.index());
+        }
         read = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(person.number(), feeDates);
 
         // Register payments
         for (final FeeEntity fee : read) {
-            fee.setTransactionId(transactionId);
+            fee.setTransactionId(transactionEntity.get()
+                .getId());
+            fee.setTransaction(transactionEntity.get());
+            fee.setPaid(true);
         }
         feeSpringRepository.saveAll(read);
 
@@ -404,11 +411,9 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person                  person;
-        final Fee.Transaction             transaction;
-        final Optional<TransactionEntity> transactionEntity;
-        final PersonName                  name;
-        final Boolean                     paid;
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
 
         name = new PersonName(entity.getPerson()
             .getFirstName(),
@@ -417,21 +422,15 @@ public final class JpaFeeRepository implements FeeRepository {
         person = new Fee.Person(entity.getPerson()
             .getNumber(), name);
 
-        paid = entity.getTransactionId() != null;
-        if (paid) {
-            transactionEntity = transactionSpringRepository.findById(entity.getTransactionId());
-            if (transactionEntity.isPresent()) {
-                transaction = new Fee.Transaction(transactionEntity.get()
-                    .getDate(),
-                    transactionEntity.get()
-                        .getIndex());
-            } else {
-                transaction = new Fee.Transaction(null, null);
-            }
+        if (entity.getPaid()) {
+            transaction = new Fee.Transaction(entity.getTransaction()
+                .getDate(),
+                entity.getTransaction()
+                    .getIndex());
         } else {
             transaction = new Fee.Transaction(null, null);
         }
-        return new Fee(entity.getDate(), paid, person, transaction);
+        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
 
     private final Fee toDomain(final MemberFeeEntity entity) {
@@ -446,14 +445,32 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final PersonEntity person;
+        final Optional<PersonEntity>      person;
+        final Optional<TransactionEntity> transaction;
 
+        // TODO: handle missing data
         person = personSpringRepository.findByNumber(fee.person()
-            .number())
-            .get();
+            .number());
+        if (!person.isPresent()) {
+            log.warn("Person with number {} not found", fee.person()
+                .number());
+        }
+        // TODO: handle missing data
+        if (fee.paid()) {
+            transaction = transactionSpringRepository.findByIndex(fee.transaction()
+                .index());
+            if (!transaction.isPresent()) {
+                log.warn("Transaction with index {} not found", fee.transaction()
+                    .index());
+            }
+        } else {
+            transaction = Optional.empty();
+        }
         return FeeEntity.builder()
-            .withPerson(person)
+            .withPerson(person.orElse(null))
             .withDate(fee.date())
+            .withPaid(fee.paid())
+            .withTransaction(transaction.orElse(null))
             .build();
     }
 

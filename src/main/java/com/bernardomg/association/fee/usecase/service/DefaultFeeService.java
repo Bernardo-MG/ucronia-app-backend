@@ -121,7 +121,7 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingPersonException(personNumber);
             });
 
-        newFee = toFee(person, feeDate);
+        newFee = toUnpaidFee(person, feeDate);
 
         validatorCreate.validate(newFee);
 
@@ -208,7 +208,7 @@ public final class DefaultFeeService implements FeeService {
             });
 
         newFees = feeDates.stream()
-            .map(d -> toFee(person, d))
+            .map(d -> toUnpaidFee(person, d))
             .toList();
 
         // TODO: reject paying in the future
@@ -284,7 +284,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final Fee toFee(final Person person, final YearMonth date) {
+    private final Fee toUnpaidFee(final Person person, final YearMonth date) {
         final Fee.Person      feePerson;
         final Fee.Transaction feeTransaction;
 

@@ -94,7 +94,10 @@ public final class FeeInitializer {
 
         if (paid) {
             transaction = registerTransaction();
-            fee.setTransactionId(transaction.getId());
+            fee.setTransaction(transaction);
+            fee.setPaid(true);
+        } else {
+            fee.setPaid(false);
         }
 
         feeRepository.save(fee);

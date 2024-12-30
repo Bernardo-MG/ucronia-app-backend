@@ -95,6 +95,12 @@ databaseChangeLog:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
               - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: false
+              - column:
                   name: transaction_id
                   type: bigint
                   constraints:

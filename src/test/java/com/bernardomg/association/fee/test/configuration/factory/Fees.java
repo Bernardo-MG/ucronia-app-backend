@@ -23,17 +23,6 @@ public final class Fees {
         return new Fee(FeeConstants.DATE, true, person, transaction);
     }
 
-    public static final Fee newlyCreated() {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
-
-        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(FeeConstants.DATE, false, person, transaction);
-    }
-
     public static final Fee noLastName() {
         final Fee.Person      person;
         final Fee.Transaction transaction;
@@ -207,7 +196,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(FeeConstants.TRANSACTION_DATE, TransactionConstants.INDEX);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return new Fee(FeeConstants.CURRENT_MONTH, true, person, transaction);
     }
 
@@ -218,7 +207,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(FeeConstants.TRANSACTION_DATE, index);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return new Fee(FeeConstants.CURRENT_MONTH, true, person, transaction);
     }
 
@@ -285,7 +274,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(FeeConstants.TRANSACTION_DATE, TransactionConstants.INDEX);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
     }
 
@@ -296,7 +285,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(FeeConstants.TRANSACTION_DATE, index);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
     }
 
@@ -307,7 +296,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(FeeConstants.TRANSACTION_DATE, TransactionConstants.INDEX_SMALL);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX_SMALL);
         return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
     }
 
@@ -318,7 +307,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(FeeConstants.TRANSACTION_DATE, index);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return new Fee(FeeConstants.TWO_MONTHS_BACK, true, person, transaction);
     }
 

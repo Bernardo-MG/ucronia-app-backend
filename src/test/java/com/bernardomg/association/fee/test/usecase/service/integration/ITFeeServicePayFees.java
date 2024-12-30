@@ -89,10 +89,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                // TODO: shouldn't this check the transaction id?
-                "transactionId", "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paid());
     }
 
     @Test
@@ -112,7 +111,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.singleFee());
+            .containsExactlyInAnyOrder(TransactionEntities.februaryFee());
     }
 
     @Test
@@ -148,10 +147,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                // TODO: shouldn't this check the transaction id?
-                "transactionId", "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paidMultiple(), FeeEntities.paidMultipleAtNextDate());
     }
 
     @Test
@@ -172,7 +170,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.multipleFees());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFeesStartYear());
     }
 
     @Test
@@ -208,10 +206,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                // TODO: shouldn't this check the transaction id?
-                "transactionId", "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paidMultiple(), FeeEntities.paidMultipleAtNextDate());
     }
 
     @Test
@@ -231,7 +228,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.multipleFees());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFeesStartYear());
     }
 
     @Test
@@ -266,10 +263,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                // TODO: shouldn't this check the transaction id?
-                "transactionId", "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paidMultipleLastInYear(), FeeEntities.paidMultipleFirstNextYear());
     }
 
     @Test
@@ -341,10 +337,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                // TODO: shouldn't this check the transaction id?
-                "transactionId", "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paid());
     }
 
     @Test
@@ -387,7 +382,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.singleFee());
+            .containsExactlyInAnyOrder(TransactionEntities.februaryFee());
     }
 
     @Test

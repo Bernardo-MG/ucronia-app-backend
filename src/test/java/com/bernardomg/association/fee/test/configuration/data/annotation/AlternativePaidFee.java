@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/fee/alternative_paid.sql")
+@Sql("/db/queries/fee/paid_alternative.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
