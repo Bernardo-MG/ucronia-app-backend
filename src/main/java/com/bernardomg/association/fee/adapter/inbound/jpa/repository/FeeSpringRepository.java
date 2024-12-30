@@ -172,7 +172,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      */
     @Query("""
             SELECT extract(year from f.date) AS feeYear
-            FROM MemberFee f
+            FROM Fee f
              GROUP BY feeYear
              ORDER BY feeYear ASC
             """)
