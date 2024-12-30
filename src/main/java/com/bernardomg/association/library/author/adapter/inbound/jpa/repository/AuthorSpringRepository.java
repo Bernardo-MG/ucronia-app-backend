@@ -42,7 +42,8 @@ public interface AuthorSpringRepository extends JpaRepository<AuthorEntity, Long
     @Query("""
                SELECT CASE WHEN COUNT(a) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM Author a
-               WHERE a.number != :number AND a.name = :name
+               WHERE a.number != :number
+                 AND a.name = :name
             """)
     public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
 

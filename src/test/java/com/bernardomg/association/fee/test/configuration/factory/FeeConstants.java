@@ -29,7 +29,10 @@ public final class FeeConstants {
     public static final YearMonth NEXT_YEAR_MONTH      = YearMonth.now()
         .plusYears(1);
 
-    public static final LocalDate PAYMENT_DATE         = LocalDate.of(2020, Month.JANUARY, 1);
+    /**
+     * TODO: rename, this is confusing with the payment date
+     */
+    public static final LocalDate PAYMENT_DATE         = LocalDate.of(2020, Month.FEBRUARY, 1);
 
     public static final YearMonth PREVIOUS_MONTH       = YearMonth.now()
         .minusMonths(1);
@@ -39,11 +42,6 @@ public final class FeeConstants {
 
     public static final YearMonth PREVIOUS_YEAR_MONTH  = YearMonth.now()
         .minusYears(1);
-
-    /**
-     * TODO: rename, this is confusing with the payment date
-     */
-    public static final LocalDate TRANSACTION_DATE     = LocalDate.of(2020, Month.FEBRUARY, 1);
 
     public static final YearMonth TWO_MONTHS_BACK      = YearMonth.now()
         .minusMonths(2);

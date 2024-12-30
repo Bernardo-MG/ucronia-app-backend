@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.YearMonth;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
 
 import jakarta.persistence.Column;
@@ -45,11 +46,21 @@ public class FeeEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    @Column(name = "paid")
+    private Boolean           paid;
+
     @OneToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private PersonEntity      person;
 
     @Column(name = "person_id", insertable = false, updatable = false)
     private Long              personId;
+
+    @OneToOne
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
+    private TransactionEntity transaction;
+
+    @Column(name = "transaction_id", insertable = false, updatable = false)
+    private Long              transactionId;
 
 }

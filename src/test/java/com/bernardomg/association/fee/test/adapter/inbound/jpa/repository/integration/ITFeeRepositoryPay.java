@@ -2,19 +2,19 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
-import com.bernardomg.association.fee.test.configuration.factory.FeePaymentEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -29,20 +29,20 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITFeeRepositoryPay {
 
     @Autowired
-    private FeePaymentSpringRepository feePaymentSpringRepository;
+    private FeeSpringRepository feeSpringRepository;
 
     @Autowired
-    private FeeRepository              repository;
+    private FeeRepository       repository;
 
     @Test
-    @DisplayName("When the fee exists it is persisted")
+    @DisplayName("When the fee is already paid, it is persisted")
     @MembershipActivePerson
     @PaidFee
     void testPay_Existing_PersistedData() {
-        final Iterable<FeePaymentEntity> payments;
-        final Person                     person;
-        final Fee                        fee;
-        final Transaction                transaction;
+        final Person              person;
+        final Fee                 fee;
+        final Iterable<FeeEntity> fees;
+        final Transaction         transaction;
 
         // GIVEN
         person = Persons.noMembership();
@@ -53,23 +53,24 @@ class ITFeeRepositoryPay {
         repository.pay(person, List.of(fee), transaction);
 
         // THEN
-        payments = feePaymentSpringRepository.findAll();
+        fees = feeSpringRepository.findAll();
 
-        Assertions.assertThat(payments)
-            .as("payments")
-            .containsExactly(FeePaymentEntities.valid());
+        Assertions.assertThat(fees)
+            .as("fees")
+            .extracting(FeeEntity::getTransactionId)
+            .allMatch(Objects::nonNull);
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When the fee is not paid, it is persisted")
     @MembershipActivePerson
     @NotPaidFee
     @PositiveTransaction
     void testPay_PersistedData() {
-        final Iterable<FeePaymentEntity> payments;
-        final Person                     person;
-        final Fee                        fee;
-        final Transaction                transaction;
+        final Person              person;
+        final Fee                 fee;
+        final Iterable<FeeEntity> fees;
+        final Transaction         transaction;
 
         // GIVEN
         person = Persons.noMembership();
@@ -80,11 +81,12 @@ class ITFeeRepositoryPay {
         repository.pay(person, List.of(fee), transaction);
 
         // THEN
-        payments = feePaymentSpringRepository.findAll();
+        fees = feeSpringRepository.findAll();
 
-        Assertions.assertThat(payments)
-            .as("payments")
-            .hasSize(1);
+        Assertions.assertThat(fees)
+            .as("fees")
+            .extracting(FeeEntity::getTransactionId)
+            .allMatch(Objects::nonNull);
     }
 
 }

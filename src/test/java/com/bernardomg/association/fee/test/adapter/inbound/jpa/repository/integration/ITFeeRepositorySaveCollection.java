@@ -18,6 +18,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.transaction.configuration.data.annotation.FeeTransaction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,14 +50,15 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactly(FeeEntities.atDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
+                "transaction.id")
+            .containsExactly(FeeEntities.paid());
     }
 
     @Test
     @DisplayName("Persists the data")
     @MembershipActivePerson
+    @FeeTransaction
     void testSave_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -72,14 +74,15 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactly(FeeEntities.atDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
+                "transaction.id")
+            .containsExactly(FeeEntities.paid());
     }
 
     @Test
     @DisplayName("Returns the created data")
     @NoMembershipPerson
+    @FeeTransaction
     void testSave_ReturnedData() {
         final Collection<Fee> fees;
         final Fee             fee;
@@ -93,7 +96,7 @@ class ITFeeRepositorySaveCollection {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.newlyCreated());
+            .containsExactly(Fees.paid());
     }
 
 }
