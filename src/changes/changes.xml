@@ -353,7 +353,13 @@
             Updated dependencies.
          </action>
       </release>
-      <release version="1.0.0" date="2024-12-27" description="">
+      <release version="0.5.28" date="2024-12-28" description="Books report">
+         <action dev="bmg" type="update">
+            Show donors in books report.
+         </action>
+         <action dev="bmg" type="fix">
+            Reject duplicated donors in database.
+         </action>
       </release>
    </body>
 </document>
