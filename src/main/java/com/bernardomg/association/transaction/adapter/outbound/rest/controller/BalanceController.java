@@ -37,7 +37,6 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -77,16 +76,14 @@ public class BalanceController {
      *
      * @param balance
      *            query to filter balances
-     * @param sorting
-     *            sorting to apply
      * @return the monthly balance
      */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
     public Collection<? extends TransactionMonthlyBalance>
-            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sorting sorting) {
-        return service.getMonthlyBalance(balance, sorting);
+            readMonthlyBalance(@Valid final TransactionBalanceQuery balance) {
+        return service.getMonthlyBalance(balance);
     }
 
 }

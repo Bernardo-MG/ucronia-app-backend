@@ -29,7 +29,6 @@ import java.util.Collection;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.data.domain.Sorting;
 
 /**
  * Transaction balance service.
@@ -50,11 +49,8 @@ public interface TransactionBalanceService {
      *
      * @param query
      *            query to filter balances
-     * @param sorting
-     *            sorting to apply
      * @return the monthly balances
      */
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
-            final Sorting sorting);
+    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query);
 
 }
