@@ -26,7 +26,6 @@ package com.bernardomg.association.member.usecase.service;
 
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.data.domain.Sorting;
 
 /**
  * Member balance service.
@@ -39,12 +38,12 @@ public interface MemberBalanceService {
     /**
      * Returns the monthly member balance.
      *
-     * @param balance
+     * @param query
      *            query to filter balances
      * @param sorting
      *            sorting to apply
      * @return the monthly member balance
      */
-    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sorting sorting);
+    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query);
 
 }
