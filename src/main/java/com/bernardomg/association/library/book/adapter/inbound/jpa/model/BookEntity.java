@@ -48,10 +48,11 @@ public class BookEntity implements Serializable {
     private Collection<AuthorEntity>    authors;
 
     @OneToOne
-    @JoinTable(schema = "inventory", name = "book_book_types",
-            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "book_type_id", referencedColumnName = "id") })
+    @JoinColumn(name = "book_type_id", referencedColumnName = "id")
     private BookTypeEntity              bookType;
+
+    @Column(name = "book_type_id", insertable = false, updatable = false)
+    private Long                        bookTypeId;
 
     @Column(name = "donation_date")
     private LocalDate                   donationDate;
