@@ -40,8 +40,6 @@ public interface MemberBalanceService {
      *
      * @param query
      *            query to filter balances
-     * @param sorting
-     *            sorting to apply
      * @return the monthly member balance
      */
     public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query);
