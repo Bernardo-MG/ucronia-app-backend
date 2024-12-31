@@ -5,6 +5,122 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: inventory
+            tableName: game_systems
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: inventory
+            tableName: game_systems
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: inventory
+            tableName: book_types
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: inventory
+            tableName: book_types
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: inventory
+            tableName: authors
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: inventory
+            tableName: authors
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: inventory
+            tableName: publishers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: inventory
+            tableName: publishers
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: inventory
             tableName: books
             columns:
               - column:
@@ -52,7 +168,7 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                     foreignKeyName: fk_books_game_system
-                    references: association.game_systems(id)
+                    references: inventory.game_systems(id)
                     deleteCascade: true
               - column:
                   name: book_type_id
@@ -60,127 +176,11 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                     foreignKeyName: fk_books_book_type
-                    references: association.book_types(id)
+                    references: inventory.book_types(id)
                     deleteCascade: true
         - addAutoIncrement:
             schemaName: inventory
             tableName: books
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
-        - createTable:
-            schemaName: inventory
-            tableName: authors
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: number
-                  type: bigint
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(100)
-                  constraints:
-                    unique: true
-                    nullable: false
-        - addAutoIncrement:
-            schemaName: inventory
-            tableName: authors
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
-        - createTable:
-            schemaName: inventory
-            tableName: publishers
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: number
-                  type: bigint
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(100)
-                  constraints:
-                    unique: true
-                    nullable: false
-        - addAutoIncrement:
-            schemaName: inventory
-            tableName: publishers
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
-        - createTable:
-            schemaName: inventory
-            tableName: game_systems
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: number
-                  type: bigint
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(100)
-                  constraints:
-                    unique: true
-                    nullable: false
-        - addAutoIncrement:
-            schemaName: inventory
-            tableName: game_systems
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
-        - createTable:
-            schemaName: inventory
-            tableName: book_types
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: number
-                  type: bigint
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(100)
-                  constraints:
-                    unique: true
-                    nullable: false
-        - addAutoIncrement:
-            schemaName: inventory
-            tableName: book_types
             columnName: id
             columnDataType: bigint
             incrementBy: 1
