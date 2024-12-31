@@ -130,6 +130,6 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Monthly member balance
-            selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM association.fees GROUP BY month_year) AS subquery
+            selectQuery: SELECT month, total FROM (SELECT DATE_TRUNC('month', date) AS month, COUNT(date) AS total FROM association.fees GROUP BY month) AS subquery
             schemaName: association
             viewName: member_monthly_balances
