@@ -366,5 +366,7 @@
             Removed meaningless relationship table for fees.
          </action>
       </release>
+      <release version="1.0.0" date="2024-12-31" description="">
+      </release>
    </body>
 </document>
