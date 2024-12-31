@@ -125,7 +125,7 @@ databaseChangeLog:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
   - changeSet:
-      id: membership_views
+      id: people_views
       author: Bernardo
       changes:
         -  createView:
