@@ -46,6 +46,14 @@ databaseChangeLog:
               - column:
                   name: donation_date
                   type: datetime
+              - column:
+                  name: game_system_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_books_game_system
+                    references: association.game_systems(id)
+                    deleteCascade: true
         - addAutoIncrement:
             schemaName: inventory
             tableName: books
@@ -252,31 +260,6 @@ databaseChangeLog:
             schemaName: inventory
             tableName: book_book_types
             columnNames: 'book_id, book_type_id'
-        - createTable:
-            schemaName: inventory
-            tableName: book_game_systems
-            columns:
-              - column:
-                  name: book_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_book_game_systems_book
-                    references: inventory.books(id)
-                    deleteCascade: true
-              - column:
-                  name: game_system_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_book_game_systems_game_system
-                    references: inventory.game_systems(id)
-                    deleteCascade: true
-        - addPrimaryKey:
-            constraintName: book_game_systems_key
-            schemaName: inventory
-            tableName: book_game_systems
-            columnNames: 'book_id, game_system_id'
       modifySql:
         - append:
             dbms: mysql

@@ -63,10 +63,11 @@ public class BookEntity implements Serializable {
     private Collection<PersonEntity>    donors;
 
     @OneToOne
-    @JoinTable(schema = "inventory", name = "book_game_systems",
-            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "game_system_id", referencedColumnName = "id") })
+    @JoinColumn(name = "game_system_id", referencedColumnName = "id")
     private GameSystemEntity            gameSystem;
+
+    @Column(name = "game_system_id", insertable = false, updatable = false)
+    private Long                        gameSystemId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
