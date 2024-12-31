@@ -49,7 +49,7 @@ public class BookEntity implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "book_type_id", referencedColumnName = "id")
-    private BookTypeEntity            bookType;
+    private BookTypeEntity              bookType;
 
     @Column(name = "book_type_id", insertable = false, updatable = false)
     private Long                        bookTypeId;
