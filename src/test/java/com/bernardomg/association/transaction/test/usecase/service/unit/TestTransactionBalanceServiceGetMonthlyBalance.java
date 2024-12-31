@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.transaction.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Collection;
@@ -43,7 +45,6 @@ import com.bernardomg.association.transaction.domain.repository.TransactionBalan
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
-import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction balance service - get monthly balance")
@@ -60,18 +61,15 @@ class TestTransactionBalanceServiceGetMonthlyBalance {
     void testGetMonthlyBalance() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sorting                               sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
-
         query = TransactionBalanceQueries.empty();
 
-        given(transactionBalanceRepository.findMonthlyBalance(query, sorting))
+        given(transactionBalanceRepository.findMonthlyBalance(eq(query), any()))
             .willReturn(List.of(TransactionMonthlyBalances.currentMonth(1)));
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sorting);
+        balances = service.getMonthlyBalance(query);
 
         // THEN
         Assertions.assertThat(balances)
@@ -83,17 +81,14 @@ class TestTransactionBalanceServiceGetMonthlyBalance {
     void testGetMonthlyBalance_NoData() {
         final Collection<TransactionMonthlyBalance> balances;
         final TransactionBalanceQuery               query;
-        final Sorting                               sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
-
         query = TransactionBalanceQueries.empty();
 
-        given(transactionBalanceRepository.findMonthlyBalance(query, sorting)).willReturn(List.of());
+        given(transactionBalanceRepository.findMonthlyBalance(eq(query), any())).willReturn(List.of());
 
         // WHEN
-        balances = service.getMonthlyBalance(query, sorting);
+        balances = service.getMonthlyBalance(query);
 
         // THEN
         Assertions.assertThat(balances)

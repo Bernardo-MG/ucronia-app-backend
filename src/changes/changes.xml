@@ -361,5 +361,10 @@
             Reject duplicated donors in database.
          </action>
       </release>
+      <release version="0.5.29" date="2024-12-31" description="Fee table reduction">
+         <action dev="bmg" type="fix">
+            Removed meaningless relationship table for fees.
+         </action>
+      </release>
    </body>
 </document>

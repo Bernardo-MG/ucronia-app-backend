@@ -34,8 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
@@ -59,9 +57,6 @@ class ITFeeServicePayFees {
 
     @Autowired
     private FeeInitializer              feeInitializer;
-
-    @Autowired
-    private FeePaymentSpringRepository  feePaymentRepository;
 
     @Autowired
     private FeeSpringRepository         feeRepository;
@@ -94,9 +89,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paid());
     }
 
     @Test
@@ -116,7 +111,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.singleFee());
+            .containsExactlyInAnyOrder(TransactionEntities.februaryFee());
     }
 
     @Test
@@ -152,9 +147,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paidMultiple(), FeeEntities.paidMultipleAtNextDate());
     }
 
     @Test
@@ -175,7 +170,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.multipleFees());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFeesStartYear());
     }
 
     @Test
@@ -211,24 +206,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate(), FeeEntities.nextDate());
-    }
-
-    @Test
-    @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
-    @MembershipActivePerson
-    @FeeAmountSetting
-    void testPayFees_MultipleDates_PersistedRelationship() {
-
-        // WHEN
-        service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
-
-        // THEN
-        Assertions.assertThat(feePaymentRepository.count())
-            .isEqualTo(2);
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paidMultiple(), FeeEntities.paidMultipleAtNextDate());
     }
 
     @Test
@@ -248,7 +228,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.multipleFees());
+            .containsExactlyInAnyOrder(TransactionEntities.multipleFeesStartYear());
     }
 
     @Test
@@ -283,9 +263,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.lastInYear(), FeeEntities.firstNextYear());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paidMultipleLastInYear(), FeeEntities.paidMultipleFirstNextYear());
     }
 
     @Test
@@ -357,9 +337,9 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId",
-                "person.membership.person")
-            .containsExactlyInAnyOrder(FeeEntities.atDate());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "personId", "transactionId",
+                "transaction.index", "transaction.id")
+            .containsExactlyInAnyOrder(FeeEntities.paid());
     }
 
     @Test
@@ -367,7 +347,6 @@ class ITFeeServicePayFees {
     @MembershipActivePerson
     @FeeAmountSetting
     void testPayFees_PersistedRelationship() {
-        final FeePaymentEntity  relationship;
         final FeeEntity         fee;
         final TransactionEntity transaction;
 
@@ -375,22 +354,15 @@ class ITFeeServicePayFees {
         service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
 
         // THEN
-        Assertions.assertThat(feePaymentRepository.count())
-            .isEqualTo(1);
-
         fee = feeRepository.findAll()
             .iterator()
             .next();
         transaction = transactionRepository.findAll()
             .iterator()
             .next();
-        relationship = feePaymentRepository.findAll()
-            .iterator()
-            .next();
 
-        Assertions.assertThat(relationship.getFeeId())
-            .isEqualTo(fee.getId());
-        Assertions.assertThat(relationship.getTransactionId())
+        Assertions.assertThat(fee)
+            .extracting(FeeEntity::getTransactionId)
             .isEqualTo(transaction.getId());
     }
 
@@ -410,7 +382,7 @@ class ITFeeServicePayFees {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
-            .containsExactlyInAnyOrder(TransactionEntities.singleFee());
+            .containsExactlyInAnyOrder(TransactionEntities.februaryFee());
     }
 
     @Test

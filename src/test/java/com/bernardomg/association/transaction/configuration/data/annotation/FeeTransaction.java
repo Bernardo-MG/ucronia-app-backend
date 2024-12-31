@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.test.configuration.data.annotation;
+package com.bernardomg.association.transaction.configuration.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/fee/paid_alternative.sql")
+@Sql("/db/queries/transaction/fee.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface AlternativePaidFee {
+public @interface FeeTransaction {
 
 }

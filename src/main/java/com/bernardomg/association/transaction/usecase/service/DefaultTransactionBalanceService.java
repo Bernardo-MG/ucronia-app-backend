@@ -25,6 +25,7 @@
 package com.bernardomg.association.transaction.usecase.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -72,8 +73,10 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
-            final Sorting sorting) {
+    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query) {
+        final Sorting sorting;
+
+        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
         return transactionBalanceRepository.findMonthlyBalance(query, sorting);
     }
 

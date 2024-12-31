@@ -3,15 +3,15 @@ package com.bernardomg.association.transaction.test.configuration.factory;
 
 import java.time.LocalDate;
 
-import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 public final class TransactionEntities {
 
     public static final TransactionEntity decimal() {
         return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
-            .withAmount(1.2f)
+            .withAmount(TransactionConstants.AMOUNT_DECIMAL)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION)
             .build();
@@ -19,16 +19,27 @@ public final class TransactionEntities {
 
     public static final TransactionEntity descriptionChange() {
         return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
-            .withAmount(1F)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .withDescription("Transaction 123")
             .build();
     }
 
+    public static final TransactionEntity februaryFee() {
+        return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
+            .withIndex(TransactionConstants.INDEX)
+            .withAmount(TransactionConstants.AMOUNT_BIGGER)
+            .withDate(TransactionConstants.DATE)
+            .withDescription(TransactionConstants.DESCRIPTION_FEE_FEBRUARY)
+            .build();
+    }
+
     public static final TransactionEntity forAmount(final Float value) {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.INDEX)
+            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(value)
             .withDate(TransactionConstants.DATE)
@@ -38,6 +49,7 @@ public final class TransactionEntities {
 
     public static final TransactionEntity forAmount(final Float value, final LocalDate date) {
         return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(value)
             .withDate(date)
@@ -47,6 +59,7 @@ public final class TransactionEntities {
 
     public static final TransactionEntity forAmount(final Float value, final LocalDate date, final Long index) {
         return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
             .withIndex(index)
             .withAmount(value)
             .withDate(date)
@@ -56,57 +69,59 @@ public final class TransactionEntities {
 
     public static final TransactionEntity index(final long index) {
         return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
             .withIndex(index)
-            .withAmount(1F)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION)
             .build();
     }
 
-    public static final TransactionEntity multipleFees() {
+    public static final TransactionEntity multipleFeesEndYear() {
         return TransactionEntity.builder()
-            .withId(2L)
-            .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
-            .withAmount(2F)
-            .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Last name 1 para Febrero 2020, Marzo 2020")
+            .withId(TransactionConstants.ID)
+            .withIndex(TransactionConstants.INDEX)
+            .withAmount(TransactionConstants.AMOUNT_FEES)
+            .withDate(TransactionConstants.DATE)
+            .withDescription(TransactionConstants.DESCRIPTION_FEE_DECEMBER_JANUARY)
             .build();
     }
 
     public static final TransactionEntity multipleFeesSpanYears() {
         return TransactionEntity.builder()
-            .withId(2L)
-            .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
-            .withAmount(2F)
-            .withDate(FeeConstants.PAYMENT_DATE)
+            .withId(TransactionConstants.ID)
+            .withIndex(TransactionConstants.INDEX)
+            .withAmount(TransactionConstants.AMOUNT_FEES)
+            .withDate(TransactionConstants.DATE)
             .withDescription("Cuota de Person 1 Last name 1 para Diciembre 2020, Enero 2021")
             .build();
     }
 
-    public static final TransactionEntity singleFee() {
+    public static final TransactionEntity multipleFeesStartYear() {
         return TransactionEntity.builder()
-            .withId(2L)
-            .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
-            .withAmount(1F)
-            .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Last name 1 para Febrero 2020")
+            .withId(TransactionConstants.ID)
+            .withIndex(TransactionConstants.INDEX)
+            .withAmount(TransactionConstants.AMOUNT_FEES)
+            .withDate(TransactionConstants.DATE)
+            .withDescription(TransactionConstants.DESCRIPTION_FEE_FEBRUARY_MARCH)
             .build();
     }
 
     public static final TransactionEntity singleFeeNoAmount() {
         return TransactionEntity.builder()
-            .withId(2L)
-            .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
+            .withId(TransactionConstants.ID)
+            .withIndex(TransactionConstants.INDEX)
             .withAmount(0F)
-            .withDate(FeeConstants.PAYMENT_DATE)
-            .withDescription("Cuota de Person 1 Last name 1 para Febrero 2020")
+            .withDate(TransactionConstants.DATE)
+            .withDescription(TransactionConstants.DESCRIPTION_FEE_FEBRUARY)
             .build();
     }
 
     public static final TransactionEntity valid() {
         return TransactionEntity.builder()
+            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
-            .withAmount(1F)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION)
             .build();

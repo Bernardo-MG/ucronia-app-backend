@@ -42,7 +42,6 @@ import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
@@ -122,7 +121,7 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingPersonException(personNumber);
             });
 
-        newFee = toFee(person, feeDate);
+        newFee = toUnpaidFee(person, feeDate);
 
         validatorCreate.validate(newFee);
 
@@ -209,7 +208,7 @@ public final class DefaultFeeService implements FeeService {
             });
 
         newFees = feeDates.stream()
-            .map(d -> toFee(person, d))
+            .map(d -> toUnpaidFee(person, d))
             .toList();
 
         // TODO: reject paying in the future
@@ -285,12 +284,12 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final Fee toFee(final Person person, final YearMonth date) {
-        final Fee.Person     feePerson;
-        final FeeTransaction feeTransaction;
+    private final Fee toUnpaidFee(final Person person, final YearMonth date) {
+        final Fee.Person      feePerson;
+        final Fee.Transaction feeTransaction;
 
         feePerson = new Fee.Person(person.number(), person.name());
-        feeTransaction = new FeeTransaction(null, null);
+        feeTransaction = new Fee.Transaction(null, null);
         return new Fee(date, false, feePerson, feeTransaction);
     }
 

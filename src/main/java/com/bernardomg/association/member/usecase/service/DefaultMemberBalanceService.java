@@ -25,6 +25,7 @@
 package com.bernardomg.association.member.usecase.service;
 
 import java.time.YearMonth;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
@@ -57,24 +58,25 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
     }
 
     @Override
-    public final Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance,
-            final Sorting sorting) {
+    public final Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
         final YearMonth now;
         final YearMonth end;
+        final Sorting   sorting;
 
-        log.debug("Reading monthly balance with query {} and sorting {}", balance, sorting);
+        log.debug("Reading monthly balance with query {}", query);
 
         // Up to this month
         now = YearMonth.now();
-        if ((balance.getEndDate() == null) || (balance.getEndDate()
+        if ((query.getEndDate() == null) || (query.getEndDate()
             .isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", balance.getEndDate(), now);
+            log.debug("Replacing end date {} with current date {}", query.getEndDate(), now);
             end = now;
         } else {
-            end = balance.getEndDate();
+            end = query.getEndDate();
         }
 
-        return memberBalanceRepository.findInRange(balance.getStartDate(), end, sorting);
+        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
+        return memberBalanceRepository.findInRange(query.getStartDate(), end, sorting);
     }
 
 }

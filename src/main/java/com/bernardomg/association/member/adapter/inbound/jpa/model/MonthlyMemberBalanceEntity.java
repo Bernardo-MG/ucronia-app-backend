@@ -26,7 +26,7 @@ public class MonthlyMemberBalanceEntity implements Serializable {
     private static final long serialVersionUID = 4603617058960663867L;
 
     @Id
-    @Column(name = "date", nullable = false)
+    @Column(name = "month", nullable = false)
     private LocalDate         month;
 
     @Column(name = "total", nullable = false)
