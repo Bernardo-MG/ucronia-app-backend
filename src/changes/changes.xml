@@ -366,5 +366,10 @@
             Removed meaningless relationship table for fees.
          </action>
       </release>
+      <release version="0.5.30" date="2025-01-01" description="Library table reduction">
+         <action dev="bmg" type="fix">
+            Removed meaningless relationship table for books.
+         </action>
+      </release>
    </body>
 </document>
