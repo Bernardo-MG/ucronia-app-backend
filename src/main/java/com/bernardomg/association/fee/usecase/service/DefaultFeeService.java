@@ -45,6 +45,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
+import com.bernardomg.association.fee.usecase.validation.FeePersonNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.PaidFeeDatesNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
@@ -109,7 +110,8 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
-        validatorUpdate = new FieldRuleValidator<>(new FeeTransactionNotChangedRule(feeRepository));
+        validatorUpdate = new FieldRuleValidator<>(new FeeTransactionNotChangedRule(feeRepository),
+            new FeePersonNotChangedRule(feeRepository));
     }
 
     @Override

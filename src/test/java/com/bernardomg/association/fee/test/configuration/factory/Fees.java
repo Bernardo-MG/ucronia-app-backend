@@ -89,6 +89,28 @@ public final class Fees {
         return Fee.unpaid(FeeConstants.TWO_MONTHS_BACK, person);
     }
 
+    public static final Fee alternativeTransaction() {
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = new Fee.Person(PersonConstants.NUMBER, name);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.ALTERNATIVE_INDEX);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
+    }
+
+    public static final Fee alternativePerson() {
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
+
+        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
+        person = new Fee.Person(PersonConstants.ALTERNATIVE_NUMBER, name);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
+    }
+
     public static final Fee paid() {
         final Fee.Person      person;
         final Fee.Transaction transaction;
