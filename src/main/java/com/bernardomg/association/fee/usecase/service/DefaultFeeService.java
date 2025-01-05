@@ -276,7 +276,6 @@ public final class DefaultFeeService implements FeeService {
                 .index());
         }
 
-        // TODO: Can't remove person
         validatorUpdate.validate(fee);
 
         return feeRepository.save(fee);
