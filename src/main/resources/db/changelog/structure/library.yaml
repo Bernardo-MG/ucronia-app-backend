@@ -178,6 +178,11 @@ databaseChangeLog:
                     foreignKeyName: fk_books_book_type
                     references: inventory.book_types(id)
                     deleteCascade: true
+              - column:
+                  name: data_type
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
         - addAutoIncrement:
             schemaName: inventory
             tableName: books

@@ -12,94 +12,55 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.Pu
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Book")
-@Table(schema = "inventory", name = "books")
+@DiscriminatorValue("game")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public class BookEntity implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class BookEntity extends AbstractBookEntity implements Serializable {
 
     /**
      * Serialization ID.
      */
     @Transient
-    private static final long           serialVersionUID = 1328776989450853491L;
-
-    @OneToMany
-    @JoinTable(schema = "inventory", name = "book_authors",
-            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "author_id", referencedColumnName = "id") })
-    private Collection<AuthorEntity>    authors;
+    private static final long serialVersionUID = 1328776989450853491L;
 
     @OneToOne
     @JoinColumn(name = "book_type_id", referencedColumnName = "id")
-    private BookTypeEntity              bookType;
+    private BookTypeEntity    bookType;
 
     @Column(name = "book_type_id", insertable = false, updatable = false)
-    private Long                        bookTypeId;
-
-    @Column(name = "donation_date")
-    private LocalDate                   donationDate;
-
-    @OneToMany
-    @JoinTable(schema = "inventory", name = "book_donors",
-            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "donor_id", referencedColumnName = "id") })
-    private Collection<PersonEntity>    donors;
+    private Long              bookTypeId;
 
     @OneToOne
     @JoinColumn(name = "game_system_id", referencedColumnName = "id")
-    private GameSystemEntity            gameSystem;
+    private GameSystemEntity  gameSystem;
 
     @Column(name = "game_system_id", insertable = false, updatable = false)
-    private Long                        gameSystemId;
+    private Long              gameSystemId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private Long                        id;
-
-    @Column(name = "isbn", nullable = false)
-    private String                      isbn;
-
-    @Column(name = "language", nullable = false)
-    private String                      language;
-
-    @Column(name = "number", nullable = false, unique = true)
-    private Long                        number;
-
-    @Column(name = "publish_date")
-    private LocalDate                   publishDate;
-
-    @OneToMany
-    @JoinTable(schema = "inventory", name = "book_publishers",
-            joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "publisher_id", referencedColumnName = "id") })
-    private Collection<PublisherEntity> publishers;
-
-    @Column(name = "subtitle", nullable = false)
-    private String                      subtitle;
-
-    @Column(name = "supertitle", nullable = false)
-    private String                      supertitle;
-
-    @Column(name = "title", nullable = false)
-    private String                      title;
+    @Builder(setterPrefix = "with")
+    public BookEntity(final Collection<AuthorEntity> authors, final LocalDate donationDate,
+            final Collection<PersonEntity> donors, final Long id, final String isbn, final String language,
+            final Long number, final LocalDate publishDate, final Collection<PublisherEntity> publishers,
+            final String subtitle, final String supertitle, final String title, final BookTypeEntity bookType,
+            final Long bookTypeId, final GameSystemEntity gameSystem, final Long gameSystemId) {
+        super(authors, donationDate, donors, id, isbn, language, number, publishDate, publishers, subtitle, supertitle,
+            title);
+        this.bookType = bookType;
+        this.bookTypeId = bookTypeId;
+        this.gameSystem = gameSystem;
+        this.gameSystemId = gameSystemId;
+    }
 
 }
