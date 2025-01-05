@@ -406,9 +406,9 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person                person;
+        final Optional<Fee.Transaction> transaction;
+        final PersonName                name;
 
         name = new PersonName(entity.getPerson()
             .getFirstName(),
@@ -418,12 +418,12 @@ public final class JpaFeeRepository implements FeeRepository {
             .getNumber(), name);
 
         if (entity.getPaid()) {
-            transaction = new Fee.Transaction(entity.getTransaction()
+            transaction = Optional.of(new Fee.Transaction(entity.getTransaction()
                 .getDate(),
                 entity.getTransaction()
-                    .getIndex());
+                    .getIndex()));
         } else {
-            transaction = new Fee.Transaction(null, null);
+            transaction = Optional.empty();
         }
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
@@ -441,10 +441,16 @@ public final class JpaFeeRepository implements FeeRepository {
         }
         // TODO: handle missing data
         if (fee.paid()) {
+            if (fee.transaction()
+                .isEmpty()) {
+                log.warn("Received no transaction for a paid fee");
+            }
             transaction = transactionSpringRepository.findByIndex(fee.transaction()
+                .get()
                 .index());
-            if (!transaction.isPresent()) {
+            if (transaction.isEmpty()) {
                 log.warn("Transaction with index {} not found", fee.transaction()
+                    .get()
                     .index());
             }
         } else {

@@ -3,6 +3,7 @@ package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.time.Month;
 import java.time.YearMonth;
+import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
@@ -20,7 +21,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
         person = new Fee.Person(PersonConstants.ALTERNATIVE_NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.ALTERNATIVE_INDEX);
-        return new Fee(FeeConstants.DATE, true, person, transaction);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee noLastName() {
@@ -31,73 +32,61 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, "");
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
-        return new Fee(FeeConstants.DATE, true, person, transaction);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee notPaid() {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person person;
+        final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(FeeConstants.DATE, false, person, transaction);
+        return Fee.unpaid(FeeConstants.DATE, person);
     }
 
     public static final Fee notPaidAt(final long index, final Month month) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person person;
+        final PersonName name;
 
         name = new PersonName("Person " + index, "Last name " + index);
         person = new Fee.Person(index * 10, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), false, person, transaction);
+        return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), person);
     }
 
     public static final Fee notPaidCurrentMonth() {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person person;
+        final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(FeeConstants.CURRENT_MONTH, false, person, transaction);
+        return Fee.unpaid(FeeConstants.CURRENT_MONTH, person);
     }
 
     public static final Fee notPaidNextYear() {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person person;
+        final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(FeeConstants.NEXT_YEAR_MONTH, false, person, transaction);
+        return Fee.unpaid(FeeConstants.NEXT_YEAR_MONTH, person);
     }
 
     public static final Fee notPaidPreviousMonth() {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person person;
+        final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(FeeConstants.PREVIOUS_MONTH, false, person, transaction);
+        return Fee.unpaid(FeeConstants.PREVIOUS_MONTH, person);
     }
 
     public static final Fee notPaidTwoMonthsBack() {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person person;
+        final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        transaction = new Fee.Transaction(null, null);
-        return new Fee(FeeConstants.TWO_MONTHS_BACK, false, person, transaction);
+        return Fee.unpaid(FeeConstants.TWO_MONTHS_BACK, person);
     }
 
     public static final Fee paid() {
@@ -108,7 +97,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
-        return new Fee(FeeConstants.DATE, true, person, transaction);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidAt(final int month) {
@@ -119,7 +108,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
-        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, Optional.of(transaction));
     }
 
     public static final Fee paidAt(final int month, final long index) {
@@ -130,7 +119,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, Optional.of(transaction));
     }
 
     public static final Fee paidAt(final long index, final Month month) {
@@ -141,7 +130,7 @@ public final class Fees {
         name = new PersonName("Person " + index, "Last name " + index);
         person = new Fee.Person(index * 10, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index * 10);
-        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, Optional.of(transaction));
     }
 
     public static final Fee paidAtAlternative(final int month) {
@@ -152,7 +141,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
         person = new Fee.Person(PersonConstants.ALTERNATIVE_NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month + 29);
-        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, Optional.of(transaction));
     }
 
     public static final Fee paidAtNoLastName(final int month) {
@@ -163,7 +152,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, "");
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
-        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, transaction);
+        return new Fee(YearMonth.of(FeeConstants.YEAR_VALUE, month), true, person, Optional.of(transaction));
     }
 
     public static final Fee paidAtPreviousYear(final int month) {
@@ -175,7 +164,8 @@ public final class Fees {
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
         // TODO: don't use member calendar
-        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person, transaction);
+        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person,
+            Optional.of(transaction));
     }
 
     public static final Fee paidAtPreviousYear(final int month, final long index) {
@@ -186,7 +176,8 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person, transaction);
+        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person,
+            Optional.of(transaction));
     }
 
     public static final Fee paidCurrentMonth() {
@@ -197,7 +188,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
-        return new Fee(FeeConstants.CURRENT_MONTH, true, person, transaction);
+        return new Fee(FeeConstants.CURRENT_MONTH, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidCurrentMonth(final long index) {
@@ -208,7 +199,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.CURRENT_MONTH, true, person, transaction);
+        return new Fee(FeeConstants.CURRENT_MONTH, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidFirstNextYear(final long index) {
@@ -219,7 +210,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.FIRST_NEXT_YEAR_DATE, true, person, transaction);
+        return new Fee(FeeConstants.FIRST_NEXT_YEAR_DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidLastInYear(final long index) {
@@ -230,7 +221,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.LAST_YEAR_DATE, true, person, transaction);
+        return new Fee(FeeConstants.LAST_YEAR_DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidNextDate() {
@@ -241,7 +232,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
-        return new Fee(FeeConstants.NEXT_DATE, true, person, transaction);
+        return new Fee(FeeConstants.NEXT_DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidNextDateWithIndex(final long index) {
@@ -252,7 +243,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.NEXT_DATE, true, person, transaction);
+        return new Fee(FeeConstants.NEXT_DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidNextYear(final long index) {
@@ -264,7 +255,7 @@ public final class Fees {
         person = new Fee.Person(PersonConstants.NUMBER, name);
         // TODO: this is the third distinct date, stick to one
         transaction = new Fee.Transaction(TransactionConstants.DATE, index);
-        return new Fee(FeeConstants.NEXT_YEAR_MONTH, true, person, transaction);
+        return new Fee(FeeConstants.NEXT_YEAR_MONTH, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidPreviousMonth() {
@@ -275,7 +266,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
-        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
+        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidPreviousMonth(final long index) {
@@ -286,7 +277,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
+        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidPreviousMonthNew() {
@@ -297,7 +288,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX_SMALL);
-        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, transaction);
+        return new Fee(FeeConstants.PREVIOUS_MONTH, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidTwoMonthsBack(final long index) {
@@ -308,7 +299,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.TWO_MONTHS_BACK, true, person, transaction);
+        return new Fee(FeeConstants.TWO_MONTHS_BACK, true, person, Optional.of(transaction));
     }
 
     public static final Fee paidWithIndex(final long index) {
@@ -319,7 +310,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(FeeConstants.DATE, true, person, transaction);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 
     public static final Fee toCreate() {
@@ -328,7 +319,7 @@ public final class Fees {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
-        return new Fee(FeeConstants.CURRENT_MONTH, false, person, null);
+        return Fee.unpaid(FeeConstants.CURRENT_MONTH, person);
     }
 
     private Fees() {

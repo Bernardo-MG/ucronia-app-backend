@@ -310,12 +310,10 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toUnpaidFee(final Person person, final YearMonth date) {
-        final Fee.Person      feePerson;
-        final Fee.Transaction feeTransaction;
+        final Fee.Person feePerson;
 
         feePerson = new Fee.Person(person.number(), person.name());
-        feeTransaction = new Fee.Transaction(null, null);
-        return new Fee(date, false, feePerson, feeTransaction);
+        return Fee.unpaid(date, feePerson);
     }
 
 }

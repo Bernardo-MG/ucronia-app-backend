@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -174,7 +175,7 @@ public class FeeController {
             .getNumber(), null);
         transaction = new Fee.Transaction(null, change.getTransaction()
             .getIndex());
-        return new Fee(change.getMonth(), false, person, transaction);
+        return new Fee(change.getMonth(), false, person, Optional.of(transaction));
     }
 
 }
