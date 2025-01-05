@@ -27,6 +27,8 @@ package com.bernardomg.association.fee.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +53,8 @@ import com.bernardomg.association.transaction.domain.exception.MissingTransactio
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - update")
@@ -139,12 +143,33 @@ class TestFeeServiceUpdate {
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
         service.update(Fees.paid());
 
         // THEN
         verify(feeRepository).save(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When updating the transaction is removed, an exception is thrown")
+    void testUpdate_RemovedTransaction() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+
+        // WHEN
+        execution = () -> service.update(Fees.notPaid());
+
+        // THEN
+        failure = new FieldFailure("missing", "transaction.missing", "transaction", null);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
@@ -156,6 +181,7 @@ class TestFeeServiceUpdate {
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
 
         // WHEN

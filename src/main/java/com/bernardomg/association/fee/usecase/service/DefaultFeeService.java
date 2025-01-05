@@ -45,6 +45,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
+import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotRemovedRule;
 import com.bernardomg.association.fee.usecase.validation.PaidFeeDatesNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
@@ -108,7 +109,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
-        validatorUpdate = new FieldRuleValidator<>();
+        validatorUpdate = new FieldRuleValidator<>(new FeeTransactionNotRemovedRule(feeRepository));
     }
 
     @Override
@@ -273,9 +274,6 @@ public final class DefaultFeeService implements FeeService {
                 .index());
         }
 
-        // TODO: check person and transaction exist
-
-        // TODO: Can't remove transaction
         // TODO: Can't remove person
         validatorUpdate.validate(fee);
 
