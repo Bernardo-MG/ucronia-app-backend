@@ -153,7 +153,7 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating the transaction is removed, an exception is thrown")
+    @DisplayName("When the transaction is removed, an exception is thrown")
     void testUpdate_RemovedTransaction() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -167,7 +167,28 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.notPaid());
 
         // THEN
-        failure = new FieldFailure("missing", "transaction.missing", "transaction", null);
+        failure = new FieldFailure("removed", "transaction.removed", "transaction", null);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("When the transaction is changed, an exception is thrown")
+    void testUpdate_ChangedTransaction() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.alternative()));
+
+        // WHEN
+        execution = () -> service.update(Fees.paid());
+
+        // THEN
+        failure = new FieldFailure("modified", "transaction.modified", "transaction", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
