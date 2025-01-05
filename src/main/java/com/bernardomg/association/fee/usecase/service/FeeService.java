@@ -83,4 +83,6 @@ public interface FeeService {
     public Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
             final LocalDate payDate);
 
+    public Fee update(final Fee fee);
+
 }

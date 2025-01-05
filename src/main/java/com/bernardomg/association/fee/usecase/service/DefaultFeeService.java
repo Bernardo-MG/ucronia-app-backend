@@ -86,6 +86,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<Collection<Fee>> validatorPay;
 
+    private final Validator<Fee>             validatorUpdate;
+
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
             final AssociationSettingsSource configSource, final MessageSource msgSource) {
@@ -105,6 +107,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
+        validatorUpdate = new FieldRuleValidator<>();
     }
 
     @Override
@@ -147,7 +150,7 @@ public final class DefaultFeeService implements FeeService {
         fee = feeRepository.findOne(personNumber, date)
             .orElseThrow(() -> {
                 log.error("Missing fee for {} in {}", personNumber, date);
-                throw new MissingFeeException(personNumber + " " + date.toString());
+                throw new MissingFeeException(personNumber, date);
             });
 
         feeRepository.delete(personNumber, date);
@@ -183,7 +186,7 @@ public final class DefaultFeeService implements FeeService {
 
         fee = feeRepository.findOne(personNumber, date);
         if (fee.isEmpty()) {
-            throw new MissingFeeException(personNumber + " " + date.toString());
+            throw new MissingFeeException(personNumber, date);
         }
 
         log.debug("Got fee for {} in {}: fee", personNumber, date);
@@ -230,6 +233,24 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, payDate);
 
         return created;
+    }
+
+    @Override
+    public final Fee update(final Fee fee) {
+        log.debug("Updating fee for {} in {} using data {}", fee.person()
+            .number(), fee.date(), fee);
+
+        if (!feeRepository.exists(fee.person()
+            .number(), fee.date())) {
+            log.error("Missing fee for {} in {}", fee.person()
+                .number(), fee.date());
+            throw new MissingFeeException(fee.person()
+                .number(), fee.date());
+        }
+
+        validatorUpdate.validate(fee);
+
+        return feeRepository.save(fee);
     }
 
     private final void pay(final Person person, final Collection<Fee> fees, final LocalDate payDate) {

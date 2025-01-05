@@ -36,12 +36,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeChange;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCreation;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -143,6 +145,29 @@ public class FeeController {
             @PathVariable("memberNumber") final long memberNumber) {
         return service.getOne(memberNumber, date)
             .orElse(null);
+    }
+
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @Caching(evict = { @CacheEvict(cacheNames = {
+            // Fee caches
+            FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+            // Funds caches
+            TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
+            TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
+            // Member caches
+            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+            // Person caches
+            PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+    public Fee update(@PathVariable("number") final long number, @Valid @RequestBody final FeeChange change) {
+        final Fee fee;
+
+        fee = toDomain(change);
+        return service.update(fee);
+    }
+
+    private final Fee toDomain(final FeeChange change) {
+        return new Fee(change.getDate(), false, null, null);
     }
 
 }
