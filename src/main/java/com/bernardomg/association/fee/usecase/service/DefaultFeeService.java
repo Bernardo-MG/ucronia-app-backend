@@ -50,6 +50,7 @@ import com.bernardomg.association.person.domain.exception.MissingPersonException
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
+import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Pagination;
@@ -137,13 +138,14 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final void delete(final long personNumber, final YearMonth date) {
-        final boolean memberExists;
+        final boolean personExists;
         final Fee     fee;
 
         log.info("Deleting fee for {} in {}", personNumber, date);
 
-        memberExists = personRepository.exists(personNumber);
-        if (!memberExists) {
+        personExists = personRepository.exists(personNumber);
+        if (!personExists) {
+            log.error("Missing person {}", personNumber);
             throw new MissingPersonException(personNumber);
         }
 
@@ -181,11 +183,13 @@ public final class DefaultFeeService implements FeeService {
 
         memberExists = personRepository.exists(personNumber);
         if (!memberExists) {
+            log.error("Missing person {}", personNumber);
             throw new MissingPersonException(personNumber);
         }
 
         fee = feeRepository.findOne(personNumber, date);
         if (fee.isEmpty()) {
+            log.error("Missing fee for {} in {}", personNumber, date);
             throw new MissingFeeException(personNumber, date);
         }
 
@@ -246,6 +250,27 @@ public final class DefaultFeeService implements FeeService {
                 .number(), fee.date());
             throw new MissingFeeException(fee.person()
                 .number(), fee.date());
+        }
+
+        if (!personRepository.exists(fee.person()
+            .number())) {
+            log.error("Missing person {}", fee.person()
+                .number());
+            throw new MissingPersonException(fee.person()
+                .number());
+        }
+
+        if ((fee.transaction()
+            .isPresent())
+                && (!transactionRepository.exists(fee.transaction()
+                    .get()
+                    .index()))) {
+            log.error("Missing transaction {}", fee.transaction()
+                .get()
+                .index());
+            throw new MissingTransactionException(fee.transaction()
+                .get()
+                .index());
         }
 
         // TODO: check person and transaction exist

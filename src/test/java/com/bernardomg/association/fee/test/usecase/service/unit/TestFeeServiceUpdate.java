@@ -43,10 +43,13 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
+import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
@@ -95,10 +98,47 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a not existing person, an exception is thrown")
+    void testUpdate_NotExistingPerson() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(Fees.paid());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingPersonException.class);
+    }
+
+    @Test
+    @DisplayName("With a not existing transaction, an exception is thrown")
+    void testUpdate_NotExistingTransaction() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(Fees.paid());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingTransactionException.class);
+    }
+
+    @Test
     @DisplayName("When updating a fee, the change is persisted")
     void testUpdate_PersistedData() {
         // GIVEN
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
         service.update(Fees.paid());
@@ -114,6 +154,8 @@ class TestFeeServiceUpdate {
 
         // GIVEN
         given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
 
         // WHEN

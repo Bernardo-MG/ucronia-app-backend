@@ -8,8 +8,8 @@ import java.util.Optional;
 import com.bernardomg.association.person.domain.model.PersonName;
 
 public record Fee(YearMonth date, Boolean paid, Person person, Optional<Transaction> transaction) {
-    
-    public static Fee unpaid(YearMonth date, Person person) {
+
+    public static Fee unpaid(final YearMonth date, final Person person) {
         return new Fee(date, false, person, Optional.empty());
     }
 
