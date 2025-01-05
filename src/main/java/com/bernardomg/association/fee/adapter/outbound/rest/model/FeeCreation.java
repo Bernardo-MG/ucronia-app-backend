@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 public final class FeeCreation {
 
     @NotNull
-    private FeePaymentMember member;
+    private YearMonth        month;
 
     @NotNull
-    private YearMonth        month;
+    private FeePaymentMember person;
 
 }

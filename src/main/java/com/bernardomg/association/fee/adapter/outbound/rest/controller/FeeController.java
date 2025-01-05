@@ -90,7 +90,7 @@ public class FeeController {
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public Fee create(@Valid @RequestBody final FeeCreation fee) {
-        return service.createUnpaidFee(fee.getMonth(), fee.getMember()
+        return service.createUnpaidFee(fee.getMonth(), fee.getPerson()
             .getNumber());
     }
 
@@ -167,7 +167,14 @@ public class FeeController {
     }
 
     private final Fee toDomain(final FeeChange change) {
-        return new Fee(change.getDate(), false, null, null);
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+
+        person = new Fee.Person(change.getPerson()
+            .getNumber(), null);
+        transaction = new Fee.Transaction(change.getTransaction()
+            .getDate(), null);
+        return new Fee(change.getMonth(), false, person, transaction);
     }
 
 }

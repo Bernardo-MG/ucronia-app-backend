@@ -248,6 +248,11 @@ public final class DefaultFeeService implements FeeService {
                 .number(), fee.date());
         }
 
+        // TODO: load person id
+        // TODO: load transaction id
+
+        // TODO: Can't remove transaction
+        // TODO: Can't remove person
         validatorUpdate.validate(fee);
 
         return feeRepository.save(fee);
