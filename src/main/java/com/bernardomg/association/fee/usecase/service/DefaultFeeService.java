@@ -248,8 +248,7 @@ public final class DefaultFeeService implements FeeService {
                 .number(), fee.date());
         }
 
-        // TODO: load person id
-        // TODO: load transaction id
+        // TODO: check person and transaction exist
 
         // TODO: Can't remove transaction
         // TODO: Can't remove person

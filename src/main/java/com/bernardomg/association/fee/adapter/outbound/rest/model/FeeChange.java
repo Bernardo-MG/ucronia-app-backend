@@ -15,13 +15,33 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class FeeChange {
 
-    @NotNull
-    private YearMonth             month;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class FeeChangeMember {
+
+        @NotNull
+        private Long number;
+
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class FeeChangeTransaction {
+
+        @NotNull
+        private Long index;
+
+    }
 
     @NotNull
-    private FeePaymentMember      person;
+    private YearMonth            month;
 
     @NotNull
-    private FeePaymentTransaction transaction;
+    private FeeChangeMember      person;
+
+    @NotNull
+    private FeeChangeTransaction transaction;
 
 }

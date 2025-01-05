@@ -15,10 +15,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class FeeCreation {
 
-    @NotNull
-    private YearMonth        month;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class FeeCreationMember {
+
+        @NotNull
+        private Long number;
+
+    }
 
     @NotNull
-    private FeePaymentMember person;
+    private YearMonth         month;
+
+    @NotNull
+    private FeeCreationMember person;
 
 }

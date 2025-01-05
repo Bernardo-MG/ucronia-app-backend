@@ -172,8 +172,8 @@ public class FeeController {
 
         person = new Fee.Person(change.getPerson()
             .getNumber(), null);
-        transaction = new Fee.Transaction(change.getTransaction()
-            .getDate(), null);
+        transaction = new Fee.Transaction(null, change.getTransaction()
+            .getIndex());
         return new Fee(change.getMonth(), false, person, transaction);
     }
 

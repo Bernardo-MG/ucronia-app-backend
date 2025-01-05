@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 
@@ -16,6 +17,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class FeePayment {
 
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class FeePaymentMember {
+
+        @NotNull
+        private Long number;
+
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class FeePaymentTransaction {
+
+        @NotNull
+        private LocalDate date;
+
+    }
+
     /**
      * TODO: rename to months
      */
@@ -27,5 +48,4 @@ public final class FeePayment {
 
     @NotNull
     private FeePaymentTransaction          transaction;
-
 }
