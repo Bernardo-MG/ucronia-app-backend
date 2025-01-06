@@ -31,10 +31,11 @@ import com.bernardomg.association.member.domain.model.Member;
 
 public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, Integer year, Boolean active) {
 
-    public record FeeCalendarMonth(FeeCalendarMonthFee fee, Integer month) {
-
-        public record FeeCalendarMonthFee(YearMonth date, Boolean paid) {
-
+    public record FeeCalendarMonth(YearMonth month, Boolean paid) {
+        
+        public int monthNumber() {
+            // TODO: the frontends should be able to get this value
+            return month.getMonthValue();
         }
     }
 
