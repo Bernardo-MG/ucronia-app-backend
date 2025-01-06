@@ -89,7 +89,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         final Fee.Person person;
 
         person = new Fee.Person(feePerson.number(), feePerson.name());
-        return new Fee(YearMonth.now(), false, person, null);
+        return Fee.unpaid(YearMonth.now(), person);
     }
 
 }
