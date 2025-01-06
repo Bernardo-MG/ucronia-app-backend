@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,8 @@ public final class FeeChange {
 
         @NotNull
         private Long index;
+        
+        private LocalDate date;
 
     }
 
