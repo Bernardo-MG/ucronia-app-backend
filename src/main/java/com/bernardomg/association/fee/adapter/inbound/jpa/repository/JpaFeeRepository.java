@@ -220,17 +220,17 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates) {
+    public final Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeMonths) {
         final Collection<Fee> fees;
 
-        log.debug("Finding all fees for member {} in dates {}", number, feeDates);
+        log.debug("Finding all fees for member {} in dates {}", number, feeMonths);
 
-        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeDates)
+        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeMonths)
             .stream()
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found all fees for member {} in dates {}: {}", number, feeDates, fees);
+        log.debug("Found all fees for member {} in dates {}: {}", number, feeMonths, fees);
 
         return fees;
     }
@@ -315,11 +315,11 @@ public final class JpaFeeRepository implements FeeRepository {
     public final void pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
         final Optional<TransactionEntity> transactionEntity;
         final Collection<FeeEntity>       read;
-        final Collection<YearMonth>       feeDates;
+        final Collection<YearMonth>       feeMonths;
 
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
-        feeDates = fees.stream()
+        feeMonths = fees.stream()
             .map(Fee::month)
             .toList();
 
@@ -327,7 +327,7 @@ public final class JpaFeeRepository implements FeeRepository {
         if (transactionEntity.isEmpty()) {
             log.error("Missing transaction with index {}", transaction.index());
         }
-        read = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(person.number(), feeDates);
+        read = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(person.number(), feeMonths);
 
         // Register payments
         for (final FeeEntity fee : read) {

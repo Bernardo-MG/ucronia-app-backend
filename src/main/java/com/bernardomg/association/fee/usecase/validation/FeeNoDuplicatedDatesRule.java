@@ -40,7 +40,7 @@ public final class FeeNoDuplicatedDatesRule implements FieldRule<Collection<Fee>
             duplicates = (fees.size() - uniqueDates.size());
             log.error("Received {} fee dates, but {} are duplicates", fees.size(), duplicates);
             // TODO: set duplicates, not number
-            fieldFailure = FieldFailure.of("feeDates[]", "duplicated", duplicates);
+            fieldFailure = FieldFailure.of("feeMonths[]", "duplicated", duplicates);
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

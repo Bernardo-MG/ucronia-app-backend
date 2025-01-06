@@ -47,7 +47,7 @@ import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
 import com.bernardomg.association.fee.usecase.validation.FeePersonNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
-import com.bernardomg.association.fee.usecase.validation.PaidFeeDatesNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.PaidFeeMonthsNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -106,7 +106,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorPay = new FieldRuleValidator<>(new FeeNoDuplicatedDatesRule(),
-            new PaidFeeDatesNotExistingRule(personRepository, feeRepository));
+            new PaidFeeMonthsNotExistingRule(personRepository, feeRepository));
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
@@ -202,14 +202,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<Fee> payFees(final Collection<YearMonth> feeDates, final Long personNumber,
+    public final Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
             final LocalDate payDate) {
         final Collection<Fee> newFees;
         final Collection<Fee> fees;
         final Person          person;
         final Collection<Fee> created;
 
-        log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeDates, payDate);
+        log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeMonths, payDate);
 
         person = personRepository.findOne(personNumber)
             .orElseThrow(() -> {
@@ -217,7 +217,7 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingPersonException(personNumber);
             });
 
-        newFees = feeDates.stream()
+        newFees = feeMonths.stream()
             .map(d -> toUnpaidFee(person, d))
             .toList();
 
@@ -230,14 +230,14 @@ public final class DefaultFeeService implements FeeService {
         pay(person, fees, payDate);
 
         // TODO: Why can't just return the created fees?
-        created = feeRepository.findAllForMemberInDates(personNumber, feeDates);
+        created = feeRepository.findAllForMemberInDates(personNumber, feeMonths);
 
         // Send events for paid fees
         created.stream()
             .filter(Fee::paid)
             .forEach(this::sendFeePaidEvent);
 
-        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeDates, payDate);
+        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeMonths, payDate);
 
         return created;
     }
@@ -290,14 +290,14 @@ public final class DefaultFeeService implements FeeService {
         final String                message;
         final Object[]              messageArguments;
         final Long                  index;
-        final Collection<YearMonth> feeDates;
+        final Collection<YearMonth> feeMonths;
 
-        feeDates = fees.stream()
+        feeMonths = fees.stream()
             .map(Fee::month)
             .toList();
 
         // Calculate amount
-        feeAmount = settingsSource.getFeeAmount() * feeDates.size();
+        feeAmount = settingsSource.getFeeAmount() * feeMonths.size();
 
         // Register transaction
         index = transactionRepository.findNextIndex();
@@ -305,7 +305,7 @@ public final class DefaultFeeService implements FeeService {
         name = person.name()
             .fullName();
 
-        dates = feeDates.stream()
+        dates = feeMonths.stream()
             .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
                 LocaleContextHolder.getLocale()) + " " + f.getYear())
             .collect(Collectors.joining(", "));

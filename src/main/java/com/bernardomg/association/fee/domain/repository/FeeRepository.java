@@ -30,7 +30,7 @@ public interface FeeRepository {
 
     public Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates);
+    public Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeMonths);
 
     public Collection<Fee> findAllInMonth(final YearMonth date);
 

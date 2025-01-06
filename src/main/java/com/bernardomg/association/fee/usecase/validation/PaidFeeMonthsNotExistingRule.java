@@ -21,13 +21,13 @@ import lombok.extern.slf4j.Slf4j;
  * paying those dates.
  */
 @Slf4j
-public final class PaidFeeDatesNotExistingRule implements FieldRule<Collection<Fee>> {
+public final class PaidFeeMonthsNotExistingRule implements FieldRule<Collection<Fee>> {
 
     private final FeeRepository    feeRepository;
 
     private final PersonRepository personRepository;
 
-    public PaidFeeDatesNotExistingRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
+    public PaidFeeMonthsNotExistingRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
@@ -57,7 +57,7 @@ public final class PaidFeeDatesNotExistingRule implements FieldRule<Collection<F
             if (!existing.isEmpty()) {
                 log.error("Dates {} are already registered", existing);
                 // TODO: this is not a field in the model
-                fieldFailure = FieldFailure.of("feeDates[]", "existing", existing);
+                fieldFailure = FieldFailure.of("feeMonths[]", "existing", existing);
                 failure = Optional.of(fieldFailure);
             } else {
                 failure = Optional.empty();
