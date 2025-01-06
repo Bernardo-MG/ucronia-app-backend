@@ -104,7 +104,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(2, Month.MARCH));
+            .containsExactly(Fees.paidForMonth(2, Month.MARCH));
     }
 
 }

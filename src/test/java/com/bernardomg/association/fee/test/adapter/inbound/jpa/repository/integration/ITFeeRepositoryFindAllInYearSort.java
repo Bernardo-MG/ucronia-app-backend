@@ -118,18 +118,23 @@ class ITFeeRepositoryFindAllInYearSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(Month.JANUARY.getValue()), Fees.paidAt(Month.FEBRUARY.getValue()),
-                Fees.paidAt(Month.MARCH.getValue()), Fees.paidAt(Month.APRIL.getValue()),
-                Fees.paidAt(Month.MAY.getValue()), Fees.paidAt(Month.JUNE.getValue()),
-                Fees.paidAt(Month.JULY.getValue()), Fees.paidAt(Month.AUGUST.getValue()),
-                Fees.paidAt(Month.SEPTEMBER.getValue()), Fees.paidAt(Month.OCTOBER.getValue()),
-                Fees.paidAt(Month.NOVEMBER.getValue()), Fees.paidAt(Month.DECEMBER.getValue()),
-                Fees.paidAtAlternative(Month.JANUARY.getValue()), Fees.paidAtAlternative(Month.FEBRUARY.getValue()),
-                Fees.paidAtAlternative(Month.MARCH.getValue()), Fees.paidAtAlternative(Month.APRIL.getValue()),
-                Fees.paidAtAlternative(Month.MAY.getValue()), Fees.paidAtAlternative(Month.JUNE.getValue()),
-                Fees.paidAtAlternative(Month.JULY.getValue()), Fees.paidAtAlternative(Month.AUGUST.getValue()),
-                Fees.paidAtAlternative(Month.SEPTEMBER.getValue()), Fees.paidAtAlternative(Month.OCTOBER.getValue()),
-                Fees.paidAtAlternative(Month.NOVEMBER.getValue()), Fees.paidAtAlternative(Month.DECEMBER.getValue()));
+            .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()), Fees.paidForMonth(Month.FEBRUARY.getValue()),
+                Fees.paidForMonth(Month.MARCH.getValue()), Fees.paidForMonth(Month.APRIL.getValue()),
+                Fees.paidForMonth(Month.MAY.getValue()), Fees.paidForMonth(Month.JUNE.getValue()),
+                Fees.paidForMonth(Month.JULY.getValue()), Fees.paidForMonth(Month.AUGUST.getValue()),
+                Fees.paidForMonth(Month.SEPTEMBER.getValue()), Fees.paidForMonth(Month.OCTOBER.getValue()),
+                Fees.paidForMonth(Month.NOVEMBER.getValue()), Fees.paidForMonth(Month.DECEMBER.getValue()),
+                Fees.paidForMonthAlternative(Month.JANUARY.getValue()),
+                Fees.paidForMonthAlternative(Month.FEBRUARY.getValue()),
+                Fees.paidForMonthAlternative(Month.MARCH.getValue()),
+                Fees.paidForMonthAlternative(Month.APRIL.getValue()),
+                Fees.paidForMonthAlternative(Month.MAY.getValue()), Fees.paidForMonthAlternative(Month.JUNE.getValue()),
+                Fees.paidForMonthAlternative(Month.JULY.getValue()),
+                Fees.paidForMonthAlternative(Month.AUGUST.getValue()),
+                Fees.paidForMonthAlternative(Month.SEPTEMBER.getValue()),
+                Fees.paidForMonthAlternative(Month.OCTOBER.getValue()),
+                Fees.paidForMonthAlternative(Month.NOVEMBER.getValue()),
+                Fees.paidForMonthAlternative(Month.DECEMBER.getValue()));
     }
 
     @Test
@@ -152,19 +157,23 @@ class ITFeeRepositoryFindAllInYearSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAtAlternative(Month.JANUARY.getValue()),
-                Fees.paidAtAlternative(Month.FEBRUARY.getValue()), Fees.paidAtAlternative(Month.MARCH.getValue()),
-                Fees.paidAtAlternative(Month.APRIL.getValue()), Fees.paidAtAlternative(Month.MAY.getValue()),
-                Fees.paidAtAlternative(Month.JUNE.getValue()), Fees.paidAtAlternative(Month.JULY.getValue()),
-                Fees.paidAtAlternative(Month.AUGUST.getValue()), Fees.paidAtAlternative(Month.SEPTEMBER.getValue()),
-                Fees.paidAtAlternative(Month.OCTOBER.getValue()), Fees.paidAtAlternative(Month.NOVEMBER.getValue()),
-                Fees.paidAtAlternative(Month.DECEMBER.getValue()), Fees.paidAt(Month.JANUARY.getValue()),
-                Fees.paidAt(Month.FEBRUARY.getValue()), Fees.paidAt(Month.MARCH.getValue()),
-                Fees.paidAt(Month.APRIL.getValue()), Fees.paidAt(Month.MAY.getValue()),
-                Fees.paidAt(Month.JUNE.getValue()), Fees.paidAt(Month.JULY.getValue()),
-                Fees.paidAt(Month.AUGUST.getValue()), Fees.paidAt(Month.SEPTEMBER.getValue()),
-                Fees.paidAt(Month.OCTOBER.getValue()), Fees.paidAt(Month.NOVEMBER.getValue()),
-                Fees.paidAt(Month.DECEMBER.getValue()));
+            .containsExactly(Fees.paidForMonthAlternative(Month.JANUARY.getValue()),
+                Fees.paidForMonthAlternative(Month.FEBRUARY.getValue()),
+                Fees.paidForMonthAlternative(Month.MARCH.getValue()),
+                Fees.paidForMonthAlternative(Month.APRIL.getValue()),
+                Fees.paidForMonthAlternative(Month.MAY.getValue()), Fees.paidForMonthAlternative(Month.JUNE.getValue()),
+                Fees.paidForMonthAlternative(Month.JULY.getValue()),
+                Fees.paidForMonthAlternative(Month.AUGUST.getValue()),
+                Fees.paidForMonthAlternative(Month.SEPTEMBER.getValue()),
+                Fees.paidForMonthAlternative(Month.OCTOBER.getValue()),
+                Fees.paidForMonthAlternative(Month.NOVEMBER.getValue()),
+                Fees.paidForMonthAlternative(Month.DECEMBER.getValue()), Fees.paidForMonth(Month.JANUARY.getValue()),
+                Fees.paidForMonth(Month.FEBRUARY.getValue()), Fees.paidForMonth(Month.MARCH.getValue()),
+                Fees.paidForMonth(Month.APRIL.getValue()), Fees.paidForMonth(Month.MAY.getValue()),
+                Fees.paidForMonth(Month.JUNE.getValue()), Fees.paidForMonth(Month.JULY.getValue()),
+                Fees.paidForMonth(Month.AUGUST.getValue()), Fees.paidForMonth(Month.SEPTEMBER.getValue()),
+                Fees.paidForMonth(Month.OCTOBER.getValue()), Fees.paidForMonth(Month.NOVEMBER.getValue()),
+                Fees.paidForMonth(Month.DECEMBER.getValue()));
     }
 
 }
