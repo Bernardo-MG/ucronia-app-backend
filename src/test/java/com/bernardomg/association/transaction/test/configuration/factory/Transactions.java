@@ -20,7 +20,7 @@ public final class Transactions {
     public static final Transaction decimal() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
-            .withAmount(1.2F)
+            .withAmount(TransactionConstants.AMOUNT_DECIMAL)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION)
             .build();
@@ -29,7 +29,7 @@ public final class Transactions {
     public static final Transaction descriptionChange() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
-            .withAmount(1)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION + " 123")
             .build();
@@ -39,7 +39,7 @@ public final class Transactions {
         return Transaction.builder()
             .withIndex(2)
             .withDate(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .withAmount(1)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDescription("Transaction 2")
             .build();
     }
@@ -53,19 +53,28 @@ public final class Transactions {
             .build();
     }
 
+    public static final Transaction forDate(final LocalDate date) {
+        return Transaction.builder()
+            .withIndex(TransactionConstants.INDEX)
+            .withAmount(TransactionConstants.AMOUNT)
+            .withDate(date)
+            .withDescription(TransactionConstants.DESCRIPTION)
+            .build();
+    }
+
     public static final Transaction forIndex(final long index, final Month month) {
         return Transaction.builder()
             .withIndex(index)
-            .withAmount(1)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(LocalDate.of(2020, month, 1))
             .withDescription(TransactionConstants.DESCRIPTION + " " + index)
             .build();
     }
 
-    public static final Transaction forIndexAndDay(final long index, final Month month) {
+    public static final Transaction forIndexAndMonth(final long index, final Month month) {
         return Transaction.builder()
             .withIndex(index)
-            .withAmount(1)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(LocalDate.of(2020, month, Long.valueOf(index)
                 .intValue()))
             .withDescription(TransactionConstants.DESCRIPTION + " " + index)
@@ -75,7 +84,7 @@ public final class Transactions {
     public static final Transaction newlyCreated() {
         return Transaction.builder()
             .withIndex(1)
-            .withAmount(1)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION)
             .build();
@@ -85,7 +94,7 @@ public final class Transactions {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
             .withDescription(" Transaction ")
-            .withAmount(1F)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .build();
     }
@@ -93,7 +102,7 @@ public final class Transactions {
     public static final Transaction positive() {
         return Transaction.builder()
             .withIndex(TransactionConstants.INDEX)
-            .withAmount(1)
+            .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
             .withDescription(TransactionConstants.DESCRIPTION)
             .build();

@@ -100,7 +100,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY));
     }
 
 }

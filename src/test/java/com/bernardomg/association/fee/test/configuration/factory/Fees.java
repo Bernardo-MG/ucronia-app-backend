@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Optional;
@@ -119,6 +120,17 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
+    }
+
+    public static final Fee paidAtDate(final LocalDate paymentDate) {
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = new Fee.Person(PersonConstants.NUMBER, name);
+        transaction = new Fee.Transaction(paymentDate, TransactionConstants.INDEX);
         return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 

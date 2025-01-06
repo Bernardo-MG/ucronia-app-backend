@@ -244,11 +244,18 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee update(final Fee fee) {
+        final Optional<Fee> existing;
+        final Transaction   existingTransaction;
+        final Transaction   updatedTransaction;
+        final LocalDate     existingDate;
+        final LocalDate     receivedDate;
+
         log.debug("Updating fee for {} in {} using data {}", fee.person()
             .number(), fee.month(), fee);
 
-        if (!feeRepository.exists(fee.person()
-            .number(), fee.month())) {
+        existing = feeRepository.findOne(fee.person()
+            .number(), fee.month());
+        if (existing.isEmpty()) {
             log.error("Missing fee for {} in {}", fee.person()
                 .number(), fee.month());
             throw new MissingFeeException(fee.person()
@@ -277,6 +284,28 @@ public final class DefaultFeeService implements FeeService {
         }
 
         validatorUpdate.validate(fee);
+
+        if (fee.transaction()
+            .isPresent()) {
+            receivedDate = fee.transaction()
+                .get()
+                .date();
+            existingDate = existing.get()
+                .transaction()
+                .get()
+                .date();
+            if (!existingDate.equals(receivedDate)) {
+                // Changed payment date
+                // Update transaction
+                existingTransaction = transactionRepository.findOne(fee.transaction()
+                    .get()
+                    .index())
+                    .get();
+                updatedTransaction = new Transaction(existingTransaction.amount(), receivedDate,
+                    existingTransaction.description(), existingTransaction.index());
+                transactionRepository.save(updatedTransaction);
+            }
+        }
 
         return feeRepository.save(fee);
     }

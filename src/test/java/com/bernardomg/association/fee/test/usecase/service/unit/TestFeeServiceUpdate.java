@@ -27,6 +27,7 @@ package com.bernardomg.association.fee.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -34,8 +35,10 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
@@ -52,6 +55,7 @@ import com.bernardomg.association.settings.usecase.source.AssociationSettingsSou
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -92,11 +96,10 @@ class TestFeeServiceUpdate {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
             .willReturn(Optional.of(Fees.alternativeTransaction()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(Fees.paid());
@@ -113,7 +116,7 @@ class TestFeeServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.update(Fees.paid());
@@ -129,7 +132,7 @@ class TestFeeServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -146,7 +149,7 @@ class TestFeeServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(false);
 
@@ -159,13 +162,47 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("When the payment date is changed, a transaction is saved")
+    void testUpdate_PaymentDateChanged() {
+        final LocalDate date;
+
+        // GIVEN
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(Transactions.positive()));
+
+        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+
+        // WHEN
+        service.update(Fees.paidAtDate(date));
+
+        // THEN
+        verify(transactionRepository).save(Transactions.forDate(date));
+    }
+
+    @Test
+    @DisplayName("When the payment date is not changed, no transaction is saved")
+    void testUpdate_PaymentDateNotChanged() {
+        // GIVEN
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        service.update(Fees.paid());
+
+        // THEN
+        verify(transactionRepository, Mockito.never()).save(ArgumentMatchers.any());
+    }
+
+    @Test
     @DisplayName("When updating a fee, the change is persisted")
     void testUpdate_PersistedData() {
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
         service.update(Fees.paid());
@@ -181,11 +218,10 @@ class TestFeeServiceUpdate {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
             .willReturn(Optional.of(Fees.alternativePerson()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(Fees.paid());
@@ -203,9 +239,8 @@ class TestFeeServiceUpdate {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(Fees.notPaid());
@@ -222,10 +257,9 @@ class TestFeeServiceUpdate {
         final Fee updated;
 
         // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
 
         // WHEN
