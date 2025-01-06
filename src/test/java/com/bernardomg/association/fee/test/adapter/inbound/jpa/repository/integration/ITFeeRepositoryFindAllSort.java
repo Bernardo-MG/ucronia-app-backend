@@ -107,8 +107,8 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(Fee::date)
-            .as("fee dates")
+            .extracting(Fee::month)
+            .as("fee months")
             .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE));
@@ -135,8 +135,8 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(Fee::date)
-            .as("fee dates")
+            .extracting(Fee::month)
+            .as("fee months")
             .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH),

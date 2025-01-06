@@ -245,14 +245,14 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Fee update(final Fee fee) {
         log.debug("Updating fee for {} in {} using data {}", fee.person()
-            .number(), fee.date(), fee);
+            .number(), fee.month(), fee);
 
         if (!feeRepository.exists(fee.person()
-            .number(), fee.date())) {
+            .number(), fee.month())) {
             log.error("Missing fee for {} in {}", fee.person()
-                .number(), fee.date());
+                .number(), fee.month());
             throw new MissingFeeException(fee.person()
-                .number(), fee.date());
+                .number(), fee.month());
         }
 
         if (!personRepository.exists(fee.person()
@@ -293,7 +293,7 @@ public final class DefaultFeeService implements FeeService {
         final Collection<YearMonth> feeDates;
 
         feeDates = fees.stream()
-            .map(Fee::date)
+            .map(Fee::month)
             .toList();
 
         // Calculate amount
@@ -329,7 +329,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
-        eventEmitter.emit(new FeePaidEvent(fee, fee.date(), fee.person()
+        eventEmitter.emit(new FeePaidEvent(fee, fee.month(), fee.person()
             .number()));
     }
 

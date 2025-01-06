@@ -51,7 +51,7 @@ public final class PaidFeeDatesNotExistingRule implements FieldRule<Collection<F
                 .get();
             // TODO: use a single query
             existing = fees.stream()
-                .map(Fee::date)
+                .map(Fee::month)
                 .filter(date -> feeRepository.existsPaid(person.number(), date))
                 .toList();
             if (!existing.isEmpty()) {

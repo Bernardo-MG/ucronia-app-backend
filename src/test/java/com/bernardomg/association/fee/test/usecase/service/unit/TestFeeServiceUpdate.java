@@ -86,6 +86,28 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("When the transaction is changed, an exception is thrown")
+    void testUpdate_ChangedTransaction() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.alternativeTransaction()));
+
+        // WHEN
+        execution = () -> service.update(Fees.paid());
+
+        // THEN
+        failure = new FieldFailure("modified", "transaction.modified", "transaction", TransactionConstants.INDEX);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("With a not existing fee, an exception is thrown")
     void testUpdate_NotExistingFee() {
         final ThrowingCallable execution;
@@ -153,6 +175,28 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("When the person is changed, an exception is thrown")
+    void testUpdate_PersonTransaction() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.alternativePerson()));
+
+        // WHEN
+        execution = () -> service.update(Fees.paid());
+
+        // THEN
+        failure = new FieldFailure("modified", "person.modified", "person", TransactionConstants.INDEX);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("When the transaction is removed, an exception is thrown")
     void testUpdate_RemovedTransaction() {
         final ThrowingCallable execution;
@@ -168,48 +212,6 @@ class TestFeeServiceUpdate {
 
         // THEN
         failure = new FieldFailure("removed", "transaction.removed", "transaction", null);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
-    @DisplayName("When the transaction is changed, an exception is thrown")
-    void testUpdate_ChangedTransaction() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.alternativeTransaction()));
-
-        // WHEN
-        execution = () -> service.update(Fees.paid());
-
-        // THEN
-        failure = new FieldFailure("modified", "transaction.modified", "transaction", TransactionConstants.INDEX);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
-    @DisplayName("When the person is changed, an exception is thrown")
-    void testUpdate_PersonTransaction() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.alternativePerson()));
-
-        // WHEN
-        execution = () -> service.update(Fees.paid());
-
-        // THEN
-        failure = new FieldFailure("modified", "person.modified", "person", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

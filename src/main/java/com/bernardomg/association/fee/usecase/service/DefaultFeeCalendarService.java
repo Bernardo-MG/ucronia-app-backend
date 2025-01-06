@@ -162,11 +162,11 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         final FeeCalendarMonthFee calendarFee;
 
         // Calendar months start at index 0, this has to be corrected
-        month = fee.date()
+        month = fee.month()
             .getMonth()
             .getValue();
 
-        calendarFee = new FeeCalendarMonthFee(fee.date(), fee.paid());
+        calendarFee = new FeeCalendarMonthFee(fee.month(), fee.paid());
         return new FeeCalendarMonth(calendarFee, month);
     }
 

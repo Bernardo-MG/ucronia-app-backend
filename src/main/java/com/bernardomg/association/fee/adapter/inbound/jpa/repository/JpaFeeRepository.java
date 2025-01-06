@@ -320,7 +320,7 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
         feeDates = fees.stream()
-            .map(Fee::date)
+            .map(Fee::month)
             .toList();
 
         transactionEntity = transactionSpringRepository.findByIndex(transaction.index());
@@ -458,7 +458,7 @@ public final class JpaFeeRepository implements FeeRepository {
         }
         return FeeEntity.builder()
             .withPerson(person.orElse(null))
-            .withDate(fee.date())
+            .withDate(fee.month())
             .withPaid(fee.paid())
             .withTransaction(transaction.orElse(null))
             .build();

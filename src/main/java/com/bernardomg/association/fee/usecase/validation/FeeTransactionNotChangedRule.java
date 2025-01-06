@@ -32,7 +32,7 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
         final Fee                    existing;
 
         existing = feeRepository.findOne(fee.person()
-            .number(), fee.date())
+            .number(), fee.month())
             .get();
         if (wasRemoved(fee, existing)) {
             log.error("Removed transaction from fee");

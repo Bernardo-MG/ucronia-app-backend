@@ -30,7 +30,7 @@ public final class FeeNoDuplicatedDatesRule implements FieldRule<Collection<Fee>
         final long                   duplicates;
 
         uniqueDates = fees.stream()
-            .map(Fee::date)
+            .map(Fee::month)
             .distinct()
             .sorted()
             .toList();

@@ -32,7 +32,7 @@ public final class FeePersonNotChangedRule implements FieldRule<Fee> {
         final Fee                    existing;
 
         existing = feeRepository.findOne(fee.person()
-            .number(), fee.date())
+            .number(), fee.month())
             .get();
         if (wasChanged(fee, existing)) {
             log.error("Changed fee person");
