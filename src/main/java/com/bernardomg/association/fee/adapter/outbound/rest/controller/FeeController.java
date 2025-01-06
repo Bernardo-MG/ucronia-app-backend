@@ -126,7 +126,7 @@ public class FeeController {
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public Collection<Fee> pay(@Valid @RequestBody final FeePayment payment) {
-        return service.payFees(payment.getFeeDates(), payment.getMember()
+        return service.payFees(payment.getFeeMonths(), payment.getMember()
             .getNumber(),
             payment.getTransaction()
                 .getDate());

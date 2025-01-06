@@ -41,7 +41,7 @@ public final class FeePayment {
      * TODO: rename to months
      */
     @NotNull
-    private Collection<@NotNull YearMonth> feeDates;
+    private Collection<@NotNull YearMonth> feeMonths;
 
     @NotNull
     private FeePaymentMember               member;
