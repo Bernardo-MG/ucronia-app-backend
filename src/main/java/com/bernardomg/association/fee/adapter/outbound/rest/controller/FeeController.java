@@ -148,7 +148,7 @@ public class FeeController {
             .orElse(null);
     }
 
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
@@ -160,22 +160,22 @@ public class FeeController {
             MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Fee update(@PathVariable("number") final long number, @Valid @RequestBody final FeeChange change) {
+    public Fee update(@PathVariable("date") final YearMonth date, @PathVariable("memberNumber") final long memberNumber,
+            @Valid @RequestBody final FeeChange change) {
         final Fee fee;
 
-        fee = toDomain(change);
+        fee = toDomain(change, date, memberNumber);
         return service.update(fee);
     }
 
-    private final Fee toDomain(final FeeChange change) {
+    private final Fee toDomain(final FeeChange change, final YearMonth month, final long memberNumber) {
         final Fee.Person      person;
         final Fee.Transaction transaction;
 
-        person = new Fee.Person(change.getPerson()
-            .getNumber(), null);
+        person = new Fee.Person(memberNumber, null);
         transaction = new Fee.Transaction(null, change.getTransaction()
             .getIndex());
-        return new Fee(change.getMonth(), false, person, Optional.of(transaction));
+        return new Fee(month, false, person, Optional.of(transaction));
     }
 
 }
