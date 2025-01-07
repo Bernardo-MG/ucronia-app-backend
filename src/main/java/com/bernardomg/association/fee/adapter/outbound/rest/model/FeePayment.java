@@ -20,7 +20,7 @@ public final class FeePayment {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static final class FeePaymentMember {
+    public static final class FeePaymentPerson {
 
         @NotNull
         private Long number;
@@ -44,7 +44,7 @@ public final class FeePayment {
     private Collection<@NotNull YearMonth> feeMonths;
 
     @NotNull
-    private FeePaymentMember               member;
+    private FeePaymentPerson               person;
 
     @NotNull
     private FeePaymentTransaction          transaction;
