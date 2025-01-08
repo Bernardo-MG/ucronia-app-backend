@@ -247,8 +247,6 @@ public final class DefaultFeeService implements FeeService {
         final Optional<Fee> existing;
         final Transaction   existingTransaction;
         final Transaction   updatedTransaction;
-        final LocalDate     existingDate;
-        final LocalDate     receivedDate;
 
         log.debug("Updating fee for {} in {} using data {}", fee.person()
             .number(), fee.month(), fee);
@@ -285,30 +283,41 @@ public final class DefaultFeeService implements FeeService {
 
         validatorUpdate.validate(fee);
 
-        if (fee.transaction()
-            .isPresent()) {
-            receivedDate = fee.transaction()
+        if (changedTransaction(fee, existing.get())) {
+            // Changed payment date
+            // Update transaction
+            existingTransaction = transactionRepository.findOne(fee.transaction()
                 .get()
-                .date();
-            // TODO: handle the case where the existing has no transaction
-            existingDate = existing.get()
-                .transaction()
+                .index())
+                .get();
+            updatedTransaction = new Transaction(existingTransaction.amount(), fee.transaction()
                 .get()
-                .date();
-            if (!existingDate.equals(receivedDate)) {
-                // Changed payment date
-                // Update transaction
-                existingTransaction = transactionRepository.findOne(fee.transaction()
-                    .get()
-                    .index())
-                    .get();
-                updatedTransaction = new Transaction(existingTransaction.amount(), receivedDate,
-                    existingTransaction.description(), existingTransaction.index());
-                transactionRepository.save(updatedTransaction);
-            }
+                .date(), existingTransaction.description(), existingTransaction.index());
+            transactionRepository.save(updatedTransaction);
         }
 
         return feeRepository.save(fee);
+    }
+
+    private final boolean changedTransaction(final Fee received, final Fee existing) {
+        final LocalDate existingDate;
+        final LocalDate receivedDate;
+        final boolean   changed;
+
+        if (existing.transaction()
+            .isPresent()) {
+            receivedDate = received.transaction()
+                .get()
+                .date();
+            existingDate = existing.transaction()
+                .get()
+                .date();
+            changed = !existingDate.equals(receivedDate);
+        } else {
+            changed = true;
+        }
+
+        return changed;
     }
 
     private final void pay(final Person person, final Collection<Fee> fees, final LocalDate payDate) {
