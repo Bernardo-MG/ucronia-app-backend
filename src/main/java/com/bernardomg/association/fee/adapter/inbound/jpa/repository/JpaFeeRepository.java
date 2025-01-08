@@ -145,7 +145,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = personSpringRepository.findAllActiveIds();
+        foundIds = personSpringRepository.findAllActiveMemberIds();
 
         log.debug("Active members: {}", foundIds);
 
@@ -178,7 +178,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = personSpringRepository.findAllInactiveIds();
+        foundIds = personSpringRepository.findAllInactiveMemberIds();
 
         log.debug("Inactive members: {}", foundIds);
 
@@ -198,12 +198,12 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
+    public final Iterable<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting) {
         final Iterable<Fee> found;
         final Pageable      pageable;
         final Sorting       correctedSorting;
 
-        log.debug("Finding all fees for member {} with pagination {} and sorting {}", number, pagination, sorting);
+        log.debug("Finding all fees for person {} with pagination {} and sorting {}", number, pagination, sorting);
 
         correctedSorting = new Sorting(sorting.properties()
             .stream()
@@ -213,24 +213,24 @@ public final class JpaFeeRepository implements FeeRepository {
         found = feeSpringRepository.findAllByPersonNumber(number, pageable)
             .map(this::toDomain);
 
-        log.debug("Found all fees for member {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+        log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
         return found;
     }
 
     @Override
-    public final Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeMonths) {
+    public final Collection<Fee> findAllForPersonInDates(final Long number, final Collection<YearMonth> feeMonths) {
         final Collection<Fee> fees;
 
-        log.debug("Finding all fees for member {} in dates {}", number, feeMonths);
+        log.debug("Finding all fees for person {} in dates {}", number, feeMonths);
 
         fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeMonths)
             .stream()
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found all fees for member {} in dates {}: {}", number, feeMonths, fees);
+        log.debug("Found all fees for person {} in dates {}: {}", number, feeMonths, fees);
 
         return fees;
     }

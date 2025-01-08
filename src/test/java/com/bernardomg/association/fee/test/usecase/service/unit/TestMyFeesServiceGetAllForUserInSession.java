@@ -91,7 +91,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         given(userPersonRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(Persons.noMembership()));
-        given(feeRepository.findAllForMember(PersonConstants.NUMBER, pagination, sorting))
+        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting))
             .willReturn(List.of(Fees.paid()));
 
         // WHEN
@@ -148,7 +148,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         given(userPersonRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(Persons.noMembership()));
-        given(feeRepository.findAllForMember(PersonConstants.NUMBER, pagination, sorting)).willReturn(List.of());
+        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting)).willReturn(List.of());
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);

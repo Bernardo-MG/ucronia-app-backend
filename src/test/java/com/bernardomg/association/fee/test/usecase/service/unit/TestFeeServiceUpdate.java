@@ -170,7 +170,8 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(Transactions.positive()));
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
 
         date = FeeConstants.PAYMENT_DATE.plusMonths(1);
 

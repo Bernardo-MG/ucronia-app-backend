@@ -41,7 +41,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding active public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllActive(pageable)
+        members = personSpringRepository.findAllActiveMembers(pageable)
             .map(this::toDomain);
 
         log.trace("Found active public members with pagination {} and sorting {}: {}", pagination, sorting, members);
@@ -57,7 +57,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllWithMembership(pageable)
+        members = personSpringRepository.findAllMembers(pageable)
             .map(this::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, members);
@@ -73,7 +73,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding inactive public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllInactive(pageable)
+        members = personSpringRepository.findAllInactiveMembers(pageable)
             .map(this::toDomain);
 
         log.trace("Found active public members with pagination {} and sorting {}: {}", pagination, sorting, members);

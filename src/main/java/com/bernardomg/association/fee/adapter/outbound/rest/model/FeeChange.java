@@ -21,10 +21,10 @@ public final class FeeChange {
     @AllArgsConstructor
     public static final class FeeChangeTransaction {
 
-        @NotNull
-        private Long index;
-        
         private LocalDate date;
+
+        @NotNull
+        private Long      index;
 
     }
 

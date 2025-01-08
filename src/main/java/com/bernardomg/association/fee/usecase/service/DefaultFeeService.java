@@ -179,13 +179,13 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
-        final boolean       memberExists;
+        final boolean       personExists;
         final Optional<Fee> fee;
 
         log.info("Getting fee for {} in {}", personNumber, date);
 
-        memberExists = personRepository.exists(personNumber);
-        if (!memberExists) {
+        personExists = personRepository.exists(personNumber);
+        if (!personExists) {
             log.error("Missing person {}", personNumber);
             throw new MissingPersonException(personNumber);
         }
@@ -230,7 +230,7 @@ public final class DefaultFeeService implements FeeService {
         pay(person, fees, payDate);
 
         // TODO: Why can't just return the created fees?
-        created = feeRepository.findAllForMemberInDates(personNumber, feeMonths);
+        created = feeRepository.findAllForPersonInDates(personNumber, feeMonths);
 
         // Send events for paid fees
         created.stream()
