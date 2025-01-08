@@ -290,6 +290,7 @@ public final class DefaultFeeService implements FeeService {
             receivedDate = fee.transaction()
                 .get()
                 .date();
+            // TODO: handle the case where the existing has no transaction
             existingDate = existing.get()
                 .transaction()
                 .get()
