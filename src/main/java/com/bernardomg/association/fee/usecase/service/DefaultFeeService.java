@@ -45,8 +45,8 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
+import com.bernardomg.association.fee.usecase.validation.FeePaymentNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeePersonNotChangedRule;
-import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.PaidFeeMonthsNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
@@ -110,7 +110,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
-        validatorUpdate = new FieldRuleValidator<>(new FeeTransactionNotChangedRule(feeRepository),
+        validatorUpdate = new FieldRuleValidator<>(new FeePaymentNotChangedRule(feeRepository),
             new FeePersonNotChangedRule(feeRepository));
     }
 
@@ -245,8 +245,8 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Fee update(final Fee fee) {
         final Optional<Fee> existing;
-        final Transaction   existingTransaction;
-        final Transaction   updatedTransaction;
+        final Transaction   existingPayment;
+        final Transaction   updatedPayment;
 
         log.debug("Updating fee for {} in {} using data {}", fee.person()
             .number(), fee.month(), fee);
@@ -268,48 +268,48 @@ public final class DefaultFeeService implements FeeService {
                 .number());
         }
 
-        if ((fee.transaction()
+        if ((fee.payment()
             .isPresent())
-                && (!transactionRepository.exists(fee.transaction()
+                && (!transactionRepository.exists(fee.payment()
                     .get()
                     .index()))) {
-            log.error("Missing transaction {}", fee.transaction()
+            log.error("Missing transaction {}", fee.payment()
                 .get()
                 .index());
-            throw new MissingTransactionException(fee.transaction()
+            throw new MissingTransactionException(fee.payment()
                 .get()
                 .index());
         }
 
         validatorUpdate.validate(fee);
 
-        if (changedTransaction(fee, existing.get())) {
+        if (changedPayment(fee, existing.get())) {
             // Changed payment date
             // Update transaction
-            existingTransaction = transactionRepository.findOne(fee.transaction()
+            existingPayment = transactionRepository.findOne(fee.payment()
                 .get()
                 .index())
                 .get();
-            updatedTransaction = new Transaction(existingTransaction.amount(), fee.transaction()
+            updatedPayment = new Transaction(existingPayment.amount(), fee.payment()
                 .get()
-                .date(), existingTransaction.description(), existingTransaction.index());
-            transactionRepository.save(updatedTransaction);
+                .date(), existingPayment.description(), existingPayment.index());
+            transactionRepository.save(updatedPayment);
         }
 
         return feeRepository.save(fee);
     }
 
-    private final boolean changedTransaction(final Fee received, final Fee existing) {
+    private final boolean changedPayment(final Fee received, final Fee existing) {
         final LocalDate existingDate;
         final LocalDate receivedDate;
         final boolean   changed;
 
-        if (existing.transaction()
+        if (existing.payment()
             .isPresent()) {
-            receivedDate = received.transaction()
+            receivedDate = received.payment()
                 .get()
                 .date();
-            existingDate = existing.transaction()
+            existingDate = existing.payment()
                 .get()
                 .date();
             changed = !existingDate.equals(receivedDate);
@@ -321,8 +321,8 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void pay(final Person person, final Collection<Fee> fees, final LocalDate payDate) {
-        final Transaction           transaction;
-        final Transaction           savedTransaction;
+        final Transaction           payment;
+        final Transaction           savedPayment;
         final Float                 feeAmount;
         final String                name;
         final String                dates;
@@ -338,9 +338,6 @@ public final class DefaultFeeService implements FeeService {
         // Calculate amount
         feeAmount = settingsSource.getFeeAmount() * feeMonths.size();
 
-        // Register transaction
-        index = transactionRepository.findNextIndex();
-
         name = person.name()
             .fullName();
 
@@ -353,18 +350,20 @@ public final class DefaultFeeService implements FeeService {
             .toArray();
         message = messageSource.getMessage("fee.payment.message", messageArguments, LocaleContextHolder.getLocale());
 
-        transaction = Transaction.builder()
+        // Register payment
+        index = transactionRepository.findNextIndex();
+        payment = Transaction.builder()
             .withAmount(feeAmount)
             .withDate(payDate)
             .withDescription(message)
             .withIndex(index)
             .build();
 
-        savedTransaction = transactionRepository.save(transaction);
+        savedPayment = transactionRepository.save(payment);
 
-        feeRepository.pay(person, fees, savedTransaction);
+        feeRepository.pay(person, fees, savedPayment);
 
-        log.debug("Paid fee {} for {} with transaction {}", person, fees, savedTransaction);
+        log.debug("Paid fee {} for {} with payment {}", person, fees, savedPayment);
     }
 
     private final void sendFeePaidEvent(final Fee fee) {

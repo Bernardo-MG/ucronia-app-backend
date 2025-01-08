@@ -36,7 +36,7 @@ public final class FeePersonNotChangedRule implements FieldRule<Fee> {
             .get();
         if (wasChanged(fee, existing)) {
             log.error("Changed fee person");
-            fieldFailure = FieldFailure.of("person", "modified", fee.transaction()
+            fieldFailure = FieldFailure.of("person", "modified", fee.payment()
                 .get()
                 .index());
             failure = Optional.of(fieldFailure);

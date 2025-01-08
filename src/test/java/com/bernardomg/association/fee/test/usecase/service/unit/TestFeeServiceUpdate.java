@@ -162,8 +162,29 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the payment date is changed, a transaction is saved")
-    void testUpdate_PaymentDateChanged() {
+    @DisplayName("When the payment date is changed, the fee is saved")
+    void testUpdate_PaymentDateChanged_SaveFee() {
+        final LocalDate date;
+
+        // GIVEN
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+
+        // WHEN
+        service.update(Fees.paidAtDate(date));
+
+        // THEN
+        verify(feeRepository).save(Fees.paidAtDate(date));
+    }
+
+    @Test
+    @DisplayName("When the payment date is changed, the transaction is updated")
+    void testUpdate_PaymentDateChanged_SaveTransaction() {
         final LocalDate date;
 
         // GIVEN
@@ -180,6 +201,7 @@ class TestFeeServiceUpdate {
 
         // THEN
         verify(transactionRepository).save(Transactions.forDate(date));
+        verify(feeRepository).save(Fees.paidAtDate(date));
     }
 
     @Test

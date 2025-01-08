@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeChange;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCreation;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayment;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
@@ -81,7 +81,7 @@ public class FeeController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.date + ':' + #result.person.number") },
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -127,10 +127,10 @@ public class FeeController {
             MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Collection<Fee> pay(@Valid @RequestBody final FeePayment payment) {
+    public Collection<Fee> pay(@Valid @RequestBody final FeePayments payment) {
         return service.payFees(payment.getFeeMonths(), payment.getPerson()
             .getNumber(),
-            payment.getTransaction()
+            payment.getPayment()
                 .getDate());
     }
 
@@ -152,7 +152,7 @@ public class FeeController {
 
     @PutMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.date + ':' + #result.person.number") },
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -176,9 +176,9 @@ public class FeeController {
         final Fee.Transaction transaction;
 
         person = new Fee.Person(memberNumber, null);
-        transaction = new Fee.Transaction(change.getTransaction()
+        transaction = new Fee.Transaction(change.getPayment()
             .getDate(),
-            change.getTransaction()
+            change.getPayment()
                 .getIndex());
         return new Fee(month, false, person, Optional.of(transaction));
     }

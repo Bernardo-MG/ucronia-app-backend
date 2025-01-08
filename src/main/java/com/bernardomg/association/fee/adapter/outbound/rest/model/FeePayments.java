@@ -15,7 +15,17 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeePayment {
+public final class FeePayments {
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class FeePaymentPayment {
+
+        @NotNull
+        private LocalDate date;
+
+    }
 
     @Data
     @NoArgsConstructor
@@ -27,16 +37,6 @@ public final class FeePayment {
 
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class FeePaymentTransaction {
-
-        @NotNull
-        private LocalDate date;
-
-    }
-
     /**
      * TODO: rename to months
      */
@@ -44,8 +44,8 @@ public final class FeePayment {
     private Collection<@NotNull YearMonth> feeMonths;
 
     @NotNull
-    private FeePaymentPerson               person;
+    private FeePaymentPayment              payment;
 
     @NotNull
-    private FeePaymentTransaction          transaction;
+    private FeePaymentPerson               person;
 }

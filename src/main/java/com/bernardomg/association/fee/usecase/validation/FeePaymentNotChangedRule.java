@@ -12,14 +12,14 @@ import com.bernardomg.validation.validator.FieldRule;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Checks the fee's transaction was not changed or removed.
+ * Checks the fee's payment was not changed or removed.
  */
 @Slf4j
-public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
+public final class FeePaymentNotChangedRule implements FieldRule<Fee> {
 
     private final FeeRepository feeRepository;
 
-    public FeeTransactionNotChangedRule(final FeeRepository feeRepo) {
+    public FeePaymentNotChangedRule(final FeeRepository feeRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -35,12 +35,12 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
             .number(), fee.month())
             .get();
         if (wasRemoved(fee, existing)) {
-            log.error("Removed transaction from fee");
-            fieldFailure = FieldFailure.of("transaction", "removed", null);
+            log.error("Removed payment from fee");
+            fieldFailure = FieldFailure.of("payment", "removed", null);
             failure = Optional.of(fieldFailure);
-        } else if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
-            log.error("Changed fee transaction");
-            fieldFailure = FieldFailure.of("transaction", "modified", fee.transaction()
+        } else if (hasPayment(fee, existing) && wasChanged(fee, existing)) {
+            log.error("Changed fee payment");
+            fieldFailure = FieldFailure.of("payment", "modified", fee.payment()
                 .get()
                 .index());
             failure = Optional.of(fieldFailure);
@@ -51,25 +51,25 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
         return failure;
     }
 
-    private final boolean hasTransaction(final Fee fee, final Fee existing) {
-        return (fee.transaction()
+    private final boolean hasPayment(final Fee fee, final Fee existing) {
+        return (fee.payment()
             .isPresent())
-                && (existing.transaction()
+                && (existing.payment()
                     .isPresent());
     }
 
     private final boolean wasChanged(final Fee fee, final Fee existing) {
-        return fee.transaction()
+        return fee.payment()
             .get()
-            .index() != existing.transaction()
+            .index() != existing.payment()
                 .get()
                 .index();
     }
 
     private final boolean wasRemoved(final Fee fee, final Fee existing) {
-        return (fee.transaction()
+        return (fee.payment()
             .isEmpty())
-                && (existing.transaction()
+                && (existing.payment()
                     .isPresent());
     }
 

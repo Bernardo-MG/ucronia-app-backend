@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.PersonName;
 
-public record Fee(YearMonth month, Boolean paid, Person person, Optional<Transaction> transaction) {
+public record Fee(YearMonth month, Boolean paid, Person person, Optional<Transaction> payment) {
 
     public static Fee unpaid(final YearMonth month, final Person person) {
         return new Fee(month, false, person, Optional.empty());

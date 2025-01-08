@@ -431,35 +431,39 @@ public final class JpaFeeRepository implements FeeRepository {
     private final FeeEntity toEntity(final Fee fee) {
         final Optional<PersonEntity>      person;
         final Optional<TransactionEntity> transaction;
+        final boolean                     paid;
 
-        // TODO: handle missing data
         person = personSpringRepository.findByNumber(fee.person()
             .number());
         if (!person.isPresent()) {
             log.warn("Person with number {} not found", fee.person()
                 .number());
         }
-        // TODO: handle missing data
-        if (fee.paid()) {
-            if (fee.transaction()
-                .isEmpty()) {
-                log.warn("Received no transaction for a paid fee");
-            }
-            transaction = transactionSpringRepository.findByIndex(fee.transaction()
+        if (fee.payment()
+            .isPresent()) {
+            paid = true;
+            transaction = transactionSpringRepository.findByIndex(fee.payment()
                 .get()
                 .index());
             if (transaction.isEmpty()) {
-                log.warn("Transaction with index {} not found", fee.transaction()
+                log.warn("Transaction with index {} not found", fee.payment()
                     .get()
                     .index());
+            } else {
+                transaction.get()
+                    .setDate(fee.payment()
+                        .get()
+                        .date());
             }
         } else {
+            paid = false;
             transaction = Optional.empty();
         }
+
         return FeeEntity.builder()
             .withPerson(person.orElse(null))
             .withDate(fee.month())
-            .withPaid(fee.paid())
+            .withPaid(paid)
             .withTransaction(transaction.orElse(null))
             .build();
     }

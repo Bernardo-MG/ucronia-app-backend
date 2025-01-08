@@ -19,7 +19,7 @@ public final class FeeChange {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static final class FeeChangeTransaction {
+    public static final class FeeChangePayment {
 
         private LocalDate date;
 
@@ -29,9 +29,9 @@ public final class FeeChange {
     }
 
     @NotNull
-    private YearMonth            month;
+    private YearMonth        month;
 
     @NotNull
-    private FeeChangeTransaction transaction;
+    private FeeChangePayment payment;
 
 }
