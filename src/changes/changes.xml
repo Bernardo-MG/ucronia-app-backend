@@ -371,5 +371,7 @@
             Removed meaningless relationship table for books.
          </action>
       </release>
+      <release version="1.0.0" date="2025-01-01" description="">
+      </release>
    </body>
 </document>
