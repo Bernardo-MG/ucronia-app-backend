@@ -90,8 +90,8 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the transaction is changed, an exception is thrown")
-    void testUpdate_ChangedTransaction() {
+    @DisplayName("When the payment is changed, an exception is thrown")
+    void testUpdate_ChangedPayment() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
@@ -105,7 +105,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paid());
 
         // THEN
-        failure = new FieldFailure("modified", "transaction.modified", "transaction", TransactionConstants.INDEX);
+        failure = new FieldFailure("modified", "payment.modified", "payment", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -256,8 +256,8 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the transaction is removed, an exception is thrown")
-    void testUpdate_RemovedTransaction() {
+    @DisplayName("When the payment is removed, an exception is thrown")
+    void testUpdate_RemovedPayment() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
@@ -269,7 +269,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.notPaid());
 
         // THEN
-        failure = new FieldFailure("removed", "transaction.removed", "transaction", null);
+        failure = new FieldFailure("removed", "payment.removed", "payment", null);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
