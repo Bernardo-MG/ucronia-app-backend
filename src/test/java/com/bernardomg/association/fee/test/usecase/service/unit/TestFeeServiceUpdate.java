@@ -183,8 +183,8 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the payment date is changed, the transaction is updated")
-    void testUpdate_PaymentDateChanged_SaveTransaction() {
+    @DisplayName("When the payment date is changed, the payment is updated")
+    void testUpdate_PaymentDateChanged_SavePayment() {
         final LocalDate date;
 
         // GIVEN
@@ -205,7 +205,7 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the payment date is not changed, no transaction is saved")
+    @DisplayName("When the payment date is not changed, no payment is saved")
     void testUpdate_PaymentDateNotChanged() {
         // GIVEN
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
