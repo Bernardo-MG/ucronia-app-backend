@@ -90,6 +90,40 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("When a payment is added, the fee is saved")
+    void testUpdate_AddedPayment_SaveFee() {
+        // GIVEN
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(Fees.paid());
+
+        // THEN
+        verify(feeRepository).save(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When a payment is added, the payment is saved")
+    void testUpdate_AddedPayment_SavePayment() {
+        // GIVEN
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(Fees.paid());
+
+        // THEN
+        verify(transactionRepository).save(Transactions.positive());
+    }
+
+    @Test
     @DisplayName("When the payment is changed, an exception is thrown")
     void testUpdate_ChangedPayment() {
         final ThrowingCallable execution;
@@ -201,7 +235,6 @@ class TestFeeServiceUpdate {
 
         // THEN
         verify(transactionRepository).save(Transactions.forDate(date));
-        verify(feeRepository).save(Fees.paidAtDate(date));
     }
 
     @Test
