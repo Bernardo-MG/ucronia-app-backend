@@ -73,7 +73,7 @@ class TestFeeReportServiceGetPaymentReport {
                 .as("paid fees")
                 .isZero();
             softly.assertThat(report.unpaid())
-                .as("paid fees")
+                .as("unpaid fees")
                 .isZero();
         });
     }
@@ -95,7 +95,7 @@ class TestFeeReportServiceGetPaymentReport {
                 .as("paid fees")
                 .isEqualTo(1);
             softly.assertThat(report.unpaid())
-                .as("paid fees")
+                .as("unpaid fees")
                 .isZero();
         });
     }
@@ -117,7 +117,7 @@ class TestFeeReportServiceGetPaymentReport {
                 .as("paid fees")
                 .isEqualTo(1);
             softly.assertThat(report.unpaid())
-                .as("paid fees")
+                .as("unpaid fees")
                 .isEqualTo(1);
         });
     }
@@ -139,7 +139,7 @@ class TestFeeReportServiceGetPaymentReport {
                 .as("paid fees")
                 .isZero();
             softly.assertThat(report.unpaid())
-                .as("paid fees")
+                .as("unpaid fees")
                 .isEqualTo(1);
         });
     }
