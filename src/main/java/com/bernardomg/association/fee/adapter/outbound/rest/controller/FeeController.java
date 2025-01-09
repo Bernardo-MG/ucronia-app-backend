@@ -26,8 +26,10 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
@@ -36,14 +38,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeChange;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCreation;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayment;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
@@ -77,18 +81,19 @@ public class FeeController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = {
-            // Fee caches
-            FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
-            // Funds caches
-            TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-            TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-            // Member caches
-            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
-            // Person caches
-            PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Fee caches
+                    FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    // Funds caches
+                    TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
+                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
+                    // Member caches
+                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+                    // Person caches
+                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public Fee create(@Valid @RequestBody final FeeCreation fee) {
-        return service.createUnpaidFee(fee.getMonth(), fee.getMember()
+        return service.createUnpaidFee(fee.getMonth(), fee.getPerson()
             .getNumber());
     }
 
@@ -122,10 +127,10 @@ public class FeeController {
             MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Collection<Fee> pay(@Valid @RequestBody final FeePayment payment) {
-        return service.payFees(payment.getFeeDates(), payment.getMember()
+    public Collection<Fee> pay(@Valid @RequestBody final FeePayments payment) {
+        return service.payFees(payment.getFeeMonths(), payment.getPerson()
             .getNumber(),
-            payment.getTransaction()
+            payment.getPayment()
                 .getDate());
     }
 
@@ -140,9 +145,42 @@ public class FeeController {
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
     public Fee readOne(@PathVariable("date") final YearMonth date,
-            @PathVariable("memberNumber") final long memberNumber) {
-        return service.getOne(memberNumber, date)
+            @PathVariable("memberNumber") final long personNumber) {
+        return service.getOne(personNumber, date)
             .orElse(null);
+    }
+
+    @PutMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Fee caches
+                    FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    // Funds caches
+                    TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
+                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
+                    // Member caches
+                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+                    // Person caches
+                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+    public Fee update(@PathVariable("date") final YearMonth date, @PathVariable("memberNumber") final long memberNumber,
+            @Valid @RequestBody final FeeChange change) {
+        final Fee fee;
+
+        fee = toDomain(change, date, memberNumber);
+        return service.update(fee);
+    }
+
+    private final Fee toDomain(final FeeChange change, final YearMonth month, final long memberNumber) {
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+
+        person = new Fee.Person(memberNumber, null);
+        transaction = new Fee.Transaction(change.getPayment()
+            .getDate(),
+            change.getPayment()
+                .getIndex());
+        return new Fee(month, false, person, Optional.of(transaction));
     }
 
 }

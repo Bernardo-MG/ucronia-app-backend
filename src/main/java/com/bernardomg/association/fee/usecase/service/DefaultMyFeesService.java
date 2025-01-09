@@ -87,7 +87,7 @@ public final class DefaultMyFeesService implements MyFeesService {
                 log.warn("User {} has no member assigned", userDetails.getUsername());
                 fees = List.of();
             } else {
-                fees = feeRepository.findAllForMember(person.get()
+                fees = feeRepository.findAllForPerson(person.get()
                     .number(), pagination, sorting);
             }
         }

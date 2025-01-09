@@ -134,9 +134,9 @@ class ITTransactionRepositoryFindInMonth {
         // THEN
         Assertions.assertThat(calendar.transactions())
             .as("transactions")
-            .containsExactly(Transactions.forIndexAndDay(1, Month.FEBRUARY),
-                Transactions.forIndexAndDay(2, Month.FEBRUARY), Transactions.forIndexAndDay(3, Month.FEBRUARY),
-                Transactions.forIndexAndDay(4, Month.FEBRUARY));
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.FEBRUARY),
+                Transactions.forIndexAndMonth(2, Month.FEBRUARY), Transactions.forIndexAndMonth(3, Month.FEBRUARY),
+                Transactions.forIndexAndMonth(4, Month.FEBRUARY));
     }
 
 }

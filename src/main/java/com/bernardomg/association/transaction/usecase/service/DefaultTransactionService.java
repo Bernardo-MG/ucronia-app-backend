@@ -61,7 +61,7 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Deleting transaction {}", index);
 
         if (!transactionRepository.exists(index)) {
-            // TODO: change exception name
+            log.error("Missing transaction {}", index);
             throw new MissingTransactionException(index);
         }
 
@@ -99,7 +99,7 @@ public final class DefaultTransactionService implements TransactionService {
 
         exists = transactionRepository.exists(transaction.index());
         if (!exists) {
-            // TODO: change exception name
+            log.error("Missing transaction {}", transaction.index());
             throw new MissingTransactionException(transaction.index());
         }
 

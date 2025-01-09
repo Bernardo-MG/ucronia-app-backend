@@ -1,8 +1,11 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
+import java.time.LocalDate;
+
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
@@ -52,6 +55,21 @@ public final class FeeEntities {
             .withDate(FeeConstants.DATE)
             .withPaid(true)
             .withTransaction(TransactionEntities.februaryFee())
+            .withTransactionId(TransactionConstants.ID)
+            .build();
+    }
+    public static final FeeEntity paidAtDate(final LocalDate date) {
+        TransactionEntity transaction;
+        
+        transaction = TransactionEntities.februaryFee();
+        transaction.setDate(date);
+        return FeeEntity.builder()
+            .withId(1L)
+            .withPerson(PersonEntities.membershipActive())
+            .withPersonId(1L)
+            .withDate(FeeConstants.DATE)
+            .withPaid(true)
+            .withTransaction(transaction)
             .withTransactionId(TransactionConstants.ID)
             .build();
     }

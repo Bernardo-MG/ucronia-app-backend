@@ -86,10 +86,10 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                  INNER JOIN Fee f ON p.id = f.personId
                  LEFT JOIN Transaction t ON f.transactionId = t.id
                WHERE p.number = :memberNumber
-                 AND f.date in :feeDates
+                 AND f.date in :feeMonths
             """)
     public Collection<FeeEntity> findAllFeesByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
-            @Param("feeDates") final Collection<YearMonth> feeDates);
+            @Param("feeMonths") final Collection<YearMonth> feeMonths);
 
     /**
      * Returns all member fees inside the received range.

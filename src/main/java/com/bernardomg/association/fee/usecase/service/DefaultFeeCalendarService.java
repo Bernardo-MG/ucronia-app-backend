@@ -40,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
-import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.Member;
@@ -130,7 +129,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             months = fees.stream()
                 .map(this::toFeeMonth)
                 // Sort by month
-                .sorted(Comparator.comparing(FeeCalendarMonth::month))
+                .sorted(Comparator.comparing(FeeCalendarMonth::monthNumber))
                 .toList();
             name = fees.iterator()
                 .next()
@@ -158,16 +157,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     private final FeeCalendarMonth toFeeMonth(final Fee fee) {
-        final Integer             month;
-        final FeeCalendarMonthFee calendarFee;
-
-        // Calendar months start at index 0, this has to be corrected
-        month = fee.date()
-            .getMonth()
-            .getValue();
-
-        calendarFee = new FeeCalendarMonthFee(fee.date(), fee.paid());
-        return new FeeCalendarMonth(calendarFee, month);
+        return new FeeCalendarMonth(fee.month(), fee.paid());
     }
 
     private final FeeCalendar toFeeYear(final Long memberNumber, final PersonName name, final MemberStatus status,

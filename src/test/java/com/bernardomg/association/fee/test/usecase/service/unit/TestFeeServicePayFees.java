@@ -94,7 +94,7 @@ class TestFeeServicePayFees {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
-        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE)))
+        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE)))
             .willReturn(List.of(Fees.paid()));
 
         // WHEN
@@ -112,7 +112,7 @@ class TestFeeServicePayFees {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(feeRepository.save(List.of(Fees.notPaidCurrentMonth()))).willReturn(List.of(Fees.notPaidCurrentMonth()));
-        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
+        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
@@ -147,7 +147,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = new FieldFailure("duplicated", "feeDates[].duplicated", "feeDates[]", 1L);
+        failure = new FieldFailure("duplicated", "feeMonths[].duplicated", "feeMonths[]", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -160,7 +160,7 @@ class TestFeeServicePayFees {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(feeRepository.save(List.of())).willReturn(List.of());
-        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of())).willReturn(List.of());
+        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of())).willReturn(List.of());
 
         // WHEN
         fees = service.payFees(List.of(), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
@@ -186,7 +186,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = new FieldFailure("existing", "feeDates[].existing", "feeDates[]", List.of(FeeConstants.DATE));
+        failure = new FieldFailure("existing", "feeMonths[].existing", "feeMonths[]", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -206,7 +206,7 @@ class TestFeeServicePayFees {
             FeeConstants.PAYMENT_DATE);
 
         // THEN
-        failure = new FieldFailure("existing", "feeDates[].existing", "feeDates[]", List.of(FeeConstants.DATE));
+        failure = new FieldFailure("existing", "feeMonths[].existing", "feeMonths[]", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -235,7 +235,7 @@ class TestFeeServicePayFees {
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(feeRepository.save(List.of(Fees.notPaidPreviousMonth())))
             .willReturn(List.of(Fees.notPaidPreviousMonth()));
-        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
+        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
             .willReturn(List.of(Fees.paidPreviousMonth()));
 
         // WHEN
@@ -262,7 +262,7 @@ class TestFeeServicePayFees {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(feeRepository.save(List.of(Fees.notPaidCurrentMonth()))).willReturn(List.of(Fees.notPaidCurrentMonth()));
-        given(feeRepository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
+        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
             .willReturn(List.of(Fees.paid()));
 
         // WHEN
