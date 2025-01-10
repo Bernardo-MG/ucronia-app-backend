@@ -42,7 +42,6 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -138,7 +137,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             calendarFee = toFeeYear(memberNumber, name, status, year, months);
             calendarFees.add(calendarFee);
         }
-        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.member()
+        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.person()
             .name()
             .fullName()));
         sortedCalendarFees = calendarFees.stream()
@@ -160,20 +159,22 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         return new FeeCalendarMonth(fee.month(), fee.paid());
     }
 
-    private final FeeCalendar toFeeYear(final Long memberNumber, final PersonName name, final MemberStatus status,
+    private final FeeCalendar toFeeYear(final Long personNumber, final PersonName name, final MemberStatus status,
             final Year year, final Collection<FeeCalendarMonth> months) {
-        final boolean active;
-        final Member  member;
+        final boolean                       active;
+        final FeeCalendar.Person            person;
+        final FeeCalendar.Person.Membership membership;
 
         active = switch (status) {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> personRepository.isActive(memberNumber);
+            default -> personRepository.isActive(personNumber);
         };
 
-        member = new Member(memberNumber, name);
-        return new FeeCalendar(member, months, year.getValue(), active);
+        membership = new FeeCalendar.Person.Membership(active);
+        person = new FeeCalendar.Person(personNumber, name, membership);
+        return new FeeCalendar(person, months, year.getValue());
     }
 
 }

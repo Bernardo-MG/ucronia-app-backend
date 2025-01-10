@@ -40,7 +40,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Alterna
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -68,7 +68,7 @@ class ITFeeRepositoryFindAllInYearSort {
             new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
+        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -90,7 +90,7 @@ class ITFeeRepositoryFindAllInYearSort {
         sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
         // WHEN
-        execution = () -> repository.findAllInYear(MemberCalendars.YEAR, sorting)
+        execution = () -> repository.findAllInYear(MemberCalendarConstants.YEAR, sorting)
             .iterator();
 
         // THEN
@@ -113,7 +113,7 @@ class ITFeeRepositoryFindAllInYearSort {
             new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
+        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -152,7 +152,7 @@ class ITFeeRepositoryFindAllInYearSort {
             new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllInYear(MemberCalendars.YEAR, sorting);
+        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)

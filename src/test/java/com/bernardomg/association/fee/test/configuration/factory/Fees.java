@@ -7,7 +7,6 @@ import java.time.YearMonth;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
@@ -231,7 +230,7 @@ public final class Fees {
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
         // TODO: don't use member calendar
-        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person,
+        return new Fee(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), true, person,
             Optional.of(transaction));
     }
 
@@ -243,7 +242,7 @@ public final class Fees {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         person = new Fee.Person(PersonConstants.NUMBER, name);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
-        return new Fee(YearMonth.of(MemberCalendars.YEAR_PREVIOUS.getValue(), month), true, person,
+        return new Fee(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), true, person,
             Optional.of(transaction));
     }
 
