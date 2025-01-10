@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -42,6 +43,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -92,35 +94,68 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When a payment is added, the fee is saved")
     void testUpdate_AddedPayment_SaveFee() {
+        final Fee toUpdate;
+
         // GIVEN
+        toUpdate = Fees.paid();
+
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
         // WHEN
-        service.update(Fees.paid());
+        service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(Fees.paid());
+        verify(feeRepository).save(toUpdate);
     }
 
     @Test
     @DisplayName("When a payment is added, the payment is saved")
     void testUpdate_AddedPayment_SavePayment() {
+        final Fee toUpdate;
+
         // GIVEN
+        toUpdate = Fees.paid();
+
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
         // WHEN
-        service.update(Fees.paid());
+        service.update(toUpdate);
 
         // THEN
         verify(transactionRepository).save(Transactions.positive());
+    }
+
+    @Test
+    @DisplayName("When updating a fee, and a payment is added, an event is sent")
+    void testUpdate_AddedPayment_SendEvent() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.paid();
+
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
     }
 
     @Test
@@ -196,42 +231,73 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the payment date is changed, the fee is saved")
-    void testUpdate_PaymentDateChanged_SaveFee() {
+    @DisplayName("When updating a fee, and a payment is changed, no event is sent")
+    void testUpdate_PaymentDateChanged_NotSendEvent() {
         final LocalDate date;
+        final Fee       toUpdate;
 
         // GIVEN
+        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        toUpdate = Fees.paidAtDate(date);
+
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
-
         // WHEN
-        service.update(Fees.paidAtDate(date));
+        service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(Fees.paidAtDate(date));
+        verify(eventEmitter, Mockito.never()).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("When the payment date is changed, the fee is saved")
+    void testUpdate_PaymentDateChanged_SaveFee() {
+        final Fee       toUpdate;
+        final LocalDate date;
+
+        // GIVEN
+        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        toUpdate = Fees.paidAtDate(date);
+
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(feeRepository).save(toUpdate);
     }
 
     @Test
     @DisplayName("When the payment date is changed, the payment is updated")
     void testUpdate_PaymentDateChanged_SavePayment() {
+        final Fee       toUpdate;
         final LocalDate date;
 
         // GIVEN
+        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        toUpdate = Fees.paidAtDate(date);
+
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
-
         // WHEN
-        service.update(Fees.paidAtDate(date));
+        service.update(toUpdate);
 
         // THEN
         verify(transactionRepository).save(Transactions.forDate(date));
@@ -240,8 +306,13 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is not changed, no payment is saved")
     void testUpdate_PaymentDateNotChanged() {
+        final Fee toUpdate;
+
         // GIVEN
+        toUpdate = Fees.paid();
+
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
@@ -253,18 +324,44 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a fee, the change is persisted")
-    void testUpdate_PersistedData() {
+    @DisplayName("When the payment date is not changed, no event is sent")
+    void testUpdate_PaymentDateNotChanged_NotSendEvent() {
+        final Fee toUpdate;
+
         // GIVEN
+        toUpdate = Fees.paid();
+
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
-        service.update(Fees.paid());
+        service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(Fees.paid());
+        verify(eventEmitter, Mockito.never()).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("When updating a fee, the change is persisted")
+    void testUpdate_PersistedData() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.paid();
+
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(feeRepository).save(toUpdate);
     }
 
     @Test

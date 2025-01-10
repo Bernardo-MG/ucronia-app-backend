@@ -247,6 +247,7 @@ public final class DefaultFeeService implements FeeService {
         final Optional<Fee> existing;
         final Transaction   existingPayment;
         final Transaction   updatedPayment;
+        final Fee           saved;
 
         log.debug("Updating fee for {} in {} using data {}", fee.person()
             .number(), fee.month(), fee);
@@ -296,7 +297,18 @@ public final class DefaultFeeService implements FeeService {
             transactionRepository.save(updatedPayment);
         }
 
-        return feeRepository.save(fee);
+        saved = feeRepository.save(fee);
+
+        if ((saved.payment()
+            .isPresent())
+                && (existing.get()
+                    .payment()
+                    .isEmpty())) {
+            // Added payment
+            sendFeePaidEvent(saved);
+        }
+
+        return fee;
     }
 
     private final boolean changedPayment(final Fee received, final Fee existing) {
