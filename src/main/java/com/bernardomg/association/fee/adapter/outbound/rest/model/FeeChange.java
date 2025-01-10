@@ -23,7 +23,6 @@ public final class FeeChange {
 
         private LocalDate date;
 
-        @NotNull
         private Long      index;
 
     }

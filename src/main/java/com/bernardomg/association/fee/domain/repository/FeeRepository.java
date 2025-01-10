@@ -40,7 +40,7 @@ public interface FeeRepository {
 
     public FeeCalendarYearsRange findRange();
 
-    public void pay(final Person person, final Collection<Fee> fees, final Transaction transaction);
+    public Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Transaction transaction);
 
     public Collection<Fee> save(final Collection<Fee> fees);
 

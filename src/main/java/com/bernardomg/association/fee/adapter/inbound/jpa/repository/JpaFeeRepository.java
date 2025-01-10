@@ -312,10 +312,11 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
+    public final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
         final Optional<TransactionEntity> transactionEntity;
         final Collection<FeeEntity>       read;
         final Collection<YearMonth>       feeMonths;
+        final Collection<Fee>             saved;
 
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
@@ -336,9 +337,15 @@ public final class JpaFeeRepository implements FeeRepository {
             fee.setTransaction(transactionEntity.get());
             fee.setPaid(true);
         }
-        feeSpringRepository.saveAll(read);
+        saved = feeSpringRepository.saveAll(read)
+            .stream()
+            .map(this::toDomain)
+            .toList();
 
         log.debug("Paid fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
+
+        // TODO: test returned values
+        return saved;
     }
 
     @Override

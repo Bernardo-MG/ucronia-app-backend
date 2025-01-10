@@ -13,6 +13,17 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 
 public final class Fees {
 
+    public static final Fee addPayment() {
+        final Fee.Person      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = new Fee.Person(PersonConstants.NUMBER, name);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, null);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
+    }
+
     public static final Fee alternative() {
         final Fee.Person      person;
         final Fee.Transaction transaction;

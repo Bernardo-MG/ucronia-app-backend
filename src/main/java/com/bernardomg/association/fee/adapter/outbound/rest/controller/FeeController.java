@@ -97,7 +97,7 @@ public class FeeController {
             .getNumber());
     }
 
-    @DeleteMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{date}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0.toString() + ':' + #p1"),
             @CacheEvict(cacheNames = {
@@ -110,8 +110,8 @@ public class FeeController {
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public void delete(@PathVariable("date") final YearMonth date,
-            @PathVariable("memberNumber") final long memberNumber) {
-        service.delete(memberNumber, date);
+            @PathVariable("personNumber") final long personNumber) {
+        service.delete(personNumber, date);
     }
 
     @PostMapping(path = "/pay", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -141,16 +141,16 @@ public class FeeController {
         return service.getAll(query, pagination, sorting);
     }
 
-    @GetMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{date}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
     public Fee readOne(@PathVariable("date") final YearMonth date,
-            @PathVariable("memberNumber") final long personNumber) {
+            @PathVariable("personNumber") final long personNumber) {
         return service.getOne(personNumber, date)
             .orElse(null);
     }
 
-    @PutMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{date}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
             evict = { @CacheEvict(cacheNames = {
@@ -163,24 +163,32 @@ public class FeeController {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Fee update(@PathVariable("date") final YearMonth date, @PathVariable("memberNumber") final long memberNumber,
+    public Fee update(@PathVariable("date") final YearMonth date, @PathVariable("personNumber") final long personNumber,
             @Valid @RequestBody final FeeChange change) {
         final Fee fee;
 
-        fee = toDomain(change, date, memberNumber);
+        fee = toDomain(change, date, personNumber);
         return service.update(fee);
     }
 
-    private final Fee toDomain(final FeeChange change, final YearMonth month, final long memberNumber) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
+    private final Fee toDomain(final FeeChange change, final YearMonth month, final long personNumber) {
+        final Fee.Person                person;
+        final Optional<Fee.Transaction> transaction;
 
-        person = new Fee.Person(memberNumber, null);
-        transaction = new Fee.Transaction(change.getPayment()
-            .getDate(),
-            change.getPayment()
-                .getIndex());
-        return new Fee(month, false, person, Optional.of(transaction));
+        person = new Fee.Person(personNumber, null);
+        if ((change.getPayment()
+            .getIndex() == null)
+                && ((change.getPayment()
+                    .getDate() == null))) {
+            transaction = Optional.empty();
+        } else {
+            transaction = Optional.of(new Fee.Transaction(change.getPayment()
+                .getDate(),
+                change.getPayment()
+                    .getIndex()));
+        }
+
+        return new Fee(month, false, person, transaction);
     }
 
 }
