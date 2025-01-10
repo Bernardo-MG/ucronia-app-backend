@@ -58,9 +58,10 @@ public final class FeeEntities {
             .withTransactionId(TransactionConstants.ID)
             .build();
     }
+
     public static final FeeEntity paidAtDate(final LocalDate date) {
         TransactionEntity transaction;
-        
+
         transaction = TransactionEntities.februaryFee();
         transaction.setDate(date);
         return FeeEntity.builder()
