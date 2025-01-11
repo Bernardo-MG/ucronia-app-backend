@@ -107,8 +107,8 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(Fee::date)
-            .as("fee dates")
+            .extracting(Fee::month)
+            .as("fee months")
             .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE));
@@ -135,8 +135,8 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(Fee::date)
-            .as("fee dates")
+            .extracting(Fee::month)
+            .as("fee months")
             .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
                 YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH),
@@ -250,8 +250,8 @@ class ITFeeRepositoryFindAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaidAt(5, Month.JUNE), Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH),
-                Fees.paidAt(3, Month.APRIL), Fees.paidAt(4, Month.MAY));
+            .containsExactly(Fees.notPaidForMonth(5, Month.JUNE), Fees.paidForMonth(1, Month.FEBRUARY),
+                Fees.paidForMonth(2, Month.MARCH), Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY));
     }
 
     @Test
@@ -277,8 +277,9 @@ class ITFeeRepositoryFindAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
-                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.paidForMonth(2, Month.MARCH),
+                Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY),
+                Fees.notPaidForMonth(5, Month.JUNE));
     }
 
 }

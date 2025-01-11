@@ -28,9 +28,9 @@ public interface FeeRepository {
 
     public Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting);
 
-    public Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
+    public Iterable<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates);
+    public Collection<Fee> findAllForPersonInDates(final Long number, final Collection<YearMonth> feeMonths);
 
     public Collection<Fee> findAllInMonth(final YearMonth date);
 
@@ -40,7 +40,7 @@ public interface FeeRepository {
 
     public FeeCalendarYearsRange findRange();
 
-    public void pay(final Person person, final Collection<Fee> fees, final Transaction transaction);
+    public Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Transaction transaction);
 
     public Collection<Fee> save(final Collection<Fee> fees);
 

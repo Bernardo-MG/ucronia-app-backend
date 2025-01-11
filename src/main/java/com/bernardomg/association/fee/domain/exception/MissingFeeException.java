@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.domain.exception;
 
+import java.time.YearMonth;
+
 import com.bernardomg.exception.MissingIdException;
 
 /**
@@ -36,8 +38,8 @@ public final class MissingFeeException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingFeeException(final String name) {
-        super("fee", name);
+    public MissingFeeException(final long personNumber, final YearMonth date) {
+        super("fee", personNumber + " " + String.valueOf(date));
     }
 
 }

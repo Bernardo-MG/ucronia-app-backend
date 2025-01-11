@@ -42,8 +42,8 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - find all for member in dates")
-class ITFeeRepositoryFindAllForMemberInDates {
+@DisplayName("FeeRepository - find all for person in dates")
+class ITFeeRepositoryFindAllForPersonInDates {
 
     @Autowired
     private FeeRepository repository;
@@ -52,11 +52,11 @@ class ITFeeRepositoryFindAllForMemberInDates {
     @DisplayName("When there is a fee for an active member, it is returned")
     @MembershipActivePerson
     @PaidFee
-    void testFindAllForMemberInDates_Active() {
+    void testFindAllForPersonInDates_Active() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
@@ -67,11 +67,11 @@ class ITFeeRepositoryFindAllForMemberInDates {
     @Test
     @DisplayName("When there are no fees nothing is returned")
     @MembershipActivePerson
-    void testFindAllForMemberInDates_Active_NoFees() {
+    void testFindAllForPersonInDates_Active_NoFees() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
@@ -83,11 +83,11 @@ class ITFeeRepositoryFindAllForMemberInDates {
     @DisplayName("When there is a fee for an inactive member, it is returned")
     @MembershipInactivePerson
     @PaidFee
-    void testFindAllForMemberInDates_Inactive() {
+    void testFindAllForPersonInDates_Inactive() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
@@ -97,11 +97,11 @@ class ITFeeRepositoryFindAllForMemberInDates {
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testFindAllForMemberInDates_NoData() {
+    void testFindAllForPersonInDates_NoData() {
         final Iterable<Fee> fees;
 
         // WHEN
-        fees = repository.findAllForMemberInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
+        fees = repository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)

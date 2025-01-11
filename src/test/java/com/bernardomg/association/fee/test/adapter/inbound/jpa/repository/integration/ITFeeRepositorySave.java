@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.LocalDate;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRe
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -49,6 +52,32 @@ class ITFeeRepositorySave {
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
                 "transaction.id")
             .containsExactly(FeeEntities.paid());
+    }
+
+    @Test
+    @DisplayName("When the payment date is changed, the data is persisted")
+    @MembershipActivePerson
+    @FeeTransaction
+    void testSave_PaymentDateChanged_PersistedData() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+        final LocalDate           date;
+
+        // GIVEN
+        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        fee = Fees.paidAtDate(date);
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        fees = springRepository.findAll();
+
+        Assertions.assertThat(fees)
+            .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
+                "transaction.id")
+            .containsExactly(FeeEntities.paidAtDate(date));
     }
 
     @Test

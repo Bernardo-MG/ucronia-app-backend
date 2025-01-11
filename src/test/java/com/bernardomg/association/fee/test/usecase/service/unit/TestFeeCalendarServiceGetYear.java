@@ -42,7 +42,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.data.domain.Sorting;
@@ -69,11 +69,11 @@ class TestFeeCalendarServiceGetYear {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllForActiveMembers(MemberCalendars.YEAR_CURRENT, sorting))
+        given(feeRepository.findAllForActiveMembers(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ACTIVE, sorting);
+        calendars = service.getYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -89,12 +89,12 @@ class TestFeeCalendarServiceGetYear {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllInYear(MemberCalendars.YEAR_CURRENT, sorting))
+        given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
         given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.ALL, sorting);
+        calendars = service.getYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -110,11 +110,11 @@ class TestFeeCalendarServiceGetYear {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllForInactiveMembers(MemberCalendars.YEAR_CURRENT, sorting))
+        given(feeRepository.findAllForInactiveMembers(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getYear(MemberCalendars.YEAR_CURRENT, MemberStatus.INACTIVE, sorting);
+        calendars = service.getYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.INACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)

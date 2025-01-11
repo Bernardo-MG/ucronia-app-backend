@@ -35,10 +35,10 @@ class ITFeeRepositoryPay {
     private FeeRepository       repository;
 
     @Test
-    @DisplayName("When the fee is already paid, it is persisted")
+    @DisplayName("When the fee is already paid, the transactions are persisted")
     @MembershipActivePerson
     @PaidFee
-    void testPay_Existing_PersistedData() {
+    void testPay_Existing_PersistedTransaction() {
         final Person              person;
         final Fee                 fee;
         final Iterable<FeeEntity> fees;
@@ -62,11 +62,11 @@ class ITFeeRepositoryPay {
     }
 
     @Test
-    @DisplayName("When the fee is not paid, it is persisted")
+    @DisplayName("When the fee is not paid, no transaction is persisted")
     @MembershipActivePerson
     @NotPaidFee
     @PositiveTransaction
-    void testPay_PersistedData() {
+    void testPay_NoPersistedTransaction() {
         final Person              person;
         final Fee                 fee;
         final Iterable<FeeEntity> fees;
@@ -87,6 +87,31 @@ class ITFeeRepositoryPay {
             .as("fees")
             .extracting(FeeEntity::getTransactionId)
             .allMatch(Objects::nonNull);
+    }
+
+    @Test
+    @DisplayName("When the fee is not paid, it is returned")
+    @MembershipActivePerson
+    @NotPaidFee
+    @PositiveTransaction
+    void testPay_ReturnedData() {
+        final Person        person;
+        final Fee           fee;
+        final Iterable<Fee> fees;
+        final Transaction   transaction;
+
+        // GIVEN
+        person = Persons.noMembership();
+        fee = Fees.paid();
+        transaction = Transactions.positive();
+
+        // WHEN
+        fees = repository.pay(person, List.of(fee), transaction);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
     }
 
 }

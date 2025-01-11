@@ -74,9 +74,9 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY),
-                Transactions.forIndexAndDay(3, Month.JANUARY), Transactions.forIndexAndDay(4, Month.JANUARY),
-                Transactions.forIndexAndDay(5, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY),
+                Transactions.forIndexAndMonth(3, Month.JANUARY), Transactions.forIndexAndMonth(4, Month.JANUARY),
+                Transactions.forIndexAndMonth(5, Month.JANUARY));
     }
 
     @Test
@@ -99,8 +99,8 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
-                Transactions.forIndexAndDay(2, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
+                Transactions.forIndexAndMonth(2, Month.JANUARY));
     }
 
     @Test
@@ -123,7 +123,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY));
     }
 
     @Test
@@ -146,7 +146,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
     @Test

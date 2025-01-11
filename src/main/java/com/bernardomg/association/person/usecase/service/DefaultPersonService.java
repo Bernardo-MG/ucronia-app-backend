@@ -70,6 +70,7 @@ public final class DefaultPersonService implements PersonService {
         log.debug("Deleting person {}", number);
 
         if (!personRepository.exists(number)) {
+            log.error("Missing person {}", number);
             throw new MissingPersonException(number);
         }
 
