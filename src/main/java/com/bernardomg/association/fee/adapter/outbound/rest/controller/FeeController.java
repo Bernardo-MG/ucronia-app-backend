@@ -81,10 +81,10 @@ public class FeeController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
-                    FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
                     // Funds caches
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
                     TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
@@ -97,7 +97,7 @@ public class FeeController {
             .getNumber());
     }
 
-    @DeleteMapping(path = "/{date}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0.toString() + ':' + #p1"),
             @CacheEvict(cacheNames = {
@@ -109,9 +109,9 @@ public class FeeController {
                     MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public void delete(@PathVariable("date") final YearMonth date,
+    public void delete(@PathVariable("month") final YearMonth month,
             @PathVariable("personNumber") final long personNumber) {
-        service.delete(personNumber, date);
+        service.delete(personNumber, month);
     }
 
     @PostMapping(path = "/pay", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -141,21 +141,21 @@ public class FeeController {
         return service.getAll(query, pagination, sorting);
     }
 
-    @GetMapping(path = "/{date}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
-    public Fee readOne(@PathVariable("date") final YearMonth date,
+    public Fee readOne(@PathVariable("month") final YearMonth month,
             @PathVariable("personNumber") final long personNumber) {
-        return service.getOne(personNumber, date)
+        return service.getOne(personNumber, month)
             .orElse(null);
     }
 
-    @PutMapping(path = "/{date}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEES, key = "#result.month + ':' + #result.person.number") },
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
-                    FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
                     // Funds caches
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
                     TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
@@ -163,11 +163,11 @@ public class FeeController {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Fee update(@PathVariable("date") final YearMonth date, @PathVariable("personNumber") final long personNumber,
+    public Fee update(@PathVariable("month") final YearMonth month, @PathVariable("personNumber") final long personNumber,
             @Valid @RequestBody final FeeChange change) {
         final Fee fee;
 
-        fee = toDomain(change, date, personNumber);
+        fee = toDomain(change, month, personNumber);
         return service.update(fee);
     }
 
