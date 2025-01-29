@@ -102,6 +102,7 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
     private final void loadWorkbook(final Workbook workbook, final Iterable<Transaction> transactions) {
         final CellStyle  style;
         final CellStyle  dateStyle;
+        final CellStyle  decimalStyle;
         final Sheet      sheet;
         final DataFormat df;
         int              index;
@@ -116,6 +117,10 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
         dateStyle = workbook.createCellStyle();
         dateStyle.setWrapText(true);
         dateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+
+        decimalStyle = workbook.createCellStyle();
+        decimalStyle.setWrapText(true);
+        decimalStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
         sheet = workbook.getSheetAt(0);
         index = 1;
@@ -132,7 +137,7 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
 
             cell = row.createCell(2);
             cell.setCellValue(transaction.amount());
-            cell.setCellStyle(style);
+            cell.setCellStyle(decimalStyle);
 
             cell = row.createCell(3);
             cell.setCellValue(transaction.description());
