@@ -371,7 +371,13 @@
             Removed meaningless relationship table for books.
          </action>
       </release>
-      <release version="1.0.0" date="2025-01-01" description="">
+      <release version="0.5.31" date="2025-01-11" description="Edit fees">
+         <action dev="bmg" type="add">
+            Update fees.
+         </action>
+         <action dev="bmg" type="add">
+            Pay fee through update.
+         </action>
       </release>
    </body>
 </document>
