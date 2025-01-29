@@ -2,12 +2,12 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -36,9 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class ExcelPoiBookReportService implements BookReportService {
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    private final BookRepository           bookRepository;
+    private final BookRepository bookRepository;
 
     public ExcelPoiBookReportService(final BookRepository bookRepo) {
         super();
@@ -167,16 +165,24 @@ public final class ExcelPoiBookReportService implements BookReportService {
     }
 
     private final void loadWorkbook(final Workbook workbook, final Iterable<Book> books) {
-        final CellStyle style;
-        final Sheet     sheet;
-        int             index;
-        Row             row;
-        Cell            cell;
-        BookLending     lending;
-        Donation        donation;
+        final CellStyle  style;
+        final CellStyle  dateStyle;
+        final Sheet      sheet;
+        final DataFormat df;
+        int              index;
+        Row              row;
+        Cell             cell;
+        BookLending      lending;
+        Donation         donation;
+
+        df = workbook.createDataFormat();
 
         style = workbook.createCellStyle();
         style.setWrapText(true);
+
+        dateStyle = workbook.createCellStyle();
+        dateStyle.setWrapText(true);
+        dateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
 
         sheet = workbook.getSheetAt(0);
         index = 1;
@@ -201,11 +207,8 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
-            if (book.publishDate() != null) {
-                cell.setCellValue(book.publishDate()
-                    .format(dateFormatter));
-            }
-            cell.setCellStyle(style);
+            cell.setCellValue(book.publishDate());
+            cell.setCellStyle(dateStyle);
 
             cell = row.createCell(5);
             cell.setCellValue(book.gameSystem()
@@ -246,12 +249,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(style);
 
-                if (donation.date() != null) {
-                    cell = row.createCell(10);
-                    cell.setCellValue(donation.date()
-                        .format(dateFormatter));
-                    cell.setCellStyle(style);
-                }
+                cell = row.createCell(10);
+                cell.setCellValue(donation.date());
+                cell.setCellStyle(dateStyle);
             }
 
             cell = row.createCell(11);
@@ -271,9 +271,8 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(13);
-                cell.setCellValue(lending.lendingDate()
-                    .format(dateFormatter));
-                cell.setCellStyle(style);
+                cell.setCellValue(lending.lendingDate());
+                cell.setCellStyle(dateStyle);
 
                 cell = row.createCell(14);
                 cell.setCellValue(lending.getDays());
