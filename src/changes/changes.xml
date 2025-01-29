@@ -379,7 +379,10 @@
             Pay fee through update.
          </action>
       </release>
-      <release version="1.0.0" date="2025-01-11" description="Edit fees">
+      <release version="0.5.31" date="2025-01-30" description="Excel format">
+         <action dev="bmg" type="fix">
+            Format Excel correction.
+         </action>
       </release>
    </body>
 </document>
