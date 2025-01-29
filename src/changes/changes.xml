@@ -379,5 +379,7 @@
             Pay fee through update.
          </action>
       </release>
+      <release version="1.0.0" date="2025-01-11" description="Edit fees">
+      </release>
    </body>
 </document>
