@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Alterna
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.configuration.factory.MemberCalendars;
+import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -69,7 +69,7 @@ class ITFeeRepositoryFindRange {
         // THEN
         Assertions.assertThat(range.years())
             .as("year range")
-            .containsOnly(MemberCalendars.YEAR);
+            .containsOnly(MemberCalendarConstants.YEAR);
     }
 
     @Test
@@ -87,7 +87,7 @@ class ITFeeRepositoryFindRange {
         // THEN
         Assertions.assertThat(range.years())
             .as("year range")
-            .containsOnly(MemberCalendars.YEAR);
+            .containsOnly(MemberCalendarConstants.YEAR);
     }
 
     @Test

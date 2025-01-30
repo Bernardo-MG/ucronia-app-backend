@@ -75,7 +75,7 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(1, Month.FEBRUARY));
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
 
     @Test
@@ -124,7 +124,7 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(2, Month.MARCH));
+            .containsExactly(Fees.paidForMonth(2, Month.MARCH));
     }
 
     @Test
@@ -149,7 +149,7 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(Month.JANUARY.getValue()));
+            .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()));
     }
 
     @Test
@@ -174,7 +174,7 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(Month.DECEMBER.getValue()));
+            .containsExactly(Fees.paidForMonth(Month.DECEMBER.getValue()));
     }
 
     @Test
@@ -224,8 +224,8 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
-                Fees.paidAt(4, Month.MAY));
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.paidForMonth(2, Month.MARCH),
+                Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY));
     }
 
     @Test
@@ -250,7 +250,7 @@ class ITFeeRepositoryGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.notPaidForMonth(5, Month.JUNE));
     }
 
     @Test

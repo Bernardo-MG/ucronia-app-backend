@@ -82,14 +82,14 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final boolean notExists(final Fee fee) {
         return !feeRepository.exists(fee.person()
-            .number(), fee.date());
+            .number(), fee.month());
     }
 
     private final Fee toUnpaidThisMonth(final Person feePerson) {
         final Fee.Person person;
 
         person = new Fee.Person(feePerson.number(), feePerson.name());
-        return new Fee(YearMonth.now(), false, person, null);
+        return Fee.unpaid(YearMonth.now(), person);
     }
 
 }

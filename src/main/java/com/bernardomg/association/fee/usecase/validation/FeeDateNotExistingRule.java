@@ -40,11 +40,11 @@ public final class FeeDateNotExistingRule implements FieldRule<Fee> {
         person = personRepository.findOne(fee.person()
             .number())
             .get();
-        existing = feeRepository.exists(person.number(), fee.date());
+        existing = feeRepository.exists(person.number(), fee.month());
         if (existing) {
-            log.error("Date {} is already registered", fee.date());
+            log.error("Date {} is already registered", fee.month());
             // TODO: this is not a field in the model
-            fieldFailure = FieldFailure.of("feeDate", "existing", fee.date());
+            fieldFailure = FieldFailure.of("feeDate", "existing", fee.month());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

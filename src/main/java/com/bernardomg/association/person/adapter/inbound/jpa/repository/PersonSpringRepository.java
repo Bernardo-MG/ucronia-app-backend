@@ -54,49 +54,49 @@ public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long
     public boolean existsByNumber(@Param("number") final Long number);
 
     @Query("""
-            SELECT p
-            FROM Person p
-            WHERE p.member = true
-              AND p.active = true
-            """)
-    public Page<PersonEntity> findAllActive(final Pageable pageable);
-
-    @Query("""
             SELECT p.id AS id
             FROM Person p
             WHERE p.member = true
               AND p.active = true
             ORDER BY id ASC
             """)
-    public Collection<Long> findAllActiveIds();
+    public Collection<Long> findAllActiveMemberIds();
+
+    @Query("""
+            SELECT p
+            FROM Person p
+            WHERE p.member = true
+              AND p.active = true
+            """)
+    public Page<PersonEntity> findAllActiveMembers(final Pageable pageable);
 
     public Collection<PersonEntity> findAllByMemberTrueAndRenewMembershipTrue();
 
     public Collection<PersonEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     @Query("""
-            SELECT p
-            FROM Person p
-            WHERE p.member = true
-              AND p.active = false
-            """)
-    public Page<PersonEntity> findAllInactive(final Pageable pageable);
-
-    @Query("""
             SELECT p.id AS id
             FROM Person p
             WHERE p.member = true
               AND p.active = false
             ORDER BY id ASC
             """)
-    public Collection<Long> findAllInactiveIds();
+    public Collection<Long> findAllInactiveMemberIds();
+
+    @Query("""
+            SELECT p
+            FROM Person p
+            WHERE p.member = true
+              AND p.active = false
+            """)
+    public Page<PersonEntity> findAllInactiveMembers(final Pageable pageable);
 
     @Query("""
             SELECT p
             FROM Person p
             WHERE p.member = true
             """)
-    public Page<PersonEntity> findAllWithMembership(final Pageable pageable);
+    public Page<PersonEntity> findAllMembers(final Pageable pageable);
 
     @Query("""
             SELECT p

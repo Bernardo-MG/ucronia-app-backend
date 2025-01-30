@@ -2,12 +2,11 @@
 package com.bernardomg.association.transaction.usecase.service;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DecimalFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,11 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class ExcelPoiTransactionReportService implements TransactionReportService {
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    private static final DecimalFormat     decimalFormat = new DecimalFormat("0.00");
-
-    private final TransactionRepository    transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public ExcelPoiTransactionReportService(final TransactionRepository transactionRepo) {
         super();
@@ -105,15 +100,27 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
     }
 
     private final void loadWorkbook(final Workbook workbook, final Iterable<Transaction> transactions) {
-        final CellStyle style;
-        final Sheet     sheet;
-        int             index;
-        Row             row;
-        Cell            cell;
-        String          date;
+        final CellStyle  style;
+        final CellStyle  dateStyle;
+        final CellStyle  decimalStyle;
+        final Sheet      sheet;
+        final DataFormat df;
+        int              index;
+        Row              row;
+        Cell             cell;
+
+        df = workbook.createDataFormat();
 
         style = workbook.createCellStyle();
         style.setWrapText(true);
+
+        dateStyle = workbook.createCellStyle();
+        dateStyle.setWrapText(true);
+        dateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+
+        decimalStyle = workbook.createCellStyle();
+        decimalStyle.setWrapText(true);
+        decimalStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
         sheet = workbook.getSheetAt(0);
         index = 1;
@@ -124,15 +131,13 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
             cell.setCellValue(transaction.index());
             cell.setCellStyle(style);
 
-            date = transaction.date()
-                .format(dateFormatter);
             cell = row.createCell(1);
-            cell.setCellValue(date);
-            cell.setCellStyle(style);
+            cell.setCellValue(transaction.date());
+            cell.setCellStyle(dateStyle);
 
             cell = row.createCell(2);
-            cell.setCellValue(decimalFormat.format(transaction.amount()));
-            cell.setCellStyle(style);
+            cell.setCellValue(transaction.amount());
+            cell.setCellStyle(decimalStyle);
 
             cell = row.createCell(3);
             cell.setCellValue(transaction.description());

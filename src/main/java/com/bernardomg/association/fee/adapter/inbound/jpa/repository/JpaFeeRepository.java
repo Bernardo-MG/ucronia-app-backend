@@ -145,7 +145,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = personSpringRepository.findAllActiveIds();
+        foundIds = personSpringRepository.findAllActiveMemberIds();
 
         log.debug("Active members: {}", foundIds);
 
@@ -178,7 +178,7 @@ public final class JpaFeeRepository implements FeeRepository {
         start = YearMonth.of(year.getValue(), Month.JANUARY);
         end = YearMonth.of(year.getValue(), Month.DECEMBER);
 
-        foundIds = personSpringRepository.findAllInactiveIds();
+        foundIds = personSpringRepository.findAllInactiveMemberIds();
 
         log.debug("Inactive members: {}", foundIds);
 
@@ -198,12 +198,12 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
+    public final Iterable<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting) {
         final Iterable<Fee> found;
         final Pageable      pageable;
         final Sorting       correctedSorting;
 
-        log.debug("Finding all fees for member {} with pagination {} and sorting {}", number, pagination, sorting);
+        log.debug("Finding all fees for person {} with pagination {} and sorting {}", number, pagination, sorting);
 
         correctedSorting = new Sorting(sorting.properties()
             .stream()
@@ -213,24 +213,24 @@ public final class JpaFeeRepository implements FeeRepository {
         found = feeSpringRepository.findAllByPersonNumber(number, pageable)
             .map(this::toDomain);
 
-        log.debug("Found all fees for member {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+        log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
         return found;
     }
 
     @Override
-    public final Collection<Fee> findAllForMemberInDates(final Long number, final Collection<YearMonth> feeDates) {
+    public final Collection<Fee> findAllForPersonInDates(final Long number, final Collection<YearMonth> feeMonths) {
         final Collection<Fee> fees;
 
-        log.debug("Finding all fees for member {} in dates {}", number, feeDates);
+        log.debug("Finding all fees for person {} in dates {}", number, feeMonths);
 
-        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeDates)
+        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeMonths)
             .stream()
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found all fees for member {} in dates {}: {}", number, feeDates, fees);
+        log.debug("Found all fees for person {} in dates {}: {}", number, feeMonths, fees);
 
         return fees;
     }
@@ -312,22 +312,23 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
+    public final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
         final Optional<TransactionEntity> transactionEntity;
         final Collection<FeeEntity>       read;
-        final Collection<YearMonth>       feeDates;
+        final Collection<YearMonth>       feeMonths;
+        final Collection<Fee>             saved;
 
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
-        feeDates = fees.stream()
-            .map(Fee::date)
+        feeMonths = fees.stream()
+            .map(Fee::month)
             .toList();
 
         transactionEntity = transactionSpringRepository.findByIndex(transaction.index());
         if (transactionEntity.isEmpty()) {
             log.error("Missing transaction with index {}", transaction.index());
         }
-        read = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(person.number(), feeDates);
+        read = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(person.number(), feeMonths);
 
         // Register payments
         for (final FeeEntity fee : read) {
@@ -336,9 +337,15 @@ public final class JpaFeeRepository implements FeeRepository {
             fee.setTransaction(transactionEntity.get());
             fee.setPaid(true);
         }
-        feeSpringRepository.saveAll(read);
+        saved = feeSpringRepository.saveAll(read)
+            .stream()
+            .map(this::toDomain)
+            .toList();
 
         log.debug("Paid fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
+
+        // TODO: test returned values
+        return saved;
     }
 
     @Override
@@ -406,9 +413,9 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person      person;
-        final Fee.Transaction transaction;
-        final PersonName      name;
+        final Fee.Person                person;
+        final Optional<Fee.Transaction> transaction;
+        final PersonName                name;
 
         name = new PersonName(entity.getPerson()
             .getFirstName(),
@@ -418,12 +425,12 @@ public final class JpaFeeRepository implements FeeRepository {
             .getNumber(), name);
 
         if (entity.getPaid()) {
-            transaction = new Fee.Transaction(entity.getTransaction()
+            transaction = Optional.of(new Fee.Transaction(entity.getTransaction()
                 .getDate(),
                 entity.getTransaction()
-                    .getIndex());
+                    .getIndex()));
         } else {
-            transaction = new Fee.Transaction(null, null);
+            transaction = Optional.empty();
         }
         return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
     }
@@ -431,29 +438,39 @@ public final class JpaFeeRepository implements FeeRepository {
     private final FeeEntity toEntity(final Fee fee) {
         final Optional<PersonEntity>      person;
         final Optional<TransactionEntity> transaction;
+        final boolean                     paid;
 
-        // TODO: handle missing data
         person = personSpringRepository.findByNumber(fee.person()
             .number());
         if (!person.isPresent()) {
             log.warn("Person with number {} not found", fee.person()
                 .number());
         }
-        // TODO: handle missing data
-        if (fee.paid()) {
-            transaction = transactionSpringRepository.findByIndex(fee.transaction()
+        if (fee.payment()
+            .isPresent()) {
+            paid = true;
+            transaction = transactionSpringRepository.findByIndex(fee.payment()
+                .get()
                 .index());
-            if (!transaction.isPresent()) {
-                log.warn("Transaction with index {} not found", fee.transaction()
+            if (transaction.isEmpty()) {
+                log.warn("Transaction with index {} not found", fee.payment()
+                    .get()
                     .index());
+            } else {
+                transaction.get()
+                    .setDate(fee.payment()
+                        .get()
+                        .date());
             }
         } else {
+            paid = false;
             transaction = Optional.empty();
         }
+
         return FeeEntity.builder()
             .withPerson(person.orElse(null))
-            .withDate(fee.date())
-            .withPaid(fee.paid())
+            .withDate(fee.month())
+            .withPaid(paid)
             .withTransaction(transaction.orElse(null))
             .build();
     }
