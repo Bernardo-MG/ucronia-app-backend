@@ -1,3 +1,4 @@
+
 package com.bernardomg.association.library.book.domain.model;
 
 import java.time.LocalDate;

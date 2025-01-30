@@ -15,6 +15,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.AbstractBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donation;
@@ -217,6 +218,8 @@ public final class JpaBookRepository implements BookRepository {
 
         if (entity instanceof GameBookEntity) {
             book = toDomain((GameBookEntity) entity);
+        } else if (entity instanceof FictionBookEntity) {
+            book = toDomain((FictionBookEntity) entity);
         } else {
             book = null;
         }
@@ -230,6 +233,89 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookType toDomain(final BookTypeEntity entity) {
         return new BookType(entity.getNumber(), entity.getName());
+    }
+
+    private final Book toDomain(final FictionBookEntity entity) {
+        final Collection<Publisher>   publishers;
+        final Collection<Donor>       donors;
+        final Collection<Author>      authors;
+        final boolean                 lent;
+        final Collection<BookLending> lendings;
+        final Title                   title;
+        final String                  supertitle;
+        final String                  subtitle;
+        final Optional<Donation>      donation;
+
+        // Publishers
+        if (entity.getPublishers() == null) {
+            publishers = List.of();
+        } else {
+            publishers = entity.getPublishers()
+                .stream()
+                .map(this::toDomain)
+                .toList();
+        }
+
+        // Authors
+        if (entity.getAuthors() == null) {
+            authors = List.of();
+        } else {
+            authors = entity.getAuthors()
+                .stream()
+                .map(this::toDomain)
+                .toList();
+        }
+
+        // Donation
+        if (entity.getDonors() == null) {
+            donors = List.of();
+        } else {
+            donors = entity.getDonors()
+                .stream()
+                .map(this::toDonorDomain)
+                .toList();
+        }
+        if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
+            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
+        } else if (entity.getDonationDate() != null) {
+            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
+        } else if (!donors.isEmpty()) {
+            donation = Optional.of(new Donation(null, donors));
+        } else {
+            donation = Optional.empty();
+        }
+
+        // Lendings
+        lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
+            .stream()
+            .map(l -> toDomain(entity.getNumber(), l))
+            .toList();
+
+        if (entity.getSupertitle() == null) {
+            supertitle = "";
+        } else {
+            supertitle = entity.getSupertitle();
+        }
+        if (entity.getSubtitle() == null) {
+            subtitle = "";
+        } else {
+            subtitle = entity.getSubtitle();
+        }
+        title = new Title(supertitle, entity.getTitle(), subtitle);
+
+        lent = bookSpringRepository.isLent(entity.getId());
+        return Book.builder()
+            .withNumber(entity.getNumber())
+            .withIsbn(entity.getIsbn())
+            .withTitle(title)
+            .withLanguage(entity.getLanguage())
+            .withPublishDate(entity.getPublishDate())
+            .withAuthors(authors)
+            .withPublishers(publishers)
+            .withDonation(donation)
+            .withLent(lent)
+            .withLendings(lendings)
+            .build();
     }
 
     private final Book toDomain(final GameBookEntity entity) {
