@@ -55,10 +55,10 @@ class ITBookRepositoryFindOne {
     private BookRepository repository;
 
     @Test
-    @DisplayName("With a book with a donation without date, it is returned")
+    @DisplayName("When there is a game book and it has a donation without date, it is returned")
     @NoMembershipPerson
     @DonationNoDateGameBook
-    void testFindOne_DonationNoDate() {
+    void testFindOne_GameBook_DonationNoDate() {
         final Optional<Book> book;
 
         // WHEN
@@ -71,9 +71,9 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a book with a donation without donors, it is returned")
+    @DisplayName("When there is a game book and it has a donation without donors, it is returned")
     @DonationNoDonorsGameBook
-    void testFindOne_DonationNoDonors() {
+    void testFindOne_GameBook_DonationNoDonors() {
         final Optional<Book> book;
 
         // WHEN
@@ -86,10 +86,10 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a full book, it is returned")
+    @DisplayName("When there is a full game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testFindOne_Full() {
+    void testFindOne_GameBook_Full() {
         final Optional<Book> book;
 
         // WHEN
@@ -102,11 +102,11 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a lent book, it is returned")
+    @DisplayName("When there is a lent game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
     @LentBookLending
-    void testFindOne_FullLent() {
+    void testFindOne_GameBook_FullLent() {
         final Optional<Book> book;
 
         // WHEN
@@ -119,12 +119,12 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a lent book with history, it is returned")
+    @DisplayName("When there is a lent game book and it has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
     @FullGameBook
     @LentBookLendingHistory
-    void testFindOne_Lent_History() {
+    void testFindOne_GameBook_Lent_History() {
         final Optional<Book> book;
 
         // WHEN
@@ -137,9 +137,9 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a minimal book, it is returned")
+    @DisplayName("When there is a minimal game book, it is returned")
     @MinimalGameBook
-    void testFindOne_Minimal() {
+    void testFindOne_GameBook_Minimal() {
         final Optional<Book> book;
 
         // WHEN
@@ -152,25 +152,11 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<Book> book;
-
-        // WHEN
-        book = repository.findOne(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(book)
-            .as("book")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a returned book, it is returned")
+    @DisplayName("When there is a returned game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
     @ReturnedBookLending
-    void testFindOne_Returned() {
+    void testFindOne_GameBook_Returned() {
         final Optional<Book> book;
 
         // WHEN
@@ -183,12 +169,12 @@ class ITBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a returned book with history, it is returned")
+    @DisplayName("When there is a returned game book with history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
     @FullGameBook
     @ReturnedBookLendingHistory
-    void testFindOne_Returned_History() {
+    void testFindOne_GameBook_Returned_History() {
         final Optional<Book> book;
 
         // WHEN
@@ -198,6 +184,20 @@ class ITBookRepositoryFindOne {
         Assertions.assertThat(book)
             .as("book")
             .contains(Books.returnedHistory());
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .isEmpty();
     }
 
 }

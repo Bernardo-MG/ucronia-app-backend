@@ -54,14 +54,14 @@ class ITBookRepositorySave {
     private BookSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the book exists, and relationships are added, it is persisted")
+    @DisplayName("When there is an existing game book, and relationships are added, it is persisted")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
     @MinimalGameBook
-    void testSave_Existing_AddRelationships_Persisted() {
+    void testSave_GameBook_Existing_AddRelationships_Persisted() {
         final Book book;
 
         // GIVEN
@@ -79,14 +79,14 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists, and relationships are added, it is returned")
+    @DisplayName("When there is an existing game book, and relationships are added, it is returned")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
     @MinimalGameBook
-    void testSave_Existing_AddRelationships_Returned() {
+    void testSave_GameBook_Existing_AddRelationships_Returned() {
         final Book book;
         final Book created;
 
@@ -103,10 +103,10 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists, and relationships also already exist, it is persisted")
+    @DisplayName("When there is an existing game book, and relationships also already exist, it is persisted")
     @NoMembershipPerson
     @FullGameBook
-    void testSave_Existing_ExistingRelationships_Persisted() {
+    void testSave_GameBook_Existing_ExistingRelationships_Persisted() {
         final Book book;
 
         // GIVEN
@@ -124,10 +124,10 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists, and relationships also already exist, it is returned")
+    @DisplayName("When there is an existing game book, and relationships also already exist, it is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testSave_Existing_ExistingRelationships_Returned() {
+    void testSave_GameBook_Existing_ExistingRelationships_Returned() {
         final Book book;
         final Book created;
 
@@ -144,10 +144,10 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists, and relationships are removed, it is persisted")
+    @DisplayName("When there is an existing game book, and relationships are removed, it is persisted")
     @NoMembershipPerson
     @FullGameBook
-    void testSave_Existing_RemoveRelationships_Persisted() {
+    void testSave_GameBook_Existing_RemoveRelationships_Persisted() {
         final Book book;
 
         // GIVEN
@@ -164,10 +164,10 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists, and relationships are removed, it is returned")
+    @DisplayName("When there is an existing game book, and relationships are removed, it is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testSave_Existing_RemoveRelationships_Returned() {
+    void testSave_GameBook_Existing_RemoveRelationships_Returned() {
         final Book book;
         final Book created;
 
@@ -184,8 +184,8 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When there are relationships, but they don't exist, these relationships are not is persisted")
-    void testSave_Full_MissingData_Persisted() {
+    @DisplayName("When there are relationships in a game book, but they don't exist, these relationships are not is persisted")
+    void testSave_GameBook_Full_MissingData_Persisted() {
         final Book book;
 
         // GIVEN
@@ -203,8 +203,8 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When there are relationships, but they don't exist, these relationships are not returned")
-    void testSave_Full_MissingData_Returned() {
+    @DisplayName("When there are relationships in a game book, but they don't exist, these relationships are not returned")
+    void testSave_GameBook_Full_MissingData_Returned() {
         final Book book;
         final Book created;
 
@@ -221,13 +221,13 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When there are relationships the book is persisted")
+    @DisplayName("When there are relationships the game book is persisted")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
-    void testSave_Full_Persisted() {
+    void testSave_GameBook_Full_Persisted() {
         final Book book;
 
         // GIVEN
@@ -245,13 +245,13 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When there are relationships the persisted book is returned")
+    @DisplayName("When there are relationships the persisted game book is returned")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
-    void testSave_Full_Returned() {
+    void testSave_GameBook_Full_Returned() {
         final Book book;
         final Book created;
 
@@ -268,13 +268,13 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book has a ISBN-13 it is persisted")
+    @DisplayName("When the game book has a ISBN-13 it is persisted")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
-    void testSave_Isbn13_Persisted() {
+    void testSave_GameBook_Isbn13_Persisted() {
         final Book book;
 
         // GIVEN
@@ -292,13 +292,13 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book has a ISBN-13 it is returned")
+    @DisplayName("When the game book has a ISBN-13 it is returned")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
     @ValidGameSystem
-    void testSave_Isbn13_Returned() {
+    void testSave_GameBook_Isbn13_Returned() {
         final Book book;
         final Book created;
 
@@ -315,9 +315,9 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists it is persisted")
+    @DisplayName("When there is an existing minimal game book it is persisted")
     @MinimalGameBook
-    void testSave_Minimal_Existing_Persisted() {
+    void testSave_GameBook_Minimal_Existing_Persisted() {
         final Book book;
 
         // GIVEN
@@ -334,9 +334,9 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book exists it is returned")
+    @DisplayName("When there is an existing minimal game book it is returned")
     @MinimalGameBook
-    void testSave_Minimal_Existing_Returned() {
+    void testSave_GameBook_Minimal_Existing_Returned() {
         final Book book;
         final Book created;
 
@@ -353,8 +353,8 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book is saved it is persisted")
-    void testSave_Minimal_Persisted() {
+    @DisplayName("When the minimal game book is saved it is persisted")
+    void testSave_GameBook_Minimal_Persisted() {
         final Book book;
 
         // GIVEN
@@ -371,8 +371,8 @@ class ITBookRepositorySave {
     }
 
     @Test
-    @DisplayName("When the book is saved it is returned")
-    void testSave_Minimal_Returned() {
+    @DisplayName("When the minimal game book is saved it is returned")
+    void testSave_GameBook_Minimal_Returned() {
         final Book book;
         final Book created;
 

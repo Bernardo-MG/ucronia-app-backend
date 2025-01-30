@@ -51,11 +51,11 @@ class ITBookLendingRepositoryFindReturned {
     private BookLendingRepository repository;
 
     @Test
-    @DisplayName("With a lending, nothing is returned")
+    @DisplayName("When there is a lent game book, nothing is returned")
     @NoMembershipPerson
     @FullGameBook
     @LentBookLending
-    void testFindReturned_Lent() {
+    void testFindReturned_GameBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -65,6 +65,57 @@ class ITBookLendingRepositoryFindReturned {
         Assertions.assertThat(lending)
             .as("lending")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a game book with no history, nothing is returned")
+    @NoMembershipPerson
+    @FullGameBook
+    void testFindReturned_GameBook_NoHistory() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findReturned(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a returned game book, it is returned")
+    @NoMembershipPerson
+    @FullGameBook
+    @ReturnedBookLending
+    void testFindReturned_GameBook_Returned() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findReturned(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .contains(BookLendings.returned());
+    }
+
+    @Test
+    @DisplayName("When there is a returned game book and it has history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullGameBook
+    @ReturnedBookLendingHistory
+    void testFindReturned_GameBook_Returned_History() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findReturned(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .contains(BookLendings.returnedLast());
     }
 
     @Test
@@ -79,57 +130,6 @@ class ITBookLendingRepositoryFindReturned {
         Assertions.assertThat(lending)
             .as("lending")
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With no history, nothing is returned")
-    @NoMembershipPerson
-    @FullGameBook
-    void testFindReturned_NoHistory() {
-        final Optional<BookLending> lending;
-
-        // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(lending)
-            .as("lending")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a returned book, it is returned")
-    @NoMembershipPerson
-    @FullGameBook
-    @ReturnedBookLending
-    void testFindReturned_Returned() {
-        final Optional<BookLending> lending;
-
-        // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(lending)
-            .as("lending")
-            .contains(BookLendings.returned());
-    }
-
-    @Test
-    @DisplayName("With a returned book which has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
-    @FullGameBook
-    @ReturnedBookLendingHistory
-    void testFindReturned_Returned_History() {
-        final Optional<BookLending> lending;
-
-        // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(lending)
-            .as("lending")
-            .contains(BookLendings.returnedLast());
     }
 
 }

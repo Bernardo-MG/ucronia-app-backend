@@ -64,22 +64,10 @@ class ITBookRepositoryDelete {
     private BookSpringRepository       springRepository;
 
     @Test
-    @DisplayName("With a book, it is deleted")
+    @DisplayName("Then the game book exists, it is deleted")
     @NoMembershipPerson
     @FullGameBook
-    void testDelete() {
-        // WHEN
-        repository.delete(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("books")
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("With no data, nothing is deleted")
-    void testDelete_NoData() {
+    void testDelete_GameBook() {
         // WHEN
         repository.delete(BookConstants.NUMBER);
 
@@ -93,7 +81,7 @@ class ITBookRepositoryDelete {
     @DisplayName("When the book is deleted, the related entities are kept")
     @NoMembershipPerson
     @FullGameBook
-    void testDelete_Relationships() {
+    void testDelete_GameBook_Relationships() {
         // WHEN
         repository.delete(BookConstants.NUMBER);
 
@@ -112,6 +100,18 @@ class ITBookRepositoryDelete {
                 .as("publishers")
                 .isNotZero();
         });
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is deleted")
+    void testDelete_NoData() {
+        // WHEN
+        repository.delete(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("books")
+            .isZero();
     }
 
 }

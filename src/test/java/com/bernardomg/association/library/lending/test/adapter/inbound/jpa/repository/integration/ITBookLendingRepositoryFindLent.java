@@ -51,11 +51,11 @@ class ITBookLendingRepositoryFindLent {
     private BookLendingRepository repository;
 
     @Test
-    @DisplayName("With a lending, it is returned")
+    @DisplayName("When there is a lent game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
     @LentBookLending
-    void testFindLent_Lent() {
+    void testFindLent_GameBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -69,12 +69,12 @@ class ITBookLendingRepositoryFindLent {
     }
 
     @Test
-    @DisplayName("With a lending and a history, the last one is returned")
+    @DisplayName("When there is a lent game book and it has history, the last one is returned")
     @NoMembershipPerson
     @AlternativePerson
     @FullGameBook
     @LentBookLendingHistory
-    void testFindLent_Lent_History() {
+    void testFindLent_GameBook_Lent_History() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -87,24 +87,10 @@ class ITBookLendingRepositoryFindLent {
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
-    void testFindLent_NoData() {
-        final Optional<BookLending> lending;
-
-        // WHEN
-        lending = repository.findLent(BookConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(lending)
-            .as("lending")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a book with no history, nothing is returned")
+    @DisplayName("When there is a game book and it has no history, nothing is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testFindLent_NoHistory() {
+    void testFindLent_GameBook_NoHistory() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -117,11 +103,25 @@ class ITBookLendingRepositoryFindLent {
     }
 
     @Test
-    @DisplayName("With a returned book, nothing is returned")
+    @DisplayName("When there is a returned game book, nothing is returned")
     @NoMembershipPerson
     @FullGameBook
     @ReturnedBookLending
-    void testFindLent_Returned() {
+    void testFindLent_GameBook_Returned() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findLent(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no data, nothing is returned")
+    void testFindLent_NoData() {
         final Optional<BookLending> lending;
 
         // WHEN

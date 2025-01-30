@@ -50,9 +50,9 @@ class ITBookLendingRepositorySave {
     private BookLendingSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving and the book doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a game book and it doesn't exist, nothing is persisted")
     @NoMembershipPerson
-    void testSave_NoBook() {
+    void testSave_GameBook_NoBook() {
         final BookLending lending;
 
         // GIVEN
@@ -68,9 +68,9 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the person doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a game book and the person doesnt exist, nothing is persisted")
     @MinimalGameBook
-    void testSave_NoMember() {
+    void testSave_GameBook_NoMember() {
         final BookLending lending;
 
         // GIVEN
@@ -86,10 +86,10 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the book and person exist, a lending is persisted")
+    @DisplayName("When saving a lending for a game book, a lending is persisted")
     @NoMembershipPerson
     @FullGameBook
-    void testSave_Persisted() {
+    void testSave_GameBook_Persisted() {
         final BookLending lending;
 
         // GIVEN
@@ -106,10 +106,10 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving and the book and person exist, the persisted lending is returned")
+    @DisplayName("When saving a lending for a game book, the persisted lending is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testSave_Returned() {
+    void testSave_GameBook_Returned() {
         final BookLending lending;
         final BookLending created;
 

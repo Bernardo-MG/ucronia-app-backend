@@ -43,10 +43,10 @@ class ITBookRepositoryExistsByIsbnForAnother {
     private BookRepository repository;
 
     @Test
-    @DisplayName("With a book and another number, it exists")
+    @DisplayName("When the game book exists and looking for another person, it exists")
     @NoMembershipPerson
     @FullGameBook
-    void testExistsByIsbnForAnother() {
+    void testExistsByIsbnForAnother_GameBook() {
         final boolean exists;
 
         // WHEN
@@ -59,8 +59,10 @@ class ITBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("With no data, nothing exists")
-    void testExistsByIsbnForAnother_NoData() {
+    @DisplayName("When the game book exists and looking for the same person, it doesn't exists")
+    @NoMembershipPerson
+    @FullGameBook
+    void testExistsByIsbnForAnother_GameBook_SameNumber() {
         final boolean exists;
 
         // WHEN
@@ -73,10 +75,8 @@ class ITBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("With a book and the same number, it exists")
-    @NoMembershipPerson
-    @FullGameBook
-    void testExistsByIsbnForAnother_SameNumber() {
+    @DisplayName("When there is no data, nothing exists")
+    void testExistsByIsbnForAnother_NoData() {
         final boolean exists;
 
         // WHEN

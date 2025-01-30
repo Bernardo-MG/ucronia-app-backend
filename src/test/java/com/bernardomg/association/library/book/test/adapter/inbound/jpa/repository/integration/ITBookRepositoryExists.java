@@ -43,10 +43,10 @@ class ITBookRepositoryExists {
     private BookRepository repository;
 
     @Test
-    @DisplayName("With a book, it exists")
+    @DisplayName("When the game book exists, it exists")
     @NoMembershipPerson
     @FullGameBook
-    void testExists() {
+    void testExists_GameBook() {
         final boolean exists;
 
         // WHEN
@@ -59,7 +59,7 @@ class ITBookRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no data, nothing exists")
+    @DisplayName("When there is no data, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 

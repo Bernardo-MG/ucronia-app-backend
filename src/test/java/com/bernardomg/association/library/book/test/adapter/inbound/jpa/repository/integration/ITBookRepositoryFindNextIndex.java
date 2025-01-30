@@ -43,10 +43,10 @@ class ITBookRepositoryFindNextIndex {
     private BookRepository repository;
 
     @Test
-    @DisplayName("When there is a book the next number is correct")
+    @DisplayName("When there is a game book, the next number is correct")
     @NoMembershipPerson
     @FullGameBook
-    void testFindNextNumber() {
+    void testFindNextNumber_GameBook() {
         final long index;
 
         // WHEN
@@ -59,7 +59,7 @@ class ITBookRepositoryFindNextIndex {
     }
 
     @Test
-    @DisplayName("When there is no book the next number is correct")
+    @DisplayName("When there is no data, the next number is correct")
     void testFindNextNumber_NoData() {
         final long index;
 

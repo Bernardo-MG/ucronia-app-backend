@@ -54,11 +54,11 @@ class ITBookLendingRepositoryFindOne {
     private BookLendingRepository repository;
 
     @Test
-    @DisplayName("When the book is lent, it is returned")
+    @DisplayName("When there is a lent game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
     @LentBookLending
-    void testFindOne_Lent() {
+    void testFindOne_GameBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -71,12 +71,12 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the book is lent and has history, it is returned")
+    @DisplayName("When there is a lent game book and it has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
     @FullGameBook
     @LentBookLendingHistory
-    void testFindOne_Lent_History() {
+    void testFindOne_GameBook_Lent_History() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -89,25 +89,10 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no person, nothing is returned")
-    @NoMembershipPerson
-    void testFindOne_NoBook() {
-        final Optional<BookLending> lending;
-
-        // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(lending)
-            .as("lending")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When the book has no history, nothing is returned")
+    @DisplayName("When there is a game book and it has no history, nothing is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testFindOne_NoHistory() {
+    void testFindOne_GameBook_NoHistory() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -120,9 +105,9 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("When there is a game book and there is no person, nothing is returned")
     @MinimalGameBook
-    void testFindOne_NoPerson() {
+    void testFindOne_GameBook_NoPerson() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -135,11 +120,11 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the book is returned, it is returned")
+    @DisplayName("When there is a returned game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
     @ReturnedBookLending
-    void testFindOne_Returned() {
+    void testFindOne_GameBook_Returned() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -152,12 +137,12 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the book is returned and has history, it is returned")
+    @DisplayName("When there is a returned game book and it has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
     @FullGameBook
     @ReturnedBookLendingHistory
-    void testFindOne_Returned_History() {
+    void testFindOne_GameBook_Returned_History() {
         final Optional<BookLending> lending;
 
         // WHEN
@@ -167,6 +152,21 @@ class ITBookLendingRepositoryFindOne {
         Assertions.assertThat(lending)
             .as("lending")
             .contains(BookLendings.returnedLast());
+    }
+
+    @Test
+    @DisplayName("With no data, nothing is returned")
+    @NoMembershipPerson
+    void testFindOne_NoBook() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEmpty();
     }
 
 }
