@@ -43,7 +43,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find all")
+@DisplayName("FictionBookRepository - find all")
 class ITFictionBookRepositoryFindAll {
 
     @Autowired

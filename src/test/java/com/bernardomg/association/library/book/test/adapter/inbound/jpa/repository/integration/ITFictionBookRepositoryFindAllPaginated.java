@@ -44,7 +44,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find all - paginated")
+@DisplayName("FictionBookRepository - find all - paginated")
 class ITFictionBookRepositoryFindAllPaginated {
 
     @Autowired

@@ -42,7 +42,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.NoMe
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - delete")
+@DisplayName("GameBookRepository - delete")
 class ITGameBookRepositoryDelete {
 
     @Autowired

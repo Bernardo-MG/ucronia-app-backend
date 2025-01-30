@@ -41,8 +41,6 @@ import com.bernardomg.association.library.book.domain.exception.MissingBookExcep
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
-import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
@@ -55,12 +53,6 @@ class TestFictionBookServiceDelete {
 
     @Mock
     private FictionBookRepository     bookRepository;
-
-    @Mock
-    private BookTypeRepository        bookTypeRepository;
-
-    @Mock
-    private GameSystemRepository      gameSystemRepository;
 
     @Mock
     private PersonRepository          personRepository;

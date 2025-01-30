@@ -48,7 +48,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.NoMe
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find one")
+@DisplayName("GameBookRepository - find one")
 class ITGameBookRepositoryFindOne {
 
     @Autowired

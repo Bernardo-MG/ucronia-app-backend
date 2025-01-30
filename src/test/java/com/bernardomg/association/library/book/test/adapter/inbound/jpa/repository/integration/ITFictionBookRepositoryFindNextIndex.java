@@ -36,7 +36,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.NoMe
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find next number")
+@DisplayName("FictionBookRepository - find next number")
 class ITFictionBookRepositoryFindNextIndex {
 
     @Autowired

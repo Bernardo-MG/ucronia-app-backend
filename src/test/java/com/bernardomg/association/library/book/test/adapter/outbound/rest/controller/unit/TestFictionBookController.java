@@ -20,32 +20,32 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bernardomg.association.library.book.adapter.outbound.rest.controller.GameBookController;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookCreation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate;
+import com.bernardomg.association.library.book.adapter.outbound.rest.controller.FictionBookController;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.FictionBookCreation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.FictionBookUpdate;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.library.book.test.configuration.factory.GameBookCreations;
-import com.bernardomg.association.library.book.test.configuration.factory.GameBookUpdates;
-import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.book.usecase.service.GameBookService;
+import com.bernardomg.association.library.book.test.configuration.factory.FictionBookCreations;
+import com.bernardomg.association.library.book.test.configuration.factory.FictionBookUpdates;
+import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
+import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.test.json.JsonUtils;
 
 /**
  * TODO: test donation is parsed
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("GameBookController")
-class TestGameBookController {
+@DisplayName("FictionBookController")
+class TestFictionBookController {
 
-    private static final String URL = "/library/book/game";
+    private static final String   URL = "/library/book/fiction";
 
     @InjectMocks
-    private GameBookController  controller;
+    private FictionBookController controller;
 
-    private MockMvc             mockMvc;
+    private MockMvc               mockMvc;
 
     @Mock
-    private GameBookService     service;
+    private FictionBookService    service;
 
     @BeforeEach
     void setUp() {
@@ -56,10 +56,10 @@ class TestGameBookController {
     @Test
     @DisplayName("Can create books")
     void testCreate() throws Exception {
-        final GameBookCreation bookCreation;
+        final FictionBookCreation bookCreation;
 
         // GIVEN
-        bookCreation = GameBookCreations.minimal();
+        bookCreation = FictionBookCreations.minimal();
 
         // WHEN + THEN
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
@@ -70,10 +70,10 @@ class TestGameBookController {
     @Test
     @DisplayName("When creating a book, it is sent to the service")
     void testCreate_CallsService() throws Exception {
-        final GameBookCreation bookCreation;
+        final FictionBookCreation bookCreation;
 
         // GIVEN
-        bookCreation = GameBookCreations.minimal();
+        bookCreation = FictionBookCreations.minimal();
 
         // WHEN
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
@@ -82,16 +82,16 @@ class TestGameBookController {
         // THEN
         verify(service).create(assertArg(actualBook -> assertThat(actualBook).usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(GameBooks.minimal())));
+            .isEqualTo(FictionBooks.minimal())));
     }
 
     @Test
     @DisplayName("Can update books")
     void testUpdate() throws Exception {
-        final GameBookUpdate bookCreation;
+        final FictionBookUpdate bookCreation;
 
         // GIVEN
-        bookCreation = GameBookUpdates.minimal();
+        bookCreation = FictionBookUpdates.minimal();
 
         // WHEN + THEN
         mockMvc.perform(put(URL + "/{number}", BookConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
@@ -102,10 +102,10 @@ class TestGameBookController {
     @Test
     @DisplayName("Can update books")
     void testUpdate_CallsService() throws Exception {
-        final GameBookUpdate bookCreation;
+        final FictionBookUpdate bookCreation;
 
         // GIVEN
-        bookCreation = GameBookUpdates.minimal();
+        bookCreation = FictionBookUpdates.minimal();
 
         // WHEN
         mockMvc.perform(put(URL + "/{number}", BookConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +115,7 @@ class TestGameBookController {
         verify(service).update(eq(BookConstants.NUMBER),
             assertArg(actualBook -> assertThat(actualBook).usingRecursiveComparison()
                 .ignoringFields("number")
-                .isEqualTo(GameBooks.minimal())));
+                .isEqualTo(FictionBooks.minimal())));
     }
 
 }

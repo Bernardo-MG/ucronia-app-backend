@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/library/book/game_minimal.sql")
+@Sql("/db/queries/library/book/fiction_minimal.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

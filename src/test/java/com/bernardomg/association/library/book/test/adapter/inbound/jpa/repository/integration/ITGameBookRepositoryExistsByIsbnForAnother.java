@@ -36,7 +36,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.NoMe
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - exists by ISBN for another")
+@DisplayName("GameBookRepository - exists by ISBN for another")
 class ITGameBookRepositoryExistsByIsbnForAnother {
 
     @Autowired
