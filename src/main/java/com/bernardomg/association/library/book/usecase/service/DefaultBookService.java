@@ -15,8 +15,8 @@ import com.bernardomg.association.library.author.domain.repository.AuthorReposit
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.Book;
-import com.bernardomg.association.library.book.domain.model.Book.Donation;
-import com.bernardomg.association.library.book.domain.model.Book.Donor;
+import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsRule;

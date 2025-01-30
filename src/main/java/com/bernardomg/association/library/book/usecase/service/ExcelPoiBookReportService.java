@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Book;
-import com.bernardomg.association.library.book.domain.model.Book.Donation;
-import com.bernardomg.association.library.book.domain.model.Book.Donor;
+import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
