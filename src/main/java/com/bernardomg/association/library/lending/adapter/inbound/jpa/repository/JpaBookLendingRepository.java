@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -116,11 +116,11 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     @Override
     public final BookLending save(final BookLending lending) {
-        final BookLendingEntity      toCreate;
-        final BookLendingEntity      created;
-        final BookLending            saved;
-        final Optional<BookEntity>   bookEntity;
-        final Optional<PersonEntity> personEntity;
+        final BookLendingEntity        toCreate;
+        final BookLendingEntity        created;
+        final BookLending              saved;
+        final Optional<GameBookEntity> bookEntity;
+        final Optional<PersonEntity>   personEntity;
 
         log.debug("Saving book lending {}", lending);
 
@@ -144,8 +144,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     private final BookLending toDomain(final BookLendingEntity entity) {
-        final Optional<Borrower>   borrower;
-        final Optional<BookEntity> bookEntity;
+        final Optional<Borrower>       borrower;
+        final Optional<GameBookEntity> bookEntity;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
         borrower = personSpringRepository.findById(entity.getPersonId())
@@ -154,7 +154,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             .getNumber(), borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
-    private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
+    private final BookLending toDomain(final BookLendingEntity entity, final GameBookEntity bookEntity,
             final PersonEntity personEntity) {
         final Borrower borrower;
 
@@ -169,7 +169,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         return new Borrower(entity.getNumber(), name);
     }
 
-    private final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
+    private final BookLendingEntity toEntity(final BookLending domain, final GameBookEntity bookEntity,
             final PersonEntity personEntity) {
         return BookLendingEntity.builder()
             .withBookId(bookEntity.getId())

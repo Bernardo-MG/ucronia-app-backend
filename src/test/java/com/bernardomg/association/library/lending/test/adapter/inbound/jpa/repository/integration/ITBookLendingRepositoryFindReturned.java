@@ -31,7 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
@@ -53,7 +53,7 @@ class ITBookLendingRepositoryFindReturned {
     @Test
     @DisplayName("With a lending, nothing is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @LentBookLending
     void testFindReturned_Lent() {
         final Optional<BookLending> lending;
@@ -84,7 +84,7 @@ class ITBookLendingRepositoryFindReturned {
     @Test
     @DisplayName("With no history, nothing is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testFindReturned_NoHistory() {
         final Optional<BookLending> lending;
 
@@ -100,7 +100,7 @@ class ITBookLendingRepositoryFindReturned {
     @Test
     @DisplayName("With a returned book, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLending
     void testFindReturned_Returned() {
         final Optional<BookLending> lending;
@@ -118,7 +118,7 @@ class ITBookLendingRepositoryFindReturned {
     @DisplayName("With a returned book which has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLendingHistory
     void testFindReturned_Returned_History() {
         final Optional<BookLending> lending;

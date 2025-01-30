@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
@@ -57,7 +57,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a book with a donation without date, it is returned")
     @NoMembershipPerson
-    @DonationNoDateBook
+    @DonationNoDateGameBook
     void testFindOne_DonationNoDate() {
         final Optional<Book> book;
 
@@ -72,7 +72,7 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With a book with a donation without donors, it is returned")
-    @DonationNoDonorsBook
+    @DonationNoDonorsGameBook
     void testFindOne_DonationNoDonors() {
         final Optional<Book> book;
 
@@ -88,7 +88,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a full book, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testFindOne_Full() {
         final Optional<Book> book;
 
@@ -104,7 +104,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a lent book, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @LentBookLending
     void testFindOne_FullLent() {
         final Optional<Book> book;
@@ -122,7 +122,7 @@ class ITBookRepositoryFindOne {
     @DisplayName("With a lent book with history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
         final Optional<Book> book;
@@ -138,7 +138,7 @@ class ITBookRepositoryFindOne {
 
     @Test
     @DisplayName("With a minimal book, it is returned")
-    @MinimalBook
+    @MinimalGameBook
     void testFindOne_Minimal() {
         final Optional<Book> book;
 
@@ -168,7 +168,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("With a returned book, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLending
     void testFindOne_Returned() {
         final Optional<Book> book;
@@ -186,7 +186,7 @@ class ITBookRepositoryFindOne {
     @DisplayName("With a returned book with history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
         final Optional<Book> book;

@@ -31,8 +31,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
@@ -56,7 +56,7 @@ class ITBookLendingRepositoryFindOne {
     @Test
     @DisplayName("When the book is lent, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @LentBookLending
     void testFindOne_Lent() {
         final Optional<BookLending> lending;
@@ -74,7 +74,7 @@ class ITBookLendingRepositoryFindOne {
     @DisplayName("When the book is lent and has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
         final Optional<BookLending> lending;
@@ -106,7 +106,7 @@ class ITBookLendingRepositoryFindOne {
     @Test
     @DisplayName("When the book has no history, nothing is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testFindOne_NoHistory() {
         final Optional<BookLending> lending;
 
@@ -121,7 +121,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With no person, nothing is returned")
-    @MinimalBook
+    @MinimalGameBook
     void testFindOne_NoPerson() {
         final Optional<BookLending> lending;
 
@@ -137,7 +137,7 @@ class ITBookLendingRepositoryFindOne {
     @Test
     @DisplayName("When the book is returned, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLending
     void testFindOne_Returned() {
         final Optional<BookLending> lending;
@@ -155,7 +155,7 @@ class ITBookLendingRepositoryFindOne {
     @DisplayName("When the book is returned and has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
         final Optional<BookLending> lending;

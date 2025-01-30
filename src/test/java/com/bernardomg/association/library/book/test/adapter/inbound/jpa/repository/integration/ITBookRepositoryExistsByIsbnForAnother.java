@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -45,7 +45,7 @@ class ITBookRepositoryExistsByIsbnForAnother {
     @Test
     @DisplayName("With a book and another number, it exists")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testExistsByIsbnForAnother() {
         final boolean exists;
 
@@ -75,7 +75,7 @@ class ITBookRepositoryExistsByIsbnForAnother {
     @Test
     @DisplayName("With a book and the same number, it exists")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testExistsByIsbnForAnother_SameNumber() {
         final boolean exists;
 

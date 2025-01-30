@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
@@ -52,7 +52,7 @@ class ITBookRepositoryFindAll {
     @Test
     @DisplayName("When there are books, they are returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testFindAll() {
         final Iterable<Book> books;
         final Sorting        sorting;
@@ -72,7 +72,7 @@ class ITBookRepositoryFindAll {
     @Test
     @DisplayName("When there is a lent book, it is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
         final Iterable<Book> books;
@@ -94,7 +94,7 @@ class ITBookRepositoryFindAll {
     @DisplayName("When there is a lent book with history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
         final Iterable<Book> books;
@@ -133,7 +133,7 @@ class ITBookRepositoryFindAll {
     @Test
     @DisplayName("When there is a returned book, they are returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
         final Iterable<Book> books;
@@ -155,7 +155,7 @@ class ITBookRepositoryFindAll {
     @DisplayName("When there is a returned book, they are returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {
         final Iterable<Book> books;

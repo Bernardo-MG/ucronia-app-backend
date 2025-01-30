@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class BookEntity extends AbstractBookEntity implements Serializable {
+public class GameBookEntity extends AbstractBookEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -50,7 +50,7 @@ public class BookEntity extends AbstractBookEntity implements Serializable {
     private Long              gameSystemId;
 
     @Builder(setterPrefix = "with")
-    public BookEntity(final Collection<AuthorEntity> authors, final LocalDate donationDate,
+    public GameBookEntity(final Collection<AuthorEntity> authors, final LocalDate donationDate,
             final Collection<PersonEntity> donors, final Long id, final String isbn, final String language,
             final Long number, final LocalDate publishDate, final Collection<PublisherEntity> publishers,
             final String subtitle, final String supertitle, final String title, final BookTypeEntity bookType,

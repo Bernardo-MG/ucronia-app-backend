@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/library/book/minimal.sql")
+@Sql("/db/queries/library/book/game_donation_no_donors.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface MinimalBook {
+public @interface DonationNoDonorsGameBook {
 
 }

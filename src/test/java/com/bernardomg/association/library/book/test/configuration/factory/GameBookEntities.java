@@ -4,16 +4,16 @@ package com.bernardomg.association.library.book.test.configuration.factory;
 import java.util.List;
 
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorEntities;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeEntities;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemEntities;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherEntities;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 
-public final class BookEntities {
+public final class GameBookEntities {
 
-    public static final BookEntity full() {
-        return BookEntity.builder()
+    public static final GameBookEntity full() {
+        return GameBookEntity.builder()
             .withNumber(BookConstants.NUMBER)
             .withSupertitle(BookConstants.SUPERTITLE)
             .withTitle(BookConstants.TITLE)
@@ -30,8 +30,8 @@ public final class BookEntities {
             .build();
     }
 
-    public static final BookEntity isbn13() {
-        return BookEntity.builder()
+    public static final GameBookEntity isbn13() {
+        return GameBookEntity.builder()
             .withNumber(BookConstants.NUMBER)
             .withSupertitle(BookConstants.SUPERTITLE)
             .withTitle(BookConstants.TITLE)
@@ -48,8 +48,8 @@ public final class BookEntities {
             .build();
     }
 
-    public static final BookEntity minimal() {
-        return BookEntity.builder()
+    public static final GameBookEntity minimal() {
+        return GameBookEntity.builder()
             .withNumber(BookConstants.NUMBER)
             .withSupertitle("")
             .withTitle(BookConstants.TITLE)
@@ -62,8 +62,8 @@ public final class BookEntities {
             .build();
     }
 
-    public static final BookEntity noRelationships() {
-        return BookEntity.builder()
+    public static final GameBookEntity noRelationships() {
+        return GameBookEntity.builder()
             .withNumber(BookConstants.NUMBER)
             .withSupertitle(BookConstants.SUPERTITLE)
             .withTitle(BookConstants.TITLE)

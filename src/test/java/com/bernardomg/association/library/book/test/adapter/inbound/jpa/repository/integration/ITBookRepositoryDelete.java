@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
@@ -66,7 +66,7 @@ class ITBookRepositoryDelete {
     @Test
     @DisplayName("With a book, it is deleted")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testDelete() {
         // WHEN
         repository.delete(BookConstants.NUMBER);
@@ -92,7 +92,7 @@ class ITBookRepositoryDelete {
     @Test
     @DisplayName("When the book is deleted, the related entities are kept")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     void testDelete_Relationships() {
         // WHEN
         repository.delete(BookConstants.NUMBER);

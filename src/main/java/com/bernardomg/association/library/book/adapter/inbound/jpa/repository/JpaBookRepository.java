@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Book.Donation;
 import com.bernardomg.association.library.book.domain.model.Book.Donor;
@@ -188,10 +188,10 @@ public final class JpaBookRepository implements BookRepository {
 
     @Override
     public final Book save(final Book book) {
-        final Optional<BookEntity> existing;
-        final BookEntity           entity;
-        final BookEntity           created;
-        final Book                 saved;
+        final Optional<GameBookEntity> existing;
+        final GameBookEntity           entity;
+        final GameBookEntity           created;
+        final Book                     saved;
 
         log.debug("Saving book {}", book);
 
@@ -215,7 +215,11 @@ public final class JpaBookRepository implements BookRepository {
         return new Author(entity.getNumber(), entity.getName());
     }
 
-    private final Book toDomain(final BookEntity entity) {
+    private final BookType toDomain(final BookTypeEntity entity) {
+        return new BookType(entity.getNumber(), entity.getName());
+    }
+
+    private final Book toDomain(final GameBookEntity entity) {
         final Collection<Publisher>   publishers;
         final Optional<GameSystem>    gameSystem;
         final Optional<BookType>      bookType;
@@ -316,10 +320,6 @@ public final class JpaBookRepository implements BookRepository {
             .build();
     }
 
-    private final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getNumber(), entity.getName());
-    }
-
     private final GameSystem toDomain(final GameSystemEntity entity) {
         return new GameSystem(entity.getNumber(), entity.getName());
     }
@@ -351,7 +351,7 @@ public final class JpaBookRepository implements BookRepository {
         return new Donor(entity.getNumber(), name);
     }
 
-    private final BookEntity toEntity(final Book domain) {
+    private final GameBookEntity toEntity(final Book domain) {
         final Collection<Long>            authorNumbers;
         final Collection<Long>            publisherNumbers;
         final Collection<Long>            donorNumbers;
@@ -409,7 +409,7 @@ public final class JpaBookRepository implements BookRepository {
             .toList();
         authors = authorSpringRepository.findAllByNumberIn(authorNumbers);
 
-        return BookEntity.builder()
+        return GameBookEntity.builder()
             .withNumber(domain.number())
             .withIsbn(domain.isbn())
             .withSupertitle(domain.title()
