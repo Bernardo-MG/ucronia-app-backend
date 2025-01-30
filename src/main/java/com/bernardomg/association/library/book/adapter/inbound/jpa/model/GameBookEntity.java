@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Book")
+@Entity(name = "GameBook")
 @DiscriminatorValue("game")
 @Data
 @NoArgsConstructor
