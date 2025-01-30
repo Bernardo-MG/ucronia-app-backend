@@ -30,9 +30,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.AbstractBookEntity;
 
-public interface BookSpringRepository extends JpaRepository<GameBookEntity, Long> {
+public interface BookSpringRepository extends JpaRepository<AbstractBookEntity, Long> {
 
     public void deleteByNumber(final long number);
 
@@ -42,7 +42,7 @@ public interface BookSpringRepository extends JpaRepository<GameBookEntity, Long
 
     public boolean existsByNumber(final long number);
 
-    public Optional<GameBookEntity> findByNumber(final long number);
+    public Optional<AbstractBookEntity> findByNumber(final long number);
 
     @Query("""
                SELECT COALESCE(MAX(b.number), 0) + 1

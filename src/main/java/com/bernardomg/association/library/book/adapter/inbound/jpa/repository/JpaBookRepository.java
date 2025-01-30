@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.AbstractBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Book.Donation;
@@ -188,10 +189,10 @@ public final class JpaBookRepository implements BookRepository {
 
     @Override
     public final Book save(final Book book) {
-        final Optional<GameBookEntity> existing;
-        final GameBookEntity           entity;
-        final GameBookEntity           created;
-        final Book                     saved;
+        final Optional<AbstractBookEntity> existing;
+        final GameBookEntity               entity;
+        final GameBookEntity               created;
+        final Book                         saved;
 
         log.debug("Saving book {}", book);
 
@@ -209,6 +210,18 @@ public final class JpaBookRepository implements BookRepository {
         log.debug("Saved book {}", saved);
 
         return saved;
+    }
+
+    private final Book toDomain(final AbstractBookEntity entity) {
+        final Book book;
+
+        if (entity instanceof GameBookEntity) {
+            book = toDomain((GameBookEntity) entity);
+        } else {
+            book = null;
+        }
+
+        return book;
     }
 
     private final Author toDomain(final AuthorEntity entity) {
