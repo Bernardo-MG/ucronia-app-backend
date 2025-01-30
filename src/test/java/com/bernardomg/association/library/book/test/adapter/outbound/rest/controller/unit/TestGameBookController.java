@@ -20,14 +20,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bernardomg.association.library.book.adapter.outbound.rest.controller.BookController;
+import com.bernardomg.association.library.book.adapter.outbound.rest.controller.GameBookController;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.BookCreations;
 import com.bernardomg.association.library.book.test.configuration.factory.BookUpdates;
-import com.bernardomg.association.library.book.test.configuration.factory.Books;
-import com.bernardomg.association.library.book.usecase.service.BookService;
+import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
+import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.test.json.JsonUtils;
 
 /**
@@ -35,15 +35,15 @@ import com.bernardomg.test.json.JsonUtils;
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookController")
-class TestBookController {
+class TestGameBookController {
 
     @InjectMocks
-    private BookController controller;
+    private GameBookController controller;
 
-    private MockMvc        mockMvc;
+    private MockMvc            mockMvc;
 
     @Mock
-    private BookService    service;
+    private GameBookService    service;
 
     @BeforeEach
     void setUp() {
@@ -80,7 +80,7 @@ class TestBookController {
         // THEN
         verify(service).create(assertArg(actualBook -> assertThat(actualBook).usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(Books.minimal())));
+            .isEqualTo(GameBooks.minimal())));
     }
 
     @Test
@@ -113,7 +113,7 @@ class TestBookController {
         verify(service).update(eq(BookConstants.NUMBER),
             assertArg(actualBook -> assertThat(actualBook).usingRecursiveComparison()
                 .ignoringFields("number")
-                .isEqualTo(Books.minimal())));
+                .isEqualTo(GameBooks.minimal())));
     }
 
 }

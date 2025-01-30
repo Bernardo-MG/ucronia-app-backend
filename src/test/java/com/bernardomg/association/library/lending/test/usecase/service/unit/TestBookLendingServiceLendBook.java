@@ -40,7 +40,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
@@ -61,7 +61,7 @@ class TestBookLendingServiceLendBook {
     private BookLendingRepository     bookLendingRepository;
 
     @Mock
-    private BookRepository            bookRepository;
+    private GameBookRepository        bookRepository;
 
     @Mock
     private PersonRepository          personRepository;

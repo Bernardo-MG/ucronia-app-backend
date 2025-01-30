@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  * Checks the donor has a name.
  */
 @Slf4j
-public final class BookLanguageCodeValidRule implements FieldRule<Book> {
+public final class BookLanguageCodeValidRule implements FieldRule<GameBook> {
 
     private final Set<String> languages = Set.of(Locale.getISOLanguages());
 
@@ -24,7 +24,7 @@ public final class BookLanguageCodeValidRule implements FieldRule<Book> {
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Book book) {
+    public final Optional<FieldFailure> check(final GameBook book) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 

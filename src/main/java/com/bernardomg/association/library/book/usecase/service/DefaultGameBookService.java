@@ -14,10 +14,10 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
-import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnNotExistsRule;
 import com.bernardomg.association.library.book.usecase.validation.BookIsbnValidRule;
@@ -43,15 +43,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
-public final class DefaultBookService implements BookService {
+public final class DefaultGameBookService implements GameBookService {
 
     private final AuthorRepository     authorRepository;
 
-    private final BookRepository       bookRepository;
+    private final GameBookRepository   bookRepository;
 
     private final BookTypeRepository   bookTypeRepository;
 
-    private final Validator<Book>      createBookValidator;
+    private final Validator<GameBook>  createBookValidator;
 
     private final GameSystemRepository gameSystemRepository;
 
@@ -59,9 +59,9 @@ public final class DefaultBookService implements BookService {
 
     private final PublisherRepository  publisherRepository;
 
-    private final Validator<Book>      updateBookValidator;
+    private final Validator<GameBook>  updateBookValidator;
 
-    public DefaultBookService(final BookRepository bookRepo, final AuthorRepository authorRepo,
+    public DefaultGameBookService(final GameBookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
             final GameSystemRepository gameSystemRepo, final PersonRepository personRepo) {
         super();
@@ -80,14 +80,14 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Book create(final Book book) {
-        final Book                  toCreate;
+    public final GameBook create(final GameBook book) {
+        final GameBook              toCreate;
         final Long                  number;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
         final Optional<Donation>    donation;
-        final Book                  created;
+        final GameBook              created;
 
         log.debug("Creating book {}", book);
 
@@ -123,7 +123,7 @@ public final class DefaultBookService implements BookService {
         } else {
             donation = Optional.empty();
         }
-        toCreate = Book.builder()
+        toCreate = GameBook.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
@@ -163,8 +163,8 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Iterable<Book> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Book> books;
+    public final Iterable<GameBook> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<GameBook> books;
 
         log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
 
@@ -176,8 +176,8 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Optional<Book> getOne(final long number) {
-        final Optional<Book> book;
+    public final Optional<GameBook> getOne(final long number) {
+        final Optional<GameBook> book;
 
         log.debug("Reading book {}", number);
 
@@ -193,13 +193,13 @@ public final class DefaultBookService implements BookService {
     }
 
     @Override
-    public final Book update(final long number, final Book book) {
-        final Book                  toUpdate;
+    public final GameBook update(final long number, final GameBook book) {
+        final GameBook              toUpdate;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
         final Optional<Donation>    donation;
-        final Book                  updated;
+        final GameBook              updated;
 
         log.debug("Updating book with number {} using data {}", number, book);
 
@@ -238,7 +238,7 @@ public final class DefaultBookService implements BookService {
         } else {
             donation = Optional.empty();
         }
-        toUpdate = Book.builder()
+        toUpdate = GameBook.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
@@ -262,7 +262,7 @@ public final class DefaultBookService implements BookService {
         return updated;
     }
 
-    private final void validateRelationships(final Book book) {
+    private final void validateRelationships(final GameBook book) {
         final Optional<GameSystem> gameSystem;
         final Optional<BookType>   bookType;
         final Optional<Author>     invalidAuthor;

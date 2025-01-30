@@ -50,11 +50,11 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
-import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.model.Title;
-import com.bernardomg.association.library.book.usecase.service.BookService;
+import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -68,7 +68,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Book REST controller.
+ * Game book REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -76,20 +76,20 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/library/book")
 @AllArgsConstructor
-public class BookController {
+public class GameBookController {
 
     /**
-     * Book service.
+     * Game book service.
      */
-    private final BookService service;
+    private final GameBookService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
-    public Book create(@Valid @RequestBody final BookCreation request) {
-        final Book book;
+    public GameBook create(@Valid @RequestBody final BookCreation request) {
+        final GameBook book;
 
         // Book
         book = toDomain(request, 0);
@@ -108,14 +108,14 @@ public class BookController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.BOOKS)
-    public Iterable<Book> readAll(final Pagination pagination, final Sorting sorting) {
+    public Iterable<GameBook> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.BOOK)
-    public Book readOne(@PathVariable("number") final long number) {
+    public GameBook readOne(@PathVariable("number") final long number) {
         return service.getOne(number)
             .orElse(null);
     }
@@ -124,8 +124,8 @@ public class BookController {
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
-    public Book update(@PathVariable("number") final long number, @Valid @RequestBody final BookUpdate request) {
-        final Book book;
+    public GameBook update(@PathVariable("number") final long number, @Valid @RequestBody final BookUpdate request) {
+        final GameBook book;
 
         // Book
         book = toDomain(request, number);
@@ -133,7 +133,7 @@ public class BookController {
         return service.update(number, book);
     }
 
-    private final Book toDomain(final BookCreation request, final long number) {
+    private final GameBook toDomain(final BookCreation request, final long number) {
         final Title  title;
         final String supertitle;
         final String subtitle;
@@ -155,7 +155,7 @@ public class BookController {
 
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return Book.builder()
+        return GameBook.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
@@ -170,7 +170,7 @@ public class BookController {
             .build();
     }
 
-    private final Book toDomain(final BookUpdate request, final long number) {
+    private final GameBook toDomain(final BookUpdate request, final long number) {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Optional<BookType>    bookType;
@@ -266,7 +266,7 @@ public class BookController {
         }
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return Book.builder()
+        return GameBook.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())

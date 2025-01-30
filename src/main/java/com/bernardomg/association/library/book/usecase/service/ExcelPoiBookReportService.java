@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -36,9 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class ExcelPoiBookReportService implements BookReportService {
 
-    private final BookRepository bookRepository;
+    private final GameBookRepository bookRepository;
 
-    public ExcelPoiBookReportService(final BookRepository bookRepo) {
+    public ExcelPoiBookReportService(final GameBookRepository bookRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
@@ -46,9 +46,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     @Override
     public final ByteArrayOutputStream getReport() {
-        final Iterable<Book> books;
-        final Workbook       workbook;
-        final Sorting        sort;
+        final Iterable<GameBook> books;
+        final Workbook           workbook;
+        final Sorting            sort;
 
         log.debug("Creating excel");
 
@@ -164,7 +164,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         return workbook;
     }
 
-    private final void loadWorkbook(final Workbook workbook, final Iterable<Book> books) {
+    private final void loadWorkbook(final Workbook workbook, final Iterable<GameBook> books) {
         final CellStyle  style;
         final CellStyle  dateStyle;
         final Sheet      sheet;
@@ -186,7 +186,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
         sheet = workbook.getSheetAt(0);
         index = 1;
-        for (final Book book : books) {
+        for (final GameBook book : books) {
             row = sheet.createRow(index);
 
             cell = row.createCell(0);

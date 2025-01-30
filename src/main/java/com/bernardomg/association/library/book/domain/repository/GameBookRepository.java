@@ -4,11 +4,11 @@ package com.bernardomg.association.library.book.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-public interface BookRepository {
+public interface GameBookRepository {
 
     public void delete(final long number);
 
@@ -18,14 +18,14 @@ public interface BookRepository {
 
     public boolean existsByIsbnForAnother(final long number, final String isbn);
 
-    public Iterable<Book> findAll(final Pagination pagination, final Sorting sorting);
+    public Iterable<GameBook> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Collection<Book> findAll(final Sorting sorting);
+    public Collection<GameBook> findAll(final Sorting sorting);
 
     public long findNextNumber();
 
-    public Optional<Book> findOne(final long number);
+    public Optional<GameBook> findOne(final long number);
 
-    public Book save(final Book book);
+    public GameBook save(final GameBook book);
 
 }

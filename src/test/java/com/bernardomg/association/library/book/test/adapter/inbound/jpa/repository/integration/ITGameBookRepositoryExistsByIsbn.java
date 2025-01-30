@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -38,10 +38,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - exists by ISBN")
-class ITBookRepositoryExistsByIsbn {
+class ITGameBookRepositoryExistsByIsbn {
 
     @Autowired
-    private BookRepository repository;
+    private GameBookRepository repository;
 
     @Test
     @DisplayName("When the fiction book exists, it exists")

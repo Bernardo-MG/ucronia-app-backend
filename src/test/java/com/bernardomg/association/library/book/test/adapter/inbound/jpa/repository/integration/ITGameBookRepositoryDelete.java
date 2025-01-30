@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -44,7 +44,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - delete")
-class ITBookRepositoryDelete {
+class ITGameBookRepositoryDelete {
 
     @Autowired
     private AuthorSpringRepository     authorSpringRepository;
@@ -59,7 +59,7 @@ class ITBookRepositoryDelete {
     private PublisherSpringRepository  publisherSpringRepository;
 
     @Autowired
-    private BookRepository             repository;
+    private GameBookRepository         repository;
 
     @Autowired
     private BookSpringRepository       springRepository;

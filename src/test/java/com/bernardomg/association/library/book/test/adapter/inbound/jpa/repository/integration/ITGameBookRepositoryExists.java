@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -37,56 +37,56 @@ import com.bernardomg.association.person.test.configuration.data.annotation.NoMe
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - find next number")
-class ITBookRepositoryFindNextIndex {
+@DisplayName("BookRepository - exists")
+class ITGameBookRepositoryExists {
 
     @Autowired
-    private BookRepository repository;
+    private GameBookRepository repository;
 
     @Test
-    @DisplayName("When there is a fiction book, the next number is correct")
+    @DisplayName("When the fiction book exists, it exists")
     @NoMembershipPerson
     @FullFictionBook
-    void testFindNextNumber_FictionBook() {
-        final long index;
+    void testExists_FictionBook() {
+        final boolean exists;
 
         // WHEN
-        index = repository.findNextNumber();
+        exists = repository.exists(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(index)
-            .as("index")
-            .isEqualTo(BookConstants.NEXT_NUMBER);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When there is a game book, the next number is correct")
+    @DisplayName("When the game book exists, it exists")
     @NoMembershipPerson
     @FullGameBook
-    void testFindNextNumber_GameBook() {
-        final long index;
+    void testExists_GameBook() {
+        final boolean exists;
 
         // WHEN
-        index = repository.findNextNumber();
+        exists = repository.exists(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(index)
-            .as("index")
-            .isEqualTo(BookConstants.NEXT_NUMBER);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When there is no data, the next number is correct")
-    void testFindNextNumber_NoData() {
-        final long index;
+    @DisplayName("When there is no data, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
 
         // WHEN
-        index = repository.findNextNumber();
+        exists = repository.exists(BookConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(index)
-            .as("index")
-            .isEqualTo(1);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

@@ -38,9 +38,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.library.book.usecase.service.DefaultBookService;
+import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -48,30 +48,30 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - delete")
-class TestBookServiceDelete {
+class TestGameBookServiceDelete {
 
     @Mock
-    private AuthorRepository     authorRepository;
+    private AuthorRepository       authorRepository;
 
     @Mock
-    private BookRepository       bookRepository;
+    private GameBookRepository     bookRepository;
 
     @Mock
-    private BookTypeRepository   bookTypeRepository;
+    private BookTypeRepository     bookTypeRepository;
 
     @Mock
-    private GameSystemRepository gameSystemRepository;
+    private GameSystemRepository   gameSystemRepository;
 
     @Mock
-    private PersonRepository     personRepository;
+    private PersonRepository       personRepository;
 
     @Mock
-    private PublisherRepository  publisherRepository;
+    private PublisherRepository    publisherRepository;
 
     @InjectMocks
-    private DefaultBookService   service;
+    private DefaultGameBookService service;
 
-    public TestBookServiceDelete() {
+    public TestGameBookServiceDelete() {
         super();
     }
 

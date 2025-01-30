@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -15,14 +15,14 @@ import lombok.extern.slf4j.Slf4j;
  * Checks the donor has a name.
  */
 @Slf4j
-public final class BookTitleNotEmptyRule implements FieldRule<Book> {
+public final class BookTitleNotEmptyRule implements FieldRule<GameBook> {
 
     public BookTitleNotEmptyRule() {
         super();
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Book book) {
+    public final Optional<FieldFailure> check(final GameBook book) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 

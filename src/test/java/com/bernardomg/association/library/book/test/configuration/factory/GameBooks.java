@@ -7,23 +7,23 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
-import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 
-public final class Books {
+public final class GameBooks {
 
-    public static final Book donationNoDate() {
+    public static final GameBook donationNoDate() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(null, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -39,13 +39,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book donationNoDonors() {
+    public static final GameBook donationNoDonors() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of());
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -61,13 +61,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book duplicatedAuthor() {
+    public static final GameBook duplicatedAuthor() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -83,13 +83,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book duplicatedDonor() {
+    public static final GameBook duplicatedDonor() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid(), Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -105,13 +105,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book duplicatedPublisher() {
+    public static final GameBook duplicatedPublisher() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -127,13 +127,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book emptyIsbn() {
+    public static final GameBook emptyIsbn() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn("")
@@ -149,11 +149,11 @@ public final class Books {
             .build();
     }
 
-    public static final Book emptyTitle() {
+    public static final GameBook emptyTitle() {
         final Title title;
 
         title = new Title("", " ", "");
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -169,13 +169,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book full() {
+    public static final GameBook full() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -191,13 +191,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book invalidIsbn() {
+    public static final GameBook invalidIsbn() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.INVALID_ISBN)
@@ -213,13 +213,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book invalidLanguage() {
+    public static final GameBook invalidLanguage() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -235,13 +235,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book isbn13() {
+    public static final GameBook isbn13() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_13)
@@ -257,13 +257,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book lent() {
+    public static final GameBook lent() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -279,13 +279,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book lentHistory() {
+    public static final GameBook lentHistory() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -308,11 +308,11 @@ public final class Books {
             .build();
     }
 
-    public static final Book minimal() {
+    public static final GameBook minimal() {
         final Title title;
 
         title = new Title("", BookConstants.TITLE, "");
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -327,13 +327,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book noRelationships() {
+    public static final GameBook noRelationships() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of());
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -349,14 +349,14 @@ public final class Books {
             .build();
     }
 
-    public static final Book padded() {
+    public static final GameBook padded() {
         final Title    title;
         final Donation donation;
 
         title = new Title(" " + BookConstants.SUPERTITLE + " ", " " + BookConstants.TITLE + " ",
             " " + BookConstants.SUBTITLE + " ");
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -372,13 +372,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book returned() {
+    public static final GameBook returned() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
@@ -394,13 +394,13 @@ public final class Books {
             .build();
     }
 
-    public static final Book returnedHistory() {
+    public static final GameBook returnedHistory() {
         final Title    title;
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
+        return GameBook.builder()
             .withNumber(BookConstants.NUMBER)
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)

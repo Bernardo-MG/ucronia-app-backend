@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
-import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.lending.domain.exception.MissingBookLendingException;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
@@ -36,7 +36,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookLendingRepository  bookLendingRepository;
 
-    private final BookRepository         bookRepository;
+    private final GameBookRepository     bookRepository;
 
     private final Validator<BookLending> lendBookValidator;
 
@@ -44,7 +44,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final Validator<BookLending> returnBookValidator;
 
-    public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
+    public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final GameBookRepository bookRepo,
             final PersonRepository personRepo) {
         super();
 
