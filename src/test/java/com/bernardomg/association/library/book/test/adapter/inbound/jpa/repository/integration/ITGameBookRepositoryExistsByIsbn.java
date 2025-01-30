@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
@@ -44,26 +43,10 @@ class ITGameBookRepositoryExistsByIsbn {
     private GameBookRepository repository;
 
     @Test
-    @DisplayName("When the fiction book exists, it exists")
-    @NoMembershipPerson
-    @FullFictionBook
-    void testExistsByIsbn_FictionBook() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsByIsbn(BookConstants.ISBN_10);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
-
-    @Test
     @DisplayName("When the game book exists, it exists")
     @NoMembershipPerson
     @FullGameBook
-    void testExistsByIsbn_GameBook() {
+    void testExistsByIsbn() {
         final boolean exists;
 
         // WHEN

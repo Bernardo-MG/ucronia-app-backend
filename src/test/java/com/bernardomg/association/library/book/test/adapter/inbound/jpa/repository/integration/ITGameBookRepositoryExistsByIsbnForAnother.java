@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
@@ -44,10 +43,10 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     private GameBookRepository repository;
 
     @Test
-    @DisplayName("When the fiction book exists and looking for another person, it exists")
+    @DisplayName("When the game book exists and looking for another person, it exists")
     @NoMembershipPerson
-    @FullFictionBook
-    void testExistsByIsbnForAnother_FictionBook() {
+    @FullGameBook
+    void testExistsByIsbnForAnother() {
         final boolean exists;
 
         // WHEN
@@ -60,10 +59,8 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When the fiction book exists and looking for the same person, it doesn't exists")
-    @NoMembershipPerson
-    @FullFictionBook
-    void testExistsByIsbnForAnother_FictionBook_SameNumber() {
+    @DisplayName("When there is no data, nothing exists")
+    void testExistsByIsbnForAnother_NoData() {
         final boolean exists;
 
         // WHEN
@@ -73,43 +70,13 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
         Assertions.assertThat(exists)
             .as("exists")
             .isFalse();
-    }
-
-    @Test
-    @DisplayName("When the game book exists and looking for another person, it exists")
-    @NoMembershipPerson
-    @FullGameBook
-    void testExistsByIsbnForAnother_GameBook() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN_10);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
     }
 
     @Test
     @DisplayName("When the game book exists and looking for the same person, it doesn't exists")
     @NoMembershipPerson
     @FullGameBook
-    void testExistsByIsbnForAnother_GameBook_SameNumber() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("When there is no data, nothing exists")
-    void testExistsByIsbnForAnother_NoData() {
+    void testExistsByIsbnForAnother_SameNumber() {
         final boolean exists;
 
         // WHEN

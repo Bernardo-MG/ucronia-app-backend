@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
@@ -52,126 +51,10 @@ class ITGameBookRepositoryFindAllPaginated {
     private GameBookRepository repository;
 
     @Test
-    @DisplayName("When there is a fiction book, it is returned")
-    @NoMembershipPerson
-    @FullFictionBook
-    void testFindAll_FictionBook() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        books = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .as("books")
-            .containsExactly(GameBooks.full());
-    }
-
-    @Test
-    @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipPerson
-    @FullFictionBook
-    @LentBookLending
-    void testFindAll_FictionBook_Lent() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        books = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .as("books")
-            .containsExactly(GameBooks.lent());
-    }
-
-    @Test
-    @DisplayName("When there is a lent fiction book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
-    @FullFictionBook
-    @LentBookLendingHistory
-    void testFindAll_FictionBook_Lent_WithHistory() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        books = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .as("books")
-            .containsExactly(GameBooks.lentHistory());
-    }
-
-    @Test
-    @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipPerson
-    @FullFictionBook
-    @ReturnedBookLending
-    void testFindAll_FictionBook_Returned() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        books = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .as("books")
-            .containsExactly(GameBooks.returned());
-    }
-
-    @Test
-    @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
-    @FullFictionBook
-    @ReturnedBookLendingHistory
-    void testFindAll_FictionBook_Returned_WithHistory() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        books = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .as("books")
-            .containsExactly(GameBooks.returnedHistory());
-    }
-
-    @Test
     @DisplayName("When there is a game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
-    void testFindAll_GameBook() {
+    void testFindAll() {
         final Iterable<GameBook> books;
         final Pagination         pagination;
         final Sorting            sorting;
@@ -194,7 +77,7 @@ class ITGameBookRepositoryFindAllPaginated {
     @NoMembershipPerson
     @FullGameBook
     @LentBookLending
-    void testFindAll_GameBook_Lent() {
+    void testFindAll_Lent() {
         final Iterable<GameBook> books;
         final Pagination         pagination;
         final Sorting            sorting;
@@ -218,7 +101,7 @@ class ITGameBookRepositoryFindAllPaginated {
     @AlternativePerson
     @FullGameBook
     @LentBookLendingHistory
-    void testFindAll_GameBook_Lent_WithHistory() {
+    void testFindAll_Lent_WithHistory() {
         final Iterable<GameBook> books;
         final Pagination         pagination;
         final Sorting            sorting;
@@ -237,11 +120,31 @@ class ITGameBookRepositoryFindAllPaginated {
     }
 
     @Test
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindAll_NoData() {
+        final Iterable<GameBook> books;
+        final Pagination         pagination;
+        final Sorting            sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        books = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When there is a returned game book, it is returned")
     @NoMembershipPerson
     @FullGameBook
     @ReturnedBookLending
-    void testFindAll_GameBook_Returned() {
+    void testFindAll_Returned() {
         final Iterable<GameBook> books;
         final Pagination         pagination;
         final Sorting            sorting;
@@ -265,7 +168,7 @@ class ITGameBookRepositoryFindAllPaginated {
     @AlternativePerson
     @FullGameBook
     @ReturnedBookLendingHistory
-    void testFindAll_GameBook_Returned_WithHistory() {
+    void testFindAll_Returned_WithHistory() {
         final Iterable<GameBook> books;
         final Pagination         pagination;
         final Sorting            sorting;
@@ -281,26 +184,6 @@ class ITGameBookRepositoryFindAllPaginated {
         Assertions.assertThat(books)
             .as("books")
             .containsExactly(GameBooks.returnedHistory());
-    }
-
-    @Test
-    @DisplayName("When there is no data, nothing is returned")
-    void testFindAll_NoData() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        books = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .as("books")
-            .isEmpty();
     }
 
 }

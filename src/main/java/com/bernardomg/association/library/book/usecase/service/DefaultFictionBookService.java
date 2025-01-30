@@ -16,19 +16,13 @@ import com.bernardomg.association.library.book.domain.exception.MissingBookExcep
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.usecase.validation.GameBookIsbnNotExistsForAnotherRule;
-import com.bernardomg.association.library.book.usecase.validation.GameBookIsbnNotExistsRule;
-import com.bernardomg.association.library.book.usecase.validation.GameBookIsbnValidRule;
-import com.bernardomg.association.library.book.usecase.validation.GameBookLanguageCodeValidRule;
-import com.bernardomg.association.library.book.usecase.validation.GameBookTitleNotEmptyRule;
-import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
-import com.bernardomg.association.library.booktype.domain.model.BookType;
-import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
-import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
-import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.book.domain.model.FictionBook;
+import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.usecase.validation.FictionBookIsbnNotExistsForAnotherRule;
+import com.bernardomg.association.library.book.usecase.validation.FictionBookIsbnNotExistsRule;
+import com.bernardomg.association.library.book.usecase.validation.FictionBookIsbnValidRule;
+import com.bernardomg.association.library.book.usecase.validation.FictionBookLanguageCodeValidRule;
+import com.bernardomg.association.library.book.usecase.validation.FictionBookTitleNotEmptyRule;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -43,53 +37,46 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @Transactional
-public final class DefaultGameBookService implements GameBookService {
+public final class DefaultFictionBookService implements FictionBookService {
 
-    private final AuthorRepository     authorRepository;
+    private final AuthorRepository       authorRepository;
 
-    private final GameBookRepository   bookRepository;
+    private final FictionBookRepository  bookRepository;
 
-    private final BookTypeRepository   bookTypeRepository;
+    private final Validator<FictionBook> createBookValidator;
 
-    private final Validator<GameBook>  createBookValidator;
+    private final PersonRepository       personRepository;
 
-    private final GameSystemRepository gameSystemRepository;
+    private final PublisherRepository    publisherRepository;
 
-    private final PersonRepository     personRepository;
+    private final Validator<FictionBook> updateBookValidator;
 
-    private final PublisherRepository  publisherRepository;
-
-    private final Validator<GameBook>  updateBookValidator;
-
-    public DefaultGameBookService(final GameBookRepository bookRepo, final AuthorRepository authorRepo,
-            final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
-            final GameSystemRepository gameSystemRepo, final PersonRepository personRepo) {
+    public DefaultFictionBookService(final FictionBookRepository bookRepo, final AuthorRepository authorRepo,
+            final PublisherRepository publisherRepo, final PersonRepository personRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
         authorRepository = Objects.requireNonNull(authorRepo);
         publisherRepository = Objects.requireNonNull(publisherRepo);
-        bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
-        gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
         personRepository = Objects.requireNonNull(personRepo);
 
-        createBookValidator = new FieldRuleValidator<>(new GameBookTitleNotEmptyRule(),
-            new GameBookLanguageCodeValidRule(), new GameBookIsbnValidRule(),
-            new GameBookIsbnNotExistsRule(bookRepository));
-        updateBookValidator = new FieldRuleValidator<>(new GameBookTitleNotEmptyRule(),
-            new GameBookLanguageCodeValidRule(), new GameBookIsbnValidRule(),
-            new GameBookIsbnNotExistsForAnotherRule(bookRepository));
+        createBookValidator = new FieldRuleValidator<>(new FictionBookTitleNotEmptyRule(),
+            new FictionBookLanguageCodeValidRule(), new FictionBookIsbnValidRule(),
+            new FictionBookIsbnNotExistsRule(bookRepository));
+        updateBookValidator = new FieldRuleValidator<>(new FictionBookTitleNotEmptyRule(),
+            new FictionBookLanguageCodeValidRule(), new FictionBookIsbnValidRule(),
+            new FictionBookIsbnNotExistsForAnotherRule(bookRepository));
     }
 
     @Override
-    public final GameBook create(final GameBook book) {
-        final GameBook              toCreate;
+    public final FictionBook create(final FictionBook book) {
+        final FictionBook           toCreate;
         final Long                  number;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
         final Optional<Donation>    donation;
-        final GameBook              created;
+        final FictionBook           created;
 
         log.debug("Creating book {}", book);
 
@@ -125,12 +112,10 @@ public final class DefaultGameBookService implements GameBookService {
         } else {
             donation = Optional.empty();
         }
-        toCreate = GameBook.builder()
+        toCreate = FictionBook.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
-            .withBookType(book.bookType())
-            .withGameSystem(book.gameSystem())
             .withDonation(donation)
             .withIsbn(book.isbn())
             .withLanguage(book.language())
@@ -165,8 +150,8 @@ public final class DefaultGameBookService implements GameBookService {
     }
 
     @Override
-    public final Iterable<GameBook> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<GameBook> books;
+    public final Iterable<FictionBook> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<FictionBook> books;
 
         log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
 
@@ -178,8 +163,8 @@ public final class DefaultGameBookService implements GameBookService {
     }
 
     @Override
-    public final Optional<GameBook> getOne(final long number) {
-        final Optional<GameBook> book;
+    public final Optional<FictionBook> getOne(final long number) {
+        final Optional<FictionBook> book;
 
         log.debug("Reading book {}", number);
 
@@ -195,13 +180,13 @@ public final class DefaultGameBookService implements GameBookService {
     }
 
     @Override
-    public final GameBook update(final long number, final GameBook book) {
-        final GameBook              toUpdate;
+    public final FictionBook update(final long number, final FictionBook book) {
+        final FictionBook           toUpdate;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
         final Optional<Donation>    donation;
-        final GameBook              updated;
+        final FictionBook           updated;
 
         log.debug("Updating book with number {} using data {}", number, book);
 
@@ -240,12 +225,10 @@ public final class DefaultGameBookService implements GameBookService {
         } else {
             donation = Optional.empty();
         }
-        toUpdate = GameBook.builder()
+        toUpdate = FictionBook.builder()
             .withNumber(number)
             .withAuthors(authors)
             .withPublishers(publishers)
-            .withBookType(book.bookType())
-            .withGameSystem(book.gameSystem())
             .withDonation(donation)
             .withIsbn(book.isbn())
             .withLanguage(book.language())
@@ -264,12 +247,10 @@ public final class DefaultGameBookService implements GameBookService {
         return updated;
     }
 
-    private final void validateRelationships(final GameBook book) {
-        final Optional<GameSystem> gameSystem;
-        final Optional<BookType>   bookType;
-        final Optional<Author>     invalidAuthor;
-        final Optional<Publisher>  invalidPublisher;
-        final Optional<Donor>      invalidDonor;
+    private final void validateRelationships(final FictionBook book) {
+        final Optional<Author>    invalidAuthor;
+        final Optional<Publisher> invalidPublisher;
+        final Optional<Donor>     invalidDonor;
 
         // TODO: add an exception for multiple missing ids
         // Check authors exist
@@ -294,26 +275,6 @@ public final class DefaultGameBookService implements GameBookService {
             log.error("Missing publisher {}", invalidPublisher.get()
                 .number());
             throw new MissingPublisherException(invalidPublisher.get()
-                .number());
-        }
-
-        // Check game system exist
-        gameSystem = book.gameSystem();
-        if (gameSystem.isPresent() && !gameSystemRepository.exists(gameSystem.get()
-            .number())) {
-            log.error("Missing game system {}", gameSystem.get()
-                .number());
-            throw new MissingGameSystemException(gameSystem.get()
-                .number());
-        }
-
-        // Check book type exist
-        bookType = book.bookType();
-        if (bookType.isPresent() && !bookTypeRepository.exists(bookType.get()
-            .number())) {
-            log.error("Missing book type {}", bookType.get()
-                .number());
-            throw new MissingBookTypeException(bookType.get()
                 .number());
         }
 

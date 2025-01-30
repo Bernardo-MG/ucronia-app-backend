@@ -31,41 +31,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
-import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
-import com.bernardomg.association.library.book.test.configuration.factory.GameBookEntities;
-import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
-import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
+import com.bernardomg.association.library.book.domain.model.FictionBook;
+import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
+import com.bernardomg.association.library.book.test.configuration.factory.FictionBookEntities;
+import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - save")
-class ITGameBookRepositorySave {
+class ITFictionBookRepositorySave {
 
     @Autowired
-    private GameBookRepository   repository;
+    private FictionBookRepository repository;
 
     @Autowired
-    private BookSpringRepository springRepository;
+    private BookSpringRepository  springRepository;
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are added, it is persisted")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
-    @MinimalGameBook
+    @MinimalFictionBook
     void testSave_Existing_AddRelationships_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         repository.save(book);
@@ -75,7 +71,7 @@ class ITGameBookRepositorySave {
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
                 "gameSystem.id", "publishers.id")
-            .contains(GameBookEntities.full());
+            .contains(FictionBookEntities.full());
     }
 
     @Test
@@ -83,15 +79,13 @@ class ITGameBookRepositorySave {
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
-    @MinimalGameBook
+    @MinimalFictionBook
     void testSave_Existing_AddRelationships_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         created = repository.save(book);
@@ -99,18 +93,18 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.full());
+            .isEqualTo(FictionBooks.full());
     }
 
     @Test
     @DisplayName("When there is an existing game book, and relationships also already exist, it is persisted")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testSave_Existing_ExistingRelationships_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         repository.save(book);
@@ -120,19 +114,19 @@ class ITGameBookRepositorySave {
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
                 "gameSystem.id", "publishers.id")
-            .contains(GameBookEntities.full());
+            .contains(FictionBookEntities.full());
     }
 
     @Test
     @DisplayName("When there is an existing game book, and relationships also already exist, it is returned")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testSave_Existing_ExistingRelationships_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         created = repository.save(book);
@@ -140,18 +134,18 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.full());
+            .isEqualTo(FictionBooks.full());
     }
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are removed, it is persisted")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testSave_Existing_RemoveRelationships_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.minimal();
+        book = FictionBooks.minimal();
 
         // WHEN
         repository.save(book);
@@ -160,19 +154,19 @@ class ITGameBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(GameBookEntities.minimal());
+            .contains(FictionBookEntities.minimal());
     }
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are removed, it is returned")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testSave_Existing_RemoveRelationships_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.minimal();
+        book = FictionBooks.minimal();
 
         // WHEN
         created = repository.save(book);
@@ -180,16 +174,16 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.minimal());
+            .isEqualTo(FictionBooks.minimal());
     }
 
     @Test
     @DisplayName("When there are relationships in a game book, but they don't exist, these relationships are not is persisted")
     void testSave_Full_MissingData_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         repository.save(book);
@@ -199,17 +193,17 @@ class ITGameBookRepositorySave {
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
                 "gameSystem.id", "publishers.id")
-            .containsExactly(GameBookEntities.noRelationships());
+            .containsExactly(FictionBookEntities.noRelationships());
     }
 
     @Test
     @DisplayName("When there are relationships in a game book, but they don't exist, these relationships are not returned")
     void testSave_Full_MissingData_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         created = repository.save(book);
@@ -217,21 +211,19 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.noRelationships());
+            .isEqualTo(FictionBooks.noRelationships());
     }
 
     @Test
-    @DisplayName("When there are relationships the game book is persisted")
+    @DisplayName("When there are relationships the fiction book is persisted")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
     void testSave_Full_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         repository.save(book);
@@ -241,22 +233,20 @@ class ITGameBookRepositorySave {
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
                 "gameSystem.id", "publishers.id")
-            .containsExactly(GameBookEntities.full());
+            .containsExactly(FictionBookEntities.full());
     }
 
     @Test
-    @DisplayName("When there are relationships the persisted game book is returned")
+    @DisplayName("When there are relationships the persisted fiction book is returned")
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
     void testSave_Full_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.full();
+        book = FictionBooks.full();
 
         // WHEN
         created = repository.save(book);
@@ -264,7 +254,7 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.full());
+            .isEqualTo(FictionBooks.full());
     }
 
     @Test
@@ -272,13 +262,11 @@ class ITGameBookRepositorySave {
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
     void testSave_Isbn13_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.isbn13();
+        book = FictionBooks.isbn13();
 
         // WHEN
         repository.save(book);
@@ -288,7 +276,7 @@ class ITGameBookRepositorySave {
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
                 "gameSystem.id", "publishers.id")
-            .containsExactly(GameBookEntities.isbn13());
+            .containsExactly(FictionBookEntities.isbn13());
     }
 
     @Test
@@ -296,14 +284,12 @@ class ITGameBookRepositorySave {
     @NoMembershipPerson
     @ValidAuthor
     @ValidPublisher
-    @ValidBookType
-    @ValidGameSystem
     void testSave_Isbn13_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.isbn13();
+        book = FictionBooks.isbn13();
 
         // WHEN
         created = repository.save(book);
@@ -311,17 +297,17 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.isbn13());
+            .isEqualTo(FictionBooks.isbn13());
     }
 
     @Test
-    @DisplayName("When there is an existing minimal game book it is persisted")
-    @MinimalGameBook
+    @DisplayName("When there is an existing minimal fiction book it is persisted")
+    @MinimalFictionBook
     void testSave_Minimal_Existing_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.minimal();
+        book = FictionBooks.minimal();
 
         // WHEN
         repository.save(book);
@@ -330,18 +316,18 @@ class ITGameBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(GameBookEntities.minimal());
+            .contains(FictionBookEntities.minimal());
     }
 
     @Test
     @DisplayName("When there is an existing minimal game book it is returned")
-    @MinimalGameBook
+    @MinimalFictionBook
     void testSave_Minimal_Existing_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.minimal();
+        book = FictionBooks.minimal();
 
         // WHEN
         created = repository.save(book);
@@ -349,16 +335,16 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.minimal());
+            .isEqualTo(FictionBooks.minimal());
     }
 
     @Test
     @DisplayName("When the minimal game book is saved it is persisted")
     void testSave_Minimal_Persisted() {
-        final GameBook book;
+        final FictionBook book;
 
         // GIVEN
-        book = GameBooks.minimal();
+        book = FictionBooks.minimal();
 
         // WHEN
         repository.save(book);
@@ -367,17 +353,17 @@ class ITGameBookRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("books")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(GameBookEntities.minimal());
+            .containsExactly(FictionBookEntities.minimal());
     }
 
     @Test
     @DisplayName("When the minimal game book is saved it is returned")
     void testSave_Minimal_Returned() {
-        final GameBook book;
-        final GameBook created;
+        final FictionBook book;
+        final FictionBook created;
 
         // GIVEN
-        book = GameBooks.minimal();
+        book = FictionBooks.minimal();
 
         // WHEN
         created = repository.save(book);
@@ -385,7 +371,7 @@ class ITGameBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
-            .isEqualTo(GameBooks.minimal());
+            .isEqualTo(FictionBooks.minimal());
     }
 
 }

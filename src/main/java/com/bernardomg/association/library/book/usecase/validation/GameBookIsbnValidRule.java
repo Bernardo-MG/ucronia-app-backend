@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * Checks the ISBN is valid.
  */
 @Slf4j
-public final class BookIsbnValidRule implements FieldRule<GameBook> {
+public final class GameBookIsbnValidRule implements FieldRule<GameBook> {
 
     private static final String ISBN_10_REGEX = "^(\\d{1,5}-\\d{1,7}-\\d{1,7}-[\\dX])$";
 
@@ -24,7 +24,7 @@ public final class BookIsbnValidRule implements FieldRule<GameBook> {
 
     private final Pattern       pattern13     = Pattern.compile(ISBN_13_REGEX);
 
-    public BookIsbnValidRule() {
+    public GameBookIsbnValidRule() {
         super();
     }
 

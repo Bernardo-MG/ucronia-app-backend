@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookCreation {
+public class GameBookCreation {
 
     private String          isbn;
 

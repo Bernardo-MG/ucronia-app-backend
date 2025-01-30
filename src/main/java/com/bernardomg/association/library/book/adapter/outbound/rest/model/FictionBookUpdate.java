@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookUpdate {
+public class FictionBookUpdate {
 
     @Data
     @NoArgsConstructor
@@ -71,17 +71,7 @@ public class BookUpdate {
     @Builder.Default
     private Collection<Author>    authors = List.of();
 
-    /**
-     * TODO: optional
-     */
-    private BookType              bookType;
-
     private Donation              donation;
-
-    /**
-     * TODO: optional
-     */
-    private GameSystem            gameSystem;
 
     private String                isbn;
 

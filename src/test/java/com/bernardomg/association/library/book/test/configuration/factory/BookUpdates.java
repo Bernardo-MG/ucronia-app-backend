@@ -4,20 +4,20 @@ package com.bernardomg.association.library.book.test.configuration.factory;
 import java.util.List;
 
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookChangeTitle;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate.BookType;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate.Donation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate.GameSystem;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate.BookType;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate.Donation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate.GameSystem;
 
 public final class BookUpdates {
 
-    public static final BookUpdate minimal() {
+    public static final GameBookUpdate minimal() {
         final BookChangeTitle title;
 
         title = BookChangeTitle.builder()
             .withTitle(BookConstants.TITLE)
             .build();
-        return BookUpdate.builder()
+        return GameBookUpdate.builder()
             .withTitle(title)
             .withIsbn(BookConstants.ISBN_10)
             .withLanguage(BookConstants.LANGUAGE)

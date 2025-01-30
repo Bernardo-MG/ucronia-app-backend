@@ -29,47 +29,47 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - exists")
-class ITGameBookRepositoryExists {
+@DisplayName("BookRepository - find next number")
+class ITFictionBookRepositoryFindNextIndex {
 
     @Autowired
-    private GameBookRepository repository;
+    private FictionBookRepository repository;
 
     @Test
-    @DisplayName("When the game book exists, it exists")
+    @DisplayName("When there is a fiction book, the next number is correct")
     @NoMembershipPerson
-    @FullGameBook
-    void testExists() {
-        final boolean exists;
+    @FullFictionBook
+    void testFindNextNumber() {
+        final long index;
 
         // WHEN
-        exists = repository.exists(BookConstants.NUMBER);
+        index = repository.findNextNumber();
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
+        Assertions.assertThat(index)
+            .as("index")
+            .isEqualTo(BookConstants.NEXT_NUMBER);
     }
 
     @Test
-    @DisplayName("When there is no data, nothing exists")
-    void testExists_NoData() {
-        final boolean exists;
+    @DisplayName("When there is no data, the next number is correct")
+    void testFindNextNumber_NoData() {
+        final long index;
 
         // WHEN
-        exists = repository.exists(BookConstants.NUMBER);
+        index = repository.findNextNumber();
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
+        Assertions.assertThat(index)
+            .as("index")
+            .isEqualTo(1);
     }
 
 }

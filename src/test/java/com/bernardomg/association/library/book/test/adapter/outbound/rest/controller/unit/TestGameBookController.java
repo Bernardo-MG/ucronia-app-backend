@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bernardomg.association.library.book.adapter.outbound.rest.controller.GameBookController;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookCreation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookUpdate;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookCreation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.BookCreations;
 import com.bernardomg.association.library.book.test.configuration.factory.BookUpdates;
@@ -54,7 +54,7 @@ class TestGameBookController {
     @Test
     @DisplayName("Can create books")
     void testCreate() throws Exception {
-        final BookCreation bookCreation;
+        final GameBookCreation bookCreation;
 
         // GIVEN
         bookCreation = BookCreations.minimal();
@@ -68,7 +68,7 @@ class TestGameBookController {
     @Test
     @DisplayName("When creating a book, it is sent to the service")
     void testCreate_CallsService() throws Exception {
-        final BookCreation bookCreation;
+        final GameBookCreation bookCreation;
 
         // GIVEN
         bookCreation = BookCreations.minimal();
@@ -86,7 +86,7 @@ class TestGameBookController {
     @Test
     @DisplayName("Can update books")
     void testUpdate() throws Exception {
-        final BookUpdate bookCreation;
+        final GameBookUpdate bookCreation;
 
         // GIVEN
         bookCreation = BookUpdates.minimal();
@@ -100,7 +100,7 @@ class TestGameBookController {
     @Test
     @DisplayName("Can update books")
     void testUpdate_CallsService() throws Exception {
-        final BookUpdate bookCreation;
+        final GameBookUpdate bookCreation;
 
         // GIVEN
         bookCreation = BookUpdates.minimal();

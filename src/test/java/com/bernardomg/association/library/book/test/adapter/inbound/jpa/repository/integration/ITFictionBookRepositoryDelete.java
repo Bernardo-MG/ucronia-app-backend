@@ -32,41 +32,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
-import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
-import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - delete")
-class ITGameBookRepositoryDelete {
+class ITFictionBookRepositoryDelete {
 
     @Autowired
-    private AuthorSpringRepository     authorSpringRepository;
+    private AuthorSpringRepository    authorSpringRepository;
 
     @Autowired
-    private BookTypeSpringRepository   bookTypeSpringRepository;
+    private PublisherSpringRepository publisherSpringRepository;
 
     @Autowired
-    private GameSystemSpringRepository gameSystemSpringRepository;
+    private FictionBookRepository     repository;
 
     @Autowired
-    private PublisherSpringRepository  publisherSpringRepository;
-
-    @Autowired
-    private GameBookRepository         repository;
-
-    @Autowired
-    private BookSpringRepository       springRepository;
+    private BookSpringRepository      springRepository;
 
     @Test
-    @DisplayName("Then the game book exists, it is deleted")
+    @DisplayName("Then the fiction book exists, it is deleted")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testDelete() {
         // WHEN
         repository.delete(BookConstants.NUMBER);
@@ -90,9 +82,9 @@ class ITGameBookRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When the game book is deleted, the related entities are kept")
+    @DisplayName("When the fiction book is deleted, the related entities are kept")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testDelete_Relationships() {
         // WHEN
         repository.delete(BookConstants.NUMBER);
@@ -101,12 +93,6 @@ class ITGameBookRepositoryDelete {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(authorSpringRepository.count())
                 .as("authors")
-                .isNotZero();
-            softly.assertThat(bookTypeSpringRepository.count())
-                .as("book types")
-                .isNotZero();
-            softly.assertThat(gameSystemSpringRepository.count())
-                .as("game systems")
                 .isNotZero();
             softly.assertThat(publisherSpringRepository.count())
                 .as("publishers")

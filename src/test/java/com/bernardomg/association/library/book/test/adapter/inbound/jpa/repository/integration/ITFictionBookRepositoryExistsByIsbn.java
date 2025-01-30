@@ -29,28 +29,28 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookRepository - exists")
-class ITGameBookRepositoryExists {
+@DisplayName("BookRepository - exists by ISBN")
+class ITFictionBookRepositoryExistsByIsbn {
 
     @Autowired
-    private GameBookRepository repository;
+    private FictionBookRepository repository;
 
     @Test
-    @DisplayName("When the game book exists, it exists")
+    @DisplayName("When the fiction book exists, it exists")
     @NoMembershipPerson
-    @FullGameBook
-    void testExists() {
+    @FullFictionBook
+    void testExistsByIsbn() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(BookConstants.NUMBER);
+        exists = repository.existsByIsbn(BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)
@@ -60,11 +60,11 @@ class ITGameBookRepositoryExists {
 
     @Test
     @DisplayName("When there is no data, nothing exists")
-    void testExists_NoData() {
+    void testExistsByIsbn_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(BookConstants.NUMBER);
+        exists = repository.existsByIsbn(BookConstants.ISBN_10);
 
         // THEN
         Assertions.assertThat(exists)

@@ -31,14 +31,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateGameBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsGameBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
+import com.bernardomg.association.library.book.domain.model.FictionBook;
+import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateFictionBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsFictionBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
+import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
@@ -49,17 +49,17 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("BookRepository - find one")
-class ITGameBookRepositoryFindOne {
+class ITFictionBookRepositoryFindOne {
 
     @Autowired
-    private GameBookRepository repository;
+    private FictionBookRepository repository;
 
     @Test
-    @DisplayName("When there is a game book and it has a donation without date, it is returned")
+    @DisplayName("When there is a fiction book and it has a donation without date, it is returned")
     @NoMembershipPerson
-    @DonationNoDateGameBook
+    @DonationNoDateFictionBook
     void testFindOne_DonationNoDate() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -67,14 +67,14 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.donationNoDate());
+            .contains(FictionBooks.donationNoDate());
     }
 
     @Test
-    @DisplayName("When there is a game book and it has a donation without donors, it is returned")
-    @DonationNoDonorsGameBook
+    @DisplayName("When there is a fiction book and it has a donation without donors, it is returned")
+    @DonationNoDonorsFictionBook
     void testFindOne_DonationNoDonors() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -82,15 +82,15 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.donationNoDonors());
+            .contains(FictionBooks.donationNoDonors());
     }
 
     @Test
-    @DisplayName("When there is a full game book, it is returned")
+    @DisplayName("When there is a full fiction book, it is returned")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     void testFindOne_Full() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -98,16 +98,16 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.full());
+            .contains(FictionBooks.full());
     }
 
     @Test
-    @DisplayName("When there is a lent game book, it is returned")
+    @DisplayName("When there is a lent fiction book, it is returned")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     @LentBookLending
     void testFindOne_FullLent() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -115,17 +115,17 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.lent());
+            .contains(FictionBooks.lent());
     }
 
     @Test
-    @DisplayName("When there is a lent game book and it has history, it is returned")
+    @DisplayName("When there is a lent fiction book and it has history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullGameBook
+    @FullFictionBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -133,14 +133,14 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.lentHistory());
+            .contains(FictionBooks.lentHistory());
     }
 
     @Test
-    @DisplayName("When there is a minimal game book, it is returned")
-    @MinimalGameBook
+    @DisplayName("When there is a minimal fiction book, it is returned")
+    @MinimalFictionBook
     void testFindOne_Minimal() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -148,13 +148,13 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.minimal());
+            .contains(FictionBooks.minimal());
     }
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -166,12 +166,12 @@ class ITGameBookRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When there is a returned game book, it is returned")
+    @DisplayName("When there is a returned fiction book, it is returned")
     @NoMembershipPerson
-    @FullGameBook
+    @FullFictionBook
     @ReturnedBookLending
     void testFindOne_Returned() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -179,17 +179,17 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.returned());
+            .contains(FictionBooks.returned());
     }
 
     @Test
-    @DisplayName("When there is a returned game book with history, it is returned")
+    @DisplayName("When there is a returned fiction book with history, it is returned")
     @NoMembershipPerson
     @AlternativePerson
-    @FullGameBook
+    @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
-        final Optional<GameBook> book;
+        final Optional<FictionBook> book;
 
         // WHEN
         book = repository.findOne(BookConstants.NUMBER);
@@ -197,7 +197,7 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.returnedHistory());
+            .contains(FictionBooks.returnedHistory());
     }
 
 }

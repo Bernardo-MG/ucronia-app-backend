@@ -14,14 +14,14 @@ import com.bernardomg.validation.validator.FieldRule;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Checks the ISBN is not already registered for another book.
+ * Checks the ISBN is not already registered.
  */
 @Slf4j
-public final class BookIsbnNotExistsForAnotherRule implements FieldRule<GameBook> {
+public final class GameBookIsbnNotExistsRule implements FieldRule<GameBook> {
 
     private final GameBookRepository bookRepository;
 
-    public BookIsbnNotExistsForAnotherRule(final GameBookRepository bookRepo) {
+    public GameBookIsbnNotExistsRule(final GameBookRepository bookRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
@@ -32,9 +32,8 @@ public final class BookIsbnNotExistsForAnotherRule implements FieldRule<GameBook
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if ((!StringUtils.isBlank(book.isbn()))
-                && (bookRepository.existsByIsbnForAnother(book.number(), book.isbn()))) {
-            log.error("Existing book ISBN {} for a book distinct of {}", book.isbn(), book.number());
+        if ((!StringUtils.isBlank(book.isbn())) && (bookRepository.existsByIsbn(book.isbn()))) {
+            log.error("Existing book ISBN {}", book.isbn());
             fieldFailure = FieldFailure.of("isbn", "existing", book.isbn());
             failure = Optional.of(fieldFailure);
         } else {

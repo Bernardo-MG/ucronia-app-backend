@@ -48,15 +48,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookCreation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.FictionBookCreation;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.FictionBookUpdate;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.Title;
-import com.bernardomg.association.library.book.usecase.service.GameBookService;
-import com.bernardomg.association.library.booktype.domain.model.BookType;
-import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
+import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Pagination;
@@ -74,22 +72,22 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/library/book/game")
+@RequestMapping("/library/book/fiction")
 @AllArgsConstructor
-public class GameBookController {
+public class FictionBookController {
 
     /**
      * Game book service.
      */
-    private final GameBookService service;
+    private final FictionBookService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
-    public GameBook create(@Valid @RequestBody final GameBookCreation request) {
-        final GameBook book;
+    public FictionBook create(@Valid @RequestBody final FictionBookCreation request) {
+        final FictionBook book;
 
         // Book
         book = toDomain(request, 0);
@@ -108,14 +106,14 @@ public class GameBookController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.BOOKS)
-    public Iterable<GameBook> readAll(final Pagination pagination, final Sorting sorting) {
+    public Iterable<FictionBook> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.BOOK)
-    public GameBook readOne(@PathVariable("number") final long number) {
+    public FictionBook readOne(@PathVariable("number") final long number) {
         return service.getOne(number)
             .orElse(null);
     }
@@ -124,9 +122,9 @@ public class GameBookController {
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
-    public GameBook update(@PathVariable("number") final long number,
-            @Valid @RequestBody final GameBookUpdate request) {
-        final GameBook book;
+    public FictionBook update(@PathVariable("number") final long number,
+            @Valid @RequestBody final FictionBookUpdate request) {
+        final FictionBook book;
 
         // Book
         book = toDomain(request, number);
@@ -134,7 +132,7 @@ public class GameBookController {
         return service.update(number, book);
     }
 
-    private final GameBook toDomain(final GameBookCreation request, final long number) {
+    private final FictionBook toDomain(final FictionBookCreation request, final long number) {
         final Title  title;
         final String supertitle;
         final String subtitle;
@@ -156,14 +154,12 @@ public class GameBookController {
 
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return GameBook.builder()
+        return FictionBook.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withAuthors(List.of())
             .withPublishers(List.of())
-            .withBookType(Optional.empty())
-            .withGameSystem(Optional.empty())
             .withDonation(Optional.empty())
             .withNumber(number)
             .withLendings(List.of())
@@ -171,11 +167,9 @@ public class GameBookController {
             .build();
     }
 
-    private final GameBook toDomain(final GameBookUpdate request, final long number) {
+    private final FictionBook toDomain(final FictionBookUpdate request, final long number) {
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
-        final Optional<BookType>    bookType;
-        final Optional<GameSystem>  gameSystem;
         final Collection<Donor>     donors;
         final Title                 title;
         final String                supertitle;
@@ -201,24 +195,6 @@ public class GameBookController {
                 .stream()
                 .map(p -> new Publisher(p.getNumber(), ""))
                 .toList();
-        }
-
-        // Book type
-        if ((request.getBookType() == null) || (request.getBookType()
-            .getNumber() == null)) {
-            bookType = Optional.empty();
-        } else {
-            bookType = Optional.of(new BookType(request.getBookType()
-                .getNumber(), ""));
-        }
-
-        // Game system
-        if ((request.getGameSystem() == null) || (request.getGameSystem()
-            .getNumber() == null)) {
-            gameSystem = Optional.empty();
-        } else {
-            gameSystem = Optional.of(new GameSystem(request.getGameSystem()
-                .getNumber(), ""));
         }
 
         // Donation
@@ -267,15 +243,13 @@ public class GameBookController {
         }
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return GameBook.builder()
+        return FictionBook.builder()
             .withTitle(title)
             .withIsbn(request.getIsbn())
             .withLanguage(request.getLanguage())
             .withPublishDate(request.getPublishDate())
             .withAuthors(authors)
             .withPublishers(publishers)
-            .withBookType(bookType)
-            .withGameSystem(gameSystem)
             .withDonation(donation)
             .withNumber(number)
             .withLendings(List.of())
