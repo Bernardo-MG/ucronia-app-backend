@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.Books;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
@@ -48,6 +49,112 @@ class ITBookRepositoryFindAll {
 
     @Autowired
     private BookRepository repository;
+
+    @Test
+    @DisplayName("When there is a fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testFindAll_FictionBook() {
+        final Iterable<Book> books;
+        final Sorting        sorting;
+
+        // GIVEN
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        books = repository.findAll(sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.full());
+    }
+
+    @Test
+    @DisplayName("When there is a lent fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    @LentBookLending
+    void testFindAll_FictionBook_Lent() {
+        final Iterable<Book> books;
+        final Sorting        sorting;
+
+        // GIVEN
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        books = repository.findAll(sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.lent());
+    }
+
+    @Test
+    @DisplayName("When there is a lent fiction book and it has history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullFictionBook
+    @LentBookLendingHistory
+    void testFindAll_FictionBook_Lent_WithHistory() {
+        final Iterable<Book> books;
+        final Sorting        sorting;
+
+        // GIVEN
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        books = repository.findAll(sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.lentHistory());
+    }
+
+    @Test
+    @DisplayName("When there is a returned fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    @ReturnedBookLending
+    void testFindAll_FictionBook_Returned() {
+        final Iterable<Book> books;
+        final Sorting        sorting;
+
+        // GIVEN
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        books = repository.findAll(sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.returned());
+    }
+
+    @Test
+    @DisplayName("When there is a returned fiction book and it has history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullFictionBook
+    @ReturnedBookLendingHistory
+    void testFindAll_FictionBook_Returned_WithHistory() {
+        final Iterable<Book> books;
+        final Sorting        sorting;
+
+        // GIVEN
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        books = repository.findAll(sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .as("books")
+            .containsExactly(Books.returnedHistory());
+    }
 
     @Test
     @DisplayName("When there is a game book, it is returned")

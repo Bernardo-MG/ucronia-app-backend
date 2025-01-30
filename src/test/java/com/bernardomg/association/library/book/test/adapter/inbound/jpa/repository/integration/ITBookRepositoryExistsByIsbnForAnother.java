@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
@@ -41,6 +42,38 @@ class ITBookRepositoryExistsByIsbnForAnother {
 
     @Autowired
     private BookRepository repository;
+
+    @Test
+    @DisplayName("When the fiction book exists and looking for another person, it exists")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testExistsByIsbnForAnother_FictionBook() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN_10);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("When the fiction book exists and looking for the same person, it doesn't exists")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testExistsByIsbnForAnother_FictionBook_SameNumber() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
 
     @Test
     @DisplayName("When the game book exists and looking for another person, it exists")

@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
@@ -41,6 +42,22 @@ class ITBookRepositoryFindNextIndex {
 
     @Autowired
     private BookRepository repository;
+
+    @Test
+    @DisplayName("When there is a fiction book, the next number is correct")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testFindNextNumber_FictionBook() {
+        final long index;
+
+        // WHEN
+        index = repository.findNextNumber();
+
+        // THEN
+        Assertions.assertThat(index)
+            .as("index")
+            .isEqualTo(BookConstants.NEXT_NUMBER);
+    }
 
     @Test
     @DisplayName("When there is a game book, the next number is correct")

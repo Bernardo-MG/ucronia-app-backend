@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
@@ -64,6 +65,39 @@ class ITBookRepositoryDelete {
     private BookSpringRepository       springRepository;
 
     @Test
+    @DisplayName("Then the fiction book exists, it is deleted")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testDelete_FictionBook() {
+        // WHEN
+        repository.delete(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("books")
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When the fiction book is deleted, the related entities are kept")
+    @NoMembershipPerson
+    @FullGameBook
+    void testDelete_FictionBook_Relationships() {
+        // WHEN
+        repository.delete(BookConstants.NUMBER);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(authorSpringRepository.count())
+                .as("authors")
+                .isNotZero();
+            softly.assertThat(publisherSpringRepository.count())
+                .as("publishers")
+                .isNotZero();
+        });
+    }
+
+    @Test
     @DisplayName("Then the game book exists, it is deleted")
     @NoMembershipPerson
     @FullGameBook
@@ -78,7 +112,7 @@ class ITBookRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When the book is deleted, the related entities are kept")
+    @DisplayName("When the game book is deleted, the related entities are kept")
     @NoMembershipPerson
     @FullGameBook
     void testDelete_GameBook_Relationships() {

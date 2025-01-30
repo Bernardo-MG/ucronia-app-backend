@@ -33,9 +33,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDonorsGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.Books;
@@ -53,6 +57,138 @@ class ITBookRepositoryFindOne {
 
     @Autowired
     private BookRepository repository;
+
+    @Test
+    @DisplayName("When there is a fiction book and it has a donation without date, it is returned")
+    @NoMembershipPerson
+    @DonationNoDateFictionBook
+    void testFindOne_FictionBook_DonationNoDate() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.donationNoDate());
+    }
+
+    @Test
+    @DisplayName("When there is a fiction book and it has a donation without donors, it is returned")
+    @DonationNoDonorsFictionBook
+    void testFindOne_FictionBook_DonationNoDonors() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.donationNoDonors());
+    }
+
+    @Test
+    @DisplayName("When there is a full fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testFindOne_FictionBook_Full() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.full());
+    }
+
+    @Test
+    @DisplayName("When there is a lent fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    @LentBookLending
+    void testFindOne_FictionBook_FullLent() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.lent());
+    }
+
+    @Test
+    @DisplayName("When there is a lent fiction book and it has history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullFictionBook
+    @LentBookLendingHistory
+    void testFindOne_FictionBook_Lent_History() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.lentHistory());
+    }
+
+    @Test
+    @DisplayName("When there is a minimal fiction book, it is returned")
+    @MinimalFictionBook
+    void testFindOne_FictionBook_Minimal() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.minimal());
+    }
+
+    @Test
+    @DisplayName("When there is a returned fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    @ReturnedBookLending
+    void testFindOne_FictionBook_Returned() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.returned());
+    }
+
+    @Test
+    @DisplayName("When there is a returned fiction book with history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullFictionBook
+    @ReturnedBookLendingHistory
+    void testFindOne_FictionBook_Returned_History() {
+        final Optional<Book> book;
+
+        // WHEN
+        book = repository.findOne(BookConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(book)
+            .as("book")
+            .contains(Books.returnedHistory());
+    }
 
     @Test
     @DisplayName("When there is a game book and it has a donation without date, it is returned")
