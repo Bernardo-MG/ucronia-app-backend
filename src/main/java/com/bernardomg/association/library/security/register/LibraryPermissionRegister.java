@@ -76,7 +76,11 @@ public final class LibraryPermissionRegister implements PermissionRegister {
             new ResourcePermissionPair("LIBRARY_LENDING", "UPDATE"),
             new ResourcePermissionPair("LIBRARY_LENDING", "DELETE"),
             // Views
-            new ResourcePermissionPair("LIBRARY", "VIEW"), new ResourcePermissionPair("LIBRARY_ADMIN", "VIEW"),
+            new ResourcePermissionPair("LIBRARY", "VIEW"), new ResourcePermissionPair("LIBRARY_AUTHOR", "VIEW"),
+            new ResourcePermissionPair("LIBRARY_PUBLISHER", "VIEW"), new ResourcePermissionPair("LIBRARY_BOOK", "VIEW"),
+            new ResourcePermissionPair("LIBRARY_BOOK_TYPE", "VIEW"),
+            new ResourcePermissionPair("LIBRARY_GAME_SYSTEM", "VIEW"),
+            new ResourcePermissionPair("LIBRARY_LENDING", "VIEW"), new ResourcePermissionPair("LIBRARY_ADMIN", "VIEW"),
             new ResourcePermissionPair("LIBRARY_LENDING", "VIEW"));
     }
 
