@@ -384,5 +384,10 @@
             Format Excel correction.
          </action>
       </release>
+      <release version="0.5.33" date="2025-02-24" description="Permission">
+         <action dev="bmg" type="add">
+            Added permissions.
+         </action>
+      </release>
    </body>
 </document>
