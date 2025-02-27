@@ -70,7 +70,7 @@ public class TransactionReportController {
 
         stream = service.getReport();
 
-        return ExcelResponses.response(stream);
+        return ExcelResponses.response(stream, "transactions");
     }
 
 }

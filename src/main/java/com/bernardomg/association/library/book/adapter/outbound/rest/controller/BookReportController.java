@@ -70,7 +70,7 @@ public class BookReportController {
 
         stream = service.getReport();
 
-        return ExcelResponses.response(stream);
+        return ExcelResponses.response(stream, "library");
     }
 
 }

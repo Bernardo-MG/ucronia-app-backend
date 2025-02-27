@@ -35,7 +35,7 @@ import org.springframework.http.ResponseEntity;
 
 public final class ExcelResponses {
 
-    public static final ResponseEntity<InputStreamResource> response(final ByteArrayOutputStream stream)
+    public static final ResponseEntity<InputStreamResource> response(final ByteArrayOutputStream stream, final String filename)
             throws IOException {
         final byte[]      bytes;
         final HttpHeaders headers;
@@ -44,7 +44,7 @@ public final class ExcelResponses {
 
         // Set headers for the response
         headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transactions.xlsx");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s", filename));
 
         return ResponseEntity.ok()
             .headers(headers)
