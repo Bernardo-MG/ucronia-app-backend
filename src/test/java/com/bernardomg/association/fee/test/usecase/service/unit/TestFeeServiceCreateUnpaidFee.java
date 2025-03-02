@@ -111,7 +111,7 @@ class TestFeeServiceCreateUnpaidFee {
         execution = () -> service.createUnpaidFee(FeeConstants.DATE, PersonConstants.NUMBER);
 
         // THEN
-        failure = new FieldFailure("existing", "feeDate.existing", "feeDate", FeeConstants.DATE);
+        failure = new FieldFailure("existing", "feeDate", "feeDate.existing", FeeConstants.DATE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

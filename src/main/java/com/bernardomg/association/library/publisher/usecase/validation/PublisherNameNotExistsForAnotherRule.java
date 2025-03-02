@@ -36,7 +36,7 @@ public final class PublisherNameNotExistsForAnotherRule implements FieldRule<Pub
                 && (publisherRepository.existsByNameForAnother(publisher.name(), publisher.number()))) {
             log.error("Existing publisher name {} for a publisher distinct from {}", publisher.name(),
                 publisher.number());
-            fieldFailure = FieldFailure.of("name", "existing", publisher.name());
+            fieldFailure = new FieldFailure("existing", "name", publisher.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

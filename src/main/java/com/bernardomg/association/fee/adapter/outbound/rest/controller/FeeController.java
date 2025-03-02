@@ -163,8 +163,8 @@ public class FeeController {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Fee update(@PathVariable("month") final YearMonth month, @PathVariable("personNumber") final long personNumber,
-            @Valid @RequestBody final FeeChange change) {
+    public Fee update(@PathVariable("month") final YearMonth month,
+            @PathVariable("personNumber") final long personNumber, @Valid @RequestBody final FeeChange change) {
         final Fee fee;
 
         fee = toDomain(change, month, personNumber);
