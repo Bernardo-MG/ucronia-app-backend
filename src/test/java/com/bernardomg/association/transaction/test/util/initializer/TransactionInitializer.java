@@ -4,26 +4,27 @@ package com.bernardomg.association.transaction.test.util.initializer;
 import java.time.LocalDate;
 import java.time.Month;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
+import lombok.AllArgsConstructor;
+
 @Component
+@AllArgsConstructor
 public final class TransactionInitializer {
 
-    public static final LocalDate       CURRENT_MONTH  = LocalDate.now();
+    public static final LocalDate             CURRENT_MONTH  = LocalDate.now();
 
-    public static final LocalDate       NEXT_MONTH     = LocalDate.now()
+    public static final LocalDate             NEXT_MONTH     = LocalDate.now()
         .plusMonths(1);
 
-    public static final LocalDate       PREVIOUS_MONTH = LocalDate.now()
+    public static final LocalDate             PREVIOUS_MONTH = LocalDate.now()
         .minusMonths(1);
 
-    @Autowired
-    private TransactionSpringRepository transactionRepository;
+    private final TransactionSpringRepository transactionRepository;
 
     public final void registerAt(final int year, final Month month) {
         final TransactionEntity transaction;
