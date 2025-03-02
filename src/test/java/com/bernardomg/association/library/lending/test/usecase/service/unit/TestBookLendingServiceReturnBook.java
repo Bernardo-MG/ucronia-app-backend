@@ -85,7 +85,7 @@ class TestBookLendingServiceReturnBook {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("returnDate", "existing", BookConstants.RETURNED_DATE));
+            new FieldFailure("existing", "returnDate", BookConstants.RETURNED_DATE));
     }
 
     @Test
@@ -150,7 +150,7 @@ class TestBookLendingServiceReturnBook {
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "returnDate", date));
     }
 
     @Test
@@ -173,7 +173,7 @@ class TestBookLendingServiceReturnBook {
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "returnDate", date));
     }
 
     @Test
@@ -212,7 +212,7 @@ class TestBookLendingServiceReturnBook {
         execution = () -> service.returnBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("returnDate", "invalid", date));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "returnDate", date));
     }
 
     @Test

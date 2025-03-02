@@ -29,7 +29,7 @@ public final class FictionBookTitleNotEmptyRule implements FieldRule<FictionBook
         if (StringUtils.isBlank(book.title()
             .title())) {
             log.error("Empty book title");
-            fieldFailure = FieldFailure.of("title", "empty", book.title());
+            fieldFailure = new FieldFailure("empty", "title", book.title());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.fee.test.configuration.initializer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
@@ -11,14 +10,15 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.Transact
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
+import lombok.AllArgsConstructor;
+
 @Component
+@AllArgsConstructor
 public final class FeeInitializer {
 
-    @Autowired
-    private FeeSpringRepository         feeRepository;
+    private final FeeSpringRepository         feeRepository;
 
-    @Autowired
-    private TransactionSpringRepository transactionRepository;
+    private final TransactionSpringRepository transactionRepository;
 
     public final void registerFeeCurrentMonth(final Boolean paid) {
         final FeeEntity fee;

@@ -44,7 +44,7 @@ public final class FeeDateNotExistingRule implements FieldRule<Fee> {
         if (existing) {
             log.error("Date {} is already registered", fee.month());
             // TODO: this is not a field in the model
-            fieldFailure = FieldFailure.of("feeDate", "existing", fee.month());
+            fieldFailure = new FieldFailure("existing", "feeDate", fee.month());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

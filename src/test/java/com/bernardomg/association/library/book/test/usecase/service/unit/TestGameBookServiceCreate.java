@@ -190,7 +190,7 @@ class TestGameBookServiceCreate {
         execution = () -> service.create(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", GameBooks.emptyTitle()
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "title", GameBooks.emptyTitle()
             .title()));
     }
 
@@ -216,7 +216,7 @@ class TestGameBookServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "existing", BookConstants.ISBN_10));
+            new FieldFailure("existing", "isbn", BookConstants.ISBN_10));
     }
 
     @Test
@@ -241,7 +241,7 @@ class TestGameBookServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN));
+            new FieldFailure("invalid", "isbn", BookConstants.INVALID_ISBN));
     }
 
     @Test

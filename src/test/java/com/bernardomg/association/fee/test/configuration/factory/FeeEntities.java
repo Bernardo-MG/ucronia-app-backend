@@ -13,7 +13,6 @@ public final class FeeEntities {
 
     public static final FeeEntity currentMonth() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.CURRENT_MONTH)
@@ -22,7 +21,6 @@ public final class FeeEntities {
 
     public static final FeeEntity currentMonthAlternative() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.alternative())
             .withPersonId(1L)
             .withDate(FeeConstants.CURRENT_MONTH)
@@ -31,7 +29,6 @@ public final class FeeEntities {
 
     public static final FeeEntity nextMonth() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.NEXT_MONTH)
@@ -40,7 +37,6 @@ public final class FeeEntities {
 
     public static final FeeEntity nextYear() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.NEXT_YEAR_MONTH)
@@ -49,7 +45,6 @@ public final class FeeEntities {
 
     public static final FeeEntity paid() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.DATE)
@@ -65,7 +60,6 @@ public final class FeeEntities {
         transaction = TransactionEntities.februaryFee();
         transaction.setDate(date);
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.DATE)
@@ -77,7 +71,6 @@ public final class FeeEntities {
 
     public static final FeeEntity paidMultiple() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.DATE)
@@ -89,7 +82,6 @@ public final class FeeEntities {
 
     public static final FeeEntity paidMultipleAtNextDate() {
         return FeeEntity.builder()
-            .withId(2L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.NEXT_DATE)
@@ -101,7 +93,6 @@ public final class FeeEntities {
 
     public static final FeeEntity paidMultipleFirstNextYear() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.FIRST_NEXT_YEAR_DATE)
@@ -113,7 +104,6 @@ public final class FeeEntities {
 
     public static final FeeEntity paidMultipleLastInYear() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.LAST_YEAR_DATE)
@@ -125,7 +115,6 @@ public final class FeeEntities {
 
     public static final FeeEntity paidWithIndex(final long index) {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.CURRENT_MONTH)
@@ -137,7 +126,6 @@ public final class FeeEntities {
 
     public static final FeeEntity previousMonth() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.PREVIOUS_MONTH)
@@ -146,7 +134,6 @@ public final class FeeEntities {
 
     public static final FeeEntity previousYear() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.PREVIOUS_YEAR_MONTH)
@@ -155,7 +142,6 @@ public final class FeeEntities {
 
     public static final FeeEntity twoMonthsBack() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.TWO_MONTHS_BACK)
@@ -164,7 +150,6 @@ public final class FeeEntities {
 
     public static final FeeEntity twoYearsBack() {
         return FeeEntity.builder()
-            .withId(1L)
             .withPerson(PersonEntities.membershipActive())
             .withPersonId(1L)
             .withDate(FeeConstants.TWO_YEARS_BACK)

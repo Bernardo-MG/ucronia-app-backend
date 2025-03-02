@@ -184,7 +184,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paid());
 
         // THEN
-        failure = new FieldFailure("modified", "payment.modified", "payment", TransactionConstants.INDEX);
+        failure = new FieldFailure("modified", "payment", "payment.modified", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -417,7 +417,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paid());
 
         // THEN
-        failure = new FieldFailure("modified", "person.modified", "person", TransactionConstants.INDEX);
+        failure = new FieldFailure("modified", "person", "person.modified", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -436,7 +436,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.notPaid());
 
         // THEN
-        failure = new FieldFailure("removed", "payment.removed", "payment", null);
+        failure = new FieldFailure("removed", "payment", "payment.removed", null);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

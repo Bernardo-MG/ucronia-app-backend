@@ -35,7 +35,7 @@ public final class GameBookIsbnNotExistsForAnotherRule implements FieldRule<Game
         if ((!StringUtils.isBlank(book.isbn()))
                 && (bookRepository.existsByIsbnForAnother(book.number(), book.isbn()))) {
             log.error("Existing book ISBN {} for a book distinct of {}", book.isbn(), book.number());
-            fieldFailure = FieldFailure.of("isbn", "existing", book.isbn());
+            fieldFailure = new FieldFailure("existing", "isbn", book.isbn());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

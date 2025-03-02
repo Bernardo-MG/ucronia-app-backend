@@ -36,11 +36,11 @@ public final class FeePaymentNotChangedRule implements FieldRule<Fee> {
             .get();
         if (wasRemoved(fee, existing)) {
             log.error("Removed payment from fee");
-            fieldFailure = FieldFailure.of("payment", "removed", null);
+            fieldFailure = new FieldFailure("removed", "payment", null);
             failure = Optional.of(fieldFailure);
         } else if (hasPayment(fee, existing) && wasChanged(fee, existing)) {
             log.error("Changed fee payment");
-            fieldFailure = FieldFailure.of("payment", "modified", fee.payment()
+            fieldFailure = new FieldFailure("modified", "payment", fee.payment()
                 .get()
                 .index());
             failure = Optional.of(fieldFailure);

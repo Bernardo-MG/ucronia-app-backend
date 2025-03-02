@@ -37,7 +37,7 @@ public final class BookLendingNotLentBeforeLastReturnRule implements FieldRule<B
                     .number(),
                 lending.lendingDate(), returned.get()
                     .returnDate());
-            fieldFailure = FieldFailure.of("lendingDate", "invalid", lending.lendingDate());
+            fieldFailure = new FieldFailure("invalid", "lendingDate", lending.lendingDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -191,7 +191,7 @@ class TestGameBookServiceUpdate {
         execution = () -> service.update(BookConstants.NUMBER, book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", GameBooks.emptyTitle()
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "title", GameBooks.emptyTitle()
             .title()));
     }
 
@@ -218,7 +218,7 @@ class TestGameBookServiceUpdate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "existing", BookConstants.ISBN_10));
+            new FieldFailure("existing", "isbn", BookConstants.ISBN_10));
     }
 
     @Test
@@ -245,7 +245,7 @@ class TestGameBookServiceUpdate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN));
+            new FieldFailure("invalid", "isbn", BookConstants.INVALID_ISBN));
     }
 
     @Test
@@ -268,7 +268,7 @@ class TestGameBookServiceUpdate {
         execution = () -> service.update(BookConstants.NUMBER, book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("language", "invalid", "abc"));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "language", "abc"));
     }
 
     @Test

@@ -9,7 +9,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity decimal() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT_DECIMAL)
             .withDate(TransactionConstants.DATE)
@@ -19,7 +18,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity descriptionChange() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
@@ -29,7 +27,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity februaryFee() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT_BIGGER)
             .withDate(TransactionConstants.DATE)
@@ -39,7 +36,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity forAmount(final Float value) {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(value)
             .withDate(TransactionConstants.DATE)
@@ -49,7 +45,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity forAmount(final Float value, final LocalDate date) {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(value)
             .withDate(date)
@@ -59,7 +54,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity forAmount(final Float value, final LocalDate date, final Long index) {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(index)
             .withAmount(value)
             .withDate(date)
@@ -69,7 +63,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity index(final long index) {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(index)
             .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)
@@ -79,7 +72,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity multipleFeesEndYear() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT_FEES)
             .withDate(TransactionConstants.DATE)
@@ -89,7 +81,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity multipleFeesSpanYears() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT_FEES)
             .withDate(TransactionConstants.DATE)
@@ -99,7 +90,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity multipleFeesStartYear() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT_FEES)
             .withDate(TransactionConstants.DATE)
@@ -109,7 +99,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity singleFeeNoAmount() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(0F)
             .withDate(TransactionConstants.DATE)
@@ -119,7 +108,6 @@ public final class TransactionEntities {
 
     public static final TransactionEntity valid() {
         return TransactionEntity.builder()
-            .withId(TransactionConstants.ID)
             .withIndex(TransactionConstants.INDEX)
             .withAmount(TransactionConstants.AMOUNT)
             .withDate(TransactionConstants.DATE)

@@ -84,7 +84,7 @@ class TestBookLendingServiceLendBook {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
+            new FieldFailure("existing", "lendingDate", BookConstants.LENT_DATE));
     }
 
     @Test
@@ -103,7 +103,7 @@ class TestBookLendingServiceLendBook {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("lendingDate", "existing", BookConstants.LENT_DATE));
+            new FieldFailure("existing", "lendingDate", BookConstants.LENT_DATE));
     }
 
     @Test
@@ -124,7 +124,7 @@ class TestBookLendingServiceLendBook {
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("lendingDate", "invalid", date));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "lendingDate", date));
     }
 
     @Test
@@ -144,7 +144,7 @@ class TestBookLendingServiceLendBook {
         execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("lendingDate", "invalid", date));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "lendingDate", date));
     }
 
     @Test

@@ -34,7 +34,7 @@ public final class GameBookIsbnNotExistsRule implements FieldRule<GameBook> {
 
         if ((!StringUtils.isBlank(book.isbn())) && (bookRepository.existsByIsbn(book.isbn()))) {
             log.error("Existing book ISBN {}", book.isbn());
-            fieldFailure = FieldFailure.of("isbn", "existing", book.isbn());
+            fieldFailure = new FieldFailure("existing", "isbn", book.isbn());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

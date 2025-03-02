@@ -170,8 +170,9 @@ class TestFictionBookServiceCreate {
         execution = () -> service.create(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("title", "empty", FictionBooks.emptyTitle()
-            .title()));
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("empty", "title", FictionBooks.emptyTitle()
+                .title()));
     }
 
     @Test
@@ -194,7 +195,7 @@ class TestFictionBookServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "existing", BookConstants.ISBN_10));
+            new FieldFailure("existing", "isbn", BookConstants.ISBN_10));
     }
 
     @Test
@@ -217,7 +218,7 @@ class TestFictionBookServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("isbn", "invalid", BookConstants.INVALID_ISBN));
+            new FieldFailure("invalid", "isbn", BookConstants.INVALID_ISBN));
     }
 
     @Test
