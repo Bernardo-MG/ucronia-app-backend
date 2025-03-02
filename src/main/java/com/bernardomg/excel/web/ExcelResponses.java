@@ -35,8 +35,8 @@ import org.springframework.http.ResponseEntity;
 
 public final class ExcelResponses {
 
-    public static final ResponseEntity<InputStreamResource> response(final ByteArrayOutputStream stream, final String filename)
-            throws IOException {
+    public static final ResponseEntity<InputStreamResource> response(final ByteArrayOutputStream stream,
+            final String filename) throws IOException {
         final byte[]      bytes;
         final HttpHeaders headers;
 

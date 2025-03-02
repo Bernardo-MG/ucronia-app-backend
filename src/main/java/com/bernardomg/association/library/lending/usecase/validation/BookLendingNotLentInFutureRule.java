@@ -29,7 +29,7 @@ public final class BookLendingNotLentInFutureRule implements FieldRule<BookLendi
                 lending.borrower()
                     .number(),
                 lending.lendingDate(), now);
-            fieldFailure = FieldFailure.of("lendingDate", "invalid", lending.lendingDate());
+            fieldFailure = new FieldFailure("invalid", "lendingDate", lending.lendingDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

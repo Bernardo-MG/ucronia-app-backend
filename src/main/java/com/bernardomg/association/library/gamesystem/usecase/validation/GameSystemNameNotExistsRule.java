@@ -34,7 +34,7 @@ public final class GameSystemNameNotExistsRule implements FieldRule<GameSystem> 
 
         if ((!StringUtils.isBlank(gameSystem.name())) && (gameSystemRepository.existsByName(gameSystem.name()))) {
             log.error("Existing game system name {}", gameSystem.name());
-            fieldFailure = FieldFailure.of("name", "existing", gameSystem.name());
+            fieldFailure = new FieldFailure("existing", "name", gameSystem.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

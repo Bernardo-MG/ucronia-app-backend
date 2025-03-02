@@ -36,7 +36,7 @@ public final class GameSystemNameNotExistsForAnotherRule implements FieldRule<Ga
                 && (gameSystemRepository.existsByNameForAnother(gameSystem.name(), gameSystem.number()))) {
             log.error("Existing game system name {} for a game system distinct from {}", gameSystem.name(),
                 gameSystem.number());
-            fieldFailure = FieldFailure.of("name", "existing", gameSystem.name());
+            fieldFailure = new FieldFailure("existing", "name", gameSystem.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

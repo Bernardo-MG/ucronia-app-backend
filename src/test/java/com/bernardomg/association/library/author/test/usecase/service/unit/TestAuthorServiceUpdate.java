@@ -74,7 +74,7 @@ class TestAuthorServiceUpdate {
         execution = () -> service.update(author);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
     }
 
     @Test
@@ -93,7 +93,8 @@ class TestAuthorServiceUpdate {
         execution = () -> service.update(author);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "existing", AuthorConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "name", AuthorConstants.NAME));
     }
 
     @Test

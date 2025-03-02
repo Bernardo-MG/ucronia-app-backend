@@ -28,7 +28,7 @@ public final class GameSystemNameNotEmptyRule implements FieldRule<GameSystem> {
 
         if (StringUtils.isBlank(gameSystem.name())) {
             log.error("Empty game system name");
-            fieldFailure = FieldFailure.of("name", "empty", gameSystem.name());
+            fieldFailure = new FieldFailure("empty", "name", gameSystem.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
