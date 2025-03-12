@@ -23,8 +23,6 @@ public interface PersonRepository {
 
     public boolean exists(final long number);
 
-    public Iterable<Person> findAll(final Pagination pagination, final Sorting sorting);
-
     public Iterable<Person> findAll(final PersonQuery query, final Pagination pagination, final Sorting sorting);
 
     public Collection<Person> findAllToRenew();

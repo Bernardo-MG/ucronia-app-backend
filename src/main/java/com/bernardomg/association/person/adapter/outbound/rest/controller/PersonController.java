@@ -50,6 +50,7 @@ import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChang
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonCreation;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
+import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.data.domain.Pagination;
@@ -127,8 +128,8 @@ public class PersonController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
-    public Iterable<Person> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
+    public Iterable<Person> readAll(final PersonQuery query, final Pagination pagination, final Sorting sorting) {
+        return service.getAll(query, pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)

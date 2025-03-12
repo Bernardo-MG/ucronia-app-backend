@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
@@ -52,13 +53,16 @@ class ITPersonRepositoryFindAll {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
+        final PersonQuery      query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        query = PersonQuery.builder()
+            .build();
 
         // WHEN
-        people = personRepository.findAll(pagination, sorting);
+        people = personRepository.findAll(query, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -72,13 +76,16 @@ class ITPersonRepositoryFindAll {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
+        final PersonQuery      query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        query = PersonQuery.builder()
+            .build();
 
         // WHEN
-        people = personRepository.findAll(pagination, sorting);
+        people = personRepository.findAll(query, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -92,13 +99,16 @@ class ITPersonRepositoryFindAll {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
+        final PersonQuery      query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        query = PersonQuery.builder()
+            .build();
 
         // WHEN
-        people = personRepository.findAll(pagination, sorting);
+        people = personRepository.findAll(query, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -112,13 +122,16 @@ class ITPersonRepositoryFindAll {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
+        final PersonQuery      query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        query = PersonQuery.builder()
+            .build();
 
         // WHEN
-        people = personRepository.findAll(pagination, sorting);
+        people = personRepository.findAll(query, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)

@@ -125,26 +125,12 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAll(final Pagination pagination, final Sorting sorting) {
-        final Page<Person> persons;
-        final Pageable     pageable;
-
-        log.debug("Finding all the persons");
-
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        persons = personSpringRepository.findAll(pageable)
-            .map(this::toDomain);
-
-        log.debug("Found all the persons: {}", persons);
-
-        return persons;
-    }
-
-    @Override
     public final Iterable<Person> findAll(final PersonQuery query, final Pagination pagination, final Sorting sorting) {
         final Page<Person>                          persons;
         final Pageable                              pageable;
         final Optional<Specification<PersonEntity>> spec;
+
+        log.debug("Finding all the people");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = PersonSpecifications.fromQuery(query);
@@ -155,6 +141,8 @@ public final class JpaPersonRepository implements PersonRepository {
             persons = personSpringRepository.findAll(spec.get(), pageable)
                 .map(this::toDomain);
         }
+
+        log.debug("Found all the people: {}", persons);
 
         return persons;
     }

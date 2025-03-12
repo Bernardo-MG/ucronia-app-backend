@@ -26,6 +26,7 @@ package com.bernardomg.association.person.test.usecase.service.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.assertArg;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -37,12 +38,12 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
@@ -71,16 +72,19 @@ class TestPersonServiceGetAll {
         final Pagination         pagination;
         final Sorting            sorting;
         final Collection<Person> readPersons;
+        final PersonQuery        query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        query = PersonQuery.builder()
+            .build();
 
         readPersons = List.of();
-        given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
+        given(personRepository.findAll(query, pagination, sorting)).willReturn(readPersons);
 
         // WHEN
-        persons = service.getAll(pagination, sorting);
+        persons = service.getAll(query, pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
@@ -94,16 +98,18 @@ class TestPersonServiceGetAll {
         final Iterable<Person> persons;
         final Pagination       pagination;
         final Sorting          sorting;
+        final PersonQuery      query;
 
         // GIVEN
-        given(personRepository.findAll(ArgumentMatchers.any(), ArgumentMatchers.any()))
-            .willReturn(List.of(Persons.noMembership()));
-
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        query = PersonQuery.builder()
+            .build();
+
+        given(personRepository.findAll(query, pagination, sorting)).willReturn(List.of(Persons.noMembership()));
 
         // WHEN
-        persons = service.getAll(pagination, sorting);
+        persons = service.getAll(query, pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
@@ -117,19 +123,22 @@ class TestPersonServiceGetAll {
         final Pagination         pagination;
         final Sorting            sorting;
         final Collection<Person> readPersons;
+        final PersonQuery        query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
+        query = PersonQuery.builder()
+            .build();
 
         readPersons = List.of(Persons.noMembership());
-        given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
+        given(personRepository.findAll(query, pagination, sorting)).willReturn(readPersons);
 
         // WHEN
-        service.getAll(pagination, sorting);
+        service.getAll(query, pagination, sorting);
 
         // THEN
-        verify(personRepository).findAll(ArgumentMatchers.any(), assertArg(s -> assertThat(s).as("sort")
+        verify(personRepository).findAll(eq(query), eq(pagination), assertArg(s -> assertThat(s).as("sort")
             .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Property.asc("firstName"))));
@@ -141,19 +150,22 @@ class TestPersonServiceGetAll {
         final Pagination         pagination;
         final Sorting            sorting;
         final Collection<Person> readPersons;
+        final PersonQuery        query;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
+        query = PersonQuery.builder()
+            .build();
 
         readPersons = List.of(Persons.noMembership());
-        given(personRepository.findAll(pagination, sorting)).willReturn(readPersons);
+        given(personRepository.findAll(query, pagination, sorting)).willReturn(readPersons);
 
         // WHEN
-        service.getAll(pagination, sorting);
+        service.getAll(query, pagination, sorting);
 
         // THEN
-        verify(personRepository).findAll(ArgumentMatchers.any(), assertArg(s -> assertThat(s).as("sort")
+        verify(personRepository).findAll(eq(query), eq(pagination), assertArg(s -> assertThat(s).as("sort")
             .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Property.desc("firstName"))));
