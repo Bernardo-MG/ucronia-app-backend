@@ -1,7 +1,9 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.specification;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,13 +12,36 @@ import com.bernardomg.association.person.domain.query.PersonQuery;
 
 public final class PersonSpecifications {
 
+    private static final String ACTIVE_FIELD = "active";
+
+    private static final String MEMBER_FIELD = "member";
+
     public static Optional<Specification<PersonEntity>> fromQuery(final PersonQuery query) {
-        return switch (query.status()) {
+        final Optional<Specification<PersonEntity>> nameSpec;
+        final Optional<Specification<PersonEntity>> statusSpec;
+        final Specification<PersonEntity>           spec;
+
+        if (query.name()
+            .isBlank()) {
+            nameSpec = Optional.empty();
+        } else {
+            nameSpec = Optional.of(name(query.name()));
+        }
+
+        statusSpec = switch (query.status()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
             case NO_MEMBER -> Optional.of(noMember());
             default -> Optional.empty();
         };
+
+        spec = List.of(nameSpec, statusSpec)
+            .stream()
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .reduce((BinaryOperator<Specification<PersonEntity>>) Specification::and)
+            .orElse(null);
+        return Optional.ofNullable(spec);
     }
 
     /**
@@ -25,7 +50,7 @@ public final class PersonSpecifications {
      * @return active specification
      */
     private static Specification<PersonEntity> active() {
-        return (root, query, cb) -> cb.and(cb.isTrue(root.get("member")), cb.isTrue(root.get("active")));
+        return (root, query, cb) -> cb.and(cb.isTrue(root.get(MEMBER_FIELD)), cb.isTrue(root.get(ACTIVE_FIELD)));
     }
 
     /**
@@ -34,7 +59,12 @@ public final class PersonSpecifications {
      * @return inactive specification
      */
     private static Specification<PersonEntity> inactive() {
-        return (root, query, cb) -> cb.and(cb.isTrue(root.get("member")), cb.isFalse(root.get("active")));
+        return (root, query, cb) -> cb.and(cb.isTrue(root.get(MEMBER_FIELD)), cb.isFalse(root.get(ACTIVE_FIELD)));
+    }
+
+    private static Specification<PersonEntity> name(final String pattern) {
+        return (root, query, cb) -> cb.or(cb.equal(root.get("firstName"), pattern),
+            cb.equal(root.get("lastName"), pattern));
     }
 
     /**
@@ -43,7 +73,7 @@ public final class PersonSpecifications {
      * @return no member specification
      */
     private static Specification<PersonEntity> noMember() {
-        return (root, query, cb) -> cb.isFalse(root.get("member"));
+        return (root, query, cb) -> cb.isFalse(root.get(MEMBER_FIELD));
     }
 
     private PersonSpecifications() {
