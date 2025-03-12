@@ -11,7 +11,7 @@ import com.bernardomg.association.person.domain.query.PersonQuery;
 public final class PersonSpecifications {
 
     public static Optional<Specification<PersonEntity>> fromQuery(final PersonQuery query) {
-        return switch (query.getStatus()) {
+        return switch (query.status()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
             case NO_MEMBER -> Optional.of(noMember());
