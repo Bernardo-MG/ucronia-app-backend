@@ -62,9 +62,19 @@ public final class PersonSpecifications {
         return (root, query, cb) -> cb.and(cb.isTrue(root.get(MEMBER_FIELD)), cb.isFalse(root.get(ACTIVE_FIELD)));
     }
 
+    /**
+     * Name, surname of combination of both. Accepting partial matching.
+     *
+     * @param pattern
+     *            pattern to match
+     * @return name specification
+     */
     private static Specification<PersonEntity> name(final String pattern) {
-        return (root, query, cb) -> cb.or(cb.equal(root.get("firstName"), pattern),
-            cb.equal(root.get("lastName"), pattern));
+        final String likePattern = "%" + pattern + "%";
+        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
+            cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
+            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))),
+                likePattern.toLowerCase()));
     }
 
     /**
