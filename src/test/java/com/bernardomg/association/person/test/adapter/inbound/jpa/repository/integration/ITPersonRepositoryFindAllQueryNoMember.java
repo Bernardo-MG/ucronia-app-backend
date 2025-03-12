@@ -42,7 +42,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all - query for inactive")
+@DisplayName("PersonRepository - find all - query for not member")
 class ITPersonRepositoryFindAllQueryNoMember {
 
     @Autowired
