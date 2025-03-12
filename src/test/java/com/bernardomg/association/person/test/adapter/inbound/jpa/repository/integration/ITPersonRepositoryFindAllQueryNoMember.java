@@ -42,8 +42,8 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all - query for active")
-class ITPersonRepositoryFindAllQueryActive {
+@DisplayName("PersonRepository - find all - query for inactive")
+class ITPersonRepositoryFindAllQueryNoMember {
 
     @Autowired
     private PersonRepository personRepository;
@@ -60,7 +60,7 @@ class ITPersonRepositoryFindAllQueryActive {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         query = PersonQuery.builder()
-            .withStatus(PersonStatus.ACTIVE)
+            .withStatus(PersonStatus.NO_MEMBER)
             .build();
 
         // WHEN
@@ -72,7 +72,7 @@ class ITPersonRepositoryFindAllQueryActive {
     }
 
     @Test
-    @DisplayName("With a person having an active membership, it is returned")
+    @DisplayName("With a person having an active membership, nothing is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active() {
         final Iterable<Person> people;
@@ -84,7 +84,7 @@ class ITPersonRepositoryFindAllQueryActive {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         query = PersonQuery.builder()
-            .withStatus(PersonStatus.ACTIVE)
+            .withStatus(PersonStatus.NO_MEMBER)
             .build();
 
         // WHEN
@@ -92,7 +92,7 @@ class ITPersonRepositoryFindAllQueryActive {
 
         // THEN
         Assertions.assertThat(people)
-            .containsExactly(Persons.membershipActive());
+            .isEmpty();
     }
 
     @Test
@@ -108,7 +108,7 @@ class ITPersonRepositoryFindAllQueryActive {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         query = PersonQuery.builder()
-            .withStatus(PersonStatus.ACTIVE)
+            .withStatus(PersonStatus.NO_MEMBER)
             .build();
 
         // WHEN
@@ -120,7 +120,7 @@ class ITPersonRepositoryFindAllQueryActive {
     }
 
     @Test
-    @DisplayName("With a person without membership, nothing is returned")
+    @DisplayName("With a person without membership, it is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership() {
         final Iterable<Person> people;
@@ -132,7 +132,7 @@ class ITPersonRepositoryFindAllQueryActive {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         query = PersonQuery.builder()
-            .withStatus(PersonStatus.ACTIVE)
+            .withStatus(PersonStatus.NO_MEMBER)
             .build();
 
         // WHEN
@@ -140,7 +140,7 @@ class ITPersonRepositoryFindAllQueryActive {
 
         // THEN
         Assertions.assertThat(people)
-            .isEmpty();
+            .containsExactly(Persons.noMembership());
     }
 
 }

@@ -46,7 +46,6 @@ class ITPersonRepositoryFindAll {
     @Autowired
     private PersonRepository personRepository;
 
-
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindAll_NoData() {

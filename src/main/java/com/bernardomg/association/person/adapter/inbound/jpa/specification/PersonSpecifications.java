@@ -14,13 +14,14 @@ public final class PersonSpecifications {
         return switch (query.getStatus()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
+            case NO_MEMBER -> Optional.of(noMember());
             default -> Optional.empty();
         };
     }
 
     /**
      * Member and active specification.
-     * 
+     *
      * @return active specification
      */
     private static Specification<PersonEntity> active() {
@@ -29,11 +30,20 @@ public final class PersonSpecifications {
 
     /**
      * Member and inactive specification.
-     * 
+     *
      * @return inactive specification
      */
     private static Specification<PersonEntity> inactive() {
         return (root, query, cb) -> cb.and(cb.isTrue(root.get("member")), cb.isFalse(root.get("active")));
+    }
+
+    /**
+     * No member.
+     *
+     * @return no member specification
+     */
+    private static Specification<PersonEntity> noMember() {
+        return (root, query, cb) -> cb.isFalse(root.get("member"));
     }
 
     private PersonSpecifications() {

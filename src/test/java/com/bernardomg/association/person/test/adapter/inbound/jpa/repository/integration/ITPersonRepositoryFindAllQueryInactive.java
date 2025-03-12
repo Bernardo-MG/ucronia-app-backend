@@ -48,7 +48,6 @@ class ITPersonRepositoryFindAllQueryInactive {
     @Autowired
     private PersonRepository personRepository;
 
-
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindAll_NoData() {
@@ -73,7 +72,7 @@ class ITPersonRepositoryFindAllQueryInactive {
     }
 
     @Test
-    @DisplayName("With a person having an active membership, it is returned")
+    @DisplayName("With a person having an active membership, nothing is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active() {
         final Iterable<Person> people;
@@ -121,7 +120,7 @@ class ITPersonRepositoryFindAllQueryInactive {
     }
 
     @Test
-    @DisplayName("With a person without membership, it is returned")
+    @DisplayName("With a person without membership, nothing is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership() {
         final Iterable<Person> people;
