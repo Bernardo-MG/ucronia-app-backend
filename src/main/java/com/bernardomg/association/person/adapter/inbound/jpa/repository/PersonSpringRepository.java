@@ -89,21 +89,6 @@ public interface PersonSpringRepository
             SELECT p
             FROM Person p
             WHERE p.member = true
-              AND p.active = false
-            """)
-    public Page<PersonEntity> findAllInactiveMembers(final Pageable pageable);
-
-    @Query("""
-            SELECT p
-            FROM Person p
-            WHERE p.member = true
-            """)
-    public Page<PersonEntity> findAllMembers(final Pageable pageable);
-
-    @Query("""
-            SELECT p
-            FROM Person p
-            WHERE p.member = true
               AND p.active != p.renewMembership
             """)
     public Collection<PersonEntity> findAllWithRenewalMismatch();

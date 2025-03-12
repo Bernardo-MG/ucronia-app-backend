@@ -51,9 +51,9 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With an active member, it is returned")
+    @DisplayName("With an active member, it returns the member")
     @MembershipActivePerson
-    void testFindAll_Active() {
+    void testFindActive_Active() {
         final Iterable<Member> members;
         final Pagination       pagination;
         final Sorting          sorting;
@@ -72,9 +72,9 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With an inactive member, it is returned")
+    @DisplayName("With an inactive member, it returns nothing")
     @MembershipInactivePerson
-    void testFindAll_Inactive() {
+    void testFindActive_Inactive() {
         final Iterable<Member> members;
         final Pagination       pagination;
         final Sorting          sorting;
@@ -89,12 +89,12 @@ class ITMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.valid());
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
-    void testFindAll_NoData() {
+    @DisplayName("With no data, it returns nothing")
+    void testFindActive_NoData() {
         final Iterable<Member> members;
         final Pagination       pagination;
         final Sorting          sorting;
@@ -115,7 +115,7 @@ class ITMemberRepositoryFindAll {
     @Test
     @DisplayName("With a member with no membership, it returns nothing")
     @NoMembershipPerson
-    void testFindAll_NoMembership() {
+    void testFindActive_NoMembership() {
         final Iterable<Member> members;
         final Pagination       pagination;
         final Sorting          sorting;

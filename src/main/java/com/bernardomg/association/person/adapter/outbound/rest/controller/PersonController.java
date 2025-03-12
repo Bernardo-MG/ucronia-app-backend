@@ -50,8 +50,8 @@ import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChang
 import com.bernardomg.association.person.adapter.outbound.rest.model.PersonCreation;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
-import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
