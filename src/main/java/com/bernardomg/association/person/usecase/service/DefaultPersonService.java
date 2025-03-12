@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
 import com.bernardomg.data.domain.Pagination;
@@ -79,10 +79,11 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public final Iterable<Person> getAll(final PersonQuery query, final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading persons with pagination {} and sorting {}", pagination, sorting);
+    public final Iterable<Person> getAll(final PersonFilter filter, final Pagination pagination,
+            final Sorting sorting) {
+        log.debug("Reading persons with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        return personRepository.findAll(query, pagination, sorting);
+        return personRepository.findAll(filter, pagination, sorting);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.function.BinaryOperator;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.domain.query.PersonQuery;
+import com.bernardomg.association.person.domain.filter.PersonFilter;
 
 public final class PersonSpecifications {
 
@@ -16,19 +16,19 @@ public final class PersonSpecifications {
 
     private static final String MEMBER_FIELD = "member";
 
-    public static Optional<Specification<PersonEntity>> fromQuery(final PersonQuery query) {
+    public static Optional<Specification<PersonEntity>> filter(final PersonFilter filter) {
         final Optional<Specification<PersonEntity>> nameSpec;
         final Optional<Specification<PersonEntity>> statusSpec;
         final Specification<PersonEntity>           spec;
 
-        if (query.name()
+        if (filter.name()
             .isBlank()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(query.name()));
+            nameSpec = Optional.of(name(filter.name()));
         }
 
-        statusSpec = switch (query.status()) {
+        statusSpec = switch (filter.status()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
             case NO_MEMBER -> Optional.of(noMember());

@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
+import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -125,7 +125,8 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAll(final PersonQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Iterable<Person> findAll(final PersonFilter filter, final Pagination pagination,
+            final Sorting sorting) {
         final Page<Person>                          persons;
         final Pageable                              pageable;
         final Optional<Specification<PersonEntity>> spec;
@@ -133,7 +134,7 @@ public final class JpaPersonRepository implements PersonRepository {
         log.debug("Finding all the people");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = PersonSpecifications.fromQuery(query);
+        spec = PersonSpecifications.filter(filter);
         if (spec.isEmpty()) {
             persons = personSpringRepository.findAll(pageable)
                 .map(this::toDomain);

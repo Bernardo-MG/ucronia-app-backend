@@ -29,8 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.query.PersonQuery;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
@@ -42,7 +42,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all - query by name")
+@DisplayName("PersonRepository - find all - filter by name")
 class ITPersonRepositoryFindAllQueryName {
 
     @Autowired
@@ -54,17 +54,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -78,17 +78,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -102,17 +102,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FULL_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -126,17 +126,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.LAST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -150,17 +150,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2))
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -174,17 +174,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -198,17 +198,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -222,17 +222,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FULL_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -246,17 +246,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.LAST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -270,17 +270,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2))
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -294,17 +294,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -318,17 +318,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -342,17 +342,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FULL_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -366,17 +366,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.LAST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -390,17 +390,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2))
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -414,17 +414,17 @@ class ITPersonRepositoryFindAllQueryName {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
-        final PersonQuery      query;
+        final PersonFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        query = PersonQuery.builder()
+        filter = PersonFilter.builder()
             .withName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .build();
 
         // WHEN
-        people = personRepository.findAll(query, pagination, sorting);
+        people = personRepository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
