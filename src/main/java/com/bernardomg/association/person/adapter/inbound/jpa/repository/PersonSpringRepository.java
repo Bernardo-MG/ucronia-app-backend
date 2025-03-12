@@ -30,13 +30,15 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
-public interface PersonSpringRepository extends JpaRepository<PersonEntity, Long> {
+public interface PersonSpringRepository
+        extends JpaRepository<PersonEntity, Long>, JpaSpecificationExecutor<PersonEntity> {
 
     @Modifying
     @Query("""
