@@ -38,10 +38,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.test.configuration.factory.MembersQuery;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -57,37 +55,9 @@ class TestMemberServiceGetAll {
     private DefaultMemberService service;
 
     @Test
-    @DisplayName("When filtering with by active it returns the active members")
-    void testGetAll_FilterActive_ReturnsData() {
+    @DisplayName("When there is no data, it returns nothing")
+    void testGetAll_NoData() {
         final Iterable<Member>   members;
-        final MemberQuery        memberQuery;
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Member> readMembers;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = Sorting.unsorted();
-
-        readMembers = List.of(Members.valid());
-        given(publicMemberRepository.findActive(pagination, sorting)).willReturn(readMembers);
-
-        memberQuery = MembersQuery.active();
-
-        // WHEN
-        members = service.getAll(memberQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .isEqualTo(readMembers);
-    }
-
-    @Test
-    @DisplayName("When filtering with the default filter, and there is no data, it returns nothing")
-    void testGetAll_FilterDefault_NoData() {
-        final Iterable<Member>   members;
-        final MemberQuery        memberQuery;
         final Pagination         pagination;
         final Sorting            sorting;
         final Collection<Member> readMembers;
@@ -99,10 +69,8 @@ class TestMemberServiceGetAll {
         readMembers = List.of();
         given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        members = service.getAll(memberQuery, pagination, sorting);
+        members = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -111,10 +79,9 @@ class TestMemberServiceGetAll {
     }
 
     @Test
-    @DisplayName("When filtering with the default filter it returns all the members")
-    void testGetAll_FilterDefault_ReturnsData() {
+    @DisplayName("When there is data, it returns all the members")
+    void testGetAll_ReturnsData() {
         final Iterable<Member>   members;
-        final MemberQuery        memberQuery;
         final Pagination         pagination;
         final Sorting            sorting;
         final Collection<Member> readMembers;
@@ -126,37 +93,8 @@ class TestMemberServiceGetAll {
         readMembers = List.of(Members.valid());
         given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
 
-        memberQuery = MembersQuery.empty();
-
         // WHEN
-        members = service.getAll(memberQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .as("members")
-            .isEqualTo(readMembers);
-    }
-
-    @Test
-    @DisplayName("When filtering with by active it returns the not active members")
-    void testGetAll_FilterNotActive_ReturnsData() {
-        final Iterable<Member>   members;
-        final MemberQuery        memberQuery;
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Member> readMembers;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = Sorting.unsorted();
-
-        readMembers = List.of(Members.valid());
-        given(publicMemberRepository.findInactive(pagination, sorting)).willReturn(readMembers);
-
-        memberQuery = MembersQuery.inactive();
-
-        // WHEN
-        members = service.getAll(memberQuery, pagination, sorting);
+        members = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

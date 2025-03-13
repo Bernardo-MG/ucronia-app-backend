@@ -4,7 +4,6 @@ package com.bernardomg.association.member.usecase.service;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -19,15 +18,13 @@ public interface MemberService {
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
      *
-     * @param query
-     *            query for filtering
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
      * @return all the members matching the sample
      */
-    public Iterable<Member> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting);
+    public Iterable<Member> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

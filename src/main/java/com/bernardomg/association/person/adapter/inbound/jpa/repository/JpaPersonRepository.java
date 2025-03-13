@@ -7,10 +7,13 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
+import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.PersonName;
@@ -122,17 +125,25 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAll(final Pagination pagination, final Sorting sorting) {
-        final Page<Person> persons;
-        final Pageable     pageable;
+    public final Iterable<Person> findAll(final PersonFilter filter, final Pagination pagination,
+            final Sorting sorting) {
+        final Page<Person>                          persons;
+        final Pageable                              pageable;
+        final Optional<Specification<PersonEntity>> spec;
 
-        log.debug("Finding all the persons");
+        log.debug("Finding all the people");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        persons = personSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+        spec = PersonSpecifications.filter(filter);
+        if (spec.isEmpty()) {
+            persons = personSpringRepository.findAll(pageable)
+                .map(this::toDomain);
+        } else {
+            persons = personSpringRepository.findAll(spec.get(), pageable)
+                .map(this::toDomain);
+        }
 
-        log.debug("Found all the persons: {}", persons);
+        log.debug("Found all the people: {}", persons);
 
         return persons;
     }
