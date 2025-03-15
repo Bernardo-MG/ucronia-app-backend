@@ -3,6 +3,7 @@ package com.bernardomg.association.person.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -33,15 +34,17 @@ public interface PersonService {
     public void delete(final long number);
 
     /**
-     * Returns all the persons matching the sample. If the sample fields are empty, then all the persons are returned.
+     * Returns all the persons matching the query. If the sample fields are empty, then all the persons are returned.
      *
+     * @param filter
+     *            filter to apply
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
      * @return all the persons matching the sample
      */
-    public Iterable<Person> getAll(final Pagination pagination, final Sorting sorting);
+    public Iterable<Person> getAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the person for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

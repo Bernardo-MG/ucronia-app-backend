@@ -32,7 +32,7 @@ public final class AuthorNameNotExistsForAnotherRule implements FieldRule<Author
 
         if (authorRepository.existsByNameForAnother(author.name(), author.number())) {
             log.error("Existing author name {} for an author distinct from {}", author.name(), author.number());
-            fieldFailure = FieldFailure.of("name", "existing", author.name());
+            fieldFailure = new FieldFailure("existing", "name", author.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

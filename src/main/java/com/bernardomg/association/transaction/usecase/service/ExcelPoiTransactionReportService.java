@@ -120,7 +120,8 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
 
         decimalStyle = workbook.createCellStyle();
         decimalStyle.setWrapText(true);
-        decimalStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
+        decimalStyle.setDataFormat(workbook.createDataFormat()
+            .getFormat("0.00"));
 
         sheet = workbook.getSheetAt(0);
         index = 1;

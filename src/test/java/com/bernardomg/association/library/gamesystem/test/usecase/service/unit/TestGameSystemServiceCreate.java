@@ -73,7 +73,7 @@ class TestGameSystemServiceCreate {
         execution = () -> service.create(gameSystem);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, FieldFailure.of("name", "empty", ""));
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
     }
 
     @Test
@@ -94,7 +94,7 @@ class TestGameSystemServiceCreate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("name", "existing", GameSystemConstants.NAME));
+            new FieldFailure("existing", "name", GameSystemConstants.NAME));
     }
 
     @Test

@@ -34,7 +34,7 @@ public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLendin
                 .number(), lending.lendingDate(),
                 read.get()
                     .lendingDate());
-            fieldFailure = FieldFailure.of("lendingDate", "existing", lending.lendingDate());
+            fieldFailure = new FieldFailure("existing", "lendingDate", lending.lendingDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

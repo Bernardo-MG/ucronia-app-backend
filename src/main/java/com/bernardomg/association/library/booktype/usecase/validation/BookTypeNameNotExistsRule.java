@@ -32,7 +32,7 @@ public final class BookTypeNameNotExistsRule implements FieldRule<BookType> {
 
         if (bookTypeRepository.existsByName(bookType.name())) {
             log.error("Existing book type name {}", bookType.name());
-            fieldFailure = FieldFailure.of("name", "existing", bookType.name());
+            fieldFailure = new FieldFailure("existing", "name", bookType.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

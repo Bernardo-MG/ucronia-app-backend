@@ -85,7 +85,7 @@ class TestUserPersonServiceAssignPerson {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("person", "existing", PersonConstants.NUMBER));
+            new FieldFailure("existing", "person", PersonConstants.NUMBER));
     }
 
     @Test
@@ -105,7 +105,7 @@ class TestUserPersonServiceAssignPerson {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            FieldFailure.of("person", "existing", PersonConstants.NUMBER));
+            new FieldFailure("existing", "person", PersonConstants.NUMBER));
     }
 
     @Test
