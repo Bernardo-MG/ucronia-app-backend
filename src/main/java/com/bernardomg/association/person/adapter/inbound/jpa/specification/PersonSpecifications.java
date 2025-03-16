@@ -32,6 +32,7 @@ public final class PersonSpecifications {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
             case NO_MEMBER -> Optional.of(noMember());
+            case ALL_MEMBER -> Optional.of(member());
             default -> Optional.empty();
         };
 
@@ -60,6 +61,15 @@ public final class PersonSpecifications {
      */
     private static Specification<PersonEntity> inactive() {
         return (root, query, cb) -> cb.and(cb.isTrue(root.get(MEMBER_FIELD)), cb.isFalse(root.get(ACTIVE_FIELD)));
+    }
+
+    /**
+     * Member.
+     *
+     * @return member specification
+     */
+    private static Specification<PersonEntity> member() {
+        return (root, query, cb) -> cb.isTrue(root.get(MEMBER_FIELD));
     }
 
     /**
