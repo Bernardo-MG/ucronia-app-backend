@@ -25,9 +25,11 @@
 package com.bernardomg.association.library.lending.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +38,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
+import com.bernardomg.association.library.lending.adapter.outbound.cache.LibraryLendingCaches;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLent;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookReturned;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
@@ -69,6 +74,13 @@ public class BookLendingController {
             @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
     public BookLending lendBook(@Valid @RequestBody final BookLent lending) {
         return service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
+    public Iterable<BookLending> readAll(final Pagination pagination, final Sorting sorting) {
+        return service.getAll(pagination, sorting);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
