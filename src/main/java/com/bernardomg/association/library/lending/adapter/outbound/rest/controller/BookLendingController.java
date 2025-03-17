@@ -25,7 +25,6 @@
 package com.bernardomg.association.library.lending.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,7 +37,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
-import com.bernardomg.association.library.lending.adapter.outbound.cache.LibraryLendingCaches;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLent;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookReturned;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -78,8 +76,9 @@ public class BookLendingController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
+    // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
     public Iterable<BookLending> readAll(final Pagination pagination, final Sorting sorting) {
+        // TODO: reapply cache
         return service.getAll(pagination, sorting);
     }
 
