@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
@@ -124,7 +126,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Saving book lending {}", lending);
 
-        bookEntity = bookSpringRepository.findByNumber(lending.number());
+        bookEntity = bookSpringRepository.findByNumber(lending.book()
+            .number());
         personEntity = personSpringRepository.findByNumber(lending.borrower()
             .number());
 
@@ -146,20 +149,33 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     private final BookLending toDomain(final BookLendingEntity entity) {
         final Optional<Borrower>   borrower;
         final Optional<BookEntity> bookEntity;
+        final LentBook             lentBook;
+        final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
         borrower = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return new BookLending(bookEntity.get()
-            .getNumber(), borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        title = new Title(bookEntity.get()
+            .getSupertitle(),
+            bookEntity.get()
+                .getTitle(),
+            bookEntity.get()
+                .getSubtitle());
+        lentBook = new LentBook(bookEntity.get()
+            .getNumber(), title);
+        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
             final PersonEntity personEntity) {
         final Borrower borrower;
+        final LentBook lentBook;
+        final Title    title;
 
         borrower = toDomain(personEntity);
-        return new BookLending(bookEntity.getNumber(), borrower, entity.getLendingDate(), entity.getReturnDate());
+        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
+        lentBook = new LentBook(bookEntity.getNumber(), title);
+        return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Borrower toDomain(final PersonEntity entity) {

@@ -3,15 +3,19 @@ package com.bernardomg.association.library.lending.usecase.service;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
+import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.lending.domain.exception.MissingBookLendingException;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotAlreadyLentRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotAlreadyReturnedRule;
@@ -60,17 +64,23 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final BookLending lendBook(final long book, final long borrowerNumber, final LocalDate date) {
-        final BookLending lending;
-        final Borrower    borrower;
-        final BookLending created;
+    public final BookLending lendBook(final long bookNumber, final long borrowerNumber, final LocalDate date) {
+        final BookLending    lending;
+        final Borrower       borrower;
+        final BookLending    created;
+        final Optional<Book> readBook;
+        final Book           book;
+        final LentBook       lentBook;
+        final Title          title;
 
-        log.debug("Lending book {} to {}", book, borrowerNumber);
+        log.debug("Lending book {} to {}", bookNumber, borrowerNumber);
 
-        if (!bookRepository.exists(book)) {
-            log.debug("Missing book {}", book);
-            throw new MissingBookException(book);
+        readBook = bookRepository.findOne(bookNumber);
+        if (readBook.isEmpty()) {
+            log.debug("Missing book {}", bookNumber);
+            throw new MissingBookException(bookNumber);
         }
+        book = readBook.get();
 
         borrower = personRepository.findOne(borrowerNumber)
             .map(this::toBorrower)
@@ -79,29 +89,31 @@ public final class DefaultBookLendingService implements BookLendingService {
                 throw new MissingPersonException(borrowerNumber);
             });
 
-        lending = new BookLending(book, borrower, date);
+        title = book.title();
+        lentBook = new LentBook(bookNumber, title);
+        lending = new BookLending(lentBook, borrower, date);
 
         lendBookValidator.validate(lending);
 
         created = bookLendingRepository.save(lending);
 
-        log.debug("Lent book {} to {}", book, borrowerNumber);
+        log.debug("Lent book {} to {}", bookNumber, borrowerNumber);
 
         return created;
     }
 
     @Override
-    public final BookLending returnBook(final long book, final long borrower, final LocalDate date) {
+    public final BookLending returnBook(final long bookNumber, final long borrower, final LocalDate date) {
         final BookLending read;
         final BookLending lending;
         final BookLending returned;
 
-        log.debug("Returning book {} from {}", book, borrower);
+        log.debug("Returning book {} from {}", bookNumber, borrower);
 
-        read = bookLendingRepository.findOne(book, borrower)
+        read = bookLendingRepository.findOne(bookNumber, borrower)
             .orElseThrow(() -> {
-                log.error("Missing book {}", book + "-" + borrower);
-                throw new MissingBookLendingException(book + "-" + borrower);
+                log.error("Missing book {}", bookNumber + "-" + borrower);
+                throw new MissingBookLendingException(bookNumber + "-" + borrower);
             });
 
         lending = read.returned(date);
@@ -111,7 +123,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         returned = bookLendingRepository.save(lending);
 
-        log.debug("Returned book {} from {}", book, borrower);
+        log.debug("Returned book {} from {}", bookNumber, borrower);
 
         return returned;
     }
