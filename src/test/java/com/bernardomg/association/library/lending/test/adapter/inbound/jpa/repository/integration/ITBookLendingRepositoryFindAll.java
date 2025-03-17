@@ -33,6 +33,7 @@ import com.bernardomg.association.library.book.test.configuration.data.annotatio
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.data.domain.Pagination;
@@ -51,7 +52,7 @@ class ITBookLendingRepositoryFindAll {
     @NoMembershipPerson
     @FullBook
     @LentBookLending
-    void testFindAll() {
+    void testFindAll_Lent() {
         final Pagination            pagination;
         final Sorting               sorting;
         final Iterable<BookLending> lendings;
@@ -71,6 +72,28 @@ class ITBookLendingRepositoryFindAll {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
+        final Pagination            pagination;
+        final Sorting               sorting;
+        final Iterable<BookLending> lendings;
+
+        // WHEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        lendings = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(lendings)
+            .as("lendings")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there are returned books, nothing is returned")
+    @NoMembershipPerson
+    @FullBook
+    @ReturnedBookLending
+    void testFindAll_Returned() {
         final Pagination            pagination;
         final Sorting               sorting;
         final Iterable<BookLending> lendings;

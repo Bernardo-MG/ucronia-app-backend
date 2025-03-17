@@ -54,8 +54,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Finding all the book lendings");
 
+        // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
-        lendings = bookLendingSpringRepository.findAll(pageable)
+        lendings = bookLendingSpringRepository.findAllReturned(pageable)
             .map(this::toDomain);
 
         log.debug("Found all the book lendings: {}", lendings);
