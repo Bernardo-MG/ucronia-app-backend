@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ import com.bernardomg.association.library.lending.domain.repository.BookLendingR
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +45,22 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
+    }
+
+    @Override
+    public final Iterable<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
+        final Page<BookLending> lendings;
+        final Pageable          pageable;
+
+        log.debug("Finding all the book lendings");
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        lendings = bookLendingSpringRepository.findAll(pageable)
+            .map(this::toDomain);
+
+        log.debug("Found all the book lendings: {}", lendings);
+
+        return lendings;
     }
 
     @Override

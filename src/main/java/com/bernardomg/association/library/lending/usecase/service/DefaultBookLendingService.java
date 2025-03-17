@@ -28,6 +28,8 @@ import com.bernardomg.association.person.domain.exception.MissingPersonException
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -61,6 +63,19 @@ public final class DefaultBookLendingService implements BookLendingService {
         returnBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyReturnedRule(bookLendingRepo),
             new BookLendingNotReturnedBeforeLastReturnRule(bookLendingRepo), new BookLendingNotReturnedBeforeLentRule(),
             new BookLendingNotReturnedInFutureRule());
+    }
+
+    @Override
+    public final Iterable<BookLending> getAll(final Pagination pagination, final Sorting sorting) {
+        final Iterable<BookLending> lendings;
+
+        log.debug("Reading book lendings with pagination {} and sorting {}", pagination, sorting);
+
+        lendings = bookLendingRepository.findAll(pagination, sorting);
+
+        log.debug("Read book lendings with pagination {} and sorting {}", pagination, sorting);
+
+        return lendings;
     }
 
     @Override
