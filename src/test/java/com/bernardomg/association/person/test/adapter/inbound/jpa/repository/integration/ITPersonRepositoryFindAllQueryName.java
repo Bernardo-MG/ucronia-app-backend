@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -84,6 +85,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
@@ -108,6 +110,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FULL_NAME)
             .build();
 
@@ -132,6 +135,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.LAST_NAME)
             .build();
 
@@ -156,6 +160,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2))
             .build();
 
@@ -180,6 +185,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .build();
 
@@ -204,6 +210,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
@@ -228,6 +235,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FULL_NAME)
             .build();
 
@@ -252,6 +260,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.LAST_NAME)
             .build();
 
@@ -276,6 +285,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2))
             .build();
 
@@ -300,6 +310,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .build();
 
@@ -324,6 +335,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FIRST_NAME)
             .build();
 
@@ -348,6 +360,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FULL_NAME)
             .build();
 
@@ -372,6 +385,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.LAST_NAME)
             .build();
 
@@ -396,6 +410,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2))
             .build();
 
@@ -420,6 +435,7 @@ class ITPersonRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.ALL)
             .withName(PersonConstants.ALTERNATIVE_FIRST_NAME)
             .build();
 

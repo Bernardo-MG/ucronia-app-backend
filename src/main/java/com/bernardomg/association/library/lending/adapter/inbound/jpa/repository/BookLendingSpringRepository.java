@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -50,6 +51,13 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
     public List<BookLendingEntity> find(@Param("bookNumber") final long bookNumber,
             @Param("personNumber") final long personNumber, final Pageable pageable);
 
+    @Query("""
+               SELECT l
+               FROM BookLending l
+               WHERE l.returnDate IS null
+            """)
+    public Page<BookLendingEntity> findAllReturned(final Pageable pageable);
+    
     public Collection<BookLendingEntity> findAllByBookId(Long id);
 
     @Query("""

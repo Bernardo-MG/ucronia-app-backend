@@ -28,11 +28,13 @@ public final class BookLendingNotReturnedBeforeLastReturnRule implements FieldRu
         final FieldFailure           fieldFailure;
         final Optional<BookLending>  returned;
 
-        returned = bookLendingRepository.findReturned(lending.number());
+        returned = bookLendingRepository.findReturned(lending.book()
+            .number());
         if ((returned.isPresent()) && (lending.returnDate()
             .isBefore(returned.get()
                 .returnDate()))) {
-            log.error("Returning book {} from {} on {}, which is before last return {}", lending.number(),
+            log.error("Returning book {} from {} on {}, which is before last return {}", lending.book()
+                .number(),
                 lending.borrower()
                     .number(),
                 lending.returnDate(), returned.get()

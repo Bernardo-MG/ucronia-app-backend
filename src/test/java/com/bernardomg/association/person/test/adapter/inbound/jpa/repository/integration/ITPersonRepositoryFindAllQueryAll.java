@@ -120,7 +120,7 @@ class ITPersonRepositoryFindAllQueryAll {
     }
 
     @Test
-    @DisplayName("With a person without membership, nothing is returned")
+    @DisplayName("With a person without membership, it is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership() {
         final Iterable<Person> people;

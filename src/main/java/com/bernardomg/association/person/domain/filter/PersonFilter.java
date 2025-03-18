@@ -8,7 +8,7 @@ public record PersonFilter(PersonStatus status, String name) {
 
     public PersonFilter {
         if (status == null) {
-            status = PersonStatus.ALL;
+            status = PersonStatus.ALL_MEMBER;
         }
         if (name == null) {
             name = "";
@@ -16,7 +16,7 @@ public record PersonFilter(PersonStatus status, String name) {
     }
 
     public enum PersonStatus {
-        ACTIVE, ALL, INACTIVE, NO_MEMBER
+        ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER
     }
 
 }
