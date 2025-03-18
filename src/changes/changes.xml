@@ -389,7 +389,13 @@
             Added permissions.
          </action>
       </release>
-      <release version="1.0.0" date="2025-02-24" description="">
+      <release version="0.5.34" date="2025-03-15" description="Person filter">
+         <action dev="bmg" type="add">
+            Filter person by membership or name.
+         </action>
+         <action dev="bmg" type="fix">
+            Corrected excel response.
+         </action>
       </release>
    </body>
 </document>
