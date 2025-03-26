@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.RootBookSpringRepository;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.FictionBookSpringRepository;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
@@ -46,10 +46,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITFictionBookRepositorySave {
 
     @Autowired
-    private FictionBookRepository    repository;
+    private FictionBookRepository       repository;
 
     @Autowired
-    private RootBookSpringRepository springRepository;
+    private FictionBookSpringRepository springRepository;
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are added, it is persisted")

@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -17,16 +18,23 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "RootBook")
+@Entity(name = "Book")
 @Table(schema = "inventory", name = "books")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookEntity {
+public class BookEntity implements Serializable {
+
+    /**
+     * Serialization ID.
+     */
+    @Transient
+    private static final long           serialVersionUID = 5800151370938640858L;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",

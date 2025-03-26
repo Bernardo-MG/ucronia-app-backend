@@ -28,10 +28,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.RootBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 
-public interface GameBookSpringRepository extends JpaRepository<RootBookEntity, Long> {
+public interface GameBookSpringRepository extends JpaRepository<GameBookEntity, Long> {
 
     public void deleteByNumber(final long number);
 
@@ -41,12 +42,21 @@ public interface GameBookSpringRepository extends JpaRepository<RootBookEntity, 
 
     public boolean existsByNumber(final long number);
 
-    public Optional<RootBookEntity> findByNumber(final long number);
+    public Optional<GameBookEntity> findByNumber(final long number);
 
     @Query("""
                SELECT COALESCE(MAX(b.number), 0) + 1
                FROM Book b
             """)
     public Long findNextNumber();
+
+    @Query("""
+               SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM Book b
+               RIGHT JOIN BookLending l ON b.id = l.bookId
+               WHERE b.id = :bookId
+                 AND l.returnDate IS NULL
+            """)
+    public boolean isLent(@Param("bookId") final long bookId);
 
 }

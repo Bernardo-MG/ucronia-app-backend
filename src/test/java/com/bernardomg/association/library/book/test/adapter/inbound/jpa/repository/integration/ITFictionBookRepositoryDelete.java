@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.RootBookSpringRepository;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.FictionBookSpringRepository;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -44,16 +44,16 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITFictionBookRepositoryDelete {
 
     @Autowired
-    private AuthorSpringRepository    authorSpringRepository;
+    private AuthorSpringRepository      authorSpringRepository;
 
     @Autowired
-    private PublisherSpringRepository publisherSpringRepository;
+    private PublisherSpringRepository   publisherSpringRepository;
 
     @Autowired
-    private FictionBookRepository     repository;
+    private FictionBookRepository       repository;
 
     @Autowired
-    private RootBookSpringRepository  springRepository;
+    private FictionBookSpringRepository springRepository;
 
     @Test
     @DisplayName("Then the fiction book exists, it is deleted")

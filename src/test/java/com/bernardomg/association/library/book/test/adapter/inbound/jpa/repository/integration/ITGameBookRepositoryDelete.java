@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.RootBookSpringRepository;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.GameBookSpringRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -61,7 +61,7 @@ class ITGameBookRepositoryDelete {
     private GameBookRepository         repository;
 
     @Autowired
-    private RootBookSpringRepository   springRepository;
+    private GameBookSpringRepository   springRepository;
 
     @Test
     @DisplayName("Then the game book exists, it is deleted")
