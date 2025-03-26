@@ -86,8 +86,8 @@ public class GameBookController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBook create(@Valid @RequestBody final GameBookCreation request) {
         final GameBook book;
 
@@ -99,22 +99,22 @@ public class GameBookController {
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOK }),
-            @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOK }),
+            @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookCaches.BOOKS)
+    @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOKS)
     public Iterable<GameBook> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookCaches.BOOK)
+    @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOK)
     public GameBook readOne(@PathVariable("number") final long number) {
         return service.getOne(number)
             .orElse(null);
@@ -122,8 +122,8 @@ public class GameBookController {
 
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.BOOK, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBook update(@PathVariable("number") final long number,
             @Valid @RequestBody final GameBookUpdate request) {
         final GameBook book;
