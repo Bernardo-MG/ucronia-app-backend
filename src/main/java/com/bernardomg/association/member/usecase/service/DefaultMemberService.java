@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -36,14 +35,10 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Iterable<Member> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Iterable<Member> getAll(final Pagination pagination, final Sorting sorting) {
         log.debug("Reading public members with pagination {} and sorting {}", pagination, sorting);
 
-        return switch (query.getStatus()) {
-            case ACTIVE -> memberRepository.findActive(pagination, sorting);
-            case INACTIVE -> memberRepository.findInactive(pagination, sorting);
-            default -> memberRepository.findAll(pagination, sorting);
-        };
+        return memberRepository.findAll(pagination, sorting);
     }
 
     @Override

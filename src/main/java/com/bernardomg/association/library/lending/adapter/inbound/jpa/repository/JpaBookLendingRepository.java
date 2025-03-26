@@ -5,19 +5,25 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.AbstractBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
+import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +45,23 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
+    }
+
+    @Override
+    public final Iterable<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
+        final Page<BookLending> lendings;
+        final Pageable          pageable;
+
+        log.debug("Finding all the book lendings");
+
+        // TODO: test pagination and sorting
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        lendings = bookLendingSpringRepository.findAllReturned(pageable)
+            .map(this::toDomain);
+
+        log.debug("Found all the book lendings: {}", lendings);
+
+        return lendings;
     }
 
     @Override
@@ -124,7 +147,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Saving book lending {}", lending);
 
-        bookEntity = bookSpringRepository.findByNumber(lending.number());
+        bookEntity = bookSpringRepository.findByNumber(lending.book()
+            .number());
         personEntity = personSpringRepository.findByNumber(lending.borrower()
             .number());
 
@@ -144,22 +168,35 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     private final BookLending toDomain(final BookLendingEntity entity) {
-        final Optional<Borrower>           borrower;
-        final Optional<AbstractBookEntity> bookEntity;
+        final Optional<Borrower>   borrower;
+        final Optional<BookEntity> bookEntity;
+        final LentBook             lentBook;
+        final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
         borrower = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return new BookLending(bookEntity.get()
-            .getNumber(), borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        title = new Title(bookEntity.get()
+            .getSupertitle(),
+            bookEntity.get()
+                .getTitle(),
+            bookEntity.get()
+                .getSubtitle());
+        lentBook = new LentBook(bookEntity.get()
+            .getNumber(), title);
+        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final BookLending toDomain(final BookLendingEntity entity, final AbstractBookEntity bookEntity,
             final PersonEntity personEntity) {
         final Borrower borrower;
+        final LentBook lentBook;
+        final Title    title;
 
         borrower = toDomain(personEntity);
-        return new BookLending(bookEntity.getNumber(), borrower, entity.getLendingDate(), entity.getReturnDate());
+        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
+        lentBook = new LentBook(bookEntity.getNumber(), title);
+        return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Borrower toDomain(final PersonEntity entity) {

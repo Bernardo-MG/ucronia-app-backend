@@ -34,22 +34,6 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Iterable<Member> findActive(final Pagination pagination, final Sorting sorting) {
-        final Page<Member> members;
-        final Pageable     pageable;
-
-        log.trace("Finding active public members with pagination {} and sorting {}", pagination, sorting);
-
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllActiveMembers(pageable)
-            .map(this::toDomain);
-
-        log.trace("Found active public members with pagination {} and sorting {}: {}", pagination, sorting, members);
-
-        return members;
-    }
-
-    @Override
     public final Iterable<Member> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
         final Pageable     pageable;
@@ -57,26 +41,10 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllMembers(pageable)
+        members = personSpringRepository.findAllActiveMembers(pageable)
             .map(this::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, members);
-
-        return members;
-    }
-
-    @Override
-    public final Iterable<Member> findInactive(final Pagination pagination, final Sorting sorting) {
-        final Page<Member> members;
-        final Pageable     pageable;
-
-        log.trace("Finding inactive public members with pagination {} and sorting {}", pagination, sorting);
-
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllInactiveMembers(pageable)
-            .map(this::toDomain);
-
-        log.trace("Found active public members with pagination {} and sorting {}: {}", pagination, sorting, members);
 
         return members;
     }

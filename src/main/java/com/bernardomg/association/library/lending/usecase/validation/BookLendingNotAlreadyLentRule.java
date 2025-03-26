@@ -28,11 +28,14 @@ public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLendin
         final FieldFailure           fieldFailure;
         final Optional<BookLending>  read;
 
-        read = bookLendingRepository.findLent(lending.number());
+        read = bookLendingRepository.findLent(lending.book()
+            .number());
         if (read.isPresent()) {
-            log.error("Lending book {} to {} on {}, which was already lent on {}", lending.number(), lending.borrower()
-                .number(), lending.lendingDate(),
-                read.get()
+            log.error("Lending book {} to {} on {}, which was already lent on {}", lending.book()
+                .number(),
+                lending.borrower()
+                    .number(),
+                lending.lendingDate(), read.get()
                     .lendingDate());
             fieldFailure = new FieldFailure("existing", "lendingDate", lending.lendingDate());
             failure = Optional.of(fieldFailure);

@@ -25,6 +25,7 @@ import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.Book
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -268,7 +269,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         // Lendings
         lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
             .stream()
-            .map(l -> toDomain(entity.getNumber(), l))
+            .map(l -> toDomain(entity, l))
             .toList();
 
         if (entity.getSupertitle() == null) {
@@ -298,13 +299,17 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
             .build();
     }
 
-    private final BookLending toDomain(final Long number, final BookLendingEntity entity) {
+    private final BookLending toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
+        final LentBook           lentBook;
+        final Title              title;
 
         // TODO: should not contain all the member data
         borrower = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        return new BookLending(number, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
+        lentBook = new LentBook(bookEntity.getNumber(), title);
+        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Borrower toDomain(final PersonEntity entity) {

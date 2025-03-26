@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -41,8 +42,8 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all")
-class ITPersonRepositoryFindAll {
+@DisplayName("PersonRepository - find all - filter for inactive")
+class ITPersonRepositoryFindAllQueryInactive {
 
     @Autowired
     private PersonRepository personRepository;
@@ -59,6 +60,7 @@ class ITPersonRepositoryFindAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.INACTIVE)
             .build();
 
         // WHEN
@@ -70,7 +72,7 @@ class ITPersonRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a person having an active membership, it is returned")
+    @DisplayName("With a person having an active membership, nothing is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active() {
         final Iterable<Person> people;
@@ -82,6 +84,7 @@ class ITPersonRepositoryFindAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.INACTIVE)
             .build();
 
         // WHEN
@@ -89,7 +92,7 @@ class ITPersonRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(people)
-            .containsExactly(Persons.membershipActive());
+            .isEmpty();
     }
 
     @Test
@@ -105,6 +108,7 @@ class ITPersonRepositoryFindAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.INACTIVE)
             .build();
 
         // WHEN
@@ -128,6 +132,7 @@ class ITPersonRepositoryFindAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = PersonFilter.builder()
+            .withStatus(PersonStatus.INACTIVE)
             .build();
 
         // WHEN
