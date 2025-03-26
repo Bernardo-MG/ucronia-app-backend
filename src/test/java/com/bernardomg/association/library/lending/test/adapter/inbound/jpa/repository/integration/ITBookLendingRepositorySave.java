@@ -29,7 +29,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -50,9 +52,9 @@ class ITBookLendingRepositorySave {
     private BookLendingSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving a lending for a game book and it doesn't exist, nothing is persisted")
-    @NoMembershipPerson
-    void testSave_GameBook_NoBook() {
+    @DisplayName("When saving a lending for a fiction book and the person doesnt exist, nothing is persisted")
+    @MinimalFictionBook
+    void testSave_FictionBook_NoMember() {
         final BookLending lending;
 
         // GIVEN
@@ -65,6 +67,46 @@ class ITBookLendingRepositorySave {
         Assertions.assertThat(springRepository.count())
             .as("lendings")
             .isZero();
+    }
+
+    @Test
+    @DisplayName("When saving a lending for a fiction book, a lending is persisted")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testSave_FictionBook_Persisted() {
+        final BookLending lending;
+
+        // GIVEN
+        lending = BookLendings.lent();
+
+        // WHEN
+        repository.save(lending);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("lendings")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(BookLendingEntities.lent());
+    }
+
+    @Test
+    @DisplayName("When saving a lending for a fiction book, the persisted lending is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testSave_FictionBook_Returned() {
+        final BookLending lending;
+        final BookLending created;
+
+        // GIVEN
+        lending = BookLendings.lent();
+
+        // WHEN
+        created = repository.save(lending);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("lending")
+            .isEqualTo(BookLendings.lent());
     }
 
     @Test
@@ -123,6 +165,24 @@ class ITBookLendingRepositorySave {
         Assertions.assertThat(created)
             .as("lending")
             .isEqualTo(BookLendings.lent());
+    }
+
+    @Test
+    @DisplayName("When saving a lending for a book which doesn't exist, nothing is persisted")
+    @NoMembershipPerson
+    void testSave_NoBook() {
+        final BookLending lending;
+
+        // GIVEN
+        lending = BookLendings.lent();
+
+        // WHEN
+        repository.save(lending);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("lendings")
+            .isZero();
     }
 
 }

@@ -31,7 +31,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -52,6 +54,107 @@ class ITBookLendingRepositoryFindOne {
 
     @Autowired
     private BookLendingRepository repository;
+
+    @Test
+    @DisplayName("When there is a lent fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    @LentBookLending
+    void testFindOne_FictionBook_Lent() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .contains(BookLendings.lent());
+    }
+
+    @Test
+    @DisplayName("When there is a lent game book and it has history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullFictionBook
+    @LentBookLendingHistory
+    void testFindOne_FictionBook_Lent_History() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .contains(BookLendings.lentLast());
+    }
+
+    @Test
+    @DisplayName("When there is a fiction book and it has no history, nothing is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    void testFindOne_FictionBook_NoHistory() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a fiction book and it is not lent, nothing is returned")
+    @MinimalFictionBook
+    void testFindOne_FictionBook_NotLent() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a returned fiction book, it is returned")
+    @NoMembershipPerson
+    @FullFictionBook
+    @ReturnedBookLending
+    void testFindOne_FictionBook_Returned() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .contains(BookLendings.returned());
+    }
+
+    @Test
+    @DisplayName("When there is a returned fiction book and it has history, it is returned")
+    @NoMembershipPerson
+    @AlternativePerson
+    @FullFictionBook
+    @ReturnedBookLendingHistory
+    void testFindOne_FictionBook_Returned_History() {
+        final Optional<BookLending> lending;
+
+        // WHEN
+        lending = repository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(lending)
+            .as("lending")
+            .contains(BookLendings.returnedLast());
+    }
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
@@ -105,9 +208,9 @@ class ITBookLendingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When there is a game book and there is no person, nothing is returned")
+    @DisplayName("When there is a game book and it is not lent, nothing is returned")
     @MinimalGameBook
-    void testFindOne_GameBook_NoPerson() {
+    void testFindOne_GameBook_NotLent() {
         final Optional<BookLending> lending;
 
         // WHEN
