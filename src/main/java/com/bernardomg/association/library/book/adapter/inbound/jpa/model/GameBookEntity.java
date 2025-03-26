@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class GameBookEntity extends AbstractBookEntity implements Serializable {
+public class GameBookEntity extends RootBookEntity implements Serializable {
 
     /**
      * Serialization ID.

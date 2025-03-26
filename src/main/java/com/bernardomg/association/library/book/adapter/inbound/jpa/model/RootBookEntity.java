@@ -25,14 +25,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Book")
+@Entity(name = "RootBook")
 @Table(schema = "inventory", name = "books")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "data_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class AbstractBookEntity {
+public abstract class RootBookEntity {
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",

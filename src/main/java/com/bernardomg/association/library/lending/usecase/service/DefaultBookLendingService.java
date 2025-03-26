@@ -42,7 +42,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookLendingRepository  bookLendingRepository;
 
-    private final GameBookRepository     bookRepository;
+    private final BookRepository         bookRepository;
 
     private final Validator<BookLending> lendBookValidator;
 
@@ -50,7 +50,7 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final Validator<BookLending> returnBookValidator;
 
-    public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final GameBookRepository bookRepo,
+    public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
             final PersonRepository personRepo) {
         super();
 

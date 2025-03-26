@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullBook;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
@@ -40,6 +40,9 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
+/**
+ * TODO: test with fiction books.
+ */
 @IntegrationTest
 @DisplayName("BookLendingRepository - find all")
 class ITBookLendingRepositoryFindAll {
@@ -50,7 +53,7 @@ class ITBookLendingRepositoryFindAll {
     @Test
     @DisplayName("When there are lent books, they are returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
         final Pagination            pagination;
@@ -91,7 +94,7 @@ class ITBookLendingRepositoryFindAll {
     @Test
     @DisplayName("When there are returned books, nothing is returned")
     @NoMembershipPerson
-    @FullBook
+    @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
         final Pagination            pagination;

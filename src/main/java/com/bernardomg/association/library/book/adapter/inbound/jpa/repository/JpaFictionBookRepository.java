@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.AbstractBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.RootBookEntity;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -48,13 +48,13 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final BookLendingSpringRepository bookLendingSpringRepository;
 
-    private final BookSpringRepository        bookSpringRepository;
+    private final RootBookSpringRepository    bookSpringRepository;
 
     private final PersonSpringRepository      personSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
-    public JpaFictionBookRepository(final BookSpringRepository bookSpringRepo,
+    public JpaFictionBookRepository(final RootBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final PersonSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
@@ -177,10 +177,10 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     @Override
     public final FictionBook save(final FictionBook book) {
-        final Optional<AbstractBookEntity> existing;
-        final FictionBookEntity            entity;
-        final FictionBookEntity            created;
-        final FictionBook                  saved;
+        final Optional<RootBookEntity> existing;
+        final FictionBookEntity        entity;
+        final FictionBookEntity        created;
+        final FictionBook              saved;
 
         log.debug("Saving book {}", book);
 
@@ -198,18 +198,6 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         log.debug("Saved book {}", saved);
 
         return saved;
-    }
-
-    private final FictionBook toDomain(final AbstractBookEntity entity) {
-        final FictionBook book;
-
-        if (entity instanceof FictionBookEntity) {
-            book = toDomain((FictionBookEntity) entity);
-        } else {
-            book = null;
-        }
-
-        return book;
     }
 
     private final Author toDomain(final AuthorEntity entity) {
@@ -321,6 +309,18 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final Publisher toDomain(final PublisherEntity entity) {
         return new Publisher(entity.getNumber(), entity.getName());
+    }
+
+    private final FictionBook toDomain(final RootBookEntity entity) {
+        final FictionBook book;
+
+        if (entity instanceof FictionBookEntity) {
+            book = toDomain((FictionBookEntity) entity);
+        } else {
+            book = null;
+        }
+
+        return book;
     }
 
     private final Donor toDonorDomain(final PersonEntity entity) {

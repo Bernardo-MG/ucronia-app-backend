@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.AbstractBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.RootBookEntity;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -54,7 +54,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookLendingSpringRepository bookLendingSpringRepository;
 
-    private final BookSpringRepository        bookSpringRepository;
+    private final RootBookSpringRepository    bookSpringRepository;
 
     private final BookTypeSpringRepository    bookTypeSpringRepository;
 
@@ -64,7 +64,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
-    public JpaGameBookRepository(final BookSpringRepository bookSpringRepo,
+    public JpaGameBookRepository(final RootBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
             final PersonSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
@@ -190,10 +190,10 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     @Override
     public final GameBook save(final GameBook book) {
-        final Optional<AbstractBookEntity> existing;
-        final GameBookEntity               entity;
-        final GameBookEntity               created;
-        final GameBook                     saved;
+        final Optional<RootBookEntity> existing;
+        final GameBookEntity           entity;
+        final GameBookEntity           created;
+        final GameBook                 saved;
 
         log.debug("Saving book {}", book);
 
@@ -211,10 +211,6 @@ public final class JpaGameBookRepository implements GameBookRepository {
         log.debug("Saved book {}", saved);
 
         return saved;
-    }
-
-    private final GameBook toDomain(final AbstractBookEntity entity) {
-        return toDomain((GameBookEntity) entity);
     }
 
     private final Author toDomain(final AuthorEntity entity) {
@@ -352,6 +348,10 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final Publisher toDomain(final PublisherEntity entity) {
         return new Publisher(entity.getNumber(), entity.getName());
+    }
+
+    private final GameBook toDomain(final RootBookEntity entity) {
+        return toDomain((GameBookEntity) entity);
     }
 
     private final Donor toDonorDomain(final PersonEntity entity) {
