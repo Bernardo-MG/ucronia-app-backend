@@ -34,21 +34,7 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEnt
 
 public interface BookSpringRepository extends JpaRepository<BookEntity, Long> {
 
-    public void deleteByNumber(final long number);
-
-    public boolean existsByIsbn(final String isbn);
-
-    public boolean existsByIsbnAndNumberNot(final String isbn, final long number);
-
-    public boolean existsByNumber(final long number);
-
     public Optional<BookEntity> findByNumber(final long number);
-
-    @Query("""
-               SELECT COALESCE(MAX(b.number), 0) + 1
-               FROM Book b
-            """)
-    public Long findNextNumber();
 
     @Query("""
                SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END AS exists

@@ -130,6 +130,11 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: data_type
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
                   name: number
                   type: bigint
                   constraints:
