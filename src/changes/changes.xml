@@ -397,7 +397,10 @@
             Corrected excel response.
          </action>
       </release>
-      <release version="1.0.0" date="2025-03-15" description="">
+      <release version="0.5.35" date="2025-03-15" description="">
+         <action dev="bmg" type="add">
+            Show lent books.
+         </action>
       </release>
    </body>
 </document>
