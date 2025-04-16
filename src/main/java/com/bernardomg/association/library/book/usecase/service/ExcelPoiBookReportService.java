@@ -83,16 +83,15 @@ public final class ExcelPoiBookReportService implements BookReportService {
         sheet.setColumnWidth(1, 17000);
         sheet.setColumnWidth(2, 3000);
         sheet.setColumnWidth(3, 5000);
-        sheet.setColumnWidth(4, 3000);
         sheet.setColumnWidth(4, 5000);
+        sheet.setColumnWidth(5, 5000);
         sheet.setColumnWidth(6, 5000);
-        sheet.setColumnWidth(7, 5000);
-        sheet.setColumnWidth(8, 15000);
-        sheet.setColumnWidth(9, 3000);
+        sheet.setColumnWidth(7, 15000);
+        sheet.setColumnWidth(8, 5000);
+        sheet.setColumnWidth(9, 5000);
         sheet.setColumnWidth(10, 5000);
         sheet.setColumnWidth(11, 5000);
         sheet.setColumnWidth(12, 3000);
-        sheet.setColumnWidth(13, 3000);
 
         header = sheet.createRow(0);
 
@@ -137,7 +136,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(8);
-        headerCell.setCellValue("Fecha");
+        headerCell.setCellValue("Donado en");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(9);
@@ -149,7 +148,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(11);
-        headerCell.setCellValue("Fecha");
+        headerCell.setCellValue("Prestado en");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(12);
@@ -171,17 +170,16 @@ public final class ExcelPoiBookReportService implements BookReportService {
         sheet.setColumnWidth(1, 17000);
         sheet.setColumnWidth(2, 3000);
         sheet.setColumnWidth(3, 5000);
-        sheet.setColumnWidth(4, 3000);
         sheet.setColumnWidth(4, 5000);
         sheet.setColumnWidth(5, 5000);
         sheet.setColumnWidth(6, 5000);
         sheet.setColumnWidth(7, 5000);
         sheet.setColumnWidth(8, 5000);
         sheet.setColumnWidth(9, 15000);
-        sheet.setColumnWidth(10, 3000);
+        sheet.setColumnWidth(10, 5000);
         sheet.setColumnWidth(11, 5000);
         sheet.setColumnWidth(12, 5000);
-        sheet.setColumnWidth(13, 3000);
+        sheet.setColumnWidth(13, 5000);
         sheet.setColumnWidth(14, 3000);
 
         header = sheet.createRow(0);
@@ -235,7 +233,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(10);
-        headerCell.setCellValue("Fecha");
+        headerCell.setCellValue("Donado en");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(11);
@@ -247,7 +245,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(13);
-        headerCell.setCellValue("Fecha");
+        headerCell.setCellValue("Prestado en");
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(14);
@@ -301,14 +299,14 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell.setCellValue(book.publishDate());
             cell.setCellStyle(dateStyle);
 
-            cell = row.createCell(6);
+            cell = row.createCell(5);
             cell.setCellValue(book.authors()
                 .stream()
                 .map(Author::name)
                 .collect(Collectors.joining(", ")));
             cell.setCellStyle(style);
 
-            cell = row.createCell(7);
+            cell = row.createCell(6);
             cell.setCellValue(book.publishers()
                 .stream()
                 .map(Publisher::name)
@@ -320,7 +318,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 donation = book.donation()
                     .get();
 
-                cell = row.createCell(8);
+                cell = row.createCell(7);
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
@@ -328,12 +326,12 @@ public final class ExcelPoiBookReportService implements BookReportService {
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(style);
 
-                cell = row.createCell(9);
+                cell = row.createCell(8);
                 cell.setCellValue(donation.date());
                 cell.setCellStyle(dateStyle);
             }
 
-            cell = row.createCell(10);
+            cell = row.createCell(9);
             cell.setCellValue(book.lent());
             cell.setCellStyle(style);
 
@@ -343,17 +341,17 @@ public final class ExcelPoiBookReportService implements BookReportService {
                     .reduce((first, second) -> second)
                     .get();
 
-                cell = row.createCell(11);
+                cell = row.createCell(10);
                 cell.setCellValue(lending.borrower()
                     .name()
                     .fullName());
                 cell.setCellStyle(style);
 
-                cell = row.createCell(12);
+                cell = row.createCell(11);
                 cell.setCellValue(lending.lendingDate());
                 cell.setCellStyle(dateStyle);
 
-                cell = row.createCell(13);
+                cell = row.createCell(12);
                 cell.setCellValue(lending.getDays());
                 cell.setCellStyle(style);
             }
