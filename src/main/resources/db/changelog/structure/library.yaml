@@ -130,7 +130,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: data_type
+                  name: type
                   type: varchar(15)
                   constraints:
                     nullable: false

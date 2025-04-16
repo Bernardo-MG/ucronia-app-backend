@@ -4,7 +4,7 @@ INSERT INTO inventory.authors (id, number, name) VALUES
 INSERT INTO inventory.publishers (id, number, name) VALUES
    (1, 1, 'Publisher');
 
-INSERT INTO inventory.books (id, number, supertitle, title, subtitle, isbn, publish_date, donation_date, language, data_type) VALUES
+INSERT INTO inventory.books (id, number, supertitle, title, subtitle, isbn, publish_date, donation_date, language, type) VALUES
    (1, 1, 'Supertitle', 'Title', 'Subtitle', '1-56619-909-3', '1990-01-01', '1995-01-02', 'en', 'fiction');
 
 INSERT INTO inventory.book_authors (book_id, author_id) VALUES
