@@ -68,8 +68,8 @@ public class BookLendingController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
+            LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLending lendBook(@Valid @RequestBody final BookLent lending) {
         return service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
     }
@@ -84,8 +84,8 @@ public class BookLendingController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryBookCaches.BOOKS, LibraryBookCaches.BOOK }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
+            LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLending returnBook(@Valid @RequestBody final BookReturned lending) {
         return service.returnBook(lending.getBook(), lending.getBorrower(), lending.getReturnDate());
     }

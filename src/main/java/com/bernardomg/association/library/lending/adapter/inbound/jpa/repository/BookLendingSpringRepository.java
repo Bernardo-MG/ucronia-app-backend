@@ -51,13 +51,6 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
     public List<BookLendingEntity> find(@Param("bookNumber") final long bookNumber,
             @Param("personNumber") final long personNumber, final Pageable pageable);
 
-    @Query("""
-               SELECT l
-               FROM BookLending l
-               WHERE l.returnDate IS null
-            """)
-    public Page<BookLendingEntity> findAllReturned(final Pageable pageable);
-    
     public Collection<BookLendingEntity> findAllByBookId(Long id);
 
     @Query("""
@@ -96,5 +89,12 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
     public List<BookLendingEntity> findAllReturned(@Param("bookNumber") final long bookNumber,
             @Param("personNumber") final long personNumber, @Param("lendingDate") final LocalDate lendingDate,
             final Pageable pageable);
+
+    @Query("""
+               SELECT l
+               FROM BookLending l
+               WHERE l.returnDate IS null
+            """)
+    public Page<BookLendingEntity> findAllReturned(final Pageable pageable);
 
 }

@@ -397,9 +397,14 @@
             Corrected excel response.
          </action>
       </release>
-      <release version="0.5.35" date="2025-03-15" description="">
+      <release version="0.5.35" date="2025-03-15" description="Show lent books">
          <action dev="bmg" type="add">
             Show lent books.
+         </action>
+      </release>
+      <release version="0.5.36" date="2025-03-15" description="Book split">
+         <action dev="bmg" type="add">
+            Split books into game and fiction.
          </action>
       </release>
    </body>
