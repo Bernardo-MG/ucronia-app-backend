@@ -112,18 +112,8 @@ public final class DefaultFictionBookService implements FictionBookService {
         } else {
             donation = Optional.empty();
         }
-        toCreate = FictionBook.builder()
-            .withNumber(number)
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonation(donation)
-            .withIsbn(book.isbn())
-            .withLanguage(book.language())
-            .withPublishDate(book.publishDate())
-            .withTitle(book.title())
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        toCreate = new FictionBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false,
+            authors, List.of(), publishers, donation);
 
         createBookValidator.validate(book);
 
@@ -225,18 +215,8 @@ public final class DefaultFictionBookService implements FictionBookService {
         } else {
             donation = Optional.empty();
         }
-        toUpdate = FictionBook.builder()
-            .withNumber(number)
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonation(donation)
-            .withIsbn(book.isbn())
-            .withLanguage(book.language())
-            .withPublishDate(book.publishDate())
-            .withTitle(book.title())
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        toUpdate = new FictionBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false,
+            authors, List.of(), publishers, donation);
 
         updateBookValidator.validate(toUpdate);
 

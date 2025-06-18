@@ -137,18 +137,8 @@ public final class JpaBookRepository implements BookRepository {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
-        return Book.builder()
-            .withNumber(entity.getNumber())
-            .withIsbn(entity.getIsbn())
-            .withTitle(title)
-            .withLanguage(entity.getLanguage())
-            .withPublishDate(entity.getPublishDate())
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonation(donation)
-            .withLent(lent)
-            .withLendings(lendings)
-            .build();
+        return new Book(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(), entity.getPublishDate(),
+            lent, authors, lendings, publishers, donation);
     }
 
     private final BookLending toDomain(final BookEntity bookEntity, final BookLendingEntity entity) {

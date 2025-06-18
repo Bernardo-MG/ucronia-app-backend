@@ -45,12 +45,7 @@ public final class DefaultTransactionService implements TransactionService {
         // Get index
         index = transactionRepository.findNextIndex();
 
-        toCreate = Transaction.builder()
-            .withIndex(index)
-            .withAmount(transaction.amount())
-            .withDate(transaction.date())
-            .withDescription(transaction.description())
-            .build();
+        toCreate = new Transaction(index, transaction.date(), transaction.amount(), transaction.description());
 
         return transactionRepository.save(toCreate);
     }
@@ -103,12 +98,8 @@ public final class DefaultTransactionService implements TransactionService {
             throw new MissingTransactionException(transaction.index());
         }
 
-        toUpdate = Transaction.builder()
-            .withIndex(transaction.index())
-            .withAmount(transaction.amount())
-            .withDate(transaction.date())
-            .withDescription(transaction.description())
-            .build();
+        toUpdate = new Transaction(transaction.index(), transaction.date(), transaction.amount(),
+            transaction.description());
 
         return transactionRepository.save(toUpdate);
     }

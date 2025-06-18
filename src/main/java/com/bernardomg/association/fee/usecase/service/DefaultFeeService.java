@@ -307,9 +307,9 @@ public final class DefaultFeeService implements FeeService {
                     .get()
                     .index())
                     .get();
-                updatedPayment = new Transaction(existingPayment.amount(), fee.payment()
+                updatedPayment = new Transaction(existingPayment.index(), fee.payment()
                     .get()
-                    .date(), existingPayment.description(), existingPayment.index());
+                    .date(), existingPayment.amount(), existingPayment.description());
                 transactionRepository.save(updatedPayment);
             }
             updated = feeRepository.save(fee);
@@ -388,12 +388,7 @@ public final class DefaultFeeService implements FeeService {
 
         // Register payment
         index = transactionRepository.findNextIndex();
-        payment = Transaction.builder()
-            .withAmount(feeAmount)
-            .withDate(payDate)
-            .withDescription(message)
-            .withIndex(index)
-            .build();
+        payment = new Transaction(index, payDate, feeAmount, message);
 
         savedPayment = transactionRepository.save(payment);
 

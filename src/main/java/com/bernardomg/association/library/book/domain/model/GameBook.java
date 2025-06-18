@@ -11,9 +11,6 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
-import lombok.Builder;
-
-@Builder(setterPrefix = "with")
 public record GameBook(long number, Title title, String isbn, String language, LocalDate publishDate, boolean lent,
         Collection<Author> authors, Collection<BookLending> lendings, Collection<Publisher> publishers,
         Optional<Donation> donation, Optional<BookType> bookType, Optional<GameSystem> gameSystem) {

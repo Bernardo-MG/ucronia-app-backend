@@ -156,19 +156,8 @@ public class GameBookController {
 
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return GameBook.builder()
-            .withTitle(title)
-            .withIsbn(request.getIsbn())
-            .withLanguage(request.getLanguage())
-            .withAuthors(List.of())
-            .withPublishers(List.of())
-            .withBookType(Optional.empty())
-            .withGameSystem(Optional.empty())
-            .withDonation(Optional.empty())
-            .withNumber(number)
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        return new GameBook(number, title, request.getIsbn(), request.getLanguage(), null, false, List.of(), List.of(),
+            List.of(), Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     private final GameBook toDomain(final GameBookUpdate request, final long number) {
@@ -267,20 +256,8 @@ public class GameBookController {
         }
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return GameBook.builder()
-            .withTitle(title)
-            .withIsbn(request.getIsbn())
-            .withLanguage(request.getLanguage())
-            .withPublishDate(request.getPublishDate())
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withBookType(bookType)
-            .withGameSystem(gameSystem)
-            .withDonation(donation)
-            .withNumber(number)
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        return new GameBook(number, title, request.getIsbn(), request.getLanguage(), request.getPublishDate(), false,
+            authors, List.of(), publishers, donation, bookType, gameSystem);
     }
 
 }
