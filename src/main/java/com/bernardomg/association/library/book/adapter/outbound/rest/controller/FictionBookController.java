@@ -154,17 +154,8 @@ public class FictionBookController {
 
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return FictionBook.builder()
-            .withTitle(title)
-            .withIsbn(request.getIsbn())
-            .withLanguage(request.getLanguage())
-            .withAuthors(List.of())
-            .withPublishers(List.of())
-            .withDonation(Optional.empty())
-            .withNumber(number)
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        return new FictionBook(number, title, request.getIsbn(), request.getLanguage(), null, false, List.of(),
+            List.of(), List.of(), Optional.empty());
     }
 
     private final FictionBook toDomain(final FictionBookUpdate request, final long number) {
@@ -243,18 +234,8 @@ public class FictionBookController {
         }
         title = new Title(supertitle, request.getTitle()
             .getTitle(), subtitle);
-        return FictionBook.builder()
-            .withTitle(title)
-            .withIsbn(request.getIsbn())
-            .withLanguage(request.getLanguage())
-            .withPublishDate(request.getPublishDate())
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonation(donation)
-            .withNumber(number)
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        return new FictionBook(number, title, request.getIsbn(), request.getLanguage(), request.getPublishDate(), false,
+            authors, List.of(), publishers, donation);
     }
 
 }

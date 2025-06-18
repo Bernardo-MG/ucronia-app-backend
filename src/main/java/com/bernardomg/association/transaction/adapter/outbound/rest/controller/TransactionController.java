@@ -183,12 +183,7 @@ public class TransactionController {
     }
 
     private final Transaction toModel(final long index, final TransactionChange change) {
-        return Transaction.builder()
-            .withIndex(index)
-            .withAmount(change.getAmount())
-            .withDate(change.getDate())
-            .withDescription(change.getDescription())
-            .build();
+        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
     }
 
 }

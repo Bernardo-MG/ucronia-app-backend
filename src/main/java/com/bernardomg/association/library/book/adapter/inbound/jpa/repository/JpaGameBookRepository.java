@@ -305,20 +305,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
-        return GameBook.builder()
-            .withNumber(entity.getNumber())
-            .withIsbn(entity.getIsbn())
-            .withTitle(title)
-            .withLanguage(entity.getLanguage())
-            .withPublishDate(entity.getPublishDate())
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withGameSystem(gameSystem)
-            .withBookType(bookType)
-            .withDonation(donation)
-            .withLent(lent)
-            .withLendings(lendings)
-            .build();
+        return new GameBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(), entity.getPublishDate(),
+            lent, authors, lendings, publishers, donation, bookType, gameSystem);
     }
 
     private final BookLending toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {

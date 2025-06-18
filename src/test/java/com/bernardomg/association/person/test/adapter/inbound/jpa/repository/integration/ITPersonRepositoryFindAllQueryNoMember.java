@@ -59,9 +59,7 @@ class ITPersonRepositoryFindAllQueryNoMember {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.NO_MEMBER)
-            .build();
+        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -83,9 +81,7 @@ class ITPersonRepositoryFindAllQueryNoMember {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.NO_MEMBER)
-            .build();
+        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -107,9 +103,7 @@ class ITPersonRepositoryFindAllQueryNoMember {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.NO_MEMBER)
-            .build();
+        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -131,9 +125,7 @@ class ITPersonRepositoryFindAllQueryNoMember {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.NO_MEMBER)
-            .build();
+        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);

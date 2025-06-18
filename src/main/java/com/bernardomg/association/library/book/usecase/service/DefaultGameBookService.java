@@ -125,20 +125,8 @@ public final class DefaultGameBookService implements GameBookService {
         } else {
             donation = Optional.empty();
         }
-        toCreate = GameBook.builder()
-            .withNumber(number)
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withBookType(book.bookType())
-            .withGameSystem(book.gameSystem())
-            .withDonation(donation)
-            .withIsbn(book.isbn())
-            .withLanguage(book.language())
-            .withPublishDate(book.publishDate())
-            .withTitle(book.title())
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        toCreate = new GameBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false, authors,
+            List.of(), publishers, donation, book.bookType(), book.gameSystem());
 
         createBookValidator.validate(book);
 
@@ -240,20 +228,8 @@ public final class DefaultGameBookService implements GameBookService {
         } else {
             donation = Optional.empty();
         }
-        toUpdate = GameBook.builder()
-            .withNumber(number)
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withBookType(book.bookType())
-            .withGameSystem(book.gameSystem())
-            .withDonation(donation)
-            .withIsbn(book.isbn())
-            .withLanguage(book.language())
-            .withPublishDate(book.publishDate())
-            .withTitle(book.title())
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        toUpdate = new GameBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false, authors,
+            List.of(), publishers, donation, book.bookType(), book.gameSystem());
 
         updateBookValidator.validate(toUpdate);
 

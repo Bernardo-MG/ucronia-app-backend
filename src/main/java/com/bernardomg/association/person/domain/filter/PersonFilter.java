@@ -1,14 +1,12 @@
 
 package com.bernardomg.association.person.domain.filter;
 
-import lombok.Builder;
-
-@Builder(setterPrefix = "with")
 public record PersonFilter(PersonStatus status, String name) {
 
     public PersonFilter {
+        // TODO: reject nulls
         if (status == null) {
-            status = PersonStatus.ALL_MEMBER;
+            status = PersonStatus.ALL;
         }
         if (name == null) {
             name = "";

@@ -43,6 +43,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
@@ -77,8 +78,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         readPersons = List.of();
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(readPersons);
@@ -103,8 +103,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(List.of(Persons.noMembership()));
 
@@ -128,8 +127,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         readPersons = List.of(Persons.noMembership());
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(readPersons);
@@ -155,8 +153,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         readPersons = List.of(Persons.noMembership());
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(readPersons);

@@ -212,12 +212,8 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     private final Transaction toDomain(final TransactionEntity transaction) {
-        return Transaction.builder()
-            .withIndex(transaction.getIndex())
-            .withDate(transaction.getDate())
-            .withDescription(transaction.getDescription())
-            .withAmount(transaction.getAmount())
-            .build();
+        return new Transaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
+            transaction.getDescription());
     }
 
     private final TransactionEntity toEntity(final Transaction transaction) {

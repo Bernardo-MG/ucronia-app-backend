@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -58,8 +59,7 @@ class ITPersonRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -81,8 +81,7 @@ class ITPersonRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -104,8 +103,7 @@ class ITPersonRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -127,8 +125,7 @@ class ITPersonRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);

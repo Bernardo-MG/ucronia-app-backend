@@ -59,9 +59,7 @@ class ITPersonRepositoryFindAllQueryAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.ALL)
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -83,9 +81,7 @@ class ITPersonRepositoryFindAllQueryAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.ALL)
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -107,9 +103,7 @@ class ITPersonRepositoryFindAllQueryAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.ALL)
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -131,9 +125,7 @@ class ITPersonRepositoryFindAllQueryAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.ALL)
-            .build();
+        filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);

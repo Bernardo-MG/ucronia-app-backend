@@ -59,9 +59,7 @@ class ITPersonRepositoryFindAllQueryInactive {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.INACTIVE)
-            .build();
+        filter = new PersonFilter(PersonStatus.INACTIVE, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -83,9 +81,7 @@ class ITPersonRepositoryFindAllQueryInactive {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.INACTIVE)
-            .build();
+        filter = new PersonFilter(PersonStatus.INACTIVE, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -107,9 +103,7 @@ class ITPersonRepositoryFindAllQueryInactive {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.INACTIVE)
-            .build();
+        filter = new PersonFilter(PersonStatus.INACTIVE, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);
@@ -131,9 +125,7 @@ class ITPersonRepositoryFindAllQueryInactive {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = PersonFilter.builder()
-            .withStatus(PersonStatus.INACTIVE)
-            .build();
+        filter = new PersonFilter(PersonStatus.INACTIVE, "");
 
         // WHEN
         people = personRepository.findAll(filter, pagination, sorting);

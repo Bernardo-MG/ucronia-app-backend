@@ -18,18 +18,9 @@ public final class Books {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
-        return Book.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withTitle(title)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withPublishDate(BookConstants.PUBLISH_DATE)
-            .withAuthors(List.of(Authors.valid()))
-            .withPublishers(List.of(Publishers.valid()))
-            .withDonation(Optional.of(donation))
-            .withLendings(List.of())
-            .withLent(false)
-            .build();
+        return new Book(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
+            BookConstants.PUBLISH_DATE, false, List.of(Authors.valid()), List.of(), List.of(Publishers.valid()),
+            Optional.of(donation));
     }
 
 }

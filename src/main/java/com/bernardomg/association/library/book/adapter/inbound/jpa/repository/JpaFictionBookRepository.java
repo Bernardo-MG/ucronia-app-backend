@@ -272,18 +272,8 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         lent = bookSpringRepository.isLent(entity.getId());
-        return FictionBook.builder()
-            .withNumber(entity.getNumber())
-            .withIsbn(entity.getIsbn())
-            .withTitle(title)
-            .withLanguage(entity.getLanguage())
-            .withPublishDate(entity.getPublishDate())
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonation(donation)
-            .withLent(lent)
-            .withLendings(lendings)
-            .build();
+        return new FictionBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
+            entity.getPublishDate(), lent, authors, lendings, publishers, donation);
     }
 
     private final BookLending toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
