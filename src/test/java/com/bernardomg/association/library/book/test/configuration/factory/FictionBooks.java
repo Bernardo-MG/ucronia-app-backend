@@ -85,8 +85,7 @@ public final class FictionBooks {
 
         title = new Title("", " ", "");
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
-            BookConstants.PUBLISH_DATE, false, List.of(), List.of(), List.of(),
-            Optional.empty());
+            BookConstants.PUBLISH_DATE, false, List.of(), List.of(), List.of(), Optional.empty());
     }
 
     public static final FictionBook full() {
@@ -165,8 +164,8 @@ public final class FictionBooks {
         final Title title;
 
         title = new Title("", BookConstants.TITLE, "");
-        return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
-            null, false, List.of(), List.of(), List.of(), Optional.empty());
+        return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE, null, false,
+            List.of(), List.of(), List.of(), Optional.empty());
     }
 
     public static final FictionBook noRelationships() {

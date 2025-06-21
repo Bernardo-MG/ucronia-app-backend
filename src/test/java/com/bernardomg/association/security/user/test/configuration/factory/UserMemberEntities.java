@@ -19,18 +19,21 @@ public final class UserMemberEntities {
     }
 
     private static final UserEntity enabledUser() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withRoles(List.of())
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setRoles(List.of());
+
+        return entity;
     }
 
     private UserMemberEntities() {

@@ -90,8 +90,8 @@ public final class GameBooks {
 
         title = new Title("", " ", "");
         return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
-            BookConstants.PUBLISH_DATE, false, List.of(), List.of(), List.of(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+            BookConstants.PUBLISH_DATE, false, List.of(), List.of(), List.of(), Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     public static final GameBook full() {
@@ -172,17 +172,16 @@ public final class GameBooks {
         final Title title;
 
         title = new Title("", BookConstants.TITLE, "");
-        return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
-            null, false, List.of(), List.of(), List.of(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+        return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE, null, false,
+            List.of(), List.of(), List.of(), Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     public static final GameBook noRelationships() {
-        final Title title;
+        final Title    title;
         final Donation donation;
-        
+
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-       donation = new Donation(BookConstants.DONATION_DATE, List.of());
+        donation = new Donation(BookConstants.DONATION_DATE, List.of());
         return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             BookConstants.PUBLISH_DATE, false, List.of(), List.of(), List.of(), Optional.of(donation), Optional.empty(),
             Optional.empty());

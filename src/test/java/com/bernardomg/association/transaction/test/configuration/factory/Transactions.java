@@ -24,8 +24,7 @@ public final class Transactions {
     }
 
     public static final Transaction february() {
-        return new Transaction(2, LocalDate.of(2020, Month.FEBRUARY, 1), TransactionConstants.AMOUNT,
-            "Transaction 2");
+        return new Transaction(2, LocalDate.of(2020, Month.FEBRUARY, 1), TransactionConstants.AMOUNT, "Transaction 2");
     }
 
     public static final Transaction forAmount(final Float amount) {
