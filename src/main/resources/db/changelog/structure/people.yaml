@@ -55,6 +55,22 @@ databaseChangeLog:
                   name: renew_membership
                   type: boolean
                   defaultValue: true
+        - createTable:
+            schemaName: association
+            tableName: contact_mode
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
         - addAutoIncrement:
             schemaName: association
             tableName: persons
