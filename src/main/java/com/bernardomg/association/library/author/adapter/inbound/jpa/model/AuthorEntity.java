@@ -56,4 +56,9 @@ public class AuthorEntity implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public String toString() {
+        return "AuthorEntity [id=" + id + ", name=" + name + ", number=" + number + "]";
+    }
+
 }

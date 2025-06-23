@@ -64,4 +64,9 @@ public class SettingsEntity implements Serializable {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "SettingsEntity [code=" + code + ", id=" + id + ", type=" + type + ", value=" + value + "]";
+    }
+
 }

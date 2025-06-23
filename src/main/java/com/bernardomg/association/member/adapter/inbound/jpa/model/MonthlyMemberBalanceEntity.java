@@ -40,4 +40,9 @@ public class MonthlyMemberBalanceEntity implements Serializable {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return "MonthlyMemberBalanceEntity [month=" + month + ", total=" + total + "]";
+    }
+
 }

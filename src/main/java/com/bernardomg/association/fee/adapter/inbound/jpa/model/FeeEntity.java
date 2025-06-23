@@ -111,4 +111,10 @@ public class FeeEntity implements Serializable {
         this.transactionId = transactionId;
     }
 
+    @Override
+    public String toString() {
+        return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", person=" + person + ", personId="
+                + personId + ", transaction=" + transaction + ", transactionId=" + transactionId + "]";
+    }
+
 }

@@ -76,4 +76,10 @@ public class TransactionEntity implements Serializable {
         this.index = index;
     }
 
+    @Override
+    public String toString() {
+        return "TransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id=" + id
+                + ", index=" + index + "]";
+    }
+
 }

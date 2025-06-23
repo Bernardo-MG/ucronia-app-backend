@@ -69,4 +69,10 @@ public class GameBookEntity extends RootBookEntity implements Serializable {
         this.gameSystemId = gameSystemId;
     }
 
+    @Override
+    public String toString() {
+        return "GameBookEntity [bookType=" + bookType + ", bookTypeId=" + bookTypeId + ", gameSystem=" + gameSystem
+                + ", gameSystemId=" + gameSystemId + ", toString()=" + super.toString() + "]";
+    }
+
 }
