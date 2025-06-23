@@ -127,7 +127,7 @@ public class PersonEntity implements Serializable {
     public String toString() {
         return "PersonEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id
                 + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number=" + number
-                + ", phone=" + phone + ", renewMembership=" + renewMembership + "]";
+                + ", renewMembership=" + renewMembership + "]";
     }
 
 }
