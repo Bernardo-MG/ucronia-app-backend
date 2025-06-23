@@ -171,4 +171,12 @@ public abstract class RootBookEntity {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return "RootBookEntity [authors=" + authors + ", donationDate=" + donationDate + ", donors=" + donors + ", id="
+                + id + ", isbn=" + isbn + ", language=" + language + ", number=" + number + ", publishDate="
+                + publishDate + ", publishers=" + publishers + ", subtitle=" + subtitle + ", supertitle=" + supertitle
+                + ", title=" + title + "]";
+    }
+
 }

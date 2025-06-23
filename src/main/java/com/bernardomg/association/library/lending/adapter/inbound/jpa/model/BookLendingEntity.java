@@ -69,4 +69,10 @@ public class BookLendingEntity implements Serializable {
         this.returnDate = returnDate;
     }
 
+    @Override
+    public String toString() {
+        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", personId=" + personId
+                + ", returnDate=" + returnDate + "]";
+    }
+
 }

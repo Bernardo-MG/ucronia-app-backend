@@ -61,4 +61,9 @@ public class UserPersonEntity implements Serializable {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "UserPersonEntity [person=" + person + ", user=" + user + ", userId=" + userId + "]";
+    }
+
 }

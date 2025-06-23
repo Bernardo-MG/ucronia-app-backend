@@ -17,4 +17,9 @@ public class FictionBookEntity extends RootBookEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = -6518446575924375762L;
 
+    @Override
+    public String toString() {
+        return "FictionBookEntity [toString()=" + super.toString() + "]";
+    }
+
 }

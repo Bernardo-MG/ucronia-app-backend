@@ -56,4 +56,9 @@ public class GameSystemEntity implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public String toString() {
+        return "GameSystemEntity [id=" + id + ", name=" + name + ", number=" + number + "]";
+    }
+
 }

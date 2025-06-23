@@ -56,4 +56,9 @@ public class BookTypeEntity implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public String toString() {
+        return "BookTypeEntity [id=" + id + ", name=" + name + ", number=" + number + "]";
+    }
+
 }
