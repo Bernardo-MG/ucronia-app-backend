@@ -39,8 +39,6 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * User member REST controller.
  *
@@ -49,13 +47,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/user/{username}/person")
-@AllArgsConstructor
 public class UserPersonController {
 
     /**
      * User member service.
      */
     private final UserPersonService service;
+
+    public UserPersonController(final UserPersonService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Assigns a member to a user.

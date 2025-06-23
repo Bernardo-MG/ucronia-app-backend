@@ -26,22 +26,26 @@ package com.bernardomg.association.person.adapter.inbound.event;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Listens for the month start event and applies the renewal status.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Component
 public final class ApplyRenewalOnMonthStartEventListener implements EventListener<MonthStartEvent> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger       log = LoggerFactory.getLogger(ApplyRenewalOnMonthStartEventListener.class);
 
     private final MemberStatusService service;
 

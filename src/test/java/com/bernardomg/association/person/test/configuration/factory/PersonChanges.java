@@ -13,13 +13,8 @@ public final class PersonChanges {
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(true, true);
-        return PersonChange.builder()
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withMembership(membership)
-            .withName(name)
-            .withBirthDate(PersonConstants.BIRTH_DATE)
-            .withPhone(PersonConstants.PHONE)
-            .build();
+        return new PersonChange(PersonConstants.IDENTIFIER, name, membership, PersonConstants.BIRTH_DATE,
+            PersonConstants.PHONE);
     }
 
     public static final PersonChange membershipInactive() {
@@ -28,25 +23,16 @@ public final class PersonChanges {
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(false, true);
-        return PersonChange.builder()
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withMembership(membership)
-            .withName(name)
-            .withBirthDate(PersonConstants.BIRTH_DATE)
-            .withPhone(PersonConstants.PHONE)
-            .build();
+        return new PersonChange(PersonConstants.IDENTIFIER, name, membership, PersonConstants.BIRTH_DATE,
+            PersonConstants.PHONE);
     }
 
     public static final PersonChange noMembership() {
         final PersonChangeName name;
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return PersonChange.builder()
-            .withIdentifier(PersonConstants.IDENTIFIER)
-            .withName(name)
-            .withBirthDate(PersonConstants.BIRTH_DATE)
-            .withPhone(PersonConstants.PHONE)
-            .build();
+        return new PersonChange(PersonConstants.IDENTIFIER, name, null, PersonConstants.BIRTH_DATE,
+            PersonConstants.PHONE);
     }
 
 }

@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,17 +38,19 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the fee report service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultFeeReportService implements FeeReportService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(DefaultFeeReportService.class);
 
     private final FeeRepository feeRepository;
 

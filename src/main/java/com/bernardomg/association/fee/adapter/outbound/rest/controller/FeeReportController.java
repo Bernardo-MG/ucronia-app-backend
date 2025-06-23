@@ -34,8 +34,6 @@ import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Member fee report REST controller.
  *
@@ -44,10 +42,15 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/fee")
-@AllArgsConstructor
 public class FeeReportController {
 
     private final FeeReportService service;
+
+    public FeeReportController(final FeeReportService service) {
+        super();
+
+        this.service = service;
+    }
 
     @GetMapping(path = "/payment", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)

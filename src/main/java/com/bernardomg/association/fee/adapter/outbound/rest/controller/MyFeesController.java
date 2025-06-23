@@ -36,8 +36,6 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * My fees REST controller.
  *
@@ -46,13 +44,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/user/fee")
-@AllArgsConstructor
 public class MyFeesController {
 
     /**
      * User fee service.
      */
     private final MyFeesService service;
+
+    public MyFeesController(final MyFeesService service) {
+        super();
+
+        this.service = service;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)

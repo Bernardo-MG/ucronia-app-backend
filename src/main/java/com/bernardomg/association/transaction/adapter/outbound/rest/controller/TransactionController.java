@@ -52,7 +52,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Transaction REST controller.
@@ -62,13 +61,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/funds/transaction")
-@AllArgsConstructor
 public class TransactionController {
 
     /**
      * Transaction service.
      */
     private final TransactionService service;
+
+    public TransactionController(final TransactionService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Creates a transaction.
@@ -183,7 +186,7 @@ public class TransactionController {
     }
 
     private final Transaction toModel(final long index, final TransactionChange change) {
-        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
+        return new Transaction(index, change.date(), change.amount(), change.description());
     }
 
 }

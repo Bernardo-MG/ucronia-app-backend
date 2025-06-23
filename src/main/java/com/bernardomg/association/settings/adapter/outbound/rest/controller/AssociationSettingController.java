@@ -45,7 +45,6 @@ import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Settings REST controller.
@@ -55,10 +54,14 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/settings")
-@AllArgsConstructor
 public class AssociationSettingController {
 
     private final SettingService service;
+
+    public AssociationSettingController(final SettingService service) {
+        super();
+        this.service = service;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
@@ -79,7 +82,7 @@ public class AssociationSettingController {
     @Caching(evict = { @CacheEvict(cacheNames = { SettingsCaches.PUBLIC }, allEntries = true) })
     public Setting update(@PathVariable("code") final String code,
             @Valid @RequestBody final SettingChange configuration) {
-        return service.update(code, configuration.getValue());
+        return service.update(code, configuration.value());
     }
 
 }

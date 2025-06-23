@@ -51,7 +51,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Book type REST controller.
@@ -61,13 +60,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/library/bookType")
-@AllArgsConstructor
 public class BookTypeController {
 
     /**
      * Book type service.
      */
     private final BookTypeService service;
+
+    public BookTypeController(final BookTypeService service) {
+        super();
+        this.service = service;
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,7 +80,7 @@ public class BookTypeController {
     public BookType create(@Valid @RequestBody final BookTypeCreation request) {
         final BookType bookType;
 
-        bookType = new BookType(-1L, request.getName());
+        bookType = new BookType(-1L, request.name());
         return service.create(bookType);
     }
 
@@ -111,7 +114,7 @@ public class BookTypeController {
     public BookType update(@PathVariable("number") final long number, @Valid @RequestBody final BookTypeChange change) {
         final BookType bookType;
 
-        bookType = new BookType(number, change.getName());
+        bookType = new BookType(number, change.name());
         return service.update(bookType);
     }
 

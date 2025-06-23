@@ -14,14 +14,14 @@ public final class FeeSpecifications {
     public static Optional<Specification<FeeEntity>> fromQuery(final FeeQuery query) {
         final Optional<Specification<FeeEntity>> spec;
 
-        if (query.getDate() != null) {
-            spec = Optional.of(on(query.getDate()));
-        } else if ((query.getStartDate() != null) && (query.getEndDate() != null)) {
-            spec = Optional.of(between(query.getStartDate(), query.getEndDate()));
-        } else if (query.getStartDate() != null) {
-            spec = Optional.of(after(query.getStartDate()));
-        } else if (query.getEndDate() != null) {
-            spec = Optional.of(before(query.getEndDate()));
+        if (query.date() != null) {
+            spec = Optional.of(on(query.date()));
+        } else if ((query.startDate() != null) && (query.endDate() != null)) {
+            spec = Optional.of(between(query.startDate(), query.endDate()));
+        } else if (query.startDate() != null) {
+            spec = Optional.of(after(query.startDate()));
+        } else if (query.endDate() != null) {
+            spec = Optional.of(before(query.endDate()));
         } else {
             spec = Optional.empty();
         }

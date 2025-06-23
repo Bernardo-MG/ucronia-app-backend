@@ -47,7 +47,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Book lending REST controller.
@@ -57,7 +56,6 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/library/lending")
-@AllArgsConstructor
 public class BookLendingController {
 
     /**
@@ -65,13 +63,18 @@ public class BookLendingController {
      */
     private final BookLendingService service;
 
+    public BookLendingController(final BookLendingService service) {
+        super();
+        this.service = service;
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLending lendBook(@Valid @RequestBody final BookLent lending) {
-        return service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
+        return service.lendBook(lending.book(), lending.person(), lending.lendingDate());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,7 +90,7 @@ public class BookLendingController {
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLending returnBook(@Valid @RequestBody final BookReturned lending) {
-        return service.returnBook(lending.getBook(), lending.getBorrower(), lending.getReturnDate());
+        return service.returnBook(lending.book(), lending.borrower(), lending.returnDate());
     }
 
 }

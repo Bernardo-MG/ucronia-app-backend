@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -42,12 +44,14 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaGameBookRepository implements GameBookRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log = LoggerFactory.getLogger(JpaGameBookRepository.class);
 
     private final AuthorSpringRepository      authorSpringRepository;
 
@@ -353,6 +357,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final Optional<GameSystemEntity>  gameSystem;
         final Collection<PersonEntity>    donors;
         final Collection<AuthorEntity>    authors;
+        final GameBookEntity              entity;
 
         // Book type
         if (domain.bookType()
@@ -402,26 +407,27 @@ public final class JpaGameBookRepository implements GameBookRepository {
             .toList();
         authors = authorSpringRepository.findAllByNumberIn(authorNumbers);
 
-        return GameBookEntity.builder()
-            .withNumber(domain.number())
-            .withIsbn(domain.isbn())
-            .withSupertitle(domain.title()
-                .supertitle())
-            .withTitle(domain.title()
-                .title())
-            .withSubtitle(domain.title()
-                .subtitle())
-            .withLanguage(domain.language())
-            .withPublishDate(domain.publishDate())
-            .withDonationDate(domain.donation()
-                .map(Donation::date)
-                .orElse(null))
-            .withBookType(bookType.orElse(null))
-            .withGameSystem(gameSystem.orElse(null))
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonors(donors)
-            .build();
+        entity = new GameBookEntity();
+        entity.setNumber(domain.number());
+        entity.setIsbn(domain.isbn());
+        entity.setSupertitle(domain.title()
+            .supertitle());
+        entity.setTitle(domain.title()
+            .title());
+        entity.setSubtitle(domain.title()
+            .subtitle());
+        entity.setLanguage(domain.language());
+        entity.setPublishDate(domain.publishDate());
+        entity.setDonationDate(domain.donation()
+            .map(Donation::date)
+            .orElse(null));
+        entity.setBookType(bookType.orElse(null));
+        entity.setGameSystem(gameSystem.orElse(null));
+        entity.setAuthors(authors);
+        entity.setPublishers(publishers);
+        entity.setDonors(donors);
+
+        return entity;
     }
 
 }

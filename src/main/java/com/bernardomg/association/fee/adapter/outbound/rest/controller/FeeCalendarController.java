@@ -42,8 +42,6 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Member fee calendar REST controller.
  *
@@ -54,13 +52,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/fee/calendar")
-@AllArgsConstructor
 public class FeeCalendarController {
 
     /**
      * Member fee calendar service.
      */
     private final FeeCalendarService service;
+
+    public FeeCalendarController(final FeeCalendarService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Returns the range of available years.
@@ -90,7 +93,7 @@ public class FeeCalendarController {
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
     public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
             final Sorting sorting) {
-        return service.getYear(Year.of(year), request.getStatus(), sorting);
+        return service.getYear(Year.of(year), request.status(), sorting);
     }
 
 }

@@ -6,10 +6,16 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.Pu
 public final class PublisherEntities {
 
     public static final PublisherEntity valid() {
-        return PublisherEntity.builder()
-            .withNumber(PublisherConstants.NUMBER)
-            .withName(PublisherConstants.NAME)
-            .build();
+        final PublisherEntity entity = new PublisherEntity();
+
+        entity.setNumber(PublisherConstants.NUMBER);
+        entity.setName(PublisherConstants.NAME);
+
+        return entity;
+    }
+
+    private PublisherEntities() {
+        super();
     }
 
 }

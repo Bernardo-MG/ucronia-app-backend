@@ -39,8 +39,6 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Member REST controller.
  *
@@ -49,13 +47,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/member")
-@AllArgsConstructor
 public class MemberController {
 
     /**
      * Reduced member service.
      */
     private final MemberService service;
+
+    public MemberController(final MemberService service) {
+        super();
+        this.service = service;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)

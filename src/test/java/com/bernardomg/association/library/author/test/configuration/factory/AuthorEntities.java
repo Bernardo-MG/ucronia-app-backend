@@ -6,10 +6,13 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 public final class AuthorEntities {
 
     public static final AuthorEntity valid() {
-        return AuthorEntity.builder()
-            .withNumber(AuthorConstants.NUMBER)
-            .withName(AuthorConstants.NAME)
-            .build();
+        final AuthorEntity entity;
+
+        entity = new AuthorEntity();
+        entity.setNumber(AuthorConstants.NUMBER);
+        entity.setName(AuthorConstants.NAME);
+
+        return entity;
     }
 
 }

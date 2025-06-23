@@ -10,10 +10,7 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.Transact
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
 public final class TransactionInitializer {
 
     public static final LocalDate             CURRENT_MONTH  = LocalDate.now();
@@ -25,6 +22,11 @@ public final class TransactionInitializer {
         .minusMonths(1);
 
     private final TransactionSpringRepository transactionRepository;
+
+    public TransactionInitializer(final TransactionSpringRepository transactionRepository) {
+        super();
+        this.transactionRepository = transactionRepository;
+    }
 
     public final void registerAt(final int year, final Month month) {
         final TransactionEntity transaction;

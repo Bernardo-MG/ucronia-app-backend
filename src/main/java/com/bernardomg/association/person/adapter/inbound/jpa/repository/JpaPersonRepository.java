@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,12 +24,14 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaPersonRepository implements PersonRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(JpaPersonRepository.class);
 
     private final PersonSpringRepository personSpringRepository;
 
@@ -269,9 +273,10 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final boolean member;
-        final boolean active;
-        final boolean renew;
+        final boolean      member;
+        final boolean      active;
+        final boolean      renew;
+        final PersonEntity entity;
 
         if (data.membership()
             .isPresent()) {
@@ -287,19 +292,21 @@ public final class JpaPersonRepository implements PersonRepository {
             active = true;
             renew = true;
         }
-        return PersonEntity.builder()
-            .withNumber(data.number())
-            .withFirstName(data.name()
-                .firstName())
-            .withLastName(data.name()
-                .lastName())
-            .withIdentifier(data.identifier())
-            .withPhone(data.phone())
-            .withBirthDate(data.birthDate())
-            .withMember(member)
-            .withActive(active)
-            .withRenewMembership(renew)
-            .build();
+
+        entity = new PersonEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier(data.identifier());
+        entity.setPhone(data.phone());
+        entity.setBirthDate(data.birthDate());
+        entity.setMember(member);
+        entity.setActive(active);
+        entity.setRenewMembership(renew);
+
+        return entity;
     }
 
 }

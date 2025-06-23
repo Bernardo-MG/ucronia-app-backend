@@ -28,11 +28,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public final class ExcelParsing {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(ExcelParsing.class);
 
     public static final ByteArrayOutputStream toStream(final Workbook workbook) {
         final ByteArrayOutputStream outputStream;

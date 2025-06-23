@@ -485,15 +485,6 @@
          <artifactId>jakarta.mail-api</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== LOMBOK ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Lombok -->
-         <groupId>org.projectlombok</groupId>
-         <artifactId>lombok</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================ MICROMETER ================== -->
       <!-- ============================================== -->
       <dependency>

@@ -9,80 +9,43 @@ import com.bernardomg.association.transaction.adapter.outbound.rest.model.Transa
 public final class TransactionChanges {
 
     public static final TransactionChange amount(final Float amount) {
-        return TransactionChange.builder()
-            .withDescription(TransactionConstants.DESCRIPTION)
-            .withAmount(amount)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, amount, TransactionConstants.DESCRIPTION);
     }
 
     public static final TransactionChange decimal() {
-        return TransactionChange.builder()
-            .withDescription(TransactionConstants.DESCRIPTION)
-            .withAmount(1.2F)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, 1.2F, TransactionConstants.DESCRIPTION);
     }
 
     public static final TransactionChange descriptionChange() {
-        return TransactionChange.builder()
-            .withDescription("Transaction 123")
-            .withAmount(1F)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, 1F, "Transaction 123");
     }
 
     public static final TransactionChange emptyDescription() {
-        return TransactionChange.builder()
-            .withDescription("")
-            .withAmount(1F)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, 1F, "");
     }
 
     public static final TransactionChange firstDay() {
-        return TransactionChange.builder()
-            .withDescription(TransactionConstants.DESCRIPTION)
-            .withAmount(1F)
-            .withDate(LocalDate.of(2020, Month.JANUARY, 1))
-            .build();
+        return new TransactionChange(LocalDate.of(2020, Month.JANUARY, 1), 1F, TransactionConstants.DESCRIPTION);
     }
 
     public static final TransactionChange missingAmount() {
-        return TransactionChange.builder()
-            .withDescription(TransactionConstants.DESCRIPTION)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, null, TransactionConstants.DESCRIPTION);
     }
 
     public static final TransactionChange missingDate() {
-        return TransactionChange.builder()
-            .withDescription(TransactionConstants.DESCRIPTION)
-            .withAmount(1F)
-            .build();
+        return new TransactionChange(null, 1F, TransactionConstants.DESCRIPTION);
     }
 
     public static final TransactionChange missingDescription() {
-        return TransactionChange.builder()
-            .withAmount(1F)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, 1F, null);
     }
 
     public static final TransactionChange padded() {
-        return TransactionChange.builder()
-            .withDescription(" Transaction ")
-            .withAmount(1F)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, 1F, " Transaction ");
     }
 
     public static final TransactionChange valid() {
-        return TransactionChange.builder()
-            .withDescription(TransactionConstants.DESCRIPTION)
-            .withAmount(1F)
-            .withDate(TransactionConstants.DATE)
-            .build();
+        return new TransactionChange(TransactionConstants.DATE, 1F, TransactionConstants.DESCRIPTION);
     }
 
 }

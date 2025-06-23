@@ -63,14 +63,14 @@ public final class TransactionSpecifications {
     public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionQuery request) {
         final Optional<Specification<TransactionEntity>> spec;
 
-        if (request.getDate() != null) {
-            spec = Optional.of(on(request.getDate()));
-        } else if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
-        } else if (request.getStartDate() != null) {
-            spec = Optional.of(onOrAfter(request.getStartDate()));
-        } else if (request.getEndDate() != null) {
-            spec = Optional.of(onOrBefore(request.getEndDate()));
+        if (request.date() != null) {
+            spec = Optional.of(on(request.date()));
+        } else if ((request.startDate() != null) && (request.endDate() != null)) {
+            spec = Optional.of(betweenIncluding(request.startDate(), request.endDate()));
+        } else if (request.startDate() != null) {
+            spec = Optional.of(onOrAfter(request.startDate()));
+        } else if (request.endDate() != null) {
+            spec = Optional.of(onOrBefore(request.endDate()));
         } else {
             spec = Optional.empty();
         }

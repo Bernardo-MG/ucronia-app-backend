@@ -26,18 +26,14 @@ package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
 import com.bernardomg.association.member.domain.model.MemberStatus;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public final record FeeCalendarQuery(MemberStatus status) {
 
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class FeeCalendarQuery {
-
-    @Builder.Default
-    private MemberStatus status = MemberStatus.ALL;
+    public FeeCalendarQuery(final MemberStatus status) {
+        if (status == null) {
+            this.status = MemberStatus.ALL;
+        } else {
+            this.status = status;
+        }
+    }
 
 }

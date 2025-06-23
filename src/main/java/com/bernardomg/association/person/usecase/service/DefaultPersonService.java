@@ -4,6 +4,8 @@ package com.bernardomg.association.person.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,18 +20,20 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the person service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultPersonService implements PersonService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger     log = LoggerFactory.getLogger(DefaultPersonService.class);
 
     private final Validator<Person> createPersonValidator;
 

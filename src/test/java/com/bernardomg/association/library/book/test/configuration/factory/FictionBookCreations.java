@@ -9,14 +9,8 @@ public final class FictionBookCreations {
     public static final FictionBookCreation minimal() {
         final BookChangeTitle title;
 
-        title = BookChangeTitle.builder()
-            .withTitle(BookConstants.TITLE)
-            .build();
-        return FictionBookCreation.builder()
-            .withTitle(title)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .build();
+        title = new BookChangeTitle(BookConstants.TITLE, null, null);
+        return new FictionBookCreation(BookConstants.ISBN_10, title, BookConstants.LANGUAGE);
     }
 
 }

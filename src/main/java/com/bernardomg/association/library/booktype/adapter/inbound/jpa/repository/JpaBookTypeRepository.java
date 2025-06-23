@@ -4,6 +4,8 @@ package com.bernardomg.association.library.booktype.adapter.inbound.jpa.reposito
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +17,14 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaBookTypeRepository implements BookTypeRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger            log = LoggerFactory.getLogger(JpaBookTypeRepository.class);
 
     private final BookTypeSpringRepository bookTypeSpringRepository;
 
@@ -151,10 +155,13 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
     }
 
     private final BookTypeEntity toEntity(final BookType domain) {
-        return BookTypeEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final BookTypeEntity entity;
+
+        entity = new BookTypeEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+
+        return entity;
     }
 
 }

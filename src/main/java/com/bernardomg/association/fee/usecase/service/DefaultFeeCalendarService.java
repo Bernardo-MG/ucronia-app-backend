@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,17 +49,19 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Sorting;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the fee calendar service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultFeeCalendarService implements FeeCalendarService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger    log = LoggerFactory.getLogger(DefaultFeeCalendarService.class);
 
     private final FeeRepository    feeRepository;
 

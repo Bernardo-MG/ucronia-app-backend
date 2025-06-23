@@ -5,17 +5,21 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.settings.domain.exception.MissingSettingException;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Transactional
 public final class DefaultSettingService implements SettingService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger     log = LoggerFactory.getLogger(DefaultSettingService.class);
 
     private final SettingRepository settingRepository;
 

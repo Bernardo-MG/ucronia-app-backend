@@ -11,17 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "Person")
 @Table(schema = "association", name = "persons")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class PersonEntity implements Serializable {
 
     /**
@@ -61,5 +53,85 @@ public class PersonEntity implements Serializable {
 
     @Column(name = "renew_membership")
     private Boolean           renewMembership;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Boolean getMember() {
+        return member;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Boolean getRenewMembership() {
+        return renewMembership;
+    }
+
+    public void setActive(final Boolean active) {
+        this.active = active;
+    }
+
+    public void setBirthDate(final LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setMember(final Boolean member) {
+        this.member = member;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
+
+    public void setRenewMembership(final Boolean renewMembership) {
+        this.renewMembership = renewMembership;
+    }
 
 }

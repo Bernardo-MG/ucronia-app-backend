@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,12 +34,14 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log               = LoggerFactory.getLogger(JpaFeeRepository.class);
 
     private static final Collection<String>   PERSON_PROPERTIES = List.of("firstName", "lastName", "member", "number");
 
@@ -439,6 +443,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<PersonEntity>      person;
         final Optional<TransactionEntity> transaction;
         final boolean                     paid;
+        final FeeEntity                   entity;
 
         person = personSpringRepository.findByNumber(fee.person()
             .number());
@@ -467,12 +472,13 @@ public final class JpaFeeRepository implements FeeRepository {
             transaction = Optional.empty();
         }
 
-        return FeeEntity.builder()
-            .withPerson(person.orElse(null))
-            .withDate(fee.month())
-            .withPaid(paid)
-            .withTransaction(transaction.orElse(null))
-            .build();
+        entity = new FeeEntity();
+        entity.setPerson(person.orElse(null));
+        entity.setDate(fee.month());
+        entity.setPaid(paid);
+        entity.setTransaction(transaction.orElse(null));
+
+        return entity;
     }
 
 }

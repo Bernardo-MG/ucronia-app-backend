@@ -4,31 +4,11 @@ package com.bernardomg.association.fee.adapter.outbound.rest.model;
 import java.time.YearMonth;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class FeeCreation {
+public final record FeeCreation(@NotNull YearMonth month, @NotNull FeeCreationMember person) {
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class FeeCreationMember {
-
-        @NotNull
-        private Long number;
+    public static final record FeeCreationMember(@NotNull Long number) {
 
     }
-
-    @NotNull
-    private YearMonth         month;
-
-    @NotNull
-    private FeeCreationMember person;
 
 }

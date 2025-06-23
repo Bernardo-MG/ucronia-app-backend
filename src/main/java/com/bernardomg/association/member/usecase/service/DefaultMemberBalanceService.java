@@ -28,6 +28,8 @@ import java.time.YearMonth;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,18 +38,20 @@ import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.data.domain.Sorting;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the member balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultMemberBalanceService implements MemberBalanceService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberBalanceService.class);
 
     private final MemberBalanceRepository memberBalanceRepository;
 
@@ -67,16 +71,16 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
         // Up to this month
         now = YearMonth.now();
-        if ((query.getEndDate() == null) || (query.getEndDate()
+        if ((query.endDate() == null) || (query.endDate()
             .isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", query.getEndDate(), now);
+            log.debug("Replacing end date {} with current date {}", query.endDate(), now);
             end = now;
         } else {
-            end = query.getEndDate();
+            end = query.endDate();
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return memberBalanceRepository.findInRange(query.getStartDate(), end, sorting);
+        return memberBalanceRepository.findInRange(query.startDate(), end, sorting);
     }
 
 }

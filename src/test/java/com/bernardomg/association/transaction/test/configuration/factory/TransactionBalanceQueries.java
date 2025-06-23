@@ -9,27 +9,19 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 public final class TransactionBalanceQueries {
 
     public static final TransactionBalanceQuery empty() {
-        return TransactionBalanceQuery.builder()
-            .build();
+        return new TransactionBalanceQuery(null, null);
     }
 
     public static final TransactionBalanceQuery endDate(final int year, final Month month) {
-        return TransactionBalanceQuery.builder()
-            .withEndDate(YearMonth.of(year, month))
-            .build();
+        return new TransactionBalanceQuery(null, YearMonth.of(year, month));
     }
 
     public static final TransactionBalanceQuery range(final int year, final Month start, final Month end) {
-        return TransactionBalanceQuery.builder()
-            .withStartDate(YearMonth.of(year, start))
-            .withEndDate(YearMonth.of(year, end))
-            .build();
+        return new TransactionBalanceQuery(YearMonth.of(year, start), YearMonth.of(year, end));
     }
 
     public static final TransactionBalanceQuery startDate(final int year, final Month month) {
-        return TransactionBalanceQuery.builder()
-            .withStartDate(YearMonth.of(year, month))
-            .build();
+        return new TransactionBalanceQuery(YearMonth.of(year, month), null);
     }
 
     public TransactionBalanceQueries() {

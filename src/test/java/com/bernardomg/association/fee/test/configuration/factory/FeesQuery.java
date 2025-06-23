@@ -8,33 +8,23 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 public final class FeesQuery {
 
     public static final FeeQuery empty() {
-        return FeeQuery.builder()
-            .build();
+        return new FeeQuery(null, null, null);
     }
 
     public static final FeeQuery endDate(final YearMonth date) {
-        return FeeQuery.builder()
-            .withEndDate(date)
-            .build();
+        return new FeeQuery(null, null, date);
     }
 
     public static final FeeQuery inDate(final YearMonth date) {
-        return FeeQuery.builder()
-            .withDate(date)
-            .build();
+        return new FeeQuery(date, null, null);
     }
 
     public static final FeeQuery inRange(final YearMonth start, final YearMonth end) {
-        return FeeQuery.builder()
-            .withStartDate(start)
-            .withEndDate(end)
-            .build();
+        return new FeeQuery(null, start, end);
     }
 
     public static final FeeQuery startDate(final YearMonth date) {
-        return FeeQuery.builder()
-            .withStartDate(date)
-            .build();
+        return new FeeQuery(null, date, null);
     }
 
 }

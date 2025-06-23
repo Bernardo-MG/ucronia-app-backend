@@ -4,6 +4,8 @@ package com.bernardomg.association.member.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,18 +15,20 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the member service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultMemberService implements MemberService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger    log = LoggerFactory.getLogger(DefaultMemberService.class);
 
     private final MemberRepository memberRepository;
 

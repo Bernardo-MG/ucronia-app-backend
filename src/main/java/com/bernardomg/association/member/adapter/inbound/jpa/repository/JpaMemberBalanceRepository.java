@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -18,12 +20,14 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaMemberBalanceRepository implements MemberBalanceRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                        log = LoggerFactory.getLogger(JpaMemberBalanceRepository.class);
 
     private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository;
 

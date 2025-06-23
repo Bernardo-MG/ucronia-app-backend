@@ -18,17 +18,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "Fee")
 @Table(schema = "association", name = "fees")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class FeeEntity implements Serializable {
 
     /**
@@ -62,5 +54,61 @@ public class FeeEntity implements Serializable {
 
     @Column(name = "transaction_id", insertable = false, updatable = false)
     private Long              transactionId;
+
+    public YearMonth getDate() {
+        return date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public PersonEntity getPerson() {
+        return person;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public TransactionEntity getTransaction() {
+        return transaction;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setDate(final YearMonth date) {
+        this.date = date;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setPaid(final Boolean paid) {
+        this.paid = paid;
+    }
+
+    public void setPerson(final PersonEntity person) {
+        this.person = person;
+    }
+
+    public void setPersonId(final Long personId) {
+        this.personId = personId;
+    }
+
+    public void setTransaction(final TransactionEntity transaction) {
+        this.transaction = transaction;
+    }
+
+    public void setTransactionId(final Long transactionId) {
+        this.transactionId = transactionId;
+    }
 
 }

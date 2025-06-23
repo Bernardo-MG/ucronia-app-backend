@@ -8,26 +8,19 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 public final class TransactionsQueries {
 
     public static final TransactionQuery date(final LocalDate date) {
-        return TransactionQuery.builder()
-            .withDate(date)
-            .build();
+        return new TransactionQuery(date, null, null);
     }
 
     public static final TransactionQuery empty() {
-        return TransactionQuery.builder()
-            .build();
+        return new TransactionQuery(null, null, null);
     }
 
     public static final TransactionQuery endDate(final LocalDate date) {
-        return TransactionQuery.builder()
-            .withEndDate(date)
-            .build();
+        return new TransactionQuery(null, null, date);
     }
 
     public static final TransactionQuery startDate(final LocalDate date) {
-        return TransactionQuery.builder()
-            .withStartDate(date)
-            .build();
+        return new TransactionQuery(null, date, null);
     }
 
 }

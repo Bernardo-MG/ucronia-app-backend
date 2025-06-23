@@ -5,23 +5,7 @@ import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChang
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class MemberCreation {
-
-    private String           identifier;
-
-    @NotNull
-    @Valid
-    private PersonChangeName name;
-
-    private String           phone;
+public final record MemberCreation(String identifier, @NotNull @Valid PersonChangeName name, String phone) {
 
 }

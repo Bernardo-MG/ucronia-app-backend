@@ -10,17 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "GameSystem")
 @Table(schema = "inventory", name = "game_systems")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class GameSystemEntity implements Serializable {
 
     /**
@@ -39,5 +31,29 @@ public class GameSystemEntity implements Serializable {
 
     @Column(name = "number", nullable = false, unique = true)
     private Long              number;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
 
 }

@@ -12,10 +12,13 @@ public final class UserMemberEntities {
     private static final String ENCODED_PASSWORD = "$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW";
 
     public static final UserPersonEntity valid() {
-        return UserPersonEntity.builder()
-            .withPerson(PersonEntities.noMembership())
-            .withUser(enabledUser())
-            .build();
+        final UserPersonEntity entity;
+
+        entity = new UserPersonEntity();
+        entity.setPerson(PersonEntities.noMembership());
+        entity.setUser(enabledUser());
+
+        return entity;
     }
 
     private static final UserEntity enabledUser() {

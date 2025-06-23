@@ -1,21 +1,6 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public class FictionBookCreation {
-
-    private String          isbn;
-
-    private String          language;
-
-    private BookChangeTitle title;
+public record FictionBookCreation(String isbn, BookChangeTitle title, String language) {
 
 }

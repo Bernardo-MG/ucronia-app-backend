@@ -4,6 +4,8 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -18,12 +20,14 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaMemberRepository implements MemberRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
     private final PersonSpringRepository personSpringRepository;
 

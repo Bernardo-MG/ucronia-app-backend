@@ -51,7 +51,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Publisher REST controller.
@@ -61,13 +60,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/library/publisher")
-@AllArgsConstructor
 public class PublisherController {
 
     /**
      * Publisher service.
      */
     private final PublisherService service;
+
+    public PublisherController(final PublisherService service) {
+        super();
+        this.service = service;
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,7 +80,7 @@ public class PublisherController {
     public Publisher create(@Valid @RequestBody final PublisherCreation request) {
         final Publisher publisher;
 
-        publisher = new Publisher(-1L, request.getName());
+        publisher = new Publisher(-1L, request.name());
         return service.create(publisher);
     }
 
@@ -112,7 +115,7 @@ public class PublisherController {
             @Valid @RequestBody final PublisherChange change) {
         final Publisher publisher;
 
-        publisher = new Publisher(number, change.getName());
+        publisher = new Publisher(number, change.name());
         return service.update(publisher);
     }
 

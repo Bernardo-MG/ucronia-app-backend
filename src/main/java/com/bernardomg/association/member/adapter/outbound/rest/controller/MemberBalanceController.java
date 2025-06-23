@@ -37,8 +37,6 @@ import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Member balance REST controller.
  * <p>
@@ -49,13 +47,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/member")
-@AllArgsConstructor
 public class MemberBalanceController {
 
     /**
      * Member balance service.
      */
     private final MemberBalanceService service;
+
+    public MemberBalanceController(final MemberBalanceService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Returns the monthly member balance.

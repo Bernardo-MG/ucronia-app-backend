@@ -51,7 +51,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Author REST controller.
@@ -61,13 +60,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/library/author")
-@AllArgsConstructor
 public class AuthorController {
 
     /**
      * Author service.
      */
     private final AuthorService service;
+
+    public AuthorController(final AuthorService service) {
+        super();
+        this.service = service;
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,7 +80,7 @@ public class AuthorController {
     public Author create(@Valid @RequestBody final AuthorCreation request) {
         final Author author;
 
-        author = new Author(-1L, request.getName());
+        author = new Author(-1L, request.name());
         return service.create(author);
     }
 
@@ -111,7 +114,7 @@ public class AuthorController {
     public Author update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
         final Author author;
 
-        author = new Author(number, change.getName());
+        author = new Author(number, change.name());
         return service.update(author);
     }
 

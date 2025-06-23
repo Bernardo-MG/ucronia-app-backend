@@ -36,8 +36,6 @@ import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Settings REST controller.
  *
@@ -46,10 +44,14 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/settings/public")
-@AllArgsConstructor
 public class AssociationPublicSettingController {
 
     private final SettingService service;
+
+    public AssociationPublicSettingController(final SettingService service) {
+        super();
+        this.service = service;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured

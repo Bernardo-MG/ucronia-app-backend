@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +30,14 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaBookRepository implements BookRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log = LoggerFactory.getLogger(JpaBookRepository.class);
 
     private final BookLendingSpringRepository bookLendingSpringRepository;
 

@@ -5,19 +5,23 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Checks the ISBN is not already registered for another book.
  */
-@Slf4j
 public final class GameBookIsbnNotExistsForAnotherRule implements FieldRule<GameBook> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger      log = LoggerFactory.getLogger(GameBookIsbnNotExistsForAnotherRule.class);
 
     private final GameBookRepository bookRepository;
 
