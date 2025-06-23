@@ -34,10 +34,6 @@ databaseChangeLog:
                   name: birth_date
                   type: datetime
               - column:
-                  name: phone
-                  type: varchar(15)
-                  defaultValue: ''
-              - column:
                   name: identifier
                   type: varchar(15)
                   constraints:

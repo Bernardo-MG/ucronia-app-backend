@@ -13,8 +13,7 @@ public final class PersonChanges {
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(true, true);
-        return new PersonChange(PersonConstants.IDENTIFIER, name, membership, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE);
+        return new PersonChange(PersonConstants.IDENTIFIER, name, membership, PersonConstants.BIRTH_DATE);
     }
 
     public static final PersonChange membershipInactive() {
@@ -23,16 +22,14 @@ public final class PersonChanges {
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(false, true);
-        return new PersonChange(PersonConstants.IDENTIFIER, name, membership, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE);
+        return new PersonChange(PersonConstants.IDENTIFIER, name, membership, PersonConstants.BIRTH_DATE);
     }
 
     public static final PersonChange noMembership() {
         final PersonChangeName name;
 
         name = new PersonChangeName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new PersonChange(PersonConstants.IDENTIFIER, name, null, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE);
+        return new PersonChange(PersonConstants.IDENTIFIER, name, null, PersonConstants.BIRTH_DATE);
     }
 
 }
