@@ -29,16 +29,9 @@ import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-@ToString
-@EqualsAndHashCode(callSuper = true)
-@Getter
 public final class FeePaidEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7044023838333219109L;
@@ -52,6 +45,31 @@ public final class FeePaidEvent extends AbstractEvent {
 
         date = Objects.requireNonNull(d);
         personNumber = Objects.requireNonNull(number);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final FeePaidEvent other = (FeePaidEvent) obj;
+        return Objects.equals(date, other.date) && Objects.equals(personNumber, other.personNumber);
+    }
+
+    public YearMonth getDate() {
+        return date;
+    }
+
+    public Long getPersonNumber() {
+        return personNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), date, personNumber);
     }
 
 }

@@ -53,15 +53,13 @@ public final class MemberAccountService implements AccountService {
             person = userPersonRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
-            account = PersonAccount.builder()
-                .withUsername(wrappedAccount.get()
-                    .getUsername())
-                .withName(wrappedAccount.get()
-                    .getName())
-                .withEmail(wrappedAccount.get()
-                    .getEmail())
-                .withPerson(person.orElse(null))
-                .build();
+            account = new PersonAccount(wrappedAccount.get()
+                .getEmail(),
+                wrappedAccount.get()
+                    .getUsername(),
+                wrappedAccount.get()
+                    .getName(),
+                person.orElse(null));
             result = Optional.of(account);
         } else {
             log.debug("Missing authentication object");

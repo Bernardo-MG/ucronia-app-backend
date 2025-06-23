@@ -8,20 +8,12 @@ import com.bernardomg.association.security.user.test.configuration.factory.UserC
 public final class PersonAccounts {
 
     public static final PersonAccount noPerson() {
-        return PersonAccount.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withEmail(UserConstants.EMAIL)
-            .build();
+        return new PersonAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, null);
     }
 
     public static final PersonAccount valid() {
-        return PersonAccount.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPerson(Persons.noMembership())
-            .build();
+        return new PersonAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME,
+            Persons.noMembership());
     }
 
     private PersonAccounts() {
