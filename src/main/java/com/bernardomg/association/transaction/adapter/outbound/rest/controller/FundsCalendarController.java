@@ -40,8 +40,6 @@ import com.bernardomg.association.transaction.usecase.service.TransactionCalenda
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Funds calendar REST controller.
  *
@@ -50,13 +48,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/funds/calendar")
-@AllArgsConstructor
 public class FundsCalendarController {
 
     /**
      * Funds calendar service.
      */
     private final TransactionCalendarService service;
+
+    public FundsCalendarController(final TransactionCalendarService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Returns all the fund changes for a month.

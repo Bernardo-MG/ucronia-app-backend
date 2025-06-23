@@ -65,7 +65,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Game book REST controller.
@@ -75,13 +74,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/library/book/game")
-@AllArgsConstructor
 public class GameBookController {
 
     /**
      * Game book service.
      */
     private final GameBookService service;
+
+    public GameBookController(final GameBookService service) {
+        super();
+        this.service = service;
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

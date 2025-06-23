@@ -59,7 +59,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Person REST controller.
@@ -69,13 +68,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/person")
-@AllArgsConstructor
 public class PersonController {
 
     /**
      * Person service.
      */
     private final PersonService service;
+
+    public PersonController(final PersonService service) {
+        super();
+        this.service = service;
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

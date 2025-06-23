@@ -38,8 +38,6 @@ import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Transaction report REST controller.
  *
@@ -48,13 +46,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/funds/transaction")
-@AllArgsConstructor
 public class TransactionReportController {
 
     /**
      * Transaction report service.
      */
     private final TransactionReportService service;
+
+    public TransactionReportController(final TransactionReportService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Returns an Excel report with all the transactions.

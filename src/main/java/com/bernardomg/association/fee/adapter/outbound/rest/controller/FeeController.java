@@ -60,7 +60,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Fee REST controller.
@@ -70,13 +69,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/fee")
-@AllArgsConstructor
 public class FeeController {
 
     /**
      * Fee service.
      */
     private final FeeService service;
+
+    public FeeController(final FeeService service) {
+        super();
+
+        this.service = service;
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

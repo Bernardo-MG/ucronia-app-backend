@@ -10,15 +10,19 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.Transact
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
 public final class FeeInitializer {
 
     private final FeeSpringRepository         feeRepository;
 
     private final TransactionSpringRepository transactionRepository;
+
+    public FeeInitializer(final FeeSpringRepository feeRepository,
+            final TransactionSpringRepository transactionRepository) {
+        super();
+        this.feeRepository = feeRepository;
+        this.transactionRepository = transactionRepository;
+    }
 
     public final void registerFeeCurrentMonth(final Boolean paid) {
         final FeeEntity fee;

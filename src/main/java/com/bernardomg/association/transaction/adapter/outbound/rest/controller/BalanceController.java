@@ -41,7 +41,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Balance REST controller.
@@ -51,13 +50,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/funds/balance")
-@AllArgsConstructor
 public class BalanceController {
 
     /**
      * Balance service
      */
     private final TransactionBalanceService service;
+
+    public BalanceController(final TransactionBalanceService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Returns the current balance.
