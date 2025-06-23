@@ -21,15 +21,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "RootBook")
 @Table(schema = "inventory", name = "books")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class RootBookEntity {
@@ -80,5 +74,101 @@ public abstract class RootBookEntity {
 
     @Column(name = "title", nullable = false)
     private String                      title;
+
+    public Collection<AuthorEntity> getAuthors() {
+        return authors;
+    }
+
+    public LocalDate getDonationDate() {
+        return donationDate;
+    }
+
+    public Collection<PersonEntity> getDonors() {
+        return donors;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public LocalDate getPublishDate() {
+        return publishDate;
+    }
+
+    public Collection<PublisherEntity> getPublishers() {
+        return publishers;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public String getSupertitle() {
+        return supertitle;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setAuthors(final Collection<AuthorEntity> authors) {
+        this.authors = authors;
+    }
+
+    public void setDonationDate(final LocalDate donationDate) {
+        this.donationDate = donationDate;
+    }
+
+    public void setDonors(final Collection<PersonEntity> donors) {
+        this.donors = donors;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIsbn(final String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setLanguage(final String language) {
+        this.language = language;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
+    public void setPublishDate(final LocalDate publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public void setPublishers(final Collection<PublisherEntity> publishers) {
+        this.publishers = publishers;
+    }
+
+    public void setSubtitle(final String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setSupertitle(final String supertitle) {
+        this.supertitle = supertitle;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
 
 }

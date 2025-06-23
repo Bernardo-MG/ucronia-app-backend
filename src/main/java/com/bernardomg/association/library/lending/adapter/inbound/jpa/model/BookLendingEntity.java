@@ -10,18 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "BookLending")
 @IdClass(BookLendingId.class)
 @Table(schema = "inventory", name = "book_lendings")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class BookLendingEntity implements Serializable {
 
     /**
@@ -44,5 +36,37 @@ public class BookLendingEntity implements Serializable {
 
     @Column(name = "return_date", nullable = false)
     private LocalDate         returnDate;
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public LocalDate getLendingDate() {
+        return lendingDate;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setBookId(final Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setLendingDate(final LocalDate lendingDate) {
+        this.lendingDate = lendingDate;
+    }
+
+    public void setPersonId(final Long personId) {
+        this.personId = personId;
+    }
+
+    public void setReturnDate(final LocalDate returnDate) {
+        this.returnDate = returnDate;
+    }
 
 }

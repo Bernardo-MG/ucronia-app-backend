@@ -137,25 +137,25 @@ public class FictionBookController {
         final String supertitle;
         final String subtitle;
 
-        if (request.getTitle()
-            .getSupertitle() == null) {
+        if (request.title()
+            .supertitle() == null) {
             supertitle = "";
         } else {
-            supertitle = request.getTitle()
-                .getSupertitle();
+            supertitle = request.title()
+                .supertitle();
         }
-        if (request.getTitle()
-            .getSubtitle() == null) {
+        if (request.title()
+            .subtitle() == null) {
             subtitle = "";
         } else {
-            subtitle = request.getTitle()
-                .getSubtitle();
+            subtitle = request.title()
+                .subtitle();
         }
 
-        title = new Title(supertitle, request.getTitle()
-            .getTitle(), subtitle);
-        return new FictionBook(number, title, request.getIsbn(), request.getLanguage(), null, false, List.of(),
-            List.of(), List.of(), Optional.empty());
+        title = new Title(supertitle, request.title()
+            .title(), subtitle);
+        return new FictionBook(number, title, request.isbn(), request.language(), null, false, List.of(), List.of(),
+            List.of(), Optional.empty());
     }
 
     private final FictionBook toDomain(final FictionBookUpdate request, final long number) {
@@ -169,46 +169,46 @@ public class FictionBookController {
         final Optional<Donation>    donation;
 
         // Authors
-        if (request.getAuthors() == null) {
+        if (request.authors() == null) {
             authors = List.of();
         } else {
-            authors = request.getAuthors()
+            authors = request.authors()
                 .stream()
-                .map(a -> new Author(a.getNumber(), ""))
+                .map(a -> new Author(a.number(), ""))
                 .toList();
         }
 
         // Publishers
-        if (request.getPublishers() == null) {
+        if (request.publishers() == null) {
             publishers = List.of();
         } else {
-            publishers = request.getPublishers()
+            publishers = request.publishers()
                 .stream()
-                .map(p -> new Publisher(p.getNumber(), ""))
+                .map(p -> new Publisher(p.number(), ""))
                 .toList();
         }
 
         // Donation
-        if (request.getDonation() == null) {
+        if (request.donation() == null) {
             donation = Optional.empty();
         } else {
-            if (request.getDonation()
-                .getDonors() == null) {
+            if (request.donation()
+                .donors() == null) {
                 donors = List.of();
             } else {
-                donors = request.getDonation()
-                    .getDonors()
+                donors = request.donation()
+                    .donors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new PersonName("", "")))
+                    .map(d -> new Donor(d.number(), new PersonName("", "")))
                     .toList();
             }
-            if (request.getDonation()
-                .getDate() == null) {
+            if (request.donation()
+                .date() == null) {
                 donationDate = null;
             } else {
-                donationDate = request.getDonation()
-                    .getDate();
+                donationDate = request.donation()
+                    .date();
             }
             if ((donationDate == null) && (donors.isEmpty())) {
                 donation = Optional.empty();
@@ -218,24 +218,24 @@ public class FictionBookController {
         }
 
         // Title
-        if (request.getTitle()
-            .getSupertitle() == null) {
+        if (request.title()
+            .supertitle() == null) {
             supertitle = "";
         } else {
-            supertitle = request.getTitle()
-                .getSupertitle();
+            supertitle = request.title()
+                .supertitle();
         }
-        if (request.getTitle()
-            .getSubtitle() == null) {
+        if (request.title()
+            .subtitle() == null) {
             subtitle = "";
         } else {
-            subtitle = request.getTitle()
-                .getSubtitle();
+            subtitle = request.title()
+                .subtitle();
         }
-        title = new Title(supertitle, request.getTitle()
-            .getTitle(), subtitle);
-        return new FictionBook(number, title, request.getIsbn(), request.getLanguage(), request.getPublishDate(), false,
-            authors, List.of(), publishers, donation);
+        title = new Title(supertitle, request.title()
+            .title(), subtitle);
+        return new FictionBook(number, title, request.isbn(), request.language(), request.publishDate(), false, authors,
+            List.of(), publishers, donation);
     }
 
 }

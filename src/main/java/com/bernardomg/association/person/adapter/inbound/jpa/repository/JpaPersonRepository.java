@@ -269,9 +269,10 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final boolean member;
-        final boolean active;
-        final boolean renew;
+        final boolean      member;
+        final boolean      active;
+        final boolean      renew;
+        final PersonEntity entity;
 
         if (data.membership()
             .isPresent()) {
@@ -287,19 +288,21 @@ public final class JpaPersonRepository implements PersonRepository {
             active = true;
             renew = true;
         }
-        return PersonEntity.builder()
-            .withNumber(data.number())
-            .withFirstName(data.name()
-                .firstName())
-            .withLastName(data.name()
-                .lastName())
-            .withIdentifier(data.identifier())
-            .withPhone(data.phone())
-            .withBirthDate(data.birthDate())
-            .withMember(member)
-            .withActive(active)
-            .withRenewMembership(renew)
-            .build();
+
+        entity = new PersonEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier(data.identifier());
+        entity.setPhone(data.phone());
+        entity.setBirthDate(data.birthDate());
+        entity.setMember(member);
+        entity.setActive(active);
+        entity.setRenewMembership(renew);
+
+        return entity;
     }
 
 }

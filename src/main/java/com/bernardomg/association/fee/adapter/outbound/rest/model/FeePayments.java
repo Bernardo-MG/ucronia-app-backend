@@ -6,46 +6,19 @@ import java.time.YearMonth;
 import java.util.Collection;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class FeePayments {
+/**
+ * TODO: rename feeMonths to months
+ */
+public final record FeePayments(@NotNull FeePaymentPerson person, @NotNull FeePaymentPayment payment,
+        @NotNull Collection<@NotNull YearMonth> feeMonths) {
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class FeePaymentPayment {
-
-        @NotNull
-        private LocalDate date;
+    public static final record FeePaymentPayment(@NotNull LocalDate date) {
 
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class FeePaymentPerson {
-
-        @NotNull
-        private Long number;
+    public static final record FeePaymentPerson(@NotNull Long number) {
 
     }
 
-    /**
-     * TODO: rename to months
-     */
-    @NotNull
-    private Collection<@NotNull YearMonth> feeMonths;
-
-    @NotNull
-    private FeePaymentPayment              payment;
-
-    @NotNull
-    private FeePaymentPerson               person;
 }

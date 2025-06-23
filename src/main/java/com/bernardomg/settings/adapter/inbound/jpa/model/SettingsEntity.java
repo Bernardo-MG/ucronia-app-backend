@@ -10,17 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "Setting")
 @Table(schema = "configuration", name = "settings")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class SettingsEntity implements Serializable {
 
     @Transient
@@ -39,5 +31,37 @@ public class SettingsEntity implements Serializable {
 
     @Column(name = "config_value", nullable = false)
     private String            value;
+
+    public String getCode() {
+        return code;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setCode(final String code) {
+        this.code = code;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setType(final String type) {
+        this.type = type;
+    }
+
+    public void setValue(final String value) {
+        this.value = value;
+    }
 
 }

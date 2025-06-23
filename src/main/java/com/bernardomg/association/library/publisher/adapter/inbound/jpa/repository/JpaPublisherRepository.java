@@ -151,10 +151,13 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     private final PublisherEntity toEntity(final Publisher domain) {
-        return PublisherEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final PublisherEntity entity;
+
+        entity = new PublisherEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+
+        return entity;
     }
 
 }

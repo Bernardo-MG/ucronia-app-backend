@@ -1,19 +1,6 @@
 
 package com.bernardomg.association.library.author.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuthorChange {
-
-    private String name;
-
-    private Long   number;
+public record AuthorChange(Long number, String name) {
 
 }

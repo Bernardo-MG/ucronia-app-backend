@@ -77,7 +77,7 @@ public class AuthorController {
     public Author create(@Valid @RequestBody final AuthorCreation request) {
         final Author author;
 
-        author = new Author(-1L, request.getName());
+        author = new Author(-1L, request.name());
         return service.create(author);
     }
 
@@ -111,7 +111,7 @@ public class AuthorController {
     public Author update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
         final Author author;
 
-        author = new Author(number, change.getName());
+        author = new Author(number, change.name());
         return service.update(author);
     }
 

@@ -93,8 +93,8 @@ public class FeeController {
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public Fee create(@Valid @RequestBody final FeeCreation fee) {
-        return service.createUnpaidFee(fee.getMonth(), fee.getPerson()
-            .getNumber());
+        return service.createUnpaidFee(fee.month(), fee.person()
+            .number());
     }
 
     @DeleteMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -128,10 +128,10 @@ public class FeeController {
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public Collection<Fee> pay(@Valid @RequestBody final FeePayments payment) {
-        return service.payFees(payment.getFeeMonths(), payment.getPerson()
-            .getNumber(),
-            payment.getPayment()
-                .getDate());
+        return service.payFees(payment.feeMonths(), payment.person()
+            .number(),
+            payment.payment()
+                .date());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -176,16 +176,16 @@ public class FeeController {
         final Optional<Fee.Transaction> transaction;
 
         person = new Fee.Person(personNumber, null);
-        if ((change.getPayment()
-            .getIndex() == null)
-                && ((change.getPayment()
-                    .getDate() == null))) {
+        if ((change.payment()
+            .index() == null)
+                && ((change.payment()
+                    .date() == null))) {
             transaction = Optional.empty();
         } else {
-            transaction = Optional.of(new Fee.Transaction(change.getPayment()
-                .getDate(),
-                change.getPayment()
-                    .getIndex()));
+            transaction = Optional.of(new Fee.Transaction(change.payment()
+                .date(),
+                change.payment()
+                    .index()));
         }
 
         return new Fee(month, false, person, transaction);

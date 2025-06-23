@@ -5,24 +5,7 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class TransactionChange {
-
-    @NotNull
-    private Float     amount;
-
-    @NotNull
-    private LocalDate date;
-
-    @NotEmpty
-    private String    description;
+public final record TransactionChange(@NotNull LocalDate date, @NotNull Float amount, @NotEmpty String description) {
 
 }

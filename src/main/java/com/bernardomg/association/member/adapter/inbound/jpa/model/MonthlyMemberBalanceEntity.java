@@ -9,17 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "MonthlyMemberBalance")
 @Table(schema = "association", name = "member_monthly_balances")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class MonthlyMemberBalanceEntity implements Serializable {
 
     @Transient
@@ -31,5 +23,21 @@ public class MonthlyMemberBalanceEntity implements Serializable {
 
     @Column(name = "total", nullable = false)
     private Long              total;
+
+    public LocalDate getMonth() {
+        return month;
+    }
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setMonth(final LocalDate month) {
+        this.month = month;
+    }
+
+    public void setTotal(final Long total) {
+        this.total = total;
+    }
 
 }

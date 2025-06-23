@@ -11,17 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "Transaction")
 @Table(schema = "association", name = "transactions")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class TransactionEntity implements Serializable {
 
     @Transient
@@ -43,5 +35,45 @@ public class TransactionEntity implements Serializable {
 
     @Column(name = "index", nullable = false, unique = true)
     private Long              index;
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getIndex() {
+        return index;
+    }
+
+    public void setAmount(final Float amount) {
+        this.amount = amount;
+    }
+
+    public void setDate(final LocalDate date) {
+        this.date = date;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIndex(final Long index) {
+        this.index = index;
+    }
 
 }

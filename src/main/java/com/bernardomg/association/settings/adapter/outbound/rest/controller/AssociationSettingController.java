@@ -79,7 +79,7 @@ public class AssociationSettingController {
     @Caching(evict = { @CacheEvict(cacheNames = { SettingsCaches.PUBLIC }, allEntries = true) })
     public Setting update(@PathVariable("code") final String code,
             @Valid @RequestBody final SettingChange configuration) {
-        return service.update(code, configuration.getValue());
+        return service.update(code, configuration.value());
     }
 
 }

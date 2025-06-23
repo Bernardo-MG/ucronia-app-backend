@@ -67,16 +67,16 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
         // Up to this month
         now = YearMonth.now();
-        if ((query.getEndDate() == null) || (query.getEndDate()
+        if ((query.endDate() == null) || (query.endDate()
             .isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", query.getEndDate(), now);
+            log.debug("Replacing end date {} with current date {}", query.endDate(), now);
             end = now;
         } else {
-            end = query.getEndDate();
+            end = query.endDate();
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return memberBalanceRepository.findInRange(query.getStartDate(), end, sorting);
+        return memberBalanceRepository.findInRange(query.startDate(), end, sorting);
     }
 
 }

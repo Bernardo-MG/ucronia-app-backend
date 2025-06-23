@@ -90,7 +90,7 @@ public class FeeCalendarController {
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
     public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
             final Sorting sorting) {
-        return service.getYear(Year.of(year), request.getStatus(), sorting);
+        return service.getYear(Year.of(year), request.status(), sorting);
     }
 
 }

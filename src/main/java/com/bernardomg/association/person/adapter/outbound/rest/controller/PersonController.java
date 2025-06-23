@@ -161,35 +161,35 @@ public class PersonController {
         final PersonName           name;
         final Optional<Membership> membership;
 
-        name = new PersonName(change.getName()
-            .getFirstName(),
-            change.getName()
-                .getLastName());
-        if (change.getMembership() == null) {
+        name = new PersonName(change.name()
+            .firstName(),
+            change.name()
+                .lastName());
+        if (change.membership() == null) {
             membership = Optional.empty();
         } else {
-            membership = Optional.of(new Membership(change.getMembership()
+            membership = Optional.of(new Membership(change.membership()
                 .active(),
-                change.getMembership()
+                change.membership()
                     .renew()));
         }
-        return new Person(change.getIdentifier(), number, name, change.getBirthDate(), change.getPhone(), membership);
+        return new Person(change.identifier(), number, name, change.birthDate(), change.phone(), membership);
     }
 
     private final Person toDomain(final PersonCreation change) {
         final PersonName           name;
         final Optional<Membership> membership;
 
-        name = new PersonName(change.getName()
-            .getFirstName(),
-            change.getName()
-                .getLastName());
-        if (change.getMembership() == null) {
+        name = new PersonName(change.name()
+            .firstName(),
+            change.name()
+                .lastName());
+        if (change.membership() == null) {
             membership = Optional.empty();
         } else {
-            membership = Optional.of(new Membership(change.getMembership()
+            membership = Optional.of(new Membership(change.membership()
                 .active(),
-                change.getMembership()
+                change.membership()
                     .active()));
         }
         return new Person("", -1L, name, null, "", membership);

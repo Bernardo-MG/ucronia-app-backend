@@ -439,6 +439,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<PersonEntity>      person;
         final Optional<TransactionEntity> transaction;
         final boolean                     paid;
+        final FeeEntity                   entity;
 
         person = personSpringRepository.findByNumber(fee.person()
             .number());
@@ -467,12 +468,13 @@ public final class JpaFeeRepository implements FeeRepository {
             transaction = Optional.empty();
         }
 
-        return FeeEntity.builder()
-            .withPerson(person.orElse(null))
-            .withDate(fee.month())
-            .withPaid(paid)
-            .withTransaction(transaction.orElse(null))
-            .build();
+        entity = new FeeEntity();
+        entity.setPerson(person.orElse(null));
+        entity.setDate(fee.month());
+        entity.setPaid(paid);
+        entity.setTransaction(transaction.orElse(null));
+
+        return entity;
     }
 
 }

@@ -151,10 +151,13 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     private final AuthorEntity toEntity(final Author domain) {
-        return AuthorEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final AuthorEntity entity;
+
+        entity = new AuthorEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+
+        return entity;
     }
 
 }

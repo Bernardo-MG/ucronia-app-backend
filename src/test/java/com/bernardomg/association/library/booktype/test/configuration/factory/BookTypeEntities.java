@@ -6,10 +6,14 @@ import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.Boo
 public final class BookTypeEntities {
 
     public static final BookTypeEntity valid() {
-        return BookTypeEntity.builder()
-            .withNumber(BookTypeConstants.NUMBER)
-            .withName(BookTypeConstants.NAME)
-            .build();
+        final BookTypeEntity entity = new BookTypeEntity();
+        entity.setNumber(BookTypeConstants.NUMBER);
+        entity.setName(BookTypeConstants.NAME);
+        return entity;
+    }
+
+    private BookTypeEntities() {
+        super();
     }
 
 }

@@ -110,11 +110,14 @@ public final class JpaSettingsRepository implements SettingRepository {
     }
 
     private final SettingsEntity toEntity(final Setting model) {
-        return SettingsEntity.builder()
-            .withCode(model.code())
-            .withValue(model.value())
-            .withType(model.type())
-            .build();
+        SettingsEntity entity;
+
+        entity = new SettingsEntity();
+        entity.setCode(model.code());
+        entity.setValue(model.value());
+        entity.setType(model.type());
+
+        return entity;
     }
 
 }

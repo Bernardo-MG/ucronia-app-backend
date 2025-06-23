@@ -5,32 +5,18 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class FeeChange {
+public final record FeeChange(@NotNull YearMonth month, @NotNull FeeChangePayment payment) {
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class FeeChangePayment {
-
-        private LocalDate date;
-
-        private Long      index;
-
+    public FeeChange(final YearMonth month, final FeeChangePayment payment) {
+        this.month = month;
+        if (payment == null) {
+            this.payment = new FeeChangePayment(null, null);
+        } else {
+            this.payment = payment;
+        }
     }
 
-    @NotNull
-    private YearMonth        month;
-
-    @NotNull
-    private FeeChangePayment payment;
+    public static final record FeeChangePayment(Long index, LocalDate date) {}
 
 }

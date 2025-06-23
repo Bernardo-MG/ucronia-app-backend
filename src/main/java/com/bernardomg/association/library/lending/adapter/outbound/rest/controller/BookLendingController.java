@@ -71,7 +71,7 @@ public class BookLendingController {
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLending lendBook(@Valid @RequestBody final BookLent lending) {
-        return service.lendBook(lending.getBook(), lending.getPerson(), lending.getLendingDate());
+        return service.lendBook(lending.book(), lending.person(), lending.lendingDate());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,7 +87,7 @@ public class BookLendingController {
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLending returnBook(@Valid @RequestBody final BookReturned lending) {
-        return service.returnBook(lending.getBook(), lending.getBorrower(), lending.getReturnDate());
+        return service.returnBook(lending.book(), lending.borrower(), lending.returnDate());
     }
 
 }

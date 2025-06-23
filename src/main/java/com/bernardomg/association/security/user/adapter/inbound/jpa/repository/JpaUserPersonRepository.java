@@ -54,12 +54,12 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         user = userSpringRepository.findByUsername(username);
         person = personSpringRepository.findByNumber(number);
         if ((user.isPresent()) && (person.isPresent())) {
-            userMember = UserPersonEntity.builder()
-                .withUserId(user.get()
-                    .getId())
-                .withPerson(person.get())
-                .withUser(user.get())
-                .build();
+            userMember = new UserPersonEntity();
+            userMember.setUserId(user.get()
+                .getId());
+            userMember.setPerson(person.get());
+            userMember.setUser(user.get());
+
             userPersonSpringRepository.save(userMember);
             result = toDomain(person.get());
 

@@ -217,12 +217,15 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     private final TransactionEntity toEntity(final Transaction transaction) {
-        return TransactionEntity.builder()
-            .withIndex(transaction.index())
-            .withDescription(transaction.description())
-            .withDate(transaction.date())
-            .withAmount(transaction.amount())
-            .build();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
+        entity.setIndex(transaction.index());
+        entity.setDescription(transaction.description());
+        entity.setDate(transaction.date());
+        entity.setAmount(transaction.amount());
+
+        return entity;
     }
 
 }

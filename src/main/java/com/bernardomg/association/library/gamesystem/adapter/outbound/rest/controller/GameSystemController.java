@@ -78,7 +78,7 @@ public class GameSystemController {
     public GameSystem create(@Valid @RequestBody final GameSystemCreation request) {
         final GameSystem author;
 
-        author = new GameSystem(-1L, request.getName());
+        author = new GameSystem(-1L, request.name());
         return service.create(author);
     }
 
@@ -113,7 +113,7 @@ public class GameSystemController {
             @Valid @RequestBody final GameSystemChange change) {
         final GameSystem gameSystem;
 
-        gameSystem = new GameSystem(number, change.getName());
+        gameSystem = new GameSystem(number, change.name());
         return service.update(gameSystem);
     }
 

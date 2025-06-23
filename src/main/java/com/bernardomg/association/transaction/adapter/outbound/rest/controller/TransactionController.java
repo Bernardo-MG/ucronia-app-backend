@@ -183,7 +183,7 @@ public class TransactionController {
     }
 
     private final Transaction toModel(final long index, final TransactionChange change) {
-        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
+        return new Transaction(index, change.date(), change.amount(), change.description());
     }
 
 }

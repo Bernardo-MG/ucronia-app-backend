@@ -12,17 +12,9 @@ public final class FictionBookUpdates {
     public static final FictionBookUpdate minimal() {
         final BookChangeTitle title;
 
-        title = BookChangeTitle.builder()
-            .withTitle(BookConstants.TITLE)
-            .build();
-        return FictionBookUpdate.builder()
-            .withTitle(title)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of())
-            .withPublishers(List.of())
-            .withDonation(new Donation(null, null))
-            .build();
+        title = new BookChangeTitle(BookConstants.TITLE, null, null);
+        return new FictionBookUpdate(BookConstants.ISBN_10, title, BookConstants.LANGUAGE, List.of(),
+            new Donation(null, null), null, List.of());
     }
 
 }

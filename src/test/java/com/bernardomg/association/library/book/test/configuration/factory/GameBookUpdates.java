@@ -14,19 +14,9 @@ public final class GameBookUpdates {
     public static final GameBookUpdate minimal() {
         final BookChangeTitle title;
 
-        title = BookChangeTitle.builder()
-            .withTitle(BookConstants.TITLE)
-            .build();
-        return GameBookUpdate.builder()
-            .withTitle(title)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of())
-            .withPublishers(List.of())
-            .withGameSystem(new GameSystem(null))
-            .withBookType(new BookType(null))
-            .withDonation(new Donation(null, null))
-            .build();
+        title = new BookChangeTitle(BookConstants.TITLE, null, null);
+        return new GameBookUpdate(BookConstants.ISBN_10, title, BookConstants.LANGUAGE, List.of(),
+            new Donation(null, null), null, List.of(), new BookType(null), new GameSystem(null));
     }
 
 }

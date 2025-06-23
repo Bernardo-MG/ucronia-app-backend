@@ -47,9 +47,11 @@ public final class Persons {
 
     public static final Person membershipActiveNew() {
         final PersonName name;
+        final Membership membership;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.empty());
+        membership = new Membership(true, true);
+        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.of(membership));
     }
 
     public static final Person membershipActiveNoRenew() {
@@ -74,9 +76,11 @@ public final class Persons {
 
     public static final Person membershipInactiveNew() {
         final PersonName name;
+        final Membership membership;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.empty());
+        membership = new Membership(false, false);
+        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.of(membership));
     }
 
     public static final Person nameChange() {

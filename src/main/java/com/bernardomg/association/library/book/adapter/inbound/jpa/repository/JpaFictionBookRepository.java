@@ -314,6 +314,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final Collection<PublisherEntity> publishers;
         final Collection<PersonEntity>    donors;
         final Collection<AuthorEntity>    authors;
+        final FictionBookEntity           entity;
 
         // Publishers
         publisherNumbers = domain.publishers()
@@ -343,24 +344,25 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
             .toList();
         authors = authorSpringRepository.findAllByNumberIn(authorNumbers);
 
-        return FictionBookEntity.builder()
-            .withNumber(domain.number())
-            .withIsbn(domain.isbn())
-            .withSupertitle(domain.title()
-                .supertitle())
-            .withTitle(domain.title()
-                .title())
-            .withSubtitle(domain.title()
-                .subtitle())
-            .withLanguage(domain.language())
-            .withPublishDate(domain.publishDate())
-            .withDonationDate(domain.donation()
-                .map(Donation::date)
-                .orElse(null))
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonors(donors)
-            .build();
+        entity = new FictionBookEntity();
+        entity.setNumber(domain.number());
+        entity.setIsbn(domain.isbn());
+        entity.setSupertitle(domain.title()
+            .supertitle());
+        entity.setTitle(domain.title()
+            .title());
+        entity.setSubtitle(domain.title()
+            .subtitle());
+        entity.setLanguage(domain.language());
+        entity.setPublishDate(domain.publishDate());
+        entity.setDonationDate(domain.donation()
+            .map(Donation::date)
+            .orElse(null));
+        entity.setAuthors(authors);
+        entity.setPublishers(publishers);
+        entity.setDonors(donors);
+
+        return entity;
     }
 
 }

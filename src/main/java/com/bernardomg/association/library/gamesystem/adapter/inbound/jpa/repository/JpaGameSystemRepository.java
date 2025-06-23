@@ -151,10 +151,12 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     private final GameSystemEntity toEntity(final GameSystem domain) {
-        return GameSystemEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final GameSystemEntity entity;
+
+        entity = new GameSystemEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+        return entity;
     }
 
 }
