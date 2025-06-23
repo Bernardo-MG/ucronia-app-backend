@@ -12,7 +12,6 @@ public final class PersonEntities {
         entity.setFirstName(PersonConstants.FIRST_NAME);
         entity.setLastName(PersonConstants.LAST_NAME);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
         return entity;
@@ -25,7 +24,6 @@ public final class PersonEntities {
         entity.setFirstName("Person 123");
         entity.setLastName("Last name");
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
         return entity;
@@ -38,7 +36,6 @@ public final class PersonEntities {
         entity.setFirstName(PersonConstants.FIRST_NAME);
         entity.setLastName(PersonConstants.LAST_NAME);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setMember(true);
         entity.setActive(true);
@@ -53,7 +50,6 @@ public final class PersonEntities {
         entity.setFirstName(PersonConstants.FIRST_NAME);
         entity.setLastName(PersonConstants.LAST_NAME);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setMember(true);
         entity.setActive(false);
@@ -68,7 +64,6 @@ public final class PersonEntities {
         entity.setFirstName(PersonConstants.FIRST_NAME);
         entity.setLastName(PersonConstants.LAST_NAME);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("");
         entity.setIdentifier("");
         entity.setMember(false);
         entity.setActive(false);
@@ -82,7 +77,6 @@ public final class PersonEntities {
         entity.setNumber(PersonConstants.NUMBER);
         entity.setFirstName(PersonConstants.FIRST_NAME);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setMember(false);
         entity.setActive(false);
@@ -97,7 +91,6 @@ public final class PersonEntities {
         entity.setFirstName(PersonConstants.FIRST_NAME);
         entity.setLastName(PersonConstants.LAST_NAME);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setMember(false);
         entity.setActive(true);
@@ -112,7 +105,6 @@ public final class PersonEntities {
         entity.setFirstName("Member " + index);
         entity.setLastName("Last name " + index);
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setPhone("12345");
         entity.setIdentifier("6789");
         entity.setMember(false);
         entity.setActive(false);
