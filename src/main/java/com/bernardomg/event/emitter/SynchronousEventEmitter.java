@@ -6,13 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.event.domain.AbstractEvent;
 import com.bernardomg.event.listener.EventListener;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public final class SynchronousEventEmitter implements EventEmitter {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                         log = LoggerFactory.getLogger(SynchronousEventEmitter.class);
 
     private final Map<Class<?>, List<EventListener<?>>> listeners;
 

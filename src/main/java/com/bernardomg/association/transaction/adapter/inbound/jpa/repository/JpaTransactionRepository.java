@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,12 +27,14 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaTransactionRepository implements TransactionRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log = LoggerFactory.getLogger(JpaTransactionRepository.class);
 
     private final TransactionSpringRepository transactionSpringRepository;
 

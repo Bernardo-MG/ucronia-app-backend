@@ -26,22 +26,26 @@ package com.bernardomg.association.fee.adapter.inbound.event;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 import com.bernardomg.event.listener.EventListener;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Listens for the month start event and registers fees for the active members.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Component
 public final class RegisterFeesOnMonthStartEventListener implements EventListener<MonthStartEvent> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger         log = LoggerFactory.getLogger(RegisterFeesOnMonthStartEventListener.class);
 
     private final FeeMaintenanceService service;
 

@@ -4,18 +4,23 @@ package com.bernardomg.association.fee.usecase.validation;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Checks the fee's transaction was not changed or removed.
  */
-@Slf4j
 public final class FeePersonNotChangedRule implements FieldRule<Fee> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(FeePersonNotChangedRule.class);
 
     private final FeeRepository feeRepository;
 

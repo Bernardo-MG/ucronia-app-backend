@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,17 +44,19 @@ import com.bernardomg.association.security.user.domain.repository.UserPersonRepo
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the user fee service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultMyFeesService implements MyFeesService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(DefaultMyFeesService.class);
 
     private final FeeRepository        feeRepository;
 

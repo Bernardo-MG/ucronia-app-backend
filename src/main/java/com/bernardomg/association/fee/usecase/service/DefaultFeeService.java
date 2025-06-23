@@ -32,6 +32,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -61,17 +63,19 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the fee service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultFeeService implements FeeService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger              log = LoggerFactory.getLogger(DefaultFeeService.class);
 
     private final EventEmitter               eventEmitter;
 

@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +33,14 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class ExcelPoiBookReportService implements BookReportService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger         log = LoggerFactory.getLogger(ExcelPoiBookReportService.class);
 
     private final FictionBookRepository fictionBookRepository;
 

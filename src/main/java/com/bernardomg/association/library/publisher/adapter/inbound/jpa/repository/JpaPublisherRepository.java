@@ -4,6 +4,8 @@ package com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposit
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +17,14 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class JpaPublisherRepository implements PublisherRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger             log = LoggerFactory.getLogger(JpaPublisherRepository.class);
 
     private final PublisherSpringRepository publisherSpringRepository;
 

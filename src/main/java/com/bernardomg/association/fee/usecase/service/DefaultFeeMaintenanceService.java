@@ -28,6 +28,8 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,17 +38,19 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the fee maintenance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger    log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
     private final FeeRepository    feeRepository;
 

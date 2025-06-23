@@ -4,6 +4,8 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +22,14 @@ import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaUserPersonRepository implements UserPersonRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger              log = LoggerFactory.getLogger(JpaUserPersonRepository.class);
 
     private final PersonSpringRepository     personSpringRepository;
 
