@@ -60,6 +60,20 @@ public final class JpaContactModeRepository implements ContactModeRepository {
     }
 
     @Override
+    public final Optional<ContactMode> findOne(final Long number) {
+        final Optional<ContactMode> contactMode;
+
+        log.debug("Finding contact mode with number {}", number);
+
+        contactMode = contactModeSpringRepository.findByNumber(number)
+            .map(this::toDomain);
+
+        log.debug("Found contact mode with number {}: {}", number, contactMode);
+
+        return contactMode;
+    }
+
+    @Override
     public final ContactMode save(final ContactMode person) {
         final Optional<ContactModeEntity> existing;
         final ContactModeEntity           entity;
