@@ -29,4 +29,7 @@ public class ContactModeEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String            name;
 
+    @Column(name = "number")
+    private Long              number;
+
 }

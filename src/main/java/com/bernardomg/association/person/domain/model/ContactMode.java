@@ -1,6 +1,6 @@
 
 package com.bernardomg.association.person.domain.model;
 
-public record ContactMode(String name) {
+public record ContactMode(Long number, String name) {
 
 }

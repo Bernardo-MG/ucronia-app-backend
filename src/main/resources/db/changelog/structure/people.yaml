@@ -71,6 +71,11 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
         - addAutoIncrement:
             schemaName: association
             tableName: persons
