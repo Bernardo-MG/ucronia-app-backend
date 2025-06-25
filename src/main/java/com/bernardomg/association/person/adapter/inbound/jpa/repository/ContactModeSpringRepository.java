@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -40,5 +42,7 @@ public interface ContactModeSpringRepository extends JpaRepository<ContactModeEn
             WHERE m.number = :number
             """)
     public void deleteByNumber(@Param("number") final Long number);
+
+    public Optional<ContactModeEntity> findByNumber(final Long number);
 
 }

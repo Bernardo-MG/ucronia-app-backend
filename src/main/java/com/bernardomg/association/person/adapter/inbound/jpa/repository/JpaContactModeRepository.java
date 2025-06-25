@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -33,7 +35,7 @@ public final class JpaContactModeRepository implements ContactModeRepository {
     }
 
     @Override
-    public void delete(final long number) {
+    public final void delete(final long number) {
         log.debug("Deleting contact mode {}", number);
 
         contactModeSpringRepository.deleteByNumber(number);
@@ -42,7 +44,7 @@ public final class JpaContactModeRepository implements ContactModeRepository {
     }
 
     @Override
-    public Iterable<ContactMode> findAll(final Pagination pagination, final Sorting sorting) {
+    public final Iterable<ContactMode> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<ContactMode> contactModes;
         final Pageable          pageable;
 
@@ -58,13 +60,46 @@ public final class JpaContactModeRepository implements ContactModeRepository {
     }
 
     @Override
-    public ContactMode save(final ContactMode person) {
-        // TODO Auto-generated method stub
-        return null;
+    public final ContactMode save(final ContactMode person) {
+        final Optional<ContactModeEntity> existing;
+        final ContactModeEntity           entity;
+        final ContactModeEntity           created;
+        final ContactMode                 saved;
+
+        log.debug("Saving person {}", person);
+
+        entity = toEntity(person);
+
+        existing = contactModeSpringRepository.findByNumber(person.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = contactModeSpringRepository.save(entity);
+
+        // TODO: Why not returning the saved one?
+        saved = contactModeSpringRepository.findByNumber(created.getNumber())
+            .map(this::toDomain)
+            .get();
+
+        log.debug("Saved person {}", saved);
+
+        return saved;
     }
 
     private final ContactMode toDomain(final ContactModeEntity entity) {
         return new ContactMode(entity.getNumber(), entity.getName());
+    }
+
+    private final ContactModeEntity toEntity(final ContactMode data) {
+        final ContactModeEntity entity;
+
+        entity = new ContactModeEntity();
+        entity.setNumber(data.number());
+        entity.setName(data.name());
+
+        return entity;
     }
 
 }
