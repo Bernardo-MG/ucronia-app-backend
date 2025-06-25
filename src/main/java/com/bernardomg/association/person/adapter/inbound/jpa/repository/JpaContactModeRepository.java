@@ -44,6 +44,19 @@ public final class JpaContactModeRepository implements ContactModeRepository {
     }
 
     @Override
+    public final boolean exists(final long number) {
+        final boolean exists;
+
+        log.debug("Checking if fee {} exists", number);
+
+        exists = contactModeSpringRepository.existsByNumber(number);
+
+        log.debug("Fee {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Iterable<ContactMode> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<ContactMode> contactModes;
         final Pageable          pageable;
@@ -57,6 +70,19 @@ public final class JpaContactModeRepository implements ContactModeRepository {
         log.debug("Found all the contact modes: {}", contactModes);
 
         return contactModes;
+    }
+
+    @Override
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the contact modes");
+
+        number = contactModeSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the contact modes: {}", number);
+
+        return number;
     }
 
     @Override

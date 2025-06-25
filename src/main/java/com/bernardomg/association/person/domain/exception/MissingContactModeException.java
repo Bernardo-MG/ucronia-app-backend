@@ -22,37 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.person.adapter.inbound.jpa.repository;
+package com.bernardomg.association.person.domain.exception;
 
-import java.util.Optional;
+import com.bernardomg.exception.MissingIdException;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+/**
+ * Missing contact mode exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingContactModeException extends MissingIdException {
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactModeEntity;
+    private static final long serialVersionUID = 258859966025945231L;
 
-public interface ContactModeSpringRepository extends JpaRepository<ContactModeEntity, Long> {
-
-    @Modifying
-    @Query("""
-            DELETE
-            FROM ContactMode m
-            WHERE m.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
-
-    @Query("""
-            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM ContactMode m
-            WHERE m.number = :number
-            """)
-    public boolean existsByNumber(@Param("number") final Long number);
-
-    public Optional<ContactModeEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM ContactMode m")
-    public Long findNextNumber();
+    public MissingContactModeException(final long contactMode) {
+        super("contactMode", contactMode);
+    }
 
 }

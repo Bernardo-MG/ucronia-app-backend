@@ -11,7 +11,11 @@ public interface ContactModeRepository {
 
     public void delete(final long number);
 
+    public boolean exists(final long number);
+
     public Iterable<ContactMode> findAll(final Pagination pagination, final Sorting sorting);
+
+    public long findNextNumber();
 
     public Optional<ContactMode> findOne(final Long number);
 

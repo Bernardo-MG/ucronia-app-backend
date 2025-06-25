@@ -28,7 +28,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,52 +35,62 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.usecase.service.DefaultPersonService;
+import com.bernardomg.association.person.domain.model.ContactMode;
+import com.bernardomg.association.person.domain.repository.ContactModeRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactModes;
+import com.bernardomg.association.person.usecase.service.DefaultContactModeService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Person service - delete")
-class TestPersonServiceDelete {
+@DisplayName("Contact mode service - create")
+class TestContactModeServiceCreate {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactModeRepository     contactModeRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultContactModeService service;
 
-    public TestPersonServiceDelete() {
+    public TestContactModeServiceCreate() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
-    void testDelete_CallsRepository() {
+    @DisplayName("With a valid contact mode, the contact mode is persisted")
+    void testCreate_PersistedData() {
+        final ContactMode contactMode;
+
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        contactMode = ContactModes.valid();
+
+        given(contactModeRepository.findNextNumber()).willReturn(ContactModeConstants.NUMBER);
 
         // WHEN
-        service.delete(PersonConstants.NUMBER);
+        service.create(contactMode);
 
         // THEN
-        verify(personRepository).delete(PersonConstants.NUMBER);
+        verify(contactModeRepository).save(ContactModes.valid());
     }
 
     @Test
-    @DisplayName("When the person doesn't exist an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
-        final ThrowingCallable execution;
+    @DisplayName("With a valid contact mode, the created contact mode is returned")
+    void testCreate_ReturnedData() {
+        final ContactMode contactMode;
+        final ContactMode created;
 
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        contactMode = ContactModes.valid();
+
+        given(contactModeRepository.save(ContactModes.valid())).willReturn(ContactModes.valid());
+        given(contactModeRepository.findNextNumber()).willReturn(ContactModeConstants.NUMBER);
 
         // WHEN
-        execution = () -> service.delete(PersonConstants.NUMBER);
+        created = service.create(contactMode);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
+        Assertions.assertThat(created)
+            .as("contact mode")
+            .isEqualTo(ContactModes.valid());
     }
 
 }

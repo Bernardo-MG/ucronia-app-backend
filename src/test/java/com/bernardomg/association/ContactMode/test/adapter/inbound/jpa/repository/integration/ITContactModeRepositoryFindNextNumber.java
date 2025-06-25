@@ -3,11 +3,11 @@
  * <p>
  * Copyright (c) 2023 the original author or authors.
  * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * Permission is hereby granted, free of charge, to any ContactMode obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies of the Software, and to permit ContactModes to whom the Software is
  * furnished to do so, subject to the following conditions:
  * <p>
  * The above copyright notice and this permission notice shall be included in
@@ -22,28 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.ContactMode.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.domain.repository.ContactModeRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMode;
+import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find next number")
-class ITPersonRepositoryFindNextNumber {
+@DisplayName("ContactModeRepository - find next number")
+class ITContactModeRepositoryFindNextNumber {
 
     @Autowired
-    private PersonRepository repository;
+    private ContactModeRepository repository;
 
     @Test
-    @DisplayName("With an existing person, it returns the next number")
-    @NoMembershipPerson
+    @DisplayName("With an existing contact mode, it returns the next number")
+    @SingleContactMode
     void testFindNextNumber() {
         final long number;
 
@@ -53,11 +53,11 @@ class ITPersonRepositoryFindNextNumber {
         // THEN
         Assertions.assertThat(number)
             .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+            .isEqualTo(ContactModeConstants.NUMBER + 1);
     }
 
     @Test
-    @DisplayName("With no person, it returns the initial number")
+    @DisplayName("With no contact mode, it returns the initial number")
     void testFindNextNumber_NoData() {
         final long number;
 

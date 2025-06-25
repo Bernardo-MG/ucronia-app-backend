@@ -53,15 +53,6 @@ public interface ContactModeService {
     public Optional<ContactMode> getOne(final long number);
 
     /**
-     * Patches the contact mode for the received id with the received data.
-     *
-     * @param contactMode
-     *            new data for the contact mode
-     * @return the updated contact mode
-     */
-    public ContactMode patch(final ContactMode contactMode);
-
-    /**
      * Updates the contact mode for the received id with the received data.
      *
      * @param contactMode

@@ -189,11 +189,11 @@ public final class JpaPersonRepository implements PersonRepository {
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next number for the transactions");
+        log.debug("Finding next number for the persons");
 
         number = personSpringRepository.findNextNumber();
 
-        log.debug("Found next number for the transactions: {}", number);
+        log.debug("Found next number for the persons: {}", number);
 
         return number;
     }

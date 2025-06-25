@@ -29,45 +29,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.domain.repository.ContactModeRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMode;
+import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find next number")
-class ITPersonRepositoryFindNextNumber {
+@DisplayName("ContactModeRepository - exists")
+class ITContactModeRepositoryExists {
 
     @Autowired
-    private PersonRepository repository;
+    private ContactModeRepository repository;
 
     @Test
-    @DisplayName("With an existing person, it returns the next number")
-    @NoMembershipPerson
-    void testFindNextNumber() {
-        final long number;
+    @DisplayName("With an existing contact mode, it exists")
+    @SingleContactMode
+    void testExists() {
+        final boolean exists;
 
         // WHEN
-        number = repository.findNextNumber();
+        exists = repository.exists(ContactModeConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(PersonConstants.NUMBER + 1);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("With no person, it returns the initial number")
-    void testFindNextNumber_NoData() {
-        final long number;
+    @DisplayName("With no contact mode, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
 
         // WHEN
-        number = repository.findNextNumber();
+        exists = repository.exists(ContactModeConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(1);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

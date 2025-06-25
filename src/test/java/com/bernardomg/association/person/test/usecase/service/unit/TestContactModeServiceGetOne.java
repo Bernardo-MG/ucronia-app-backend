@@ -25,7 +25,8 @@
 package com.bernardomg.association.person.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -36,52 +37,57 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.usecase.service.DefaultPersonService;
+import com.bernardomg.association.person.domain.exception.MissingContactModeException;
+import com.bernardomg.association.person.domain.model.ContactMode;
+import com.bernardomg.association.person.domain.repository.ContactModeRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactModes;
+import com.bernardomg.association.person.usecase.service.DefaultContactModeService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Person service - delete")
-class TestPersonServiceDelete {
+@DisplayName("Contact mode service - get one")
+class TestContactModeServiceGetOne {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactModeRepository     contactModeRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultContactModeService service;
 
-    public TestPersonServiceDelete() {
+    public TestContactModeServiceGetOne() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
-    void testDelete_CallsRepository() {
+    @DisplayName("When there is data it is returned")
+    void testGetOne() {
+        final Optional<ContactMode> contactModeOptional;
+
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(contactModeRepository.findOne(ContactModeConstants.NUMBER)).willReturn(Optional.of(ContactModes.valid()));
 
         // WHEN
-        service.delete(PersonConstants.NUMBER);
+        contactModeOptional = service.getOne(ContactModeConstants.NUMBER);
 
         // THEN
-        verify(personRepository).delete(PersonConstants.NUMBER);
+        Assertions.assertThat(contactModeOptional)
+            .contains(ContactModes.valid());
     }
 
     @Test
-    @DisplayName("When the person doesn't exist an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
+    @DisplayName("When the contact mode doesn't exist an exception is thrown")
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(contactModeRepository.findOne(ContactModeConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(PersonConstants.NUMBER);
+        execution = () -> service.getOne(ContactModeConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
+            .isInstanceOf(MissingContactModeException.class);
     }
 
 }
