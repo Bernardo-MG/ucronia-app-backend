@@ -32,4 +32,28 @@ public class ContactModeEntity implements Serializable {
     @Column(name = "number")
     private Long              number;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
 }

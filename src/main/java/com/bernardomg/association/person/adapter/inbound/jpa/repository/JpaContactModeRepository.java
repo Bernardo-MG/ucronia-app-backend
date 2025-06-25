@@ -3,13 +3,17 @@ package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactModeEntity;
 import com.bernardomg.association.person.domain.model.ContactMode;
 import com.bernardomg.association.person.domain.repository.ContactModeRepository;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 
 @Repository
 @Transactional
@@ -39,14 +43,28 @@ public final class JpaContactModeRepository implements ContactModeRepository {
 
     @Override
     public Iterable<ContactMode> findAll(final Pagination pagination, final Sorting sorting) {
-        // TODO Auto-generated method stub
-        return null;
+        final Page<ContactMode> contactModes;
+        final Pageable          pageable;
+
+        log.debug("Finding all the contact modes");
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        contactModes = contactModeSpringRepository.findAll(pageable)
+            .map(this::toDomain);
+
+        log.debug("Found all the contact modes: {}", contactModes);
+
+        return contactModes;
     }
 
     @Override
     public ContactMode save(final ContactMode person) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    private final ContactMode toDomain(final ContactModeEntity entity) {
+        return new ContactMode(entity.getNumber(), entity.getName());
     }
 
 }

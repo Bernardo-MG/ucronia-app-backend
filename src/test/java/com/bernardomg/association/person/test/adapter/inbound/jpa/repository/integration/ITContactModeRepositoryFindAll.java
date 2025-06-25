@@ -29,47 +29,58 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactModeSpringRepository;
+import com.bernardomg.association.person.domain.model.ContactMode;
 import com.bernardomg.association.person.domain.repository.ContactModeRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMode;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactModes;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactModeRepository - delete")
-class ITContactModeRepositoryDelete {
+@DisplayName("PersonRepository - find all")
+class ITContactModeRepositoryFindAll {
 
     @Autowired
-    private ContactModeRepository       contactModeRepository;
+    private ContactModeRepository contactModeRepository;
 
-    @Autowired
-    private ContactModeSpringRepository repository;
+    @Test
+    @DisplayName("With no contact mode, nothing is returned")
+    void testFindAll_NoData() {
+        final Iterable<ContactMode> contactModes;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
-    public ITContactModeRepositoryDelete() {
-        super();
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        contactModes = contactModeRepository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(contactModes)
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("When deleting a contact mode, it is deleted")
+    @DisplayName("With a single contact mode, it is returned")
     @SingleContactMode
-    void testDelete() {
+    void testFindAll_Single() {
+        final Iterable<ContactMode> contactModes;
+        final Pagination            pagination;
+        final Sorting               sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+
         // WHEN
-        contactModeRepository.delete(PersonConstants.NUMBER);
+        contactModes = contactModeRepository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When there is no data, nothing is deleted")
-    void testDelete_noData() {
-        // WHEN
-        contactModeRepository.delete(PersonConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(repository.count())
-            .isZero();
+        Assertions.assertThat(contactModes)
+            .containsExactly(ContactModes.valid());
     }
 
 }
