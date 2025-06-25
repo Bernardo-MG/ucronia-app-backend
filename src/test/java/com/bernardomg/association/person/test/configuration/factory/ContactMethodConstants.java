@@ -1,13 +1,13 @@
 
 package com.bernardomg.association.person.test.configuration.factory;
 
-public final class ContactModeConstants {
+public final class ContactMethodConstants {
 
-    public static final String NAME   = "Contact mode";
+    public static final String NAME   = "Contact method";
 
     public static final long   NUMBER = 10;
 
-    private ContactModeConstants() {
+    private ContactMethodConstants() {
         super();
     }
 

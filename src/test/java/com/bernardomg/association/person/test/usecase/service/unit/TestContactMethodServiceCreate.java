@@ -28,7 +28,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,52 +35,62 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.exception.MissingContactModeException;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
-import com.bernardomg.association.person.usecase.service.DefaultContactModeService;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Contact mode service - delete")
-class TestContactModeServiceDelete {
+@DisplayName("Contact method service - create")
+class TestContactMethodServiceCreate {
 
     @Mock
-    private ContactModeRepository     contactModeRepository;
+    private ContactMethodRepository     ContactMethodRepository;
 
     @InjectMocks
-    private DefaultContactModeService service;
+    private DefaultContactMethodService service;
 
-    public TestContactModeServiceDelete() {
+    public TestContactMethodServiceCreate() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
-    void testDelete_CallsRepository() {
+    @DisplayName("With a valid contact method, the contact method is persisted")
+    void testCreate_PersistedData() {
+        final ContactMethod ContactMethod;
+
         // GIVEN
-        given(contactModeRepository.exists(ContactModeConstants.NUMBER)).willReturn(true);
+        ContactMethod = ContactMethods.valid();
+
+        given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
         // WHEN
-        service.delete(ContactModeConstants.NUMBER);
+        service.create(ContactMethod);
 
         // THEN
-        verify(contactModeRepository).delete(ContactModeConstants.NUMBER);
+        verify(ContactMethodRepository).save(ContactMethods.valid());
     }
 
     @Test
-    @DisplayName("When the contact mode doesn't exist an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
-        final ThrowingCallable execution;
+    @DisplayName("With a valid contact method, the created contact method is returned")
+    void testCreate_ReturnedData() {
+        final ContactMethod ContactMethod;
+        final ContactMethod created;
 
         // GIVEN
-        given(contactModeRepository.exists(ContactModeConstants.NUMBER)).willReturn(false);
+        ContactMethod = ContactMethods.valid();
+
+        given(ContactMethodRepository.save(ContactMethods.valid())).willReturn(ContactMethods.valid());
+        given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
         // WHEN
-        execution = () -> service.delete(ContactModeConstants.NUMBER);
+        created = service.create(ContactMethod);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactModeException.class);
+        Assertions.assertThat(created)
+            .as("contact method")
+            .isEqualTo(ContactMethods.valid());
     }
 
 }

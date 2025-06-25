@@ -37,57 +37,57 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.exception.MissingContactModeException;
-import com.bernardomg.association.person.domain.model.ContactMode;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
-import com.bernardomg.association.person.test.configuration.factory.ContactModes;
-import com.bernardomg.association.person.usecase.service.DefaultContactModeService;
+import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Contact mode service - get one")
-class TestContactModeServiceGetOne {
+@DisplayName("Contact method service - get one")
+class TestContactMethodServiceGetOne {
 
     @Mock
-    private ContactModeRepository     contactModeRepository;
+    private ContactMethodRepository     ContactMethodRepository;
 
     @InjectMocks
-    private DefaultContactModeService service;
+    private DefaultContactMethodService service;
 
-    public TestContactModeServiceGetOne() {
+    public TestContactMethodServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<ContactMode> contactModeOptional;
+        final Optional<ContactMethod> ContactMethodOptional;
 
         // GIVEN
-        given(contactModeRepository.findOne(ContactModeConstants.NUMBER)).willReturn(Optional.of(ContactModes.valid()));
+        given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER)).willReturn(Optional.of(ContactMethods.valid()));
 
         // WHEN
-        contactModeOptional = service.getOne(ContactModeConstants.NUMBER);
+        ContactMethodOptional = service.getOne(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contactModeOptional)
-            .contains(ContactModes.valid());
+        Assertions.assertThat(ContactMethodOptional)
+            .contains(ContactMethods.valid());
     }
 
     @Test
-    @DisplayName("When the contact mode doesn't exist an exception is thrown")
+    @DisplayName("When the contact method doesn't exist an exception is thrown")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(contactModeRepository.findOne(ContactModeConstants.NUMBER)).willReturn(Optional.empty());
+        given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ContactModeConstants.NUMBER);
+        execution = () -> service.getOne(ContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactModeException.class);
+            .isInstanceOf(MissingContactMethodException.class);
     }
 
 }

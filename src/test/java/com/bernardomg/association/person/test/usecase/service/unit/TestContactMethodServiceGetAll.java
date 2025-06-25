@@ -3,11 +3,11 @@
  * <p>
  * Copyright (c) 2023 the original author or authors.
  * <p>
- * Permission is hereby granted, free of charge, to any ContactMode obtaining a copy
+ * Permission is hereby granted, free of charge, to any ContactMethod obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit ContactModes to whom the Software is
+ * copies of the Software, and to permit ContactMethods to whom the Software is
  * furnished to do so, subject to the following conditions:
  * <p>
  * The above copyright notice and this permission notice shall be included in
@@ -42,56 +42,56 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.model.ContactMode;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.factory.ContactModes;
-import com.bernardomg.association.person.usecase.service.DefaultContactModeService;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.domain.Sorting.Property;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Contact mode service - get all")
-class TestContactModeServiceGetAll {
+@DisplayName("Contact method service - get all")
+class TestContactMethodServiceGetAll {
 
     @Mock
-    private ContactModeRepository     contactModeRepository;
+    private ContactMethodRepository     ContactMethodRepository;
 
     @InjectMocks
-    private DefaultContactModeService service;
+    private DefaultContactMethodService service;
 
-    public TestContactModeServiceGetAll() {
+    public TestContactMethodServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<ContactMode>   ContactModes;
+        final Iterable<ContactMethod>   ContactMethods;
         final Pagination              pagination;
         final Sorting                 sorting;
-        final Collection<ContactMode> readContactModes;
+        final Collection<ContactMethod> readContactMethods;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
-        readContactModes = List.of();
-        given(contactModeRepository.findAll(pagination, sorting)).willReturn(readContactModes);
+        readContactMethods = List.of();
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
 
         // WHEN
-        ContactModes = service.getAll(pagination, sorting);
+        ContactMethods = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(ContactModes)
-            .as("ContactModes")
+        Assertions.assertThat(ContactMethods)
+            .as("ContactMethods")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When getting all the ContactModes, it returns all the ContactModes")
+    @DisplayName("When getting all the ContactMethods, it returns all the ContactMethods")
     void testGetAll_ReturnsData() {
-        final Iterable<ContactMode> contactModes;
+        final Iterable<ContactMethod> contactMethods;
         final Pagination            pagination;
         final Sorting               sorting;
 
@@ -99,15 +99,15 @@ class TestContactModeServiceGetAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
-        given(contactModeRepository.findAll(pagination, sorting)).willReturn(List.of(ContactModes.valid()));
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(List.of(ContactMethods.valid()));
 
         // WHEN
-        contactModes = service.getAll(pagination, sorting);
+        contactMethods = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(contactModes)
-            .as("ContactModes")
-            .containsExactly(ContactModes.valid());
+        Assertions.assertThat(contactMethods)
+            .as("ContactMethods")
+            .containsExactly(ContactMethods.valid());
     }
 
     @Test
@@ -115,20 +115,20 @@ class TestContactModeServiceGetAll {
     void testGetAll_Sort_Paged_Asc_FirstName() {
         final Pagination              pagination;
         final Sorting                 sorting;
-        final Collection<ContactMode> readContactModes;
+        final Collection<ContactMethod> readContactMethods;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
 
-        readContactModes = List.of(ContactModes.valid());
-        given(contactModeRepository.findAll(pagination, sorting)).willReturn(readContactModes);
+        readContactMethods = List.of(ContactMethods.valid());
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
 
         // WHEN
         service.getAll(pagination, sorting);
 
         // THEN
-        verify(contactModeRepository).findAll(eq(pagination), assertArg(s -> assertThat(s).as("sort")
+        verify(ContactMethodRepository).findAll(eq(pagination), assertArg(s -> assertThat(s).as("sort")
             .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Property.asc("firstName"))));
@@ -139,20 +139,20 @@ class TestContactModeServiceGetAll {
     void testGetAll_Sort_Paged_Desc_FirstName() {
         final Pagination              pagination;
         final Sorting                 sorting;
-        final Collection<ContactMode> readContactModes;
+        final Collection<ContactMethod> readContactMethods;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
 
-        readContactModes = List.of(ContactModes.valid());
-        given(contactModeRepository.findAll(pagination, sorting)).willReturn(readContactModes);
+        readContactMethods = List.of(ContactMethods.valid());
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
 
         // WHEN
         service.getAll(pagination, sorting);
 
         // THEN
-        verify(contactModeRepository).findAll(eq(pagination), assertArg(s -> assertThat(s).as("sort")
+        verify(ContactMethodRepository).findAll(eq(pagination), assertArg(s -> assertThat(s).as("sort")
             .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Property.desc("firstName"))));

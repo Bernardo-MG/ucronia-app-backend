@@ -36,82 +36,82 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.exception.MissingContactModeException;
-import com.bernardomg.association.person.domain.model.ContactMode;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.factory.ContactModeConstants;
-import com.bernardomg.association.person.test.configuration.factory.ContactModes;
-import com.bernardomg.association.person.usecase.service.DefaultContactModeService;
+import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Contact mode service - update")
-class TestContactModeServiceUpdate {
+@DisplayName("Contact method service - update")
+class TestContactMethodServiceUpdate {
 
     @Mock
-    private ContactModeRepository     contactModeRepository;
+    private ContactMethodRepository     ContactMethodRepository;
 
     @InjectMocks
-    private DefaultContactModeService service;
+    private DefaultContactMethodService service;
 
-    public TestContactModeServiceUpdate() {
+    public TestContactMethodServiceUpdate() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing contact mode, an exception is thrown")
+    @DisplayName("With a not existing contact method, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final ContactMode      contactMode;
+        final ContactMethod      ContactMethod;
         final ThrowingCallable execution;
 
         // GIVEN
-        contactMode = ContactModes.valid();
+        ContactMethod = ContactMethods.valid();
 
-        given(contactModeRepository.exists(ContactModeConstants.NUMBER)).willReturn(false);
+        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(contactMode);
+        execution = () -> service.update(ContactMethod);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactModeException.class);
+            .isInstanceOf(MissingContactMethodException.class);
     }
 
     @Test
-    @DisplayName("When updating a contact mode, the change is persisted")
+    @DisplayName("When updating a contact method, the change is persisted")
     void testUpdate_PersistedData() {
-        final ContactMode contactMode;
+        final ContactMethod ContactMethod;
 
         // GIVEN
-        contactMode = ContactModes.valid();
+        ContactMethod = ContactMethods.valid();
 
-        given(contactModeRepository.exists(ContactModeConstants.NUMBER)).willReturn(true);
+        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(contactMode);
+        service.update(ContactMethod);
 
         // THEN
-        verify(contactModeRepository).save(ContactModes.valid());
+        verify(ContactMethodRepository).save(ContactMethods.valid());
     }
 
     @Test
-    @DisplayName("When updating an active contact mode, the change is returned")
+    @DisplayName("When updating an active contact method, the change is returned")
     void testUpdate_ReturnedData() {
-        final ContactMode contactMode;
-        final ContactMode updated;
+        final ContactMethod ContactMethod;
+        final ContactMethod updated;
 
         // GIVEN
-        contactMode = ContactModes.valid();
+        ContactMethod = ContactMethods.valid();
 
-        given(contactModeRepository.exists(ContactModeConstants.NUMBER)).willReturn(true);
-        given(contactModeRepository.save(ContactModes.valid())).willReturn(ContactModes.valid());
+        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        given(ContactMethodRepository.save(ContactMethods.valid())).willReturn(ContactMethods.valid());
 
         // WHEN
-        updated = service.update(contactMode);
+        updated = service.update(ContactMethod);
 
         // THEN
         Assertions.assertThat(updated)
-            .as("contact mode")
-            .isEqualTo(ContactModes.valid());
+            .as("contact method")
+            .isEqualTo(ContactMethods.valid());
     }
 
 }

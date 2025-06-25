@@ -24,63 +24,52 @@
 
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.model.ContactMode;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMode;
-import com.bernardomg.association.person.test.configuration.factory.ContactModes;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMethod;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactModeRepository - find all")
-class ITContactModeRepositoryFindAll {
+@DisplayName("ContactMethodRepository - find one")
+class ITContactMethodRepositoryFindOne {
 
     @Autowired
-    private ContactModeRepository repository;
+    private ContactMethodRepository repository;
 
     @Test
-    @DisplayName("With no contact mode, nothing is returned")
-    void testFindAll_NoData() {
-        final Iterable<ContactMode> contactModes;
-        final Pagination            pagination;
-        final Sorting               sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
+    @DisplayName("With a contact method, it is returned")
+    @SingleContactMethod
+    void testFindOne() {
+        final Optional<ContactMethod> personOptional;
 
         // WHEN
-        contactModes = repository.findAll(pagination, sorting);
+        personOptional = repository.findOne(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contactModes)
-            .isEmpty();
+        Assertions.assertThat(personOptional)
+            .contains(ContactMethods.valid());
     }
 
     @Test
-    @DisplayName("With a single contact mode, it is returned")
-    @SingleContactMode
-    void testFindAll_Single() {
-        final Iterable<ContactMode> contactModes;
-        final Pagination            pagination;
-        final Sorting               sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
+    @DisplayName("With no person, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<ContactMethod> personOptional;
 
         // WHEN
-        contactModes = repository.findAll(pagination, sorting);
+        personOptional = repository.findOne(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contactModes)
-            .containsExactly(ContactModes.valid());
+        Assertions.assertThat(personOptional)
+            .isEmpty();
     }
 
 }

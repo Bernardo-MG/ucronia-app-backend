@@ -29,47 +29,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactModeSpringRepository;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMode;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMethod;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactModeRepository - delete")
-class ITContactModeRepositoryDelete {
+@DisplayName("ContactMethodRepository - exists")
+class ITContactMethodRepositoryExists {
 
     @Autowired
-    private ContactModeRepository       repository;
+    private ContactMethodRepository repository;
 
-    @Autowired
-    private ContactModeSpringRepository springrepository;
+    @Test
+    @DisplayName("With an existing contact method, it exists")
+    @SingleContactMethod
+    void testExists() {
+        final boolean exists;
 
-    public ITContactModeRepositoryDelete() {
-        super();
+        // WHEN
+        exists = repository.exists(ContactMethodConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When deleting a contact mode, it is deleted")
-    @SingleContactMode
-    void testDelete() {
+    @DisplayName("With no contact method, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
+
         // WHEN
-        repository.delete(PersonConstants.NUMBER);
+        exists = repository.exists(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(springrepository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When there is no data, nothing is deleted")
-    void testDelete_noData() {
-        // WHEN
-        repository.delete(PersonConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(springrepository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

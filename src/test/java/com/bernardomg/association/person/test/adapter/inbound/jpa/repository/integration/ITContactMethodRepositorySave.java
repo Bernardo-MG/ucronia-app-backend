@@ -29,36 +29,36 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactModeEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactModeSpringRepository;
-import com.bernardomg.association.person.domain.model.ContactMode;
-import com.bernardomg.association.person.domain.repository.ContactModeRepository;
-import com.bernardomg.association.person.test.configuration.factory.ContactModeEntities;
-import com.bernardomg.association.person.test.configuration.factory.ContactModes;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodEntities;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactModeRepository - save")
-class ITContactModeRepositorySave {
+@DisplayName("ContactMethodRepository - save")
+class ITContactMethodRepositorySave {
 
     @Autowired
-    private ContactModeRepository       repository;
+    private ContactMethodRepository       repository;
 
     @Autowired
-    private ContactModeSpringRepository springRepository;
+    private ContactMethodSpringRepository springRepository;
 
-    public ITContactModeRepositorySave() {
+    public ITContactMethodRepositorySave() {
         super();
     }
 
     @Test
-    @DisplayName("With a valid contact mode, the contact mode is persisted")
+    @DisplayName("With a valid contact method, the contact method is persisted")
     void testSave_PersistedData() {
-        final ContactMode                 person;
-        final Iterable<ContactModeEntity> entities;
+        final ContactMethod                 person;
+        final Iterable<ContactMethodEntity> entities;
 
         // GIVEN
-        person = ContactModes.valid();
+        person = ContactMethods.valid();
 
         // WHEN
         repository.save(person);
@@ -69,25 +69,25 @@ class ITContactModeRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(ContactModeEntities.valid());
+            .containsExactly(ContactMethodEntities.valid());
     }
 
     @Test
-    @DisplayName("With a valid contact mode, the created contact mode is returned")
+    @DisplayName("With a valid contact method, the created contact method is returned")
     void testSave_ReturnedData() {
-        final ContactMode person;
-        final ContactMode saved;
+        final ContactMethod person;
+        final ContactMethod saved;
 
         // GIVEN
-        person = ContactModes.valid();
+        person = ContactMethods.valid();
 
         // WHEN
         saved = repository.save(person);
 
         // THEN
         Assertions.assertThat(saved)
-            .as("contact mode")
-            .isEqualTo(ContactModes.valid());
+            .as("contact method")
+            .isEqualTo(ContactMethods.valid());
     }
 
 }
