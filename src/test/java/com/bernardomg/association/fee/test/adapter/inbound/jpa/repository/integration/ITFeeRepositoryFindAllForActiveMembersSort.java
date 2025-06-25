@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleActiveMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActivePerson;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -75,7 +75,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleActiveMembershipPerson
+    @MultipleMembershipActivePerson
     @MultipleFees
     void testFindAllForActiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
@@ -99,7 +99,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleActiveMembershipPerson
+    @MultipleMembershipActivePerson
     @MultipleFees
     void testFindAllForActiveMembers_Name_Desc() {
         final Iterable<Fee> fees;

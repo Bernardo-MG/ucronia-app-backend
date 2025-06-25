@@ -41,10 +41,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryDelete {
 
     @Autowired
-    private PersonRepository       personRepository;
+    private PersonRepository       repository;
 
     @Autowired
-    private PersonSpringRepository repository;
+    private PersonSpringRepository springRepository;
 
     public ITPersonRepositoryDelete() {
         super();
@@ -55,10 +55,10 @@ class ITPersonRepositoryDelete {
     @NoMembershipPerson
     void testDelete() {
         // WHEN
-        personRepository.delete(PersonConstants.NUMBER);
+        repository.delete(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(springRepository.count())
             .isZero();
     }
 
@@ -66,10 +66,10 @@ class ITPersonRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_noData() {
         // WHEN
-        personRepository.delete(PersonConstants.NUMBER);
+        repository.delete(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(springRepository.count())
             .isZero();
     }
 
@@ -78,10 +78,10 @@ class ITPersonRepositoryDelete {
     @MembershipActivePerson
     void testDelete_withMember() {
         // WHEN
-        personRepository.delete(PersonConstants.NUMBER);
+        repository.delete(PersonConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(springRepository.count())
             .isZero();
     }
 

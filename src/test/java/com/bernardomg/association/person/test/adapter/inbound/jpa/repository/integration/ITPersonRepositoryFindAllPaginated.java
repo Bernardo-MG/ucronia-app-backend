@@ -34,22 +34,20 @@ import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all - filter for not member")
-class ITPersonRepositoryFindAllQueryNoMember {
+@DisplayName("PersonRepository - find all - paginated")
+class ITPersonRepositoryFindAllPaginated {
 
     @Autowired
     private PersonRepository repository;
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<Person> people;
         final Pagination       pagination;
@@ -57,82 +55,40 @@ class ITPersonRepositoryFindAllQueryNoMember {
         final PersonFilter     filter;
 
         // GIVEN
-        pagination = new Pagination(1, 100);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
+            .as("people")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a person having an active membership, nothing is returned")
+    @DisplayName("When there is a person, it is returned")
     @MembershipActivePerson
-    void testFindAll_WithMembership_Active() {
+    void testFindAll_Single() {
         final Iterable<Person> people;
         final Pagination       pagination;
         final Sorting          sorting;
         final PersonFilter     filter;
 
         // GIVEN
-        pagination = new Pagination(1, 100);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
+        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a person having an inactive membership, nothing is returned")
-    @MembershipInactivePerson
-    void testFindAll_WithMembership_Inactive() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
-
-        // WHEN
-        people = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(people)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a person without membership, it is returned")
-    @NoMembershipPerson
-    void testFindAll_WithoutMembership() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.NO_MEMBER, "");
-
-        // WHEN
-        people = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(people)
-            .containsExactly(Persons.noMembership());
+            .as("people")
+            .containsExactly(Persons.membershipActive());
     }
 
 }

@@ -38,11 +38,11 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - find all")
+@DisplayName("ContactModeRepository - find all")
 class ITContactModeRepositoryFindAll {
 
     @Autowired
-    private ContactModeRepository contactModeRepository;
+    private ContactModeRepository repository;
 
     @Test
     @DisplayName("With no contact mode, nothing is returned")
@@ -56,7 +56,7 @@ class ITContactModeRepositoryFindAll {
         sorting = Sorting.unsorted();
 
         // WHEN
-        contactModes = contactModeRepository.findAll(pagination, sorting);
+        contactModes = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(contactModes)
@@ -76,7 +76,7 @@ class ITContactModeRepositoryFindAll {
         sorting = Sorting.unsorted();
 
         // WHEN
-        contactModes = contactModeRepository.findAll(pagination, sorting);
+        contactModes = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(contactModes)

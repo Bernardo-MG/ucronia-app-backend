@@ -46,7 +46,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryFindAllQueryAll {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Test
     @DisplayName("With no person, nothing is returned")
@@ -62,7 +62,7 @@ class ITPersonRepositoryFindAllQueryAll {
         filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -84,7 +84,7 @@ class ITPersonRepositoryFindAllQueryAll {
         filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -106,7 +106,7 @@ class ITPersonRepositoryFindAllQueryAll {
         filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -128,7 +128,7 @@ class ITPersonRepositoryFindAllQueryAll {
         filter = new PersonFilter(PersonStatus.ALL, "");
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)

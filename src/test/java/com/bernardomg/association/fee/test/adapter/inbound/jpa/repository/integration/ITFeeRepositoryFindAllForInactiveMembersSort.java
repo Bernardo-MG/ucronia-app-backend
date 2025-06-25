@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.person.test.configuration.data.annotation.AccentInactiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -75,7 +75,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleInactiveMembershipPerson
+    @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAllForInactiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
@@ -99,7 +99,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleInactiveMembershipPerson
+    @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAllForInactiveMembers_Name_Desc() {
         final Iterable<Fee> fees;
