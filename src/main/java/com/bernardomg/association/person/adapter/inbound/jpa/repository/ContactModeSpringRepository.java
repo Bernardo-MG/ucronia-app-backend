@@ -44,7 +44,7 @@ public interface ContactModeSpringRepository extends JpaRepository<ContactModeEn
     public void deleteByNumber(@Param("number") final Long number);
 
     @Query("""
-            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM ContactMode m
             WHERE m.number = :number
             """)
