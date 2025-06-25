@@ -60,7 +60,7 @@ class TestContactMethodServiceUpdate {
     @Test
     @DisplayName("With a not existing contact method, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final ContactMethod      ContactMethod;
+        final ContactMethod    ContactMethod;
         final ThrowingCallable execution;
 
         // GIVEN

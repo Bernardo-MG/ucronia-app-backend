@@ -68,8 +68,8 @@ class TestContactMethodServiceGetAll {
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
         final Iterable<ContactMethod>   ContactMethods;
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Pagination                pagination;
+        final Sorting                   sorting;
         final Collection<ContactMethod> readContactMethods;
 
         // GIVEN
@@ -92,8 +92,8 @@ class TestContactMethodServiceGetAll {
     @DisplayName("When getting all the ContactMethods, it returns all the ContactMethods")
     void testGetAll_ReturnsData() {
         final Iterable<ContactMethod> contactMethods;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -113,8 +113,8 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FirstName() {
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Pagination                pagination;
+        final Sorting                   sorting;
         final Collection<ContactMethod> readContactMethods;
 
         // GIVEN
@@ -137,8 +137,8 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When sorting descending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FirstName() {
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Pagination                pagination;
+        final Sorting                   sorting;
         final Collection<ContactMethod> readContactMethods;
 
         // GIVEN

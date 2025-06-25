@@ -28,7 +28,7 @@ public final class DefaultContactMethodService implements ContactMethodService {
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(DefaultContactMethodService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultContactMethodService.class);
 
     private final ContactMethodRepository ContactMethodRepository;
 
@@ -41,7 +41,7 @@ public final class DefaultContactMethodService implements ContactMethodService {
     @Override
     public final ContactMethod create(final ContactMethod ContactMethod) {
         final ContactMethod toCreate;
-        final Long        number;
+        final Long          number;
 
         log.debug("Creating ContactMethod {}", ContactMethod);
 

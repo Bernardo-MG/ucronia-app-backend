@@ -48,8 +48,8 @@ class ITContactMethodRepositoryFindAll {
     @DisplayName("With no contact method, nothing is returned")
     void testFindAll_NoData() {
         final Iterable<ContactMethod> ContactMethods;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -68,8 +68,8 @@ class ITContactMethodRepositoryFindAll {
     @SingleContactMethod
     void testFindAll_Single() {
         final Iterable<ContactMethod> contactMethods;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);

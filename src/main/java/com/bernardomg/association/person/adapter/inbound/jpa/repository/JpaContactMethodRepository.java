@@ -24,7 +24,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaContactMethodRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaContactMethodRepository.class);
 
     private final ContactMethodSpringRepository ContactMethodSpringRepository;
 
@@ -59,7 +59,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     @Override
     public final Iterable<ContactMethod> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<ContactMethod> ContactMethods;
-        final Pageable          pageable;
+        final Pageable            pageable;
 
         log.debug("Finding all the contact methods");
 

@@ -64,7 +64,8 @@ class TestContactMethodServiceGetOne {
         final Optional<ContactMethod> ContactMethodOptional;
 
         // GIVEN
-        given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER)).willReturn(Optional.of(ContactMethods.valid()));
+        given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER))
+            .willReturn(Optional.of(ContactMethods.valid()));
 
         // WHEN
         ContactMethodOptional = service.getOne(ContactMethodConstants.NUMBER);
