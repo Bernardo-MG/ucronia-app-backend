@@ -2,6 +2,7 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -188,11 +189,11 @@ public final class JpaPersonRepository implements PersonRepository {
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next number for the transactions");
+        log.debug("Finding next number for the persons");
 
         number = personSpringRepository.findNextNumber();
 
-        log.debug("Found next number for the transactions: {}", number);
+        log.debug("Found next number for the persons: {}", number);
 
         return number;
     }
@@ -268,8 +269,8 @@ public final class JpaPersonRepository implements PersonRepository {
         } else {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
-            membership);
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
+            List.of());
     }
 
     private final PersonEntity toEntity(final Person data) {
@@ -300,7 +301,6 @@ public final class JpaPersonRepository implements PersonRepository {
         entity.setLastName(data.name()
             .lastName());
         entity.setIdentifier(data.identifier());
-        entity.setPhone(data.phone());
         entity.setBirthDate(data.birthDate());
         entity.setMember(member);
         entity.setActive(active);

@@ -45,7 +45,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryFindOne {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Test
     @DisplayName("With a person, it is returned")
@@ -54,7 +54,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -67,7 +67,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -81,7 +81,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -95,7 +95,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -109,7 +109,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)

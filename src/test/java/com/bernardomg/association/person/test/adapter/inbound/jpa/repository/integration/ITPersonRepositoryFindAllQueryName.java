@@ -47,7 +47,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryFindAllQueryName {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Test
     @DisplayName("With no person, nothing is returned")
@@ -63,7 +63,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL_MEMBER, PersonConstants.FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -85,7 +85,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -107,7 +107,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.FULL_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -129,7 +129,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.LAST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -152,7 +152,7 @@ class ITPersonRepositoryFindAllQueryName {
             PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2));
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -174,7 +174,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -196,7 +196,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -218,7 +218,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.FULL_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -240,7 +240,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.LAST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -263,7 +263,7 @@ class ITPersonRepositoryFindAllQueryName {
             PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2));
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -285,7 +285,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -307,7 +307,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -329,7 +329,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.FULL_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -351,7 +351,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.LAST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -374,7 +374,7 @@ class ITPersonRepositoryFindAllQueryName {
             PersonConstants.FIRST_NAME.substring(0, PersonConstants.FIRST_NAME.length() - 2));
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)
@@ -396,7 +396,7 @@ class ITPersonRepositoryFindAllQueryName {
         filter = new PersonFilter(PersonStatus.ALL, PersonConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
-        people = personRepository.findAll(filter, pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(people)

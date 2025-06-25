@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/person/multiple_membership_active.sql")
+@Sql("/db/queries/person/contact_mode.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface MultipleActiveMembershipPerson {
+public @interface SingleContactMethod {
 
 }

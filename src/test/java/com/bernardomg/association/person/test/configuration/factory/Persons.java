@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.person.test.configuration.factory;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Person;
@@ -14,7 +15,7 @@ public final class Persons {
 
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
-            PersonConstants.BIRTH_DATE, PersonConstants.PHONE, Optional.empty());
+            PersonConstants.BIRTH_DATE, Optional.empty(), List.of());
     }
 
     public static final Person alternativeMembershipInactive() {
@@ -24,7 +25,7 @@ public final class Persons {
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
         membership = new Membership(false, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
-            PersonConstants.BIRTH_DATE, PersonConstants.PHONE, Optional.of(membership));
+            PersonConstants.BIRTH_DATE, Optional.of(membership), List.of());
     }
 
     public static final Person emptyName() {
@@ -32,7 +33,7 @@ public final class Persons {
 
         name = new PersonName(" ", " ");
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.empty());
+            Optional.empty(), List.of());
     }
 
     public static final Person membershipActive() {
@@ -42,7 +43,7 @@ public final class Persons {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(true, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.of(membership));
+            Optional.of(membership), List.of());
     }
 
     public static final Person membershipActiveNew() {
@@ -51,7 +52,7 @@ public final class Persons {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(true, true);
-        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.of(membership));
+        return new Person("", PersonConstants.NUMBER, name, null, Optional.of(membership), List.of());
     }
 
     public static final Person membershipActiveNoRenew() {
@@ -61,7 +62,7 @@ public final class Persons {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(true, false);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.of(membership));
+            Optional.of(membership), List.of());
     }
 
     public static final Person membershipInactive() {
@@ -71,7 +72,7 @@ public final class Persons {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(false, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.of(membership));
+            Optional.of(membership), List.of());
     }
 
     public static final Person membershipInactiveNew() {
@@ -80,7 +81,7 @@ public final class Persons {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(false, false);
-        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.of(membership));
+        return new Person("", PersonConstants.NUMBER, name, null, Optional.of(membership), List.of());
     }
 
     public static final Person nameChange() {
@@ -88,7 +89,7 @@ public final class Persons {
 
         name = new PersonName("Person 123", "Last name");
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.empty());
+            Optional.empty(), List.of());
     }
 
     public static final Person nameChangePatch() {
@@ -103,14 +104,14 @@ public final class Persons {
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.empty());
+            Optional.empty(), List.of());
     }
 
     public static final Person noMembershipNew() {
         final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Person("", PersonConstants.NUMBER, name, null, "", Optional.empty());
+        return new Person("", PersonConstants.NUMBER, name, null, Optional.empty(), List.of());
     }
 
     public static final Person padded() {
@@ -118,15 +119,15 @@ public final class Persons {
 
         name = new PersonName(" " + PersonConstants.FIRST_NAME + " ", " " + PersonConstants.LAST_NAME + " ");
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
-            PersonConstants.PHONE, Optional.empty());
+            Optional.empty(), List.of());
     }
 
     public static final Person toCreate() {
         final PersonName name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Person(PersonConstants.IDENTIFIER, -1L, name, PersonConstants.BIRTH_DATE, PersonConstants.PHONE,
-            Optional.empty());
+        return new Person(PersonConstants.IDENTIFIER, -1L, name, PersonConstants.BIRTH_DATE, Optional.empty(),
+            List.of());
     }
 
 }

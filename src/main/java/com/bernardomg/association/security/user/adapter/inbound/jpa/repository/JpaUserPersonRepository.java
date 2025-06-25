@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -156,8 +157,8 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         final PersonName name;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
-            Optional.empty());
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), Optional.empty(),
+            List.of());
     }
 
 }

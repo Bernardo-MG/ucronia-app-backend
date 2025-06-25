@@ -43,10 +43,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryActivate {
 
     @Autowired
-    private PersonSpringRepository personRepository;
+    private PersonSpringRepository repository;
 
     @Autowired
-    private PersonRepository       repository;
+    private PersonRepository       springRepository;
 
     @Test
     @DisplayName("With an existing active member, nothing changes")
@@ -55,10 +55,10 @@ class ITPersonRepositoryActivate {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        springRepository.activate(PersonConstants.NUMBER);
 
         // THEN
-        entities = personRepository.findAll();
+        entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -73,10 +73,10 @@ class ITPersonRepositoryActivate {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        springRepository.activate(PersonConstants.NUMBER);
 
         // THEN
-        entities = personRepository.findAll();
+        entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -90,10 +90,10 @@ class ITPersonRepositoryActivate {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.activate(PersonConstants.NUMBER);
+        springRepository.activate(PersonConstants.NUMBER);
 
         // THEN
-        entities = personRepository.findAll();
+        entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")

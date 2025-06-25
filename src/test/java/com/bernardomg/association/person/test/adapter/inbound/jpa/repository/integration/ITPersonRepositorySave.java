@@ -44,10 +44,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositorySave {
 
     @Autowired
-    private PersonRepository       personRepository;
+    private PersonRepository       repository;
 
     @Autowired
-    private PersonSpringRepository repository;
+    private PersonSpringRepository springRepository;
 
     public ITPersonRepositorySave() {
         super();
@@ -63,10 +63,10 @@ class ITPersonRepositorySave {
         person = Persons.membershipInactive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -85,10 +85,10 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -108,10 +108,10 @@ class ITPersonRepositorySave {
         person = Persons.membershipInactive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -131,10 +131,10 @@ class ITPersonRepositorySave {
         person = Persons.membershipActive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -153,10 +153,10 @@ class ITPersonRepositorySave {
         person = Persons.membershipActive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -175,10 +175,10 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -197,7 +197,7 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        saved = personRepository.save(person);
+        saved = repository.save(person);
 
         // THEN
         Assertions.assertThat(saved)
@@ -215,10 +215,10 @@ class ITPersonRepositorySave {
         person = Persons.membershipInactive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -236,10 +236,10 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -257,7 +257,7 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        saved = personRepository.save(person);
+        saved = repository.save(person);
 
         // THEN
         Assertions.assertThat(saved)

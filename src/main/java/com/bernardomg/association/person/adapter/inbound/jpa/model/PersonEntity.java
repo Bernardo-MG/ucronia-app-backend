@@ -48,9 +48,6 @@ public class PersonEntity implements Serializable {
     @Column(name = "number")
     private Long              number;
 
-    @Column(name = "phone")
-    private String            phone;
-
     @Column(name = "renew_membership")
     private Boolean           renewMembership;
 
@@ -84,10 +81,6 @@ public class PersonEntity implements Serializable {
 
     public Long getNumber() {
         return number;
-    }
-
-    public String getPhone() {
-        return phone;
     }
 
     public Boolean getRenewMembership() {
@@ -126,10 +119,6 @@ public class PersonEntity implements Serializable {
         this.number = number;
     }
 
-    public void setPhone(final String phone) {
-        this.phone = phone;
-    }
-
     public void setRenewMembership(final Boolean renewMembership) {
         this.renewMembership = renewMembership;
     }
@@ -138,7 +127,7 @@ public class PersonEntity implements Serializable {
     public String toString() {
         return "PersonEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id
                 + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number=" + number
-                + ", phone=" + phone + ", renewMembership=" + renewMembership + "]";
+                + ", renewMembership=" + renewMembership + "]";
     }
 
 }

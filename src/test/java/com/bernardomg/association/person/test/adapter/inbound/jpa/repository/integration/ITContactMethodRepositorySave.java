@@ -1,0 +1,93 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodEntities;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
+
+@IntegrationTest
+@DisplayName("ContactMethodRepository - save")
+class ITContactMethodRepositorySave {
+
+    @Autowired
+    private ContactMethodRepository       repository;
+
+    @Autowired
+    private ContactMethodSpringRepository springRepository;
+
+    public ITContactMethodRepositorySave() {
+        super();
+    }
+
+    @Test
+    @DisplayName("With a valid contact method, the contact method is persisted")
+    void testSave_PersistedData() {
+        final ContactMethod                 person;
+        final Iterable<ContactMethodEntity> entities;
+
+        // GIVEN
+        person = ContactMethods.valid();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .containsExactly(ContactMethodEntities.valid());
+    }
+
+    @Test
+    @DisplayName("With a valid contact method, the created contact method is returned")
+    void testSave_ReturnedData() {
+        final ContactMethod person;
+        final ContactMethod saved;
+
+        // GIVEN
+        person = ContactMethods.valid();
+
+        // WHEN
+        saved = repository.save(person);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("contact method")
+            .isEqualTo(ContactMethods.valid());
+    }
+
+}

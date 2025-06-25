@@ -42,11 +42,11 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Guest service - delete")
+@DisplayName("Person service - delete")
 class TestPersonServiceDelete {
 
     @Mock
-    private PersonRepository     guestRepository;
+    private PersonRepository     personRepository;
 
     @InjectMocks
     private DefaultPersonService service;
@@ -59,22 +59,22 @@ class TestPersonServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(guestRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.delete(PersonConstants.NUMBER);
 
         // THEN
-        verify(guestRepository).delete(PersonConstants.NUMBER);
+        verify(personRepository).delete(PersonConstants.NUMBER);
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist an exception is thrown")
+    @DisplayName("When the person doesn't exist an exception is thrown")
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(guestRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.delete(PersonConstants.NUMBER);

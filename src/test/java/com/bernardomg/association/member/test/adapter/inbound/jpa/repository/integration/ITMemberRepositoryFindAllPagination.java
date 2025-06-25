@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleActiveMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActivePerson;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -40,7 +40,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - pagination")
-@MultipleActiveMembershipPerson
+@MultipleMembershipActivePerson
 class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<Member> {
 
     @Autowired

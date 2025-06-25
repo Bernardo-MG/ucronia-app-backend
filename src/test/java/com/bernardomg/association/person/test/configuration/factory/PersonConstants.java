@@ -26,8 +26,6 @@ public final class PersonConstants {
 
     public static final long      NUMBER                 = 10;
 
-    public static final String    PHONE                  = "12345";
-
     private PersonConstants() {
         super();
     }

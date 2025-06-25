@@ -35,7 +35,7 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - exists")
+@DisplayName("PersonRepository - find next number")
 class ITPersonRepositoryFindNextNumber {
 
     @Autowired

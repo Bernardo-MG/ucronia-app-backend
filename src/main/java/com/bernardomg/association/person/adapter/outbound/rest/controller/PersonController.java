@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.person.adapter.outbound.rest.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -176,7 +177,7 @@ public class PersonController {
                 change.membership()
                     .renew()));
         }
-        return new Person(change.identifier(), number, name, change.birthDate(), change.phone(), membership);
+        return new Person(change.identifier(), number, name, change.birthDate(), membership, List.of());
     }
 
     private final Person toDomain(final PersonCreation change) {
@@ -195,7 +196,7 @@ public class PersonController {
                 change.membership()
                     .active()));
         }
-        return new Person("", -1L, name, null, "", membership);
+        return new Person("", -1L, name, null, membership, List.of());
     }
 
 }
