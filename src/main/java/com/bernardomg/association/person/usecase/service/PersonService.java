@@ -60,7 +60,7 @@ public interface PersonService {
      *
      * @param person
      *            new data for the person
-     * @return the updated member
+     * @return the updated person
      */
     public Person patch(final Person person);
 
