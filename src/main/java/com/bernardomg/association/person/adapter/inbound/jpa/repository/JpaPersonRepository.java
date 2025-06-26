@@ -2,7 +2,6 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,6 +19,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
 import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.Person.PersonContact;
@@ -267,9 +267,21 @@ public final class JpaPersonRepository implements PersonRepository {
         return saved;
     }
 
+    private final ContactMethod toDomain(final ContactMethodEntity entity) {
+        return new ContactMethod(entity.getNumber(), entity.getName());
+    }
+
+    private final PersonContact toDomain(final PersonContactMethodEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new PersonContact(method, entity.getContact());
+    }
+
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName           name;
-        final Optional<Membership> membership;
+        final PersonName                name;
+        final Optional<Membership>      membership;
+        final Collection<PersonContact> contacts;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         if (!entity.getMember()) {
@@ -277,8 +289,14 @@ public final class JpaPersonRepository implements PersonRepository {
         } else {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
+
+        contacts = entity.getContacts()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
-            List.of());
+            contacts);
     }
 
     private final PersonEntity toEntity(final Person data) {

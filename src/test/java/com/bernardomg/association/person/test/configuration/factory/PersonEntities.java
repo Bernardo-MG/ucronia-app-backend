@@ -21,31 +21,6 @@ public final class PersonEntities {
         return entity;
     }
 
-    public static final PersonEntity contactMethod() {
-        final PersonEntity              entity;
-        final PersonContactMethodEntity personContactMethodEntity;
-
-        personContactMethodEntity = new PersonContactMethodEntity();
-        personContactMethodEntity.setContactMethod(ContactMethodEntities.email());
-        personContactMethodEntity.setContact("email@somewhere.com");
-
-        entity = new PersonEntity();
-        entity.setId(1L);
-        entity.setNumber(PersonConstants.NUMBER);
-        entity.setFirstName(PersonConstants.FIRST_NAME);
-        entity.setLastName(PersonConstants.LAST_NAME);
-        entity.setBirthDate(PersonConstants.BIRTH_DATE);
-        entity.setIdentifier("6789");
-        entity.setMember(true);
-        entity.setActive(true);
-        entity.setRenewMembership(true);
-        entity.setContacts(List.of(personContactMethodEntity));
-
-        personContactMethodEntity.setPerson(entity);
-
-        return entity;
-    }
-
     public static final PersonEntity firstNameChange() {
         final PersonEntity entity = new PersonEntity();
         entity.setId(1L);
@@ -145,6 +120,31 @@ public final class PersonEntities {
         entity.setActive(false);
         entity.setRenewMembership(true);
         entity.setContacts(List.of());
+        return entity;
+    }
+
+    public static final PersonEntity withEmail() {
+        final PersonEntity              entity;
+        final PersonContactMethodEntity personContactMethodEntity;
+
+        personContactMethodEntity = new PersonContactMethodEntity();
+        personContactMethodEntity.setContactMethod(ContactMethodEntities.email());
+        personContactMethodEntity.setContact(PersonConstants.EMAIL);
+
+        entity = new PersonEntity();
+        entity.setId(1L);
+        entity.setNumber(PersonConstants.NUMBER);
+        entity.setFirstName(PersonConstants.FIRST_NAME);
+        entity.setLastName(PersonConstants.LAST_NAME);
+        entity.setBirthDate(PersonConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setMember(true);
+        entity.setActive(true);
+        entity.setRenewMembership(true);
+        entity.setContacts(List.of(personContactMethodEntity));
+
+        personContactMethodEntity.setPerson(entity);
+
         return entity;
     }
 

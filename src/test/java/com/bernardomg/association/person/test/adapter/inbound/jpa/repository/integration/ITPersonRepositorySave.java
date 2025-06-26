@@ -83,7 +83,7 @@ class ITPersonRepositorySave {
         final Iterable<PersonEntity> entities;
 
         // GIVEN
-        person = Persons.contactMethod();
+        person = Persons.withEmail();
 
         // WHEN
         repository.save(person);
@@ -94,7 +94,7 @@ class ITPersonRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(PersonEntities.contactMethod());
+            .containsExactly(PersonEntities.withEmail());
     }
 
     @Test

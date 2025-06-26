@@ -16,6 +16,8 @@ public final class PersonConstants {
 
     public static final LocalDate BIRTH_DATE             = LocalDate.of(1990, Month.JANUARY, 1);
 
+    public static final String    EMAIL                  = "email@somewhere.com";
+
     public static final String    FIRST_NAME             = "Person 1";
 
     public static final String    FULL_NAME              = "Person 1 Last name 1";
