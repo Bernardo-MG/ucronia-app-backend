@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "ContactMethod")
-@Table(schema = "association", name = "contact_mode")
+@Table(schema = "association", name = "contact_methods")
 public class ContactMethodEntity implements Serializable {
 
     /**

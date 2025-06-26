@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.person.test.configuration.factory;
 
+import java.util.List;
+
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 public final class PersonEntities {
@@ -14,6 +16,7 @@ public final class PersonEntities {
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -26,6 +29,7 @@ public final class PersonEntities {
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -40,6 +44,7 @@ public final class PersonEntities {
         entity.setMember(true);
         entity.setActive(true);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -54,6 +59,7 @@ public final class PersonEntities {
         entity.setMember(true);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -68,6 +74,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -81,6 +88,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -95,6 +103,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(true);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -109,6 +118,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 

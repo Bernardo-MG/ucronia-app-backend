@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/person/contact_mode.sql")
+@Sql("/db/queries/person/contact_method.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

@@ -3,12 +3,15 @@ package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -21,6 +24,9 @@ public class PersonEntity implements Serializable {
      */
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<PersonContactMethodEntity> contacts;
 
     @Column(name = "active", nullable = false)
     private Boolean           active;
@@ -123,11 +129,21 @@ public class PersonEntity implements Serializable {
         this.renewMembership = renewMembership;
     }
 
+    
+    public Collection<PersonContactMethodEntity> getContacts() {
+        return contacts;
+    }
+
+    
+    public void setContacts(Collection<PersonContactMethodEntity> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public String toString() {
         return "PersonEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id
                 + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number=" + number
-                + ", renewMembership=" + renewMembership + "]";
+                + ", renewMembership=" + renewMembership+ ", contacts=" + contacts + "]";
     }
 
 }
