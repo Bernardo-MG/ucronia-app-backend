@@ -12,7 +12,7 @@ public record Person(String identifier, Long number, PersonName name, LocalDate 
 
     }
 
-    public record PersonContact(ContactMethod mode, String contact) {
+    public record PersonContact(ContactMethod method, String contact) {
 
     }
 
