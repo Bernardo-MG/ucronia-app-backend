@@ -6,7 +6,7 @@ import com.bernardomg.association.person.adapter.outbound.rest.model.ContactMeth
 public final class ContactMethodChanges {
 
     public static final ContactMethodChange valid() {
-        return new ContactMethodChange(ContactMethodConstants.NAME);
+        return new ContactMethodChange(ContactMethodConstants.EMAIL);
     }
 
 }

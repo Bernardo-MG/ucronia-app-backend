@@ -33,6 +33,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
@@ -72,6 +73,28 @@ class ITPersonRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    @EmailContactMethod
+    void testSave_ContactMethod_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.contactMethod();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .containsExactly(PersonEntities.contactMethod());
     }
 
     @Test

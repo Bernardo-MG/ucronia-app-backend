@@ -61,7 +61,7 @@ class TestContactMethodServiceCreate {
         final ContactMethod ContactMethod;
 
         // GIVEN
-        ContactMethod = ContactMethods.valid();
+        ContactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
@@ -69,7 +69,7 @@ class TestContactMethodServiceCreate {
         service.create(ContactMethod);
 
         // THEN
-        verify(ContactMethodRepository).save(ContactMethods.valid());
+        verify(ContactMethodRepository).save(ContactMethods.email());
     }
 
     @Test
@@ -79,9 +79,9 @@ class TestContactMethodServiceCreate {
         final ContactMethod created;
 
         // GIVEN
-        ContactMethod = ContactMethods.valid();
+        ContactMethod = ContactMethods.email();
 
-        given(ContactMethodRepository.save(ContactMethods.valid())).willReturn(ContactMethods.valid());
+        given(ContactMethodRepository.save(ContactMethods.email())).willReturn(ContactMethods.email());
         given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
         // WHEN
@@ -90,7 +90,7 @@ class TestContactMethodServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("contact method")
-            .isEqualTo(ContactMethods.valid());
+            .isEqualTo(ContactMethods.email());
     }
 
 }

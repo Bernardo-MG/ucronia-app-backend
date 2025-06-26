@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMethod;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -65,7 +65,7 @@ class ITContactMethodRepositoryFindAll {
 
     @Test
     @DisplayName("With a single contact method, it is returned")
-    @SingleContactMethod
+    @EmailContactMethod
     void testFindAll_Single() {
         final Iterable<ContactMethod> contactMethods;
         final Pagination              pagination;
@@ -80,7 +80,7 @@ class ITContactMethodRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(contactMethods)
-            .containsExactly(ContactMethods.valid());
+            .containsExactly(ContactMethods.email());
     }
 
 }

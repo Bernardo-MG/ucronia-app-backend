@@ -1,3 +1,4 @@
+
 package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
@@ -18,42 +19,47 @@ public class PersonContactMethodEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = -3239435918896603554L;
+    private static final long   serialVersionUID = -3239435918896603554L;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
-    private PersonEntity person;
+    @Column(name = "contact", nullable = false)
+    private String              contact;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
 
-    @Column(name = "contact", nullable = false)
-    private String contact;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    private PersonEntity        person;
 
-    public PersonEntity getPerson() {
-        return person;
-    }
-
-    public void setPerson(PersonEntity person) {
-        this.person = person;
+    public String getContact() {
+        return contact;
     }
 
     public ContactMethodEntity getContactMethod() {
         return contactMethod;
     }
 
-    public void setContactMethod(ContactMethodEntity contactMethod) {
+    public PersonEntity getPerson() {
+        return person;
+    }
+
+    public void setContact(final String contact) {
+        this.contact = contact;
+    }
+
+    public void setContactMethod(final ContactMethodEntity contactMethod) {
         this.contactMethod = contactMethod;
     }
 
-    public String getContact() {
-        return contact;
+    public void setPerson(final PersonEntity person) {
+        this.person = person;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    @Override
+    public String toString() {
+        return "PersonContactMethodEntity [contactMethod=" + contactMethod + ", contact=" + contact + "]";
     }
 }

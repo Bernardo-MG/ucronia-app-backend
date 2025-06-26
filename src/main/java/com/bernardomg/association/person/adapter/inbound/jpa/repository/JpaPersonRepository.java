@@ -317,14 +317,14 @@ public final class JpaPersonRepository implements PersonRepository {
 
         contacts = data.contacts()
             .stream()
-            .map(this::toEntity)
+            .map(c -> toEntity(entity, c))
             .toList();
         entity.setContacts(contacts);
 
         return entity;
     }
 
-    private final PersonContactMethodEntity toEntity(final PersonContact data) {
+    private final PersonContactMethodEntity toEntity(final PersonEntity person, final PersonContact data) {
         final PersonContactMethodEntity     entity;
         final Optional<ContactMethodEntity> contactMethod;
 
@@ -337,7 +337,7 @@ public final class JpaPersonRepository implements PersonRepository {
         }
 
         entity = new PersonContactMethodEntity();
-        entity.setPerson(null);
+        entity.setPerson(person);
         entity.setContactMethod(contactMethod.get());
         entity.setContact(data.contact());
 

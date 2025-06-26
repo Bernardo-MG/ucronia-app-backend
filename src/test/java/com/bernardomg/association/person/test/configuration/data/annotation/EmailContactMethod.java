@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/person/contact_method.sql")
+@Sql("/db/queries/person/contact_method_email.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface SingleContactMethod {
+public @interface EmailContactMethod {
 
 }

@@ -60,7 +60,7 @@ class TestContactMethodController {
         // THEN
         verify(service).create(assertArg(actualBook -> assertThat(actualBook).usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ContactMethods.valid())));
+            .isEqualTo(ContactMethods.email())));
     }
 
     @Test
@@ -78,7 +78,7 @@ class TestContactMethodController {
         // THEN
         verify(service).update(assertArg(actualBook -> assertThat(actualBook).usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ContactMethods.valid())));
+            .isEqualTo(ContactMethods.email())));
     }
 
 }

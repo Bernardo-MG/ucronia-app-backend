@@ -23,39 +23,39 @@ public class PersonEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
+    private static final long                     serialVersionUID = 1328776989450853491L;
+
+    @Column(name = "active", nullable = false)
+    private Boolean                               active;
+
+    @Column(name = "birth_date")
+    private LocalDate                             birthDate;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<PersonContactMethodEntity> contacts;
 
-    @Column(name = "active", nullable = false)
-    private Boolean           active;
-
-    @Column(name = "birth_date")
-    private LocalDate         birthDate;
-
     @Column(name = "first_name", nullable = false)
-    private String            firstName;
+    private String                                firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                                  id;
 
     @Column(name = "identifier")
-    private String            identifier;
+    private String                                identifier;
 
     @Column(name = "last_name")
-    private String            lastName;
+    private String                                lastName;
 
     @Column(name = "member", nullable = false)
-    private Boolean           member;
+    private Boolean                               member;
 
     @Column(name = "number")
-    private Long              number;
+    private Long                                  number;
 
     @Column(name = "renew_membership")
-    private Boolean           renewMembership;
+    private Boolean                               renewMembership;
 
     public Boolean getActive() {
         return active;
@@ -63,6 +63,10 @@ public class PersonEntity implements Serializable {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    public Collection<PersonContactMethodEntity> getContacts() {
+        return contacts;
     }
 
     public String getFirstName() {
@@ -101,6 +105,10 @@ public class PersonEntity implements Serializable {
         this.birthDate = birthDate;
     }
 
+    public void setContacts(final Collection<PersonContactMethodEntity> contacts) {
+        this.contacts = contacts;
+    }
+
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
@@ -129,21 +137,11 @@ public class PersonEntity implements Serializable {
         this.renewMembership = renewMembership;
     }
 
-    
-    public Collection<PersonContactMethodEntity> getContacts() {
-        return contacts;
-    }
-
-    
-    public void setContacts(Collection<PersonContactMethodEntity> contacts) {
-        this.contacts = contacts;
-    }
-
     @Override
     public String toString() {
         return "PersonEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id
                 + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number=" + number
-                + ", renewMembership=" + renewMembership+ ", contacts=" + contacts + "]";
+                + ", renewMembership=" + renewMembership + ", contacts=" + contacts + "]";
     }
 
 }

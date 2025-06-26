@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMethod;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -51,7 +51,7 @@ class ITContactMethodRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a contact method, it is deleted")
-    @SingleContactMethod
+    @EmailContactMethod
     void testDelete() {
         // WHEN
         repository.delete(PersonConstants.NUMBER);

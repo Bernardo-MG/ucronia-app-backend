@@ -58,7 +58,7 @@ class ITContactMethodRepositorySave {
         final Iterable<ContactMethodEntity> entities;
 
         // GIVEN
-        person = ContactMethods.valid();
+        person = ContactMethods.email();
 
         // WHEN
         repository.save(person);
@@ -69,7 +69,7 @@ class ITContactMethodRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(ContactMethodEntities.valid());
+            .containsExactly(ContactMethodEntities.email());
     }
 
     @Test
@@ -79,7 +79,7 @@ class ITContactMethodRepositorySave {
         final ContactMethod saved;
 
         // GIVEN
-        person = ContactMethods.valid();
+        person = ContactMethods.email();
 
         // WHEN
         saved = repository.save(person);
@@ -87,7 +87,7 @@ class ITContactMethodRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact method")
-            .isEqualTo(ContactMethods.valid());
+            .isEqualTo(ContactMethods.email());
     }
 
 }

@@ -4,8 +4,10 @@ package com.bernardomg.association.person.test.configuration.factory;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
+import com.bernardomg.association.person.domain.model.Person.PersonContact;
 import com.bernardomg.association.person.domain.model.PersonName;
 
 public final class Persons {
@@ -26,6 +28,20 @@ public final class Persons {
         membership = new Membership(false, true);
         return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
             PersonConstants.BIRTH_DATE, Optional.of(membership), List.of());
+    }
+
+    public static final Person contactMethod() {
+        final PersonName    name;
+        final Membership    membership;
+        final PersonContact personContact;
+        final ContactMethod contactMethod;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(true, true);
+        contactMethod = ContactMethods.email();
+        personContact = new PersonContact(contactMethod, "email@somewhere.com");
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
+            Optional.of(membership), List.of(personContact));
     }
 
     public static final Person emptyName() {
