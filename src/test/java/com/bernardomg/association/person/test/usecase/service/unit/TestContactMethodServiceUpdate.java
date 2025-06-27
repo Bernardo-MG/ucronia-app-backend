@@ -78,6 +78,28 @@ class TestContactMethodServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a contact method with an existing name, an exception is thrown")
+    void testUpdate_ExistingName() {
+        final ThrowingCallable execution;
+        final ContactMethod    contactMethod;
+
+        // GIVEN
+        contactMethod = ContactMethods.email();
+
+        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        given(
+            ContactMethodRepository.existsByNameForAnother(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL))
+                .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(contactMethod);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "name", ContactMethodConstants.EMAIL));
+    }
+
+    @Test
     @DisplayName("With a not existing contact method, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final ContactMethod    contactMethod;

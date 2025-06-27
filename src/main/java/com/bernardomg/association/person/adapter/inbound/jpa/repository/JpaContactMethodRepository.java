@@ -62,6 +62,11 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     }
 
     @Override
+    public final boolean existsByNameForAnother(final long number, final String name) {
+        return contactMethodSpringRepository.existsByNameAndNumberNot(name, number);
+    }
+
+    @Override
     public final Iterable<ContactMethod> findAll(final Pagination pagination, final Sorting sorting) {
         final Page<ContactMethod> ContactMethods;
         final Pageable            pageable;

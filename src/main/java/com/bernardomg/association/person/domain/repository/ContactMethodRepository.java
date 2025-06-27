@@ -15,6 +15,8 @@ public interface ContactMethodRepository {
 
     public boolean existsByName(final String name);
 
+    public boolean existsByNameForAnother(final long number, final String name);
+
     public Iterable<ContactMethod> findAll(final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();

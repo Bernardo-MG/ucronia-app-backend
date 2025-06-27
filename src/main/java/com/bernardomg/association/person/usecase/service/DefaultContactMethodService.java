@@ -13,6 +13,7 @@ import com.bernardomg.association.person.domain.exception.MissingContactMethodEx
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.usecase.validation.ContactMethodNameNotEmptyRule;
+import com.bernardomg.association.person.usecase.validation.ContactMethodNameNotExistsForAnotherRule;
 import com.bernardomg.association.person.usecase.validation.ContactMethodNameNotExistsRule;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -46,7 +47,8 @@ public final class DefaultContactMethodService implements ContactMethodService {
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
         createContactMethodValidator = new FieldRuleValidator<>(new ContactMethodNameNotEmptyRule(),
             new ContactMethodNameNotExistsRule(contactMethodRepo));
-        updateContactMethodValidator = new FieldRuleValidator<>(new ContactMethodNameNotEmptyRule());
+        updateContactMethodValidator = new FieldRuleValidator<>(new ContactMethodNameNotEmptyRule(),
+            new ContactMethodNameNotExistsForAnotherRule(contactMethodRepo));
     }
 
     @Override
