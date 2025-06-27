@@ -12,7 +12,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the publisher has a name.
  */
 public final class PublisherNameNotEmptyRule implements FieldRule<Publisher> {
 

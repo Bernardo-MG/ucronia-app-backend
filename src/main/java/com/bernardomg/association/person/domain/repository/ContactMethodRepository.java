@@ -13,6 +13,8 @@ public interface ContactMethodRepository {
 
     public boolean exists(final long number);
 
+    public boolean existsByName(final String name);
+
     public Iterable<ContactMethod> findAll(final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();

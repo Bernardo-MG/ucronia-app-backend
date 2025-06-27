@@ -75,6 +75,25 @@ class TestContactMethodServiceCreate {
     }
 
     @Test
+    @DisplayName("With a contact method with an existing name, an exception is thrown")
+    void testCreate_ExistingName() {
+        final ThrowingCallable execution;
+        final ContactMethod    contactMethod;
+
+        // GIVEN
+        contactMethod = ContactMethods.email();
+
+        given(ContactMethodRepository.existsByName(ContactMethodConstants.EMAIL)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(contactMethod);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "name", ContactMethodConstants.EMAIL));
+    }
+
+    @Test
     @DisplayName("With a valid contact method, the contact method is persisted")
     void testCreate_PersistedData() {
         final ContactMethod contactMethod;

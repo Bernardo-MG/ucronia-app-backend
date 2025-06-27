@@ -26,19 +26,19 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
      */
     private static final Logger                 log = LoggerFactory.getLogger(JpaContactMethodRepository.class);
 
-    private final ContactMethodSpringRepository ContactMethodSpringRepository;
+    private final ContactMethodSpringRepository contactMethodSpringRepository;
 
     public JpaContactMethodRepository(final ContactMethodSpringRepository ContactMethodSpringRepository) {
         super();
 
-        this.ContactMethodSpringRepository = ContactMethodSpringRepository;
+        contactMethodSpringRepository = ContactMethodSpringRepository;
     }
 
     @Override
     public final void delete(final long number) {
         log.debug("Deleting contact method {}", number);
 
-        ContactMethodSpringRepository.deleteByNumber(number);
+        contactMethodSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted contact method {}", number);
     }
@@ -49,11 +49,16 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         log.debug("Checking if fee {} exists", number);
 
-        exists = ContactMethodSpringRepository.existsByNumber(number);
+        exists = contactMethodSpringRepository.existsByNumber(number);
 
         log.debug("Fee {} exists: {}", number, exists);
 
         return exists;
+    }
+
+    @Override
+    public final boolean existsByName(final String name) {
+        return contactMethodSpringRepository.existsByName(name);
     }
 
     @Override
@@ -64,7 +69,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
         log.debug("Finding all the contact methods");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        ContactMethods = ContactMethodSpringRepository.findAll(pageable)
+        ContactMethods = contactMethodSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
         log.debug("Found all the contact methods: {}", ContactMethods);
@@ -78,7 +83,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         log.debug("Finding next number for the contact methods");
 
-        number = ContactMethodSpringRepository.findNextNumber();
+        number = contactMethodSpringRepository.findNextNumber();
 
         log.debug("Found next number for the contact methods: {}", number);
 
@@ -91,7 +96,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         log.debug("Finding contact method with number {}", number);
 
-        ContactMethod = ContactMethodSpringRepository.findByNumber(number)
+        ContactMethod = contactMethodSpringRepository.findByNumber(number)
             .map(this::toDomain);
 
         log.debug("Found contact method with number {}: {}", number, ContactMethod);
@@ -110,16 +115,16 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         entity = toEntity(person);
 
-        existing = ContactMethodSpringRepository.findByNumber(person.number());
+        existing = contactMethodSpringRepository.findByNumber(person.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = ContactMethodSpringRepository.save(entity);
+        created = contactMethodSpringRepository.save(entity);
 
         // TODO: Why not returning the saved one?
-        saved = ContactMethodSpringRepository.findByNumber(created.getNumber())
+        saved = contactMethodSpringRepository.findByNumber(created.getNumber())
             .map(this::toDomain)
             .get();
 

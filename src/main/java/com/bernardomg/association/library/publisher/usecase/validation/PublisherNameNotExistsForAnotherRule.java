@@ -14,7 +14,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the publisher name doesn't exist for another publisher.
  */
 public final class PublisherNameNotExistsForAnotherRule implements FieldRule<Publisher> {
 

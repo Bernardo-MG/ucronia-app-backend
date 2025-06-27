@@ -12,16 +12,16 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the contact method has a name.
  */
-public final class ContactMethodNotEmptyRule implements FieldRule<ContactMethod> {
+public final class ContactMethodNameNotEmptyRule implements FieldRule<ContactMethod> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(ContactMethodNotEmptyRule.class);
+    private static final Logger log = LoggerFactory.getLogger(ContactMethodNameNotEmptyRule.class);
 
-    public ContactMethodNotEmptyRule() {
+    public ContactMethodNameNotEmptyRule() {
         super();
     }
 
