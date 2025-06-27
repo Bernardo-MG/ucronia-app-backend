@@ -82,6 +82,7 @@ databaseChangeLog:
                   name: name
                   type: varchar(50)
                   constraints:
+                    unique: true
                     nullable: false
         - addAutoIncrement:
             schemaName: association
