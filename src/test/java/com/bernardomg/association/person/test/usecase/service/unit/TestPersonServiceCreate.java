@@ -94,6 +94,40 @@ class TestPersonServiceCreate {
     }
 
     @Test
+    @DisplayName("With a person with an inactive membership, the person is persisted")
+    void testCreate_InactiveMembership_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.membershipInactive();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("With a person with no membership, the person is persisted")
+    void testCreate_NoMembership_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.noMembership();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.noMembership());
+    }
+
+    @Test
     @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed and the person is persisted")
     void testCreate_Padded_PersistedData() {
         final Person person;
@@ -146,6 +180,23 @@ class TestPersonServiceCreate {
         Assertions.assertThat(created)
             .as("person")
             .isEqualTo(Persons.noMembership());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    void testCreate_WithEmail_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.withEmail());
     }
 
 }

@@ -77,47 +77,6 @@ class ITPersonRepositorySave {
     }
 
     @Test
-    @DisplayName("With a person with a contact method, the person is persisted")
-    @EmailContactMethod
-    void testSave_ContactMethod_PersistedData() {
-        final Person                 person;
-        final Iterable<PersonEntity> entities;
-
-        // GIVEN
-        person = Persons.withEmail();
-
-        // WHEN
-        repository.save(person);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(PersonEntities.withEmail());
-    }
-
-    @Test
-    @DisplayName("With a person with a contact method, the person is returned")
-    @EmailContactMethod
-    void testSave_ContactMethod_ReturnedData() {
-        final Person person;
-        final Person saved;
-
-        // GIVEN
-        person = Persons.withEmail();
-
-        // WHEN
-        saved = repository.save(person);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("person")
-            .isEqualTo(Persons.withEmail());
-    }
-
-    @Test
     @DisplayName("When a person exists with an active membership, and the membership is removed, the person is persisted")
     @MembershipActivePerson
     void testSave_Existing_Active_RemoveMembership_PersistedData() {
@@ -352,6 +311,47 @@ class ITPersonRepositorySave {
         Assertions.assertThat(saved)
             .as("person")
             .isEqualTo(Persons.noMembership());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    @EmailContactMethod
+    void testSave_WithEmail_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .containsExactly(PersonEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is returned")
+    @EmailContactMethod
+    void testSave_WithEmail_ReturnedData() {
+        final Person person;
+        final Person saved;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        saved = repository.save(person);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("person")
+            .isEqualTo(Persons.withEmail());
     }
 
 }

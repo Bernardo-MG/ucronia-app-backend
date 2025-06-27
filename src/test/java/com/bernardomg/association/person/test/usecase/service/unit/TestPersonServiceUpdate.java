@@ -153,4 +153,21 @@ class TestPersonServiceUpdate {
             .isEqualTo(Persons.nameChange());
     }
 
+    @Test
+    @DisplayName("When updating a person with a contact method, the change is persisted")
+    void testUpdate_WithEmail_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(person);
+
+        // THEN
+        verify(personRepository).save(Persons.withEmail());
+    }
+
 }
