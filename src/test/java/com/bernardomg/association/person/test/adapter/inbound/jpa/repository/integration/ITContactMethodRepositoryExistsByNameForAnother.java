@@ -22,35 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
-import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FictionBookRepository - exists by ISBN for another")
-class ITFictionBookRepositoryExistsByIsbnForAnother {
+@DisplayName("ContactMethodRepository - exists by name for another")
+class ITContactMethodRepositoryExistsByNameForAnother {
 
     @Autowired
-    private FictionBookRepository repository;
+    private ContactMethodRepository repository;
 
     @Test
-    @DisplayName("When the fiction book exists and looking for another book, it exists")
-    @NoMembershipPerson
-    @FullFictionBook
-    void testExistsByIsbnForAnother() {
+    @DisplayName("With an existing contact method name and looking for another number, it exists")
+    @EmailContactMethod
+    void testExists() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(-1L, BookConstants.ISBN_10);
+        exists = repository.existsByNameForAnother(-1, ContactMethodConstants.EMAIL);
 
         // THEN
         Assertions.assertThat(exists)
@@ -59,12 +57,12 @@ class ITFictionBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing exists")
-    void testExistsByIsbnForAnother_NoData() {
+    @DisplayName("With no contact method, nothing exists")
+    void testExists_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
+        exists = repository.existsByNameForAnother(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL);
 
         // THEN
         Assertions.assertThat(exists)
@@ -73,14 +71,13 @@ class ITFictionBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When the fiction book exists and looking for the same book, it doesn't exists")
-    @NoMembershipPerson
-    @FullFictionBook
-    void testExistsByIsbnForAnother_SameNumber() {
+    @DisplayName("With an existing contact method name and looking for the same number, it doesn't exist")
+    @EmailContactMethod
+    void testExists_SameNumber() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10);
+        exists = repository.existsByNameForAnother(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL);
 
         // THEN
         Assertions.assertThat(exists)

@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,8 @@ import com.bernardomg.association.person.domain.repository.ContactMethodReposito
 import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Contact method service - create")
@@ -56,17 +59,52 @@ class TestContactMethodServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid contact method, the contact method is persisted")
-    void testCreate_PersistedData() {
-        final ContactMethod ContactMethod;
+    @DisplayName("With a contact method with an empty name, an exception is thrown")
+    void testCreate_EmptyName() {
+        final ThrowingCallable execution;
+        final ContactMethod    contactMethod;
 
         // GIVEN
-        ContactMethod = ContactMethods.email();
+        contactMethod = ContactMethods.emptyName();
+
+        // WHEN
+        execution = () -> service.create(contactMethod);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+    }
+
+    @Test
+    @DisplayName("With a contact method with an existing name, an exception is thrown")
+    void testCreate_ExistingName() {
+        final ThrowingCallable execution;
+        final ContactMethod    contactMethod;
+
+        // GIVEN
+        contactMethod = ContactMethods.email();
+
+        given(ContactMethodRepository.existsByName(ContactMethodConstants.EMAIL)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(contactMethod);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "name", ContactMethodConstants.EMAIL));
+    }
+
+    @Test
+    @DisplayName("With a valid contact method, the contact method is persisted")
+    void testCreate_PersistedData() {
+        final ContactMethod contactMethod;
+
+        // GIVEN
+        contactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
         // WHEN
-        service.create(ContactMethod);
+        service.create(contactMethod);
 
         // THEN
         verify(ContactMethodRepository).save(ContactMethods.email());
@@ -75,17 +113,17 @@ class TestContactMethodServiceCreate {
     @Test
     @DisplayName("With a valid contact method, the created contact method is returned")
     void testCreate_ReturnedData() {
-        final ContactMethod ContactMethod;
+        final ContactMethod contactMethod;
         final ContactMethod created;
 
         // GIVEN
-        ContactMethod = ContactMethods.email();
+        contactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.save(ContactMethods.email())).willReturn(ContactMethods.email());
         given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
         // WHEN
-        created = service.create(ContactMethod);
+        created = service.create(contactMethod);
 
         // THEN
         Assertions.assertThat(created)

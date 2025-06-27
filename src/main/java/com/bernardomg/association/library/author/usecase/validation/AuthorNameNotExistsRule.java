@@ -13,7 +13,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the author name doesn't exist.
  */
 public final class AuthorNameNotExistsRule implements FieldRule<Author> {
 

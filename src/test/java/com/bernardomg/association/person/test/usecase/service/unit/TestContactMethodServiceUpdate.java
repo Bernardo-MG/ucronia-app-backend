@@ -42,6 +42,8 @@ import com.bernardomg.association.person.domain.repository.ContactMethodReposito
 import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Contact method service - update")
@@ -58,18 +60,58 @@ class TestContactMethodServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a contact method with an empty name, an exception is thrown")
+    void testUpdate_EmptyName() {
+        final ThrowingCallable execution;
+        final ContactMethod    contactMethod;
+
+        // GIVEN
+        contactMethod = ContactMethods.emptyName();
+
+        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(contactMethod);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+    }
+
+    @Test
+    @DisplayName("With a contact method with an existing name, an exception is thrown")
+    void testUpdate_ExistingName() {
+        final ThrowingCallable execution;
+        final ContactMethod    contactMethod;
+
+        // GIVEN
+        contactMethod = ContactMethods.email();
+
+        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        given(
+            ContactMethodRepository.existsByNameForAnother(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL))
+                .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(contactMethod);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "name", ContactMethodConstants.EMAIL));
+    }
+
+    @Test
     @DisplayName("With a not existing contact method, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final ContactMethod    ContactMethod;
+        final ContactMethod    contactMethod;
         final ThrowingCallable execution;
 
         // GIVEN
-        ContactMethod = ContactMethods.email();
+        contactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(ContactMethod);
+        execution = () -> service.update(contactMethod);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -79,15 +121,15 @@ class TestContactMethodServiceUpdate {
     @Test
     @DisplayName("When updating a contact method, the change is persisted")
     void testUpdate_PersistedData() {
-        final ContactMethod ContactMethod;
+        final ContactMethod contactMethod;
 
         // GIVEN
-        ContactMethod = ContactMethods.email();
+        contactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(ContactMethod);
+        service.update(contactMethod);
 
         // THEN
         verify(ContactMethodRepository).save(ContactMethods.email());
@@ -96,17 +138,17 @@ class TestContactMethodServiceUpdate {
     @Test
     @DisplayName("When updating an active contact method, the change is returned")
     void testUpdate_ReturnedData() {
-        final ContactMethod ContactMethod;
+        final ContactMethod contactMethod;
         final ContactMethod updated;
 
         // GIVEN
-        ContactMethod = ContactMethods.email();
+        contactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(ContactMethodRepository.save(ContactMethods.email())).willReturn(ContactMethods.email());
 
         // WHEN
-        updated = service.update(ContactMethod);
+        updated = service.update(contactMethod);
 
         // THEN
         Assertions.assertThat(updated)

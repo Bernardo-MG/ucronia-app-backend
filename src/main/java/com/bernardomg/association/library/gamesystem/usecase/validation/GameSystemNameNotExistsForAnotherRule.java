@@ -14,7 +14,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the game system name doesn't exist for another game system.
  */
 public final class GameSystemNameNotExistsForAnotherRule implements FieldRule<GameSystem> {
 

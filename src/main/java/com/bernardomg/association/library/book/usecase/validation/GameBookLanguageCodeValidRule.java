@@ -13,7 +13,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the game book has a valid language code.
  */
 public final class GameBookLanguageCodeValidRule implements FieldRule<GameBook> {
 

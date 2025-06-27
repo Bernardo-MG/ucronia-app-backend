@@ -67,7 +67,7 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<ContactMethod>   ContactMethods;
+        final Iterable<ContactMethod>   contactMethods;
         final Pagination                pagination;
         final Sorting                   sorting;
         final Collection<ContactMethod> readContactMethods;
@@ -80,10 +80,10 @@ class TestContactMethodServiceGetAll {
         given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
 
         // WHEN
-        ContactMethods = service.getAll(pagination, sorting);
+        contactMethods = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(ContactMethods)
+        Assertions.assertThat(contactMethods)
             .as("ContactMethods")
             .isEmpty();
     }

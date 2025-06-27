@@ -43,6 +43,10 @@ public interface ContactMethodSpringRepository extends JpaRepository<ContactMeth
             """)
     public void deleteByNumber(@Param("number") final Long number);
 
+    public boolean existsByName(final String name);
+
+    public boolean existsByNameAndNumberNot(final String name, final long number);
+
     @Query("""
             SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM ContactMethod m

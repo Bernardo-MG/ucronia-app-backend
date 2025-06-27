@@ -12,7 +12,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the donor has a name.
+ * Checks the fiction book has a title.
  */
 public final class FictionBookTitleNotEmptyRule implements FieldRule<FictionBook> {
 
