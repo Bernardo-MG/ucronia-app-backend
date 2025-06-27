@@ -2,7 +2,6 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -14,11 +13,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
+import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
+import com.bernardomg.association.person.domain.model.Person.PersonContact;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Pagination;
@@ -32,14 +36,18 @@ public final class JpaPersonRepository implements PersonRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(JpaPersonRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaPersonRepository.class);
 
-    private final PersonSpringRepository personSpringRepository;
+    private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    public JpaPersonRepository(final PersonSpringRepository personSpringRepo) {
+    private final PersonSpringRepository        personSpringRepository;
+
+    public JpaPersonRepository(final PersonSpringRepository personSpringRepo,
+            final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
 
     @Override
@@ -259,9 +267,21 @@ public final class JpaPersonRepository implements PersonRepository {
         return saved;
     }
 
+    private final ContactMethod toDomain(final ContactMethodEntity entity) {
+        return new ContactMethod(entity.getNumber(), entity.getName());
+    }
+
+    private final PersonContact toDomain(final PersonContactMethodEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new PersonContact(method, entity.getContact());
+    }
+
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName           name;
-        final Optional<Membership> membership;
+        final PersonName                name;
+        final Optional<Membership>      membership;
+        final Collection<PersonContact> contacts;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         if (!entity.getMember()) {
@@ -269,15 +289,22 @@ public final class JpaPersonRepository implements PersonRepository {
         } else {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
+
+        contacts = entity.getContacts()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
         return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
-            List.of());
+            contacts);
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final boolean      member;
-        final boolean      active;
-        final boolean      renew;
-        final PersonEntity entity;
+        final boolean                               member;
+        final boolean                               active;
+        final boolean                               renew;
+        final PersonEntity                          entity;
+        final Collection<PersonContactMethodEntity> contacts;
 
         if (data.membership()
             .isPresent()) {
@@ -305,6 +332,32 @@ public final class JpaPersonRepository implements PersonRepository {
         entity.setMember(member);
         entity.setActive(active);
         entity.setRenewMembership(renew);
+
+        contacts = data.contacts()
+            .stream()
+            .map(c -> toEntity(entity, c))
+            .toList();
+        entity.setContacts(contacts);
+
+        return entity;
+    }
+
+    private final PersonContactMethodEntity toEntity(final PersonEntity person, final PersonContact data) {
+        final PersonContactMethodEntity     entity;
+        final Optional<ContactMethodEntity> contactMethod;
+
+        contactMethod = contactMethodSpringRepository.findByNumber(data.method()
+            .number());
+
+        if (contactMethod.isEmpty()) {
+            throw new MissingContactMethodException(data.method()
+                .number());
+        }
+
+        entity = new PersonContactMethodEntity();
+        entity.setPerson(person);
+        entity.setContactMethod(contactMethod.get());
+        entity.setContact(data.contact());
 
         return entity;
     }

@@ -65,14 +65,14 @@ class TestContactMethodServiceGetOne {
 
         // GIVEN
         given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER))
-            .willReturn(Optional.of(ContactMethods.valid()));
+            .willReturn(Optional.of(ContactMethods.email()));
 
         // WHEN
         ContactMethodOptional = service.getOne(ContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(ContactMethodOptional)
-            .contains(ContactMethods.valid());
+            .contains(ContactMethods.email());
     }
 
     @Test

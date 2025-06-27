@@ -64,7 +64,7 @@ class TestContactMethodServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        ContactMethod = ContactMethods.valid();
+        ContactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
@@ -82,7 +82,7 @@ class TestContactMethodServiceUpdate {
         final ContactMethod ContactMethod;
 
         // GIVEN
-        ContactMethod = ContactMethods.valid();
+        ContactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
@@ -90,7 +90,7 @@ class TestContactMethodServiceUpdate {
         service.update(ContactMethod);
 
         // THEN
-        verify(ContactMethodRepository).save(ContactMethods.valid());
+        verify(ContactMethodRepository).save(ContactMethods.email());
     }
 
     @Test
@@ -100,10 +100,10 @@ class TestContactMethodServiceUpdate {
         final ContactMethod updated;
 
         // GIVEN
-        ContactMethod = ContactMethods.valid();
+        ContactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
-        given(ContactMethodRepository.save(ContactMethods.valid())).willReturn(ContactMethods.valid());
+        given(ContactMethodRepository.save(ContactMethods.email())).willReturn(ContactMethods.email());
 
         // WHEN
         updated = service.update(ContactMethod);
@@ -111,7 +111,7 @@ class TestContactMethodServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("contact method")
-            .isEqualTo(ContactMethods.valid());
+            .isEqualTo(ContactMethods.email());
     }
 
 }

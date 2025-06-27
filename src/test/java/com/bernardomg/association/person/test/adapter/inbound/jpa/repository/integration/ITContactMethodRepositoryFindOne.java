@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMethod;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -47,7 +47,7 @@ class ITContactMethodRepositoryFindOne {
 
     @Test
     @DisplayName("With a contact method, it is returned")
-    @SingleContactMethod
+    @EmailContactMethod
     void testFindOne() {
         final Optional<ContactMethod> personOptional;
 
@@ -56,7 +56,7 @@ class ITContactMethodRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(personOptional)
-            .contains(ContactMethods.valid());
+            .contains(ContactMethods.email());
     }
 
     @Test

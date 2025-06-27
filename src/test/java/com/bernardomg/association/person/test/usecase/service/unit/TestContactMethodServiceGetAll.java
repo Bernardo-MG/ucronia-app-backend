@@ -99,7 +99,7 @@ class TestContactMethodServiceGetAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
-        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(List.of(ContactMethods.valid()));
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(List.of(ContactMethods.email()));
 
         // WHEN
         contactMethods = service.getAll(pagination, sorting);
@@ -107,7 +107,7 @@ class TestContactMethodServiceGetAll {
         // THEN
         Assertions.assertThat(contactMethods)
             .as("ContactMethods")
-            .containsExactly(ContactMethods.valid());
+            .containsExactly(ContactMethods.email());
     }
 
     @Test
@@ -121,7 +121,7 @@ class TestContactMethodServiceGetAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
 
-        readContactMethods = List.of(ContactMethods.valid());
+        readContactMethods = List.of(ContactMethods.email());
         given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
 
         // WHEN
@@ -145,7 +145,7 @@ class TestContactMethodServiceGetAll {
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
 
-        readContactMethods = List.of(ContactMethods.valid());
+        readContactMethods = List.of(ContactMethods.email());
         given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
 
         // WHEN

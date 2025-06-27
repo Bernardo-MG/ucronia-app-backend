@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.SingleContactMethod;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -43,7 +43,7 @@ class ITContactMethodRepositoryFindNextNumber {
 
     @Test
     @DisplayName("With an existing contact method, it returns the next number")
-    @SingleContactMethod
+    @EmailContactMethod
     void testFindNextNumber() {
         final long number;
 

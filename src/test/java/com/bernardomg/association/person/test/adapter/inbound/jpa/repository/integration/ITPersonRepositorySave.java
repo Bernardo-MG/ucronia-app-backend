@@ -33,8 +33,10 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -72,6 +74,47 @@ class ITPersonRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    @EmailContactMethod
+    void testSave_ContactMethod_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .containsExactly(PersonEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is returned")
+    @EmailContactMethod
+    void testSave_ContactMethod_ReturnedData() {
+        final Person person;
+        final Person saved;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        saved = repository.save(person);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("person")
+            .isEqualTo(Persons.withEmail());
     }
 
     @Test
@@ -143,6 +186,29 @@ class ITPersonRepositorySave {
     }
 
     @Test
+    @DisplayName("When a person exists and a contact is added, the person is persisted")
+    @EmailContactMethod
+    @NoMembershipPerson
+    void testSave_Existing_AddContact_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .containsExactly(PersonEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("When a person exists, and an inactive membership is added, the person is persisted")
     @NoMembershipPerson
     void testSave_Existing_AddInactiveMembership_PersistedData() {
@@ -168,6 +234,29 @@ class ITPersonRepositorySave {
     @DisplayName("When a person exists, the person is persisted")
     @NoMembershipPerson
     void testSave_Existing_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.noMembership();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .containsExactly(PersonEntities.noMembership());
+    }
+
+    @Test
+    @DisplayName("When a person exists and a contact is remove, the person is persisted")
+    @EmailContactMethod
+    @WithContact
+    void testSave_Existing_RemoveContact_PersistedData() {
         final Person                 person;
         final Iterable<PersonEntity> entities;
 

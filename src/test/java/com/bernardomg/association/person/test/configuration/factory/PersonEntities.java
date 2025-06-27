@@ -1,6 +1,9 @@
 
 package com.bernardomg.association.person.test.configuration.factory;
 
+import java.util.List;
+
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 public final class PersonEntities {
@@ -14,6 +17,7 @@ public final class PersonEntities {
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -26,6 +30,7 @@ public final class PersonEntities {
         entity.setBirthDate(PersonConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -40,6 +45,7 @@ public final class PersonEntities {
         entity.setMember(true);
         entity.setActive(true);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -54,6 +60,7 @@ public final class PersonEntities {
         entity.setMember(true);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -68,6 +75,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -81,6 +89,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -95,6 +104,7 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(true);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
         return entity;
     }
 
@@ -109,6 +119,32 @@ public final class PersonEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
+        entity.setContacts(List.of());
+        return entity;
+    }
+
+    public static final PersonEntity withEmail() {
+        final PersonEntity              entity;
+        final PersonContactMethodEntity personContactMethodEntity;
+
+        personContactMethodEntity = new PersonContactMethodEntity();
+        personContactMethodEntity.setContactMethod(ContactMethodEntities.email());
+        personContactMethodEntity.setContact(PersonConstants.EMAIL);
+
+        entity = new PersonEntity();
+        entity.setId(1L);
+        entity.setNumber(PersonConstants.NUMBER);
+        entity.setFirstName(PersonConstants.FIRST_NAME);
+        entity.setLastName(PersonConstants.LAST_NAME);
+        entity.setBirthDate(PersonConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setMember(true);
+        entity.setActive(true);
+        entity.setRenewMembership(true);
+        entity.setContacts(List.of(personContactMethodEntity));
+
+        personContactMethodEntity.setPerson(entity);
+
         return entity;
     }
 

@@ -5,13 +5,13 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethod
 
 public final class ContactMethodEntities {
 
-    public static final ContactMethodEntity valid() {
+    public static final ContactMethodEntity email() {
         final ContactMethodEntity entity;
 
         entity = new ContactMethodEntity();
         entity.setId(1L);
         entity.setNumber(ContactMethodConstants.NUMBER);
-        entity.setName(ContactMethodConstants.NAME);
+        entity.setName(ContactMethodConstants.EMAIL);
 
         return entity;
     }
