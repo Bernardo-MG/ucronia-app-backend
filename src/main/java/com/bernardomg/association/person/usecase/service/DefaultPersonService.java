@@ -113,7 +113,7 @@ public final class DefaultPersonService implements PersonService {
 
         log.debug("Patching member {} using data {}", person.number(), person);
 
-        // TODO: Identificator and phone must be unique or empty
+        // TODO: Identificator must be unique or empty
         // TODO: Apply the creation validations
 
         existing = personRepository.findOne(person.number())
@@ -133,7 +133,7 @@ public final class DefaultPersonService implements PersonService {
     public final Person update(final Person person) {
         log.debug("Updating person {} using data {}", person.number(), person);
 
-        // TODO: Identificator and phone must be unique or empty
+        // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
         if (!personRepository.exists(person.number())) {

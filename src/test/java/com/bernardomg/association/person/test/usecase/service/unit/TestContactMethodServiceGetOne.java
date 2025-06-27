@@ -61,17 +61,17 @@ class TestContactMethodServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<ContactMethod> ContactMethodOptional;
+        final Optional<ContactMethod> contactMethodOptional;
 
         // GIVEN
         given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER))
             .willReturn(Optional.of(ContactMethods.email()));
 
         // WHEN
-        ContactMethodOptional = service.getOne(ContactMethodConstants.NUMBER);
+        contactMethodOptional = service.getOne(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(ContactMethodOptional)
+        Assertions.assertThat(contactMethodOptional)
             .contains(ContactMethods.email());
     }
 
