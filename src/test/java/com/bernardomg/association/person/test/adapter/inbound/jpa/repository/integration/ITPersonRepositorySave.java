@@ -72,49 +72,8 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("With a person with a contact method, the person is persisted")
-    @EmailContactMethod
-    void testSave_ContactMethod_PersistedData() {
-        final Person                 person;
-        final Iterable<PersonEntity> entities;
-
-        // GIVEN
-        person = Persons.withEmail();
-
-        // WHEN
-        repository.save(person);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
-            .containsExactly(PersonEntities.withEmail());
-    }
-
-    @Test
-    @DisplayName("With a person with a contact method, the person is returned")
-    @EmailContactMethod
-    void testSave_ContactMethod_ReturnedData() {
-        final Person person;
-        final Person saved;
-
-        // GIVEN
-        person = Persons.withEmail();
-
-        // WHEN
-        saved = repository.save(person);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("person")
-            .isEqualTo(Persons.withEmail());
     }
 
     @Test
@@ -135,8 +94,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
-                "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -158,8 +116,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
-                "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -181,7 +138,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipActive());
     }
 
@@ -204,7 +161,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.withEmail());
     }
 
@@ -226,7 +183,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipActive());
     }
 
@@ -248,7 +205,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -271,7 +228,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -311,7 +268,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -332,7 +289,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -352,6 +309,47 @@ class ITPersonRepositorySave {
         Assertions.assertThat(saved)
             .as("person")
             .isEqualTo(Persons.noMembership());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    @EmailContactMethod
+    void testSave_WithContact_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contacts.person")
+            .containsExactly(PersonEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is returned")
+    @EmailContactMethod
+    void testSave_WithContact_ReturnedData() {
+        final Person person;
+        final Person saved;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        saved = repository.save(person);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("person")
+            .isEqualTo(Persons.withEmail());
     }
 
 }

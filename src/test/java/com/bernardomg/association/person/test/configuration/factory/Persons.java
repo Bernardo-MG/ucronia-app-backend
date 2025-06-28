@@ -98,7 +98,7 @@ public final class Persons {
         final PersonName name;
 
         name = new PersonName("Person 123", "Last name");
-        return new Person(null, PersonConstants.NUMBER, name, null, null, null);
+        return new Person(null, PersonConstants.NUMBER, name, null, Optional.empty(), List.of());
     }
 
     public static final Person noMembership() {

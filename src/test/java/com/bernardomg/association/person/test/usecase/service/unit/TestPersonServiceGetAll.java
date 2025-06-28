@@ -45,6 +45,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
@@ -57,10 +58,13 @@ import com.bernardomg.data.domain.Sorting.Property;
 class TestPersonServiceGetAll {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServiceGetAll() {
         super();

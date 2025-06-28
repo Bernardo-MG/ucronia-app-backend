@@ -38,7 +38,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
@@ -50,10 +52,13 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestPersonServiceCreate {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServiceCreate() {
         super();
@@ -91,6 +96,40 @@ class TestPersonServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("empty", "name.firstName", new PersonName("", "")));
+    }
+
+    @Test
+    @DisplayName("With a person with an inactive membership, the person is persisted")
+    void testCreate_InactiveMembership_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.membershipInactive();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.membershipInactive());
+    }
+
+    @Test
+    @DisplayName("With a person with no membership, the person is persisted")
+    void testCreate_NoMembership_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.noMembership();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.noMembership());
     }
 
     @Test
@@ -146,6 +185,44 @@ class TestPersonServiceCreate {
         Assertions.assertThat(created)
             .as("person")
             .isEqualTo(Persons.noMembership());
+    }
+
+    @Test
+    @DisplayName("With a person with a not existing contact method, an exception is thrown")
+    void testCreate_WithContact_NotExisting() {
+        final Person           person;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(person);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("notExisting", "contact", ContactMethodConstants.NUMBER));
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    void testCreate_WithContact_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.findNextNumber()).willReturn(PersonConstants.NUMBER);
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.create(person);
+
+        // THEN
+        verify(personRepository).save(Persons.withEmail());
     }
 
 }

@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.person.usecase.service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -14,7 +13,9 @@ import com.bernardomg.association.person.domain.exception.MissingPersonException
 import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.usecase.validation.PersonContactMethodExistsRule;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -44,13 +45,16 @@ public final class DefaultPersonService implements PersonService {
 
     private final Validator<Person> updatePersonValidator;
 
-    public DefaultPersonService(final PersonRepository personRepo) {
+    public DefaultPersonService(final PersonRepository personRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
-        createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
-        updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
-        patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
+        createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
+            new PersonContactMethodExistsRule(contactMethodRepo));
+        updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
+            new PersonContactMethodExistsRule(contactMethodRepo));
+        patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
+            new PersonContactMethodExistsRule(contactMethodRepo));
     }
 
     @Override
@@ -64,7 +68,7 @@ public final class DefaultPersonService implements PersonService {
         number = personRepository.findNextNumber();
 
         toCreate = new Person(person.identifier(), number, person.name(), person.birthDate(), person.membership(),
-            List.of());
+            person.contacts());
 
         createPersonValidator.validate(toCreate);
 
@@ -169,7 +173,7 @@ public final class DefaultPersonService implements PersonService {
                 .orElse(existing.birthDate()),
             Optional.ofNullable(updated.membership())
                 .orElse(Optional.empty()),
-            List.of());
+            updated.contacts());
     }
 
 }

@@ -77,6 +77,7 @@ public final class DefaultGameBookService implements GameBookService {
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
         personRepository = Objects.requireNonNull(personRepo);
 
+        // TODO: validate relationships exist
         createBookValidator = new FieldRuleValidator<>(new GameBookTitleNotEmptyRule(),
             new GameBookLanguageCodeValidRule(), new GameBookIsbnValidRule(),
             new GameBookIsbnNotExistsRule(bookRepository));

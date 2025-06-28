@@ -41,7 +41,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
@@ -53,10 +55,13 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestPersonServicePatch {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServicePatch() {
         super();
@@ -208,6 +213,44 @@ class TestPersonServicePatch {
         Assertions.assertThat(updated)
             .as("person")
             .isEqualTo(Persons.nameChange());
+    }
+
+    @Test
+    @DisplayName("With a person with a not existing contact method, an exception is thrown")
+    void testPatch_WithContact_NotExisting() {
+        final Person           person;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.patch(person);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("notExisting", "contact", ContactMethodConstants.NUMBER));
+    }
+
+    @Test
+    @DisplayName("When patching a person with a contact method, the change is persisted")
+    void testPatch_WithContact_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.patch(person);
+
+        // THEN
+        verify(personRepository).save(Persons.withEmail());
     }
 
 }
