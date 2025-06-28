@@ -37,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
@@ -46,10 +47,13 @@ import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 class TestPersonServiceDelete {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServiceDelete() {
         super();

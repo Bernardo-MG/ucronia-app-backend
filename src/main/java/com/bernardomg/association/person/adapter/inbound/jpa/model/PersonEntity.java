@@ -4,6 +4,7 @@ package com.bernardomg.association.person.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -57,6 +58,22 @@ public class PersonEntity implements Serializable {
     @Column(name = "renew_membership")
     private Boolean                               renewMembership;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final PersonEntity other = (PersonEntity) obj;
+        return Objects.equals(active, other.active) && Objects.equals(birthDate, other.birthDate)
+                && Objects.equals(contacts, other.contacts) && Objects.equals(firstName, other.firstName)
+                && Objects.equals(id, other.id) && Objects.equals(identifier, other.identifier)
+                && Objects.equals(lastName, other.lastName) && Objects.equals(member, other.member)
+                && Objects.equals(number, other.number) && Objects.equals(renewMembership, other.renewMembership);
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -95,6 +112,12 @@ public class PersonEntity implements Serializable {
 
     public Boolean getRenewMembership() {
         return renewMembership;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(active, birthDate, contacts, firstName, id, identifier, lastName, member, number,
+            renewMembership);
     }
 
     public void setActive(final Boolean active) {

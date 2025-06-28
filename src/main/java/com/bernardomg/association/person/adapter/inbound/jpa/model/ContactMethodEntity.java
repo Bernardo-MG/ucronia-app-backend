@@ -2,6 +2,7 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +33,18 @@ public class ContactMethodEntity implements Serializable {
     @Column(name = "number")
     private Long              number;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final ContactMethodEntity other = (ContactMethodEntity) obj;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(number, other.number);
+    }
+
     public Long getId() {
         return id;
     }
@@ -44,6 +57,11 @@ public class ContactMethodEntity implements Serializable {
         return number;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, number);
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -54,6 +72,11 @@ public class ContactMethodEntity implements Serializable {
 
     public void setNumber(final Long number) {
         this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactMethodEntity [id=" + id + ", name=" + name + ", number=" + number + "]";
     }
 
 }

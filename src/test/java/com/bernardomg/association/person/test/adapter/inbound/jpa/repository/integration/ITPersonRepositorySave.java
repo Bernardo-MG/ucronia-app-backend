@@ -72,7 +72,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -94,8 +94,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
-                "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -117,8 +116,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
-                "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -140,7 +138,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipActive());
     }
 
@@ -163,7 +161,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.withEmail());
     }
 
@@ -185,7 +183,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipActive());
     }
 
@@ -207,7 +205,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -230,7 +228,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -270,7 +268,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -291,7 +289,7 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -316,7 +314,7 @@ class ITPersonRepositorySave {
     @Test
     @DisplayName("With a person with a contact method, the person is persisted")
     @EmailContactMethod
-    void testSave_WithEmail_PersistedData() {
+    void testSave_WithContact_PersistedData() {
         final Person                 person;
         final Iterable<PersonEntity> entities;
 
@@ -331,14 +329,14 @@ class ITPersonRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contacts.person")
             .containsExactly(PersonEntities.withEmail());
     }
 
     @Test
     @DisplayName("With a person with a contact method, the person is returned")
     @EmailContactMethod
-    void testSave_WithEmail_ReturnedData() {
+    void testSave_WithContact_ReturnedData() {
         final Person person;
         final Person saved;
 
