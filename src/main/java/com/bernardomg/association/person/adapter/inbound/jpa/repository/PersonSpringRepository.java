@@ -58,7 +58,7 @@ public interface PersonSpringRepository
     @Query("""
             SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Person p
-            WHERE p.number = :number
+            WHERE p.number != :number
               AND p.identifier = :identifier
             """)
     public boolean existsByIdentifierForAnother(@Param("number") final Long number,

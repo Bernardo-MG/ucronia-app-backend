@@ -42,6 +42,22 @@ class ITPersonRepositoryExistsByIdentifierForAnother {
     private PersonRepository repository;
 
     @Test
+    @DisplayName("With another user, it exists")
+    @NoMembershipPerson
+    void testExists_AnotherUser() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByIdentifierForAnother(PersonConstants.ALTERNATIVE_NUMBER,
+            PersonConstants.IDENTIFIER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
+    }
+
+    @Test
     @DisplayName("With an existing identifier, it exists")
     @NoMembershipPerson
     void testExists_Existing() {
@@ -53,7 +69,7 @@ class ITPersonRepositoryExistsByIdentifierForAnother {
         // THEN
         Assertions.assertThat(exists)
             .as("exists")
-            .isTrue();
+            .isFalse();
     }
 
     @Test
