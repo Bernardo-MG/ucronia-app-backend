@@ -23,6 +23,10 @@ public interface PersonRepository {
 
     public boolean exists(final long number);
 
+    public boolean existsByIdentifier(final String identifier);
+
+    public boolean existsByIdentifierForAnother(final long number, final String identifier);
+
     public Iterable<Person> findAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Collection<Person> findAllToRenew();

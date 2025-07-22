@@ -16,7 +16,7 @@ public final class Persons {
         final PersonName name;
 
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
-        return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
+        return new Person(PersonConstants.ALTERNATIVE_IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
             PersonConstants.BIRTH_DATE, Optional.empty(), List.of());
     }
 
@@ -26,7 +26,7 @@ public final class Persons {
 
         name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
         membership = new Membership(false, true);
-        return new Person(PersonConstants.IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
+        return new Person(PersonConstants.ALTERNATIVE_IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
             PersonConstants.BIRTH_DATE, Optional.of(membership), List.of());
     }
 
@@ -101,6 +101,13 @@ public final class Persons {
         return new Person(null, PersonConstants.NUMBER, name, null, Optional.empty(), List.of());
     }
 
+    public static final Person noIdentifier() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person("", PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE, Optional.empty(), List.of());
+    }
+
     public static final Person noMembership() {
         final PersonName name;
 
@@ -130,6 +137,13 @@ public final class Persons {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         return new Person(PersonConstants.IDENTIFIER, -1L, name, PersonConstants.BIRTH_DATE, Optional.empty(),
             List.of());
+    }
+
+    public static final Person toCreateNoIdentifier() {
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        return new Person("", -1L, name, PersonConstants.BIRTH_DATE, Optional.empty(), List.of());
     }
 
     public static final Person withEmail() {

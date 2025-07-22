@@ -10,6 +10,8 @@ public final class PersonConstants {
 
     public static final String    ALTERNATIVE_FULL_NAME  = "Person 2 Last name 2";
 
+    public static final String    ALTERNATIVE_IDENTIFIER = "67890";
+
     public static final String    ALTERNATIVE_LAST_NAME  = "Last name 2";
 
     public static final long      ALTERNATIVE_NUMBER     = 20;

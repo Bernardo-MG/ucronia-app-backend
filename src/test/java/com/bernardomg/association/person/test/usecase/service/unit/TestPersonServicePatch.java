@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
@@ -65,6 +66,46 @@ class TestPersonServicePatch {
 
     public TestPersonServicePatch() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a person with an existing identifier, an exception is thrown")
+    void testCreate_IdentifierExists() {
+        final ThrowingCallable execution;
+        final Person           person;
+
+        // GIVEN
+        person = Persons.nameChange();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(personRepository.existsByIdentifierForAnother(PersonConstants.NUMBER, PersonConstants.IDENTIFIER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.patch(person);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "identifier", PersonConstants.IDENTIFIER));
+    }
+
+    @Test
+    @DisplayName("With a person with an existing identifier, but the identifier is empty, no exception is thrown")
+    void testCreate_IdentifierExistsAndEmpty() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.noIdentifier();
+
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+
+        // WHEN
+        service.patch(person);
+
+        // THEN
+        verify(personRepository).save(Persons.noIdentifier());
+        verify(personRepository, Mockito.never()).existsByIdentifierForAnother(PersonConstants.NUMBER,
+            PersonConstants.IDENTIFIER);
     }
 
     @Test

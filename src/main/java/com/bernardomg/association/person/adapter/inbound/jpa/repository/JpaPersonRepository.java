@@ -117,22 +117,48 @@ public final class JpaPersonRepository implements PersonRepository {
 
     @Override
     public final void delete(final long number) {
-        log.debug("Deleting fee {}", number);
+        log.debug("Deleting person {}", number);
 
         personSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted fee {}", number);
+        log.debug("Deleted person {}", number);
     }
 
     @Override
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if fee {} exists", number);
+        log.debug("Checking if person {} exists", number);
 
         exists = personSpringRepository.existsByNumber(number);
 
-        log.debug("Fee {} exists: {}", number, exists);
+        log.debug("Person {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists", identifier);
+
+        exists = personSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a person distinct from {}", identifier, number);
+
+        exists = personSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a person distinct from {}: {}", identifier, number, exists);
 
         return exists;
     }

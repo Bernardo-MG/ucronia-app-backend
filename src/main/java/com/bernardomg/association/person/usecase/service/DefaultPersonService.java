@@ -16,6 +16,8 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.usecase.validation.PersonContactMethodExistsRule;
+import com.bernardomg.association.person.usecase.validation.PersonIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.person.usecase.validation.PersonIdentifierNotExistRule;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -50,11 +52,13 @@ public final class DefaultPersonService implements PersonService {
 
         personRepository = Objects.requireNonNull(personRepo);
         createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
-            new PersonContactMethodExistsRule(contactMethodRepo));
+            new PersonContactMethodExistsRule(contactMethodRepo), new PersonIdentifierNotExistRule(personRepo));
         updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
-            new PersonContactMethodExistsRule(contactMethodRepo));
+            new PersonContactMethodExistsRule(contactMethodRepo),
+            new PersonIdentifierNotExistForAnotherRule(personRepo));
         patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
-            new PersonContactMethodExistsRule(contactMethodRepo));
+            new PersonContactMethodExistsRule(contactMethodRepo),
+            new PersonIdentifierNotExistForAnotherRule(personRepo));
     }
 
     @Override
