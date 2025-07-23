@@ -11,7 +11,7 @@ initialize:
 logging:
   level:
     com.bernardomg: DEBUG
-    com.bernardomg.security.web.whitelist.WhitelistFilterWrapper: WARN
+    com.bernardomg.security.web.whitelist.WhitelistFilterSkipWrapper: WARN
     org.springframework.security: DEBUG
     org.springframework.security.web.FilterChainProxy: WARN
     org.springframework.security.web.authentication.AnonymousAuthenticationFilter: WARN
