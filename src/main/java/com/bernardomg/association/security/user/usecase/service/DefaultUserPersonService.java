@@ -17,7 +17,7 @@ import com.bernardomg.association.security.user.domain.repository.UserPersonRepo
 import com.bernardomg.association.security.user.usecase.validation.UserPersonNameNotEmptyRule;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -62,7 +62,7 @@ public final class DefaultUserPersonService implements UserPersonService {
         readUser = userRepository.findOne(username)
             .orElseThrow(() -> {
                 log.error("Missing user {}", username);
-                throw new MissingUserException(username);
+                throw new MissingUsernameException(username);
             });
 
         readPerson = personRepository.findOne(personNumber)
@@ -91,7 +91,7 @@ public final class DefaultUserPersonService implements UserPersonService {
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         return userPersonRepository.findByUsername(username);
@@ -105,7 +105,7 @@ public final class DefaultUserPersonService implements UserPersonService {
 
         exists = userRepository.exists(username);
         if (!exists) {
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         userPersonRepository.delete(username);

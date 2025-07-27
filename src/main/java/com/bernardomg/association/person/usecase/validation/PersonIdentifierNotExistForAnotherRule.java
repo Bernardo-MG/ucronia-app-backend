@@ -36,7 +36,8 @@ public final class PersonIdentifierNotExistForAnotherRule implements FieldRule<P
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(person.identifier()) || !personRepository.existsByIdentifierForAnother(person.number(), person.identifier())) {
+        if (StringUtils.isBlank(person.identifier())
+                || !personRepository.existsByIdentifierForAnother(person.number(), person.identifier())) {
             failure = Optional.empty();
         } else {
             log.error("Existing identifier {} for a person distinct of {}", person.identifier(), person.number());
