@@ -81,27 +81,40 @@ public final class DefaultUserPersonService implements UserPersonService {
 
     @Override
     public final Iterable<Person> getAvailablePerson(final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading all available persons");
-        return userPersonRepository.findAllNotAssigned(pagination, sorting);
+        final Iterable<Person> people;
+
+        log.trace("Reading all available people for pagination {} and sorting {}", pagination, sorting);
+
+        people = userPersonRepository.findAllNotAssigned(pagination, sorting);
+
+        log.trace("Read all available people for pagination {} and sorting {}: {}", pagination, sorting, people);
+
+        return people;
     }
 
     @Override
     public final Optional<Person> getPerson(final String username) {
-        log.debug("Reading person for {}", username);
+        final Optional<Person> person;
+
+        log.trace("Reading person for {}", username);
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
             throw new MissingUsernameException(username);
         }
 
-        return userPersonRepository.findByUsername(username);
+        person = userPersonRepository.findByUsername(username);
+
+        log.trace("Read person for {}: {}", username, person);
+
+        return person;
     }
 
     @Override
     public final void unassignPerson(final String username) {
         final boolean exists;
 
-        log.debug("Unassigning person to {}", username);
+        log.trace("Unassigning person to {}", username);
 
         exists = userRepository.exists(username);
         if (!exists) {
@@ -109,6 +122,8 @@ public final class DefaultUserPersonService implements UserPersonService {
         }
 
         userPersonRepository.delete(username);
+
+        log.trace("Unassigned person to {}", username);
     }
 
 }
