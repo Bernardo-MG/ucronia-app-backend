@@ -27,7 +27,10 @@ package com.bernardomg.association.library.lending.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -138,10 +141,13 @@ class TestBookLendingServiceReturnBook {
     @DisplayName("When returning a book before it was lent, an exception is thrown")
     void testReturnBook_ReturnBeforeLent_Exception() {
         final ThrowingCallable execution;
-        final LocalDate        date;
+        final Instant          date;
 
         // GIVEN
-        date = BookConstants.LENT_DATE.minusDays(1);
+        date = LocalDate.ofInstant(BookConstants.LENT_DATE, ZoneId.systemDefault())
+            .minusDays(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));
@@ -157,10 +163,13 @@ class TestBookLendingServiceReturnBook {
     @DisplayName("When returning a book before the last return, an exception is thrown")
     void testReturnBook_ReturnedBeforeLastReturn_Exception() {
         final ThrowingCallable execution;
-        final LocalDate        date;
+        final Instant          date;
 
         // GIVEN
-        date = BookConstants.RETURNED_DATE.minusDays(1);
+        date = LocalDate.ofInstant(BookConstants.RETURNED_DATE, ZoneId.systemDefault())
+            .minusDays(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
@@ -199,11 +208,13 @@ class TestBookLendingServiceReturnBook {
     @DisplayName("When returning a book in the future, an exception is thrown")
     void testReturnBook_ReturnInFuture_Exception() {
         final ThrowingCallable execution;
-        final LocalDate        date;
+        final Instant          date;
 
         // GIVEN
-        date = LocalDate.now()
-            .plusDays(1);
+        date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault())
+            .plusDays(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         given(bookLendingRepository.findOne(BookConstants.NUMBER, PersonConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lent()));

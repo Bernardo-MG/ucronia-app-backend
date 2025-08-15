@@ -1,9 +1,11 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -63,13 +65,17 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final void delete(final Long number, final YearMonth date) {
         final Optional<PersonEntity> person;
+        final Instant                dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
         person = personSpringRepository.findByNumber(number);
         if (person.isPresent()) {
+            dateParsed = date.atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant();
             feeSpringRepository.deleteByPersonIdAndDate(person.get()
-                .getId(), date);
+                .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
         } else {
@@ -81,10 +87,14 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final boolean exists(final Long number, final YearMonth date) {
         final boolean exists;
+        final Instant dateParsed;
 
         log.debug("checking a fee exists for member {} in date {}", number, date);
 
-        exists = feeSpringRepository.existsByPersonNumberAndDate(number, date);
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        exists = feeSpringRepository.existsByPersonNumberAndDate(number, dateParsed);
 
         log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -94,10 +104,14 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final boolean existsPaid(final Long number, final YearMonth date) {
         final boolean exists;
+        final Instant dateParsed;
 
         log.debug("checking a paid fee exists for member {} in date {}", number, date);
 
-        exists = feeSpringRepository.existsByPersonNumberAndDateAndPaid(number, date);
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        exists = feeSpringRepository.existsByPersonNumberAndDateAndPaid(number, dateParsed);
 
         log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -138,16 +152,22 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting) {
         final Collection<Long> foundIds;
-        final YearMonth        start;
-        final YearMonth        end;
+        final Instant          start;
+        final Instant          end;
         final Collection<Fee>  found;
         final Sort             sort;
         final Sorting          correctedSorting;
 
         log.debug("Finding all fees for active members in year {}", year);
 
-        start = YearMonth.of(year.getValue(), Month.JANUARY);
-        end = YearMonth.of(year.getValue(), Month.DECEMBER);
+        start = YearMonth.of(year.getValue(), Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        end = YearMonth.of(year.getValue(), Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         foundIds = personSpringRepository.findAllActiveMemberIds();
 
@@ -171,16 +191,22 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting) {
         final Collection<Long> foundIds;
-        final YearMonth        start;
-        final YearMonth        end;
+        final Instant          start;
+        final Instant          end;
         final Collection<Fee>  found;
         final Sort             sort;
         final Sorting          correctedSorting;
 
         log.debug("Finding all fees for inactive members in year {}", year);
 
-        start = YearMonth.of(year.getValue(), Month.JANUARY);
-        end = YearMonth.of(year.getValue(), Month.DECEMBER);
+        start = YearMonth.of(year.getValue(), Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        end = YearMonth.of(year.getValue(), Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         foundIds = personSpringRepository.findAllInactiveMemberIds();
 
@@ -225,11 +251,15 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Collection<Fee> findAllForPersonInDates(final Long number, final Collection<YearMonth> feeMonths) {
-        final Collection<Fee> fees;
+        final Collection<Fee>     fees;
+        final Collection<Instant> feeMonthsParsed;
 
         log.debug("Finding all fees for person {} in dates {}", number, feeMonths);
 
-        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeMonths)
+        feeMonthsParsed = feeMonths.stream()
+            .map(this::toInstant)
+            .toList();
+        fees = feeSpringRepository.findAllFeesByPersonNumberAndDateIn(number, feeMonthsParsed)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -242,10 +272,14 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllInMonth(final YearMonth date) {
         final Collection<Fee> fees;
+        final Instant         dateParsed;
 
         log.debug("Finding all fees in month {}", date);
 
-        fees = feeSpringRepository.findAllByDate(date)
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        fees = feeSpringRepository.findAllByDate(dateParsed)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -257,16 +291,22 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Collection<Fee> findAllInYear(final Year year, final Sorting sorting) {
-        final YearMonth       start;
-        final YearMonth       end;
+        final Instant         start;
+        final Instant         end;
         final Collection<Fee> fees;
         final Sort            sort;
         final Sorting         correctedSorting;
 
         log.debug("Finding all fees in year {}", year);
 
-        start = YearMonth.of(year.getValue(), Month.JANUARY);
-        end = YearMonth.of(year.getValue(), Month.DECEMBER);
+        start = YearMonth.of(year.getValue(), Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        end = YearMonth.of(year.getValue(), Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         correctedSorting = new Sorting(sorting.properties()
             .stream()
@@ -286,10 +326,14 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Optional<Fee> findOne(final Long number, final YearMonth date) {
         final Optional<Fee> found;
+        final Instant       dateParsed;
 
         log.debug("Finding fee for member {} in date {}", number, date);
 
-        found = feeSpringRepository.findByPersonNumberAndDate(number, date)
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        found = feeSpringRepository.findByPersonNumberAndDate(number, dateParsed)
             .map(this::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
@@ -319,13 +363,14 @@ public final class JpaFeeRepository implements FeeRepository {
     public final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Transaction transaction) {
         final Optional<TransactionEntity> transactionEntity;
         final Collection<FeeEntity>       read;
-        final Collection<YearMonth>       feeMonths;
+        final Collection<Instant>         feeMonths;
         final Collection<Fee>             saved;
 
         log.debug("Paying fees for {}, using fees {} and transaction {}", person.number(), fees, transaction);
 
         feeMonths = fees.stream()
             .map(Fee::month)
+            .map(this::toInstant)
             .toList();
 
         transactionEntity = transactionSpringRepository.findByIndex(transaction.index());
@@ -420,6 +465,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Fee.Person                person;
         final Optional<Fee.Transaction> transaction;
         final PersonName                name;
+        final YearMonth                 date;
 
         name = new PersonName(entity.getPerson()
             .getFirstName(),
@@ -436,7 +482,9 @@ public final class JpaFeeRepository implements FeeRepository {
         } else {
             transaction = Optional.empty();
         }
-        return new Fee(entity.getDate(), entity.getPaid(), person, transaction);
+        date = YearMonth.from(entity.getDate()
+            .atZone(ZoneOffset.UTC));
+        return new Fee(date, entity.getPaid(), person, transaction);
     }
 
     private final FeeEntity toEntity(final Fee fee) {
@@ -444,6 +492,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<TransactionEntity> transaction;
         final boolean                     paid;
         final FeeEntity                   entity;
+        final Instant                     date;
 
         person = personSpringRepository.findByNumber(fee.person()
             .number());
@@ -474,11 +523,21 @@ public final class JpaFeeRepository implements FeeRepository {
 
         entity = new FeeEntity();
         entity.setPerson(person.orElse(null));
-        entity.setDate(fee.month());
+        date = fee.month()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        entity.setDate(date);
         entity.setPaid(paid);
         entity.setTransaction(transaction.orElse(null));
 
         return entity;
+    }
+
+    private final Instant toInstant(final YearMonth month) {
+        return month.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
     }
 
 }

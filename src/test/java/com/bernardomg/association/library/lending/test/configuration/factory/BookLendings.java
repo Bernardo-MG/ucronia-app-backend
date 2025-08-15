@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.test.configuration.factory;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -20,7 +20,7 @@ public final class BookLendings {
         return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, null);
     }
 
-    public static final BookLending lent(final LocalDate lent) {
+    public static final BookLending lent(final Instant lent) {
         final LentBook book;
         final Title    title;
 
@@ -62,7 +62,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), LocalDate.now(), null);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_TODAY, null);
     }
 
     public static final BookLending returned() {
@@ -74,7 +74,7 @@ public final class BookLendings {
         return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, BookConstants.RETURNED_DATE);
     }
 
-    public static final BookLending returned(final LocalDate lent, final LocalDate returned) {
+    public static final BookLending returned(final Instant lent, final Instant returned) {
         final LentBook book;
         final Title    title;
 
@@ -92,7 +92,7 @@ public final class BookLendings {
         return new BookLending(book, Borrowers.alternative(), BookConstants.LENT_DATE, BookConstants.RETURNED_DATE);
     }
 
-    public static final BookLending returnedAlternative(final LocalDate lent, final LocalDate returned) {
+    public static final BookLending returnedAlternative(final Instant lent, final Instant returned) {
         final LentBook book;
         final Title    title;
 

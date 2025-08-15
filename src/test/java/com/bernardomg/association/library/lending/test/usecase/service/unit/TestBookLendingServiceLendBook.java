@@ -27,7 +27,10 @@ package com.bernardomg.association.library.lending.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -111,10 +114,13 @@ class TestBookLendingServiceLendBook {
     @DisplayName("When lending a book before the last return date, an exception is thrown")
     void testLendBook_BeforeLastReturn_Exception() {
         final ThrowingCallable execution;
-        final LocalDate        date;
+        final Instant          date;
 
         // GIVEN
-        date = BookConstants.RETURNED_DATE.minusDays(1);
+        date = LocalDate.ofInstant(BookConstants.RETURNED_DATE, ZoneId.systemDefault())
+            .minusDays(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
@@ -132,11 +138,13 @@ class TestBookLendingServiceLendBook {
     @DisplayName("When lending a book in the future, an exception is thrown")
     void testLendBook_InFuture_Exception() {
         final ThrowingCallable execution;
-        final LocalDate        date;
+        final Instant          date;
 
         // GIVEN
-        date = LocalDate.now()
-            .plusDays(1);
+        date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault())
+            .plusDays(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
@@ -245,7 +253,7 @@ class TestBookLendingServiceLendBook {
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, LocalDate.now());
+        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE_TODAY);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.lentToday());

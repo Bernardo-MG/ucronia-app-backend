@@ -2,7 +2,7 @@
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,20 +28,20 @@ public class BookLendingEntity implements Serializable {
 
     @Id
     @Column(name = "lending_date", nullable = false)
-    private LocalDate         lendingDate;
+    private Instant           lendingDate;
 
     @Id
     @Column(name = "person_id", nullable = false)
     private Long              personId;
 
     @Column(name = "return_date", nullable = false)
-    private LocalDate         returnDate;
+    private Instant           returnDate;
 
     public Long getBookId() {
         return bookId;
     }
 
-    public LocalDate getLendingDate() {
+    public Instant getLendingDate() {
         return lendingDate;
     }
 
@@ -49,7 +49,7 @@ public class BookLendingEntity implements Serializable {
         return personId;
     }
 
-    public LocalDate getReturnDate() {
+    public Instant getReturnDate() {
         return returnDate;
     }
 
@@ -57,7 +57,7 @@ public class BookLendingEntity implements Serializable {
         this.bookId = bookId;
     }
 
-    public void setLendingDate(final LocalDate lendingDate) {
+    public void setLendingDate(final Instant lendingDate) {
         this.lendingDate = lendingDate;
     }
 
@@ -65,7 +65,7 @@ public class BookLendingEntity implements Serializable {
         this.personId = personId;
     }
 
-    public void setReturnDate(final LocalDate returnDate) {
+    public void setReturnDate(final Instant returnDate) {
         this.returnDate = returnDate;
     }
 

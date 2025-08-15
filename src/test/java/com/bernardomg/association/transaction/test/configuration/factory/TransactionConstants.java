@@ -1,9 +1,11 @@
 
 package com.bernardomg.association.transaction.test.configuration.factory;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 
 public final class TransactionConstants {
 
@@ -17,7 +19,9 @@ public final class TransactionConstants {
 
     public static final float     AMOUNT_FEES                      = 4F;
 
-    public static final LocalDate DATE                             = LocalDate.of(2020, Month.FEBRUARY, 1);
+    public static final Instant   DATE                             = LocalDate.of(2020, Month.FEBRUARY, 1)
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
 
     public static final String    DESCRIPTION                      = "Transaction";
 

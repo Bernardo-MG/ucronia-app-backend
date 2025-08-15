@@ -1,7 +1,10 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -61,10 +64,13 @@ class ITFeeRepositorySave {
     void testSave_PaymentDateChanged_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
-        final LocalDate           date;
+        final Instant             date;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         fee = Fees.paidAtDate(date);
 
         // WHEN

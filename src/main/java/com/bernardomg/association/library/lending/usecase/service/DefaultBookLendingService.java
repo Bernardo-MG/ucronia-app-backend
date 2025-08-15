@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.usecase.service;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -83,7 +83,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final BookLending lendBook(final long bookNumber, final long borrowerNumber, final LocalDate date) {
+    public final BookLending lendBook(final long bookNumber, final long borrowerNumber, final Instant date) {
         final BookLending    lending;
         final Borrower       borrower;
         final BookLending    created;
@@ -122,7 +122,7 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final BookLending returnBook(final long bookNumber, final long borrower, final LocalDate date) {
+    public final BookLending returnBook(final long bookNumber, final long borrower, final Instant date) {
         final BookLending read;
         final BookLending lending;
         final BookLending returned;

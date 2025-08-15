@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
@@ -207,7 +207,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
-            final LocalDate payDate) {
+            final Instant payDate) {
         final Collection<Fee> newFees;
         final Collection<Fee> fees;
         final Person          person;
@@ -339,9 +339,9 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final boolean changedPayment(final Fee received, final Fee existing) {
-        final LocalDate existingDate;
-        final LocalDate receivedDate;
-        final boolean   changed;
+        final Instant existingDate;
+        final Instant receivedDate;
+        final boolean changed;
 
         if (existing.payment()
             .isPresent()) {
@@ -359,7 +359,7 @@ public final class DefaultFeeService implements FeeService {
         return changed;
     }
 
-    private final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final LocalDate payDate) {
+    private final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Instant payDate) {
         final Transaction           payment;
         final Transaction           savedPayment;
         final Float                 feeAmount;

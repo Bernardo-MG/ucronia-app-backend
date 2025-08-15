@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
@@ -87,7 +87,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                ORDER BY l.returnDate DESC
             """)
     public List<BookLendingEntity> findAllReturned(@Param("bookNumber") final long bookNumber,
-            @Param("personNumber") final long personNumber, @Param("lendingDate") final LocalDate lendingDate,
+            @Param("personNumber") final long personNumber, @Param("lendingDate") final Instant lendingDate,
             final Pageable pageable);
 
     @Query("""

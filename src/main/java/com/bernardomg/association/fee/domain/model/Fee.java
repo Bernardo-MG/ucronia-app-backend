@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.domain.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public record Fee(YearMonth month, Boolean paid, Person person, Optional<Transac
 
     }
 
-    public static record Transaction(LocalDate date, Long index) {
+    public static record Transaction(Instant date, Long index) {
 
     }
 }

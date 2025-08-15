@@ -3,6 +3,7 @@ package com.bernardomg.association.transaction.test.configuration.factory;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneOffset;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionChange;
 
@@ -25,7 +26,9 @@ public final class TransactionChanges {
     }
 
     public static final TransactionChange firstDay() {
-        return new TransactionChange(LocalDate.of(2020, Month.JANUARY, 1), 1F, TransactionConstants.DESCRIPTION);
+        return new TransactionChange(LocalDate.of(2020, Month.JANUARY, 1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), 1F, TransactionConstants.DESCRIPTION);
     }
 
     public static final TransactionChange missingAmount() {

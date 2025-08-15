@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.fee.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
-public final record FeeQuery(YearMonth date, YearMonth startDate, YearMonth endDate) {
+public final record FeeQuery(Instant date, Instant startDate, Instant endDate) {
 
 }

@@ -24,14 +24,14 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
 
-public interface MonthlyMemberBalanceSpringRepository extends JpaRepository<MonthlyMemberBalanceEntity, LocalDate>,
+public interface MonthlyMemberBalanceSpringRepository extends JpaRepository<MonthlyMemberBalanceEntity, Instant>,
         JpaSpecificationExecutor<MonthlyMemberBalanceEntity> {
 
 }

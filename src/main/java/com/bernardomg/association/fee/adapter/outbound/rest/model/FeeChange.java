@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.YearMonth;
 
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +17,6 @@ public final record FeeChange(@NotNull YearMonth month, @NotNull FeeChangePaymen
         }
     }
 
-    public static final record FeeChangePayment(Long index, LocalDate date) {}
+    public static final record FeeChangePayment(Long index, Instant date) {}
 
 }

@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.usecase.service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.Objects;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -137,7 +138,7 @@ public final class ExcelPoiTransactionReportService implements TransactionReport
             cell.setCellStyle(style);
 
             cell = row.createCell(1);
-            cell.setCellValue(transaction.date());
+            cell.setCellValue(Date.from(transaction.date()));
             cell.setCellStyle(dateStyle);
 
             cell = row.createCell(2);

@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -300,7 +301,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
-            cell.setCellValue(book.publishDate());
+            cell.setCellValue(Date.from(book.publishDate()));
             cell.setCellStyle(dateStyle);
 
             cell = row.createCell(5);
@@ -331,7 +332,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(8);
-                cell.setCellValue(donation.date());
+                cell.setCellValue(Date.from(donation.date()));
                 cell.setCellStyle(dateStyle);
             }
 
@@ -352,7 +353,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(11);
-                cell.setCellValue(lending.lendingDate());
+                cell.setCellValue(Date.from(lending.lendingDate()));
                 cell.setCellStyle(dateStyle);
 
                 cell = row.createCell(12);
@@ -395,7 +396,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
-            cell.setCellValue(book.publishDate());
+            cell.setCellValue(Date.from(book.publishDate()));
             cell.setCellStyle(dateStyle);
 
             cell = row.createCell(5);
@@ -438,7 +439,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(10);
-                cell.setCellValue(donation.date());
+                cell.setCellValue(Date.from(donation.date()));
                 cell.setCellStyle(dateStyle);
             }
 
@@ -459,7 +460,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(13);
-                cell.setCellValue(lending.lendingDate());
+                cell.setCellValue(Date.from(lending.lendingDate()));
                 cell.setCellStyle(dateStyle);
 
                 cell = row.createCell(14);

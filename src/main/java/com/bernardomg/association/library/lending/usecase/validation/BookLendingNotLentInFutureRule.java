@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.usecase.validation;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -26,9 +26,9 @@ public final class BookLendingNotLentInFutureRule implements FieldRule<BookLendi
     public final Optional<FieldFailure> check(final BookLending lending) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final LocalDate              now;
+        final Instant                now;
 
-        now = LocalDate.now();
+        now = Instant.now();
         if (now.isBefore(lending.lendingDate())) {
             log.error("Lending book {} to {} on {}, which is after current date {}", lending.book()
                 .number(),

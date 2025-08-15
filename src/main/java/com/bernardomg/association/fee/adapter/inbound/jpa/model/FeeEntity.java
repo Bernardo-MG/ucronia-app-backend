@@ -2,14 +2,12 @@
 package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.YearMonth;
+import java.time.Instant;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,9 +27,9 @@ public class FeeEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    // TODO: should be called month
     @Column(name = "date", nullable = false)
-    @Convert(converter = YearMonthDateAttributeConverter.class)
-    private YearMonth         date;
+    private Instant           date;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +53,7 @@ public class FeeEntity implements Serializable {
     @Column(name = "transaction_id", insertable = false, updatable = false)
     private Long              transactionId;
 
-    public YearMonth getDate() {
+    public Instant getDate() {
         return date;
     }
 
@@ -83,7 +81,7 @@ public class FeeEntity implements Serializable {
         return transactionId;
     }
 
-    public void setDate(final YearMonth date) {
+    public void setDate(final Instant date) {
         this.date = date;
     }
 

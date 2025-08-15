@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Optional;
@@ -133,7 +133,7 @@ public final class Fees {
         return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 
-    public static final Fee paidAtDate(final LocalDate paymentDate) {
+    public static final Fee paidAtDate(final Instant paymentDate) {
         final Fee.Person      person;
         final Fee.Transaction transaction;
         final PersonName      name;

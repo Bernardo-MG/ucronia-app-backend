@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.test.configuration.factory;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
@@ -43,7 +43,7 @@ public final class TransactionEntities {
         return entity;
     }
 
-    public static final TransactionEntity forAmount(final Float value, final LocalDate date) {
+    public static final TransactionEntity forAmount(final Float value, final Instant date) {
         final TransactionEntity entity = new TransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(value);
@@ -52,7 +52,7 @@ public final class TransactionEntities {
         return entity;
     }
 
-    public static final TransactionEntity forAmount(final Float value, final LocalDate date, final Long index) {
+    public static final TransactionEntity forAmount(final Float value, final Instant date, final Long index) {
         final TransactionEntity entity = new TransactionEntity();
         entity.setIndex(index);
         entity.setAmount(value);

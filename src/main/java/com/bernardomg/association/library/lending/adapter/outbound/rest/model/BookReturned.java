@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.library.lending.adapter.outbound.rest.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
-public record BookReturned(long book, long borrower, LocalDate returnDate) {
+public record BookReturned(long book, long borrower, Instant returnDate) {
 
 }

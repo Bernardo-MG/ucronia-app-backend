@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.test.domain.model.unit;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import org.assertj.core.api.Assertions;
@@ -30,7 +30,7 @@ public class TestBookLending {
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
         borrower = new Borrower(0, new PersonName("", ""));
-        lending = new BookLending(book, borrower, LocalDate.now()
+        lending = new BookLending(book, borrower, Instant.now()
             .minus(1L, ChronoUnit.DAYS));
 
         // WHEN + THEN
@@ -50,7 +50,7 @@ public class TestBookLending {
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
         borrower = new Borrower(0, new PersonName("", ""));
-        lending = new BookLending(book, borrower, LocalDate.now());
+        lending = new BookLending(book, borrower, Instant.now());
 
         // WHEN + THEN
         Assertions.assertThat(lending.getDays())
@@ -69,7 +69,7 @@ public class TestBookLending {
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
         borrower = new Borrower(0, new PersonName("", ""));
-        lending = new BookLending(book, borrower, LocalDate.now(), LocalDate.now());
+        lending = new BookLending(book, borrower, Instant.now(), Instant.now());
 
         // WHEN + THEN
         Assertions.assertThat(lending.getDays())
@@ -88,9 +88,9 @@ public class TestBookLending {
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
         borrower = new Borrower(0, new PersonName("", ""));
-        lending = new BookLending(book, borrower, LocalDate.now()
+        lending = new BookLending(book, borrower, Instant.now()
             .minus(1L, ChronoUnit.DAYS),
-            LocalDate.now()
+            Instant.now()
                 .plus(1L, ChronoUnit.DAYS));
 
         // WHEN + THEN
