@@ -2,7 +2,7 @@
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Collection;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
@@ -37,7 +37,7 @@ public class BookEntity implements Serializable {
     private Collection<AuthorEntity>    authors;
 
     @Column(name = "donation_date")
-    private LocalDate                   donationDate;
+    private Instant                     donationDate;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_donors",
@@ -60,7 +60,7 @@ public class BookEntity implements Serializable {
     private Long                        number;
 
     @Column(name = "publish_date")
-    private LocalDate                   publishDate;
+    private Instant                     publishDate;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_publishers",
@@ -81,7 +81,7 @@ public class BookEntity implements Serializable {
         return authors;
     }
 
-    public LocalDate getDonationDate() {
+    public Instant getDonationDate() {
         return donationDate;
     }
 
@@ -105,7 +105,7 @@ public class BookEntity implements Serializable {
         return number;
     }
 
-    public LocalDate getPublishDate() {
+    public Instant getPublishDate() {
         return publishDate;
     }
 
@@ -129,7 +129,7 @@ public class BookEntity implements Serializable {
         this.authors = authors;
     }
 
-    public void setDonationDate(final LocalDate donationDate) {
+    public void setDonationDate(final Instant donationDate) {
         this.donationDate = donationDate;
     }
 
@@ -153,7 +153,7 @@ public class BookEntity implements Serializable {
         this.number = number;
     }
 
-    public void setPublishDate(final LocalDate publishDate) {
+    public void setPublishDate(final Instant publishDate) {
         this.publishDate = publishDate;
     }
 

@@ -2,7 +2,7 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,12 +19,12 @@ public class MonthlyMemberBalanceEntity implements Serializable {
 
     @Id
     @Column(name = "month", nullable = false)
-    private LocalDate         month;
+    private Instant           month;
 
     @Column(name = "total", nullable = false)
     private Long              total;
 
-    public LocalDate getMonth() {
+    public Instant getMonth() {
         return month;
     }
 
@@ -32,7 +32,7 @@ public class MonthlyMemberBalanceEntity implements Serializable {
         return total;
     }
 
-    public void setMonth(final LocalDate month) {
+    public void setMonth(final Instant month) {
         this.month = month;
     }
 

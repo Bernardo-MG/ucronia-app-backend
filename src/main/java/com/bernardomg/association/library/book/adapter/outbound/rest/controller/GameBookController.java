@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.controller;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -172,7 +172,7 @@ public class GameBookController {
         final Title                 title;
         final String                supertitle;
         final String                subtitle;
-        final LocalDate             donationDate;
+        final Instant               donationDate;
         final Optional<Donation>    donation;
 
         // Authors

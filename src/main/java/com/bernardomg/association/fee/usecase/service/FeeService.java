@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
@@ -81,7 +81,7 @@ public interface FeeService {
      * @return all the paid fees
      */
     public Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
-            final LocalDate payDate);
+            final Instant payDate);
 
     public Fee update(final Fee fee);
 

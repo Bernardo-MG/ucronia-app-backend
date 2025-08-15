@@ -2,7 +2,7 @@
 package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ public class TransactionEntity implements Serializable {
     private Float             amount;
 
     @Column(name = "date", nullable = false)
-    private LocalDate         date;
+    private Instant           date;
 
     @Column(name = "description", length = 200)
     private String            description;
@@ -40,7 +40,7 @@ public class TransactionEntity implements Serializable {
         return amount;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return date;
     }
 
@@ -60,7 +60,7 @@ public class TransactionEntity implements Serializable {
         this.amount = amount;
     }
 
-    public void setDate(final LocalDate date) {
+    public void setDate(final Instant date) {
         this.date = date;
     }
 

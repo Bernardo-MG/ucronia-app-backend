@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -43,17 +45,21 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
     @Override
     public final Optional<TransactionCurrentBalance> findCurrent() {
         final Optional<MonthlyBalanceEntity>      readBalance;
-        final LocalDate                           month;
+        final Instant                             month;
         final Optional<TransactionCurrentBalance> currentBalance;
-        final LocalDate                           balanceDate;
+        final Instant                             balanceDate;
+        final LocalDate                           balanceDateParsed;
+        final LocalDate                           monthParsed;
         final float                               results;
 
         log.debug("Finding current balance");
 
         // Find latest monthly balance
         // Ignore future balances
-        month = LocalDate.now()
-            .withDayOfMonth(1);
+        month = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
 
         if (readBalance.isEmpty()) {
@@ -63,8 +69,10 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
                 .getMonth();
 
             // Take the results only if it's the current year and month
-            if ((balanceDate.getYear() == month.getYear()) && (balanceDate.getMonth()
-                .equals(month.getMonth()))) {
+            balanceDateParsed = LocalDate.ofInstant(balanceDate, ZoneOffset.UTC);
+            monthParsed = LocalDate.ofInstant(month, ZoneOffset.UTC);
+            if ((balanceDateParsed.getYear() == monthParsed.getYear())
+                    && (balanceDateParsed.getMonth() == monthParsed.getMonth())) {
                 results = readBalance.get()
                     .getResults();
             } else {
@@ -89,14 +97,19 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         final Collection<MonthlyBalanceEntity>              balance;
         final Collection<TransactionMonthlyBalance>         monthlyBalance;
         final Sort                                          sort;
+        final Instant                                       limit;
 
         log.debug("Finding monthly balance");
 
         // Specification from the request
         requestSpec = MonthlyBalanceSpecifications.fromQuery(query);
         // Up to this month
-        limitSpec = MonthlyBalanceSpecifications.before(YearMonth.now()
-            .plusMonths(1));
+        limit = YearMonth.now()
+            .plusMonths(1)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        limitSpec = MonthlyBalanceSpecifications.before(limit);
 
         // Combine specifications
         if (requestSpec.isPresent()) {
@@ -120,11 +133,10 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
 
     private final TransactionMonthlyBalance toDomain(final MonthlyBalanceEntity entity) {
         final YearMonth month;
+        final LocalDate monthParsed;
 
-        month = YearMonth.of(entity.getMonth()
-            .getYear(),
-            entity.getMonth()
-                .getMonth());
+        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
+        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
         return new TransactionMonthlyBalance(month, entity.getResults(), entity.getTotal());
     }
 

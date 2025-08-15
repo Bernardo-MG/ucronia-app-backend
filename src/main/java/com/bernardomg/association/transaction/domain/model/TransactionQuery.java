@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.transaction.domain.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
-public final record TransactionQuery(LocalDate date, LocalDate startDate, LocalDate endDate) {
+public final record TransactionQuery(Instant date, Instant startDate, Instant endDate) {
 
 }

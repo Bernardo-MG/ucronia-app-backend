@@ -2,7 +2,7 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ public class PersonEntity implements Serializable {
     private Boolean                               active;
 
     @Column(name = "birth_date")
-    private LocalDate                             birthDate;
+    private Instant                               birthDate;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<PersonContactMethodEntity> contacts;
@@ -78,7 +78,7 @@ public class PersonEntity implements Serializable {
         return active;
     }
 
-    public LocalDate getBirthDate() {
+    public Instant getBirthDate() {
         return birthDate;
     }
 
@@ -124,7 +124,7 @@ public class PersonEntity implements Serializable {
         this.active = active;
     }
 
-    public void setBirthDate(final LocalDate birthDate) {
+    public void setBirthDate(final Instant birthDate) {
         this.birthDate = birthDate;
     }
 

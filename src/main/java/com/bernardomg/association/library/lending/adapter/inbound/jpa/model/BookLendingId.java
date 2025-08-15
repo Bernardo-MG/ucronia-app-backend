@@ -2,7 +2,7 @@
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 
 public class BookLendingId implements Serializable {
 
@@ -10,7 +10,7 @@ public class BookLendingId implements Serializable {
 
     private Long              bookId;
 
-    private LocalDate         lendingDate;
+    private Instant           lendingDate;
 
     private Long              personId;
 
@@ -18,7 +18,7 @@ public class BookLendingId implements Serializable {
         return bookId;
     }
 
-    public LocalDate getLendingDate() {
+    public Instant getLendingDate() {
         return lendingDate;
     }
 
@@ -30,7 +30,7 @@ public class BookLendingId implements Serializable {
         this.bookId = bookId;
     }
 
-    public void setLendingDate(final LocalDate lendingDate) {
+    public void setLendingDate(final Instant lendingDate) {
         this.lendingDate = lendingDate;
     }
 

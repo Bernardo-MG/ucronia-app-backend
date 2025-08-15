@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -124,7 +124,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     @Override
     public final Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
-            final LocalDate lendingDate) {
+            final Instant lendingDate) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 

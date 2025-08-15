@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, JpaSpecificationExecutor<FeeEntity> {
 
-    public void deleteByPersonIdAndDate(final Long personId, final YearMonth date);
+    public void deleteByPersonIdAndDate(final Long personId, final Instant date);
 
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
@@ -50,7 +50,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                WHERE p.number = :number
                  AND f.date = :date
             """)
-    public boolean existsByPersonNumberAndDate(@Param("number") final Long number, @Param("date") final YearMonth date);
+    public boolean existsByPersonNumberAndDate(@Param("number") final Long number, @Param("date") final Instant date);
 
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
@@ -61,7 +61,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                  AND f.transactionId IS NOT NULL
             """)
     public boolean existsByPersonNumberAndDateAndPaid(@Param("number") final Long number,
-            @Param("date") final YearMonth date);
+            @Param("date") final Instant date);
 
     /**
      * Returns all the fees in the received date.
@@ -70,7 +70,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      *            date to filter by
      * @return all the fees in the date
      */
-    public List<FeeEntity> findAllByDate(final YearMonth date);
+    public List<FeeEntity> findAllByDate(final Instant date);
 
     @Query("""
             SELECT f
@@ -89,7 +89,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                  AND f.date in :feeMonths
             """)
     public Collection<FeeEntity> findAllFeesByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
-            @Param("feeMonths") final Collection<YearMonth> feeMonths);
+            @Param("feeMonths") final Collection<Instant> feeMonths);
 
     /**
      * Returns all member fees inside the received range.
@@ -109,8 +109,8 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             WHERE f.date >= :start
               AND f.date <= :end
             """)
-    public Collection<FeeEntity> findAllInRange(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, final Sort sort);
+    public Collection<FeeEntity> findAllInRange(@Param("start") final Instant start, @Param("end") final Instant end,
+            final Sort sort);
 
     /**
      * Returns all member fees with any of the received ids, and which are inside the received range.
@@ -133,8 +133,8 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
               AND f.date <= :end
               AND f.personId IN :ids
             """)
-    public Collection<FeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
+    public Collection<FeeEntity> findAllInRangeForPersonsIn(@Param("start") final Instant start,
+            @Param("end") final Instant end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
     @Query("""
             SELECT f
@@ -152,7 +152,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<FeeEntity> findByPersonIdAndDate(final Long personId, final YearMonth date);
+    public Optional<FeeEntity> findByPersonIdAndDate(final Long personId, final Instant date);
 
     /**
      * Finds the fee for the member in the date.
@@ -163,7 +163,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<FeeEntity> findByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
+    public Optional<FeeEntity> findByPersonNumberAndDate(final Long memberNumber, final Instant date);
 
     /**
      * Returns all the years based on the existing fees.

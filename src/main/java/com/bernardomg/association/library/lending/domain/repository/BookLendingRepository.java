@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.domain.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Optional;
 
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -19,7 +19,7 @@ public interface BookLendingRepository {
     public Optional<BookLending> findReturned(final long bookNumber);
 
     public Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
-            final LocalDate lendingDate);
+            final Instant lendingDate);
 
     public BookLending save(final BookLending lending);
 

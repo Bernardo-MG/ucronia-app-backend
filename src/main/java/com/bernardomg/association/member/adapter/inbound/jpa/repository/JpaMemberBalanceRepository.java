@@ -1,7 +1,10 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,13 +47,30 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         final Collection<MonthlyMemberBalanceEntity>              balances;
         final Iterable<MonthlyMemberBalance>                      monthlyBalances;
         final Sort                                                sort;
+        final Instant                                             startDateParsed;
+        final Instant                                             endDateParsed;
 
         // TODO: the dates are optional
 
         log.debug("Finding balance in from {} to {} sorting by {}", startDate, endDate, sorting);
 
         // Specification from the request
-        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
+        if (startDate == null) {
+            startDateParsed = null;
+        } else {
+            startDateParsed = startDate.atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant();
+        }
+        if (endDate == null) {
+            // TODO: better use optional
+            endDateParsed = null;
+        } else {
+            endDateParsed = endDate.atEndOfMonth()
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant();
+        }
+        spec = MonthlyMemberBalanceSpecifications.inRange(startDateParsed, endDateParsed);
 
         sort = SpringSorting.toSort(sorting);
         if (spec.isPresent()) {
@@ -70,11 +90,10 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
 
     private final MonthlyMemberBalance toDomain(final MonthlyMemberBalanceEntity entity) {
         final YearMonth month;
+        final LocalDate monthParsed;
 
-        month = YearMonth.of(entity.getMonth()
-            .getYear(),
-            entity.getMonth()
-                .getMonth());
+        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
+        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
         return new MonthlyMemberBalance(month, entity.getTotal());
     }
 

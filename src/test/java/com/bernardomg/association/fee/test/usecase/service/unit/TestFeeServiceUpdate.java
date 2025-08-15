@@ -28,7 +28,10 @@ import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -243,11 +246,14 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When updating a fee, and a payment is changed, no event is sent")
     void testUpdate_PaymentDateChanged_NotSendEvent() {
-        final LocalDate date;
-        final Fee       toUpdate;
+        final Instant date;
+        final Fee     toUpdate;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -268,12 +274,15 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is changed, the change is returned")
     void testUpdate_PaymentDateChanged_ReturnedData() {
-        final Fee       toUpdate;
-        final LocalDate date;
-        final Fee       updated;
+        final Fee     toUpdate;
+        final Instant date;
+        final Fee     updated;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -295,11 +304,14 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is changed, the fee is saved")
     void testUpdate_PaymentDateChanged_SaveFee() {
-        final Fee       toUpdate;
-        final LocalDate date;
+        final Fee     toUpdate;
+        final Instant date;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -319,11 +331,14 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is changed, the payment is updated")
     void testUpdate_PaymentDateChanged_SavePayment() {
-        final Fee       toUpdate;
-        final LocalDate date;
+        final Fee     toUpdate;
+        final Instant date;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));

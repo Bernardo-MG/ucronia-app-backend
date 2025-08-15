@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyB
  * Monthly balance repository.
  */
 public interface MonthlyBalanceSpringRepository
-        extends JpaRepository<MonthlyBalanceEntity, LocalDate>, JpaSpecificationExecutor<MonthlyBalanceEntity> {
+        extends JpaRepository<MonthlyBalanceEntity, Instant>, JpaSpecificationExecutor<MonthlyBalanceEntity> {
 
     /**
      * Finds the latest balance with a month equal to or before the received one.
@@ -48,6 +48,6 @@ public interface MonthlyBalanceSpringRepository
      * @return the latest balance in the month or before it
      */
     @Query("SELECT b FROM MonthlyBalance b WHERE month <= :month ORDER BY month DESC LIMIT 1")
-    public Optional<MonthlyBalanceEntity> findLatestInOrBefore(@Param("month") final LocalDate month);
+    public Optional<MonthlyBalanceEntity> findLatestInOrBefore(@Param("month") final Instant month);
 
 }

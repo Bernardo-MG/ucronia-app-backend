@@ -103,6 +103,38 @@ class ITTransactionBalanceRepositoryFindCurrent {
             .contains(TransactionCurrentBalances.amount(1, 6));
     }
 
+    @Test
+    @DisplayName("With data for the current month at the last day it returns the balance")
+    void testFindCurrent_CurrentMonthEnd() {
+        final Optional<TransactionCurrentBalance> balance;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonthEnd(1F);
+
+        // WHEN
+        balance = repository.findCurrent();
+
+        // THEN
+        Assertions.assertThat(balance)
+            .contains(TransactionCurrentBalances.amount(1));
+    }
+
+    @Test
+    @DisplayName("With data for the current month at the first day it returns the balance")
+    void testFindCurrent_CurrentMonthStart() {
+        final Optional<TransactionCurrentBalance> balance;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonthStart(1F);
+
+        // WHEN
+        balance = repository.findCurrent();
+
+        // THEN
+        Assertions.assertThat(balance)
+            .contains(TransactionCurrentBalances.amount(1));
+    }
+
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
