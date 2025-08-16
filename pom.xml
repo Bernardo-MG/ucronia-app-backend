@@ -803,6 +803,12 @@
                      <library>spring-boot</library>
                      <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
                      <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                     <typeMappings>
+                       <typeMapping>string+date-time=Instant</typeMapping>
+                     </typeMappings>
+                     <importMappings>
+                       <importMapping>Instant=java.time.Instant</importMapping>
+                     </importMappings>
                      <configOptions>
                         <interfaceOnly>true</interfaceOnly>
                         <skipDefaultInterface>true</skipDefaultInterface>
