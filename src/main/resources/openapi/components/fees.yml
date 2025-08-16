@@ -1,0 +1,94 @@
+info:
+  title: Fee API
+  version: 1.0.0
+  description: Components for the fees API.
+components:
+  schemas:
+    Fee:
+      type: object
+      properties:
+        month:
+          type: string
+          example: "2025-08"
+        paid:
+          type: boolean
+        person:
+          $ref: '#/components/schemas/FeePerson'
+        payment:
+          $ref: '#/components/schemas/FeeTransaction'
+    FeePerson:
+      type: object
+      properties:
+        number:
+          type: integer
+        name:
+          type: string
+          nullable: true
+    FeeTransaction:
+      type: object
+      nullable: true
+      properties:
+        date:
+          type: string
+          format: date-time
+        index:
+          type: integer
+          nullable: true
+    FeeCreation:
+      type: object
+      required: [month, person]
+      properties:
+        month:
+          type: string
+          example: "2025-08"
+        person:
+          $ref: '#/components/schemas/FeeCreationMember'
+    FeeCreationMember:
+      type: object
+      required: [number]
+      properties:
+        number:
+          type: integer
+    FeePayments:
+      type: object
+      required: [person, payment, feeMonths]
+      properties:
+        person:
+          $ref: '#/components/schemas/FeePaymentPerson'
+        payment:
+          $ref: '#/components/schemas/FeePaymentPayment'
+        feeMonths:
+          type: array
+          items:
+            type: string
+            example: "2025-08"
+    FeePaymentPerson:
+      type: object
+      properties:
+        number:
+          type: integer
+    FeePaymentPayment:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+    FeeChange:
+      type: object
+      required: [month, payment]
+      properties:
+        month:
+          type: string
+          example: "2025-08"
+        payment:
+          $ref: '#/components/schemas/FeeChangePayment'
+    FeeChangePayment:
+      type: object
+      properties:
+        index:
+          type: integer
+          nullable: true
+        date:
+          type: string
+          format: date-time
+          nullable: true

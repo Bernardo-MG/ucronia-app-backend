@@ -191,14 +191,18 @@
       <bernardomg.framework.ws.security.version>0.4.16</bernardomg.framework.ws.security.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <micrometer.version>1.14.8</micrometer.version>
+      <openapitools.jackson>0.2.6</openapitools.jackson>
+      <springdoc.version>2.8.9</springdoc.version>
       <prometheus.version>1.3.8</prometheus.version>
       <spring.boot.version>3.4.6</spring.boot.version>
       <spring.data.version>2024.1.7</spring.data.version>
       <spring.version>6.2.8</spring.version>
+      <swagger.version>2.2.35</swagger.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
       <plugin.spring.boot.version>${spring.boot.version}</plugin.spring.boot.version>
+      <plugin.openapi.version>7.14.0</plugin.openapi.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
@@ -404,6 +408,19 @@
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-configuration-processor</artifactId>
          <optional>true</optional>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== OpenAPI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <version>${openapitools.jackson}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>${swagger.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- =================== CACHE ==================== -->
@@ -768,6 +785,33 @@
                   <goals>
                      <goal>repackage</goal>
                   </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <version>${plugin.openapi.version}</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                     <inputSpec>${project.basedir}/src/main/resources/openapi/ucronia.yml</inputSpec>
+                     <generatorName>spring</generatorName>
+                     <library>spring-boot</library>
+                     <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
+                     <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                     <configOptions>
+                        <interfaceOnly>true</interfaceOnly>
+                        <skipDefaultInterface>true</skipDefaultInterface>
+                        <useTags>true</useTags>
+                        <dateLibrary>java8</dateLibrary>
+                        <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                        <useJakartaEe>true</useJakartaEe>
+                     </configOptions>
+                  </configuration>
                </execution>
             </executions>
          </plugin>

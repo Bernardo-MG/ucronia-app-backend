@@ -1,0 +1,160 @@
+info:
+  title: Fee API
+  version: 1.0.0
+  description: API for managing fees, including creation, payment, update, retrieval, and deletion.
+post:
+  summary: Create an unpaid fee
+  operationId: createFee
+  tags: [Fee]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fees.yml#/components/schemas/FeeCreation'
+  responses:
+    '201':
+      description: Fee created
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/Fee'
+
+get:
+  summary: Get all fees
+  operationId: getAllFees
+  tags: [Fee]
+  parameters:
+    - name: date
+      in: query
+      schema:
+        type: string
+        format: date-time
+    - name: startDate
+      in: query
+      schema:
+        type: string
+        format: date-time
+    - name: endDate
+      in: query
+      schema:
+        type: string
+        format: date-time
+    - name: page
+      in: query
+      schema:
+        type: integer
+    - name: size
+      in: query
+      schema:
+        type: integer
+    - name: sort
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+          example: propertyName,ASC
+  responses:
+    '200':
+      description: List of fees
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/fees.yml#/components/schemas/Fee'
+
+/{month}/{personNumber}:
+  get:
+    summary: Get a specific fee
+    operationId: getFee
+    tags: [Fee]
+    parameters:
+      - name: month
+        in: path
+        required: true
+        schema:
+          type: string
+          example: "2025-08"
+      - name: personNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+    responses:
+      '200':
+        description: Fee details
+        content:
+          application/json:
+            schema:
+              $ref: '../components/fees.yml#/components/schemas/Fee'
+  delete:
+    summary: Delete a fee
+    operationId: deleteFee
+    tags: [Fee]
+    parameters:
+      - name: month
+        in: path
+        required: true
+        schema:
+          type: string
+          example: "2025-08"
+      - name: personNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+    responses:
+      '204':
+        description: Fee deleted
+  put:
+    summary: Update a fee
+    operationId: updateFee
+    tags: [Fee]
+    parameters:
+      - name: month
+        in: path
+        required: true
+        schema:
+          type: string
+          example: "2025-08"
+      - name: personNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeeChange'
+    responses:
+      '200':
+        description: Fee updated
+        content:
+          application/json:
+            schema:
+              $ref: '../components/fees.yml#/components/schemas/Fee'
+
+/pay:
+  post:
+    summary: Pay fees
+    operationId: payFees
+    tags: [Fee]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeePayments'
+    responses:
+      '201':
+        description: Fees paid
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../components/fees.yml#/components/schemas/Fee'
