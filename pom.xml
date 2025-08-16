@@ -805,9 +805,11 @@
                      <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
                      <typeMappings>
                        <typeMapping>string+date-time=Instant</typeMapping>
+                       <typeMapping>string+month=YearMonth</typeMapping>
                      </typeMappings>
                      <importMappings>
                        <importMapping>Instant=java.time.Instant</importMapping>
+                       <importMapping>YearMonth=java.time.YearMonth</importMapping>
                      </importMappings>
                      <configOptions>
                         <interfaceOnly>true</interfaceOnly>
@@ -816,6 +818,7 @@
                         <dateLibrary>java8</dateLibrary>
                         <hideGenerationTimestamp>true</hideGenerationTimestamp>
                         <useJakartaEe>true</useJakartaEe>
+                        <useResponseEntity>false</useResponseEntity>
                      </configOptions>
                   </configuration>
                </execution>

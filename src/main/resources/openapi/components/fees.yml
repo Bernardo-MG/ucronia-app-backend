@@ -6,6 +6,7 @@ components:
         month:
           type: string
           pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+          format: month
           example: "2025-08"
         paid:
           type: boolean
@@ -27,7 +28,9 @@ components:
       properties:
         date:
           type: string
-          format: date-time
+          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+          format: month
+          example: "2025-08"
         index:
           type: integer
           nullable: true
@@ -37,8 +40,10 @@ components:
       properties:
         month:
           type: string
+          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+          format: month
           example: "2025-08"
-        person:
+        member:
           $ref: '#/components/schemas/FeeCreationMember'
     FeeCreationMember:
       type: object
@@ -46,6 +51,7 @@ components:
       properties:
         number:
           type: integer
+          format: int64
     FeePayments:
       type: object
       required: [person, payment, feeMonths]
