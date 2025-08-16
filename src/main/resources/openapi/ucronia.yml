@@ -2,7 +2,11 @@ openapi: 3.0.3
 info:
   title: Ucronia API
   version: 1.0.0
-  description: API for managin the Ucronia association.
+  description: API for managing the Ucronia association.
 paths:
   /fee:
     $ref: paths/fees.yml
+  /fee/{month}/{personNumber}:
+    $ref: paths/fees_by_id.yml
+  /fee/pay:
+    $ref: paths/fees_pay.yml

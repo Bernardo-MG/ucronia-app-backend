@@ -1,0 +1,71 @@
+get:
+  summary: Get a specific fee
+  operationId: getOne
+  tags: [Fee]
+  parameters:
+    - name: month
+      in: path
+      required: true
+      schema:
+        type: string
+        example: "2025-08"
+    - name: personNumber
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: Fee details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/Fee'
+delete:
+  summary: Delete a fee
+  operationId: delete
+  tags: [Fee]
+  parameters:
+    - name: month
+      in: path
+      required: true
+      schema:
+        type: string
+        example: "2025-08"
+    - name: personNumber
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Fee deleted
+put:
+  summary: Update a fee
+  operationId: update
+  tags: [Fee]
+  parameters:
+    - name: month
+      in: path
+      required: true
+      schema:
+        type: string
+        example: "2025-08"
+    - name: personNumber
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fees.yml#/components/schemas/FeeChange'
+  responses:
+    '200':
+      description: Fee updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/Fee'

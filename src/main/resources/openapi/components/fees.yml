@@ -1,7 +1,3 @@
-info:
-  title: Fee API
-  version: 1.0.0
-  description: Components for the fees API.
 components:
   schemas:
     Fee:

@@ -1,10 +1,6 @@
-info:
-  title: Fee API
-  version: 1.0.0
-  description: API for managing fees, including creation, payment, update, retrieval, and deletion.
 post:
   summary: Create an unpaid fee
-  operationId: createFee
+  operationId: create
   tags: [Fee]
   requestBody:
     required: true
@@ -22,7 +18,7 @@ post:
 
 get:
   summary: Get all fees
-  operationId: getAllFees
+  operationId: getAll
   tags: [Fee]
   parameters:
     - name: date
@@ -65,83 +61,10 @@ get:
             items:
               $ref: '../components/fees.yml#/components/schemas/Fee'
 
-/{month}/{personNumber}:
-  get:
-    summary: Get a specific fee
-    operationId: getFee
-    tags: [Fee]
-    parameters:
-      - name: month
-        in: path
-        required: true
-        schema:
-          type: string
-          example: "2025-08"
-      - name: personNumber
-        in: path
-        required: true
-        schema:
-          type: integer
-    responses:
-      '200':
-        description: Fee details
-        content:
-          application/json:
-            schema:
-              $ref: '../components/fees.yml#/components/schemas/Fee'
-  delete:
-    summary: Delete a fee
-    operationId: deleteFee
-    tags: [Fee]
-    parameters:
-      - name: month
-        in: path
-        required: true
-        schema:
-          type: string
-          example: "2025-08"
-      - name: personNumber
-        in: path
-        required: true
-        schema:
-          type: integer
-    responses:
-      '204':
-        description: Fee deleted
-  put:
-    summary: Update a fee
-    operationId: updateFee
-    tags: [Fee]
-    parameters:
-      - name: month
-        in: path
-        required: true
-        schema:
-          type: string
-          example: "2025-08"
-      - name: personNumber
-        in: path
-        required: true
-        schema:
-          type: integer
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '../components/fees.yml#/components/schemas/FeeChange'
-    responses:
-      '200':
-        description: Fee updated
-        content:
-          application/json:
-            schema:
-              $ref: '../components/fees.yml#/components/schemas/Fee'
-
 /pay:
   post:
     summary: Pay fees
-    operationId: payFees
+    operationId: pay
     tags: [Fee]
     requestBody:
       required: true

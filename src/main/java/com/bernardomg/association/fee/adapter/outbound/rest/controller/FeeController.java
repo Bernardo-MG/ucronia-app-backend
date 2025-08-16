@@ -58,6 +58,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.FeeApi;
 
 import jakarta.validation.Valid;
 
