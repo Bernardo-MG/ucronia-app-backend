@@ -803,13 +803,16 @@
                      <library>spring-boot</library>
                      <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
                      <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                     <modelNameSuffix>Dto</modelNameSuffix>
                      <typeMappings>
                        <typeMapping>string+date-time=Instant</typeMapping>
                        <typeMapping>string+month=YearMonth</typeMapping>
+                       <typeMapping>InstantDto=Instant</typeMapping>
+                       <typeMapping>YearMonthDto=YearMonth</typeMapping>
                      </typeMappings>
                      <importMappings>
-                       <importMapping>Instant=java.time.Instant</importMapping>
-                       <importMapping>YearMonth=java.time.YearMonth</importMapping>
+                       <importMapping>InstantDto=java.time.Instant</importMapping>
+                       <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
                      </importMappings>
                      <configOptions>
                         <interfaceOnly>true</interfaceOnly>

@@ -65,7 +65,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.person()
+            .extracting(fee -> fee.member()
                 .name()
                 .fullName())
             .as("fee full names")
@@ -89,7 +89,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.person()
+            .extracting(fee -> fee.member()
                 .name()
                 .fullName())
             .as("fee full names")
@@ -113,7 +113,7 @@ class ITFeeRepositoryFindAllForInactiveMembersSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.person()
+            .extracting(fee -> fee.member()
                 .name()
                 .fullName())
             .as("fee full names")

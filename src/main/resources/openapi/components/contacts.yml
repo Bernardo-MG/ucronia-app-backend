@@ -1,0 +1,11 @@
+components:
+  schemas:
+    contactName:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string

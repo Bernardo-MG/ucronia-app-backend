@@ -10,18 +10,18 @@ components:
           example: "2025-08"
         paid:
           type: boolean
-        person:
-          $ref: '#/components/schemas/FeePerson'
+        member:
+          $ref: '#/components/schemas/FeeMember'
         payment:
           $ref: '#/components/schemas/FeeTransaction'
-    FeePerson:
+    FeeMember:
       type: object
       properties:
         number:
           type: integer
+          format: int64
         name:
-          type: string
-          nullable: true
+          $ref: 'contacts.yml#/components/schemas/contactName'
     FeeTransaction:
       type: object
       nullable: true
@@ -36,7 +36,7 @@ components:
           nullable: true
     FeeCreation:
       type: object
-      required: [month, person]
+      required: [month, member]
       properties:
         month:
           type: string
@@ -44,44 +44,33 @@ components:
           format: month
           example: "2025-08"
         member:
-          $ref: '#/components/schemas/FeeCreationMember'
-    FeeCreationMember:
-      type: object
-      required: [number]
-      properties:
-        number:
           type: integer
           format: int64
     FeePayments:
       type: object
-      required: [person, payment, feeMonths]
+      required: [member, payment, feeMonths]
       properties:
-        person:
-          $ref: '#/components/schemas/FeePaymentPerson'
+        member:
+          type: integer
+          format: int64
         payment:
-          $ref: '#/components/schemas/FeePaymentPayment'
+          type: string
+          format: date-time
         feeMonths:
           type: array
           items:
             type: string
+            pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+            format: month
             example: "2025-08"
-    FeePaymentPerson:
-      type: object
-      properties:
-        number:
-          type: integer
-    FeePaymentPayment:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date-time
     FeeChange:
       type: object
       required: [month, payment]
       properties:
         month:
           type: string
+          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+          format: month
           example: "2025-08"
         payment:
           $ref: '#/components/schemas/FeeChangePayment'
@@ -90,8 +79,7 @@ components:
       properties:
         index:
           type: integer
-          nullable: true
+          format: int64
         date:
           type: string
           format: date-time
-          nullable: true

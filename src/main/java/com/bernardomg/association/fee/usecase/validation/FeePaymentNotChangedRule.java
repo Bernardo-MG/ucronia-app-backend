@@ -36,7 +36,7 @@ public final class FeePaymentNotChangedRule implements FieldRule<Fee> {
         final FieldFailure           fieldFailure;
         final Fee                    existing;
 
-        existing = feeRepository.findOne(fee.person()
+        existing = feeRepository.findOne(fee.member()
             .number(), fee.month())
             .get();
         if (wasRemoved(fee, existing)) {

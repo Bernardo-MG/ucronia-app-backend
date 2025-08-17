@@ -8,6 +8,8 @@ get:
       required: true
       schema:
         type: string
+        pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+        format: month
         example: "2025-08"
     - name: personNumber
       in: path
@@ -31,12 +33,15 @@ delete:
       required: true
       schema:
         type: string
+        pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+        format: month
         example: "2025-08"
     - name: personNumber
       in: path
       required: true
       schema:
         type: integer
+        format: int64
   responses:
     '204':
       description: Fee deleted
@@ -50,6 +55,8 @@ put:
       required: true
       schema:
         type: string
+        pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
+        format: month
         example: "2025-08"
     - name: personNumber
       in: path

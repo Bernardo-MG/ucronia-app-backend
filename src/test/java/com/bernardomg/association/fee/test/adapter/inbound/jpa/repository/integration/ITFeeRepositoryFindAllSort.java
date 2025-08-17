@@ -78,7 +78,7 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.person()
+            .extracting(fee -> fee.member()
                 .name()
                 .fullName())
             .as("fee full names")
@@ -164,7 +164,7 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.person()
+            .extracting(fee -> fee.member()
                 .name()
                 .fullName())
             .as("fee full names")
@@ -193,7 +193,7 @@ class ITFeeRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(fee -> fee.person()
+            .extracting(fee -> fee.member()
                 .name()
                 .fullName())
             .as("fee full names")

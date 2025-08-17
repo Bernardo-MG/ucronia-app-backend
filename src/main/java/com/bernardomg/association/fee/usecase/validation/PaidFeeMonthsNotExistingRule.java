@@ -50,7 +50,7 @@ public final class PaidFeeMonthsNotExistingRule implements FieldRule<Collection<
         if (!fees.isEmpty()) {
             number = fees.iterator()
                 .next()
-                .person()
+                .member()
                 .number();
             person = personRepository.findOne(number)
                 .get();

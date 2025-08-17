@@ -256,24 +256,24 @@ public final class DefaultFeeService implements FeeService {
         final Person      person;
         final Fee         toSave;
 
-        log.debug("Updating fee for {} in {} using data {}", fee.person()
+        log.debug("Updating fee for {} in {} using data {}", fee.member()
             .number(), fee.month(), fee);
 
-        existing = feeRepository.findOne(fee.person()
+        existing = feeRepository.findOne(fee.member()
             .number(), fee.month())
             .orElseThrow(() -> {
-                log.error("Missing fee for {} in {}", fee.person()
+                log.error("Missing fee for {} in {}", fee.member()
                     .number(), fee.month());
-                throw new MissingFeeException(fee.person()
+                throw new MissingFeeException(fee.member()
                     .number(), fee.month());
             });
 
-        person = personRepository.findOne(fee.person()
+        person = personRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
-                log.error("Missing person {}", fee.person()
+                log.error("Missing person {}", fee.member()
                     .number());
-                throw new MissingPersonException(fee.person()
+                throw new MissingPersonException(fee.member()
                     .number());
             });
 
@@ -297,7 +297,7 @@ public final class DefaultFeeService implements FeeService {
 
         if (addedPayment(fee)) {
             // Added payment
-            toSave = new Fee(fee.month(), false, fee.person(), java.util.Optional.empty());
+            toSave = new Fee(fee.month(), false, fee.member(), java.util.Optional.empty());
             saved = feeRepository.save(toSave);
             updated = pay(person, List.of(saved), fee.payment()
                 .get()
@@ -404,14 +404,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
-        eventEmitter.emit(new FeePaidEvent(fee, fee.month(), fee.person()
+        eventEmitter.emit(new FeePaidEvent(fee, fee.month(), fee.member()
             .number()));
     }
 
     private final Fee toUnpaidFee(final Person person, final YearMonth date) {
-        final Fee.Person feePerson;
+        final Fee.Member feePerson;
 
-        feePerson = new Fee.Person(person.number(), person.name());
+        feePerson = new Fee.Member(person.number(), person.name());
         return Fee.unpaid(date, feePerson);
     }
 

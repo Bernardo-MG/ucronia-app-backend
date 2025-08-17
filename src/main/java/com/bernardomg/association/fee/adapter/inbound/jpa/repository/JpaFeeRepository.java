@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -121,7 +122,7 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
         final Optional<Specification<FeeEntity>> spec;
-        final Iterable<Fee>                      found;
+        final Page<Fee>                      found;
         final Pageable                           pageable;
         final Sorting                            correctedSorting;
         // TODO: Test reading with no first or last name
@@ -462,7 +463,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person                person;
+        final Fee.Member                person;
         final Optional<Fee.Transaction> transaction;
         final PersonName                name;
         final YearMonth                 date;
@@ -471,7 +472,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .getFirstName(),
             entity.getPerson()
                 .getLastName());
-        person = new Fee.Person(entity.getPerson()
+        person = new Fee.Member(entity.getPerson()
             .getNumber(), name);
 
         if (entity.getPaid()) {
@@ -494,10 +495,10 @@ public final class JpaFeeRepository implements FeeRepository {
         final FeeEntity                   entity;
         final Instant                     date;
 
-        person = personSpringRepository.findByNumber(fee.person()
+        person = personSpringRepository.findByNumber(fee.member()
             .number());
         if (!person.isPresent()) {
-            log.warn("Person with number {} not found", fee.person()
+            log.warn("Person with number {} not found", fee.member()
                 .number());
         }
         if (fee.payment()

@@ -42,7 +42,7 @@ public final class FeeDateNotExistingRule implements FieldRule<Fee> {
         final boolean                existing;
         final Person                 person;
 
-        person = personRepository.findOne(fee.person()
+        person = personRepository.findOne(fee.member()
             .number())
             .get();
         existing = feeRepository.exists(person.number(), fee.month());
