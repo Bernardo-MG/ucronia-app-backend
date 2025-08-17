@@ -29,6 +29,7 @@ import java.time.Month;
 import java.time.ZoneOffset;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -59,10 +61,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @MultipleTransactionsSameMonth
     void testFindAll_AfterDate() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -77,6 +79,8 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY),
                 Transactions.forIndexAndMonth(3, Month.JANUARY), Transactions.forIndexAndMonth(4, Month.JANUARY),
                 Transactions.forIndexAndMonth(5, Month.JANUARY));
@@ -86,10 +90,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @MultipleTransactionsSameMonth
     void testFindAll_BeforeDate() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -104,6 +108,8 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY));
     }
@@ -112,10 +118,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @MultipleTransactionsSameMonth
     void testFindAll_InDate() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -130,6 +136,8 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY));
     }
 
@@ -137,10 +145,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @DisplayName("With a filter applied to the date for the first day of the year, the returned data is filtered")
     @FullTransactionYear
     void testFindAll_InDate_FirstDay() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -155,6 +163,8 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
@@ -162,10 +172,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @DisplayName("With a filter applied to the date for the last day of the year, the returned data is filtered")
     @FullTransactionYear
     void testFindAll_InDate_LastDay() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -181,6 +191,8 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndex(12, Month.DECEMBER));
     }
 

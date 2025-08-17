@@ -45,6 +45,7 @@ import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemCreation;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -96,7 +97,7 @@ public class GameSystemController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
     @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEMS)
-    public Iterable<GameSystem> readAll(final Pagination pagination, final Sorting sorting) {
+    public Page<GameSystem> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 

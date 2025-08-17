@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -83,9 +84,9 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Iterable<GameSystem> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<GameSystem> read;
-        final Pageable             pageable;
+    public final Page<GameSystem> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<GameSystem> read;
+        final Pageable                                         pageable;
 
         log.debug("Finding game systems with pagination {} and sorting {}", pagination, sorting);
 
@@ -95,7 +96,8 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Found game systems {}", read);
 
-        return read;
+        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
+            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
     }
 
     @Override

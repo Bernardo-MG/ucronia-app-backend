@@ -30,7 +30,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -46,6 +45,7 @@ import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -67,23 +67,25 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<ContactMethod>   contactMethods;
-        final Pagination                pagination;
-        final Sorting                   sorting;
-        final Collection<ContactMethod> readContactMethods;
+        final Page<ContactMethod> contactMethods;
+        final Page<ContactMethod> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
-        readContactMethods = List.of();
-        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         contactMethods = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(contactMethods)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("ContactMethods")
             .isEmpty();
     }
@@ -91,21 +93,25 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When getting all the ContactMethods, it returns all the ContactMethods")
     void testGetAll_ReturnsData() {
-        final Iterable<ContactMethod> contactMethods;
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Page<ContactMethod> contactMethods;
+        final Page<ContactMethod> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
 
-        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(List.of(ContactMethods.email()));
+        existing = new Page<>(List.of(ContactMethods.email()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         contactMethods = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(contactMethods)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("ContactMethods")
             .containsExactly(ContactMethods.email());
     }
@@ -113,16 +119,16 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FirstName() {
-        final Pagination                pagination;
-        final Sorting                   sorting;
-        final Collection<ContactMethod> readContactMethods;
+        final Pagination          pagination;
+        final Page<ContactMethod> existing;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
 
-        readContactMethods = List.of(ContactMethods.email());
-        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
+        existing = new Page<>(List.of(ContactMethods.email()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         service.getAll(pagination, sorting);
@@ -137,16 +143,16 @@ class TestContactMethodServiceGetAll {
     @Test
     @DisplayName("When sorting descending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FirstName() {
-        final Pagination                pagination;
-        final Sorting                   sorting;
-        final Collection<ContactMethod> readContactMethods;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final Page<ContactMethod> existing;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
 
-        readContactMethods = List.of(ContactMethods.email());
-        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(readContactMethods);
+        existing = new Page<>(List.of(ContactMethods.email()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(ContactMethodRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         service.getAll(pagination, sorting);

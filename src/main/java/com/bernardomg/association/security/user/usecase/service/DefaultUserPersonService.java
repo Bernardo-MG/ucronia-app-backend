@@ -15,6 +15,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.model.UserPerson;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.usecase.validation.UserPersonNameNotEmptyRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
@@ -80,8 +81,8 @@ public final class DefaultUserPersonService implements UserPersonService {
     }
 
     @Override
-    public final Iterable<Person> getAvailablePerson(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Person> people;
+    public final Page<Person> getAvailablePerson(final Pagination pagination, final Sorting sorting) {
+        final Page<Person> people;
 
         log.trace("Reading all available people for pagination {} and sorting {}", pagination, sorting);
 

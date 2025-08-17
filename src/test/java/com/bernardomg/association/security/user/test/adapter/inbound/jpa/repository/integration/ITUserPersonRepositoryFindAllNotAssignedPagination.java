@@ -25,6 +25,7 @@
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -51,16 +53,16 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
     }
 
     @Override
-    protected final Iterable<Person> read(final Pagination pagination, final Sorting sorting) {
+    protected final Page<Person> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAllNotAssigned(pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 1);
@@ -71,15 +73,17 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Iterable<Person> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(2, 1);
@@ -90,6 +94,8 @@ class ITUserPersonRepositoryFindAllNotAssignedPagination extends AbstractPaginat
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,7 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -64,42 +66,50 @@ class TestUserPersonServiceGetAvailablePersons {
     @Test
     @DisplayName("When there are not assigned persons, these are returned")
     void testGetPerson() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Page<Person> existing;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(List.of(Persons.noMembership()));
+        existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(existing);
 
         // WHEN
         persons = service.getAvailablePerson(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 
     @Test
     @DisplayName("When there are no not assigned persons, nothing is returned")
     void testGetPerson_NoPerson() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Page<Person> existing;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(userPersonRepository.findAllNotAssigned(pagination, sorting)).willReturn(existing);
 
         // WHEN
         persons = service.getAvailablePerson(pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

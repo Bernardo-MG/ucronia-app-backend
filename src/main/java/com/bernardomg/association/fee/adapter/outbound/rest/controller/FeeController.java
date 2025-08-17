@@ -54,6 +54,7 @@ import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -141,7 +142,7 @@ public class FeeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
-    public Iterable<Fee> readAll(@Valid final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+    public Page<Fee> readAll(@Valid final FeeQuery query, final Pagination pagination, final Sorting sorting) {
         return service.getAll(query, pagination, sorting);
     }
 

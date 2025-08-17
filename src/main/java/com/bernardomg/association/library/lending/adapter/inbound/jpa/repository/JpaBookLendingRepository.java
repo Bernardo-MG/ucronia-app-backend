@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +22,7 @@ import com.bernardomg.association.library.lending.domain.repository.BookLendingR
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -52,9 +52,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Iterable<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
-        final Page<BookLending> lendings;
-        final Pageable          pageable;
+    public final Page<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<BookLending> lendings;
+        final Pageable                                          pageable;
 
         log.debug("Finding all the book lendings");
 
@@ -65,7 +65,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         log.debug("Found all the book lendings: {}", lendings);
 
-        return lendings;
+        return new Page<>(lendings.getContent(), lendings.getSize(), lendings.getNumber(), lendings.getTotalElements(),
+            lendings.getTotalPages(), lendings.getNumberOfElements(), lendings.isFirst(), lendings.isLast(), sorting);
     }
 
     @Override

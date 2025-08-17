@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -52,7 +53,7 @@ public interface FeeService {
      *            sorting to apply
      * @return all the fees matching the sample
      */
-    public Iterable<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the fee for the received member in the received date, if it exists. Otherwise an empty {@code Optional}

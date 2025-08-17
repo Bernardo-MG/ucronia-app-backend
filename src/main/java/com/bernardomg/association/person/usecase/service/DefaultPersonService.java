@@ -19,6 +19,7 @@ import com.bernardomg.association.person.usecase.validation.PersonContactMethodE
 import com.bernardomg.association.person.usecase.validation.PersonIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.person.usecase.validation.PersonIdentifierNotExistRule;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -92,8 +93,7 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public final Iterable<Person> getAll(final PersonFilter filter, final Pagination pagination,
-            final Sorting sorting) {
+    public final Page<Person> getAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting) {
         log.debug("Reading persons with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         return personRepository.findAll(filter, pagination, sorting);

@@ -15,6 +15,7 @@ import com.bernardomg.association.library.author.domain.repository.AuthorReposit
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotEmptyRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -83,8 +84,8 @@ public final class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public final Iterable<Author> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Author> authors;
+    public final Page<Author> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Author> authors;
 
         log.debug("Reading authors with pagination {} and sorting {}", pagination, sorting);
 

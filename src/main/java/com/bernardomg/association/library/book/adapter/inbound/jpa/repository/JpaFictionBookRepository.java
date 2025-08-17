@@ -33,6 +33,7 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -118,9 +119,9 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     @Override
-    public final Iterable<FictionBook> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<FictionBook> read;
-        final Pageable              pageable;
+    public final Page<FictionBook> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<FictionBook> read;
+        final Pageable                                          pageable;
 
         log.debug("Finding books with pagination {} and sorting {}", pagination, sorting);
 
@@ -130,7 +131,8 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
         log.debug("Found books {}", read);
 
-        return read;
+        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
+            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
     }
 
     @Override

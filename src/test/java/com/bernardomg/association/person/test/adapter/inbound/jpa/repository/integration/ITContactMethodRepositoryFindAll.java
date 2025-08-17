@@ -25,6 +25,7 @@
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -47,9 +49,9 @@ class ITContactMethodRepositoryFindAll {
     @Test
     @DisplayName("With no contact method, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<ContactMethod> ContactMethods;
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Page<ContactMethod> ContactMethods;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -60,6 +62,8 @@ class ITContactMethodRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(ContactMethods)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -67,9 +71,9 @@ class ITContactMethodRepositoryFindAll {
     @DisplayName("With a single contact method, it is returned")
     @EmailContactMethod
     void testFindAll_Single() {
-        final Iterable<ContactMethod> contactMethods;
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Page<ContactMethod> contactMethods;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -80,6 +84,8 @@ class ITContactMethodRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(contactMethods)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(ContactMethods.email());
     }
 

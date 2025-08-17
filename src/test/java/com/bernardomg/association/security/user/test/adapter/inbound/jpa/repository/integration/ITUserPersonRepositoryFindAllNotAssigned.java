@@ -25,6 +25,7 @@
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithPerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -51,9 +53,9 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @DisplayName("When the member is assigned, it is not returned")
     @ValidUserWithPerson
     void testFindAllNotAssigned_Assigned() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -64,6 +66,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -72,9 +76,9 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @ValidUserWithPerson
     @AlternativePerson
     void testFindAllNotAssigned_AssignedAndNotAssigned() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -85,15 +89,17 @@ class ITUserPersonRepositoryFindAllNotAssigned {
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.alternative());
     }
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAllNotAssigned_NoData() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -104,6 +110,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -112,9 +120,9 @@ class ITUserPersonRepositoryFindAllNotAssigned {
     @ValidUser
     @NoMembershipPerson
     void testFindAllNotAssigned_NotAssigned() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Person> persons;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -125,6 +133,8 @@ class ITUserPersonRepositoryFindAllNotAssigned {
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 

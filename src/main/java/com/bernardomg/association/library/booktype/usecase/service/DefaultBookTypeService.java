@@ -15,6 +15,7 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotEmptyRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -83,8 +84,8 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final Iterable<BookType> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<BookType> books;
+    public final Page<BookType> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<BookType> books;
 
         log.debug("Reading book types with pagination {} and sorting {}", pagination, sorting);
 

@@ -15,6 +15,7 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -83,8 +84,8 @@ public final class DefaultPublisherService implements PublisherService {
     }
 
     @Override
-    public final Iterable<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Publisher> publishers;
+    public final Page<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Publisher> publishers;
 
         log.debug("Reading publishers with pagination {} and sorting {}", pagination, sorting);
 

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -67,19 +67,21 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     }
 
     @Override
-    public final Iterable<ContactMethod> findAll(final Pagination pagination, final Sorting sorting) {
-        final Page<ContactMethod> ContactMethods;
-        final Pageable            pageable;
+    public final Page<ContactMethod> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<ContactMethod> contactMethods;
+        final Pageable                                            pageable;
 
         log.debug("Finding all the contact methods");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        ContactMethods = contactMethodSpringRepository.findAll(pageable)
+        contactMethods = contactMethodSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
-        log.debug("Found all the contact methods: {}", ContactMethods);
+        log.debug("Found all the contact methods: {}", contactMethods);
 
-        return ContactMethods;
+        return new Page<>(contactMethods.getContent(), contactMethods.getSize(), contactMethods.getNumber(),
+            contactMethods.getTotalElements(), contactMethods.getTotalPages(), contactMethods.getNumberOfElements(),
+            contactMethods.isFirst(), contactMethods.isLast(), sorting);
     }
 
     @Override

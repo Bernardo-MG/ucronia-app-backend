@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -62,10 +64,11 @@ class TestTransactionServiceGetAll {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAll() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final Page<Transaction> existing;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -73,14 +76,16 @@ class TestTransactionServiceGetAll {
 
         transactionQuery = TransactionsQueries.empty();
 
-        given(transactionRepository.findAll(transactionQuery, pagination, sorting))
-            .willReturn(List.of(Transactions.positive()));
+        existing = new Page<>(List.of(Transactions.positive()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(existing);
 
         // WHEN
         transactions = service.getAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("transactions")
             .containsExactly(Transactions.positive());
     }
@@ -88,10 +93,11 @@ class TestTransactionServiceGetAll {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAll_NoData() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final Page<Transaction> existing;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -99,13 +105,16 @@ class TestTransactionServiceGetAll {
 
         transactionQuery = TransactionsQueries.empty();
 
-        given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(existing);
 
         // WHEN
         transactions = service.getAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("transactions")
             .isEmpty();
     }

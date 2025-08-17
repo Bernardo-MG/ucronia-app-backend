@@ -4,6 +4,7 @@ package com.bernardomg.association.person.domain.repository;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -17,7 +18,7 @@ public interface ContactMethodRepository {
 
     public boolean existsByNameForAnother(final long number, final String name);
 
-    public Iterable<ContactMethod> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<ContactMethod> findAll(final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();
 

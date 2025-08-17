@@ -5,11 +5,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Page;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -40,12 +41,12 @@ public abstract class AbstractPaginationIT<T> {
         sortField = Optional.of(field);
     }
 
-    protected abstract Iterable<T> read(final Pagination pagination, final Sorting sorting);
+    protected abstract Page<T> read(final Pagination pagination, final Sorting sorting);
 
     protected void testPageData(final int page, final T expected) {
-        final Iterable<T> data;
-        final Pagination  pagination;
-        final Sorting     sorting;
+        final Page<T>    data;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(page, 1);
@@ -57,29 +58,10 @@ public abstract class AbstractPaginationIT<T> {
 
         // THEN
         Assertions.assertThat(data)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("paged data")
             .containsExactly(expected);
-    }
-
-    @Test
-    @DisplayName("When a page request is received, the response is stored in a page structure")
-    void testReadContainer() {
-        final Iterable<T> data;
-        final Pagination  pagination;
-        final Sorting     sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = sortField.map(Sorting::asc)
-            .orElse(Sorting.unsorted());
-
-        // WHEN
-        data = read(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(data)
-            .as("paged data")
-            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -97,21 +79,21 @@ public abstract class AbstractPaginationIT<T> {
             .orElse(Sorting.unsorted());
 
         // WHEN
-        data = (Page<T>) read(pagination, sorting);
+        data = read(pagination, sorting);
 
         // THEN
 
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(data.getNumberOfElements())
+            softly.assertThat(data.elementsInPage())
                 .as("number of elements in page")
                 .isEqualTo(1);
-            softly.assertThat(data.getTotalElements())
+            softly.assertThat(data.totalElements())
                 .as("total number of elements")
                 .isEqualTo(totalElements);
-            softly.assertThat(data.getNumber())
+            softly.assertThat(data.page())
                 .as("page number")
                 .isEqualTo(page - 1);
-            softly.assertThat(data.getTotalPages())
+            softly.assertThat(data.totalPages())
                 .as("total number of pages")
                 .isEqualTo(totalElements);
         });
@@ -120,9 +102,9 @@ public abstract class AbstractPaginationIT<T> {
     @Test
     @DisplayName("When a page request is received, the response size is the same as the page size")
     void testReadPaged_PageMax() {
-        final Iterable<T> data;
-        final Pagination  pagination;
-        final Sorting     sorting;
+        final Page<T>    data;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 1);
@@ -134,6 +116,8 @@ public abstract class AbstractPaginationIT<T> {
 
         // THEN
         Assertions.assertThat(data)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("paged data")
             .hasSize(1);
     }

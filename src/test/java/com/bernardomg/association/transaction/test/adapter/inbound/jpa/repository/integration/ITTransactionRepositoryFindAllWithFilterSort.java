@@ -28,6 +28,7 @@ import java.time.Month;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -55,10 +57,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
     void testFindAll_Date_Asc() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -71,6 +73,8 @@ class ITTransactionRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
@@ -79,10 +83,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
     void testFindAll_Date_Desc() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -95,6 +99,8 @@ class ITTransactionRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(5, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(1, Month.JANUARY));
@@ -103,10 +109,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @Test
     @DisplayName("With ascending order by description it returns the ordered data")
     void testFindAll_Description_Asc() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -119,6 +125,8 @@ class ITTransactionRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
@@ -127,10 +135,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @Test
     @DisplayName("With descending order by description it returns the ordered data")
     void testFindAll_Description_Desc() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -143,6 +151,8 @@ class ITTransactionRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(5, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(1, Month.JANUARY));
@@ -163,8 +173,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         transactionQuery = TransactionsQueries.empty();
 
         // WHEN
-        executable = () -> repository.findAll(transactionQuery, pagination, sorting)
-            .iterator();
+        executable = () -> repository.findAll(transactionQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThatThrownBy(executable)

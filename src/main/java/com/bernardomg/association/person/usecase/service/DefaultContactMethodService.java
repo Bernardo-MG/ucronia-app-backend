@@ -15,6 +15,7 @@ import com.bernardomg.association.person.domain.repository.ContactMethodReposito
 import com.bernardomg.association.person.usecase.validation.ContactMethodNameNotEmptyRule;
 import com.bernardomg.association.person.usecase.validation.ContactMethodNameNotExistsForAnotherRule;
 import com.bernardomg.association.person.usecase.validation.ContactMethodNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -81,7 +82,7 @@ public final class DefaultContactMethodService implements ContactMethodService {
     }
 
     @Override
-    public final Iterable<ContactMethod> getAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<ContactMethod> getAll(final Pagination pagination, final Sorting sorting) {
         log.debug("Reading ContactMethods with pagination {} and sorting {}", pagination, sorting);
 
         return contactMethodRepository.findAll(pagination, sorting);

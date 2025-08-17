@@ -47,6 +47,7 @@ import com.bernardomg.association.person.adapter.outbound.rest.model.ContactMeth
 import com.bernardomg.association.person.adapter.outbound.rest.model.ContactMethodCreation;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.usecase.service.ContactMethodService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -109,7 +110,7 @@ public class ContactMethodController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHODS)
-    public Iterable<ContactMethod> readAll(final Pagination pagination, final Sorting sorting) {
+    public Page<ContactMethod> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 

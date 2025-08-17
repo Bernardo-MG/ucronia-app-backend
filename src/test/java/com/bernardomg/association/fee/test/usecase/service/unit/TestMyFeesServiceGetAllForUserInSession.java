@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +51,7 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -75,9 +77,10 @@ class TestMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAllForUserInSession() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Page<Fee>  existing;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -91,14 +94,17 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         given(userPersonRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(Persons.noMembership()));
-        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting))
-            .willReturn(List.of(Fees.paid()));
+
+        existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paid());
     }
@@ -106,9 +112,9 @@ class TestMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When the user is anonymous, nothing is returned")
     void testGetAllForUserInSession_Anonymous() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -125,6 +131,8 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }
@@ -132,9 +140,10 @@ class TestMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAllForUserInSession_NoData() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Page<Fee>  existing;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -148,13 +157,17 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         given(userPersonRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(Persons.noMembership()));
-        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting)).willReturn(List.of());
+
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }
@@ -162,9 +175,9 @@ class TestMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When the user has no member, nothing is returned")
     void testGetAllForUserInSession_NoMember() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -183,6 +196,8 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }

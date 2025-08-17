@@ -35,6 +35,7 @@ import com.bernardomg.association.library.publisher.domain.exception.MissingPubl
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -158,8 +159,8 @@ public final class DefaultGameBookService implements GameBookService {
     }
 
     @Override
-    public final Iterable<GameBook> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<GameBook> books;
+    public final Page<GameBook> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<GameBook> books;
 
         log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
 

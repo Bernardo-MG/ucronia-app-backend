@@ -25,6 +25,7 @@
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Memb
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -52,10 +54,10 @@ class ITPersonRepositoryFindAllQueryName {
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -67,6 +69,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -74,10 +78,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an active membership and matching first name, it is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active_FirstName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -89,6 +93,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipActive());
     }
 
@@ -96,10 +102,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an active membership and matching full name, it is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active_FullName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -111,6 +117,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipActive());
     }
 
@@ -118,10 +126,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an active membership and matching last name, it is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active_LastName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -133,6 +141,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipActive());
     }
 
@@ -140,10 +150,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an active membership and partial matching name, it is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active_PartialName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -156,6 +166,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipActive());
     }
 
@@ -163,10 +175,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an active membership and wrong name, nothing is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active_WrongName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -178,6 +190,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -185,10 +199,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an inactive membership and matching first name, it is is returned")
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive_FirstName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -200,6 +214,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipInactive());
     }
 
@@ -207,10 +223,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an inactive membership and matching full name, it is is returned")
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive_FullName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -222,6 +238,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipInactive());
     }
 
@@ -229,10 +247,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an inactive membership and matching last name, it is is returned")
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive_LastName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -244,6 +262,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipInactive());
     }
 
@@ -251,10 +271,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an inactive membership and partial matching name, it is is returned")
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive_PartialName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -267,6 +287,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipInactive());
     }
 
@@ -274,10 +296,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person having an inactive membership and wrong name, nothing is returned")
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive_WrongName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -289,6 +311,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -296,10 +320,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person without membership and matching first name, it is is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership_FirstName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -311,6 +335,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 
@@ -318,10 +344,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person without membership and matching full name, it is is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership_FullName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -333,6 +359,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 
@@ -340,10 +368,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person without membership and matching last name, it is is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership_LastName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -355,6 +383,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 
@@ -362,10 +392,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person without membership and partial matching name, it is is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership_PartialName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -378,6 +408,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.noMembership());
     }
 
@@ -385,10 +417,10 @@ class ITPersonRepositoryFindAllQueryName {
     @DisplayName("With a person without membership and wrong name, nothing is returned")
     @MembershipInactivePerson
     void testFindAll_WithoutMembership_WrongName() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -400,6 +432,8 @@ class ITPersonRepositoryFindAllQueryName {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

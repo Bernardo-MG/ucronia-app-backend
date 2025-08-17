@@ -25,6 +25,7 @@
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Memb
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -51,10 +53,10 @@ class ITPersonRepositoryFindAll {
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -66,6 +68,8 @@ class ITPersonRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -73,10 +77,10 @@ class ITPersonRepositoryFindAll {
     @DisplayName("With a person having an active membership, it is returned")
     @MembershipActivePerson
     void testFindAll_WithMembership_Active() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -88,6 +92,8 @@ class ITPersonRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipActive());
     }
 
@@ -95,10 +101,10 @@ class ITPersonRepositoryFindAll {
     @DisplayName("With a person having an inactive membership, it is returned")
     @MembershipInactivePerson
     void testFindAll_WithMembership_Inactive() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -110,6 +116,8 @@ class ITPersonRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Persons.membershipInactive());
     }
 
@@ -117,10 +125,10 @@ class ITPersonRepositoryFindAll {
     @DisplayName("With a person without membership, nothing is returned")
     @NoMembershipPerson
     void testFindAll_WithoutMembership() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -132,6 +140,8 @@ class ITPersonRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

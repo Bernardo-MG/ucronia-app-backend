@@ -4,6 +4,7 @@ package com.bernardomg.association.person.usecase.service;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.ContactMethod;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -41,7 +42,7 @@ public interface ContactMethodService {
      *            sorting to apply
      * @return all the contact methods matching the sample
      */
-    public Iterable<ContactMethod> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<ContactMethod> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the contact method for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

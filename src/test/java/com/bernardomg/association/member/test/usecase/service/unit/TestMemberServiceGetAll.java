@@ -26,10 +26,10 @@ package com.bernardomg.association.member.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +41,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -57,23 +58,25 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<Member>   members;
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Member> readMembers;
+        final Page<Member> members;
+        final Page<Member> existing;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        readMembers = List.of();
-        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
             .isEmpty();
     }
@@ -81,25 +84,27 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When there is data, it returns all the members")
     void testGetAll_ReturnsData() {
-        final Iterable<Member>   members;
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Member> readMembers;
+        final Page<Member> members;
+        final Page<Member> existing;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        readMembers = List.of(Members.valid());
-        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(readMembers);
+        existing = new Page<>(List.of(Members.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .isEqualTo(readMembers);
+            .containsExactly(Members.valid());
     }
 
 }
