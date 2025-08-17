@@ -30,6 +30,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -59,10 +61,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_EndDate() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -79,6 +81,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
@@ -88,10 +92,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_EndDate_NotInRange() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -107,6 +111,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -115,10 +121,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_InDate() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -134,6 +140,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(2, Month.MARCH));
     }
@@ -143,10 +151,10 @@ class ITFeeRepositoryGetAllFilter {
     @MembershipActivePerson
     @FeeFullYear
     void testFindAll_InDate_FirstDay_Data() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -162,6 +170,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()));
     }
@@ -171,10 +181,10 @@ class ITFeeRepositoryGetAllFilter {
     @MembershipActivePerson
     @FeeFullYear
     void testFindAll_InDate_LastDay_Data() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -190,6 +200,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(Month.DECEMBER.getValue()));
     }
@@ -199,10 +211,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_InDate_NotExisting() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -218,6 +230,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }
@@ -227,10 +241,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_InRange() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -250,6 +264,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.paidForMonth(2, Month.MARCH),
                 Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY));
@@ -260,10 +276,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_StartDate() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -279,6 +295,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.notPaidForMonth(5, Month.JUNE));
     }
@@ -288,10 +306,10 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleMembershipInactivePerson
     @MultipleFees
     void testFindAll_StartDate_NotInRange() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -307,6 +325,8 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }

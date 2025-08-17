@@ -41,6 +41,7 @@ import com.bernardomg.association.library.lending.adapter.outbound.rest.model.Bo
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookReturned;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -80,7 +81,7 @@ public class BookLendingController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
     // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
-    public Iterable<BookLending> readAll(final Pagination pagination, final Sorting sorting) {
+    public Page<BookLending> readAll(final Pagination pagination, final Sorting sorting) {
         // TODO: reapply cache
         return service.getAll(pagination, sorting);
     }

@@ -15,6 +15,7 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotEmptyRule;
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.gamesystem.usecase.validation.GameSystemNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -82,8 +83,8 @@ public final class DefaultGameSystemService implements GameSystemService {
     }
 
     @Override
-    public final Iterable<GameSystem> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<GameSystem> gameSystems;
+    public final Page<GameSystem> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<GameSystem> gameSystems;
 
         log.debug("Reading game systems with pagination {} and sorting {}", pagination, sorting);
 

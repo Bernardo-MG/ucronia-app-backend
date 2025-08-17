@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +46,7 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -80,21 +82,25 @@ class TestGameBookServiceGetAll {
     @Test
     @DisplayName("When there are books, they are returned")
     void testGetAll() {
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Iterable<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final Page<GameBook> books;
+        final Page<GameBook> existing;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(bookRepository.findAll(pagination, sorting)).willReturn(List.of(GameBooks.full()));
+        existing = new Page<>(List.of(GameBooks.full()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(bookRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         books = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .containsExactly(GameBooks.full());
     }
@@ -102,21 +108,25 @@ class TestGameBookServiceGetAll {
     @Test
     @DisplayName("When there are no books, nothing is returned")
     void testGetAll_NoData() {
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Iterable<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final Page<GameBook> books;
+        final Page<GameBook> existing;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(bookRepository.findAll(pagination, sorting)).willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(bookRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         books = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .isEmpty();
     }

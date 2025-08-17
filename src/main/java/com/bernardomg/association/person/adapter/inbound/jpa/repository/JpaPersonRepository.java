@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -25,6 +24,7 @@ import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.Person.PersonContact;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -164,27 +164,27 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAll(final PersonFilter filter, final Pagination pagination,
-            final Sorting sorting) {
-        final Page<Person>                          persons;
-        final Pageable                              pageable;
-        final Optional<Specification<PersonEntity>> spec;
+    public final Page<Person> findAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Person> people;
+        final Pageable                                     pageable;
+        final Optional<Specification<PersonEntity>>        spec;
 
         log.debug("Finding all the people");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = PersonSpecifications.filter(filter);
         if (spec.isEmpty()) {
-            persons = personSpringRepository.findAll(pageable)
+            people = personSpringRepository.findAll(pageable)
                 .map(this::toDomain);
         } else {
-            persons = personSpringRepository.findAll(spec.get(), pageable)
+            people = personSpringRepository.findAll(spec.get(), pageable)
                 .map(this::toDomain);
         }
 
-        log.debug("Found all the people: {}", persons);
+        log.debug("Found all the people: {}", people);
 
-        return persons;
+        return new Page<>(people.getContent(), people.getSize(), people.getNumber(), people.getTotalElements(),
+            people.getTotalPages(), people.getNumberOfElements(), people.isFirst(), people.isLast(), sorting);
     }
 
     @Override

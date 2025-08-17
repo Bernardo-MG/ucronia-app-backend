@@ -28,6 +28,7 @@ import java.time.Month;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ import com.bernardomg.association.person.test.configuration.data.annotation.Memb
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -58,9 +60,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @MembershipActivePerson
     @FeeFullYear
     void testFindAllForPerson_Active_FullYear() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -71,6 +73,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()), Fees.paidForMonth(Month.FEBRUARY.getValue()),
                 Fees.paidForMonth(Month.MARCH.getValue()), Fees.paidForMonth(Month.APRIL.getValue()),
@@ -84,9 +88,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @DisplayName("With no data it returns nothing")
     @MembershipActivePerson
     void testFindAllForPerson_Active_NoFee() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -97,6 +101,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }
@@ -106,9 +112,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @NoLastNameActiveMembershipPerson
     @PaidFee
     void testFindAllForPerson_Active_NoLastName() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -119,6 +125,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.noLastName());
     }
@@ -128,9 +136,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @MembershipActivePerson
     @NotPaidFee
     void testFindAllForPerson_Active_NotPaid() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -141,6 +149,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.notPaid());
     }
@@ -150,9 +160,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @MembershipActivePerson
     @PaidFee
     void testFindAllForPerson_Active_Paid() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -163,6 +173,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paid());
     }
@@ -172,9 +184,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @MembershipActivePerson
     @PaidFee
     void testFindAllForPerson_Active_WrongMember() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -185,6 +197,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }
@@ -194,9 +208,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @MembershipInactivePerson
     @NotPaidFee
     void testFindAllForPerson_Inactive_NotPaid() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -207,6 +221,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.notPaid());
     }
@@ -216,9 +232,9 @@ class ITFeeRepositoryfindAllForPersonForMember {
     @MembershipInactivePerson
     @PaidFee
     void testFindAllForPerson_Inactive_Paid() {
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -229,6 +245,8 @@ class ITFeeRepositoryfindAllForPersonForMember {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paid());
     }

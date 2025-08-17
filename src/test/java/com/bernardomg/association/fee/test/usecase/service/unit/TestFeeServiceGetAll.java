@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,6 +47,7 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -78,10 +80,11 @@ class TestFeeServiceGetAll {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAll() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Page<Fee>  existing;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -89,13 +92,16 @@ class TestFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
-        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(List.of(Fees.paid()));
+        existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = service.getAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paid());
     }
@@ -103,10 +109,11 @@ class TestFeeServiceGetAll {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAll_NoData() {
-        final Iterable<Fee> fees;
-        final FeeQuery      feeQuery;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final Page<Fee>  fees;
+        final Page<Fee>  existing;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -114,13 +121,16 @@ class TestFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
-        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = service.getAll(feeQuery, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
     }

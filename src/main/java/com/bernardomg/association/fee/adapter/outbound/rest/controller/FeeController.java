@@ -58,6 +58,7 @@ import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
@@ -242,7 +243,16 @@ public class FeeController implements FeeApi {
             feePaymentsDto.getPayment()).stream().map(this::toDto).toList();
     }
 
-    @Override
+    @GetMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
+    public Fee readOne(@PathVariable("month") final YearMonth month,
+            @PathVariable("personNumber") final long personNumber) {
+        return service.getOne(personNumber, month)
+            .orElse(null);
+    }
+
+    @PutMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
             evict = { @CacheEvict(cacheNames = {

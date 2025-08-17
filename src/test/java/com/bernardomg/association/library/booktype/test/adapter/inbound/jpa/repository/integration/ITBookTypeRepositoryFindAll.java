@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.booktype.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -48,9 +50,9 @@ class ITBookTypeRepositoryFindAll {
     @DisplayName("When there are book types, they are returned")
     @ValidBookType
     void testFindAll() {
-        final Iterable<BookType> bookTypes;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<BookType> bookTypes;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -61,6 +63,8 @@ class ITBookTypeRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(bookTypes)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("book types")
             .containsExactly(BookTypes.valid());
     }
@@ -68,9 +72,9 @@ class ITBookTypeRepositoryFindAll {
     @Test
     @DisplayName("When there are no book types, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<BookType> bookTypes;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<BookType> bookTypes;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -81,6 +85,8 @@ class ITBookTypeRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(bookTypes)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("book types")
             .isEmpty();
     }

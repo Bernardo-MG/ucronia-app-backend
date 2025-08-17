@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -39,23 +40,32 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Iterable<Member> getAll(final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading public members with pagination {} and sorting {}", pagination, sorting);
+    public final Page<Member> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Member> members;
 
-        return memberRepository.findAll(pagination, sorting);
+        log.debug("Getting all members");
+
+        members = memberRepository.findAll(pagination, sorting);
+
+        log.debug("Got all members");
+
+        return members;
+
     }
 
     @Override
     public final Optional<Member> getOne(final long number) {
         final Optional<Member> member;
 
-        log.debug("Reading public member {}", number);
+        log.debug("Reading member {}", number);
 
         member = memberRepository.findOne(number);
         if (member.isEmpty()) {
             log.error("Missing member {}", number);
             throw new MissingMemberException(number);
         }
+
+        log.debug("Read member {}: {}", number, member);
 
         return member;
     }

@@ -27,6 +27,7 @@ package com.bernardomg.association.transaction.test.adapter.inbound.jpa.reposito
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -55,17 +57,17 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
     }
 
     @Override
-    protected final Iterable<Transaction> read(final Pagination pagination, final Sorting sorting) {
+    protected final Page<Transaction> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAll(TransactionsQueries.empty(), pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 1);
@@ -78,16 +80,18 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndex(1, Month.JANUARY));
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(2, 1);
@@ -100,6 +104,8 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY));
     }
 

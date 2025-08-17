@@ -25,6 +25,7 @@
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -49,10 +51,10 @@ class ITPersonRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -64,6 +66,8 @@ class ITPersonRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("people")
             .isEmpty();
     }
@@ -72,10 +76,10 @@ class ITPersonRepositoryFindAllPaginated {
     @DisplayName("When there is a person, it is returned")
     @MembershipActivePerson
     void testFindAll_Single() {
-        final Iterable<Person> people;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -87,6 +91,8 @@ class ITPersonRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("people")
             .containsExactly(Persons.membershipActive());
     }

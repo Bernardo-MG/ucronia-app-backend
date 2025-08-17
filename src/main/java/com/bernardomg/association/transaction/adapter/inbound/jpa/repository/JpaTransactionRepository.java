@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +21,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -94,12 +94,12 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Iterable<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
+    public final Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
             final Sorting sorting) {
-        final Page<TransactionEntity>                    page;
-        final Optional<Specification<TransactionEntity>> spec;
-        final Iterable<Transaction>                      read;
-        final Pageable                                   pageable;
+        final org.springframework.data.domain.Page<TransactionEntity> page;
+        final Optional<Specification<TransactionEntity>>              spec;
+        final org.springframework.data.domain.Page<Transaction>       read;
+        final Pageable                                                pageable;
 
         log.debug("Finding transactions with sample {} and pagination {} and sorting {}", query, pagination, sorting);
 
@@ -116,7 +116,8 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Found transactions {}", read);
 
-        return read;
+        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
+            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
     }
 
     @Override

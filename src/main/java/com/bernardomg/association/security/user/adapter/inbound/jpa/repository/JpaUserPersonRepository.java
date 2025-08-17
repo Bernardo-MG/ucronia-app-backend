@@ -17,6 +17,7 @@ import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -109,9 +110,9 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Iterable<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Person> people;
-        final Pageable         pageable;
+    public final Page<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Person> people;
+        final Pageable                                     pageable;
 
         log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
 
@@ -121,7 +122,8 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
 
         log.trace("Found all the people: {}", people);
 
-        return people;
+        return new Page<>(people.getContent(), people.getSize(), people.getNumber(), people.getTotalElements(),
+            people.getTotalPages(), people.getNumberOfElements(), people.isFirst(), people.isLast(), sorting);
     }
 
     @Override

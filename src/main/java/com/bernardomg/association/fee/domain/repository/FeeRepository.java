@@ -11,6 +11,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -22,13 +23,13 @@ public interface FeeRepository {
 
     public boolean existsPaid(final Long number, final YearMonth date);
 
-    public Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
     public Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting);
 
     public Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting);
 
-    public Iterable<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting);
 
     public Collection<Fee> findAllForPersonInDates(final Long number, final Collection<YearMonth> feeMonths);
 

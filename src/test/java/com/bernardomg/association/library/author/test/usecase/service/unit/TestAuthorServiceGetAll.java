@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -60,21 +62,25 @@ class TestAuthorServiceGetAll {
     @Test
     @DisplayName("When there are authors, they are returned")
     void testGetAll() {
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Iterable<Author> authors;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final Page<Author> authors;
+        final Page<Author> existing;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(authorRepository.findAll(pagination, sorting)).willReturn(List.of(Authors.valid()));
+        existing = new Page<>(List.of(Authors.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(authorRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         authors = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(authors)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("authors")
             .containsExactly(Authors.valid());
     }
@@ -82,21 +88,25 @@ class TestAuthorServiceGetAll {
     @Test
     @DisplayName("When there are no authors, nothing is returned")
     void testGetAll_NoData() {
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final Iterable<Author> authors;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final Page<Author> authors;
+        final Page<Author> existing;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(authorRepository.findAll(pagination, sorting)).willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(authorRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         authors = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(authors)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("authors")
             .isEmpty();
     }

@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,6 +31,7 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -120,9 +120,9 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
         final Optional<Specification<FeeEntity>> spec;
-        final Page<Fee>                      found;
+        final org.springframework.data.domain.Page<Fee>                      found;
         final Pageable                           pageable;
         final Sorting                            correctedSorting;
         // TODO: Test reading with no first or last name
@@ -147,7 +147,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
 
-        return found;
+        return new Page<>(found.getContent(), found.getSize(), found.getNumber(), found.getTotalElements(),
+            found.getTotalPages(), found.getNumberOfElements(), found.isFirst(), found.isLast(), sorting);
     }
 
     @Override
@@ -229,10 +230,10 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Iterable<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting) {
-        final Iterable<Fee> found;
-        final Pageable      pageable;
-        final Sorting       correctedSorting;
+    public final Page<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Fee> found;
+        final Pageable                                  pageable;
+        final Sorting                                   correctedSorting;
 
         log.debug("Finding all fees for person {} with pagination {} and sorting {}", number, pagination, sorting);
 
@@ -247,7 +248,8 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
-        return found;
+        return new Page<>(found.getContent(), found.getSize(), found.getNumber(), found.getTotalElements(),
+            found.getTotalPages(), found.getNumberOfElements(), found.isFirst(), found.isLast(), sorting);
     }
 
     @Override

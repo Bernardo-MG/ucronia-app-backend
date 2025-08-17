@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -45,7 +46,7 @@ public interface TransactionService {
      *            sorting to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<Transaction> getAll(final TransactionQuery transaction, final Pagination pagination,
+    public Page<Transaction> getAll(final TransactionQuery transaction, final Pagination pagination,
             final Sorting sorting);
 
     /**

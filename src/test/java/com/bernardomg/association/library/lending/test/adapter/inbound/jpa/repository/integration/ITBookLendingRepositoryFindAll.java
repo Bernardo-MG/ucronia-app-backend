@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.lending.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -59,9 +61,9 @@ class ITBookLendingRepositoryFindAll {
     @FullFictionBook
     @LentBookLending
     void testFindAll_FictionBook_Lent() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -71,6 +73,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .containsExactly(BookLendings.lent());
     }
@@ -79,9 +83,9 @@ class ITBookLendingRepositoryFindAll {
     @DisplayName("When there is a fiction book and it is not lent, nothing is returned")
     @MinimalFictionBook
     void testFindAll_FictionBook_NotLent() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -91,6 +95,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .isEmpty();
     }
@@ -101,9 +107,9 @@ class ITBookLendingRepositoryFindAll {
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_FictionBook_Returned() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -113,6 +119,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .isEmpty();
     }
@@ -123,9 +131,9 @@ class ITBookLendingRepositoryFindAll {
     @FullGameBook
     @LentBookLending
     void testFindAll_GameBook_Lent() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -135,6 +143,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .containsExactly(BookLendings.lent());
     }
@@ -143,9 +153,9 @@ class ITBookLendingRepositoryFindAll {
     @DisplayName("When there is a game book and it is not lent, nothing is returned")
     @MinimalGameBook
     void testFindAll_GameBook_NotLent() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -155,6 +165,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .isEmpty();
     }
@@ -165,9 +177,9 @@ class ITBookLendingRepositoryFindAll {
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_GameBook_Returned() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -177,6 +189,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .isEmpty();
     }
@@ -184,9 +198,9 @@ class ITBookLendingRepositoryFindAll {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Pagination            pagination;
-        final Sorting               sorting;
-        final Iterable<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<BookLending> lendings;
 
         // WHEN
         pagination = new Pagination(1, 20);
@@ -196,6 +210,8 @@ class ITBookLendingRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(lendings)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
             .isEmpty();
     }

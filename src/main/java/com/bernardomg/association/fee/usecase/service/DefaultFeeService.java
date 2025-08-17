@@ -57,6 +57,7 @@ import com.bernardomg.association.settings.usecase.source.AssociationSettingsSou
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -169,8 +170,8 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
-        final Iterable<Fee> fees;
+    public final Page<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+        final Page<Fee> fees;
 
         log.info("Getting all fees with query {}", query);
 
@@ -200,7 +201,7 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingFeeException(personNumber, date);
         }
 
-        log.debug("Got fee for {} in {}: fee", personNumber, date);
+        log.debug("Got fee for {} in {}: {}", personNumber, date, fee);
 
         return fee;
     }

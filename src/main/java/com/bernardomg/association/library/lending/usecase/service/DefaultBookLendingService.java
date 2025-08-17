@@ -30,6 +30,7 @@ import com.bernardomg.association.person.domain.exception.MissingPersonException
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -70,8 +71,8 @@ public final class DefaultBookLendingService implements BookLendingService {
     }
 
     @Override
-    public final Iterable<BookLending> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<BookLending> lendings;
+    public final Page<BookLending> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<BookLending> lendings;
 
         log.debug("Reading book lendings with pagination {} and sorting {}", pagination, sorting);
 

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -83,9 +84,9 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final Iterable<Publisher> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Publisher> read;
-        final Pageable            pageable;
+    public final Page<Publisher> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Publisher> read;
+        final Pageable                                        pageable;
 
         log.debug("Finding publishers with pagination {} and sorting {}", pagination, sorting);
 
@@ -95,7 +96,8 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         log.debug("Found publishers {}", read);
 
-        return read;
+        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
+            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
     }
 
     @Override

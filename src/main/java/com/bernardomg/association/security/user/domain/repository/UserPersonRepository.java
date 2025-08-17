@@ -4,6 +4,7 @@ package com.bernardomg.association.security.user.domain.repository;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -15,7 +16,7 @@ public interface UserPersonRepository {
 
     public boolean existsByPersonForAnotherUser(final String username, final long number);
 
-    public Iterable<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting);
+    public Page<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting);
 
     public Optional<Person> findByUsername(final String username);
 

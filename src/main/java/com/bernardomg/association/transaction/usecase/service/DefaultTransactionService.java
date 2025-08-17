@@ -13,6 +13,7 @@ import com.bernardomg.association.transaction.domain.exception.MissingTransactio
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -69,7 +70,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
+    public final Page<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
             final Sorting sorting) {
         return transactionRepository.findAll(query, pagination, sorting);
     }

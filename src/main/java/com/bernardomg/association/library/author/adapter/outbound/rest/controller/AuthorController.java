@@ -45,6 +45,7 @@ import com.bernardomg.association.library.author.adapter.outbound.rest.model.Aut
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorCreation;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -95,7 +96,7 @@ public class AuthorController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
     @Cacheable(cacheNames = LibraryAuthorCaches.AUTHORS)
-    public Iterable<Author> readAll(final Pagination pagination, final Sorting sorting) {
+    public Page<Author> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 

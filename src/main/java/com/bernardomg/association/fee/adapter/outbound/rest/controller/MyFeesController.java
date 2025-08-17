@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -59,7 +60,7 @@ public class MyFeesController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)
-    public Iterable<Fee> readAll(final Pagination pagination, final Sorting sorting) {
+    public Page<Fee> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAllForUserInSession(pagination, sorting);
     }
 

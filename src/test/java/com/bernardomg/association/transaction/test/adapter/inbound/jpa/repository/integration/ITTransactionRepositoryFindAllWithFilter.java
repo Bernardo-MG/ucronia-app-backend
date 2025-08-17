@@ -27,6 +27,7 @@ package com.bernardomg.association.transaction.test.adapter.inbound.jpa.reposito
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,6 +45,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -66,10 +68,10 @@ class ITTransactionRepositoryFindAllWithFilter {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns it")
     void testFindAll_AroundZero(final Float amount) {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         springRepository.save(TransactionEntities.forAmount(amount));
@@ -84,6 +86,8 @@ class ITTransactionRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forAmount(amount));
     }
 
@@ -91,10 +95,10 @@ class ITTransactionRepositoryFindAllWithFilter {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns it")
     void testFindAll_Decimal(final Float amount) {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         springRepository.save(TransactionEntities.forAmount(amount));
@@ -109,6 +113,8 @@ class ITTransactionRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forAmount(amount));
     }
 
@@ -116,10 +122,10 @@ class ITTransactionRepositoryFindAllWithFilter {
     @DisplayName("With a full year, it returns all the transactions")
     @FullTransactionYear
     void testFindAll_FullYear() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -132,6 +138,8 @@ class ITTransactionRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactlyInAnyOrder(Transactions.forIndex(1, Month.JANUARY),
                 Transactions.forIndex(2, Month.FEBRUARY), Transactions.forIndex(3, Month.MARCH),
                 Transactions.forIndex(4, Month.APRIL), Transactions.forIndex(5, Month.MAY),
@@ -145,10 +153,10 @@ class ITTransactionRepositoryFindAllWithFilter {
     @DisplayName("With multiple transactions in the month, it returns all the transactions")
     @MultipleTransactionsSameMonth
     void testFindAll_Multiple() {
-        final Iterable<Transaction> transactions;
-        final TransactionQuery      transactionQuery;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<Transaction> transactions;
+        final TransactionQuery  transactionQuery;
+        final Pagination        pagination;
+        final Sorting           sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -161,6 +169,8 @@ class ITTransactionRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));

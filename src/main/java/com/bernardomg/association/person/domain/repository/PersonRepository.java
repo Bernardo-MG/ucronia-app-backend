@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -27,7 +28,7 @@ public interface PersonRepository {
 
     public boolean existsByIdentifierForAnother(final long number, final String identifier);
 
-    public Iterable<Person> findAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<Person> findAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Collection<Person> findAllToRenew();
 

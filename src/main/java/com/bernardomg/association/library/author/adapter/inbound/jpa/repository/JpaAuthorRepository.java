@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -83,9 +84,9 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public final Iterable<Author> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Author> read;
-        final Pageable         pageable;
+    public final Page<Author> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Author> read;
+        final Pageable                                     pageable;
 
         log.debug("Finding authors with pagination {} and sorting {}", pagination, sorting);
 
@@ -95,7 +96,8 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         log.debug("Found authors {}", read);
 
-        return read;
+        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
+            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
     }
 
     @Override

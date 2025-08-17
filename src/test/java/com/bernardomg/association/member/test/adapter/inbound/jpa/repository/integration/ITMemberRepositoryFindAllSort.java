@@ -27,6 +27,7 @@ package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.in
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActivePerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -56,9 +58,9 @@ class ITMemberRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
     void testFindAll_FirstName_Asc() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -70,6 +72,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Members.forNumber(1), Members.forNumber(2), Members.forNumber(3), Members.forNumber(4),
                 Members.forNumber(5));
     }
@@ -77,9 +81,9 @@ class ITMemberRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by first name it returns the ordered data")
     void testFindAll_FirstName_Desc() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -90,6 +94,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
                 Members.forNumber(1));
     }
@@ -97,9 +103,9 @@ class ITMemberRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by last name it returns the ordered data")
     void testFindAll_LastName_Asc() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -110,6 +116,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Members.forNumber(1), Members.forNumber(2), Members.forNumber(3), Members.forNumber(4),
                 Members.forNumber(5));
     }
@@ -117,9 +125,9 @@ class ITMemberRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by last name it returns the ordered data")
     void testFindAll_LastName_Desc() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -130,6 +138,8 @@ class ITMemberRepositoryFindAllSort {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
                 Members.forNumber(1));
     }
