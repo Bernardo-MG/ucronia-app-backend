@@ -1,0 +1,11 @@
+get:
+  summary: Returns aggregated fee payment report
+  operationId: getFeePaymentReport
+  tags: [FeeReport]
+  responses:
+    '200':
+      description: Aggregated payment report with paid and unpaid counts
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees_report.yml#/components/schemas/FeePaymentReport'
