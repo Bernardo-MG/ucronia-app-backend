@@ -121,10 +121,10 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
-        final Optional<Specification<FeeEntity>> spec;
-        final org.springframework.data.domain.Page<Fee>                      found;
-        final Pageable                           pageable;
-        final Sorting                            correctedSorting;
+        final Optional<Specification<FeeEntity>>        spec;
+        final org.springframework.data.domain.Page<Fee> found;
+        final Pageable                                  pageable;
+        final Sorting                                   correctedSorting;
         // TODO: Test reading with no first or last name
 
         log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);

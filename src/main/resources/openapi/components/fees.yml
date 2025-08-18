@@ -1,5 +1,14 @@
 components:
   schemas:
+    FeePage:
+      allOf:
+        - $ref: '../common/pagination.yml#/components/schemas/Page'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Fee'
     Fee:
       type: object
       properties:

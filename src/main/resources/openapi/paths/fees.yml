@@ -57,9 +57,7 @@ get:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '../components/fees.yml#/components/schemas/Fee'
+            $ref: '../components/fees.yml#/components/schemas/FeePage'
 
 /pay:
   post:
