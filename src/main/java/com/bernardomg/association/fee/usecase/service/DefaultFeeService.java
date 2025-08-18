@@ -145,7 +145,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final void delete(final long personNumber, final YearMonth date) {
+    public final Fee delete(final long personNumber, final YearMonth date) {
         final boolean personExists;
         final Fee     fee;
 
@@ -167,6 +167,8 @@ public final class DefaultFeeService implements FeeService {
 
         // Send events for deleted fees
         eventEmitter.emit(new FeeDeletedEvent(fee, date, personNumber));
+        
+        return fee;
     }
 
     @Override

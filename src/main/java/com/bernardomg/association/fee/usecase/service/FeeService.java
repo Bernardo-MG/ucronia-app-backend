@@ -39,8 +39,9 @@ public interface FeeService {
      *            person number for the fee to delete
      * @param date
      *            date of the fee to delete
+     * @return deleted fee
      */
-    public void delete(final long personNumber, final YearMonth date);
+    public Fee delete(final long personNumber, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.

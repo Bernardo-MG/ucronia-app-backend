@@ -44,7 +44,11 @@ delete:
         format: int64
   responses:
     '204':
-      description: Fee deleted
+      description: Deleted fee
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/Fee'
 put:
   summary: Update a fee
   operationId: update

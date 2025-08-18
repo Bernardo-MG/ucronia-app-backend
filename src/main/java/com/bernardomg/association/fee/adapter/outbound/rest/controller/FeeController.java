@@ -128,12 +128,16 @@ public class FeeController implements FeeApi {
                     MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public void
+    public FeeDto
             delete(@Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])$") @Parameter(name = "month", description = "",
                     required = true, in = ParameterIn.PATH) @PathVariable("month") final YearMonth month,
                     @Parameter(name = "personNumber", description = "", required = true,
                             in = ParameterIn.PATH) @PathVariable("personNumber") final Long personNumber) {
-        service.delete(personNumber, month);
+        final Fee fee;
+
+        fee = service.delete(personNumber, month);
+
+        return toDto(fee);
     }
 
     @Override
