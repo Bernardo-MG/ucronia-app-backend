@@ -14,3 +14,5 @@ paths:
     $ref: paths/fees_calendar_range.yml
   /fee/calendar/{year}:
     $ref: paths/fees_calendar.yml
+  /user/fee:
+    $ref: paths/user_fees.yml

@@ -27,7 +27,6 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -42,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
@@ -51,22 +51,15 @@ import com.bernardomg.association.transaction.adapter.outbound.cache.Transaction
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeApi;
-import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
-import com.bernardomg.ucronia.openapi.model.FeeMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeePageDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -113,7 +106,7 @@ public class FeeController implements FeeApi {
 
         fee = service.createUnpaidFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
 
-        return toDto(fee);
+        return FeeDtoMapper.toDto(fee);
     }
 
     @Override
@@ -137,7 +130,7 @@ public class FeeController implements FeeApi {
 
         fee = service.delete(personNumber, month);
 
-        return toDto(fee);
+        return FeeDtoMapper.toDto(fee);
     }
 
     @Override
@@ -168,7 +161,7 @@ public class FeeController implements FeeApi {
         query = new FeeQuery(date, startDate, endDate);
         fees = service.getAll(query, pagination, sorting);
 
-        return toDto(fees);
+        return FeeDtoMapper.toDto(fees);
     }
 
     @Override
@@ -180,7 +173,7 @@ public class FeeController implements FeeApi {
                     @Parameter(name = "personNumber", description = "", required = true,
                             in = ParameterIn.PATH) @PathVariable("personNumber") final Integer personNumber) {
         return service.getOne(personNumber, month)
-            .map(this::toDto)
+            .map(FeeDtoMapper::toDto)
             .orElse(null);
     }
 
@@ -200,7 +193,7 @@ public class FeeController implements FeeApi {
             required = true) @Valid @RequestBody final FeePaymentsDto feePaymentsDto) {
         return service.payFees(feePaymentsDto.getFeeMonths(), feePaymentsDto.getMember(), feePaymentsDto.getPayment())
             .stream()
-            .map(this::toDto)
+            .map(FeeDtoMapper::toDto)
             .toList();
     }
 
@@ -227,84 +220,9 @@ public class FeeController implements FeeApi {
         final Fee fee;
         final Fee updated;
 
-        fee = toDomain(feeChangeDto, month, personNumber);
+        fee = FeeDtoMapper.toDomain(feeChangeDto, month, personNumber);
         updated = service.update(fee);
-        return toDto(updated);
-    }
-
-    private final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long personNumber) {
-        final Fee.Member                person;
-        final Optional<Fee.Transaction> transaction;
-
-        person = new Fee.Member(personNumber, null);
-        if ((change.getPayment()
-            .getIndex() == null)
-                && ((change.getPayment()
-                    .getDate() == null))) {
-            transaction = Optional.empty();
-        } else {
-            transaction = Optional.of(new Fee.Transaction(change.getPayment()
-                .getDate(),
-                change.getPayment()
-                    .getIndex()));
-        }
-
-        return new Fee(month, false, person, transaction);
-    }
-
-    private final FeeDto toDto(final Fee fee) {
-        final ContactNameDto contactName;
-        final FeeMemberDto   feeMember;
-
-        contactName = new ContactNameDto().firstName(fee.member()
-            .name()
-            .firstName())
-            .lastName(fee.member()
-                .name()
-                .lastName())
-            .fullName(fee.member()
-                .name()
-                .fullName());
-        feeMember = new FeeMemberDto().name(contactName)
-            .number(fee.member()
-                .number());
-        return new FeeDto().month(fee.month())
-            .paid(fee.paid())
-            .member(feeMember);
-    }
-
-    private final FeePageDto toDto(final Page<Fee> page) {
-        final SortingDto sortingResponse;
-
-        sortingResponse = new SortingDto().properties(page.sort()
-            .properties()
-            .stream()
-            .map(this::toDto)
-            .toList());
-        return new FeePageDto().content(page.content()
-            .stream()
-            .map(this::toDto)
-            .toList())
-            .size(page.size())
-            .page(page.page())
-            .totalElements(page.totalElements())
-            .totalPages(page.totalPages())
-            .elementsInPage(page.elementsInPage())
-            .first(page.first())
-            .last(page.last())
-            .sort(sortingResponse);
-    }
-
-    private final PropertyDto toDto(final Property property) {
-        final DirectionEnum direction;
-
-        if (property.direction() == Direction.ASC) {
-            direction = DirectionEnum.ASC;
-        } else {
-            direction = DirectionEnum.DESC;
-        }
-        return new PropertyDto().name(property.name())
-            .direction(direction);
+        return FeeDtoMapper.toDto(updated);
     }
 
 }

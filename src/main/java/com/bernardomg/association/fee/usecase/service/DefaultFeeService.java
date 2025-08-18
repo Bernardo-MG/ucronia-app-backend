@@ -167,7 +167,7 @@ public final class DefaultFeeService implements FeeService {
 
         // Send events for deleted fees
         eventEmitter.emit(new FeeDeletedEvent(fee, date, personNumber));
-        
+
         return fee;
     }
 
