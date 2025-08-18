@@ -88,7 +88,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    public final Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting) {
+    public final Collection<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting) {
         final Collection<Fee>         readFees;
         final Map<Object, List<Fee>>  memberFees;
         final Collection<FeeCalendar> calendarFees;
@@ -141,7 +141,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             calendarFee = toFeeYear(memberNumber, name, status, year, months);
             calendarFees.add(calendarFee);
         }
-        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.person()
+        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.member()
             .name()
             .fullName()));
         sortedCalendarFees = calendarFees.stream()
@@ -166,8 +166,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     private final FeeCalendar toFeeYear(final Long personNumber, final PersonName name, final MemberStatus status,
             final Year year, final Collection<FeeCalendarMonth> months) {
         final boolean                       active;
-        final FeeCalendar.Person            person;
-        final FeeCalendar.Person.Membership membership;
+        final FeeCalendar.Member            person;
+        final FeeCalendar.Member.Membership membership;
 
         active = switch (status) {
             case ACTIVE -> true;
@@ -176,8 +176,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             default -> personRepository.isActive(personNumber);
         };
 
-        membership = new FeeCalendar.Person.Membership(active);
-        person = new FeeCalendar.Person(personNumber, name, membership);
+        membership = new FeeCalendar.Member.Membership(active);
+        person = new FeeCalendar.Member(personNumber, name, membership);
         return new FeeCalendar(person, months, year.getValue());
     }
 

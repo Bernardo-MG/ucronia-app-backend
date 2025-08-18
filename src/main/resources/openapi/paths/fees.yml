@@ -58,24 +58,3 @@ get:
         application/json:
           schema:
             $ref: '../components/fees.yml#/components/schemas/FeePage'
-
-/pay:
-  post:
-    summary: Pay fees
-    operationId: pay
-    tags: [Fee]
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '../components/fees.yml#/components/schemas/FeePayments'
-    responses:
-      '201':
-        description: Fees paid
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '../components/fees.yml#/components/schemas/Fee'

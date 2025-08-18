@@ -30,7 +30,7 @@ components:
           type: integer
           format: int64
         name:
-          $ref: 'contacts.yml#/components/schemas/contactName'
+          $ref: 'contacts.yml#/components/schemas/ContactName'
     FeeTransaction:
       type: object
       nullable: true

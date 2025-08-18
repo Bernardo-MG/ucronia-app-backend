@@ -1,0 +1,34 @@
+components:
+  schemas:
+    FeeCalendarYearsRange:
+      type: object
+      properties:
+        years:
+          type: array
+          items:
+            type: integer
+            example: 2023
+    FeeCalendar:
+      type: object
+      properties:
+        member:
+          $ref: 'contacts.yml#/components/schemas/Contact'
+        months:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeeCalendarMonth'
+        year:
+          type: integer
+          example: 2025
+    FeeCalendarMonth:
+      type: object
+      properties:
+        month:
+          type: string
+          pattern: '^\d{4}-(0[1-9]|1[0-2])$'
+          example: "2025-08"
+        paid:
+          type: boolean
+        monthNumber:
+          type: integer
+          example: 8

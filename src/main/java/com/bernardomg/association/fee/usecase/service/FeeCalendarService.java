@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.usecase.service;
 
 import java.time.Year;
+import java.util.Collection;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
@@ -58,6 +59,6 @@ public interface FeeCalendarService {
      *            sorting to apply
      * @return all the member fees for a year
      */
-    public Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting);
+    public Collection<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting);
 
 }

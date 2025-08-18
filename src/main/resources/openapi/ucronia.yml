@@ -10,3 +10,7 @@ paths:
     $ref: paths/fees_by_id.yml
   /fee/pay:
     $ref: paths/fees_pay.yml
+  /fee/calendar/range:
+    $ref: paths/fees_calendar_range.yml
+  /fee/calendar/{year}:
+    $ref: paths/fees_calendar.yml

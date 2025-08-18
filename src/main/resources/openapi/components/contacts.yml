@@ -1,6 +1,17 @@
 components:
   schemas:
-    contactName:
+    Contact:
+      type: object
+      properties:
+        number:
+          type: integer
+          format: int64
+          example: 1234
+        name:
+          $ref: '#/components/schemas/ContactName'
+        membership:
+          $ref: '#/components/schemas/Membership'
+    ContactName:
       type: object
       properties:
         firstName:
@@ -9,3 +20,8 @@ components:
           type: string
         fullName:
           type: string
+    Membership:
+      type: object
+      properties:
+        active:
+          type: boolean
