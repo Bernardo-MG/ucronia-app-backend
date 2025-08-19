@@ -57,3 +57,7 @@ management:
   prometheus:
     metrics:
       enabled: true
+
+# OpenAPI
+openapi:
+  enabled: true
