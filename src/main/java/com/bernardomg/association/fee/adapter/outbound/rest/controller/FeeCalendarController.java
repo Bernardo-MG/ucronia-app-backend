@@ -28,7 +28,6 @@ import java.time.Year;
 import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
@@ -58,7 +57,6 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/fee/calendar")
 public class FeeCalendarController implements FeeCalendarApi {
 
     /**

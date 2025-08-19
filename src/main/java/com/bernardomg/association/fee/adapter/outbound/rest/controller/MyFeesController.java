@@ -26,7 +26,6 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
@@ -51,7 +50,6 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-@RequestMapping("/user/fee")
 public class MyFeesController implements MyFeesApi {
 
     /**

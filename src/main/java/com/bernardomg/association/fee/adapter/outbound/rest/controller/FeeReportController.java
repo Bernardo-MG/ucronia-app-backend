@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
@@ -41,7 +40,6 @@ import com.bernardomg.ucronia.openapi.model.FeePaymentReportDto;
  *
  */
 @RestController
-@RequestMapping("/fee")
 public class FeeReportController implements FeeReportApi {
 
     private final FeeReportService service;
