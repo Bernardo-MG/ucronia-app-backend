@@ -24,9 +24,7 @@ components:
       type: object
       properties:
         month:
-          type: string
-          pattern: '^\d{4}-(0[1-9]|1[0-2])$'
-          example: "2025-08"
+          $ref: '../common/dates.yml#/components/schemas/Month'
         paid:
           type: boolean
         monthNumber:

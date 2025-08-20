@@ -189,7 +189,7 @@ public class FeeController implements FeeApi {
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public List<FeeDto> pay(@Parameter(name = "FeePaymentsDto", description = "",
             required = true) @Valid @RequestBody final FeePaymentsDto feePaymentsDto) {
-        return service.payFees(feePaymentsDto.getFeeMonths(), feePaymentsDto.getMember(), feePaymentsDto.getPayment())
+        return service.payFees(feePaymentsDto.getMonths(), feePaymentsDto.getMember(), feePaymentsDto.getTransaction())
             .stream()
             .map(FeeDtoMapper::toDto)
             .toList();

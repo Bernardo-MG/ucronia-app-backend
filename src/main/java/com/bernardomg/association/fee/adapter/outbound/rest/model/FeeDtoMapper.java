@@ -11,8 +11,8 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
-import com.bernardomg.ucronia.openapi.model.FeeMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeePageDto;
+import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -24,24 +24,25 @@ public final class FeeDtoMapper {
         final Optional<Fee.Transaction> transaction;
 
         person = new Fee.Member(personNumber, null);
-        if ((change.getPayment()
+        if ((change.getTransaction()
             .getIndex() == null)
-                && ((change.getPayment()
+                && ((change.getTransaction()
                     .getDate() == null))) {
             transaction = Optional.empty();
         } else {
-            transaction = Optional.of(new Fee.Transaction(change.getPayment()
+            transaction = Optional.of(new Fee.Transaction(change.getTransaction()
                 .getDate(),
-                change.getPayment()
-                    .getIndex()));
+                change.getTransaction()
+                    .getIndex()
+                    .orElse(null)));
         }
 
         return new Fee(month, false, person, transaction);
     }
 
     public static final FeeDto toDto(final Fee fee) {
-        final ContactNameDto contactName;
-        final FeeMemberDto   feeMember;
+        final ContactNameDto    contactName;
+        final MinimalContactDto member;
 
         contactName = new ContactNameDto().firstName(fee.member()
             .name()
@@ -52,12 +53,12 @@ public final class FeeDtoMapper {
             .fullName(fee.member()
                 .name()
                 .fullName());
-        feeMember = new FeeMemberDto().name(contactName)
+        member = new MinimalContactDto().name(contactName)
             .number(fee.member()
                 .number());
         return new FeeDto().month(fee.month())
             .paid(fee.paid())
-            .member(feeMember);
+            .member(member);
     }
 
     public static final FeePageDto toDto(final Page<Fee> page) {

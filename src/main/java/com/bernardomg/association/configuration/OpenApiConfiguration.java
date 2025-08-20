@@ -9,10 +9,7 @@ import org.springframework.http.HttpMethod;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 @Configuration
-@ConditionalOnProperty(
-    name = "openapi.enabled",
-    havingValue = "true"
-)
+@ConditionalOnProperty(name = "openapi.enabled", havingValue = "true")
 public class OpenApiConfiguration {
 
     @Bean("openApiWhitelist")

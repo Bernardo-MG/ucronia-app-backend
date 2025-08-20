@@ -11,84 +11,41 @@ components:
                 $ref: '#/components/schemas/Fee'
     Fee:
       type: object
+      required: [member, paid]
       properties:
+        member:
+          $ref: 'contacts.yml#/components/schemas/MinimalContact'
         month:
-          type: string
-          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-          format: month
-          example: "2025-08"
+          $ref: '../common/dates.yml#/components/schemas/Month'
         paid:
           type: boolean
-        member:
-          $ref: '#/components/schemas/FeeMember'
-        payment:
-          $ref: '#/components/schemas/FeeTransaction'
-    FeeMember:
-      type: object
-      properties:
-        number:
-          type: integer
-          format: int64
-        name:
-          $ref: 'contacts.yml#/components/schemas/ContactName'
-    FeeTransaction:
-      type: object
-      nullable: true
-      properties:
-        date:
-          type: string
-          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-          format: month
-          example: "2025-08"
-        index:
-          type: integer
-          nullable: true
+        transaction:
+          $ref: 'transactions.yml#/components/schemas/MinimalTransaction'
     FeeCreation:
       type: object
-      required: [month, member]
+      required: [member, month]
       properties:
-        month:
-          type: string
-          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-          format: month
-          example: "2025-08"
         member:
-          type: integer
-          format: int64
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        month:
+          $ref: '../common/dates.yml#/components/schemas/Month'
     FeePayments:
       type: object
-      required: [member, payment, feeMonths]
+      required: [member, payment, months]
       properties:
         member:
-          type: integer
-          format: int64
-        payment:
-          type: string
-          format: date-time
-        feeMonths:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        transaction:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        months:
           type: array
           items:
-            type: string
-            pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-            format: month
-            example: "2025-08"
+            $ref: '../common/dates.yml#/components/schemas/Month'
     FeeChange:
       type: object
-      required: [month, payment]
+      required: [month, transaction]
       properties:
         month:
-          type: string
-          pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-          format: month
-          example: "2025-08"
-        payment:
-          $ref: '#/components/schemas/FeeChangePayment'
-    FeeChangePayment:
-      type: object
-      properties:
-        index:
-          type: integer
-          format: int64
-        date:
-          type: string
-          format: date-time
+          $ref: '../common/dates.yml#/components/schemas/Month'
+        transaction:
+          $ref: 'transactions.yml#/components/schemas/MinimalTransaction'

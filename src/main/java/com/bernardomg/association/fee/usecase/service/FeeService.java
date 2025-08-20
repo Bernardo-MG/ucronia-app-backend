@@ -74,7 +74,7 @@ public interface FeeService {
      * <p>
      * TODO: use a payment model?
      *
-     * @param feeMonths
+     * @param months
      *            dates of the fees being paid
      * @param personNumber
      *            member paying the fees
@@ -82,8 +82,7 @@ public interface FeeService {
      *            date of the payment
      * @return all the paid fees
      */
-    public Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
-            final Instant payDate);
+    public Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber, final Instant payDate);
 
     public Fee update(final Fee fee);
 

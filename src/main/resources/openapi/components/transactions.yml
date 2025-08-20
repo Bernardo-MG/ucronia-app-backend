@@ -1,0 +1,11 @@
+components:
+  schemas:
+    MinimalTransaction:
+      type: object
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        index:
+          type: integer
+          format: int64
+          nullable: true

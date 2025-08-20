@@ -209,14 +209,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
+    public final Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber,
             final Instant payDate) {
         final Collection<Fee> newFees;
         final Collection<Fee> fees;
         final Person          person;
         final Collection<Fee> created;
 
-        log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeMonths, payDate);
+        log.info("Paying fees for {} for months {}, paid in {}", personNumber, months, payDate);
 
         person = personRepository.findOne(personNumber)
             .orElseThrow(() -> {
@@ -224,7 +224,7 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingPersonException(personNumber);
             });
 
-        newFees = feeMonths.stream()
+        newFees = months.stream()
             .map(d -> toUnpaidFee(person, d))
             .toList();
 
@@ -237,14 +237,14 @@ public final class DefaultFeeService implements FeeService {
         pay(person, fees, payDate);
 
         // TODO: Why can't just return the created fees?
-        created = feeRepository.findAllForPersonInDates(personNumber, feeMonths);
+        created = feeRepository.findAllForPersonInDates(personNumber, months);
 
         // Send events for paid fees
         created.stream()
             .filter(Fee::paid)
             .forEach(this::sendFeePaidEvent);
 
-        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, feeMonths, payDate);
+        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, months, payDate);
 
         return created;
     }

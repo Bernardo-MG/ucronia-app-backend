@@ -1,12 +1,17 @@
 components:
   schemas:
+    MinimalContact:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          $ref: '#/components/schemas/ContactName'
     Contact:
       type: object
       properties:
         number:
-          type: integer
-          format: int64
-          example: 1234
+          $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '#/components/schemas/ContactName'
         membership:
@@ -16,10 +21,13 @@ components:
       properties:
         firstName:
           type: string
+          example: 'John'
         lastName:
           type: string
+          example: 'Smith'
         fullName:
           type: string
+          example: 'John Smith'
     Membership:
       type: object
       properties:
