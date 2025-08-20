@@ -31,7 +31,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
@@ -40,13 +40,11 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeCalendarApi;
-import com.bernardomg.ucronia.openapi.model.ContactDto;
-import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarYearsRangeDto;
-import com.bernardomg.ucronia.openapi.model.MembershipDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Member fee calendar REST controller.
@@ -73,7 +71,7 @@ public class FeeCalendarController implements FeeCalendarApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
-    public List<FeeCalendarDto> getFeesCalendar(final Integer year, @Valid final String status,
+    public List<FeeCalendarDto> getFeesCalendar(final Integer year, @NotNull @Valid final String status,
             @Valid final List<String> sort) {
         final MemberStatus memberStatus;
         final Sorting      sorting;
@@ -82,7 +80,7 @@ public class FeeCalendarController implements FeeCalendarApi {
         sorting = WebSorting.toSorting(sort);
         return service.getYear(Year.of(year), memberStatus, sorting)
             .stream()
-            .map(this::toDto)
+            .map(FeeCalendarDtoMapper::toDto)
             .toList();
     }
 
@@ -100,31 +98,6 @@ public class FeeCalendarController implements FeeCalendarApi {
             .map(Year::getValue)
             .toList();
         return new FeeCalendarYearsRangeDto().years(years);
-    }
-
-    private final FeeCalendarDto toDto(final FeeCalendar feeCalendar) {
-        final ContactDto     contact;
-        final ContactNameDto contactName;
-        final MembershipDto  membership;
-
-        contactName = new ContactNameDto().firstName(feeCalendar.member()
-            .name()
-            .firstName())
-            .lastName(feeCalendar.member()
-                .name()
-                .lastName())
-            .fullName(feeCalendar.member()
-                .name()
-                .fullName());
-        membership = new MembershipDto().active(feeCalendar.member()
-            .membership()
-            .active());
-        contact = new ContactDto().name(contactName)
-            .membership(membership)
-            .number(feeCalendar.member()
-                .number());
-        return new FeeCalendarDto().year(feeCalendar.year())
-            .member(contact);
     }
 
 }
