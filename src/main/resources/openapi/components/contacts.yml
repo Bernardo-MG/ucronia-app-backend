@@ -2,6 +2,7 @@ components:
   schemas:
     MinimalContact:
       type: object
+      required: [number, name]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -9,6 +10,7 @@ components:
           $ref: '#/components/schemas/ContactName'
     Contact:
       type: object
+      required: [number, name, membership]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -18,6 +20,7 @@ components:
           $ref: '#/components/schemas/Membership'
     ContactName:
       type: object
+      required: [firstName, lastName, fullName]
       properties:
         firstName:
           type: string
@@ -30,6 +33,7 @@ components:
           example: 'John Smith'
     Membership:
       type: object
+      required: [active]
       properties:
         active:
           type: boolean

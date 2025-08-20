@@ -1,21 +1,18 @@
 get:
   summary: Get a specific fee
-  operationId: getOne
+  operationId: getOneFee
   tags: [Fee]
   parameters:
-    - name: month
-      in: path
-      required: true
-      schema:
-        type: string
-        pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-        format: month
-        example: "2025-08"
     - name: personNumber
       in: path
       required: true
       schema:
-        type: integer
+        $ref: '../common/ids.yml#/components/schemas/Id'
+    - name: month
+      in: path
+      required: true
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
   responses:
     '200':
       description: Fee details
@@ -25,23 +22,19 @@ get:
             $ref: '../components/fees.yml#/components/schemas/Fee'
 delete:
   summary: Delete a fee
-  operationId: delete
+  operationId: deleteFee
   tags: [Fee]
   parameters:
-    - name: month
-      in: path
-      required: true
-      schema:
-        type: string
-        pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-        format: month
-        example: "2025-08"
     - name: personNumber
       in: path
       required: true
       schema:
-        type: integer
-        format: int64
+        $ref: '../common/ids.yml#/components/schemas/Id'
+    - name: month
+      in: path
+      required: true
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
   responses:
     '204':
       description: Deleted fee
@@ -51,22 +44,19 @@ delete:
             $ref: '../components/fees.yml#/components/schemas/Fee'
 put:
   summary: Update a fee
-  operationId: update
+  operationId: updateFee
   tags: [Fee]
   parameters:
-    - name: month
-      in: path
-      required: true
-      schema:
-        type: string
-        pattern: "^\\d{4}-(0[1-9]|1[0-2])$"
-        format: month
-        example: "2025-08"
     - name: personNumber
       in: path
       required: true
       schema:
-        type: integer
+        $ref: '../common/ids.yml#/components/schemas/Id'
+    - name: month
+      in: path
+      required: true
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
   requestBody:
     required: true
     content:

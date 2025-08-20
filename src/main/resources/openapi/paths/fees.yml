@@ -1,6 +1,6 @@
 post:
-  summary: Create an unpaid fee
-  operationId: create
+  summary: Create an unpaid fee.
+  operationId: createUnpaidFee
   tags: [Fee]
   requestBody:
     required: true
@@ -10,47 +10,50 @@ post:
           $ref: '../components/fees.yml#/components/schemas/FeeCreation'
   responses:
     '201':
-      description: Fee created
+      description: Fee created.
       content:
         application/json:
           schema:
             $ref: '../components/fees.yml#/components/schemas/Fee'
 
 get:
-  summary: Get all fees
-  operationId: getAll
+  summary: Get all fees.
+  operationId: getAllFees
   tags: [Fee]
   parameters:
     - name: date
+      description: Date to query for.
       in: query
       schema:
-        type: string
-        format: date-time
+        $ref: '../common/dates.yml#/components/schemas/Date'
     - name: startDate
+      description: Starting date to query for.
       in: query
       schema:
-        type: string
-        format: date-time
+        $ref: '../common/dates.yml#/components/schemas/Date'
     - name: endDate
+      description: Ending date to query for.
       in: query
       schema:
-        type: string
-        format: date-time
+        $ref: '../common/dates.yml#/components/schemas/Date'
     - name: page
+      description: Page to return.
       in: query
+      required: false
       schema:
-        type: integer
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
     - name: size
+      description: Page size.
       in: query
+      required: false
       schema:
-        type: integer
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
     - name: sort
       in: query
+      required: false
+      description: Sorting to apply.
       schema:
-        type: array
-        items:
-          type: string
-          example: propertyName,ASC
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     '200':
       description: List of fees

@@ -4,27 +4,23 @@ get:
   tags: [MyFees]
   parameters:
     - name: page
+      description: Page to return.
       in: query
       required: false
       schema:
-        type: integer
-        minimum: 0
-        example: 0
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
     - name: size
+      description: Page size.
       in: query
       required: false
       schema:
-        type: integer
-        minimum: 1
-        example: 20
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
     - name: sort
       in: query
       required: false
+      description: Sorting to apply.
       schema:
-        type: array
-        items:
-          type: string
-          example: "month,DESC"
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     '200':
       description: Paginated list of user fees

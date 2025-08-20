@@ -3,6 +3,9 @@ info:
   title: Ucronia API
   version: 1.0.0
   description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
 paths:
   /fee:
     $ref: paths/fees.yml

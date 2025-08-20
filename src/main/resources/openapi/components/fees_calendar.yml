@@ -2,6 +2,7 @@ components:
   schemas:
     FeeCalendarYearsRange:
       type: object
+      required: [years]
       properties:
         years:
           type: array
@@ -10,23 +11,25 @@ components:
             example: 2023
     FeeCalendar:
       type: object
+      required: [member, year, months]
       properties:
         member:
           $ref: 'contacts.yml#/components/schemas/Contact'
+        year:
+          type: integer
+          example: 2025
         months:
           type: array
           items:
             $ref: '#/components/schemas/FeeCalendarMonth'
-        year:
-          type: integer
-          example: 2025
     FeeCalendarMonth:
       type: object
+      required: [month, monthNumber, paid]
       properties:
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
-        paid:
-          type: boolean
         monthNumber:
           type: integer
           example: 8
+        paid:
+          type: boolean

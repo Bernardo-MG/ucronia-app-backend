@@ -11,7 +11,7 @@ components:
                 $ref: '#/components/schemas/Fee'
     Fee:
       type: object
-      required: [member, paid]
+      required: [member, month, paid]
       properties:
         member:
           $ref: 'contacts.yml#/components/schemas/MinimalContact'
@@ -31,7 +31,7 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Month'
     FeePayments:
       type: object
-      required: [member, payment, months]
+      required: [member, transaction, months]
       properties:
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'

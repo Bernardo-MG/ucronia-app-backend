@@ -33,8 +33,7 @@ public final class FeeDtoMapper {
             transaction = Optional.of(new Fee.Transaction(change.getTransaction()
                 .getDate(),
                 change.getTransaction()
-                    .getIndex()
-                    .orElse(null)));
+                    .getIndex()));
         }
 
         return new Fee(month, false, person, transaction);

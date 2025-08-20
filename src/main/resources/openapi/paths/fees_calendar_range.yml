@@ -1,6 +1,6 @@
 get:
   summary: Returns the range of available years
-  operationId: getYearsRange
+  operationId: getFeesCalendarYearsRange
   tags: [FeeCalendar]
   responses:
     '200':

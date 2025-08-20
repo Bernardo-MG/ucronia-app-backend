@@ -1,6 +1,6 @@
 get:
   summary: Returns all the member fees for a year
-  operationId: getForYear
+  operationId: getFeesCalendar
   tags: [FeeCalendar]
   parameters:
     - name: year
@@ -11,18 +11,16 @@ get:
         example: 2025
     - name: status
       in: query
-      required: false
+      required: true
       schema:
         type: string
         enum: [ACTIVE, ALL, INACTIVE]
     - name: sort
       in: query
       required: false
+      description: Sorting to apply.
       schema:
-        type: array
-        items:
-          type: string
-          example: "year,DESC"
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     '200':
       description: All the member fees for the given year

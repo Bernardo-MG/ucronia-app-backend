@@ -73,7 +73,7 @@ public class FeeCalendarController implements FeeCalendarApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
-    public List<FeeCalendarDto> getForYear(final Integer year, @Valid final String status,
+    public List<FeeCalendarDto> getFeesCalendar(final Integer year, @Valid final String status,
             @Valid final List<String> sort) {
         final MemberStatus memberStatus;
         final Sorting      sorting;
@@ -89,7 +89,7 @@ public class FeeCalendarController implements FeeCalendarApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
-    public FeeCalendarYearsRangeDto getYearsRange() {
+    public FeeCalendarYearsRangeDto getFeesCalendarYearsRange() {
         final FeeCalendarYearsRange range;
         final List<Integer>         years;
 

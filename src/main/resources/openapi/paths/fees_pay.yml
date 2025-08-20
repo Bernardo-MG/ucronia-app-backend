@@ -1,6 +1,6 @@
 post:
   summary: Pay fees
-  operationId: pay
+  operationId: payFee
   tags: [Fee]
   requestBody:
     required: true

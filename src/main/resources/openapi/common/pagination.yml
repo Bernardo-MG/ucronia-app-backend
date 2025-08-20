@@ -40,3 +40,18 @@ components:
         direction:
           type: string
           enum: [asc, desc]
+    pageParam:
+      type: integer
+      minimum: 0
+      example: 0
+      default: 0
+    sizeParam:
+      type: integer
+      minimum: 1
+      example: 10
+      default: 10
+    sortingParam:
+      type: array
+      items:
+        type: string
+        example: property,ASC
