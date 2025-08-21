@@ -81,7 +81,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.member") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -115,10 +115,10 @@ public class FeeController implements FeeApi {
                     MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public FeeDto deleteFee(final Long personNumber, final YearMonth month) {
+    public FeeDto deleteFee(final Long member, final YearMonth month) {
         final Fee fee;
 
-        fee = service.delete(personNumber, month);
+        fee = service.delete(member, month);
 
         return FeeDtoMapper.toDto(fee);
     }
@@ -145,8 +145,8 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
-    public FeeDto getOneFee(final Long personNumber, final YearMonth month) {
-        return service.getOne(personNumber, month)
+    public FeeDto getOneFee(final Long member, final YearMonth month) {
+        return service.getOne(member, month)
             .map(FeeDtoMapper::toDto)
             .orElse(null);
     }
@@ -172,7 +172,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.member") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -183,11 +183,11 @@ public class FeeController implements FeeApi {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public FeeDto updateFee(final Long personNumber, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
+    public FeeDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
         final Fee updated;
 
-        fee = FeeDtoMapper.toDomain(feeChangeDto, month, personNumber);
+        fee = FeeDtoMapper.toDomain(feeChangeDto, month, member);
         updated = service.update(fee);
         return FeeDtoMapper.toDto(updated);
     }

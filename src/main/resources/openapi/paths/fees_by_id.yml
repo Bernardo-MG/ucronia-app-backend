@@ -3,7 +3,7 @@ get:
   operationId: getOneFee
   tags: [Fee]
   parameters:
-    - name: personNumber
+    - name: member
       in: path
       required: true
       schema:
@@ -25,7 +25,7 @@ delete:
   operationId: deleteFee
   tags: [Fee]
   parameters:
-    - name: personNumber
+    - name: member
       in: path
       required: true
       schema:
@@ -47,7 +47,7 @@ put:
   operationId: updateFee
   tags: [Fee]
   parameters:
-    - name: personNumber
+    - name: member
       in: path
       required: true
       schema:

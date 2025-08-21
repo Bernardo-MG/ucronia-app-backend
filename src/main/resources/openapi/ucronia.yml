@@ -9,7 +9,7 @@ servers:
 paths:
   /fee:
     $ref: paths/fees.yml
-  /fee/{month}/{personNumber}:
+  /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:
     $ref: paths/fees_pay.yml
