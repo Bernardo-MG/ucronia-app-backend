@@ -41,12 +41,6 @@ public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, In
         }
     }
 
-    public static record Member(Long number, PersonName name, Membership membership) {
-
-        public record Membership(Boolean active) {
-
-        }
-
-    }
+    public static record Member(Long number, PersonName name, Boolean active) {}
 
 }

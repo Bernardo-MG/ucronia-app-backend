@@ -165,9 +165,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final FeeCalendar toFeeYear(final Long personNumber, final PersonName name, final MemberStatus status,
             final Year year, final Collection<FeeCalendarMonth> months) {
-        final boolean                       active;
-        final FeeCalendar.Member            person;
-        final FeeCalendar.Member.Membership membership;
+        final boolean            active;
+        final FeeCalendar.Member person;
 
         active = switch (status) {
             case ACTIVE -> true;
@@ -176,8 +175,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             default -> personRepository.isActive(personNumber);
         };
 
-        membership = new FeeCalendar.Member.Membership(active);
-        person = new FeeCalendar.Member(personNumber, name, membership);
+        person = new FeeCalendar.Member(personNumber, name, active);
         return new FeeCalendar(person, months, year.getValue());
     }
 

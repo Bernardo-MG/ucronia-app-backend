@@ -8,7 +8,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '#/components/schemas/ContactName'
-    Contact:
+    Member:
       type: object
       required: [number, name, membership]
       properties:
@@ -16,8 +16,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '#/components/schemas/ContactName'
-        membership:
-          $ref: '#/components/schemas/Membership'
+        active:
+          type: boolean
     ContactName:
       type: object
       required: [firstName, lastName, fullName]
@@ -31,9 +31,3 @@ components:
         fullName:
           type: string
           example: 'John Smith'
-    Membership:
-      type: object
-      required: [active]
-      properties:
-        active:
-          type: boolean

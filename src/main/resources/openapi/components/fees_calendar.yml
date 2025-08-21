@@ -14,7 +14,7 @@ components:
       required: [member, year, months]
       properties:
         member:
-          $ref: 'contacts.yml#/components/schemas/Contact'
+          $ref: 'contacts.yml#/components/schemas/Member'
         year:
           type: integer
           example: 2025

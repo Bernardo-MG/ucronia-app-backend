@@ -7,13 +7,12 @@ import java.util.List;
 
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.ucronia.openapi.model.ContactDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarYearsRangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarYearsRangeResponseDto;
-import com.bernardomg.ucronia.openapi.model.MembershipDto;
+import com.bernardomg.ucronia.openapi.model.MemberDto;
 
 public final class FeeCalendarDtoMapper {
 
@@ -34,9 +33,8 @@ public final class FeeCalendarDtoMapper {
     }
 
     private static final FeeCalendarDto toDto(final FeeCalendar feeCalendar) {
-        final ContactDto     contact;
+        final MemberDto      member;
         final ContactNameDto contactName;
-        final MembershipDto  membership;
 
         contactName = new ContactNameDto().firstName(feeCalendar.member()
             .name()
@@ -47,15 +45,13 @@ public final class FeeCalendarDtoMapper {
             .fullName(feeCalendar.member()
                 .name()
                 .fullName());
-        membership = new MembershipDto().active(feeCalendar.member()
-            .membership()
-            .active());
-        contact = new ContactDto().name(contactName)
-            .membership(membership)
+        member = new MemberDto().name(contactName)
             .number(feeCalendar.member()
-                .number());
+                .number())
+            .active(feeCalendar.member()
+                .active());
         return new FeeCalendarDto().year(feeCalendar.year())
-            .member(contact);
+            .member(member);
     }
 
     private FeeCalendarDtoMapper() {

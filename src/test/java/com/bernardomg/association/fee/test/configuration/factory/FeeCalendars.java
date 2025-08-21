@@ -17,7 +17,7 @@ public final class FeeCalendars {
         final PersonName                               name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        person = new FeeCalendar.Member(PersonConstants.NUMBER, name, new FeeCalendar.Member.Membership(true));
+        person = new FeeCalendar.Member(PersonConstants.NUMBER, name, true);
         months = List.of(FeeMonths.paid());
         return new FeeCalendar(person, months, FeeConstants.CURRENT_YEAR.getValue());
     }
@@ -28,7 +28,7 @@ public final class FeeCalendars {
         final PersonName                               name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        person = new FeeCalendar.Member(PersonConstants.NUMBER, name, new FeeCalendar.Member.Membership(false));
+        person = new FeeCalendar.Member(PersonConstants.NUMBER, name, false);
         months = List.of(FeeMonths.paid());
         return new FeeCalendar(person, months, YearMonth.now()
             .getYear());
