@@ -92,6 +92,27 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             @Param("feeMonths") final Collection<Instant> feeMonths);
 
     /**
+     * Returns all member fees with any of the received ids, and which are inside the received range.
+     *
+     * @param year
+     *            year to filter by
+     * @param ids
+     *            ids of the members to filter by
+     * @param sort
+     *            sorting information
+     * @return all member fees filtered by id and date range
+     */
+    @Query("""
+            SELECT f
+            FROM Fee f
+               INNER JOIN Person p ON p.id = f.personId
+            WHERE EXTRACT(YEAR FROM f.date) = :year
+              AND f.personId IN :ids
+            """)
+    public Collection<FeeEntity> findAllForYearAndPersonsIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
+            Sort sort);
+
+    /**
      * Returns all member fees inside the received range.
      *
      * @param start
@@ -111,30 +132,6 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             """)
     public Collection<FeeEntity> findAllInRange(@Param("start") final Instant start, @Param("end") final Instant end,
             final Sort sort);
-
-    /**
-     * Returns all member fees with any of the received ids, and which are inside the received range.
-     *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
-     * @param ids
-     *            ids of the members to filter by
-     * @param sort
-     *            sorting information
-     * @return all member fees filtered by id and date range
-     */
-    @Query("""
-            SELECT f
-            FROM Fee f
-               INNER JOIN Person p ON p.id = f.personId
-            WHERE f.date >= :start
-              AND f.date <= :end
-              AND f.personId IN :ids
-            """)
-    public Collection<FeeEntity> findAllInRangeForPersonsIn(@Param("start") final Instant start,
-            @Param("end") final Instant end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
     @Query("""
             SELECT f
