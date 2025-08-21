@@ -154,22 +154,11 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting) {
         final Collection<Long> foundIds;
-        final Instant          start;
-        final Instant          end;
         final Collection<Fee>  found;
         final Sort             sort;
         final Sorting          correctedSorting;
 
         log.debug("Finding all fees for active members in year {}", year);
-
-        start = YearMonth.of(year.getValue(), Month.JANUARY)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        end = YearMonth.of(year.getValue(), Month.DECEMBER)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
 
         foundIds = personSpringRepository.findAllActiveMemberIds();
 
@@ -180,7 +169,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(this::correct)
             .toList());
         sort = SpringSorting.toSort(correctedSorting);
-        found = feeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
+        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -193,22 +182,11 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting) {
         final Collection<Long> foundIds;
-        final Instant          start;
-        final Instant          end;
         final Collection<Fee>  found;
         final Sort             sort;
         final Sorting          correctedSorting;
 
         log.debug("Finding all fees for inactive members in year {}", year);
-
-        start = YearMonth.of(year.getValue(), Month.JANUARY)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        end = YearMonth.of(year.getValue(), Month.DECEMBER)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
 
         foundIds = personSpringRepository.findAllInactiveMemberIds();
 
@@ -219,7 +197,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(this::correct)
             .toList());
         sort = SpringSorting.toSort(correctedSorting);
-        found = feeSpringRepository.findAllInRangeForPersonsIn(start, end, foundIds, sort)
+        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
             .stream()
             .map(this::toDomain)
             .toList();
