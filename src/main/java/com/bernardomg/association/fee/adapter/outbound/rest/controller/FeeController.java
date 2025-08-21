@@ -27,7 +27,9 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -52,9 +54,10 @@ import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeApi;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
-import com.bernardomg.ucronia.openapi.model.FeeDto;
-import com.bernardomg.ucronia.openapi.model.FeePageDto;
+import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
+import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -92,7 +95,7 @@ public class FeeController implements FeeApi {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public FeeDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
+    public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
         final Fee       fee;
         final YearMonth month;
 
@@ -100,7 +103,7 @@ public class FeeController implements FeeApi {
             .atZone(ZoneOffset.UTC));
         fee = service.createUnpaidFee(month, feeCreationDto.getMember());
 
-        return FeeDtoMapper.toDto(fee);
+        return FeeDtoMapper.toResponseDto(fee);
     }
 
     @Override
@@ -115,18 +118,18 @@ public class FeeController implements FeeApi {
                     MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public FeeDto deleteFee(final Long member, final YearMonth month) {
+    public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
         final Fee fee;
 
         fee = service.delete(member, month);
 
-        return FeeDtoMapper.toDto(fee);
+        return FeeDtoMapper.toResponseDto(fee);
     }
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
-    public FeePageDto getAllFees(@Valid final Instant date, @Valid final Instant startDate,
+    public FeePageResponseDto getAllFees(@Valid final Instant date, @Valid final Instant startDate,
             @Valid final Instant endDate, @Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
         final FeeQuery   query;
@@ -139,16 +142,18 @@ public class FeeController implements FeeApi {
         query = new FeeQuery(date, startDate, endDate);
         fees = service.getAll(query, pagination, sorting);
 
-        return FeeDtoMapper.toDto(fees);
+        return FeeDtoMapper.toResponseDto(fees);
     }
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
-    public FeeDto getOneFee(final Long member, final YearMonth month) {
-        return service.getOne(member, month)
-            .map(FeeDtoMapper::toDto)
-            .orElse(null);
+    public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
+        final Optional<Fee> fee;
+
+        fee = service.getOne(member, month);
+
+        return FeeDtoMapper.toResponseDto(fee);
     }
 
     @Override
@@ -163,11 +168,12 @@ public class FeeController implements FeeApi {
             MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public List<FeeDto> payFee(@Valid final FeePaymentsDto feePaymentsDto) {
-        return service.payFees(feePaymentsDto.getMonths(), feePaymentsDto.getMember(), feePaymentsDto.getTransaction())
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList();
+    public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
+        Collection<Fee> fees;
+
+        fees = service.payFees(feePaymentsDto.getMonths(), feePaymentsDto.getMember(), feePaymentsDto.getTransaction());
+
+        return FeeDtoMapper.toResponseDto(fees);
     }
 
     @Override
@@ -183,13 +189,13 @@ public class FeeController implements FeeApi {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public FeeDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
+    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
         final Fee updated;
 
         fee = FeeDtoMapper.toDomain(feeChangeDto, month, member);
         updated = service.update(fee);
-        return FeeDtoMapper.toDto(updated);
+        return FeeDtoMapper.toResponseDto(updated);
     }
 
 }

@@ -26,12 +26,13 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeReportDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeReportApi;
-import com.bernardomg.ucronia.openapi.model.FeePaymentReportDto;
+import com.bernardomg.ucronia.openapi.model.FeePaymentReportResponseDto;
 
 /**
  * Member fee report REST controller.
@@ -52,13 +53,12 @@ public class FeeReportController implements FeeReportApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    public FeePaymentReportDto getFeePaymentReport() {
+    public FeePaymentReportResponseDto getFeePaymentReport() {
         final FeePaymentReport report;
 
         report = service.getPaymentReport();
 
-        return new FeePaymentReportDto().paid(report.paid())
-            .unpaid(report.unpaid());
+        return FeeReportDtoMapper.toResponseDto(report);
     }
 
 }

@@ -14,3 +14,8 @@ components:
           format: int64
           example: 30
           description: Number of fees that are still unpaid
+    FeePaymentReportResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/FeePaymentReport'

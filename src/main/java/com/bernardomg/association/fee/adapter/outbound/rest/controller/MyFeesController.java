@@ -38,7 +38,7 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MyFeesApi;
-import com.bernardomg.ucronia.openapi.model.FeePageDto;
+import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -65,7 +65,7 @@ public class MyFeesController implements MyFeesApi {
 
     @Override
     @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)
-    public FeePageDto getUserFees(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
+    public FeePageResponseDto getUserFees(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
         final Pagination pagination;
         final Sorting    sorting;
@@ -75,7 +75,7 @@ public class MyFeesController implements MyFeesApi {
         sorting = WebSorting.toSorting(sort);
         fees = service.getAllForUserInSession(pagination, sorting);
 
-        return FeeDtoMapper.toDto(fees);
+        return FeeDtoMapper.toResponseDto(fees);
     }
 
 }

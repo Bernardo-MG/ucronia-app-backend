@@ -19,7 +19,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/Fee'
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'
 delete:
   summary: Delete a fee
   operationId: deleteFee
@@ -41,7 +41,7 @@ delete:
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/Fee'
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'
 put:
   summary: Update a fee
   operationId: updateFee
@@ -69,4 +69,4 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/Fee'
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'

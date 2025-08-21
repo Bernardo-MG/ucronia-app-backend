@@ -27,4 +27,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/FeePage'
+            $ref: '../components/fees.yml#/components/schemas/FeePageResponse'

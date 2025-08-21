@@ -1,14 +1,5 @@
 components:
   schemas:
-    FeePage:
-      allOf:
-        - $ref: '../common/pagination.yml#/components/schemas/Page'
-        - type: object
-          properties:
-            content:
-              type: array
-              items:
-                $ref: '#/components/schemas/Fee'
     Fee:
       type: object
       required: [member, month, paid]
@@ -21,6 +12,27 @@ components:
           type: boolean
         transaction:
           $ref: 'transactions.yml#/components/schemas/MinimalTransaction'
+    FeePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Fee'
+    FeeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Fee'
+    FeesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fee'
     FeeCreation:
       type: object
       required: [member, month]

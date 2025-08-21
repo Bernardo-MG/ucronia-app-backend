@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -11,7 +12,9 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
-import com.bernardomg.ucronia.openapi.model.FeePageDto;
+import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
@@ -39,7 +42,44 @@ public final class FeeDtoMapper {
         return new Fee(month, false, person, transaction);
     }
 
-    public static final FeeDto toDto(final Fee fee) {
+    public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {
+        return new FeesResponseDto().content(fees.stream()
+            .map(FeeDtoMapper::toDto)
+            .toList());
+    }
+
+    public static final FeeResponseDto toResponseDto(final Fee fee) {
+        return new FeeResponseDto().content(toDto(fee));
+    }
+
+    public static final FeeResponseDto toResponseDto(final Optional<Fee> fee) {
+        return new FeeResponseDto().content(fee.map(FeeDtoMapper::toDto)
+            .orElse(null));
+    }
+
+    public static final FeePageResponseDto toResponseDto(final Page<Fee> page) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(FeeDtoMapper::toDto)
+            .toList());
+        return new FeePageResponseDto().content(page.content()
+            .stream()
+            .map(FeeDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
+    }
+
+    private static final FeeDto toDto(final Fee fee) {
         final ContactNameDto    contactName;
         final MinimalContactDto member;
 
@@ -58,28 +98,6 @@ public final class FeeDtoMapper {
         return new FeeDto().month(fee.month())
             .paid(fee.paid())
             .member(member);
-    }
-
-    public static final FeePageDto toDto(final Page<Fee> page) {
-        final SortingDto sortingResponse;
-
-        sortingResponse = new SortingDto().properties(page.sort()
-            .properties()
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList());
-        return new FeePageDto().content(page.content()
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList())
-            .size(page.size())
-            .page(page.page())
-            .totalElements(page.totalElements())
-            .totalPages(page.totalPages())
-            .elementsInPage(page.elementsInPage())
-            .first(page.first())
-            .last(page.last())
-            .sort(sortingResponse);
     }
 
     private static final PropertyDto toDto(final Property property) {

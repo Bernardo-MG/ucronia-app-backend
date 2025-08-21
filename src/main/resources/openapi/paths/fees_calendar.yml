@@ -27,6 +27,4 @@ get:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '../components/fees_calendar.yml#/components/schemas/FeeCalendar'
+            $ref: '../components/fees_calendar.yml#/components/schemas/FeeCalendarResponse'

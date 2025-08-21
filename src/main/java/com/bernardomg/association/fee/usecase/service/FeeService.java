@@ -84,6 +84,13 @@ public interface FeeService {
      */
     public Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber, final Instant payDate);
 
+    /**
+     * Updates the received fee.
+     *
+     * @param fee
+     *            new data for the fee
+     * @return the updated fee
+     */
     public Fee update(final Fee fee);
 
 }

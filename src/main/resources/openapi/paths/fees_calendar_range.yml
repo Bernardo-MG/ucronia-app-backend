@@ -8,4 +8,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/fees_calendar.yml#/components/schemas/FeeCalendarYearsRange'
+            $ref: '../components/fees_calendar.yml#/components/schemas/FeeCalendarYearsRangeResponse'

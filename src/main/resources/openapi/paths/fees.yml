@@ -14,7 +14,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/Fee'
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'
 
 get:
   summary: Get all fees.
@@ -56,8 +56,8 @@ get:
         $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     '200':
-      description: List of fees
+      description: Fees page
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/FeePage'
+            $ref: '../components/fees.yml#/components/schemas/FeePageResponse'

@@ -59,7 +59,7 @@ public interface TransactionService {
     public Optional<Transaction> getOne(final long id);
 
     /**
-     * Updates the transaction for the received id with the received data.
+     * Updates the received transaction.
      *
      * @param transaction
      *            new data for the transaction
