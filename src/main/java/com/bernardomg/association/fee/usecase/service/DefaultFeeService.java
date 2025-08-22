@@ -45,11 +45,11 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.usecase.validation.FeeDateNotExistingRule;
-import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedDatesRule;
-import com.bernardomg.association.fee.usecase.validation.FeePaymentNotChangedRule;
-import com.bernardomg.association.fee.usecase.validation.FeePersonNotChangedRule;
-import com.bernardomg.association.fee.usecase.validation.PaidFeeMonthsNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.FeeMemberNotChangedRule;
+import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedMonthsRule;
+import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
+import com.bernardomg.association.fee.usecase.validation.PaidMonthsNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -110,13 +110,13 @@ public final class DefaultFeeService implements FeeService {
         messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
-        validatorPay = new FieldRuleValidator<>(new FeeNoDuplicatedDatesRule(),
-            new PaidFeeMonthsNotExistingRule(personRepository, feeRepository));
+        validatorPay = new FieldRuleValidator<>(new FeeNoDuplicatedMonthsRule(),
+            new PaidMonthsNotExistingRule(personRepository, feeRepository));
 
         // TODO: Test validation
-        validatorCreate = new FieldRuleValidator<>(new FeeDateNotExistingRule(personRepository, feeRepository));
-        validatorUpdate = new FieldRuleValidator<>(new FeePaymentNotChangedRule(feeRepository),
-            new FeePersonNotChangedRule(feeRepository));
+        validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(personRepository, feeRepository));
+        validatorUpdate = new FieldRuleValidator<>(new FeeTransactionNotChangedRule(feeRepository),
+            new FeeMemberNotChangedRule(feeRepository));
     }
 
     @Override
@@ -280,18 +280,18 @@ public final class DefaultFeeService implements FeeService {
                     .number());
             });
 
-        if ((fee.payment()
+        if ((fee.transaction()
             .isPresent())
-                && (fee.payment()
+                && (fee.transaction()
                     .get()
                     .index() != null)
-                && (!transactionRepository.exists(fee.payment()
+                && (!transactionRepository.exists(fee.transaction()
                     .get()
                     .index()))) {
-            log.error("Missing transaction {}", fee.payment()
+            log.error("Missing transaction {}", fee.transaction()
                 .get()
                 .index());
-            throw new MissingTransactionException(fee.payment()
+            throw new MissingTransactionException(fee.transaction()
                 .get()
                 .index());
         }
@@ -302,7 +302,7 @@ public final class DefaultFeeService implements FeeService {
             // Added payment
             toSave = new Fee(fee.month(), false, fee.member(), java.util.Optional.empty());
             saved = feeRepository.save(toSave);
-            updated = pay(person, List.of(saved), fee.payment()
+            updated = pay(person, List.of(saved), fee.transaction()
                 .get()
                 .date()).iterator()
                     .next();
@@ -310,11 +310,11 @@ public final class DefaultFeeService implements FeeService {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
                 // Update transaction
-                existingPayment = transactionRepository.findOne(fee.payment()
+                existingPayment = transactionRepository.findOne(fee.transaction()
                     .get()
                     .index())
                     .get();
-                updatedPayment = new Transaction(existingPayment.index(), fee.payment()
+                updatedPayment = new Transaction(existingPayment.index(), fee.transaction()
                     .get()
                     .date(), existingPayment.amount(), existingPayment.description());
                 transactionRepository.save(updatedPayment);
@@ -322,9 +322,9 @@ public final class DefaultFeeService implements FeeService {
             updated = feeRepository.save(fee);
         }
 
-        if ((updated.payment()
+        if ((updated.transaction()
             .isPresent())
-                && (existing.payment()
+                && (existing.transaction()
                     .isEmpty())) {
             // Added payment
             sendFeePaidEvent(updated);
@@ -334,9 +334,9 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final boolean addedPayment(final Fee received) {
-        return ((received.payment()
+        return ((received.transaction()
             .isPresent())
-                && (received.payment()
+                && (received.transaction()
                     .get()
                     .index() == null));
     }
@@ -346,12 +346,12 @@ public final class DefaultFeeService implements FeeService {
         final Instant receivedDate;
         final boolean changed;
 
-        if (existing.payment()
+        if (existing.transaction()
             .isPresent()) {
-            receivedDate = received.payment()
+            receivedDate = received.transaction()
                 .get()
                 .date();
-            existingDate = existing.payment()
+            existingDate = existing.transaction()
                 .get()
                 .date();
             changed = !existingDate.equals(receivedDate);

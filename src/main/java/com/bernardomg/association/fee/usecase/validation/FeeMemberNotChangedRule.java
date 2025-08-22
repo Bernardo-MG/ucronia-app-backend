@@ -13,18 +13,18 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fee's transaction was not changed or removed.
+ * Checks the fee's member was not changed or removed.
  */
-public final class FeePersonNotChangedRule implements FieldRule<Fee> {
+public final class FeeMemberNotChangedRule implements FieldRule<Fee> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeePersonNotChangedRule.class);
+    private static final Logger log = LoggerFactory.getLogger(FeeMemberNotChangedRule.class);
 
     private final FeeRepository feeRepository;
 
-    public FeePersonNotChangedRule(final FeeRepository feeRepo) {
+    public FeeMemberNotChangedRule(final FeeRepository feeRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -41,7 +41,7 @@ public final class FeePersonNotChangedRule implements FieldRule<Fee> {
             .get();
         if (wasChanged(fee, existing)) {
             log.error("Changed fee person");
-            fieldFailure = new FieldFailure("modified", "person", fee.payment()
+            fieldFailure = new FieldFailure("modified", "member", fee.transaction()
                 .get()
                 .index());
             failure = Optional.of(fieldFailure);

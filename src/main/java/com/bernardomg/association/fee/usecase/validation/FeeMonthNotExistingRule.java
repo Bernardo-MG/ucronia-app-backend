@@ -15,20 +15,20 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fee's date is not registered.
+ * Checks the fee's month is not registered.
  */
-public final class FeeDateNotExistingRule implements FieldRule<Fee> {
+public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(FeeDateNotExistingRule.class);
+    private static final Logger    log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
 
     private final FeeRepository    feeRepository;
 
     private final PersonRepository personRepository;
 
-    public FeeDateNotExistingRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
@@ -47,9 +47,9 @@ public final class FeeDateNotExistingRule implements FieldRule<Fee> {
             .get();
         existing = feeRepository.exists(person.number(), fee.month());
         if (existing) {
-            log.error("Date {} is already registered", fee.month());
+            log.error("Fee for month {} already exists for by {}", fee.month(), person.number());
             // TODO: this is not a field in the model
-            fieldFailure = new FieldFailure("existing", "feeDate", fee.month());
+            fieldFailure = new FieldFailure("existing", "month", fee.month());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -14,16 +14,16 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fees's dates are not duplicated.
+ * Checks the fees's months are not duplicated.
  */
-public final class FeeNoDuplicatedDatesRule implements FieldRule<Collection<Fee>> {
+public final class FeeNoDuplicatedMonthsRule implements FieldRule<Collection<Fee>> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeeNoDuplicatedDatesRule.class);
+    private static final Logger log = LoggerFactory.getLogger(FeeNoDuplicatedMonthsRule.class);
 
-    public FeeNoDuplicatedDatesRule() {
+    public FeeNoDuplicatedMonthsRule() {
         super();
     }
 
@@ -31,21 +31,21 @@ public final class FeeNoDuplicatedDatesRule implements FieldRule<Collection<Fee>
     public final Optional<FieldFailure> check(final Collection<Fee> fees) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final List<YearMonth>        uniqueDates;
+        final List<YearMonth>        uniqueMonths;
         final long                   duplicates;
 
-        uniqueDates = fees.stream()
+        uniqueMonths = fees.stream()
             .map(Fee::month)
             .distinct()
             .sorted()
             .toList();
-        if (uniqueDates.size() < fees.size()) {
+        if (uniqueMonths.size() < fees.size()) {
             // We have repeated dates
             // TODO: is this really an error? It can be corrected easily
-            duplicates = (fees.size() - uniqueDates.size());
-            log.error("Received {} fee dates, but {} are duplicates", fees.size(), duplicates);
+            duplicates = (fees.size() - uniqueMonths.size());
+            log.error("Received {} fee months, but {} are duplicates", fees.size(), duplicates);
             // TODO: set duplicates, not number
-            fieldFailure = new FieldFailure("duplicated", "feeMonths[]", duplicates);
+            fieldFailure = new FieldFailure("duplicated", "months[]", duplicates);
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

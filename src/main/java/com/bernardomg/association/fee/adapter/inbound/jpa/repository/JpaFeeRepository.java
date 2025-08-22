@@ -469,19 +469,19 @@ public final class JpaFeeRepository implements FeeRepository {
             log.warn("Person with number {} not found", fee.member()
                 .number());
         }
-        if (fee.payment()
+        if (fee.transaction()
             .isPresent()) {
             paid = true;
-            transaction = transactionSpringRepository.findByIndex(fee.payment()
+            transaction = transactionSpringRepository.findByIndex(fee.transaction()
                 .get()
                 .index());
             if (transaction.isEmpty()) {
-                log.warn("Transaction with index {} not found", fee.payment()
+                log.warn("Transaction with index {} not found", fee.transaction()
                     .get()
                     .index());
             } else {
                 transaction.get()
-                    .setDate(fee.payment()
+                    .setDate(fee.transaction()
                         .get()
                         .date());
             }
