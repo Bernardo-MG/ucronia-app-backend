@@ -42,8 +42,8 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - find all - sort")
-class ITFeeRepositoryFindAllForActiveMembersSort {
+@DisplayName("FeeRepository - find all in year for active - sort")
+class ITFeeRepositoryFindAllInYearForActiveMembersSort {
 
     @Autowired
     private FeeRepository repository;
@@ -53,7 +53,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
     @AccentActiveMembershipPerson
     @MultipleFees
     @Disabled("Database dependant")
-    void testFindAllForActiveMembers_Accents_Name_Asc() {
+    void testFindAllInYearForActiveMembers_Accents_Name_Asc() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
@@ -61,7 +61,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForActiveMembers(FeeConstants.YEAR, sorting);
+        fees = repository.findAllInYearForActiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -77,7 +77,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
     @DisplayName("With ascending order by name it returns the ordered data")
     @MultipleMembershipActivePerson
     @MultipleFees
-    void testFindAllForActiveMembers_Name_Asc() {
+    void testFindAllInYearForActiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
@@ -85,7 +85,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForActiveMembers(FeeConstants.YEAR, sorting);
+        fees = repository.findAllInYearForActiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -101,7 +101,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
     @DisplayName("With descending order by name it returns the ordered data")
     @MultipleMembershipActivePerson
     @MultipleFees
-    void testFindAllForActiveMembers_Name_Desc() {
+    void testFindAllInYearForActiveMembers_Name_Desc() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
@@ -109,7 +109,7 @@ class ITFeeRepositoryFindAllForActiveMembersSort {
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
 
         // WHEN
-        fees = repository.findAllForActiveMembers(FeeConstants.YEAR, sorting);
+        fees = repository.findAllInYearForActiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)

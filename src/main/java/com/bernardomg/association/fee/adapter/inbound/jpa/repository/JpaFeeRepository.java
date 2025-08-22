@@ -2,7 +2,6 @@
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
-import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
@@ -152,62 +151,6 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting) {
-        final Collection<Long> foundIds;
-        final Collection<Fee>  found;
-        final Sort             sort;
-        final Sorting          correctedSorting;
-
-        log.debug("Finding all fees for active members in year {}", year);
-
-        foundIds = personSpringRepository.findAllActiveMemberIds();
-
-        log.debug("Active members: {}", foundIds);
-
-        correctedSorting = new Sorting(sorting.properties()
-            .stream()
-            .map(this::correct)
-            .toList());
-        sort = SpringSorting.toSort(correctedSorting);
-        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
-            .stream()
-            .map(this::toDomain)
-            .toList();
-
-        log.debug("Found all fees for active members in year {}: {}", year, found);
-
-        return found;
-    }
-
-    @Override
-    public final Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting) {
-        final Collection<Long> foundIds;
-        final Collection<Fee>  found;
-        final Sort             sort;
-        final Sorting          correctedSorting;
-
-        log.debug("Finding all fees for inactive members in year {}", year);
-
-        foundIds = personSpringRepository.findAllInactiveMemberIds();
-
-        log.debug("Inactive members: {}", foundIds);
-
-        correctedSorting = new Sorting(sorting.properties()
-            .stream()
-            .map(this::correct)
-            .toList());
-        sort = SpringSorting.toSort(correctedSorting);
-        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
-            .stream()
-            .map(this::toDomain)
-            .toList();
-
-        log.debug("Found all fees for inactive members in year {}: {}", year, found);
-
-        return found;
-    }
-
-    @Override
     public final Page<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
@@ -272,29 +215,18 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Collection<Fee> findAllInYear(final Year year, final Sorting sorting) {
-        final Instant         start;
-        final Instant         end;
         final Collection<Fee> fees;
         final Sort            sort;
         final Sorting         correctedSorting;
 
         log.debug("Finding all fees in year {}", year);
 
-        start = YearMonth.of(year.getValue(), Month.JANUARY)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        end = YearMonth.of(year.getValue(), Month.DECEMBER)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-
         correctedSorting = new Sorting(sorting.properties()
             .stream()
             .map(this::correct)
             .toList());
         sort = SpringSorting.toSort(correctedSorting);
-        fees = feeSpringRepository.findAllInRange(start, end, sort)
+        fees = feeSpringRepository.findAllForYear(year.getValue(), sort)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -302,6 +234,62 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Found all fees in year {}: {}", year, fees);
 
         return fees;
+    }
+
+    @Override
+    public final Collection<Fee> findAllInYearForActiveMembers(final Year year, final Sorting sorting) {
+        final Collection<Long> foundIds;
+        final Collection<Fee>  found;
+        final Sort             sort;
+        final Sorting          correctedSorting;
+
+        log.debug("Finding all fees for active members in year {}", year);
+
+        foundIds = personSpringRepository.findAllActiveMemberIds();
+
+        log.debug("Active members: {}", foundIds);
+
+        correctedSorting = new Sorting(sorting.properties()
+            .stream()
+            .map(this::correct)
+            .toList());
+        sort = SpringSorting.toSort(correctedSorting);
+        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all fees for active members in year {}: {}", year, found);
+
+        return found;
+    }
+
+    @Override
+    public final Collection<Fee> findAllInYearForInactiveMembers(final Year year, final Sorting sorting) {
+        final Collection<Long> foundIds;
+        final Collection<Fee>  found;
+        final Sort             sort;
+        final Sorting          correctedSorting;
+
+        log.debug("Finding all fees for inactive members in year {}", year);
+
+        foundIds = personSpringRepository.findAllInactiveMemberIds();
+
+        log.debug("Inactive members: {}", foundIds);
+
+        correctedSorting = new Sorting(sorting.properties()
+            .stream()
+            .map(this::correct)
+            .toList());
+        sort = SpringSorting.toSort(correctedSorting);
+        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Found all fees for inactive members in year {}: {}", year, found);
+
+        return found;
     }
 
     @Override
