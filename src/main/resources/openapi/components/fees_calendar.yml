@@ -28,9 +28,6 @@ components:
       properties:
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
-        monthNumber:
-          type: integer
-          example: 8
         paid:
           type: boolean
     FeeCalendarYearsRangeResponse:

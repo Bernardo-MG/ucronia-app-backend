@@ -131,8 +131,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             fees = memberFees.get(memberNumber);
             months = fees.stream()
                 .map(this::toFeeMonth)
-                // Sort by month
-                .sorted(Comparator.comparing(FeeCalendarMonth::monthNumber))
+                .sorted(Comparator.comparing(FeeCalendarMonth::month))
                 .toList();
             name = fees.iterator()
                 .next()

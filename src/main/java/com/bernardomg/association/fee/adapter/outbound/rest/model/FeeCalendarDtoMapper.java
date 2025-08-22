@@ -63,8 +63,7 @@ public final class FeeCalendarDtoMapper {
     }
 
     private static final FeeCalendarMonthDto toDto(final FeeCalendarMonth month) {
-        return new FeeCalendarMonthDto().month(month.month())
-            .monthNumber(month.monthNumber());
+        return new FeeCalendarMonthDto().month(month.month());
     }
 
     private FeeCalendarDtoMapper() {
