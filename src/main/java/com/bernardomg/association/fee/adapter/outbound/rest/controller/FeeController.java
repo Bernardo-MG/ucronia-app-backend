@@ -156,16 +156,19 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = {
-            // Fee caches
-            FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
-            // Funds caches
-            TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-            TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-            // Member caches
-            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
-            // Person caches
-            PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+    @Caching(
+            put = { @CachePut(cacheNames = FeeCaches.FEE,
+                    key = "#result.content.month + ':' + #result.content.member") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Fee caches
+                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    // Funds caches
+                    TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
+                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
+                    // Member caches
+                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+                    // Person caches
+                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
         Collection<Fee> fees;
 
