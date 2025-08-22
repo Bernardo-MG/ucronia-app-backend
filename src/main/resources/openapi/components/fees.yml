@@ -40,7 +40,7 @@ components:
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'
         month:
-          $ref: '../common/dates.yml#/components/schemas/Date'
+          $ref: '../common/dates.yml#/components/schemas/Month'
     FeePayments:
       type: object
       required: [member, transaction, months]
