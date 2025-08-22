@@ -25,10 +25,6 @@ public interface FeeRepository {
 
     public Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Fee> findAllForActiveMembers(final Year year, final Sorting sorting);
-
-    public Collection<Fee> findAllForInactiveMembers(final Year year, final Sorting sorting);
-
     public Page<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting);
 
     public Collection<Fee> findAllForPersonInDates(final Long number, final Collection<YearMonth> feeMonths);
@@ -36,6 +32,10 @@ public interface FeeRepository {
     public Collection<Fee> findAllInMonth(final YearMonth date);
 
     public Collection<Fee> findAllInYear(final Year year, final Sorting sorting);
+
+    public Collection<Fee> findAllInYearForActiveMembers(final Year year, final Sorting sorting);
+
+    public Collection<Fee> findAllInYearForInactiveMembers(final Year year, final Sorting sorting);
 
     public Optional<Fee> findOne(final Long number, final YearMonth date);
 
