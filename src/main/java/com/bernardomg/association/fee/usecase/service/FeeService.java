@@ -78,11 +78,12 @@ public interface FeeService {
      *            dates of the fees being paid
      * @param personNumber
      *            member paying the fees
-     * @param payDate
+     * @param paymentDate
      *            date of the payment
      * @return all the paid fees
      */
-    public Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber, final Instant payDate);
+    public Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber,
+            final Instant paymentDate);
 
     /**
      * Updates the received fee.

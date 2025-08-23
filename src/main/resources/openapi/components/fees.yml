@@ -47,7 +47,7 @@ components:
       properties:
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'
-        transaction:
+        paymentDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         months:
           type: array

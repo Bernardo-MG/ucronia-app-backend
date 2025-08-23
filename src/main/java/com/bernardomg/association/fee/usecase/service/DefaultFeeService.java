@@ -210,13 +210,13 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber,
-            final Instant payDate) {
+            final Instant paymentDate) {
         final Collection<Fee> newFees;
         final Collection<Fee> fees;
         final Person          person;
         final Collection<Fee> created;
 
-        log.info("Paying fees for {} for months {}, paid in {}", personNumber, months, payDate);
+        log.info("Paying fees for {} for months {}, paid in {}", personNumber, months, paymentDate);
 
         person = personRepository.findOne(personNumber)
             .orElseThrow(() -> {
@@ -234,7 +234,7 @@ public final class DefaultFeeService implements FeeService {
         fees = feeRepository.save(newFees);
 
         // TODO: why not create paid?
-        pay(person, fees, payDate);
+        pay(person, fees, paymentDate);
 
         // TODO: Why can't just return the created fees?
         created = feeRepository.findAllForPersonInDates(personNumber, months);
@@ -244,7 +244,7 @@ public final class DefaultFeeService implements FeeService {
             .filter(Fee::paid)
             .forEach(this::sendFeePaidEvent);
 
-        log.debug("Paid fees for {} for months {}, paid in {}: created", personNumber, months, payDate);
+        log.debug("Paid fees for {} for months {}, paid in {}: {}", personNumber, months, paymentDate, created);
 
         return created;
     }
@@ -363,8 +363,8 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Instant payDate) {
-        final Transaction           payment;
-        final Transaction           savedPayment;
+        final Transaction           transaction;
+        final Transaction           savedTransaction;
         final Float                 feeAmount;
         final String                name;
         final String                dates;
@@ -372,7 +372,7 @@ public final class DefaultFeeService implements FeeService {
         final Object[]              messageArguments;
         final Long                  index;
         final Collection<YearMonth> feeMonths;
-        final Collection<Fee>       paid;
+        final Collection<Fee>       paidFees;
 
         feeMonths = fees.stream()
             .map(Fee::month)
@@ -395,15 +395,15 @@ public final class DefaultFeeService implements FeeService {
 
         // Register payment
         index = transactionRepository.findNextIndex();
-        payment = new Transaction(index, payDate, feeAmount, message);
+        transaction = new Transaction(index, payDate, feeAmount, message);
 
-        savedPayment = transactionRepository.save(payment);
+        savedTransaction = transactionRepository.save(transaction);
 
-        paid = feeRepository.pay(person, fees, savedPayment);
+        paidFees = feeRepository.pay(person, fees, savedTransaction);
 
-        log.debug("Paid fee {} for {} with payment {}", person, fees, savedPayment);
+        log.debug("Paid fees {} for {} with transaction {}", fees, person, savedTransaction);
 
-        return paid;
+        return paidFees;
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
