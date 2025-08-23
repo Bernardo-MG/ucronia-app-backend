@@ -157,8 +157,6 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(
-            put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.content.month + ':' + #result.content.member") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
