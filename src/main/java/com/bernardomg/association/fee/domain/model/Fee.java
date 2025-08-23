@@ -13,11 +13,12 @@ public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transac
         return new Fee(month, false, person, Optional.empty());
     }
 
-    public static record Member(Long number, PersonName name) {
-
+    public static Fee paid(final YearMonth month, final Person person, final Transaction transaction) {
+        return new Fee(month, true, person, Optional.of(transaction));
     }
 
-    public static record Transaction(Instant date, Long index) {
+    public static record Member(Long number, PersonName name) {}
 
-    }
+    public static record Transaction(Instant date, Long index) {}
+	
 }
