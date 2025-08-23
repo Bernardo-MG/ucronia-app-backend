@@ -210,9 +210,10 @@ public final class DefaultFeeService implements FeeService {
     public final Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
             final Instant payDate) {
         final Collection<Fee> newFees;
-        final Collection<Fee> fees;
+        final Collection<Fee> feesToSave;
         final Person          person;
         final Collection<Fee> created;
+        final Transaction     transaction;
 
         log.info("Paying fees for {} for months {}, paid in {}", personNumber, feeMonths, payDate);
 
@@ -229,13 +230,13 @@ public final class DefaultFeeService implements FeeService {
         // TODO: reject paying in the future
         validatorPay.validate(newFees);
 
-        fees = feeRepository.save(newFees);
+        transaction = savePaymentTransaction(person, newFees, payDate);
 
-        // TODO: why not create paid?
-        pay(person, fees, payDate);
+        feesToSave = feeMonths.stream()
+            .map(d -> toPaidFee(person, d, transaction))
+            .toList();
 
-        // TODO: Why can't just return the created fees?
-        created = feeRepository.findAllForPersonInDates(personNumber, feeMonths);
+        created = feeRepository.save(feesToSave);
 
         // Send events for paid fees
         created.stream()
@@ -252,10 +253,10 @@ public final class DefaultFeeService implements FeeService {
         final Fee         existing;
         final Transaction existingPayment;
         final Transaction updatedPayment;
-        final Fee         saved;
         final Fee         updated;
         final Person      person;
         final Fee         toSave;
+        final Transaction transaction;
 
         log.debug("Updating fee for {} in {} using data {}", fee.person()
             .number(), fee.month(), fee);
@@ -298,12 +299,11 @@ public final class DefaultFeeService implements FeeService {
 
         if (addedPayment(fee)) {
             // Added payment
-            toSave = new Fee(fee.month(), false, fee.person(), java.util.Optional.empty());
-            saved = feeRepository.save(toSave);
-            updated = pay(person, List.of(saved), fee.payment()
+            transaction = savePaymentTransaction(person, List.of(fee), fee.payment()
                 .get()
-                .date()).iterator()
-                    .next();
+                .date());
+            toSave = toPaidFee(person, fee.month(), transaction);
+            updated = feeRepository.save(toSave);
         } else {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
@@ -360,9 +360,9 @@ public final class DefaultFeeService implements FeeService {
         return changed;
     }
 
-    private final Collection<Fee> pay(final Person person, final Collection<Fee> fees, final Instant payDate) {
+    private final Transaction savePaymentTransaction(final Person person, final Collection<Fee> fees,
+            final Instant payDate) {
         final Transaction           payment;
-        final Transaction           savedPayment;
         final Float                 feeAmount;
         final String                name;
         final String                dates;
@@ -370,7 +370,6 @@ public final class DefaultFeeService implements FeeService {
         final Object[]              messageArguments;
         final Long                  index;
         final Collection<YearMonth> feeMonths;
-        final Collection<Fee>       paid;
 
         feeMonths = fees.stream()
             .map(Fee::month)
@@ -395,18 +394,21 @@ public final class DefaultFeeService implements FeeService {
         index = transactionRepository.findNextIndex();
         payment = new Transaction(index, payDate, feeAmount, message);
 
-        savedPayment = transactionRepository.save(payment);
-
-        paid = feeRepository.pay(person, fees, savedPayment);
-
-        log.debug("Paid fee {} for {} with payment {}", person, fees, savedPayment);
-
-        return paid;
+        return transactionRepository.save(payment);
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
         eventEmitter.emit(new FeePaidEvent(fee, fee.month(), fee.person()
             .number()));
+    }
+
+    private final Fee toPaidFee(final Person person, final YearMonth date, final Transaction transaction) {
+        final Fee.Person      feePerson;
+        final Fee.Transaction feeTransaction;
+
+        feePerson = new Fee.Person(person.number(), person.name());
+        feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
+        return Fee.paid(date, feePerson, feeTransaction);
     }
 
     private final Fee toUnpaidFee(final Person person, final YearMonth date) {

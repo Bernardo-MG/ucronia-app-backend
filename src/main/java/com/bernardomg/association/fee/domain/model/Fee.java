@@ -13,6 +13,10 @@ public record Fee(YearMonth month, Boolean paid, Person person, Optional<Transac
         return new Fee(month, false, person, Optional.empty());
     }
 
+    public static Fee paid(final YearMonth month, final Person person, final Transaction transaction) {
+        return new Fee(month, true, person, Optional.of(transaction));
+    }
+
     public static record Person(Long number, PersonName name) {
 
     }

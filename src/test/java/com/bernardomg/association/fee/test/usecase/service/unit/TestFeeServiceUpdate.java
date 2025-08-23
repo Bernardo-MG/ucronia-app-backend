@@ -32,7 +32,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -105,9 +104,7 @@ class TestFeeServiceUpdate {
         toUpdate = Fees.addPayment();
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
-        given(feeRepository.pay(Persons.membershipActive(), List.of(Fees.notPaid()), Transactions.positive()))
-            .willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
@@ -119,7 +116,7 @@ class TestFeeServiceUpdate {
         service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(Fees.notPaid());
+        verify(feeRepository).save(Fees.paid());
     }
 
     @Test
@@ -131,9 +128,7 @@ class TestFeeServiceUpdate {
         toUpdate = Fees.addPayment();
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
-        given(feeRepository.pay(Persons.membershipActive(), List.of(Fees.notPaid()), Transactions.positive()))
-            .willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
@@ -145,7 +140,7 @@ class TestFeeServiceUpdate {
         service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).pay(Persons.membershipActive(), List.of(Fees.notPaid()), Transactions.positive());
+        verify(transactionRepository).save(Transactions.positive());
     }
 
     @Test
