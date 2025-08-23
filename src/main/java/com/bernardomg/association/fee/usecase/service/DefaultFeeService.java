@@ -232,9 +232,9 @@ public final class DefaultFeeService implements FeeService {
         // TODO: reject paying in the future
         validatorPay.validate(newFees);
 
-        transaction = savePaymentTransaction(person, newFees, payDate);
+        transaction = savePaymentTransaction(person, newFees, paymentDate);
 
-        feesToSave = feeMonths.stream()
+        feesToSave = months.stream()
             .map(d -> toPaidFee(person, d, transaction))
             .toList();
 
@@ -301,7 +301,7 @@ public final class DefaultFeeService implements FeeService {
 
         if (addedPayment(fee)) {
             // Added payment
-            transaction = savePaymentTransaction(person, List.of(fee), fee.payment()
+            transaction = savePaymentTransaction(person, List.of(fee), fee.transaction()
                 .get()
                 .date());
             toSave = toPaidFee(person, fee.month(), transaction);
@@ -364,7 +364,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final Transaction savePaymentTransaction(final Person person, final Collection<Fee> fees,
             final Instant payDate) {
-        final Transaction           payment;
+        final Transaction           transaction;
         final Float                 feeAmount;
         final String                name;
         final String                dates;
@@ -396,7 +396,7 @@ public final class DefaultFeeService implements FeeService {
         index = transactionRepository.findNextIndex();
         transaction = new Transaction(index, payDate, feeAmount, message);
 
-        return transactionRepository.save(payment);
+        return transactionRepository.save(transaction);
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
@@ -405,10 +405,10 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toPaidFee(final Person person, final YearMonth date, final Transaction transaction) {
-        final Fee.Person      feePerson;
+        final Fee.Member      feePerson;
         final Fee.Transaction feeTransaction;
 
-        feePerson = new Fee.Person(person.number(), person.name());
+        feePerson = new Fee.Member(person.number(), person.name());
         feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
         return Fee.paid(date, feePerson, feeTransaction);
     }
