@@ -39,6 +39,8 @@ public final class TransactionConstants {
 
     public static final YearMonth MONTH                            = YearMonth.now();
 
+    public static final YearMonth MONTH_2020_FEBRUARY              = YearMonth.of(2020, Month.FEBRUARY);
+
     public static final long      NEXT_INDEX                       = 11;
 
 }

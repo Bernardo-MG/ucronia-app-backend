@@ -37,6 +37,7 @@ import com.bernardomg.association.transaction.configuration.data.annotation.Full
 import com.bernardomg.association.transaction.configuration.data.annotation.OutOfOrderMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -55,7 +56,7 @@ class ITTransactionRepositoryFindInMonth {
         final TransactionCalendarMonth calendar;
 
         // GIVEN
-        month = YearMonth.of(2020, Month.FEBRUARY);
+        month = TransactionConstants.MONTH_2020_FEBRUARY;
 
         // WHEN
         calendar = repository.findInMonth(month);
@@ -102,7 +103,7 @@ class ITTransactionRepositoryFindInMonth {
         final TransactionCalendarMonth calendar;
 
         // GIVEN
-        month = YearMonth.of(2020, Month.FEBRUARY);
+        month = TransactionConstants.MONTH_2020_FEBRUARY;
 
         // WHEN
         calendar = repository.findInMonth(month);
@@ -126,7 +127,7 @@ class ITTransactionRepositoryFindInMonth {
         final TransactionCalendarMonth calendar;
 
         // GIVEN
-        month = YearMonth.of(2020, Month.FEBRUARY);
+        month = TransactionConstants.MONTH_2020_FEBRUARY;
 
         // WHEN
         calendar = repository.findInMonth(month);

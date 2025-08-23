@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Month;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,9 +33,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidAndNotPaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.data.domain.Sorting;
@@ -44,25 +48,21 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Autowired
-    private FeeInitializer feeInitializer;
-
-    @Autowired
-    private FeeRepository  repository;
+    private FeeRepository repository;
 
     @Test
-    @DisplayName("With a not paid fee in the current month, and an inactive member, it returns nothing")
+    @DisplayName("With a not paid fee, and an inactive member, it returns nothing")
     @MembershipActivePerson
-    void testFindAllInYearForInactiveMembers_Active_CurrentMonth_NotPaid() {
+    @NotPaidFee
+    void testFindAllInYearForInactiveMembers_Active_NotPaid() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.CURRENT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -71,19 +71,18 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month, and an inactive member, it returns nothing")
+    @DisplayName("With a paid fee, and an inactive member, it returns nothing")
     @MembershipActivePerson
-    void testFindAllInYearForInactiveMembers_Active_CurrentMonth_Paid() {
+    @PaidFee
+    void testFindAllInYearForInactiveMembers_Active_Paid() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.CURRENT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -92,40 +91,38 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the current month, it returns the calendar")
+    @DisplayName("With a not paid fee, it returns the calendar")
     @MembershipInactivePerson
-    void testFindAllInYearForInactiveMembers_Inactive_CurrentMonth_NotPaid() {
+    @NotPaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_NotPaid() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.CURRENT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.notPaidCurrentMonth());
+            .containsExactly(Fees.notPaidForMonth(1, Month.FEBRUARY));
     }
 
     @Test
-    @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
+    @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
     @MembershipInactivePerson
-    void testFindAllInYearForInactiveMembers_Inactive_CurrentMonth_NotPaid_SearchNextYear() {
+    @NotPaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.NEXT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.plusYears(1), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -134,19 +131,18 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
+    @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
     @MembershipInactivePerson
-    void testFindAllInYearForInactiveMembers_Inactive_CurrentMonth_NotPaid_SearchPreviousYear() {
+    @NotPaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(false);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.PREVIOUS_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.minusYears(1), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -155,40 +151,38 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month, it returns the calendar")
+    @DisplayName("With a paid fee, it returns the calendar")
     @MembershipInactivePerson
-    void testFindAllInYearForInactiveMembers_Inactive_CurrentMonth_Paid() {
+    @PaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_Paid() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.CURRENT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidCurrentMonth(1));
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
+    @DisplayName("With a paid fee and searching for the next year, it returns nothing")
     @MembershipInactivePerson
-    void testFindAllInYearForInactiveMembers_Inactive_CurrentMonth_Paid_SearchNextYear() {
+    @PaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.NEXT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.plusYears(1), sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -197,24 +191,43 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
+    @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
     @MembershipInactivePerson
-    void testFindAllInYearForInactiveMembers_Inactive_CurrentMonth_Paid_SearchPreviousYear() {
+    @PaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
         // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.PREVIOUS_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.minusYears(1), sorting);
 
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With both a paid and not paid fees, it returns the calendar")
+    @MembershipInactivePerson
+    @PaidAndNotPaidFee
+    void testFindAllInYearForInactiveMembers_Inactive_PaidAndNotPaid() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.notPaidForMonth(2, 10, Month.MARCH));
     }
 
     @Test
@@ -227,7 +240,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         sorting = Sorting.unsorted();
 
         // WHEN
-        fees = repository.findAllInYearForInactiveMembers(FeeConstants.CURRENT_YEAR, sorting);
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
 
         // THEN
         Assertions.assertThat(fees)

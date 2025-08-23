@@ -86,11 +86,21 @@ public final class Fees {
         return Fee.unpaid(FeeConstants.CURRENT_MONTH, person);
     }
 
+    public static final Fee notPaidForMonth(final long index, final long number, final Month month) {
+        final Fee.Person person;
+        final PersonName name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = new Fee.Person(number, name);
+        return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), person);
+    }
+
     public static final Fee notPaidForMonth(final long index, final Month month) {
         final Fee.Member person;
         final PersonName name;
 
         name = new PersonName("Person " + index, "Last name " + index);
+        // TODO: check this number, it should use a constant
         person = new Fee.Member(index * 10, name);
         return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), person);
     }
