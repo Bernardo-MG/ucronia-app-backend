@@ -40,6 +40,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
@@ -71,8 +72,7 @@ class ITFeeRepositoryGetAllFilter {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // TODO: use constants for the dates
-        feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.FEBRUARY)
-            .atDay(1)
+        feeQuery = FeesQuery.endDate(FeeConstants.DATE.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
 
@@ -250,8 +250,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inRange(YearMonth.of(2020, Month.FEBRUARY)
-            .atDay(1)
+        feeQuery = FeesQuery.inRange(FeeConstants.DATE.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant(),
             YearMonth.of(2020, Month.MAY)
