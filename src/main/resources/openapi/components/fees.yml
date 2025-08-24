@@ -60,4 +60,12 @@ components:
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         transaction:
-          $ref: 'transactions.yml#/components/schemas/MinimalTransaction'
+          $ref: '#/components/schemas/FeeChangeTransaction'
+    FeeChangeTransaction:
+      type: object
+      required: [date]
+      properties:
+        index:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
