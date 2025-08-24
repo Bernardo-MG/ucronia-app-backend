@@ -234,8 +234,8 @@ public final class DefaultFeeService implements FeeService {
 
         transaction = savePaymentTransaction(person, newFees, paymentDate);
 
-        feesToSave = months.stream()
-            .map(d -> toPaidFee(person, d, transaction))
+        feesToSave = feeMonths.stream()
+            .map(month -> toPaidFee(person, month, transaction))
             .toList();
 
         created = feeRepository.save(feesToSave);
@@ -410,7 +410,7 @@ public final class DefaultFeeService implements FeeService {
 
         feePerson = new Fee.Member(person.number(), person.name());
         feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
-        return Fee.paid(date, feePerson, feeTransaction);
+        return Fee.paid(month, feePerson, feeTransaction);
     }
 
     private final Fee toUnpaidFee(final Person person, final YearMonth date) {

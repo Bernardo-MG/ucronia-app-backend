@@ -50,9 +50,6 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private TransactionEntity transaction;
 
-    @Column(name = "transaction_id", insertable = false, updatable = false)
-    private Long              transactionId;
-
     public Instant getDate() {
         return date;
     }
@@ -75,10 +72,6 @@ public class FeeEntity implements Serializable {
 
     public TransactionEntity getTransaction() {
         return transaction;
-    }
-
-    public Long getTransactionId() {
-        return transactionId;
     }
 
     public void setDate(final Instant date) {
@@ -105,14 +98,10 @@ public class FeeEntity implements Serializable {
         this.transaction = transaction;
     }
 
-    public void setTransactionId(final Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
     @Override
     public String toString() {
         return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", person=" + person + ", personId="
-                + personId + ", transaction=" + transaction + ", transactionId=" + transactionId + "]";
+                + personId + ", transaction=" + transaction + "]";
     }
 
 }

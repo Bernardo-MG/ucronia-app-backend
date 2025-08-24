@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Month;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -88,28 +89,6 @@ class TestFeeServicePayFees {
     private TransactionRepository     transactionRepository;
 
     @Test
-    @DisplayName("Can pay fees")
-    void testPayFees() {
-        final Collection<Fee> fees;
-
-        // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
-        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
-        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
-        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
-
-        // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paid());
-    }
-
-    @Test
     @DisplayName("With duplicated dates, it throws an exception")
     void testPayFees_DuplicatedDates() {
         final ThrowingCallable execution;
@@ -167,6 +146,31 @@ class TestFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("Can pay a multiple fees")
+    void testPayFees_Multiple() {
+        final Collection<Fee> fees;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection()))
+            .willReturn(List.of(Fees.paid(), Fees.paidForMonth(Month.MARCH.getValue())));
+        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.forAmount(TransactionConstants.AMOUNT * 2)))
+            .willReturn(Transactions.positive());
+
+        // WHEN
+        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE.plusMonths(1)), PersonConstants.NUMBER,
+            FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid(), Fees.paidForMonth(Month.MARCH.getValue()));
+    }
+
+    @Test
     @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
     void testPayFees_MultipleDates_OneExisting_Paid() {
         final ThrowingCallable execution;
@@ -220,6 +224,28 @@ class TestFeeServicePayFees {
         // THEN
         verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
             .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("Can pay a single fee")
+    void testPayFees_Single() {
+        final Collection<Fee> fees;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
+
+        // WHEN
+        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
     }
 
 }

@@ -7,7 +7,6 @@ import java.time.ZoneOffset;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
 public final class FeeEntities {
@@ -52,6 +51,17 @@ public final class FeeEntities {
         return entity;
     }
 
+    public static final FeeEntity notPaid() {
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(false);
+        return entity;
+    }
+
     public static final FeeEntity paid() {
         final FeeEntity entity = new FeeEntity();
         entity.setPerson(PersonEntities.membershipActive());
@@ -61,7 +71,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.februaryFee());
-        entity.setTransactionId(TransactionConstants.ID);
         return entity;
     }
 
@@ -77,7 +86,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(transaction);
-        entity.setTransactionId(TransactionConstants.ID);
         return entity;
     }
 
@@ -90,7 +98,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.multipleFeesStartYear());
-        entity.setTransactionId(TransactionConstants.ID);
         return entity;
     }
 
@@ -103,7 +110,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.multipleFeesStartYear());
-        entity.setTransactionId(TransactionConstants.ID);
         return entity;
     }
 
@@ -116,7 +122,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.multipleFeesEndYear());
-        entity.setTransactionId(TransactionConstants.ID);
         return entity;
     }
 
@@ -129,7 +134,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.multipleFeesEndYear());
-        entity.setTransactionId(TransactionConstants.ID);
         return entity;
     }
 
@@ -142,7 +146,6 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.index(index));
-        entity.setTransactionId(index);
         return entity;
     }
 

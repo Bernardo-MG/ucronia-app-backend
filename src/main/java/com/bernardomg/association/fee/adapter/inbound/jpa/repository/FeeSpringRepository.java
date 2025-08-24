@@ -58,7 +58,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                  INNER JOIN Person p ON p.id = f.personId
                WHERE p.number = :number
                  AND f.date = :date
-                 AND f.transactionId IS NOT NULL
+                 AND f.transaction IS NOT NULL
             """)
     public boolean existsByPersonNumberAndDateAndPaid(@Param("number") final Long number,
             @Param("date") final Instant date);
@@ -84,7 +84,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT f
                FROM Person p
                  INNER JOIN Fee f ON p.id = f.personId
-                 LEFT JOIN Transaction t ON f.transactionId = t.id
+                 LEFT JOIN Transaction t ON f.transaction.id = t.id
                WHERE p.number = :memberNumber
                  AND f.date in :feeMonths
             """)
