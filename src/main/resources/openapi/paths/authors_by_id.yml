@@ -1,0 +1,62 @@
+get:
+   summary: Get a single author by number
+   operationId: getAuthorById
+   tags:
+     - Author
+   parameters:
+     - name: number
+       in: path
+       required: true
+       schema:
+         $ref: '../common/ids.yml#/components/schemas/Id'
+   responses:
+     '200':
+       description: Author found
+       content:
+         application/json:
+           schema:
+             $ref: '../components/authors.yml#/components/schemas/AuthorResponse'
+     '404':
+       description: Author not found
+put:
+  summary: Update an author
+  operationId: updateAuthor
+  tags:
+    - Author
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/authors.yml#/components/schemas/AuthorChange'
+  responses:
+    '200':
+      description: Author updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/authors.yml#/components/schemas/AuthorResponse'
+delete:
+  summary: Delete an author
+  operationId: deleteAuthor
+  tags:
+    - Author
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Author updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/authors.yml#/components/schemas/AuthorResponse'

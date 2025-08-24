@@ -21,3 +21,7 @@ paths:
     $ref: paths/fees_payment.yml
   /user/fee:
     $ref: paths/user_fees.yml
+  /author:
+    $ref: paths/authors.yml
+  /author/{id}:
+    $ref: paths/authors_by_id.yml
