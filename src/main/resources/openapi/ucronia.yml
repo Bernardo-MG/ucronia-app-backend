@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /fee:
+    $ref: paths/fees.yml
+  /fee/{month}/{member}:
+    $ref: paths/fees_by_id.yml
+  /fee/pay:
+    $ref: paths/fees_pay.yml
+  /fee/calendar/range:
+    $ref: paths/fees_calendar_range.yml
+  /fee/calendar/{year}:
+    $ref: paths/fees_calendar.yml
+  /fee/payment:
+    $ref: paths/fees_payment.yml
+  /user/fee:
+    $ref: paths/user_fees.yml

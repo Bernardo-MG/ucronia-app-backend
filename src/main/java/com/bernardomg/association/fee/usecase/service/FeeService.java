@@ -39,8 +39,9 @@ public interface FeeService {
      *            person number for the fee to delete
      * @param date
      *            date of the fee to delete
+     * @return deleted fee
      */
-    public void delete(final long personNumber, final YearMonth date);
+    public Fee delete(final long personNumber, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -73,17 +74,24 @@ public interface FeeService {
      * <p>
      * TODO: use a payment model?
      *
-     * @param feeMonths
+     * @param months
      *            dates of the fees being paid
      * @param personNumber
      *            member paying the fees
-     * @param payDate
+     * @param paymentDate
      *            date of the payment
      * @return all the paid fees
      */
-    public Collection<Fee> payFees(final Collection<YearMonth> feeMonths, final Long personNumber,
-            final Instant payDate);
+    public Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber,
+            final Instant paymentDate);
 
+    /**
+     * Updates the received fee.
+     *
+     * @param fee
+     *            new data for the fee
+     * @return the updated fee
+     */
     public Fee update(final Fee fee);
 
 }

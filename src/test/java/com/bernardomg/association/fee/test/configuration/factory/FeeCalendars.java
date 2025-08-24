@@ -12,23 +12,23 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 public final class FeeCalendars {
 
     public static final FeeCalendar activePaidCurrentMonth() {
-        final FeeCalendar.Person                       person;
+        final FeeCalendar.Member                       person;
         final Collection<FeeCalendar.FeeCalendarMonth> months;
         final PersonName                               name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        person = new FeeCalendar.Person(PersonConstants.NUMBER, name, new FeeCalendar.Person.Membership(true));
+        person = new FeeCalendar.Member(PersonConstants.NUMBER, name, true);
         months = List.of(FeeMonths.paid());
         return new FeeCalendar(person, months, FeeConstants.CURRENT_YEAR.getValue());
     }
 
     public static final FeeCalendar inactivePaidCurrentMonth() {
-        final FeeCalendar.Person                       person;
+        final FeeCalendar.Member                       person;
         final Collection<FeeCalendar.FeeCalendarMonth> months;
         final PersonName                               name;
 
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        person = new FeeCalendar.Person(PersonConstants.NUMBER, name, new FeeCalendar.Person.Membership(false));
+        person = new FeeCalendar.Member(PersonConstants.NUMBER, name, false);
         months = List.of(FeeMonths.paid());
         return new FeeCalendar(person, months, YearMonth.now()
             .getYear());

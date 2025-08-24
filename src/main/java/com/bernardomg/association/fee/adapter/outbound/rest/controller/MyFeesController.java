@@ -24,18 +24,24 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.MyFeesApi;
+import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * My fees REST controller.
@@ -44,8 +50,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/user/fee")
-public class MyFeesController {
+public class MyFeesController implements MyFeesApi {
 
     /**
      * User fee service.
@@ -58,10 +63,19 @@ public class MyFeesController {
         this.service = service;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)
-    public Page<Fee> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAllForUserInSession(pagination, sorting);
+    public FeePageResponseDto getUserFees(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final Pagination pagination;
+        final Sorting    sorting;
+        final Page<Fee>  fees;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        fees = service.getAllForUserInSession(pagination, sorting);
+
+        return FeeDtoMapper.toResponseDto(fees);
     }
 
 }

@@ -28,25 +28,11 @@ import java.time.YearMonth;
 import java.util.Collection;
 
 import com.bernardomg.association.person.domain.model.PersonName;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record FeeCalendar(Person person, Collection<FeeCalendarMonth> months, Integer year) {
+public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, Integer year) {
 
-    public record FeeCalendarMonth(YearMonth month, Boolean paid) {
+    public record FeeCalendarMonth(YearMonth month, Boolean paid) {}
 
-        @JsonProperty("monthNumber")
-        public int monthNumber() {
-            // TODO: the frontend should be able to get this value
-            return month.getMonthValue();
-        }
-    }
-
-    public static record Person(Long number, PersonName name, Membership membership) {
-
-        public record Membership(Boolean active) {
-
-        }
-
-    }
+    public static record Member(Long number, PersonName name, Boolean active) {}
 
 }

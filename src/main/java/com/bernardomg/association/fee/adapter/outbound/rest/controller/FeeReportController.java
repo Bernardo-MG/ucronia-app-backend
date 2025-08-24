@@ -24,15 +24,15 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeReportDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeePaymentReport;
 import com.bernardomg.association.fee.usecase.service.FeeReportService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.FeeReportApi;
+import com.bernardomg.ucronia.openapi.model.FeePaymentReportResponseDto;
 
 /**
  * Member fee report REST controller.
@@ -41,8 +41,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/fee")
-public class FeeReportController {
+public class FeeReportController implements FeeReportApi {
 
     private final FeeReportService service;
 
@@ -52,10 +51,14 @@ public class FeeReportController {
         this.service = service;
     }
 
-    @GetMapping(path = "/payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    public FeePaymentReport readRange() {
-        return service.getPaymentReport();
+    public FeePaymentReportResponseDto getFeePaymentReport() {
+        final FeePaymentReport report;
+
+        report = service.getPaymentReport();
+
+        return FeeReportDtoMapper.toResponseDto(report);
     }
 
 }

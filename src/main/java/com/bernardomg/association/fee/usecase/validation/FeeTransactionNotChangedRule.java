@@ -13,18 +13,18 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fee's payment was not changed or removed.
+ * Checks the fee's transaction was not changed or removed.
  */
-public final class FeePaymentNotChangedRule implements FieldRule<Fee> {
+public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeePaymentNotChangedRule.class);
+    private static final Logger log = LoggerFactory.getLogger(FeeTransactionNotChangedRule.class);
 
     private final FeeRepository feeRepository;
 
-    public FeePaymentNotChangedRule(final FeeRepository feeRepo) {
+    public FeeTransactionNotChangedRule(final FeeRepository feeRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -36,16 +36,16 @@ public final class FeePaymentNotChangedRule implements FieldRule<Fee> {
         final FieldFailure           fieldFailure;
         final Fee                    existing;
 
-        existing = feeRepository.findOne(fee.person()
+        existing = feeRepository.findOne(fee.member()
             .number(), fee.month())
             .get();
         if (wasRemoved(fee, existing)) {
             log.error("Removed payment from fee");
-            fieldFailure = new FieldFailure("removed", "payment", null);
+            fieldFailure = new FieldFailure("removed", "transaction", null);
             failure = Optional.of(fieldFailure);
-        } else if (hasPayment(fee, existing) && wasChanged(fee, existing)) {
-            log.error("Changed fee payment");
-            fieldFailure = new FieldFailure("modified", "payment", fee.payment()
+        } else if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
+            log.error("Changed fee transaction");
+            fieldFailure = new FieldFailure("modified", "transaction", fee.transaction()
                 .get()
                 .index());
             failure = Optional.of(fieldFailure);
@@ -56,25 +56,25 @@ public final class FeePaymentNotChangedRule implements FieldRule<Fee> {
         return failure;
     }
 
-    private final boolean hasPayment(final Fee fee, final Fee existing) {
-        return (fee.payment()
+    private final boolean hasTransaction(final Fee fee, final Fee existing) {
+        return (fee.transaction()
             .isPresent())
-                && (existing.payment()
+                && (existing.transaction()
                     .isPresent());
     }
 
     private final boolean wasChanged(final Fee fee, final Fee existing) {
-        return fee.payment()
+        return fee.transaction()
             .get()
-            .index() != existing.payment()
+            .index() != existing.transaction()
                 .get()
                 .index();
     }
 
     private final boolean wasRemoved(final Fee fee, final Fee existing) {
-        return (fee.payment()
+        return (fee.transaction()
             .isEmpty())
-                && (existing.payment()
+                && (existing.transaction()
                     .isPresent());
     }
 

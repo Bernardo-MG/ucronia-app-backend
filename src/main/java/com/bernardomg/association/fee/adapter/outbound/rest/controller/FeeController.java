@@ -24,30 +24,20 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeChange;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCreation;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeePayments;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
@@ -57,10 +47,19 @@ import com.bernardomg.association.transaction.adapter.outbound.cache.Transaction
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.FeeApi;
+import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
+import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
+import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
+import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Fee REST controller.
@@ -69,8 +68,7 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/fee")
-public class FeeController {
+public class FeeController implements FeeApi {
 
     /**
      * Fee service.
@@ -83,10 +81,11 @@ public class FeeController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
+    @Caching(
+            put = { @CachePut(cacheNames = FeeCaches.FEE,
+                    key = "#result.content.month + ':' + #result.content.member") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -97,12 +96,15 @@ public class FeeController {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Fee create(@Valid @RequestBody final FeeCreation fee) {
-        return service.createUnpaidFee(fee.month(), fee.person()
-            .number());
+    public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
+        final Fee fee;
+
+        fee = service.createUnpaidFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
+
+        return FeeDtoMapper.toResponseDto(fee);
     }
 
-    @DeleteMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0.toString() + ':' + #p1"),
             @CacheEvict(cacheNames = {
@@ -114,13 +116,45 @@ public class FeeController {
                     MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public void delete(@PathVariable("month") final YearMonth month,
-            @PathVariable("personNumber") final long personNumber) {
-        service.delete(personNumber, month);
+    public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
+        final Fee fee;
+
+        fee = service.delete(member, month);
+
+        return FeeDtoMapper.toResponseDto(fee);
     }
 
-    @PostMapping(path = "/pay", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.FEES)
+    public FeePageResponseDto getAllFees(@Valid final Instant date, @Valid final Instant startDate,
+            @Valid final Instant endDate, @Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final FeeQuery   query;
+        final Pagination pagination;
+        final Sorting    sorting;
+        final Page<Fee>  fees;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        query = new FeeQuery(date, startDate, endDate);
+        fees = service.getAll(query, pagination, sorting);
+
+        return FeeDtoMapper.toResponseDto(fees);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
+    public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
+        final Optional<Fee> fee;
+
+        fee = service.getOne(member, month);
+
+        return FeeDtoMapper.toResponseDto(fee);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
@@ -132,32 +166,19 @@ public class FeeController {
             MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Collection<Fee> pay(@Valid @RequestBody final FeePayments payment) {
-        return service.payFees(payment.feeMonths(), payment.person()
-            .number(),
-            payment.payment()
-                .date());
+    public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
+        Collection<Fee> fees;
+
+        fees = service.payFees(feePaymentsDto.getMonths(), feePaymentsDto.getMember(), feePaymentsDto.getPaymentDate());
+
+        return FeeDtoMapper.toResponseDto(fees);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEES)
-    public Page<Fee> readAll(@Valid final FeeQuery query, final Pagination pagination, final Sorting sorting) {
-        return service.getAll(query, pagination, sorting);
-    }
-
-    @GetMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
-    public Fee readOne(@PathVariable("month") final YearMonth month,
-            @PathVariable("personNumber") final long personNumber) {
-        return service.getOne(personNumber, month)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{month}/{personNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.month + ':' + #result.person.number") },
+    @Caching(
+            put = { @CachePut(cacheNames = FeeCaches.FEE,
+                    key = "#result.content.month + ':' + #result.content.member") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -168,32 +189,13 @@ public class FeeController {
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Person caches
                     PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
-    public Fee update(@PathVariable("month") final YearMonth month,
-            @PathVariable("personNumber") final long personNumber, @Valid @RequestBody final FeeChange change) {
+    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
+        final Fee updated;
 
-        fee = toDomain(change, month, personNumber);
-        return service.update(fee);
-    }
-
-    private final Fee toDomain(final FeeChange change, final YearMonth month, final long personNumber) {
-        final Fee.Person                person;
-        final Optional<Fee.Transaction> transaction;
-
-        person = new Fee.Person(personNumber, null);
-        if ((change.payment()
-            .index() == null)
-                && ((change.payment()
-                    .date() == null))) {
-            transaction = Optional.empty();
-        } else {
-            transaction = Optional.of(new Fee.Transaction(change.payment()
-                .date(),
-                change.payment()
-                    .index()));
-        }
-
-        return new Fee(month, false, person, transaction);
+        fee = FeeDtoMapper.toDomain(feeChangeDto, month, member);
+        updated = service.update(fee);
+        return FeeDtoMapper.toResponseDto(updated);
     }
 
 }

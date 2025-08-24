@@ -371,7 +371,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Person                person;
+        final Fee.Member                person;
         final Optional<Fee.Transaction> transaction;
         final PersonName                name;
         final YearMonth                 date;
@@ -380,7 +380,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .getFirstName(),
             entity.getPerson()
                 .getLastName());
-        person = new Fee.Person(entity.getPerson()
+        person = new Fee.Member(entity.getPerson()
             .getNumber(), name);
 
         if (entity.getPaid()) {
@@ -403,25 +403,25 @@ public final class JpaFeeRepository implements FeeRepository {
         final FeeEntity                   entity;
         final Instant                     date;
 
-        person = personSpringRepository.findByNumber(fee.person()
+        person = personSpringRepository.findByNumber(fee.member()
             .number());
         if (!person.isPresent()) {
-            log.warn("Person with number {} not found", fee.person()
+            log.warn("Person with number {} not found", fee.member()
                 .number());
         }
-        if (fee.payment()
+        if (fee.transaction()
             .isPresent()) {
             paid = true;
-            transaction = transactionSpringRepository.findByIndex(fee.payment()
+            transaction = transactionSpringRepository.findByIndex(fee.transaction()
                 .get()
                 .index());
             if (transaction.isEmpty()) {
-                log.warn("Transaction with index {} not found", fee.payment()
+                log.warn("Transaction with index {} not found", fee.transaction()
                     .get()
                     .index());
             } else {
                 transaction.get()
-                    .setDate(fee.payment()
+                    .setDate(fee.transaction()
                         .get()
                         .date());
             }

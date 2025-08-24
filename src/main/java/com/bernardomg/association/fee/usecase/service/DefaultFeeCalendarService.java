@@ -88,7 +88,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    public final Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting) {
+    public final Collection<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting) {
         final Collection<Fee>         readFees;
         final Map<Object, List<Fee>>  memberFees;
         final Collection<FeeCalendar> calendarFees;
@@ -113,14 +113,14 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         // Member fees grouped by id
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(f -> f.person()
+            .collect(Collectors.groupingBy(f -> f.member()
                 .number()));
         log.debug("Member fees: {}", memberFees);
 
         // Sorted ids
         memberNumbers = readFees.stream()
-            .map(Fee::person)
-            .map(Fee.Person::number)
+            .map(Fee::member)
+            .map(Fee.Member::number)
             .distinct()
             .sorted()
             .toList();
@@ -131,17 +131,16 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             fees = memberFees.get(memberNumber);
             months = fees.stream()
                 .map(this::toFeeMonth)
-                // Sort by month
-                .sorted(Comparator.comparing(FeeCalendarMonth::monthNumber))
+                .sorted(Comparator.comparing(FeeCalendarMonth::month))
                 .toList();
             name = fees.iterator()
                 .next()
-                .person()
+                .member()
                 .name();
             calendarFee = toFeeYear(memberNumber, name, status, year, months);
             calendarFees.add(calendarFee);
         }
-        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.person()
+        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.member()
             .name()
             .fullName()));
         sortedCalendarFees = calendarFees.stream()
@@ -165,9 +164,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final FeeCalendar toFeeYear(final Long personNumber, final PersonName name, final MemberStatus status,
             final Year year, final Collection<FeeCalendarMonth> months) {
-        final boolean                       active;
-        final FeeCalendar.Person            person;
-        final FeeCalendar.Person.Membership membership;
+        final boolean            active;
+        final FeeCalendar.Member person;
 
         active = switch (status) {
             case ACTIVE -> true;
@@ -176,8 +174,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             default -> personRepository.isActive(personNumber);
         };
 
-        membership = new FeeCalendar.Person.Membership(active);
-        person = new FeeCalendar.Person(personNumber, name, membership);
+        person = new FeeCalendar.Member(personNumber, name, active);
         return new FeeCalendar(person, months, year.getValue());
     }
 

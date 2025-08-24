@@ -1,0 +1,11 @@
+get:
+  summary: Returns the range of available years
+  operationId: getFeesCalendarYearsRange
+  tags: [FeeCalendar]
+  responses:
+    '200':
+      description: Range of available years
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees_calendar.yml#/components/schemas/FeeCalendarYearsRangeResponse'
