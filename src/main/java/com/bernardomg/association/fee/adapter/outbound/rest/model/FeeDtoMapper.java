@@ -16,6 +16,7 @@ import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
+import com.bernardomg.ucronia.openapi.model.MinimalTransactionDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -80,8 +81,9 @@ public final class FeeDtoMapper {
     }
 
     private static final FeeDto toDto(final Fee fee) {
-        final ContactNameDto    contactName;
-        final MinimalContactDto member;
+        final ContactNameDto        contactName;
+        final MinimalContactDto     member;
+        final MinimalTransactionDto transaction;
 
         contactName = new ContactNameDto().firstName(fee.member()
             .name()
@@ -95,9 +97,21 @@ public final class FeeDtoMapper {
         member = new MinimalContactDto().name(contactName)
             .number(fee.member()
                 .number());
+        if (fee.transaction()
+            .isPresent()) {
+            transaction = new MinimalTransactionDto().date(fee.transaction()
+                .get()
+                .date())
+                .index(fee.transaction()
+                    .get()
+                    .index());
+        } else {
+            transaction = null;
+        }
         return new FeeDto().month(fee.month())
             .paid(fee.paid())
-            .member(member);
+            .member(member)
+            .transaction(transaction);
     }
 
     private static final PropertyDto toDto(final Property property) {
