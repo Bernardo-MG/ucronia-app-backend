@@ -132,6 +132,7 @@ public class AuthorController implements AuthorApi {
 
         author = new Author(number, authorChangeDto.getName());
         updated = service.update(author);
+
         return AuthorDtoMapper.toResponseDto(updated);
     }
 

@@ -70,17 +70,22 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final BookType delete(final Long number) {
+        final BookType deleted;
 
         log.debug("Deleting book type {}", number);
 
-        if (!bookTypeRepository.exists(number)) {
-            throw new MissingBookTypeException(number);
-        }
+        deleted = bookTypeRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing book type {}", number);
+                throw new MissingBookTypeException(number);
+            });
 
         bookTypeRepository.delete(number);
 
         log.debug("Deleted book type {}", number);
+
+        return deleted;
     }
 
     @Override
