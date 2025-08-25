@@ -70,17 +70,22 @@ public final class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final Author delete(final Long number) {
+        final Author deleted;
 
         log.debug("Deleting author {}", number);
 
-        if (!authorRepository.exists(number)) {
-            throw new MissingAuthorException(number);
-        }
+        deleted = authorRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing author {}", number);
+                throw new MissingAuthorException(number);
+            });
 
         authorRepository.delete(number);
 
         log.debug("Deleted author {}", number);
+
+        return deleted;
     }
 
     @Override
