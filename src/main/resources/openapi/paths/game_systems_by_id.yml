@@ -1,0 +1,62 @@
+get:
+   summary: Get a single game system by number
+   operationId: getGameSystemById
+   tags:
+     - GameSystem
+   parameters:
+     - name: number
+       in: path
+       required: true
+       schema:
+         $ref: '../common/ids.yml#/components/schemas/Id'
+   responses:
+     '200':
+       description: Game system found
+       content:
+         application/json:
+           schema:
+             $ref: '../components/game_systems.yml#/components/schemas/GameSystemResponse'
+     '404':
+       description: Game system not found
+put:
+  summary: Update a game system
+  operationId: updateGameSystem
+  tags:
+    - GameSystem
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/game_systems.yml#/components/schemas/GameSystemChange'
+  responses:
+    '200':
+      description: Game system updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_systems.yml#/components/schemas/GameSystemResponse'
+delete:
+  summary: Delete a game system
+  operationId: deleteGameSystem
+  tags:
+    - GameSystem
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Game system updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_systems.yml#/components/schemas/GameSystemResponse'

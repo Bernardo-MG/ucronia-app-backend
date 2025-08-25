@@ -1,0 +1,49 @@
+post:
+  summary: Create a new game system
+  operationId: createGameSystem
+  tags:
+    - GameSystem
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/game_systems.yml#/components/schemas/GameSystemCreation'
+  responses:
+    '201':
+      description: Game system created successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_systems.yml#/components/schemas/GameSystemResponse'
+get:
+  summary: Get all game systems
+  operationId: getAllGameSystems
+  tags:
+    - GameSystem
+  parameters:
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: List of game systems
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_systems.yml#/components/schemas/GameSystemPageResponse'
