@@ -21,7 +21,11 @@ paths:
     $ref: paths/fees_payment.yml
   /user/fee:
     $ref: paths/user_fees.yml
-  /author:
+  /library/author:
     $ref: paths/authors.yml
-  /author/{id}:
+  /library/author/{id}:
     $ref: paths/authors_by_id.yml
+  /library/bookType:
+    $ref: paths/book_types.yml
+  /library/bookType/{id}:
+    $ref: paths/book_types_by_id.yml

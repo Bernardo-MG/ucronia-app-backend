@@ -1,0 +1,62 @@
+get:
+   summary: Get a single book type by number
+   operationId: getBookTypeById
+   tags:
+     - BookType
+   parameters:
+     - name: number
+       in: path
+       required: true
+       schema:
+         $ref: '../common/ids.yml#/components/schemas/Id'
+   responses:
+     '200':
+       description: Book type found
+       content:
+         application/json:
+           schema:
+             $ref: '../components/book_types.yml#/components/schemas/BookTypeResponse'
+     '404':
+       description: Book type not found
+put:
+  summary: Update a book type
+  operationId: updateBookType
+  tags:
+    - BookType
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/book_types.yml#/components/schemas/BookTypeChange'
+  responses:
+    '200':
+      description: Book type updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_types.yml#/components/schemas/BookTypeResponse'
+delete:
+  summary: Delete a book type
+  operationId: deleteBookType
+  tags:
+    - BookType
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Book type updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_types.yml#/components/schemas/BookTypeResponse'

@@ -1,0 +1,49 @@
+post:
+  summary: Create a new book type
+  operationId: createBookType
+  tags:
+    - BookType
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/book_types.yml#/components/schemas/BookTypeCreation'
+  responses:
+    '201':
+      description: Book type created successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_types.yml#/components/schemas/BookTypeResponse'
+get:
+  summary: Get all book types
+  operationId: getAllBookTypes
+  tags:
+    - BookType
+  parameters:
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: List of book types
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_types.yml#/components/schemas/BookTypePageResponse'
