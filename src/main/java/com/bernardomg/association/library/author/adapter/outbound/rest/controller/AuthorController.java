@@ -31,17 +31,12 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.library.author.adapter.outbound.cache.LibraryAuthorCaches;
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorDtoMapper;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
-import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
-import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -64,7 +59,6 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-@RequestMapping("/library/author")
 public class AuthorController implements AuthorApi {
 
     /**
@@ -130,19 +124,8 @@ public class AuthorController implements AuthorApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
-    @Caching(
-            put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.content.month + ':' + #result.content.member") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
-                    // Funds caches
-                    TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-                    // Member caches
-                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
-                    // Person caches
-                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
     public AuthorResponseDto updateAuthor(final Long number, @Valid final AuthorChangeDto authorChangeDto) {
         final Author updated;
         final Author author;
