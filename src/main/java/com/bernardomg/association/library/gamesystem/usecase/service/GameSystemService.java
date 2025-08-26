@@ -12,7 +12,7 @@ public interface GameSystemService {
 
     public GameSystem create(final GameSystem system);
 
-    public void delete(final Long number);
+    public GameSystem delete(final Long number);
 
     public Page<GameSystem> getAll(final Pagination pagination, final Sorting sorting);
 

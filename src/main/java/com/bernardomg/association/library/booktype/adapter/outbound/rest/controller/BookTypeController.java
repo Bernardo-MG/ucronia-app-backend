@@ -31,14 +31,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.booktype.adapter.outbound.cache.LibraryBookTypeCaches;
-import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeChange;
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeDtoMapper;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
@@ -127,20 +122,9 @@ public class BookTypeController implements BookTypeApi {
         return BookTypeDtoMapper.toResponseDto(bookType);
     }
 
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
-    public BookType update(@PathVariable("number") final long number, @Valid @RequestBody final BookTypeChange change) {
-        final BookType bookType;
-
-        bookType = new BookType(number, change.name());
-        return service.update(bookType);
-    }
-
     @Override
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.number") },
+    @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
     public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeChangeDto bookTypeChangeDto) {
         final BookType updated;
