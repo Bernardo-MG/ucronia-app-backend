@@ -33,3 +33,7 @@ paths:
     $ref: paths/game_systems.yml
   /library/gameSystem/{id}:
     $ref: paths/game_systems_by_id.yml
+  /library/publisher:
+    $ref: paths/publishers.yml
+  /library/publisher/{id}:
+    $ref: paths/publishers_by_id.yml

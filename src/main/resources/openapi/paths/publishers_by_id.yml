@@ -1,0 +1,62 @@
+get:
+   summary: Get a single publisher by number
+   operationId: getPublisherById
+   tags:
+     - Publisher
+   parameters:
+     - name: number
+       in: path
+       required: true
+       schema:
+         $ref: '../common/ids.yml#/components/schemas/Id'
+   responses:
+     '200':
+       description: Publisher found
+       content:
+         application/json:
+           schema:
+             $ref: '../components/publishers.yml#/components/schemas/PublisherResponse'
+     '404':
+       description: Publisher not found
+put:
+  summary: Update an publisher
+  operationId: updatePublisher
+  tags:
+    - Publisher
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/publishers.yml#/components/schemas/PublisherChange'
+  responses:
+    '200':
+      description: Publisher updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/publishers.yml#/components/schemas/PublisherResponse'
+delete:
+  summary: Delete an publisher
+  operationId: deletePublisher
+  tags:
+    - Publisher
+  parameters:
+    - name: number
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Publisher updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/publishers.yml#/components/schemas/PublisherResponse'
