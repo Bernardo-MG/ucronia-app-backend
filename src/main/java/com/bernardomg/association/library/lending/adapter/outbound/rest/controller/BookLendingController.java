@@ -24,30 +24,31 @@
 
 package com.bernardomg.association.library.lending.adapter.outbound.rest.controller;
 
+import java.util.List;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
-import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLent;
-import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookReturned;
+import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLendingDtoMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.BookLendingApi;
+import com.bernardomg.ucronia.openapi.model.BookLendingDto;
+import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
+import com.bernardomg.ucronia.openapi.model.BookReturnedDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Book lending REST controller.
@@ -57,7 +58,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/library/lending")
-public class BookLendingController {
+public class BookLendingController implements BookLendingApi {
 
     /**
      * Book lending service.
@@ -69,29 +70,47 @@ public class BookLendingController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
+    // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
+    public BookLendingPageResponseDto getAllBookLendings(@Min(0) @Valid Integer page, @Min(1) @Valid Integer size,
+            @Valid List<String> sort) {
+        final Page<BookLending> lendings;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        // TODO: reapply cache
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        lendings = service.getAll(pagination, sorting);
+
+        return BookLendingDtoMapper.toResponseDto(lendings);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
-    public BookLending lendBook(@Valid @RequestBody final BookLent lending) {
-        return service.lendBook(lending.book(), lending.person(), lending.lendingDate());
+    public BookLendingResponseDto lendBook(@Valid BookLendingDto bookLendingDto) {
+        final BookLending lending;
+
+        lending = service.lendBook(bookLendingDto.getBook(), bookLendingDto.getBorrower(),
+            bookLendingDto.getLendingDate());
+
+        return BookLendingDtoMapper.toResponseDto(lending);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
-    // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
-    public Page<BookLending> readAll(final Pagination pagination, final Sorting sorting) {
-        // TODO: reapply cache
-        return service.getAll(pagination, sorting);
-    }
-
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
-    public BookLending returnBook(@Valid @RequestBody final BookReturned lending) {
-        return service.returnBook(lending.book(), lending.borrower(), lending.returnDate());
+    public BookLendingResponseDto returnBook(@Valid BookReturnedDto bookReturnedDto) {
+        final BookLending lending;
+
+        lending = service.returnBook(bookReturnedDto.getBook(), bookReturnedDto.getBorrower(),
+            bookReturnedDto.getReturnDate());
+
+        return BookLendingDtoMapper.toResponseDto(lending);
     }
 
 }
