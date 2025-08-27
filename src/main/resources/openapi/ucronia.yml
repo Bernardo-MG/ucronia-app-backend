@@ -37,3 +37,5 @@ paths:
     $ref: paths/publishers.yml
   /library/publisher/{id}:
     $ref: paths/publishers_by_id.yml
+  /library/lending:
+    $ref: paths/book_lendings.yml

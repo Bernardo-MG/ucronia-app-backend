@@ -1,0 +1,48 @@
+components:
+  schemas:
+    BookLending:
+      type: object
+      properties:
+        book:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        borrower:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        lendingDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        returnDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+    BookLent:
+      type: object
+      required: [book, person, lendingDate]
+      properties:
+        book:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        borrower:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        lendingDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+    BookReturned:
+      type: object
+      required: [book, borrower, returnDate]
+      properties:
+        book:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        borrower:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        returnDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+    BookLendingPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/BookLending'
+    BookLendingResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/BookLending'
