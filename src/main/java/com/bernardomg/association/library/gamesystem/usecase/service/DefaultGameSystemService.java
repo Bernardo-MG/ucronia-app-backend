@@ -84,7 +84,7 @@ public final class DefaultGameSystemService implements GameSystemService {
         gameSystemRepository.delete(number);
 
         log.debug("Deleted game system {}", number);
-        
+
         return deleted;
     }
 

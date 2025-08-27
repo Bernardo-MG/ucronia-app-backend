@@ -12,7 +12,7 @@ public interface PublisherService {
 
     public Publisher create(final Publisher publisher);
 
-    public void delete(final long number);
+    public Publisher delete(final long number);
 
     public Page<Publisher> getAll(final Pagination pagination, final Sorting sorting);
 
