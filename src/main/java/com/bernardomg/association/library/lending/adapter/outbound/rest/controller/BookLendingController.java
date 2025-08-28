@@ -73,8 +73,8 @@ public class BookLendingController implements BookLendingApi {
     @Override
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
     // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
-    public BookLendingPageResponseDto getAllBookLendings(@Min(0) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort) {
+    public BookLendingPageResponseDto getAllBookLendings(@Min(0) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Page<BookLending> lendings;
         final Pagination        pagination;
         final Sorting           sorting;
@@ -91,7 +91,7 @@ public class BookLendingController implements BookLendingApi {
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
-    public BookLendingResponseDto lendBook(@Valid BookLendingDto bookLendingDto) {
+    public BookLendingResponseDto lendBook(@Valid final BookLendingDto bookLendingDto) {
         final BookLending lending;
 
         lending = service.lendBook(bookLendingDto.getBook(), bookLendingDto.getBorrower(),
@@ -104,7 +104,7 @@ public class BookLendingController implements BookLendingApi {
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
-    public BookLendingResponseDto returnBook(@Valid BookReturnedDto bookReturnedDto) {
+    public BookLendingResponseDto returnBook(@Valid final BookReturnedDto bookReturnedDto) {
         final BookLending lending;
 
         lending = service.returnBook(bookReturnedDto.getBook(), bookReturnedDto.getBorrower(),

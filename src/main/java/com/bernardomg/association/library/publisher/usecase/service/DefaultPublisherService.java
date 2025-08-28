@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -79,7 +78,7 @@ public final class DefaultPublisherService implements PublisherService {
         deleted = publisherRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing publisher {}", number);
-                throw new MissingAuthorException(number);
+                throw new MissingPublisherException(number);
             });
 
         publisherRepository.delete(number);

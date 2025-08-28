@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
@@ -78,7 +77,7 @@ public final class DefaultGameSystemService implements GameSystemService {
         deleted = gameSystemRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing game system {}", number);
-                throw new MissingAuthorException(number);
+                throw new MissingGameSystemException(number);
             });
 
         gameSystemRepository.delete(number);

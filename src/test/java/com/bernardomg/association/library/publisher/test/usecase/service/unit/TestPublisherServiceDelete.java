@@ -27,6 +27,8 @@ package com.bernardomg.association.library.publisher.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
+import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +62,7 @@ class TestPublisherServiceDelete {
     @DisplayName("When deleting a publisher, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
+        given(publisherRepository.findOne(PublisherConstants.NUMBER)).willReturn(Optional.of(Publishers.valid()));
 
         // WHEN
         service.delete(PublisherConstants.NUMBER);
@@ -74,7 +77,7 @@ class TestPublisherServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(false);
+        given(publisherRepository.findOne(PublisherConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(PublisherConstants.NUMBER);

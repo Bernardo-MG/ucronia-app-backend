@@ -27,6 +27,8 @@ package com.bernardomg.association.library.gamesystem.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.gamesystem.domain.exception.MissingGameSystemException;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +62,7 @@ class TestGameSystemServiceDelete {
     @DisplayName("When deleting a game system, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
+        given(gameSystemRepository.findOne(GameSystemConstants.NUMBER)).willReturn(Optional.of(GameSystems.valid()));
 
         // WHEN
         service.delete(GameSystemConstants.NUMBER);
@@ -74,7 +77,7 @@ class TestGameSystemServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(false);
+        given(gameSystemRepository.findOne(GameSystemConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(GameSystemConstants.NUMBER);
