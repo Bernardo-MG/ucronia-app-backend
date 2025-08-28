@@ -23,19 +23,23 @@ paths:
     $ref: paths/user_fees.yml
   /library/author:
     $ref: paths/authors.yml
-  /library/author/{id}:
+  /library/author/{number}:
     $ref: paths/authors_by_id.yml
   /library/bookType:
     $ref: paths/book_types.yml
-  /library/bookType/{id}:
+  /library/bookType/{number}:
     $ref: paths/book_types_by_id.yml
   /library/gameSystem:
     $ref: paths/game_systems.yml
-  /library/gameSystem/{id}:
+  /library/gameSystem/{number}:
     $ref: paths/game_systems_by_id.yml
   /library/publisher:
     $ref: paths/publishers.yml
-  /library/publisher/{id}:
+  /library/publisher/{number}:
     $ref: paths/publishers_by_id.yml
   /library/lending:
     $ref: paths/book_lendings.yml
+  /library/book/fiction:
+    $ref: paths/books_fiction.yml
+  /library/book/fiction/{number}:
+    $ref: paths/books_fiction_by_id.yml

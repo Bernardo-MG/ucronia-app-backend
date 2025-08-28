@@ -1,0 +1,46 @@
+post:
+  summary: Create a fiction book
+  operationId: createFictionBook
+  tags:
+    - FictionBook
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/books.yml#/components/schemas/BookCreation'
+  responses:
+    "201":
+      description: Fiction book successfully created
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/FictionBookResponse'
+
+get:
+  summary: Get all fiction books
+  operationId: getAllFictionBooks
+  tags:
+    - FictionBook
+  parameters:
+    - in: query
+      name: page
+      schema:
+        type: integer
+    - in: query
+      name: size
+      schema:
+        type: integer
+    - in: query
+      name: sort
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    "200":
+      description: A page of fiction books
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/FictionBookPageResponse'
