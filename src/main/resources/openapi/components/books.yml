@@ -1,0 +1,194 @@
+components:
+  schemas:
+    BookCreation:
+      type: object
+      required: [title, isbn, language]
+      properties:
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+    FictionBookUpdate:
+      type: object
+      required: [title, isbn, language]
+      properties:
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorRef'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublisherRef'
+        donation:
+          $ref: '#/components/schemas/Donation'
+    GameBookUpdate:
+      type: object
+      required: [title, isbn, language]
+      properties:
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorRef'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublisherRef'
+        bookType:
+          $ref: '#/components/schemas/BookTypeRef'
+        gameSystem:
+          $ref: '#/components/schemas/GameSystemRef'
+        donation:
+          $ref: '#/components/schemas/Donation'
+    BookTitle:
+      type: object
+      required: [title]
+      properties:
+        supertitle:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+    AuthorRef:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    PublisherRef:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    BookTypeRef:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    GameSystemRef:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    DonorRef:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    Donation:
+      type: object
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        donors:
+          type: array
+          items:
+            $ref: '#/components/schemas/DonorRef'
+    FictionBook:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorRef'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublisherRef'
+        donation:
+          $ref: '#/components/schemas/Donation'
+          nullable: true
+    GameBook:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorRef'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublisherRef'
+        bookType:
+          $ref: '#/components/schemas/BookTypeRef'
+        gameSystem:
+          $ref: '#/components/schemas/GameSystemRef'
+        donation:
+          $ref: '#/components/schemas/Donation'
+          nullable: true
+    FictionBookPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/FictionBook'
+    GameBookPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/GameBook'
+    FictionBookResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/FictionBook'
+    GameBookResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/GameBook'

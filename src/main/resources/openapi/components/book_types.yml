@@ -10,16 +10,14 @@ components:
           example: "Core book"
     BookTypeCreation:
       type: object
-      required:
-        - name
+      required: [name]
       properties:
         name:
           type: string
           example: "Core book"
     BookTypeChange:
       type: object
-      required:
-        - name
+      required: [name]
       properties:
         name:
           type: string

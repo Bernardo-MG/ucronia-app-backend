@@ -10,16 +10,14 @@ components:
           example: "Wizards of the Coast"
     PublisherCreation:
       type: object
-      required:
-        - name
+      required: [name]
       properties:
         name:
           type: string
           example: "Wizards of the Coast"
     PublisherChange:
       type: object
-      required:
-        - name
+      required: [name]
       properties:
         name:
           type: string
