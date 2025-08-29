@@ -1,0 +1,46 @@
+post:
+  summary: Create a game book
+  operationId: createGameBook
+  tags:
+    - GameBook
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/books.yml#/components/schemas/BookCreation'
+  responses:
+    "201":
+      description: Game book successfully created
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/GameBookResponse'
+
+get:
+  summary: Get all game books
+  operationId: getAllGameBooks
+  tags:
+    - GameBook
+  parameters:
+    - in: query
+      name: page
+      schema:
+        type: integer
+    - in: query
+      name: size
+      schema:
+        type: integer
+    - in: query
+      name: sort
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    "200":
+      description: A page of game books
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/GameBookPageResponse'

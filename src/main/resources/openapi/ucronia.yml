@@ -43,3 +43,7 @@ paths:
     $ref: paths/books_fiction.yml
   /library/book/fiction/{number}:
     $ref: paths/books_fiction_by_id.yml
+  /library/book/game:
+    $ref: paths/books_game.yml
+  /library/book/game/{number}:
+    $ref: paths/books_game_by_id.yml
