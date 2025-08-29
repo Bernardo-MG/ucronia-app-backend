@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
@@ -57,7 +56,6 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-@RequestMapping("/library/lending")
 public class BookLendingController implements BookLendingApi {
 
     /**
