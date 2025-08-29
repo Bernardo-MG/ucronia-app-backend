@@ -24,46 +24,31 @@
 
 package com.bernardomg.association.library.book.adapter.outbound.rest.controller;
 
-import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookCreation;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.GameBookUpdate;
-import com.bernardomg.association.library.book.domain.model.Donation;
-import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
 import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
-import com.bernardomg.association.library.booktype.domain.model.BookType;
-import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.GameBookApi;
+import com.bernardomg.ucronia.openapi.model.BookCreationDto;
+import com.bernardomg.ucronia.openapi.model.GameBookPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.GameBookResponseDto;
+import com.bernardomg.ucronia.openapi.model.GameBookUpdateDto;
 
 import jakarta.validation.Valid;
 
@@ -75,7 +60,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/library/book/game")
-public class GameBookController {
+public class GameBookController implements GameBookApi {
 
     /**
      * Game book service.
@@ -87,181 +72,69 @@ public class GameBookController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
-    public GameBook create(@Valid @RequestBody final GameBookCreation request) {
-        final GameBook book;
+    public GameBookResponseDto createGameBook(@Valid final BookCreationDto bookCreationDto) {
+        final GameBook gameBook;
 
-        // Book
-        book = toDomain(request, 0);
+        gameBook = service.create(BookDtoMapper.toGameDomain(bookCreationDto));
 
-        return service.create(book);
+        return BookDtoMapper.toResponseDto(gameBook);
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOK }),
             @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
+    public GameBookResponseDto deleteGameBook(final Long number) {
+        final GameBook gameBook;
+
+        gameBook = service.delete(number);
+
+        return BookDtoMapper.toResponseDto(gameBook);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOKS)
-    public Page<GameBook> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
+    public GameBookPageResponseDto getAllGameBooks(@Valid final Integer page, @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final Page<GameBook> gameBooks;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        gameBooks = service.getAll(pagination, sorting);
+
+        return BookDtoMapper.toGameResponseDto(gameBooks);
     }
 
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOK)
-    public GameBook readOne(@PathVariable("number") final long number) {
-        return service.getOne(number)
-            .orElse(null);
+    public GameBookResponseDto getGameBookById(final Long number) {
+        final Optional<GameBook> gameBook;
+
+        gameBook = service.getOne(number);
+
+        return BookDtoMapper.toGameResponseDto(gameBook);
     }
 
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
-    public GameBook update(@PathVariable("number") final long number,
-            @Valid @RequestBody final GameBookUpdate request) {
-        final GameBook book;
+    public GameBookResponseDto updateGameBook(final Long number, @Valid final GameBookUpdateDto gameBookUpdateDto) {
+        final GameBook updated;
+        final GameBook gameBook;
 
-        // Book
-        book = toDomain(request, number);
+        gameBook = BookDtoMapper.toDomain(gameBookUpdateDto, number);
+        updated = service.update(gameBook);
 
-        return service.update(number, book);
-    }
-
-    private final GameBook toDomain(final GameBookCreation request, final long number) {
-        final Title  title;
-        final String supertitle;
-        final String subtitle;
-
-        if (request.title()
-            .supertitle() == null) {
-            supertitle = "";
-        } else {
-            supertitle = request.title()
-                .supertitle();
-        }
-        if (request.title()
-            .subtitle() == null) {
-            subtitle = "";
-        } else {
-            subtitle = request.title()
-                .subtitle();
-        }
-
-        title = new Title(supertitle, request.title()
-            .title(), subtitle);
-        return new GameBook(number, title, request.isbn(), request.language(), null, false, List.of(), List.of(),
-            List.of(), Optional.empty(), Optional.empty(), Optional.empty());
-    }
-
-    private final GameBook toDomain(final GameBookUpdate request, final long number) {
-        final Collection<Author>    authors;
-        final Collection<Publisher> publishers;
-        final Optional<BookType>    bookType;
-        final Optional<GameSystem>  gameSystem;
-        final Collection<Donor>     donors;
-        final Title                 title;
-        final String                supertitle;
-        final String                subtitle;
-        final Instant               donationDate;
-        final Optional<Donation>    donation;
-
-        // Authors
-        if (request.authors() == null) {
-            authors = List.of();
-        } else {
-            authors = request.authors()
-                .stream()
-                .map(a -> new Author(a.number(), ""))
-                .toList();
-        }
-
-        // Publishers
-        if (request.publishers() == null) {
-            publishers = List.of();
-        } else {
-            publishers = request.publishers()
-                .stream()
-                .map(p -> new Publisher(p.number(), ""))
-                .toList();
-        }
-
-        // Book type
-        if ((request.bookType() == null) || (request.bookType()
-            .number() == null)) {
-            bookType = Optional.empty();
-        } else {
-            bookType = Optional.of(new BookType(request.bookType()
-                .number(), ""));
-        }
-
-        // Game system
-        if ((request.gameSystem() == null) || (request.gameSystem()
-            .number() == null)) {
-            gameSystem = Optional.empty();
-        } else {
-            gameSystem = Optional.of(new GameSystem(request.gameSystem()
-                .number(), ""));
-        }
-
-        // Donation
-        if (request.donation() == null) {
-            donation = Optional.empty();
-        } else {
-            if (request.donation()
-                .donors() == null) {
-                donors = List.of();
-            } else {
-                donors = request.donation()
-                    .donors()
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.number(), new PersonName("", "")))
-                    .toList();
-            }
-            if (request.donation()
-                .date() == null) {
-                donationDate = null;
-            } else {
-                donationDate = request.donation()
-                    .date();
-            }
-            if ((donationDate == null) && (donors.isEmpty())) {
-                donation = Optional.empty();
-            } else {
-                donation = Optional.of(new Donation(donationDate, donors));
-            }
-        }
-
-        // Title
-        if (request.title()
-            .supertitle() == null) {
-            supertitle = "";
-        } else {
-            supertitle = request.title()
-                .supertitle();
-        }
-        if (request.title()
-            .subtitle() == null) {
-            subtitle = "";
-        } else {
-            subtitle = request.title()
-                .subtitle();
-        }
-        title = new Title(supertitle, request.title()
-            .title(), subtitle);
-        return new GameBook(number, title, request.isbn(), request.language(), request.publishDate(), false, authors,
-            List.of(), publishers, donation, bookType, gameSystem);
+        return BookDtoMapper.toResponseDto(updated);
     }
 
 }

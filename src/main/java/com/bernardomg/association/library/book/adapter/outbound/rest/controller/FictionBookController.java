@@ -31,11 +31,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
-import com.bernardomg.association.library.book.adapter.outbound.rest.model.FictionBookDtoMapper;
+import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.data.domain.Page;
@@ -59,7 +58,6 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/library/book/fiction")
 public class FictionBookController implements FictionBookApi {
 
     /**
@@ -80,9 +78,9 @@ public class FictionBookController implements FictionBookApi {
     public FictionBookResponseDto createFictionBook(@Valid final BookCreationDto bookCreationDto) {
         final FictionBook fictionBook;
 
-        fictionBook = service.create(FictionBookDtoMapper.toDomain(bookCreationDto, 0));
+        fictionBook = service.create(BookDtoMapper.toFictionDomain(bookCreationDto));
 
-        return FictionBookDtoMapper.toResponseDto(fictionBook);
+        return BookDtoMapper.toResponseDto(fictionBook);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class FictionBookController implements FictionBookApi {
 
         fictionBook = service.delete(number);
 
-        return FictionBookDtoMapper.toResponseDto(fictionBook);
+        return BookDtoMapper.toResponseDto(fictionBook);
     }
 
     @Override
@@ -110,7 +108,7 @@ public class FictionBookController implements FictionBookApi {
         sorting = WebSorting.toSorting(sort);
         fictionBooks = service.getAll(pagination, sorting);
 
-        return FictionBookDtoMapper.toResponseDto(fictionBooks);
+        return BookDtoMapper.toFictionResponseDto(fictionBooks);
     }
 
     @Override
@@ -121,7 +119,7 @@ public class FictionBookController implements FictionBookApi {
 
         fictionBook = service.getOne(number);
 
-        return FictionBookDtoMapper.toResponseDto(fictionBook);
+        return BookDtoMapper.toFictionResponseDto(fictionBook);
     }
 
     @Override
@@ -133,10 +131,10 @@ public class FictionBookController implements FictionBookApi {
         final FictionBook updated;
         final FictionBook fictionBook;
 
-        fictionBook = FictionBookDtoMapper.toDomain(fictionBookUpdateDto, 0);
+        fictionBook = BookDtoMapper.toDomain(fictionBookUpdateDto, number);
         updated = service.update(fictionBook);
 
-        return FictionBookDtoMapper.toResponseDto(updated);
+        return BookDtoMapper.toResponseDto(updated);
     }
 
 }

@@ -138,7 +138,7 @@ public final class DefaultFictionBookService implements FictionBookService {
         deleted = bookRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing book {}", number);
-                throw new MissingAuthorException(number);
+                throw new MissingBookException(number);
             });
 
         bookRepository.delete(number);
