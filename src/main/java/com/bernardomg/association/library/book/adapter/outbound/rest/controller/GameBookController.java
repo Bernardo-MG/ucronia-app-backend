@@ -31,7 +31,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
@@ -59,7 +58,6 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/library/book/game")
 public class GameBookController implements GameBookApi {
 
     /**
