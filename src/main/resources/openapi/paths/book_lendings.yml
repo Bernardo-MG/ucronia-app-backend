@@ -8,7 +8,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../components/book_lendings.yml#/components/schemas/BookLending'
+          $ref: '../components/book_lendings.yml#/components/schemas/BookLent'
   responses:
     '201':
       description: Book lending successfully

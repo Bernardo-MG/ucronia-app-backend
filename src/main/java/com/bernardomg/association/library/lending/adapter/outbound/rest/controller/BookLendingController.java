@@ -41,9 +41,9 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.BookLendingApi;
-import com.bernardomg.ucronia.openapi.model.BookLendingDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
+import com.bernardomg.ucronia.openapi.model.BookLentDto;
 import com.bernardomg.ucronia.openapi.model.BookReturnedDto;
 
 import jakarta.validation.Valid;
@@ -89,11 +89,11 @@ public class BookLendingController implements BookLendingApi {
     @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
-    public BookLendingResponseDto lendBook(@Valid final BookLendingDto bookLendingDto) {
+    public BookLendingResponseDto lendBook(@Valid final BookLentDto bookLentDto) {
         final BookLending lending;
 
-        lending = service.lendBook(bookLendingDto.getBook(), bookLendingDto.getBorrower(),
-            bookLendingDto.getLendingDate());
+        lending = service.lendBook(bookLentDto.getBook(), bookLentDto.getBorrower(),
+            bookLentDto.getLendingDate());
 
         return BookLendingDtoMapper.toResponseDto(lending);
     }
