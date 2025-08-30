@@ -23,20 +23,24 @@ get:
   tags:
     - GameBook
   parameters:
-    - in: query
-      name: page
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
       schema:
-        type: integer
-    - in: query
-      name: size
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
       schema:
-        type: integer
-    - in: query
-      name: sort
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
       schema:
-        type: array
-        items:
-          type: string
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     "200":
       description: A page of game books
