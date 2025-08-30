@@ -26,6 +26,7 @@ import com.bernardomg.ucronia.openapi.model.BookCreationDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingInfoDto;
 import com.bernardomg.ucronia.openapi.model.BookTitleDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeRefDto;
+import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.DonationDto;
 import com.bernardomg.ucronia.openapi.model.DonorRefDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookDto;
@@ -37,6 +38,7 @@ import com.bernardomg.ucronia.openapi.model.GameBookPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameBookResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameBookUpdateDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemRefDto;
+import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.PublisherRefDto;
@@ -343,8 +345,22 @@ public final class BookDtoMapper {
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
-        return new BookLendingInfoDto().borrower(lending.borrower()
-            .number())
+        final ContactNameDto    contactName;
+        final MinimalContactDto borrower;
+
+        contactName = new ContactNameDto().firstName(lending.borrower()
+            .name()
+            .firstName())
+            .lastName(lending.borrower()
+                .name()
+                .lastName())
+            .fullName(lending.borrower()
+                .name()
+                .fullName());
+        borrower = new MinimalContactDto().name(contactName)
+            .number(lending.borrower()
+                .number());
+        return new BookLendingInfoDto().borrower(borrower)
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate());
     }

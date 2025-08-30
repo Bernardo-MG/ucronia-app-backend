@@ -10,6 +10,8 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.BookLendingDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -48,10 +50,24 @@ public final class BookLendingDtoMapper {
     }
 
     private static final BookLendingDto toDto(final BookLending lending) {
+        final ContactNameDto    contactName;
+        final MinimalContactDto borrower;
+
+        contactName = new ContactNameDto().firstName(lending.borrower()
+            .name()
+            .firstName())
+            .lastName(lending.borrower()
+                .name()
+                .lastName())
+            .fullName(lending.borrower()
+                .name()
+                .fullName());
+        borrower = new MinimalContactDto().name(contactName)
+            .number(lending.borrower()
+                .number());
         return new BookLendingDto().book(lending.book()
             .number())
-            .borrower(lending.borrower()
-                .number())
+            .borrower(borrower)
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate());
     }

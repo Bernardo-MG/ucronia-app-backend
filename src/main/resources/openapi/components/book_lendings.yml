@@ -6,7 +6,7 @@ components:
         book:
           $ref: '../common/ids.yml#/components/schemas/Id'
         borrower:
-          $ref: '../common/ids.yml#/components/schemas/Id'
+          $ref: 'contacts.yml#/components/schemas/MinimalContact'
         lendingDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         returnDate:
@@ -16,7 +16,7 @@ components:
       type: object
       properties:
         borrower:
-          $ref: '../common/ids.yml#/components/schemas/Id'
+          $ref: 'contacts.yml#/components/schemas/MinimalContact'
         lendingDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         returnDate:
