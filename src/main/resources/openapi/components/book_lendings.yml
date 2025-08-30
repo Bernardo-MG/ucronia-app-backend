@@ -12,6 +12,16 @@ components:
         returnDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
+    BookLendingInfo:
+      type: object
+      properties:
+        borrower:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        lendingDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        returnDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
     BookLent:
       type: object
       required: [book, person, lendingDate]

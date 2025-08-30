@@ -18,6 +18,7 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
     }
 
     public record LentBook(long number, Title title) {
+        // TODO: not all the info is being returned to the frontend?
 
     }
 
@@ -28,6 +29,7 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
     public Long getDays() {
         final Long days;
 
+        // TODO: don't generate, set on creation
         if (returnDate == null) {
             days = ChronoUnit.DAYS.between(lendingDate, Instant.now()) + 1;
         } else {

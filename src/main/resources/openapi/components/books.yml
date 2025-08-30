@@ -132,6 +132,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PublisherRef'
+        lendings:
+          type: array
+          items:
+            $ref: 'book_lendings.yml#/components/schemas/BookLendingInfo'
         donation:
           $ref: '#/components/schemas/Donation'
           nullable: true
@@ -157,6 +161,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PublisherRef'
+        lendings:
+          type: array
+          items:
+            $ref: 'book_lendings.yml#/components/schemas/BookLendingInfo'
         bookType:
           $ref: '#/components/schemas/BookTypeRef'
         gameSystem:

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -28,7 +29,6 @@ import com.bernardomg.association.library.book.domain.repository.FictionBookRepo
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Sorting;
@@ -273,11 +273,11 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final Iterable<FictionBook> books) {
-        int         index;
-        Row         row;
-        Cell        cell;
-        BookLending lending;
-        Donation    donation;
+        int             index;
+        Row             row;
+        Cell            cell;
+        BookLendingInfo lending;
+        Donation        donation;
 
         index = 1;
         for (final FictionBook book : books) {
@@ -368,11 +368,11 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     private final void loadGames(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final Iterable<GameBook> books) {
-        int         index;
-        Row         row;
-        Cell        cell;
-        BookLending lending;
-        Donation    donation;
+        int             index;
+        Row             row;
+        Cell            cell;
+        BookLendingInfo lending;
+        Donation        donation;
 
         index = 1;
         for (final GameBook book : books) {

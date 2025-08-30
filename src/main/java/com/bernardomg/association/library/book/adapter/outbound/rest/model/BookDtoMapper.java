@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -22,6 +23,7 @@ import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.AuthorRefDto;
 import com.bernardomg.ucronia.openapi.model.BookCreationDto;
+import com.bernardomg.ucronia.openapi.model.BookLendingInfoDto;
 import com.bernardomg.ucronia.openapi.model.BookTitleDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeRefDto;
 import com.bernardomg.ucronia.openapi.model.DonationDto;
@@ -340,6 +342,13 @@ public final class BookDtoMapper {
         return new AuthorRefDto().number(author.number());
     }
 
+    private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
+        return new BookLendingInfoDto().borrower(lending.borrower()
+            .number())
+            .lendingDate(lending.lendingDate())
+            .returnDate(lending.returnDate());
+    }
+
     private static final DonationDto toDto(final Donation donation) {
         final List<DonorRefDto> donors;
 
@@ -356,10 +365,11 @@ public final class BookDtoMapper {
     }
 
     private static final FictionBookDto toDto(final FictionBook fictionBook) {
-        final BookTitleDto          title;
-        final List<AuthorRefDto>    authors;
-        final List<PublisherRefDto> publishers;
-        final DonationDto           donation;
+        final BookTitleDto             title;
+        final List<AuthorRefDto>       authors;
+        final List<PublisherRefDto>    publishers;
+        final DonationDto              donation;
+        final List<BookLendingInfoDto> lendings;
 
         title = new BookTitleDto().title(fictionBook.title()
             .title())
@@ -382,6 +392,10 @@ public final class BookDtoMapper {
             .stream()
             .map(BookDtoMapper::toDto)
             .toList();
+        lendings = fictionBook.lendings()
+            .stream()
+            .map(BookDtoMapper::toDto)
+            .toList();
         return new FictionBookDto().number(fictionBook.number())
             .title(title)
             .isbn(fictionBook.isbn())
@@ -389,16 +403,18 @@ public final class BookDtoMapper {
             .publishDate(fictionBook.publishDate())
             .authors(authors)
             .publishers(publishers)
+            .lendings(lendings)
             .donation(donation);
     }
 
     private static final GameBookDto toDto(final GameBook gameBook) {
-        final BookTitleDto          title;
-        final List<AuthorRefDto>    authors;
-        final List<PublisherRefDto> publishers;
-        final DonationDto           donation;
-        final GameSystemRefDto      gameSystem;
-        final BookTypeRefDto        bookType;
+        final BookTitleDto             title;
+        final List<AuthorRefDto>       authors;
+        final List<PublisherRefDto>    publishers;
+        final DonationDto              donation;
+        final GameSystemRefDto         gameSystem;
+        final BookTypeRefDto           bookType;
+        final List<BookLendingInfoDto> lendings;
 
         title = new BookTitleDto().title(gameBook.title()
             .title())
@@ -418,6 +434,10 @@ public final class BookDtoMapper {
             .map(BookDtoMapper::toDto)
             .toList();
         publishers = gameBook.publishers()
+            .stream()
+            .map(BookDtoMapper::toDto)
+            .toList();
+        lendings = gameBook.lendings()
             .stream()
             .map(BookDtoMapper::toDto)
             .toList();
@@ -444,6 +464,7 @@ public final class BookDtoMapper {
             .publishDate(gameBook.publishDate())
             .authors(authors)
             .publishers(publishers)
+            .lendings(lendings)
             .donation(donation)
             .gameSystem(gameSystem)
             .bookType(bookType);
