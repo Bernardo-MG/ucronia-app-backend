@@ -4,7 +4,7 @@ components:
       type: object
       properties:
         book:
-          $ref: '../common/ids.yml#/components/schemas/Id'
+          $ref: '#/components/schemas/BookLendingBook'
         borrower:
           $ref: 'contacts.yml#/components/schemas/MinimalContact'
         lendingDate:
@@ -22,6 +22,14 @@ components:
         returnDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
+    BookLendingBook:
+      type: object
+      required: [number, title]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          $ref: 'books.yml#/components/schemas/BookTitle'
     BookLent:
       type: object
       required: [book, person, lendingDate]

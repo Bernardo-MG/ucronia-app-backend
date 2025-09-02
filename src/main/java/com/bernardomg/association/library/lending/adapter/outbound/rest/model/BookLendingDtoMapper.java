@@ -4,12 +4,15 @@ package com.bernardomg.association.library.lending.adapter.outbound.rest.model;
 import java.util.Optional;
 
 import com.bernardomg.association.library.lending.domain.model.BookLending;
+import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.ucronia.openapi.model.BookLendingBookDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
+import com.bernardomg.ucronia.openapi.model.BookTitleDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
@@ -65,11 +68,23 @@ public final class BookLendingDtoMapper {
         borrower = new MinimalContactDto().name(contactName)
             .number(lending.borrower()
                 .number());
-        return new BookLendingDto().book(lending.book()
-            .number())
+        return new BookLendingDto().book(toDto(lending.book()))
             .borrower(borrower)
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate());
+    }
+
+    private static final BookLendingBookDto toDto(final LentBook book) {
+        final BookTitleDto title;
+
+        title = new BookTitleDto().supertitle(book.title()
+            .supertitle())
+            .title(book.title()
+                .title())
+            .subtitle(book.title()
+                .subtitle());
+        return new BookLendingBookDto().number(book.number())
+            .title(title);
     }
 
     private static final PropertyDto toDto(final Property property) {
