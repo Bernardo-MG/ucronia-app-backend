@@ -26,11 +26,11 @@ components:
         authors:
           type: array
           items:
-            $ref: '#/components/schemas/AuthorRef'
+            $ref: '../common/ids.yml#/components/schemas/Id'
         publishers:
           type: array
           items:
-            $ref: '#/components/schemas/PublisherRef'
+            $ref: '../common/ids.yml#/components/schemas/Id'
         donation:
           $ref: '#/components/schemas/Donation'
     GameBookUpdate:
@@ -49,15 +49,15 @@ components:
         authors:
           type: array
           items:
-            $ref: '#/components/schemas/AuthorRef'
+            $ref: '../common/ids.yml#/components/schemas/Id'
         publishers:
           type: array
           items:
-            $ref: '#/components/schemas/PublisherRef'
+            $ref: '../common/ids.yml#/components/schemas/Id'
         bookType:
-          $ref: '#/components/schemas/BookTypeRef'
+          $ref: '../common/ids.yml#/components/schemas/Id'
         gameSystem:
-          $ref: '#/components/schemas/GameSystemRef'
+          $ref: '../common/ids.yml#/components/schemas/Id'
         donation:
           $ref: '#/components/schemas/Donation'
     BookTitle:
@@ -70,36 +70,6 @@ components:
           type: string
         subtitle:
           type: string
-    AuthorRef:
-      type: object
-      required: [number]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-    PublisherRef:
-      type: object
-      required: [number]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-    BookTypeRef:
-      type: object
-      required: [number]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-    GameSystemRef:
-      type: object
-      required: [number]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-    DonorRef:
-      type: object
-      required: [number]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
     Donation:
       type: object
       properties:
@@ -109,7 +79,7 @@ components:
         donors:
           type: array
           items:
-            $ref: '#/components/schemas/DonorRef'
+            $ref: 'contacts.yml#/components/schemas/MinimalContact'
     FictionBook:
       type: object
       properties:
@@ -124,14 +94,16 @@ components:
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
+        lent:
+          type: boolean
         authors:
           type: array
           items:
-            $ref: '#/components/schemas/AuthorRef'
+            $ref: 'authors.yml#/components/schemas/Author'
         publishers:
           type: array
           items:
-            $ref: '#/components/schemas/PublisherRef'
+            $ref: 'publishers.yml#/components/schemas/Publisher'
         lendings:
           type: array
           items:
@@ -153,22 +125,24 @@ components:
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
+        lent:
+          type: boolean
         authors:
           type: array
           items:
-            $ref: '#/components/schemas/AuthorRef'
+            $ref: 'authors.yml#/components/schemas/Author'
         publishers:
           type: array
           items:
-            $ref: '#/components/schemas/PublisherRef'
+            $ref: 'publishers.yml#/components/schemas/Publisher'
         lendings:
           type: array
           items:
             $ref: 'book_lendings.yml#/components/schemas/BookLendingInfo'
         bookType:
-          $ref: '#/components/schemas/BookTypeRef'
+          $ref: 'book_types.yml#/components/schemas/BookType'
         gameSystem:
-          $ref: '#/components/schemas/GameSystemRef'
+          $ref: 'game_systems.yml#/components/schemas/GameSystem'
         donation:
           $ref: '#/components/schemas/Donation'
           nullable: true

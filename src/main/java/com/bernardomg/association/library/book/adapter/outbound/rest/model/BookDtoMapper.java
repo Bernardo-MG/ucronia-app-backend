@@ -21,14 +21,13 @@ import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.AuthorRefDto;
+import com.bernardomg.ucronia.openapi.model.AuthorDto;
 import com.bernardomg.ucronia.openapi.model.BookCreationDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingInfoDto;
 import com.bernardomg.ucronia.openapi.model.BookTitleDto;
-import com.bernardomg.ucronia.openapi.model.BookTypeRefDto;
+import com.bernardomg.ucronia.openapi.model.BookTypeDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.DonationDto;
-import com.bernardomg.ucronia.openapi.model.DonorRefDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookResponseDto;
@@ -37,11 +36,11 @@ import com.bernardomg.ucronia.openapi.model.GameBookDto;
 import com.bernardomg.ucronia.openapi.model.GameBookPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameBookResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameBookUpdateDto;
-import com.bernardomg.ucronia.openapi.model.GameSystemRefDto;
+import com.bernardomg.ucronia.openapi.model.GameSystemDto;
 import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.PublisherRefDto;
+import com.bernardomg.ucronia.openapi.model.PublisherDto;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class BookDtoMapper {
@@ -62,7 +61,7 @@ public final class BookDtoMapper {
         } else {
             authors = fictionBookUpdateDto.getAuthors()
                 .stream()
-                .map(a -> new Author(a.getNumber(), ""))
+                .map(a -> new Author(a, ""))
                 .toList();
         }
 
@@ -72,7 +71,7 @@ public final class BookDtoMapper {
         } else {
             publishers = fictionBookUpdateDto.getPublishers()
                 .stream()
-                .map(p -> new Publisher(p.getNumber(), ""))
+                .map(p -> new Publisher(p, ""))
                 .toList();
         }
 
@@ -144,7 +143,7 @@ public final class BookDtoMapper {
         } else {
             authors = gameBookUpdateDto.getAuthors()
                 .stream()
-                .map(a -> new Author(a.getNumber(), ""))
+                .map(a -> new Author(a, ""))
                 .toList();
         }
 
@@ -154,26 +153,22 @@ public final class BookDtoMapper {
         } else {
             publishers = gameBookUpdateDto.getPublishers()
                 .stream()
-                .map(p -> new Publisher(p.getNumber(), ""))
+                .map(p -> new Publisher(p, ""))
                 .toList();
         }
 
         // Book type
-        if ((gameBookUpdateDto.getBookType() == null) || (gameBookUpdateDto.getBookType()
-            .getNumber() == null)) {
+        if ((gameBookUpdateDto.getBookType() == null) || (gameBookUpdateDto.getBookType() == null)) {
             bookType = Optional.empty();
         } else {
-            bookType = Optional.of(new BookType(gameBookUpdateDto.getBookType()
-                .getNumber(), ""));
+            bookType = Optional.of(new BookType(gameBookUpdateDto.getBookType(), ""));
         }
 
         // Game system
-        if ((gameBookUpdateDto.getGameSystem() == null) || (gameBookUpdateDto.getGameSystem()
-            .getNumber() == null)) {
+        if ((gameBookUpdateDto.getGameSystem() == null) || (gameBookUpdateDto.getGameSystem() == null)) {
             gameSystem = Optional.empty();
         } else {
-            gameSystem = Optional.of(new GameSystem(gameBookUpdateDto.getGameSystem()
-                .getNumber(), ""));
+            gameSystem = Optional.of(new GameSystem(gameBookUpdateDto.getGameSystem(), ""));
         }
 
         // Donation
@@ -340,8 +335,8 @@ public final class BookDtoMapper {
         return new GameBookResponseDto().content(toDto(gameBook));
     }
 
-    private static final AuthorRefDto toDto(final Author author) {
-        return new AuthorRefDto().number(author.number());
+    private static final AuthorDto toDto(final Author author) {
+        return new AuthorDto().number(author.number());
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
@@ -366,7 +361,7 @@ public final class BookDtoMapper {
     }
 
     private static final DonationDto toDto(final Donation donation) {
-        final List<DonorRefDto> donors;
+        final List<MinimalContactDto> donors;
 
         donors = donation.donors()
             .stream()
@@ -376,14 +371,23 @@ public final class BookDtoMapper {
             .donors(donors);
     }
 
-    private static final DonorRefDto toDto(final Donor donor) {
-        return new DonorRefDto().number(donor.number());
+    private static final MinimalContactDto toDto(final Donor donor) {
+        final ContactNameDto contactName;
+
+        contactName = new ContactNameDto().firstName(donor.name()
+            .firstName())
+            .lastName(donor.name()
+                .lastName())
+            .fullName(donor.name()
+                .fullName());
+        return new MinimalContactDto().number(donor.number())
+            .name(contactName);
     }
 
     private static final FictionBookDto toDto(final FictionBook fictionBook) {
         final BookTitleDto             title;
-        final List<AuthorRefDto>       authors;
-        final List<PublisherRefDto>    publishers;
+        final List<AuthorDto>          authors;
+        final List<PublisherDto>       publishers;
         final DonationDto              donation;
         final List<BookLendingInfoDto> lendings;
 
@@ -420,16 +424,17 @@ public final class BookDtoMapper {
             .authors(authors)
             .publishers(publishers)
             .lendings(lendings)
+            .lent(fictionBook.lent())
             .donation(donation);
     }
 
     private static final GameBookDto toDto(final GameBook gameBook) {
         final BookTitleDto             title;
-        final List<AuthorRefDto>       authors;
-        final List<PublisherRefDto>    publishers;
+        final List<AuthorDto>          authors;
+        final List<PublisherDto>       publishers;
         final DonationDto              donation;
-        final GameSystemRefDto         gameSystem;
-        final BookTypeRefDto           bookType;
+        final GameSystemDto            gameSystem;
+        final BookTypeDto              bookType;
         final List<BookLendingInfoDto> lendings;
 
         title = new BookTitleDto().title(gameBook.title()
@@ -459,7 +464,7 @@ public final class BookDtoMapper {
             .toList();
         if (gameBook.gameSystem()
             .isPresent()) {
-            gameSystem = new GameSystemRefDto().number(gameBook.gameSystem()
+            gameSystem = new GameSystemDto().number(gameBook.gameSystem()
                 .get()
                 .number());
         } else {
@@ -467,7 +472,7 @@ public final class BookDtoMapper {
         }
         if (gameBook.bookType()
             .isPresent()) {
-            bookType = new BookTypeRefDto().number(gameBook.bookType()
+            bookType = new BookTypeDto().number(gameBook.bookType()
                 .get()
                 .number());
         } else {
@@ -481,6 +486,7 @@ public final class BookDtoMapper {
             .authors(authors)
             .publishers(publishers)
             .lendings(lendings)
+            .lent(gameBook.lent())
             .donation(donation)
             .gameSystem(gameSystem)
             .bookType(bookType);
@@ -498,8 +504,8 @@ public final class BookDtoMapper {
             .direction(direction);
     }
 
-    private static final PublisherRefDto toDto(final Publisher publisher) {
-        return new PublisherRefDto().number(publisher.number());
+    private static final PublisherDto toDto(final Publisher publisher) {
+        return new PublisherDto().number(publisher.number());
     }
 
     private BookDtoMapper() {
