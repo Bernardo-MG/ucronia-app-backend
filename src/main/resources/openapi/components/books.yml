@@ -70,6 +70,8 @@ components:
           type: string
         subtitle:
           type: string
+        fullTitle:
+          type: string
     Donation:
       type: object
       properties:

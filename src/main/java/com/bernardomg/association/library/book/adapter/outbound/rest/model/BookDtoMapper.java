@@ -396,7 +396,9 @@ public final class BookDtoMapper {
             .subtitle(fictionBook.title()
                 .subtitle())
             .supertitle(fictionBook.title()
-                .supertitle());
+                .supertitle())
+            .fullTitle(fictionBook.title()
+                .fullTitle());
         if (fictionBook.donation()
             .isPresent()) {
             donation = toDto(fictionBook.donation()
@@ -442,7 +444,9 @@ public final class BookDtoMapper {
             .subtitle(gameBook.title()
                 .subtitle())
             .supertitle(gameBook.title()
-                .supertitle());
+                .supertitle())
+            .fullTitle(gameBook.title()
+                .fullTitle());
         if (gameBook.donation()
             .isPresent()) {
             donation = toDto(gameBook.donation()

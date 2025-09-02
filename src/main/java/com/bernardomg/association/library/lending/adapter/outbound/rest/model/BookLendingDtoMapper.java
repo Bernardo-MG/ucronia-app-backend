@@ -82,7 +82,9 @@ public final class BookLendingDtoMapper {
             .title(book.title()
                 .title())
             .subtitle(book.title()
-                .subtitle());
+                .subtitle())
+            .fullTitle(book.title()
+                .fullTitle());
         return new BookLendingBookDto().number(book.number())
             .title(title);
     }
