@@ -336,7 +336,8 @@ public final class BookDtoMapper {
     }
 
     private static final AuthorDto toDto(final Author author) {
-        return new AuthorDto().number(author.number());
+        return new AuthorDto().number(author.number())
+            .name(author.name());
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
@@ -359,6 +360,11 @@ public final class BookDtoMapper {
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate())
             .days(lending.getDays());
+    }
+
+    private static final BookTypeDto toDto(final BookType bookType) {
+        return new BookTypeDto().number(bookType.number())
+            .name(bookType.name());
     }
 
     private static final DonationDto toDto(final Donation donation) {
@@ -467,22 +473,12 @@ public final class BookDtoMapper {
             .stream()
             .map(BookDtoMapper::toDto)
             .toList();
-        if (gameBook.gameSystem()
-            .isPresent()) {
-            gameSystem = new GameSystemDto().number(gameBook.gameSystem()
-                .get()
-                .number());
-        } else {
-            gameSystem = null;
-        }
-        if (gameBook.bookType()
-            .isPresent()) {
-            bookType = new BookTypeDto().number(gameBook.bookType()
-                .get()
-                .number());
-        } else {
-            bookType = null;
-        }
+        gameSystem = gameBook.gameSystem()
+            .map(BookDtoMapper::toDto)
+            .orElse(null);
+        bookType = gameBook.bookType()
+            .map(BookDtoMapper::toDto)
+            .orElse(null);
         return new GameBookDto().number(gameBook.number())
             .title(title)
             .isbn(gameBook.isbn())
@@ -495,6 +491,11 @@ public final class BookDtoMapper {
             .donation(donation)
             .gameSystem(gameSystem)
             .bookType(bookType);
+    }
+
+    private static final GameSystemDto toDto(final GameSystem gameSystem) {
+        return new GameSystemDto().number(gameSystem.number())
+            .name(gameSystem.name());
     }
 
     private static final PropertyDto toDto(final Property property) {
@@ -510,7 +511,8 @@ public final class BookDtoMapper {
     }
 
     private static final PublisherDto toDto(final Publisher publisher) {
-        return new PublisherDto().number(publisher.number());
+        return new PublisherDto().number(publisher.number())
+            .name(publisher.name());
     }
 
     private BookDtoMapper() {
