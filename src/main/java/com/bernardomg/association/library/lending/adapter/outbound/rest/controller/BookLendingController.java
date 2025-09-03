@@ -92,8 +92,7 @@ public class BookLendingController implements BookLendingApi {
     public BookLendingResponseDto lendBook(@Valid final BookLentDto bookLentDto) {
         final BookLending lending;
 
-        lending = service.lendBook(bookLentDto.getBook(), bookLentDto.getBorrower(),
-            bookLentDto.getLendingDate());
+        lending = service.lendBook(bookLentDto.getBook(), bookLentDto.getBorrower(), bookLentDto.getLendingDate());
 
         return BookLendingDtoMapper.toResponseDto(lending);
     }

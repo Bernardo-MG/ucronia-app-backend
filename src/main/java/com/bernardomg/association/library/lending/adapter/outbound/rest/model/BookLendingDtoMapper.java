@@ -71,7 +71,8 @@ public final class BookLendingDtoMapper {
         return new BookLendingDto().book(toDto(lending.book()))
             .borrower(borrower)
             .lendingDate(lending.lendingDate())
-            .returnDate(lending.returnDate());
+            .returnDate(lending.returnDate())
+            .days(lending.getDays());
     }
 
     private static final BookLendingBookDto toDto(final LentBook book) {

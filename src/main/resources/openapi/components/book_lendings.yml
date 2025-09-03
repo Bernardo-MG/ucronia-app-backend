@@ -12,6 +12,9 @@ components:
         returnDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
+        days:
+          type: integer
+          format: int64
     BookLendingInfo:
       type: object
       properties:
@@ -22,6 +25,9 @@ components:
         returnDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
+        days:
+          type: integer
+          format: int64
     BookLendingBook:
       type: object
       required: [number, title]

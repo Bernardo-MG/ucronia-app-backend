@@ -357,7 +357,8 @@ public final class BookDtoMapper {
                 .number());
         return new BookLendingInfoDto().borrower(borrower)
             .lendingDate(lending.lendingDate())
-            .returnDate(lending.returnDate());
+            .returnDate(lending.returnDate())
+            .days(lending.getDays());
     }
 
     private static final DonationDto toDto(final Donation donation) {
