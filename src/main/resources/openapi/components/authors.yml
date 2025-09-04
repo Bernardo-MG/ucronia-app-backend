@@ -7,21 +7,21 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
-          example: "Gary Gigax"
+          example: 'Gary Gigax'
     AuthorCreation:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: "Gary Gigax"
+          example: 'Gary Gigax'
     AuthorChange:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: "Gary Gigax"
+          example: 'Gary Gigax'
     AuthorPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

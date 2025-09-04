@@ -10,13 +10,13 @@ get:
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
-    "200":
+    '200':
       description: Fiction book found
       content:
         application/json:
           schema:
             $ref: '../components/books.yml#/components/schemas/FictionBookResponse'
-    "404":
+    '404':
       description: Fiction book not found
 
 put:
@@ -37,7 +37,7 @@ put:
         schema:
           $ref: '../components/books.yml#/components/schemas/FictionBookUpdate'
   responses:
-    "200":
+    '200':
       description: Fiction book successfully updated
       content:
         application/json:

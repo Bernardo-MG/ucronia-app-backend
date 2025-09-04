@@ -7,21 +7,21 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
-          example: "Core book"
+          example: 'd20'
     GameSystemCreation:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: "Core book"
+          example: 'd20'
     GameSystemChange:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: "Core book"
+          example: 'd20'
     GameSystemPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

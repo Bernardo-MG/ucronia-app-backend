@@ -7,21 +7,21 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
-          example: "Core book"
+          example: 'Core book'
     BookTypeCreation:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: "Core book"
+          example: 'Core book'
     BookTypeChange:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: "Core book"
+          example: 'Core book'
     BookTypePageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

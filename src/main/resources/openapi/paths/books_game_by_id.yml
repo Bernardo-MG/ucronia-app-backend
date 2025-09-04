@@ -10,13 +10,13 @@ get:
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
-    "200":
+    '200':
       description: Game book found
       content:
         application/json:
           schema:
             $ref: '../components/books.yml#/components/schemas/GameBookResponse'
-    "404":
+    '404':
       description: Game book not found
 
 put:
@@ -37,7 +37,7 @@ put:
         schema:
           $ref: '../components/books.yml#/components/schemas/GameBookUpdate'
   responses:
-    "200":
+    '200':
       description: Game book successfully updated
       content:
         application/json:

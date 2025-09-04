@@ -10,7 +10,7 @@ post:
         schema:
           $ref: '../components/books.yml#/components/schemas/BookCreation'
   responses:
-    "201":
+    '201':
       description: Game book successfully created
       content:
         application/json:
@@ -42,7 +42,7 @@ get:
       schema:
         $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
-    "200":
+    '200':
       description: A page of game books
       content:
         application/json:

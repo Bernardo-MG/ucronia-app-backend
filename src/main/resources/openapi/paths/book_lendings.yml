@@ -59,7 +59,7 @@ put:
         schema:
           $ref: '../components/book_lendings.yml#/components/schemas/BookReturned'
   responses:
-    "200":
+    '200':
       description: Book successfully returned
       content:
         application/json:
