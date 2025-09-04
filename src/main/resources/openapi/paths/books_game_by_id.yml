@@ -56,7 +56,7 @@ delete:
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
-    "204":
+    '200':
       description: Game book deleted
       content:
         application/json:
