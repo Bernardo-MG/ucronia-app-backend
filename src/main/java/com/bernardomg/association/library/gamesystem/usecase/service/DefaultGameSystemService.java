@@ -69,17 +69,22 @@ public final class DefaultGameSystemService implements GameSystemService {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final GameSystem delete(final Long number) {
+        final GameSystem deleted;
 
         log.debug("Deleting game system {}", number);
 
-        if (!gameSystemRepository.exists(number)) {
-            throw new MissingGameSystemException(number);
-        }
+        deleted = gameSystemRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing game system {}", number);
+                throw new MissingGameSystemException(number);
+            });
 
         gameSystemRepository.delete(number);
 
         log.debug("Deleted game system {}", number);
+
+        return deleted;
     }
 
     @Override

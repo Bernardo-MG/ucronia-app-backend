@@ -42,9 +42,9 @@ components:
           enum: [asc, desc]
     pageParam:
       type: integer
-      minimum: 0
-      example: 0
-      default: 0
+      minimum: 1
+      example: 1
+      default: 1
     sizeParam:
       type: integer
       minimum: 1

@@ -70,17 +70,22 @@ public final class DefaultPublisherService implements PublisherService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final Publisher delete(final long number) {
+        final Publisher deleted;
 
         log.debug("Deleting publisher {}", number);
 
-        if (!publisherRepository.exists(number)) {
-            throw new MissingPublisherException(number);
-        }
+        deleted = publisherRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing publisher {}", number);
+                throw new MissingPublisherException(number);
+            });
 
         publisherRepository.delete(number);
 
         log.debug("Deleted publisher {}", number);
+
+        return deleted;
     }
 
     @Override

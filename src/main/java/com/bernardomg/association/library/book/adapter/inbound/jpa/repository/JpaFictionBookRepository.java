@@ -17,6 +17,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -24,9 +25,7 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
-import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -210,15 +209,15 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     private final FictionBook toDomain(final FictionBookEntity entity) {
-        final Collection<Publisher>   publishers;
-        final Collection<Donor>       donors;
-        final Collection<Author>      authors;
-        final boolean                 lent;
-        final Collection<BookLending> lendings;
-        final Title                   title;
-        final String                  supertitle;
-        final String                  subtitle;
-        final Optional<Donation>      donation;
+        final Collection<Publisher>       publishers;
+        final Collection<Donor>           donors;
+        final Collection<Author>          authors;
+        final boolean                     lent;
+        final Collection<BookLendingInfo> lendings;
+        final Title                       title;
+        final String                      supertitle;
+        final String                      subtitle;
+        final Optional<Donation>          donation;
 
         // Publishers
         if (entity.getPublishers() == null) {
@@ -282,17 +281,13 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
             entity.getPublishDate(), lent, authors, lendings, publishers, donation);
     }
 
-    private final BookLending toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
+    private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
-        final LentBook           lentBook;
-        final Title              title;
-
         // TODO: should not contain all the member data
         borrower = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
+        return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Borrower toDomain(final PersonEntity entity) {

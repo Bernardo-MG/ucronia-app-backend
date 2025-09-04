@@ -1,0 +1,64 @@
+get:
+  summary: Get a fiction book by number
+  operationId: getFictionBookById
+  tags:
+    - FictionBook
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    "200":
+      description: Fiction book found
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/FictionBookResponse'
+    "404":
+      description: Fiction book not found
+
+put:
+  summary: Update a fiction book
+  operationId: updateFictionBook
+  tags:
+    - FictionBook
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/books.yml#/components/schemas/FictionBookUpdate'
+  responses:
+    "200":
+      description: Fiction book successfully updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/FictionBookResponse'
+
+delete:
+  summary: Delete a fiction book
+  operationId: deleteFictionBook
+  tags:
+    - FictionBook
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    "204":
+      description: Fiction book deleted
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/FictionBookResponse'

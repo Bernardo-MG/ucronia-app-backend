@@ -1,0 +1,67 @@
+post:
+  summary: Lend a book
+  operationId: lendBook
+  tags:
+    - BookLending
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/book_lendings.yml#/components/schemas/BookLent'
+  responses:
+    '201':
+      description: Book lending successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_lendings.yml#/components/schemas/BookLendingResponse'
+get:
+  summary: Get all book lendings
+  operationId: getAllBookLendings
+  tags:
+    - BookLending
+  parameters:
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: List of book lendings
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_lendings.yml#/components/schemas/BookLendingPageResponse'
+put:
+  summary: Return a book
+  operationId: returnBook
+  tags:
+    - BookLending
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/book_lendings.yml#/components/schemas/BookReturned'
+  responses:
+    "200":
+      description: Book successfully returned
+      content:
+        application/json:
+          schema:
+            $ref: '../components/book_lendings.yml#/components/schemas/BookLendingResponse'

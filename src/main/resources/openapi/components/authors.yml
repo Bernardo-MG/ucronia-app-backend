@@ -1,0 +1,38 @@
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          example: "Gary Gigax"
+    AuthorCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: "Gary Gigax"
+    AuthorChange:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: "Gary Gigax"
+    AuthorPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Author'
+    AuthorResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Author'

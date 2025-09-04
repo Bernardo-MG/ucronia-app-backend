@@ -12,7 +12,7 @@ public interface BookTypeService {
 
     public BookType create(final BookType type);
 
-    public void delete(final Long number);
+    public BookType delete(final Long number);
 
     public Page<BookType> getAll(final Pagination pagination, final Sorting sorting);
 

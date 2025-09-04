@@ -27,6 +27,8 @@ package com.bernardomg.association.library.book.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -40,6 +42,7 @@ import com.bernardomg.association.library.author.domain.repository.AuthorReposit
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
+import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
@@ -79,7 +82,7 @@ class TestGameBookServiceDelete {
     @DisplayName("When deleting a book, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
+        given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(GameBooks.full()));
 
         // WHEN
         service.delete(BookConstants.NUMBER);
@@ -94,7 +97,7 @@ class TestGameBookServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
+        given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(BookConstants.NUMBER);

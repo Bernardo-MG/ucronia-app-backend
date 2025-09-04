@@ -12,7 +12,7 @@ public interface AuthorService {
 
     public Author create(final Author author);
 
-    public void delete(final Long number);
+    public Author delete(final Long number);
 
     public Page<Author> getAll(final Pagination pagination, final Sorting sorting);
 

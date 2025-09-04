@@ -12,12 +12,12 @@ public interface FictionBookService {
 
     public FictionBook create(final FictionBook book);
 
-    public void delete(final long number);
+    public FictionBook delete(final long number);
 
     public Page<FictionBook> getAll(final Pagination pagination, final Sorting sorting);
 
     public Optional<FictionBook> getOne(final long number);
 
-    public FictionBook update(final long number, final FictionBook book);
+    public FictionBook update(final FictionBook book);
 
 }

@@ -24,34 +24,33 @@
 
 package com.bernardomg.association.library.booktype.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.booktype.adapter.outbound.cache.LibraryBookTypeCaches;
-import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeChange;
-import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeCreation;
+import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeDtoMapper;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.BookTypeApi;
+import com.bernardomg.ucronia.openapi.model.BookTypeChangeDto;
+import com.bernardomg.ucronia.openapi.model.BookTypeCreationDto;
+import com.bernardomg.ucronia.openapi.model.BookTypePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.BookTypeResponseDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Book type REST controller.
@@ -60,8 +59,7 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/library/bookType")
-public class BookTypeController {
+public class BookTypeController implements BookTypeApi {
 
     /**
      * Book type service.
@@ -73,50 +71,69 @@ public class BookTypeController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES, LibraryBookTypeCaches.BOOK_TYPE },
-            allEntries = true) })
-    public BookType create(@Valid @RequestBody final BookTypeCreation request) {
+    @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
+    public BookTypeResponseDto createBookType(@Valid final BookTypeCreationDto bookTypeCreationDto) {
         final BookType bookType;
 
-        bookType = new BookType(-1L, request.name());
-        return service.create(bookType);
+        bookType = service.create(new BookType(-1L, bookTypeCreationDto.getName()));
+
+        return BookTypeDtoMapper.toResponseDto(bookType);
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPE }),
             @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPES)
-    public Page<BookType> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
-    }
-
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPE)
-    public BookType readOne(@PathVariable("number") final long number) {
-        return service.getOne(number)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
-    public BookType update(@PathVariable("number") final long number, @Valid @RequestBody final BookTypeChange change) {
+    public BookTypeResponseDto deleteBookType(final Long number) {
         final BookType bookType;
 
-        bookType = new BookType(number, change.name());
-        return service.update(bookType);
+        bookType = service.delete(number);
+
+        return BookTypeDtoMapper.toResponseDto(bookType);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPES)
+    public BookTypePageResponseDto getAllBookTypes(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final Page<BookType> bookTypes;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        bookTypes = service.getAll(pagination, sorting);
+
+        return BookTypeDtoMapper.toResponseDto(bookTypes);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPE)
+    public BookTypeResponseDto getBookTypeById(final Long number) {
+        final Optional<BookType> bookType;
+
+        bookType = service.getOne(number);
+
+        return BookTypeDtoMapper.toResponseDto(bookType);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
+    public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeChangeDto bookTypeChangeDto) {
+        final BookType updated;
+        final BookType bookType;
+
+        bookType = new BookType(number, bookTypeChangeDto.getName());
+        updated = service.update(bookType);
+
+        return BookTypeDtoMapper.toResponseDto(updated);
     }
 
 }

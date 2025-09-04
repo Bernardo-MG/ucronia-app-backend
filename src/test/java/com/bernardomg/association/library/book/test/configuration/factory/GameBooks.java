@@ -13,7 +13,7 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
-import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
+import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingInfos;
 import com.bernardomg.association.library.publisher.test.configuration.factory.Publishers;
 
 public final class GameBooks {
@@ -146,7 +146,7 @@ public final class GameBooks {
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
         return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
-            BookConstants.PUBLISH_DATE, true, List.of(Authors.valid()), List.of(BookLendings.lent()),
+            BookConstants.PUBLISH_DATE, true, List.of(Authors.valid()), List.of(BookLendingInfos.lent()),
             List.of(Publishers.valid()), Optional.of(donation), Optional.of(BookTypes.valid()),
             Optional.of(GameSystems.valid()));
     }
@@ -159,31 +159,31 @@ public final class GameBooks {
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
         return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             BookConstants.PUBLISH_DATE, true, List.of(Authors.valid()),
-            List.of(BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 1)
+            List.of(BookLendingInfos.returned(LocalDate.of(2020, Month.JANUARY, 1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant(),
                 LocalDate.of(2020, Month.JANUARY, 2)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant()),
-                BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 4)
+                BookLendingInfos.returned(LocalDate.of(2020, Month.JANUARY, 4)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.FEBRUARY, 3)
                         .atStartOfDay(ZoneOffset.UTC)
                         .toInstant()),
-                BookLendings.returnedAlternative(LocalDate.of(2020, Month.FEBRUARY, 12)
+                BookLendingInfos.returnedAlternative(LocalDate.of(2020, Month.FEBRUARY, 12)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.FEBRUARY, 13)
                         .atStartOfDay(ZoneOffset.UTC)
                         .toInstant()),
-                BookLendings.returned(LocalDate.of(2020, Month.MAY, 4)
+                BookLendingInfos.returned(LocalDate.of(2020, Month.MAY, 4)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.MAY, 6)
                         .atStartOfDay(ZoneOffset.UTC)
                         .toInstant()),
-                BookLendings.lent(LocalDate.of(2020, Month.MAY, 10)
+                BookLendingInfos.lent(LocalDate.of(2020, Month.MAY, 10)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant())),
             List.of(Publishers.valid()), Optional.of(donation), Optional.of(BookTypes.valid()),
@@ -228,7 +228,7 @@ public final class GameBooks {
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
         return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
-            BookConstants.PUBLISH_DATE, false, List.of(Authors.valid()), List.of(BookLendings.returned()),
+            BookConstants.PUBLISH_DATE, false, List.of(Authors.valid()), List.of(BookLendingInfos.returned()),
             List.of(Publishers.valid()), Optional.of(donation), Optional.of(BookTypes.valid()),
             Optional.of(GameSystems.valid()));
     }
@@ -241,31 +241,31 @@ public final class GameBooks {
         donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
         return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             BookConstants.PUBLISH_DATE, false, List.of(Authors.valid()),
-            List.of(BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 1)
+            List.of(BookLendingInfos.returned(LocalDate.of(2020, Month.JANUARY, 1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant(),
                 LocalDate.of(2020, Month.JANUARY, 2)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant()),
-                BookLendings.returned(LocalDate.of(2020, Month.JANUARY, 4)
+                BookLendingInfos.returned(LocalDate.of(2020, Month.JANUARY, 4)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.FEBRUARY, 3)
                         .atStartOfDay(ZoneOffset.UTC)
                         .toInstant()),
-                BookLendings.returnedAlternative(LocalDate.of(2020, Month.FEBRUARY, 12)
+                BookLendingInfos.returnedAlternative(LocalDate.of(2020, Month.FEBRUARY, 12)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.FEBRUARY, 13)
                         .atStartOfDay(ZoneOffset.UTC)
                         .toInstant()),
-                BookLendings.returned(LocalDate.of(2020, Month.MAY, 4)
+                BookLendingInfos.returned(LocalDate.of(2020, Month.MAY, 4)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.MAY, 6)
                         .atStartOfDay(ZoneOffset.UTC)
                         .toInstant()),
-                BookLendings.returned(LocalDate.of(2020, Month.MAY, 10)
+                BookLendingInfos.returned(LocalDate.of(2020, Month.MAY, 10)
                     .atStartOfDay(ZoneOffset.UTC)
                     .toInstant(),
                     LocalDate.of(2020, Month.MAY, 12)

@@ -144,18 +144,22 @@ public final class DefaultGameBookService implements GameBookService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final GameBook delete(final long number) {
+        final GameBook deleted;
 
         log.debug("Deleting book {}", number);
 
-        if (!bookRepository.exists(number)) {
-            log.error("Missing book {}", number);
-            throw new MissingBookException(number);
-        }
+        deleted = bookRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing book {}", number);
+                throw new MissingBookException(number);
+            });
 
         bookRepository.delete(number);
 
         log.debug("Deleted book {}", number);
+
+        return deleted;
     }
 
     @Override
@@ -189,7 +193,7 @@ public final class DefaultGameBookService implements GameBookService {
     }
 
     @Override
-    public final GameBook update(final long number, final GameBook book) {
+    public final GameBook update(final GameBook book) {
         final GameBook              toUpdate;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
@@ -197,15 +201,15 @@ public final class DefaultGameBookService implements GameBookService {
         final Optional<Donation>    donation;
         final GameBook              updated;
 
-        log.debug("Updating book with number {} using data {}", number, book);
+        log.debug("Updating book with number {} using data {}", book.number(), book);
 
         // TODO: verify the language is a valid code
         // TODO: validate isbn
 
         // Check book exists
-        if (!bookRepository.exists(number)) {
-            log.error("Missing book {}", number);
-            throw new MissingBookException(number);
+        if (!bookRepository.exists(book.number())) {
+            log.error("Missing book {}", book.number());
+            throw new MissingBookException(book.number());
         }
 
         validateRelationships(book);
@@ -234,14 +238,14 @@ public final class DefaultGameBookService implements GameBookService {
         } else {
             donation = Optional.empty();
         }
-        toUpdate = new GameBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false, authors,
-            List.of(), publishers, donation, book.bookType(), book.gameSystem());
+        toUpdate = new GameBook(book.number(), book.title(), book.isbn(), book.language(), book.publishDate(), false,
+            authors, List.of(), publishers, donation, book.bookType(), book.gameSystem());
 
         updateBookValidator.validate(toUpdate);
 
         updated = bookRepository.save(toUpdate);
 
-        log.debug("Updated book with number {} using data {}", number, book);
+        log.debug("Updated book with number {} using data {}", book.number(), book);
 
         return updated;
     }

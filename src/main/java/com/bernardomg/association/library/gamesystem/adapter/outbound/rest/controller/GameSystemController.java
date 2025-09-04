@@ -24,34 +24,33 @@
 
 package com.bernardomg.association.library.gamesystem.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.gamesystem.adapter.outbound.cache.LibraryGameSystemCaches;
-import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemChange;
-import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemCreation;
+import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemDtoMapper;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.GameSystemApi;
+import com.bernardomg.ucronia.openapi.model.GameSystemChangeDto;
+import com.bernardomg.ucronia.openapi.model.GameSystemCreationDto;
+import com.bernardomg.ucronia.openapi.model.GameSystemPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.GameSystemResponseDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Author REST controller.
@@ -60,8 +59,7 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/library/gameSystem")
-public class GameSystemController {
+public class GameSystemController implements GameSystemApi {
 
     /**
      * Author service.
@@ -73,52 +71,70 @@ public class GameSystemController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS, LibraryGameSystemCaches.GAME_SYSTEM },
-                    allEntries = true) })
-    public GameSystem create(@Valid @RequestBody final GameSystemCreation request) {
-        final GameSystem author;
+    @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
+    public GameSystemResponseDto createGameSystem(@Valid final GameSystemCreationDto gameSystemCreationDto) {
+        final GameSystem gameSystem;
 
-        author = new GameSystem(-1L, request.name());
-        return service.create(author);
+        gameSystem = service.create(new GameSystem(-1L, gameSystemCreationDto.getName()));
+
+        return GameSystemDtoMapper.toResponseDto(gameSystem);
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEM }),
             @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEMS)
-    public Page<GameSystem> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
-    }
-
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
-    public GameSystem readOne(@PathVariable("number") final long number) {
-        return service.getOne(number)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
-    public GameSystem update(@PathVariable("number") final long number,
-            @Valid @RequestBody final GameSystemChange change) {
+    public GameSystemResponseDto deleteGameSystem(final Long number) {
         final GameSystem gameSystem;
 
-        gameSystem = new GameSystem(number, change.name());
-        return service.update(gameSystem);
+        gameSystem = service.delete(number);
+
+        return GameSystemDtoMapper.toResponseDto(gameSystem);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEMS)
+    public GameSystemPageResponseDto getAllGameSystems(@Min(0) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Pagination       pagination;
+        final Sorting          sorting;
+        final Page<GameSystem> gameSystems;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        gameSystems = service.getAll(pagination, sorting);
+
+        return GameSystemDtoMapper.toResponseDto(gameSystems);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
+    public GameSystemResponseDto getGameSystemById(final Long number) {
+        final Optional<GameSystem> gameSystem;
+
+        gameSystem = service.getOne(number);
+
+        return GameSystemDtoMapper.toResponseDto(gameSystem);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
+    public GameSystemResponseDto updateGameSystem(final Long number,
+            @Valid final GameSystemChangeDto gameSystemChangeDto) {
+        final GameSystem updated;
+        final GameSystem gameSystem;
+
+        gameSystem = new GameSystem(number, gameSystemChangeDto.getName());
+        updated = service.update(gameSystem);
+
+        return GameSystemDtoMapper.toResponseDto(updated);
     }
 
 }
