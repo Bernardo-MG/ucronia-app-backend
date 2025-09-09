@@ -25,15 +25,15 @@ components:
     Transaction:
       type: object
       properties:
-      index:
-        $ref: '../common/ids.yml#/components/schemas/Id'
-      date:
-        $ref: '../common/dates.yml#/components/schemas/Date'
-      amount:
-        type: number
-        format: float
-      description:
-        type: string
+        index:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
     MinimalTransaction:
       type: object
       required: [index, date]
