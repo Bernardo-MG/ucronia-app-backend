@@ -32,8 +32,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
@@ -45,6 +43,7 @@ import com.bernardomg.association.transaction.usecase.service.TransactionService
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionApi;
@@ -75,26 +74,6 @@ public class TransactionController implements TransactionApi {
         this.service = service;
     }
 
-    /**
-     * Returns all the transactions in a paginated form.
-     *
-     *
-     * @param transaction
-     *            query to filter transactions
-     * @param pagination
-     *            pagination to apply
-     * @param sorting
-     *            sorting to apply
-     * @return a page for the transactions matching the sample
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
-    public Page<Transaction> readAll(@Valid final TransactionQuery transaction, final Pagination pagination,
-            final Sorting sorting) {
-        return service.getAll(transaction, pagination, sorting);
-    }
-    
     @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
@@ -107,11 +86,11 @@ public class TransactionController implements TransactionApi {
                     TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public TransactionResponseDto createTransaction(@Valid TransactionCreationDto transactionCreationDto) {
+    public TransactionResponseDto createTransaction(@Valid final TransactionCreationDto transactionCreationDto) {
         final Transaction transaction;
         final Transaction toCreate;
 
-        toCreate=TransactionDtoMapper.toDomain(transactionCreationDto);
+        toCreate = TransactionDtoMapper.toDomain(transactionCreationDto);
         transaction = service.create(toCreate);
 
         return TransactionDtoMapper.toResponseDto(transaction);
@@ -128,7 +107,7 @@ public class TransactionController implements TransactionApi {
             TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
             // Fee caches
             FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public TransactionResponseDto deleteTransaction(Long index) {
+    public TransactionResponseDto deleteTransaction(final Long index) {
         final Transaction transaction;
 
         transaction = service.delete(index);
@@ -139,17 +118,26 @@ public class TransactionController implements TransactionApi {
     @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
-    public TransactionPageResponseDto getAllTransactions(@Valid Instant date, @Valid Instant startDate,
-            @Valid Instant endDate, @Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort) {
-        // TODO Auto-generated method stub
-        return null;
+    public TransactionPageResponseDto getAllTransactions(@Valid final Instant date, @Valid final Instant startDate,
+            @Valid final Instant endDate, @Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final TransactionQuery  query;
+        final Pagination        pagination;
+        final Sorting           sorting;
+        final Page<Transaction> transactions;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        query = new TransactionQuery(date, startDate, endDate);
+        transactions = service.getAll(query, pagination, sorting);
+
+        return TransactionDtoMapper.toResponseDto(transactions);
     }
 
     @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.TRANSACTION)
-    public TransactionResponseDto getOneTransaction(Long index) {
+    public TransactionResponseDto getOneTransaction(final Long index) {
         final Optional<Transaction> transaction;
 
         transaction = service.getOne(index);
@@ -169,7 +157,8 @@ public class TransactionController implements TransactionApi {
                     TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public TransactionResponseDto updateTransaction(Long index, @Valid TransactionChangeDto transactionChangeDto) {
+    public TransactionResponseDto updateTransaction(final Long index,
+            @Valid final TransactionChangeDto transactionChangeDto) {
         final Transaction transaction;
         final Transaction updated;
 
