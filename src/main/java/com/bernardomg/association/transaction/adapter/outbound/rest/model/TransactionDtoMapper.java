@@ -10,12 +10,17 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
+import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
 import com.bernardomg.ucronia.openapi.model.TransactionDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
 
 public final class TransactionDtoMapper {
+
+    public static final Transaction toDomain(final Long index, final TransactionChangeDto change) {
+        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
+    }
 
     public static final Transaction toDomain(final TransactionCreationDto creation) {
         return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription());
@@ -46,6 +51,10 @@ public final class TransactionDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sortingResponse);
+    }
+
+    public static final TransactionResponseDto toResponseDto(final Transaction transaction) {
+        return new TransactionResponseDto().content(TransactionDtoMapper.toDto(transaction));
     }
 
     private static final PropertyDto toDto(final Property property) {

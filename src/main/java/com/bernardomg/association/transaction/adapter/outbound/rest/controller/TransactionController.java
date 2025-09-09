@@ -24,25 +24,21 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionChange;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
@@ -51,8 +47,14 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.TransactionApi;
+import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
+import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
+import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Transaction REST controller.
@@ -61,8 +63,7 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/funds/transaction")
-public class TransactionController {
+public class TransactionController implements TransactionApi {
 
     /**
      * Transaction service.
@@ -72,54 +73,6 @@ public class TransactionController {
     public TransactionController(final TransactionService service) {
         super();
         this.service = service;
-    }
-
-    /**
-     * Creates a transaction.
-     *
-     * @param creation
-     *            transaction to add
-     * @return the new transaction
-     */
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.index") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Transaction caches
-                    TransactionCaches.TRANSACTIONS,
-                    // Calendar caches
-                    TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-                    // Balance caches
-                    TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public Transaction create(@Valid @RequestBody final TransactionChange creation) {
-        final Transaction transaction;
-
-        transaction = toModel(-1, creation);
-        return service.create(transaction);
-    }
-
-    /**
-     * Deletes a transaction by its id.
-     *
-     * @param index
-     *            transaction index
-     */
-    @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { TransactionCaches.TRANSACTION }), @CacheEvict(cacheNames = {
-            // Transaction caches
-            TransactionCaches.TRANSACTIONS,
-            // Calendar caches
-            TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-            // Balance caches
-            TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
-            // Fee caches
-            FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public void delete(@PathVariable("index") final long index) {
-        service.delete(index);
     }
 
     /**
@@ -141,34 +94,10 @@ public class TransactionController {
             final Sorting sorting) {
         return service.getAll(transaction, pagination, sorting);
     }
-
-    /**
-     * Reads a single transaction by its id.
-     *
-     * @param index
-     *            index of the transaction to read
-     * @return the transaction for the id, or {@code null} if it doesn't exist
-     */
-    @GetMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.TRANSACTION)
-    public Transaction readOne(@PathVariable("index") final long index) {
-        return service.getOne(index)
-            .orElse(null);
-    }
-
-    /**
-     * Updates a transaction.
-     *
-     * @param index
-     *            index of the transaction to update
-     * @param change
-     *            updated transaction data
-     * @return the updated transaction
-     */
-    @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.index") },
+    
+    @Override
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
             evict = { @CacheEvict(cacheNames = {
                     // Transaction caches
                     TransactionCaches.TRANSACTIONS,
@@ -178,16 +107,75 @@ public class TransactionController {
                     TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
-    public Transaction update(@PathVariable("index") final long index,
-            @Valid @RequestBody final TransactionChange change) {
+    public TransactionResponseDto createTransaction(@Valid TransactionCreationDto transactionCreationDto) {
         final Transaction transaction;
+        final Transaction toCreate;
 
-        transaction = toModel(index, change);
-        return service.update(transaction);
+        toCreate=TransactionDtoMapper.toDomain(transactionCreationDto);
+        transaction = service.create(toCreate);
+
+        return TransactionDtoMapper.toResponseDto(transaction);
     }
 
-    private final Transaction toModel(final long index, final TransactionChange change) {
-        return new Transaction(index, change.date(), change.amount(), change.description());
+    @Override
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = { TransactionCaches.TRANSACTION }), @CacheEvict(cacheNames = {
+            // Transaction caches
+            TransactionCaches.TRANSACTIONS,
+            // Calendar caches
+            TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
+            // Balance caches
+            TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
+            // Fee caches
+            FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
+    public TransactionResponseDto deleteTransaction(Long index) {
+        final Transaction transaction;
+
+        transaction = service.delete(index);
+
+        return TransactionDtoMapper.toResponseDto(transaction);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
+    public TransactionPageResponseDto getAllTransactions(@Valid Instant date, @Valid Instant startDate,
+            @Valid Instant endDate, @Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
+            @Valid List<String> sort) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.TRANSACTION)
+    public TransactionResponseDto getOneTransaction(Long index) {
+        final Optional<Transaction> transaction;
+
+        transaction = service.getOne(index);
+
+        return TransactionDtoMapper.toResponseDto(transaction);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Transaction caches
+                    TransactionCaches.TRANSACTIONS,
+                    // Calendar caches
+                    TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
+                    // Balance caches
+                    TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
+                    // Fee caches
+                    FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
+    public TransactionResponseDto updateTransaction(Long index, @Valid TransactionChangeDto transactionChangeDto) {
+        final Transaction transaction;
+        final Transaction updated;
+
+        transaction = TransactionDtoMapper.toDomain(index, transactionChangeDto);
+        updated = service.update(transaction);
+        return TransactionDtoMapper.toResponseDto(updated);
     }
 
 }
