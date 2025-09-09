@@ -1,0 +1,63 @@
+post:
+  summary: Create a transaction.
+  operationId: createTransaction
+  tags: [Transaction]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/transactions.yml#/components/schemas/TransactionCreation'
+  responses:
+    '201':
+      description: Transaction created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions.yml#/components/schemas/TransactionResponse'
+
+get:
+  summary: Get all transactions.
+  operationId: getAllTransactions
+  tags: [Transaction]
+  parameters:
+    - name: date
+      description: Date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: startDate
+      description: Starting date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: endDate
+      description: Ending date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: Transactions page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions.yml#/components/schemas/TransactionPageResponse'

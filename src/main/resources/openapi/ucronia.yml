@@ -21,6 +21,10 @@ paths:
     $ref: paths/fees_payment.yml
   /user/fee:
     $ref: paths/user_fees.yml
+  /transaction:
+    $ref: paths/transactions.yml
+  /transaction/{index}:
+    $ref: paths/transactions_by_id.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:

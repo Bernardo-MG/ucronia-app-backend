@@ -1,5 +1,39 @@
 components:
   schemas:
+    TransactionCreation:
+      type: object
+      required: [date, amount, description]
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+    TransactionChange:
+      type: object
+      required: [date, amount, description]
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+    Transaction:
+      type: object
+      properties:
+      index:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+      date:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+      amount:
+        type: number
+        format: float
+      description:
+        type: string
     MinimalTransaction:
       type: object
       required: [index, date]
@@ -8,3 +42,17 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         date:
           $ref: '../common/dates.yml#/components/schemas/Date'
+    TransactionPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'
+    TransactionResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Transaction'
