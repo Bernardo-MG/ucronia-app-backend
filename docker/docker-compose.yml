@@ -44,13 +44,13 @@ services:
       - spring.datasource.username=postgres
       - spring.datasource.password=password
       # Mail
-      - spring.mail.host=smtp://mail
+      - spring.mail.host=mail
       - spring.mail.port=1025
       - spring.mail.username=username
       - spring.mail.password=password
       - email.security.from=security@somewhere.com
-      - email.security.passwordRecovery.url=http://local
-      - email.security.activateUser.url=http://local
+      - email.security.activateUser.url=https://localhost:4220/users/activate
+      - email.security.passwordRecovery.url=https://localhost:4220/password/reset/
     volumes:
       - association-logs:/app/logs
     networks:
