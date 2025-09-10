@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BUILD STAGE
 # -----------------------------------------------------------------------------
-FROM maven:3.9.9-eclipse-temurin-22-alpine as build
+FROM maven:3.9.9-eclipse-temurin-22-alpine AS build
 
 # Create app directory
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN mvn --batch-mode clean package -DskipTests
 # -----------------------------------------------------------------------------
 # DEPLOYMENT STAGE
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:22-jre-alpine as deployment
+FROM eclipse-temurin:22-jre-alpine AS deployment
 
 WORKDIR /app
 
