@@ -1,0 +1,22 @@
+get:
+  summary: Get monthly balance.
+  operationId: getMonthlyTransactionBalance
+  tags: [TransactionBalance]
+  parameters:
+    - name: startDate
+      description: Starting date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
+    - name: endDate
+      description: Ending date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
+  responses:
+    '200':
+      description: Transactions page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions_balance.yml#/components/schemas/TransactionMonthlyBalanceResponse'

@@ -26,6 +26,6 @@ package com.bernardomg.association.transaction.domain.model;
 
 import java.time.YearMonth;
 
-public record TransactionMonthlyBalance(YearMonth date, float results, float total) {
+public record TransactionMonthlyBalance(YearMonth month, float results, float total) {
 
 }

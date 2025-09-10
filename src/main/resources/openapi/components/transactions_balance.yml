@@ -1,0 +1,36 @@
+components:
+  schemas:
+    TransactionCurrentBalance:
+      type: object
+      required: [results, total]
+      properties:
+        results:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+    TransactionMonthlyBalance:
+      type: object
+      required: [results, total]
+      properties:
+        month:
+          $ref: '../common/dates.yml#/components/schemas/Month'
+        results:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+    TransactionCurrentBalanceResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/TransactionCurrentBalance'
+    TransactionMonthlyBalanceResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionMonthlyBalance'

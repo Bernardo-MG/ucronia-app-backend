@@ -56,17 +56,21 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final void delete(final long index) {
+    public final Transaction delete(final long index) {
+        final Transaction transaction;
 
         log.debug("Deleting transaction {}", index);
 
-        if (!transactionRepository.exists(index)) {
-            log.error("Missing transaction {}", index);
-            throw new MissingTransactionException(index);
-        }
+        transaction = transactionRepository.findOne(index)
+            .orElseThrow(() -> {
+                log.error("Missing transaction {}", index);
+                throw new MissingTransactionException(index);
+            });
 
         // TODO: Check this deletes on cascade
         transactionRepository.delete(index);
+
+        return transaction;
     }
 
     @Override

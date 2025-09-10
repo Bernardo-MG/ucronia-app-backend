@@ -27,6 +27,8 @@ package com.bernardomg.association.transaction.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -38,6 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
 
@@ -57,7 +60,7 @@ class TestTransactionServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(false);
+        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(TransactionConstants.INDEX);
@@ -71,7 +74,8 @@ class TestTransactionServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
 
         // WHEN
         service.delete(TransactionConstants.INDEX);
