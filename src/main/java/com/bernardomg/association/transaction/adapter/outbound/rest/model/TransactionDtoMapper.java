@@ -1,9 +1,12 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -12,7 +15,11 @@ import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
+import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceDto;
+import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionDto;
+import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceDto;
+import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
 
@@ -24,6 +31,13 @@ public final class TransactionDtoMapper {
 
     public static final Transaction toDomain(final TransactionCreationDto creation) {
         return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription());
+    }
+
+    public static final TransactionMonthlyBalanceResponseDto
+            toResponseDto(final Collection<? extends TransactionMonthlyBalance> balance) {
+        return new TransactionMonthlyBalanceResponseDto().content(balance.stream()
+            .map(TransactionDtoMapper::toDto)
+            .toList());
     }
 
     public static final TransactionResponseDto toResponseDto(final Optional<Transaction> transaction) {
@@ -57,6 +71,14 @@ public final class TransactionDtoMapper {
         return new TransactionResponseDto().content(TransactionDtoMapper.toDto(transaction));
     }
 
+    public static final TransactionCurrentBalanceResponseDto toResponseDto(final TransactionCurrentBalance balance) {
+        final TransactionCurrentBalanceDto balanceDto;
+
+        balanceDto = new TransactionCurrentBalanceDto().results(balance.results())
+            .total(balance.total());
+        return new TransactionCurrentBalanceResponseDto().content(balanceDto);
+    }
+
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -74,6 +96,12 @@ public final class TransactionDtoMapper {
             .date(transaction.date())
             .amount(transaction.amount())
             .description(transaction.description());
+    }
+
+    private static final TransactionMonthlyBalanceDto toDto(final TransactionMonthlyBalance balance) {
+        return new TransactionMonthlyBalanceDto().month(balance.month())
+            .results(balance.results())
+            .total(balance.total());
     }
 
     private TransactionDtoMapper() {

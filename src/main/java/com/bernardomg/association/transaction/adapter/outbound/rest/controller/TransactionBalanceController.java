@@ -24,21 +24,25 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
+import java.time.YearMonth;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.TransactionBalanceApi;
+import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto;
+import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
 
 import jakarta.validation.Valid;
 
@@ -49,29 +53,36 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/funds/balance")
-public class BalanceController {
+public class TransactionBalanceController implements TransactionBalanceApi {
 
     /**
      * Balance service
      */
     private final TransactionBalanceService service;
 
-    public BalanceController(final TransactionBalanceService service) {
+    public TransactionBalanceController(final TransactionBalanceService service) {
         super();
         this.service = service;
     }
 
-    /**
-     * Returns the current balance.
-     *
-     * @return the current balance
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.BALANCE)
-    public TransactionCurrentBalance readBalance() {
-        return service.getBalance();
+    public TransactionCurrentBalanceResponseDto getCurrentTransactionBalance() {
+        final TransactionCurrentBalance balance;
+
+        balance = service.getBalance();
+
+        return TransactionDtoMapper.toResponseDto(balance);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
+    public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final YearMonth startDate,
+            @Valid final YearMonth endDate) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**

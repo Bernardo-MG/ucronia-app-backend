@@ -25,6 +25,10 @@ paths:
     $ref: paths/transactions.yml
   /transaction/{index}:
     $ref: paths/transactions_by_id.yml
+  /transaction/balance:
+    $ref: paths/transactions_year_balance.yml
+  /transaction/balance/monthly:
+    $ref: paths/transactions_monthly_balance.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:

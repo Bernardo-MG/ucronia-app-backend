@@ -12,27 +12,6 @@ components:
           type: boolean
         transaction:
           $ref: 'transactions.yml#/components/schemas/MinimalTransaction'
-    FeePageResponse:
-      allOf:
-        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
-        - type: object
-          properties:
-            content:
-              type: array
-              items:
-                $ref: '#/components/schemas/Fee'
-    FeeResponse:
-      type: object
-      properties:
-        content:
-          $ref: '#/components/schemas/Fee'
-    FeesResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Fee'
     FeeCreation:
       type: object
       required: [member, month]
@@ -69,3 +48,24 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         date:
           $ref: '../common/dates.yml#/components/schemas/Date'
+    FeePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Fee'
+    FeeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Fee'
+    FeesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fee'
