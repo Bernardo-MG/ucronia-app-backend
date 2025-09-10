@@ -27,6 +27,6 @@ package com.bernardomg.association.transaction.domain.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-public record TransactionCalendarMonth(YearMonth date, Collection<Transaction> transactions) {
+public record TransactionCalendarMonth(YearMonth month, Collection<Transaction> transactions) {
 
 }

@@ -27,18 +27,20 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 import java.time.YearMonth;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
+import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthResponseDto;
+import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Funds calendar REST controller.
@@ -47,49 +49,41 @@ import com.bernardomg.security.permission.data.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/funds/calendar")
-public class FundsCalendarController {
+public class TransactionCalendarController implements TransactionCalendarApi {
 
     /**
      * Funds calendar service.
      */
     private final TransactionCalendarService service;
 
-    public FundsCalendarController(final TransactionCalendarService service) {
+    public TransactionCalendarController(final TransactionCalendarService service) {
         super();
         this.service = service;
     }
 
-    /**
-     * Returns all the fund changes for a month.
-     *
-     * @param year
-     *            year to read
-     * @param month
-     *            month to read
-     * @return all the fund changes for the month
-     */
-    @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR)
-    public TransactionCalendarMonth readMonth(@PathVariable("year") final Integer year,
-            @PathVariable("month") final Integer month) {
-        final YearMonth date;
+    public TransactionCalendarMonthResponseDto getTransactionCalendarMonth(@Valid final Integer year,
+            @Valid final Integer month) {
+        final TransactionCalendarMonth calendarMonth;
+        final YearMonth                date;
 
         date = YearMonth.of(year, month);
-        return service.getForMonth(date);
+        calendarMonth = service.getForMonth(date);
+
+        return TransactionDtoMapper.toResponseDto(calendarMonth);
     }
 
-    /**
-     * Returns the range of available months.
-     *
-     * @return the range of available months
-     */
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR_RANGE)
-    public TransactionCalendarMonthsRange readRange() {
-        return service.getRange();
+    public TransactionCalendarMonthsRangeResponseDto getTransactionCalendarRange() {
+        final TransactionCalendarMonthsRange range;
+
+        range = service.getRange();
+
+        return TransactionDtoMapper.toResponseDto(range);
     }
 
 }

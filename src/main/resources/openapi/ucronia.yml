@@ -29,6 +29,10 @@ paths:
     $ref: paths/transactions_year_balance.yml
   /transaction/balance/monthly:
     $ref: paths/transactions_monthly_balance.yml
+  /transaction/calendar/range:
+    $ref: paths/transactions_calendar_range.yml
+  /transaction/calendar/{year}/{month}:
+    $ref: paths/transactions_calendar_month.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:

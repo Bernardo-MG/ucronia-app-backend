@@ -63,7 +63,7 @@ class ITTransactionRepositoryFindInMonth {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendar.date())
+            softly.assertThat(calendar.month())
                 .as("date")
                 .isEqualTo(month);
             softly.assertThat(calendar.transactions())
@@ -87,7 +87,7 @@ class ITTransactionRepositoryFindInMonth {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendar.date())
+            softly.assertThat(calendar.month())
                 .as("date")
                 .isEqualTo(month);
             softly.assertThat(calendar.transactions())
@@ -110,7 +110,7 @@ class ITTransactionRepositoryFindInMonth {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendar.date())
+            softly.assertThat(calendar.month())
                 .as("date")
                 .isEqualTo(month);
             softly.assertThat(calendar.transactions())
