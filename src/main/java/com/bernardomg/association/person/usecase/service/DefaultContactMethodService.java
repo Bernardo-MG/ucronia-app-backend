@@ -70,15 +70,20 @@ public final class DefaultContactMethodService implements ContactMethodService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final ContactMethod delete(final long number) {
+        final ContactMethod contactMethod;
+
         log.debug("Deleting ContactMethod {}", number);
 
-        if (!contactMethodRepository.exists(number)) {
-            log.error("Missing ContactMethod {}", number);
-            throw new MissingContactMethodException(number);
-        }
+        contactMethod = contactMethodRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing ContactMethod {}", number);
+                throw new MissingContactMethodException(number);
+            });
 
         contactMethodRepository.delete(number);
+
+        return contactMethod;
     }
 
     @Override
@@ -90,17 +95,17 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
     @Override
     public final Optional<ContactMethod> getOne(final long number) {
-        final Optional<ContactMethod> ContactMethod;
+        final Optional<ContactMethod> contactMethod;
 
         log.debug("Reading ContactMethod {}", number);
 
-        ContactMethod = contactMethodRepository.findOne(number);
-        if (ContactMethod.isEmpty()) {
+        contactMethod = contactMethodRepository.findOne(number);
+        if (contactMethod.isEmpty()) {
             log.error("Missing ContactMethod {}", number);
             throw new MissingContactMethodException(number);
         }
 
-        return ContactMethod;
+        return contactMethod;
     }
 
     @Override

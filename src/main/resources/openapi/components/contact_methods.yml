@@ -1,0 +1,39 @@
+components:
+  schemas:
+    ContactMethod:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          description: Name of the contact method.
+    ContactMethodCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: Name of the new contact method.
+    ContactMethodChange:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: Updated name of the contact method.
+    ContactMethodPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContactMethod'
+    ContactMethodResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/ContactMethod'

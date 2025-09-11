@@ -24,36 +24,35 @@
 
 package com.bernardomg.association.person.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.ContactMethodCaches;
-import com.bernardomg.association.person.adapter.outbound.rest.model.ContactMethodChange;
-import com.bernardomg.association.person.adapter.outbound.rest.model.ContactMethodCreation;
+import com.bernardomg.association.person.adapter.outbound.rest.model.ContactMethodDtoMapper;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.usecase.service.ContactMethodService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.ContactMethodApi;
+import com.bernardomg.ucronia.openapi.model.ContactMethodChangeDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodCreationDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodResponseDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Contact method REST controller.
@@ -62,8 +61,7 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/person/contactMethod")
-public class ContactMethodController {
+public class ContactMethodController implements ContactMethodApi {
 
     /**
      * Contact method service.
@@ -76,10 +74,9 @@ public class ContactMethodController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.number") },
+    @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // ContactMethod caches
                     ContactMethodCaches.CONTACT_METHODS,
@@ -87,14 +84,17 @@ public class ContactMethodController {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactMethod create(@Valid @RequestBody final ContactMethodCreation creation) {
+    public ContactMethodResponseDto createContactMethod(@Valid ContactMethodCreationDto contactMethodCreationDto) {
         final ContactMethod member;
+        final ContactMethod contactMethod;
 
-        member = toDomain(creation);
-        return service.create(member);
+        member = ContactMethodDtoMapper.toDomain(contactMethodCreationDto);
+        contactMethod = service.create(member);
+
+        return ContactMethodDtoMapper.toResponseDto(contactMethod);
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { ContactMethodCaches.CONTACT_METHOD }), @CacheEvict(cacheNames = {
             // ContactMethod caches
@@ -103,28 +103,44 @@ public class ContactMethodController {
             FeeCaches.CALENDAR,
             // Member caches
             MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
+    public ContactMethodResponseDto deleteContactMethod(Long number) {
+        final ContactMethod contactMethod;
+
+        contactMethod = service.delete(number);
+
+        return ContactMethodDtoMapper.toResponseDto(contactMethod);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHODS)
-    public Page<ContactMethod> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
+    public ContactMethodPageResponseDto getAllContactMethods(@Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
+            @Valid List<String> sort) {
+        final Page<ContactMethod> contactMethods;
+        final Pagination          pagination;
+        final Sorting             sorting;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        contactMethods = service.getAll(pagination, sorting);
+
+        return ContactMethodDtoMapper.toResponseDto(contactMethods);
     }
 
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHOD)
-    public ContactMethod readOne(@PathVariable("number") final Long number) {
-        return service.getOne(number)
-            .orElse(null);
+    public ContactMethodResponseDto getContactMethodByNumber(Long number) {
+        Optional<ContactMethod> contactMethod;
+
+        contactMethod = service.getOne(number);
+
+        return ContactMethodDtoMapper.toResponseDto(contactMethod);
     }
 
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.number") },
+    @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // ContactMethod caches
                     ContactMethodCaches.CONTACT_METHODS,
@@ -132,20 +148,15 @@ public class ContactMethodController {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactMethod update(@PathVariable("number") final long number,
-            @Valid @RequestBody final ContactMethodChange change) {
-        final ContactMethod member;
+    public ContactMethodResponseDto updateContactMethod(Long number,
+            @Valid ContactMethodChangeDto contactMethodChangeDto) {
+        final ContactMethod contactMethod;
+        final ContactMethod updated;
 
-        member = toDomain(number, change);
-        return service.update(member);
-    }
+        contactMethod = ContactMethodDtoMapper.toDomain(number, contactMethodChangeDto);
+        updated = service.update(contactMethod);
 
-    private final ContactMethod toDomain(final ContactMethodCreation change) {
-        return new ContactMethod(null, change.name());
-    }
-
-    private final ContactMethod toDomain(final long number, final ContactMethodChange change) {
-        return new ContactMethod(number, change.name());
+        return ContactMethodDtoMapper.toResponseDto(updated);
     }
 
 }

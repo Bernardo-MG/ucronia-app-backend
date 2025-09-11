@@ -30,8 +30,9 @@ public interface ContactMethodService {
      *
      * @param number
      *            number of the contact method to delete
+     * @return the deleted contact method
      */
-    public void delete(final long number);
+    public ContactMethod delete(final long number);
 
     /**
      * Returns all the contact methods.
