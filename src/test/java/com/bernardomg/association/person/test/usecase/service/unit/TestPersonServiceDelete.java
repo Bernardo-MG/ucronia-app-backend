@@ -27,6 +27,8 @@ package com.bernardomg.association.person.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -40,6 +42,7 @@ import com.bernardomg.association.person.domain.exception.MissingPersonException
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,7 +66,7 @@ class TestPersonServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
         service.delete(PersonConstants.NUMBER);
@@ -78,7 +81,7 @@ class TestPersonServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(PersonConstants.NUMBER);
