@@ -84,7 +84,8 @@ public class ContactMethodController implements ContactMethodApi {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactMethodResponseDto createContactMethod(@Valid ContactMethodCreationDto contactMethodCreationDto) {
+    public ContactMethodResponseDto
+            createContactMethod(@Valid final ContactMethodCreationDto contactMethodCreationDto) {
         final ContactMethod member;
         final ContactMethod contactMethod;
 
@@ -103,7 +104,7 @@ public class ContactMethodController implements ContactMethodApi {
             FeeCaches.CALENDAR,
             // Member caches
             MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactMethodResponseDto deleteContactMethod(Long number) {
+    public ContactMethodResponseDto deleteContactMethod(final Long number) {
         final ContactMethod contactMethod;
 
         contactMethod = service.delete(number);
@@ -114,8 +115,8 @@ public class ContactMethodController implements ContactMethodApi {
     @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHODS)
-    public ContactMethodPageResponseDto getAllContactMethods(@Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort) {
+    public ContactMethodPageResponseDto getAllContactMethods(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Page<ContactMethod> contactMethods;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -130,7 +131,7 @@ public class ContactMethodController implements ContactMethodApi {
     @Override
     @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHOD)
-    public ContactMethodResponseDto getContactMethodByNumber(Long number) {
+    public ContactMethodResponseDto getContactMethodByNumber(final Long number) {
         Optional<ContactMethod> contactMethod;
 
         contactMethod = service.getOne(number);
@@ -148,8 +149,8 @@ public class ContactMethodController implements ContactMethodApi {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactMethodResponseDto updateContactMethod(Long number,
-            @Valid ContactMethodChangeDto contactMethodChangeDto) {
+    public ContactMethodResponseDto updateContactMethod(final Long number,
+            @Valid final ContactMethodChangeDto contactMethodChangeDto) {
         final ContactMethod contactMethod;
         final ContactMethod updated;
 

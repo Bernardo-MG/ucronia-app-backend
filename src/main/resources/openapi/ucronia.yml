@@ -29,6 +29,10 @@ paths:
     $ref: paths/contact_methods.yml
   /person/contactMethod/{number}:
     $ref: paths/contact_methods_by_id.yml
+  /member:
+    $ref: paths/members.yml
+  /member/{number}:
+    $ref: paths/members_by_id.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

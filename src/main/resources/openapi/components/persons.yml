@@ -23,16 +23,6 @@ components:
         renew:
           type: boolean
           description: Whether the membership is eligible for renewal.
-    PersonName:
-      type: object
-      required: [firstName, lastName]
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        fullName:
-          type: string
     Person:
       type: object
       required: [identifier, number, name, birthDate]
@@ -43,7 +33,7 @@ components:
           type: string
           description: Unique identifier of the person.
         name:
-          $ref: '#/components/schemas/PersonName'
+          $ref: 'contacts.yml#/components/schemas/ContactName'
         birthDate:
           type: string
           format: date-time
@@ -58,7 +48,7 @@ components:
       required: [name]
       properties:
         name:
-          $ref: '#/components/schemas/PersonName'
+          $ref: 'contacts.yml#/components/schemas/ContactName'
         membership:
           $ref: '#/components/schemas/Membership'
     PersonChange:
@@ -68,7 +58,7 @@ components:
         identifier:
           type: string
         name:
-          $ref: '#/components/schemas/PersonName'
+          $ref: 'contacts.yml#/components/schemas/ContactName'
         birthDate:
           type: string
           format: date-time

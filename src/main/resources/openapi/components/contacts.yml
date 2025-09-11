@@ -8,16 +8,6 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '#/components/schemas/ContactName'
-    Member:
-      type: object
-      required: [number, name, membership]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        name:
-          $ref: '#/components/schemas/ContactName'
-        active:
-          type: boolean
     ContactName:
       type: object
       required: [firstName, lastName, fullName]

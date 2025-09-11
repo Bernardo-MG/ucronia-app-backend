@@ -12,12 +12,12 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
+import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.MembershipDto;
 import com.bernardomg.ucronia.openapi.model.PersonChangeDto;
 import com.bernardomg.ucronia.openapi.model.PersonContactDto;
 import com.bernardomg.ucronia.openapi.model.PersonCreationDto;
 import com.bernardomg.ucronia.openapi.model.PersonDto;
-import com.bernardomg.ucronia.openapi.model.PersonNameDto;
 import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
@@ -97,11 +97,11 @@ public final class PersonDtoMapper {
     }
 
     private static final PersonDto toDto(final Person person) {
-        PersonNameDto          name;
+        ContactNameDto         name;
         MembershipDto          membership;
         List<PersonContactDto> contacts;
 
-        name = new PersonNameDto().firstName(person.name()
+        name = new ContactNameDto().firstName(person.name()
             .firstName())
             .lastName(person.name()
                 .lastName())
