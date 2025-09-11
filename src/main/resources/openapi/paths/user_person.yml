@@ -15,7 +15,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/user_person.yml#/components/schemas/PersonResponse'
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
     '404':
       description: User or assigned member not found.
 
@@ -36,7 +36,7 @@ delete:
       content:
         application/json:
           schema:
-            $ref: '../components/user_person.yml#/components/schemas/PersonResponse'
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
     '403':
       description: Forbidden – insufficient permissions.
     '404':

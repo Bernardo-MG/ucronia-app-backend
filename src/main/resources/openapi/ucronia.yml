@@ -21,6 +21,10 @@ paths:
     $ref: paths/settings_public.yml
   /fee:
     $ref: paths/fees.yml
+  /person:
+    $ref: paths/persons.yml
+  /person/{number}:
+    $ref: paths/persons_by_id.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

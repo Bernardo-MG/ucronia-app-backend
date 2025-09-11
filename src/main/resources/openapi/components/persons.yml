@@ -1,5 +1,9 @@
 components:
   schemas:
+    PersonStatus:
+      type: string
+      description: Status filter for person queries.
+      enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
     ContactMethod:
       type: object
       required: [number, name]
@@ -57,6 +61,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PersonContact'
+    PersonCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          $ref: '#/components/schemas/PersonName'
+        membership:
+          $ref: '#/components/schemas/Membership'
+    PersonChange:
+      type: object
+      required: [identifier, name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: '#/components/schemas/PersonName'
+        birthDate:
+          type: string
+          format: date-time
+          nullable: true
+        membership:
+          $ref: '#/components/schemas/Membership'
     PersonPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

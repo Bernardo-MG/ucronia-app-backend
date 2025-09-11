@@ -31,36 +31,31 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
-import com.bernardomg.association.person.adapter.outbound.rest.model.PersonChange;
-import com.bernardomg.association.person.adapter.outbound.rest.model.PersonCreation;
+import com.bernardomg.association.person.adapter.outbound.rest.model.PersonDtoMapper;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.Person.Membership;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.usecase.service.PersonService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.PersonApi;
+import com.bernardomg.ucronia.openapi.model.PersonChangeDto;
+import com.bernardomg.ucronia.openapi.model.PersonCreationDto;
+import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
+import com.bernardomg.ucronia.openapi.model.PersonStatusDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Person REST controller.
@@ -69,8 +64,7 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/person")
-public class PersonController {
+public class PersonController implements PersonApi {
 
     /**
      * Person service.
@@ -82,10 +76,9 @@ public class PersonController {
         this.service = service;
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     @RequireResourceAccess(resource = "PERSON", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Person caches
                     PersonsCaches.PERSONS,
@@ -93,14 +86,17 @@ public class PersonController {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public Person create(@Valid @RequestBody final PersonCreation creation) {
+    public PersonResponseDto createPerson(@Valid final PersonCreationDto personCreationDto) {
         final Person member;
+        final Person created;
 
-        member = toDomain(creation);
-        return service.create(member);
+        member = PersonDtoMapper.toDomain(personCreationDto);
+        created = service.create(member);
+
+        return PersonDtoMapper.toResponseDto(created);
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "PERSON", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSON }), @CacheEvict(cacheNames = {
             // Person caches
@@ -109,45 +105,48 @@ public class PersonController {
             FeeCaches.CALENDAR,
             // Member caches
             MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
+    public PersonResponseDto deletePerson(final Long number) {
+        final Person person;
+
+        person = service.delete(number);
+
+        return PersonDtoMapper.toResponseDto(person);
     }
 
-    @PatchMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Person caches
-                    PersonsCaches.PERSONS,
-                    // Fee caches
-                    FeeCaches.CALENDAR,
-                    // Member caches
-                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public Person patch(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
-        final Person member;
-
-        member = toDomain(number, change);
-        return service.patch(member);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
-    public Page<Person> readAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting) {
-        return service.getAll(filter, pagination, sorting);
+    public PersonPageResponseDto getAllPersons(@Valid final PersonStatusDto status, @Valid final String name,
+            @Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Page<Person> persons;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonStatus personStatus;
+        final PersonFilter filter;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        personStatus = PersonStatus.valueOf(status.name());
+        filter = new PersonFilter(personStatus, name);
+        persons = service.getAll(filter, pagination, sorting);
+
+        return PersonDtoMapper.toResponseDto(persons);
     }
 
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSON)
-    public Person readOne(@PathVariable("number") final Long number) {
-        return service.getOne(number)
-            .orElse(null);
+    public PersonResponseDto getPersonByNumber(final Long number) {
+        Optional<Person> person;
+
+        person = service.getOne(number);
+
+        return PersonDtoMapper.toResponseDto(person);
     }
 
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.number") },
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Person caches
                     PersonsCaches.PERSONS,
@@ -155,49 +154,34 @@ public class PersonController {
                     FeeCaches.CALENDAR,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public Person update(@PathVariable("number") final long number, @Valid @RequestBody final PersonChange change) {
+    public PersonResponseDto patchPerson(final Long number, @Valid final PersonChangeDto personChangeDto) {
         final Person member;
+        final Person updated;
 
-        member = toDomain(number, change);
-        return service.update(member);
+        member = PersonDtoMapper.toDomain(number, personChangeDto);
+        updated = service.patch(member);
+
+        return PersonDtoMapper.toResponseDto(updated);
     }
 
-    private final Person toDomain(final long number, final PersonChange change) {
-        final PersonName           name;
-        final Optional<Membership> membership;
+    @Override
+    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Person caches
+                    PersonsCaches.PERSONS,
+                    // Fee caches
+                    FeeCaches.CALENDAR,
+                    // Member caches
+                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+    public PersonResponseDto updatePerson(final Long number, @Valid final PersonChangeDto personChangeDto) {
+        final Person member;
+        final Person updated;
 
-        name = new PersonName(change.name()
-            .firstName(),
-            change.name()
-                .lastName());
-        if (change.membership() == null) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(change.membership()
-                .active(),
-                change.membership()
-                    .renew()));
-        }
-        return new Person(change.identifier(), number, name, change.birthDate(), membership, List.of());
-    }
+        member = PersonDtoMapper.toDomain(number, personChangeDto);
+        updated = service.update(member);
 
-    private final Person toDomain(final PersonCreation change) {
-        final PersonName           name;
-        final Optional<Membership> membership;
-
-        name = new PersonName(change.name()
-            .firstName(),
-            change.name()
-                .lastName());
-        if (change.membership() == null) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(change.membership()
-                .active(),
-                change.membership()
-                    .active()));
-        }
-        return new Person("", -1L, name, null, membership, List.of());
+        return PersonDtoMapper.toResponseDto(updated);
     }
 
 }

@@ -32,7 +32,7 @@ public interface PersonService {
      * @param number
      *            number of the person to delete
      */
-    public void delete(final long number);
+    public Person delete(final long number);
 
     /**
      * Returns all the persons matching the query. If the sample fields are empty, then all the persons are returned.

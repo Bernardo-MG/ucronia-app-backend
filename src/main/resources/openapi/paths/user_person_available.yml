@@ -27,4 +27,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/user_person.yml#/components/schemas/PersonPageResponse'
+            $ref: '../components/persons.yml#/components/schemas/PersonPageResponse'
