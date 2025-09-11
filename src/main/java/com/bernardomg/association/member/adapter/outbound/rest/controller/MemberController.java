@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
@@ -55,7 +54,6 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-@RequestMapping("/member")
 public class MemberController implements MemberApi {
 
     /**

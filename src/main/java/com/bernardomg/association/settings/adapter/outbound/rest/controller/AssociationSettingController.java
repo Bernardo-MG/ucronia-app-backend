@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
@@ -53,7 +52,6 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/settings")
 public class AssociationSettingController implements AssociationSettingsApi {
 
     private final SettingService service;
