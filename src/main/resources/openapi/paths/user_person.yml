@@ -1,0 +1,43 @@
+get:
+  summary: Get the member assigned to a user.
+  operationId: getAssignedPerson
+  tags: [UserPerson]
+  parameters:
+    - name: username
+      in: path
+      required: true
+      description: Username of the user whose assigned member to retrieve.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Assigned person.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+    '404':
+      description: User or assigned member not found.
+
+delete:
+  summary: Unassign the member from a user.
+  operationId: unassignPerson
+  tags: [UserPerson]
+  parameters:
+    - name: username
+      in: path
+      required: true
+      description: Username of the user to unassign.
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Assigned person.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+    '403':
+      description: Forbidden – insufficient permissions.
+    '404':
+      description: User or assigned member not found.

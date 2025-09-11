@@ -81,15 +81,20 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final Person delete(final long number) {
+        final Person existing;
+
         log.debug("Deleting person {}", number);
 
-        if (!personRepository.exists(number)) {
-            log.error("Missing person {}", number);
-            throw new MissingPersonException(number);
-        }
+        existing = personRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing person {}", number);
+                throw new MissingPersonException(number);
+            });
 
         personRepository.delete(number);
+
+        return existing;
     }
 
     @Override

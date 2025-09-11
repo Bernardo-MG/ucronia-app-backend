@@ -1,0 +1,49 @@
+get:
+  summary: Get a specific setting by code.
+  operationId: getAssociationSettingByCode
+  tags: [AssociationSettings]
+  parameters:
+    - name: code
+      in: path
+      required: true
+      description: Code of the setting to retrieve.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Requested setting.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/settings.yml#/components/schemas/SettingResponse'
+    '404':
+      description: Setting not found.
+
+put:
+  summary: Update a setting by code.
+  operationId: updateAssociationSetting
+  tags: [AssociationSettings]
+  parameters:
+    - name: code
+      in: path
+      required: true
+      description: Code of the setting to update.
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/settings.yml#/components/schemas/SettingChange'
+  responses:
+    '200':
+      description: Updated setting.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/settings.yml#/components/schemas/SettingResponse'
+    '403':
+      description: Forbidden – insufficient permissions.
+    '404':
+      description: Setting not found.

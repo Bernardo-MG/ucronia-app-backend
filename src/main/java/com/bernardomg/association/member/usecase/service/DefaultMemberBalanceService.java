@@ -25,6 +25,7 @@
 package com.bernardomg.association.member.usecase.service;
 
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,7 +63,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
     }
 
     @Override
-    public final Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
+    public final Collection<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
         final YearMonth now;
         final YearMonth end;
         final Sorting   sorting;

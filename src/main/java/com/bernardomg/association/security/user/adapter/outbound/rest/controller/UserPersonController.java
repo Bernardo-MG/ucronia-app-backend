@@ -24,21 +24,28 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserPersonDtoMapper;
 import com.bernardomg.association.security.user.usecase.service.UserPersonService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.UserPersonApi;
+import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * User member REST controller.
@@ -47,8 +54,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/security/user/{username}/person")
-public class UserPersonController {
+public class UserPersonController implements UserPersonApi {
 
     /**
      * User member service.
@@ -60,57 +66,49 @@ public class UserPersonController {
         this.service = service;
     }
 
-    /**
-     * Assigns a member to a user.
-     *
-     * @param username
-     *            username of the user to assign the member
-     * @param memberNumber
-     *            member to assign
-     * @return added permission
-     */
-    @PostMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public Person assign(@PathVariable("username") final String username,
-            @PathVariable("memberNumber") final long memberNumber) {
-        return service.assignPerson(username, memberNumber);
+    public PersonResponseDto assignPersonToUser(final String username, final Long memberNumber) {
+        Person person;
+
+        person = service.assignPerson(username, memberNumber);
+        return UserPersonDtoMapper.toResponseDto(person);
     }
 
-    /**
-     * Reads the member assigned to a user.
-     *
-     * @param username
-     *            username of the user to read the member
-     * @return member assigned to the user
-     */
+    @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Person read(@PathVariable("username") final String username) {
-        return service.getPerson(username)
-            .orElse(null);
+    public PersonResponseDto getAssignedPerson(final String username) {
+        final Optional<Person> person;
+
+        person = service.getPerson(username);
+
+        return UserPersonDtoMapper.toResponseDto(person);
     }
 
-    /**
-     * Reads members available to assign.
-     *
-     * @return members available to assign
-     */
-    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public Page<Person> readAvailable(final Pagination pagination, final Sorting sorting) {
-        return service.getAvailablePerson(pagination, sorting);
+    public PersonPageResponseDto getAvailablePersons(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        Page<Person>     persons;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        persons = service.getAvailablePerson(pagination, sorting);
+
+        return UserPersonDtoMapper.toResponseDto(persons);
     }
 
-    /**
-     * Removes the member assigned to a user.
-     *
-     * @param username
-     *            username of the user to delete the member
-     */
-    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public void unassign(@PathVariable("username") final String username) {
-        service.unassignPerson(username);
+    public PersonResponseDto unassignPerson(final String username) {
+        Person person;
+
+        person = service.unassignPerson(username);
+
+        return UserPersonDtoMapper.toResponseDto(person);
     }
 
 }

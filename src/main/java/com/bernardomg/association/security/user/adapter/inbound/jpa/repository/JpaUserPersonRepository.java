@@ -80,23 +80,6 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final void delete(final String username) {
-        final Optional<UserEntity> user;
-
-        log.debug("Deleting user {}", username);
-
-        user = userSpringRepository.findByUsername(username);
-        if (user.isPresent()) {
-            // TODO: handle relationships
-            // TODO: why not delete by username?
-            userPersonSpringRepository.deleteByUserId(user.get()
-                .getId());
-
-            log.debug("Deleted user {}", username);
-        }
-    }
-
-    @Override
     public final boolean existsByPersonForAnotherUser(final String username, final long number) {
         final boolean exists;
 
@@ -151,6 +134,30 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         }
 
         log.trace("Found person for username {}: {}", username, person);
+
+        return person;
+    }
+
+    @Override
+    public final Person unassignPerson(final String username) {
+        final Optional<UserEntity> user;
+        final Person               person;
+
+        log.debug("Deleting user {}", username);
+
+        user = userSpringRepository.findByUsername(username);
+        if (user.isPresent()) {
+            person = findByUsername(username).orElse(null);
+
+            // TODO: handle relationships
+            // TODO: why not delete by username?
+            userPersonSpringRepository.deleteByUserId(user.get()
+                .getId());
+
+            log.debug("Deleted user {}", username);
+        } else {
+            person = null;
+        }
 
         return person;
     }

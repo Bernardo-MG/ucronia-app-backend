@@ -27,6 +27,8 @@ package com.bernardomg.association.person.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.person.usecase.service.DefaultContactMethodService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +62,8 @@ class TestContactMethodServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER))
+            .willReturn(Optional.of(ContactMethods.email()));
 
         // WHEN
         service.delete(ContactMethodConstants.NUMBER);
@@ -74,7 +78,7 @@ class TestContactMethodServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
+        given(ContactMethodRepository.findOne(ContactMethodConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(ContactMethodConstants.NUMBER);

@@ -1,5 +1,15 @@
 components:
   schemas:
+    FeeCalendarMember:
+      type: object
+      required: [number, name, membership]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        active:
+          type: boolean
     FeeCalendarYearsRange:
       type: object
       required: [years]
@@ -14,7 +24,7 @@ components:
       required: [member, year, months]
       properties:
         member:
-          $ref: 'contacts.yml#/components/schemas/Member'
+          $ref: '#/components/schemas/FeeCalendarMember'
         year:
           type: integer
           example: 2025

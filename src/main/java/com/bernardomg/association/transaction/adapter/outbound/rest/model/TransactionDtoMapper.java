@@ -40,7 +40,7 @@ public final class TransactionDtoMapper {
     }
 
     public static final TransactionMonthlyBalanceResponseDto
-            toResponseDto(final Collection<? extends TransactionMonthlyBalance> balance) {
+            toResponseDto(final Collection<TransactionMonthlyBalance> balance) {
         return new TransactionMonthlyBalanceResponseDto().content(balance.stream()
             .map(TransactionDtoMapper::toDto)
             .toList());

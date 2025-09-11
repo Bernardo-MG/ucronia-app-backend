@@ -24,18 +24,23 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
+import java.time.YearMonth;
+import java.util.Collection;
+
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberBalanceDtoMapper;
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.MemberBalanceApi;
+import com.bernardomg.ucronia.openapi.model.MonthlyMemberBalancesResponseDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Member balance REST controller.
@@ -46,8 +51,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/member")
-public class MemberBalanceController {
+public class MemberBalanceController implements MemberBalanceApi {
 
     /**
      * Member balance service.
@@ -59,18 +63,18 @@ public class MemberBalanceController {
         this.service = service;
     }
 
-    /**
-     * Returns the monthly member balance.
-     *
-     * @param query
-     *            query to filter balances
-     * @return the monthly member balance
-     */
-    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(final MemberBalanceQuery query) {
-        return service.getMonthlyBalance(query);
+    public MonthlyMemberBalancesResponseDto getMonthlyMemberBalance(@Valid final YearMonth from,
+            @Valid final YearMonth to, @Valid final Long memberNumber) {
+        final Collection<MonthlyMemberBalance> balances;
+        final MemberBalanceQuery               query;
+
+        query = new MemberBalanceQuery(from, to);
+        balances = service.getMonthlyBalance(query);
+
+        return MemberBalanceDtoMapper.toResponseDto(balances);
     }
 
 }

@@ -10,11 +10,11 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarDto;
+import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarMonthDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarYearsRangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarYearsRangeResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberDto;
 
 public final class FeeCalendarDtoMapper {
 
@@ -35,7 +35,7 @@ public final class FeeCalendarDtoMapper {
     }
 
     private static final FeeCalendarDto toDto(final FeeCalendar feeCalendar) {
-        final MemberDto                 member;
+        final FeeCalendarMemberDto      member;
         final ContactNameDto            contactName;
         final List<FeeCalendarMonthDto> months;
 
@@ -48,7 +48,7 @@ public final class FeeCalendarDtoMapper {
             .fullName(feeCalendar.member()
                 .name()
                 .fullName());
-        member = new MemberDto().name(contactName)
+        member = new FeeCalendarMemberDto().name(contactName)
             .number(feeCalendar.member()
                 .number())
             .active(feeCalendar.member()

@@ -1,0 +1,11 @@
+get:
+  summary: Get all settings.
+  operationId: getAllAssociationSettings
+  tags: [AssociationSettings]
+  responses:
+    '200':
+      description: List of all association settings.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/settings.yml#/components/schemas/SettingsResponse'

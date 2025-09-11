@@ -7,8 +7,34 @@ servers:
   - url: https://localhost
     description: Local development
 paths:
+  /security/user/{username}/person:
+    $ref: paths/user_person.yml
+  /security/user/{username}/person/{memberNumber}:
+    $ref: paths/user_person_by_id.yml
+  /security/user/{username}/person/available:
+    $ref: paths/user_person_available.yml
+  /settings:
+    $ref: paths/settings.yml
+  /settings/{code}:
+    $ref: paths/settings_by_id.yml
+  /settings/public:
+    $ref: paths/settings_public.yml
   /fee:
     $ref: paths/fees.yml
+  /person:
+    $ref: paths/persons.yml
+  /person/{number}:
+    $ref: paths/persons_by_id.yml
+  /person/contactMethod:
+    $ref: paths/contact_methods.yml
+  /person/contactMethod/{number}:
+    $ref: paths/contact_methods_by_id.yml
+  /member:
+    $ref: paths/members.yml
+  /member/{number}:
+    $ref: paths/members_by_id.yml
+  /member/monthly:
+    $ref: paths/members_monthly_balance.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

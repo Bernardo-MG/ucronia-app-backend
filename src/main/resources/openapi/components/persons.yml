@@ -1,0 +1,81 @@
+components:
+  schemas:
+    PersonStatus:
+      type: string
+      description: Status filter for person queries.
+      enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
+    PersonContact:
+      type: object
+      required: [method, contact]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        contact:
+          type: string
+          description: Contact detail.
+    Membership:
+      type: object
+      required: [active, renew]
+      properties:
+        active:
+          type: boolean
+          description: Whether the membership is active.
+        renew:
+          type: boolean
+          description: Whether the membership is eligible for renewal.
+    Person:
+      type: object
+      required: [identifier, number, name, birthDate]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the person.
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          type: string
+          format: date-time
+        membership:
+          $ref: '#/components/schemas/Membership'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonContact'
+    PersonCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        membership:
+          $ref: '#/components/schemas/Membership'
+    PersonChange:
+      type: object
+      required: [identifier, name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          type: string
+          format: date-time
+          nullable: true
+        membership:
+          $ref: '#/components/schemas/Membership'
+    PersonPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Person'
+    PersonResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Person'
