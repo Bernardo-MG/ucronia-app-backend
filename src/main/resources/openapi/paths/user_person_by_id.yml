@@ -1,0 +1,29 @@
+post:
+  summary: Assign a member to a user.
+  operationId: assignPersonToUser
+  tags: [UserPerson]
+  parameters:
+    - name: username
+      in: path
+      required: true
+      description: Username of the user to assign the member.
+      schema:
+        type: string
+    - name: memberNumber
+      in: path
+      required: true
+      description: Member number to assign.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Assigned person.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/user_person.yml#/components/schemas/PersonResponse'
+    '403':
+      description: Forbidden – insufficient permissions.
+    '404':
+      description: User or member not found.

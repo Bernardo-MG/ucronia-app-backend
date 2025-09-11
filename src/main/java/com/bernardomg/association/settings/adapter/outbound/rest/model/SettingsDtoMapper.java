@@ -18,7 +18,8 @@ public final class SettingsDtoMapper {
     }
 
     public static final SettingResponseDto toResponseDto(final Optional<Setting> setting) {
-        return new SettingResponseDto().content(SettingsDtoMapper.toDto(setting.orElse(null)));
+        return new SettingResponseDto().content(setting.map(SettingsDtoMapper::toDto)
+            .orElse(null));
     }
 
     public static final SettingResponseDto toResponseDto(final Setting setting) {

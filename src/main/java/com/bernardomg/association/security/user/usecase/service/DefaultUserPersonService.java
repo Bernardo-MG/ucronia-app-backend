@@ -112,19 +112,23 @@ public final class DefaultUserPersonService implements UserPersonService {
     }
 
     @Override
-    public final void unassignPerson(final String username) {
+    public final Person unassignPerson(final String username) {
         final boolean exists;
+        final Person  person;
 
         log.trace("Unassigning person to {}", username);
 
         exists = userRepository.exists(username);
         if (!exists) {
+            log.error("Missing user {}", username);
             throw new MissingUsernameException(username);
         }
 
-        userPersonRepository.delete(username);
+        person = userPersonRepository.unassignPerson(username);
 
         log.trace("Unassigned person to {}", username);
+
+        return person;
     }
 
 }

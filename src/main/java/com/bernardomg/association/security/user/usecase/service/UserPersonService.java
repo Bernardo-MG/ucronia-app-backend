@@ -16,6 +16,6 @@ public interface UserPersonService {
 
     public Optional<Person> getPerson(final String username);
 
-    public void unassignPerson(final String username);
+    public Person unassignPerson(final String username);
 
 }

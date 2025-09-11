@@ -1,0 +1,73 @@
+components:
+  schemas:
+    ContactMethod:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+    PersonContact:
+      type: object
+      required: [method, contact]
+      properties:
+        method:
+          $ref: '#/components/schemas/ContactMethod'
+        contact:
+          type: string
+          description: Contact detail.
+    Membership:
+      type: object
+      required: [active, renew]
+      properties:
+        active:
+          type: boolean
+          description: Whether the membership is active.
+        renew:
+          type: boolean
+          description: Whether the membership is eligible for renewal.
+    PersonName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+    Person:
+      type: object
+      required: [identifier, number, name, birthDate]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the person.
+        name:
+          $ref: '#/components/schemas/PersonName'
+        birthDate:
+          type: string
+          format: date-time
+        membership:
+          $ref: '#/components/schemas/Membership'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonContact'
+    PersonPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Person'
+    PersonResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Person'

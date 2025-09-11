@@ -61,7 +61,7 @@ class TestUserPersonServiceUnassignMember {
 
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")
-    void testDeleteMember() {
+    void testUnassignPerson() {
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
@@ -70,12 +70,12 @@ class TestUserPersonServiceUnassignMember {
         service.unassignPerson(UserConstants.USERNAME);
 
         // THEN
-        verify(userPersonRepository).delete(UserConstants.USERNAME);
+        verify(userPersonRepository).unassignPerson(UserConstants.USERNAME);
     }
 
     @Test
     @DisplayName("With no member, it throws an exception")
-    void testDeleteMember_NoMember() {
+    void testUnassignPerson_NoMember() {
         final ThrowingCallable execution;
 
         // GIVEN

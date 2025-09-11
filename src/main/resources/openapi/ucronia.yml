@@ -7,6 +7,12 @@ servers:
   - url: https://localhost
     description: Local development
 paths:
+  /security/user/{username}/person:
+    $ref: paths/user_person.yml
+  /security/user/{username}/person/{memberNumber}:
+    $ref: paths/user_person_by_id.yml
+  /security/user/{username}/person/available:
+    $ref: paths/user_person_available.yml
   /settings:
     $ref: paths/settings.yml
   /settings/{code}:

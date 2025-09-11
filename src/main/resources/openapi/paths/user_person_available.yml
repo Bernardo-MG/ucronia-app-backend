@@ -1,0 +1,30 @@
+get:
+  summary: Get members available to assign.
+  operationId: getAvailablePersons
+  tags: [UserPerson]
+  parameters:
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: List of available persons.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/user_person.yml#/components/schemas/PersonPageResponse'

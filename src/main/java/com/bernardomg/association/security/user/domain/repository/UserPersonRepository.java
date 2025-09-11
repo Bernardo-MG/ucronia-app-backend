@@ -12,12 +12,12 @@ public interface UserPersonRepository {
 
     public Person assignPerson(final String username, final long number);
 
-    public void delete(final String username);
-
     public boolean existsByPersonForAnotherUser(final String username, final long number);
 
     public Page<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting);
 
     public Optional<Person> findByUsername(final String username);
+
+    public Person unassignPerson(final String username);
 
 }
