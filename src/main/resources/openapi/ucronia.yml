@@ -11,6 +11,8 @@ paths:
     $ref: paths/settings.yml
   /settings/{code}:
     $ref: paths/settings_by_id.yml
+  /settings/public:
+    $ref: paths/settings_public.yml
   /fee:
     $ref: paths/fees.yml
   /fee/{month}/{member}:
