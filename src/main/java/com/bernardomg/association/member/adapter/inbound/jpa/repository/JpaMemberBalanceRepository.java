@@ -41,11 +41,11 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
     }
 
     @Override
-    public final Iterable<MonthlyMemberBalance> findInRange(final YearMonth startDate, final YearMonth endDate,
+    public final Collection<MonthlyMemberBalance> findInRange(final YearMonth startDate, final YearMonth endDate,
             final Sorting sorting) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
-        final Iterable<MonthlyMemberBalance>                      monthlyBalances;
+        final Collection<MonthlyMemberBalance>                    monthlyBalances;
         final Sort                                                sort;
         final Instant                                             startDateParsed;
         final Instant                                             endDateParsed;
