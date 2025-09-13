@@ -26,7 +26,7 @@ delete:
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
-    '204':
+    '200':
       description: Deleted transaction
       content:
         application/json:

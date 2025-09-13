@@ -59,7 +59,7 @@ delete:
         type: integer
         format: int64
   responses:
-    '204':
+    '200':
       description: Requested contact method.
       content:
         application/json:

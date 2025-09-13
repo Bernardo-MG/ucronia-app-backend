@@ -36,7 +36,7 @@ delete:
       schema:
         $ref: '../common/dates.yml#/components/schemas/Month'
   responses:
-    '204':
+    '200':
       description: Deleted fee
       content:
         application/json:
