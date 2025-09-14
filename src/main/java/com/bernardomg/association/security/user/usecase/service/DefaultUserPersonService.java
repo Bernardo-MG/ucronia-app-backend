@@ -18,9 +18,9 @@ import com.bernardomg.association.security.user.usecase.validation.UserPersonNam
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.data.domain.model.User;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.exception.MissingUsernameException;
+import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

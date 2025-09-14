@@ -21,8 +21,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 @Repository
 @Transactional

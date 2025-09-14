@@ -4,7 +4,7 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 import java.io.Serializable;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

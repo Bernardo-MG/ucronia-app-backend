@@ -40,8 +40,8 @@ import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserPersonService;
-import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.exception.MissingUsernameException;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User person service - unassign member")

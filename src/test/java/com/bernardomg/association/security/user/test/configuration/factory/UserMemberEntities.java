@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 
 public final class UserMemberEntities {
 

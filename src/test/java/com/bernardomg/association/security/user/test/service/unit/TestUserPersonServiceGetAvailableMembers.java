@@ -45,7 +45,7 @@ import com.bernardomg.association.security.user.usecase.service.DefaultUserPerso
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User person service - get person")
