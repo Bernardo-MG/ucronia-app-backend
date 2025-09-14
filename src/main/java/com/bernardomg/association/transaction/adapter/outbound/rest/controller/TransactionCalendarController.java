@@ -40,8 +40,6 @@ import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
 import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
 
-import jakarta.validation.Valid;
-
 /**
  * Funds calendar REST controller.
  *
@@ -64,8 +62,7 @@ public class TransactionCalendarController implements TransactionCalendarApi {
     @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR)
-    public TransactionCalendarMonthResponseDto getTransactionCalendarMonth(@Valid final Integer year,
-            @Valid final Integer month) {
+    public TransactionCalendarMonthResponseDto getTransactionCalendarMonth(final Integer year, final Integer month) {
         final TransactionCalendarMonth calendarMonth;
         final YearMonth                date;
 

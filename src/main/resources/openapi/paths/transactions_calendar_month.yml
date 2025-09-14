@@ -6,11 +6,13 @@ get:
     - name: year
       description: Calendar year.
       in: query
+      required: true
       schema:
         type: integer
     - name: month
       description: Calendar month.
       in: query
+      required: true
       schema:
         type: integer
   responses:
