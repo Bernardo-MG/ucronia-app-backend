@@ -28,11 +28,10 @@ import java.time.YearMonth;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
@@ -81,23 +80,12 @@ public class TransactionBalanceController implements TransactionBalanceApi {
     @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
     public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final YearMonth startDate,
             @Valid final YearMonth endDate) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+        Collection<TransactionMonthlyBalance> balance;
+        final TransactionBalanceQuery         query;
 
-    /**
-     * Returns the monthly balance.
-     *
-     * @param balance
-     *            query to filter balances
-     * @return the monthly balance
-     */
-    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
-    public Collection<? extends TransactionMonthlyBalance>
-            readMonthlyBalance(@Valid final TransactionBalanceQuery balance) {
-        return service.getMonthlyBalance(balance);
+        query = new TransactionBalanceQuery(startDate, endDate);
+        balance = service.getMonthlyBalance(query);
+        return TransactionBalanceDtoMapper.toResponseDto(balance);
     }
 
 }
