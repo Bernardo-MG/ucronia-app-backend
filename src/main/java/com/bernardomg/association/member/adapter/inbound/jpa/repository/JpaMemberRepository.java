@@ -39,19 +39,18 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Page<Member> findAll(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Member> members;
+        final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
 
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        members = personSpringRepository.findAllActiveMembers(pageable)
+        read = personSpringRepository.findAllActiveMembers(pageable)
             .map(this::toDomain);
 
-        log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, members);
+        log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
-        return new Page<>(members.getContent(), members.getSize(), members.getNumber(), members.getTotalElements(),
-            members.getTotalPages(), members.getNumberOfElements(), members.isFirst(), members.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override

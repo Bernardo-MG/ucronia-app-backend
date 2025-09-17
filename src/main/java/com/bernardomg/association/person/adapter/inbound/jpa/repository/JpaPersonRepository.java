@@ -165,7 +165,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
     @Override
     public final Page<Person> findAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Person> people;
+        final org.springframework.data.domain.Page<Person> read;
         final Pageable                                     pageable;
         final Optional<Specification<PersonEntity>>        spec;
 
@@ -174,17 +174,16 @@ public final class JpaPersonRepository implements PersonRepository {
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = PersonSpecifications.filter(filter);
         if (spec.isEmpty()) {
-            people = personSpringRepository.findAll(pageable)
+            read = personSpringRepository.findAll(pageable)
                 .map(this::toDomain);
         } else {
-            people = personSpringRepository.findAll(spec.get(), pageable)
+            read = personSpringRepository.findAll(spec.get(), pageable)
                 .map(this::toDomain);
         }
 
-        log.debug("Found all the people: {}", people);
+        log.debug("Found all the people: {}", read);
 
-        return new Page<>(people.getContent(), people.getSize(), people.getNumber(), people.getTotalElements(),
-            people.getTotalPages(), people.getNumberOfElements(), people.isFirst(), people.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override

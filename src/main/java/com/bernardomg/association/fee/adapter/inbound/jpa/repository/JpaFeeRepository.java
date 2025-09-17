@@ -144,8 +144,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
 
-        return new Page<>(found.getContent(), found.getSize(), found.getNumber(), found.getTotalElements(),
-            found.getTotalPages(), found.getNumberOfElements(), found.isFirst(), found.isLast(), sorting);
+        return SpringPagination.toPage(found);
     }
 
     @Override
@@ -167,8 +166,7 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
-        return new Page<>(found.getContent(), found.getSize(), found.getNumber(), found.getTotalElements(),
-            found.getTotalPages(), found.getNumberOfElements(), found.isFirst(), found.isLast(), sorting);
+        return SpringPagination.toPage(found);
     }
 
     @Override

@@ -94,19 +94,18 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
 
     @Override
     public final Page<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Person> people;
+        final org.springframework.data.domain.Page<Person> read;
         final Pageable                                     pageable;
 
         log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        people = userPersonSpringRepository.findAllNotAssigned(pageable)
+        read = userPersonSpringRepository.findAllNotAssigned(pageable)
             .map(this::toDomain);
 
-        log.trace("Found all the people: {}", people);
+        log.trace("Found all the people: {}", read);
 
-        return new Page<>(people.getContent(), people.getSize(), people.getNumber(), people.getTotalElements(),
-            people.getTotalPages(), people.getNumberOfElements(), people.isFirst(), people.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override

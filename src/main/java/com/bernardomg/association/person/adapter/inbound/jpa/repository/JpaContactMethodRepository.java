@@ -68,20 +68,18 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
     @Override
     public final Page<ContactMethod> findAll(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<ContactMethod> contactMethods;
+        final org.springframework.data.domain.Page<ContactMethod> read;
         final Pageable                                            pageable;
 
         log.debug("Finding all the contact methods");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        contactMethods = contactMethodSpringRepository.findAll(pageable)
+        read = contactMethodSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
-        log.debug("Found all the contact methods: {}", contactMethods);
+        log.debug("Found all the contact methods: {}", read);
 
-        return new Page<>(contactMethods.getContent(), contactMethods.getSize(), contactMethods.getNumber(),
-            contactMethods.getTotalElements(), contactMethods.getTotalPages(), contactMethods.getNumberOfElements(),
-            contactMethods.isFirst(), contactMethods.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override

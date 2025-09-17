@@ -53,20 +53,19 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     @Override
     public final Page<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<BookLending> lendings;
+        final org.springframework.data.domain.Page<BookLending> read;
         final Pageable                                          pageable;
 
         log.debug("Finding all the book lendings");
 
         // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
-        lendings = bookLendingSpringRepository.findAllReturned(pageable)
+        read = bookLendingSpringRepository.findAllReturned(pageable)
             .map(this::toDomain);
 
-        log.debug("Found all the book lendings: {}", lendings);
+        log.debug("Found all the book lendings: {}", read);
 
-        return new Page<>(lendings.getContent(), lendings.getSize(), lendings.getNumber(), lendings.getTotalElements(),
-            lendings.getTotalPages(), lendings.getNumberOfElements(), lendings.isFirst(), lendings.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override

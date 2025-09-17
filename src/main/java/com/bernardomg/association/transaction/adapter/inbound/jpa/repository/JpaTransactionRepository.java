@@ -116,8 +116,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Found transactions {}", read);
 
-        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
-            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override

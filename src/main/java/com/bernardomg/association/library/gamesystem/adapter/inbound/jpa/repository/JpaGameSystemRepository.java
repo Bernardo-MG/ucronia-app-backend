@@ -96,8 +96,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Found game systems {}", read);
 
-        return new Page<>(read.getContent(), read.getSize(), read.getNumber(), read.getTotalElements(),
-            read.getTotalPages(), read.getNumberOfElements(), read.isFirst(), read.isLast(), sorting);
+        return SpringPagination.toPage(read);
     }
 
     @Override
