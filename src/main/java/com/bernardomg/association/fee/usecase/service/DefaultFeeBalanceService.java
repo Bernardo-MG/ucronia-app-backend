@@ -35,7 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeePaymentReport;
+import com.bernardomg.association.fee.domain.model.FeeBalance;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 
 /**
@@ -45,27 +45,27 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
  */
 @Service
 @Transactional
-public final class DefaultFeeReportService implements FeeReportService {
+public final class DefaultFeeBalanceService implements FeeBalanceService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DefaultFeeReportService.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultFeeBalanceService.class);
 
     private final FeeRepository feeRepository;
 
-    public DefaultFeeReportService(final FeeRepository feeRepo) {
+    public DefaultFeeBalanceService(final FeeRepository feeRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
     @Override
-    public final FeePaymentReport getPaymentReport() {
-        final Collection<Fee>  fees;
-        final long             paid;
-        final long             unpaid;
-        final FeePaymentReport report;
+    public final FeeBalance getFeeBalance() {
+        final Collection<Fee> fees;
+        final long            paid;
+        final long            unpaid;
+        final FeeBalance      report;
 
         log.info("Getting payment report");
 
@@ -78,7 +78,7 @@ public final class DefaultFeeReportService implements FeeReportService {
             .filter(Predicate.not(Fee::paid))
             .count();
 
-        report = new FeePaymentReport(paid, unpaid);
+        report = new FeeBalance(paid, unpaid);
 
         log.debug("Got payment report: {}", report);
 

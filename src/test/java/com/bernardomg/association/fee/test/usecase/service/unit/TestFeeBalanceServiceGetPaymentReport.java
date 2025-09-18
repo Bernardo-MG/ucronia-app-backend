@@ -37,35 +37,35 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.model.FeePaymentReport;
+import com.bernardomg.association.fee.domain.model.FeeBalance;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeReportService;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeBalanceService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee calendar service - get range")
-class TestFeeReportServiceGetPaymentReport {
+@DisplayName("Fee balance service - get fee balance")
+class TestFeeBalanceServiceGetPaymentReport {
 
     @Mock
-    private FeeRepository           feeRepository;
+    private FeeRepository            feeRepository;
 
     @InjectMocks
-    private DefaultFeeReportService service;
+    private DefaultFeeBalanceService service;
 
-    public TestFeeReportServiceGetPaymentReport() {
+    public TestFeeBalanceServiceGetPaymentReport() {
         super();
     }
 
     @Test
     @DisplayName("When there is no data there are no fees")
-    void testGetRange_NoData() {
-        final FeePaymentReport report;
+    void testGetFeeBalance_NoData() {
+        final FeeBalance report;
 
         // GIVEN
         given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of());
 
         // WHEN
-        report = service.getPaymentReport();
+        report = service.getFeeBalance();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -80,14 +80,14 @@ class TestFeeReportServiceGetPaymentReport {
 
     @Test
     @DisplayName("When there is a single paid fee it is returned")
-    void testGetRange_Paid() {
-        final FeePaymentReport report;
+    void testGetFeeBalance_Paid() {
+        final FeeBalance report;
 
         // GIVEN
         given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of(Fees.paid()));
 
         // WHEN
-        report = service.getPaymentReport();
+        report = service.getFeeBalance();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -102,14 +102,14 @@ class TestFeeReportServiceGetPaymentReport {
 
     @Test
     @DisplayName("When there are paid and unpaid fee they are returned")
-    void testGetRange_PaidAndUnpaid() {
-        final FeePaymentReport report;
+    void testGetFeeBalance_PaidAndUnpaid() {
+        final FeeBalance report;
 
         // GIVEN
         given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of(Fees.paid(), Fees.notPaid()));
 
         // WHEN
-        report = service.getPaymentReport();
+        report = service.getFeeBalance();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -124,14 +124,14 @@ class TestFeeReportServiceGetPaymentReport {
 
     @Test
     @DisplayName("When there is a single unpaid fee it is returned")
-    void testGetRange_Unpaid() {
-        final FeePaymentReport report;
+    void testGetFeeBalance_Unpaid() {
+        final FeeBalance report;
 
         // GIVEN
         given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of(Fees.notPaid()));
 
         // WHEN
-        report = service.getPaymentReport();
+        report = service.getFeeBalance();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {

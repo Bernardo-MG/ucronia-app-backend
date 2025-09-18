@@ -1,6 +1,6 @@
 
 package com.bernardomg.association.fee.domain.model;
 
-public record FeePaymentReport(Long paid, Long unpaid) {
+public record FeeBalance(Long paid, Long unpaid) {
 
 }

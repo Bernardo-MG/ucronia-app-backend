@@ -43,8 +43,8 @@ paths:
     $ref: paths/fees_calendar_range.yml
   /fee/calendar/{year}:
     $ref: paths/fees_calendar.yml
-  /fee/payment:
-    $ref: paths/fees_payment.yml
+  /fee/balance:
+    $ref: paths/fees_balance.yml
   /user/fee:
     $ref: paths/user_fees.yml
   /transaction:

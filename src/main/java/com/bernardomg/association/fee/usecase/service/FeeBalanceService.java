@@ -24,21 +24,21 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import com.bernardomg.association.fee.domain.model.FeePaymentReport;
+import com.bernardomg.association.fee.domain.model.FeeBalance;
 
 /**
- * Fee report service.
+ * Fee balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface FeeReportService {
+public interface FeeBalanceService {
 
     /**
-     * Returns the fee payments report.
+     * Returns the fee payments balance.
      *
-     * @return the fee payments report
+     * @return the fee payments balance
      */
-    public FeePaymentReport getPaymentReport();
+    public FeeBalance getFeeBalance();
 
 }

@@ -26,13 +26,13 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeReportDtoMapper;
-import com.bernardomg.association.fee.domain.model.FeePaymentReport;
-import com.bernardomg.association.fee.usecase.service.FeeReportService;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeBalanceDtoMapper;
+import com.bernardomg.association.fee.domain.model.FeeBalance;
+import com.bernardomg.association.fee.usecase.service.FeeBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.FeeReportApi;
-import com.bernardomg.ucronia.openapi.model.FeePaymentReportResponseDto;
+import com.bernardomg.ucronia.openapi.api.FeeBalanceApi;
+import com.bernardomg.ucronia.openapi.model.FeeBalanceResponseDto;
 
 /**
  * Member fee report REST controller.
@@ -41,11 +41,11 @@ import com.bernardomg.ucronia.openapi.model.FeePaymentReportResponseDto;
  *
  */
 @RestController
-public class FeeReportController implements FeeReportApi {
+public class FeeBalanceController implements FeeBalanceApi {
 
-    private final FeeReportService service;
+    private final FeeBalanceService service;
 
-    public FeeReportController(final FeeReportService service) {
+    public FeeBalanceController(final FeeBalanceService service) {
         super();
 
         this.service = service;
@@ -53,12 +53,12 @@ public class FeeReportController implements FeeReportApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    public FeePaymentReportResponseDto getFeePaymentReport() {
-        final FeePaymentReport report;
+    public FeeBalanceResponseDto getFeeBalance() {
+        final FeeBalance balance;
 
-        report = service.getPaymentReport();
+        balance = service.getFeeBalance();
 
-        return FeeReportDtoMapper.toResponseDto(report);
+        return FeeBalanceDtoMapper.toResponseDto(balance);
     }
 
 }
