@@ -21,3 +21,13 @@ components:
         fullName:
           type: string
           example: 'John Smith'
+    EditionContactName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Smith'
