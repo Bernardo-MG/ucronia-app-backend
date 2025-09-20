@@ -85,7 +85,7 @@ public class FeeController implements FeeApi {
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(
             put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.content.month + ':' + #result.content.member") },
+                    key = "#result.content.member.number + ':' + #result.content.month") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -106,7 +106,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0.toString() + ':' + #p1"),
+    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"),
             @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
@@ -145,7 +145,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
+    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0 + ':' + #p1")
     public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
         final Optional<Fee> fee;
 
@@ -178,7 +178,7 @@ public class FeeController implements FeeApi {
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(
             put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.content.month + ':' + #result.content.member") },
+                    key = "#result.content.member.number + ':' + #result.content.month") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
