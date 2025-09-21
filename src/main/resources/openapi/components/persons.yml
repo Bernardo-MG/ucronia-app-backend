@@ -25,7 +25,7 @@ components:
           description: Whether the membership is eligible for renewal.
     Person:
       type: object
-      required: [identifier, number, name, birthDate]
+      required: [number, name]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -35,8 +35,7 @@ components:
         name:
           $ref: 'contacts.yml#/components/schemas/ContactName'
         birthDate:
-          type: string
-          format: date-time
+          $ref: '../common/dates.yml#/components/schemas/Date'
         membership:
           $ref: '#/components/schemas/Membership'
         contacts:
@@ -60,9 +59,7 @@ components:
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
         birthDate:
-          type: string
-          format: date-time
-          nullable: true
+          $ref: '../common/dates.yml#/components/schemas/Date'
         membership:
           $ref: '#/components/schemas/Membership'
     PersonPageResponse:

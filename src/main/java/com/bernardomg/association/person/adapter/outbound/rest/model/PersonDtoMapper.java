@@ -42,8 +42,8 @@ public final class PersonDtoMapper {
                 change.getMembership()
                     .getRenew()));
         }
-        return new Person(change.getIdentifier(), number, name, change.getBirthDate()
-            .orElse(null), membership, List.of());
+
+        return new Person(change.getIdentifier(), number, name, change.getBirthDate(), membership, List.of());
     }
 
     public static final Person toDomain(final PersonCreationDto creation) {
@@ -62,6 +62,7 @@ public final class PersonDtoMapper {
                 creation.getMembership()
                     .getActive()));
         }
+
         return new Person("", -1L, name, null, membership, List.of());
     }
 
@@ -122,6 +123,7 @@ public final class PersonDtoMapper {
             .stream()
             .map(PersonDtoMapper::toDto)
             .toList();
+
         return new PersonDto().identifier(person.identifier())
             .number(person.number())
             .name(name)
@@ -137,6 +139,7 @@ public final class PersonDtoMapper {
             .number())
             .name(contact.method()
                 .name());
+
         return new PersonContactDto().contact(contact.contact())
             .method(method);
     }
@@ -149,6 +152,7 @@ public final class PersonDtoMapper {
         } else {
             direction = DirectionEnum.DESC;
         }
+
         return new PropertyDto().name(property.name())
             .direction(direction);
     }
