@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
-import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.factory.PersonFilters;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -59,7 +59,7 @@ class ITPersonRepositoryFindAllPaginated {
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -84,7 +84,7 @@ class ITPersonRepositoryFindAllPaginated {
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);

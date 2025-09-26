@@ -42,10 +42,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
-import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.factory.PersonFilters;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 import com.bernardomg.data.domain.Page;
@@ -82,7 +82,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -110,7 +110,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
         existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -137,7 +137,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
         existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -163,7 +163,7 @@ class TestPersonServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
         existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
         given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);

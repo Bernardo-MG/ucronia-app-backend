@@ -126,7 +126,11 @@ public class PersonController implements PersonApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        personStatus = PersonStatus.valueOf(status.name());
+        if (status != null) {
+            personStatus = PersonStatus.valueOf(status.name());
+        } else {
+            personStatus = null;
+        }
         filter = new PersonFilter(personStatus, name);
         persons = service.getAll(filter, pagination, sorting);
 
