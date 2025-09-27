@@ -42,21 +42,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PersonContact'
-    PersonCreationMembership:
-      type: object
-      required: [active]
-      properties:
-        active:
-          type: boolean
-          description: Whether the membership is active.
     PersonCreation:
       type: object
       required: [name]
       properties:
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
-        membership:
-          $ref: '#/components/schemas/PersonCreationMembership'
+        member:
+          type: boolean
     PersonChange:
       type: object
       required: [identifier, name]
