@@ -3,13 +3,13 @@ get:
   operationId: getMonthlyTransactionBalance
   tags: [TransactionBalance]
   parameters:
-    - name: startDate
+    - name: from
       description: Starting date to query for.
       in: query
       required: false
       schema:
         $ref: '../common/dates.yml#/components/schemas/Month'
-    - name: endDate
+    - name: to
       description: Ending date to query for.
       in: query
       required: false
