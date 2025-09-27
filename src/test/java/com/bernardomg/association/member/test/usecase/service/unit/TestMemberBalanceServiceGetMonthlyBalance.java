@@ -35,8 +35,8 @@ class TestMemberBalanceServiceGetMonthlyBalance {
     private DefaultMemberBalanceService service;
 
     @Test
-    @DisplayName("Returns the queried data")
-    void testGetMonthlyBalance() {
+    @DisplayName("Returns the queried data when covering previous and current")
+    void testGetMonthlyBalance_CoversBoth() {
         final MemberBalanceQuery             query;
         final Iterable<MonthlyMemberBalance> balances;
 
