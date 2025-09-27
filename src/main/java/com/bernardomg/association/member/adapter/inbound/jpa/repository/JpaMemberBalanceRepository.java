@@ -83,7 +83,7 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found balance in from {} to {}: {}", startDate, endDate, monthlyBalances);
+        log.debug("Found balance from {} to {}: {}", startDate, endDate, monthlyBalances);
 
         return monthlyBalances;
     }
