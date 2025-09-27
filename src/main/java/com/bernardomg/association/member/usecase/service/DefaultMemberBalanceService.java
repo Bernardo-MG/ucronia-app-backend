@@ -64,9 +64,10 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     @Override
     public final Collection<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
-        final YearMonth now;
-        final YearMonth end;
-        final Sorting   sorting;
+        final YearMonth                        now;
+        final YearMonth                        end;
+        final Sorting                          sorting;
+        final Collection<MonthlyMemberBalance> balance;
 
         log.debug("Reading monthly balance with query {}", query);
 
@@ -81,7 +82,11 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return memberBalanceRepository.findInRange(query.startDate(), end, sorting);
+        balance = memberBalanceRepository.findInRange(query.startDate(), end, sorting);
+
+        log.debug("Read monthly balance with query {}: {}", query, balance);
+
+        return balance;
     }
 
 }
