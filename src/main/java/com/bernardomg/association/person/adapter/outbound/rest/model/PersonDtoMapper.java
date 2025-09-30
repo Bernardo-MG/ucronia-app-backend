@@ -55,9 +55,9 @@ public final class PersonDtoMapper {
             creation.getName()
                 .getLastName());
         if (creation.getMember() == null) {
-            membership = Optional.of(new Membership(true, true));
-        } else {
             membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(true, true));
         }
 
         return new Person("", -1L, name, null, membership, List.of());
