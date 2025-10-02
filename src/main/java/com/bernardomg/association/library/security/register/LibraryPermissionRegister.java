@@ -85,8 +85,8 @@ public final class LibraryPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("INVENTORY_DONOR", "LIBRARY", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER",
-            "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
+        return List.of("INVENTORY_DONOR", "LIBRARY", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK",
+            "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
     }
 
 }

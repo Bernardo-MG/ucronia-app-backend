@@ -239,6 +239,27 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("With the fee is paid in the future, it throws an exception")
+    void testUpdate_PaidInFuture() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.alternativePerson()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(Fees.paidNextYear(1L));
+
+        // THEN
+        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.NEXT_YEAR_MONTH);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("When updating a fee, and a payment is changed, no event is sent")
     void testUpdate_PaymentDateChanged_NotSendEvent() {
         final Instant date;

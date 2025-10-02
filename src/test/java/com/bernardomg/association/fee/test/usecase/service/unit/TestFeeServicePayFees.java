@@ -29,7 +29,9 @@ import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +52,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.FeesPayments;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -98,8 +101,7 @@ class TestFeeServicePayFees {
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.duplicated());
 
         // THEN
         failure = new FieldFailure("duplicated", "months[]", "months[].duplicated", 1L);
@@ -117,7 +119,7 @@ class TestFeeServicePayFees {
         given(feeRepository.save(List.of())).willReturn(List.of());
 
         // WHEN
-        fees = service.payFees(List.of(), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(FeesPayments.empty());
 
         // THEN
         Assertions.assertThat(fees)
@@ -136,8 +138,7 @@ class TestFeeServicePayFees {
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.single());
 
         // THEN
         failure = new FieldFailure("existing", "months[]", "months[].existing", List.of(FeeConstants.DATE));
@@ -161,8 +162,7 @@ class TestFeeServicePayFees {
             .willReturn(Transactions.positive());
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE.plusMonths(1)), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(FeesPayments.multiple());
 
         // THEN
         Assertions.assertThat(fees)
@@ -181,8 +181,7 @@ class TestFeeServicePayFees {
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.multiple());
 
         // THEN
         failure = new FieldFailure("existing", "months[]", "months[].existing", List.of(FeeConstants.DATE));
@@ -199,12 +198,38 @@ class TestFeeServicePayFees {
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.single());
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingPersonException.class);
+    }
+
+    @Test
+    @DisplayName("With the fee is paid in the future, it throws an exception")
+    void testPayFees_PaidInFuture() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+        final Instant          payment;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
+
+        payment = Instant.now()
+            .plus(2L, ChronoUnit.DAYS);
+
+        // WHEN
+        execution = () -> service.payFees(FeesPayments.paidFuture());
+
+        // THEN
+        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", payment);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
@@ -219,7 +244,7 @@ class TestFeeServicePayFees {
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
 
         // WHEN
-        service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(FeesPayments.single());
 
         // THEN
         verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
@@ -240,7 +265,7 @@ class TestFeeServicePayFees {
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
 
         // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(FeesPayments.single());
 
         // THEN
         Assertions.assertThat(fees)

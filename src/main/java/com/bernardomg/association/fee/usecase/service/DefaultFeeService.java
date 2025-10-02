@@ -41,15 +41,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
+import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeMemberNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
-import com.bernardomg.association.fee.usecase.validation.FeeNoDuplicatedMonthsRule;
+import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.FeePaymentsNoDuplicatedMonthsRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
-import com.bernardomg.association.fee.usecase.validation.PaidMonthsNotExistingRule;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -76,25 +77,25 @@ public final class DefaultFeeService implements FeeService {
     /**
      * Logger for the class.
      */
-    private static final Logger              log = LoggerFactory.getLogger(DefaultFeeService.class);
+    private static final Logger             log = LoggerFactory.getLogger(DefaultFeeService.class);
 
-    private final EventEmitter               eventEmitter;
+    private final EventEmitter              eventEmitter;
 
-    private final FeeRepository              feeRepository;
+    private final FeeRepository             feeRepository;
 
-    private final MessageSource              messageSource;
+    private final MessageSource             messageSource;
 
-    private final PersonRepository           personRepository;
+    private final PersonRepository          personRepository;
 
-    private final AssociationSettingsSource  settingsSource;
+    private final AssociationSettingsSource settingsSource;
 
-    private final TransactionRepository      transactionRepository;
+    private final TransactionRepository     transactionRepository;
 
-    private final Validator<Fee>             validatorCreate;
+    private final Validator<Fee>            validatorCreate;
 
-    private final Validator<Collection<Fee>> validatorPay;
+    private final Validator<FeePayments>    validatorPay;
 
-    private final Validator<Fee>             validatorUpdate;
+    private final Validator<Fee>            validatorUpdate;
 
     public DefaultFeeService(final FeeRepository feeRepo, final PersonRepository personRepo,
             final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
@@ -110,8 +111,8 @@ public final class DefaultFeeService implements FeeService {
         messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
-        validatorPay = new FieldRuleValidator<>(new FeeNoDuplicatedMonthsRule(),
-            new PaidMonthsNotExistingRule(personRepository, feeRepository));
+        validatorPay = new FieldRuleValidator<>(new FeePaymentsNoDuplicatedMonthsRule(),
+            new FeePaymentsMonthsNotExistingRule(personRepository, feeRepository));
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(personRepository, feeRepository));
@@ -209,32 +210,33 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber,
-            final Instant paymentDate) {
+    public final Collection<Fee> payFees(final FeePayments feesPayments) {
         final Collection<Fee> newFees;
         final Collection<Fee> feesToSave;
         final Person          person;
         final Collection<Fee> created;
         final Transaction     transaction;
 
-        log.info("Paying fees for {} for months {}, paid in {}", personNumber, months, paymentDate);
+        log.info("Paying fees for {} for months {}, paid in {}", feesPayments.member(), feesPayments.months(),
+            feesPayments.paymentDate());
 
-        person = personRepository.findOne(personNumber)
+        person = personRepository.findOne(feesPayments.member())
             .orElseThrow(() -> {
-                log.error("Missing person {}", personNumber);
-                throw new MissingPersonException(personNumber);
+                log.error("Missing person {}", feesPayments.member());
+                throw new MissingPersonException(feesPayments.member());
             });
 
-        newFees = months.stream()
+        validatorPay.validate(feesPayments);
+
+        newFees = feesPayments.months()
+            .stream()
             .map(d -> toUnpaidFee(person, d))
             .toList();
 
-        // TODO: reject paying in the future
-        validatorPay.validate(newFees);
+        transaction = savePaymentTransaction(person, newFees, feesPayments.paymentDate());
 
-        transaction = savePaymentTransaction(person, newFees, paymentDate);
-
-        feesToSave = months.stream()
+        feesToSave = feesPayments.months()
+            .stream()
             .map(month -> toPaidFee(person, month, transaction))
             .toList();
 
@@ -245,7 +247,8 @@ public final class DefaultFeeService implements FeeService {
             .filter(Fee::paid)
             .forEach(this::sendFeePaidEvent);
 
-        log.debug("Paid fees for {} for months {}, paid in {}: {}", personNumber, months, paymentDate, created);
+        log.debug("Paid fees for {} for months {}, paid in {}: {}", feesPayments.member(), feesPayments.months(),
+            feesPayments.paymentDate(), created);
 
         return created;
     }

@@ -1,11 +1,11 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.data.domain.Page;
@@ -74,16 +74,11 @@ public interface FeeService {
      * <p>
      * TODO: use a payment model?
      *
-     * @param months
-     *            dates of the fees being paid
-     * @param personNumber
-     *            member paying the fees
-     * @param paymentDate
-     *            date of the payment
+     * @param feesPayments
+     *            data to create new fees
      * @return all the paid fees
      */
-    public Collection<Fee> payFees(final Collection<YearMonth> months, final Long personNumber,
-            final Instant paymentDate);
+    public Collection<Fee> payFees(final FeePayments feesPayments);
 
     /**
      * Updates the received fee.
