@@ -13,9 +13,12 @@ import com.bernardomg.association.transaction.domain.exception.MissingTransactio
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.usecase.validation.TransactionNotPaidInFutureRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the transaction service.
@@ -30,14 +33,21 @@ public final class DefaultTransactionService implements TransactionService {
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(DefaultTransactionService.class);
+    private static final Logger          log = LoggerFactory.getLogger(DefaultTransactionService.class);
 
-    private final TransactionRepository transactionRepository;
+    private final TransactionRepository  transactionRepository;
+
+    private final Validator<Transaction> validatorCreate;
+
+    private final Validator<Transaction> validatorUpdate;
 
     public DefaultTransactionService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
+
+        validatorCreate = new FieldRuleValidator<>(new TransactionNotPaidInFutureRule());
+        validatorUpdate = new FieldRuleValidator<>(new TransactionNotPaidInFutureRule());
     }
 
     @Override
@@ -46,6 +56,8 @@ public final class DefaultTransactionService implements TransactionService {
         final Transaction toCreate;
 
         log.debug("Creating transaction {}", transaction);
+
+        validatorCreate.validate(transaction);
 
         // Get index
         index = transactionRepository.findNextIndex();
@@ -109,6 +121,8 @@ public final class DefaultTransactionService implements TransactionService {
 
         toUpdate = new Transaction(transaction.index(), transaction.date(), transaction.amount(),
             transaction.description());
+
+        validatorUpdate.validate(toUpdate);
 
         return transactionRepository.save(toUpdate);
     }

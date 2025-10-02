@@ -54,6 +54,11 @@ public final class Transactions {
             .toInstant(), TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION + " " + index);
     }
 
+    public static final Transaction future() {
+        return new Transaction(TransactionConstants.INDEX, TransactionConstants.DATE_FUTURE,
+            TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
+    }
+
     public static final Transaction newlyCreated() {
         return new Transaction(1, TransactionConstants.DATE, TransactionConstants.AMOUNT,
             TransactionConstants.DESCRIPTION);

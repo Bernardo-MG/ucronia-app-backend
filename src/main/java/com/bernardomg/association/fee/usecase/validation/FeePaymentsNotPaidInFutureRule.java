@@ -12,7 +12,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fees are not paid in the future.
+ * Checks the fees payment date is not in the future.
  */
 public final class FeePaymentsNotPaidInFutureRule implements FieldRule<FeePayments> {
 

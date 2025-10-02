@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,8 +39,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - create")
@@ -104,6 +108,21 @@ class TestTransactionServiceCreate {
         Assertions.assertThat(created)
             .as("transaction")
             .isEqualTo(Transactions.positive());
+    }
+
+    @Test
+    @DisplayName("With the transaction created in the future, it throws an exception")
+    void testUpdate_Future() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // WHEN
+        execution = () -> service.create(Transactions.future());
+
+        // THEN
+        failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }
