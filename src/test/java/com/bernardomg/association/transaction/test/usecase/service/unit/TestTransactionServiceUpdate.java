@@ -36,12 +36,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - update")
@@ -106,6 +109,21 @@ class TestTransactionServiceUpdate {
         Assertions.assertThat(updated)
             .as("transaction")
             .isEqualTo(Transactions.positive());
+    }
+
+    @Test
+    @DisplayName("With the transaction with a future date, it throws an exception")
+    void testUpdate_Future() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // WHEN
+        execution = () -> service.update(Transactions.future());
+
+        // THEN
+        failure = new FieldFailure("invalid", "date", "date.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test

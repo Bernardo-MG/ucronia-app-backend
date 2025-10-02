@@ -13,7 +13,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fees's months are not duplicated.
+ * Checks the fee payment date is not in the future.
  */
 public final class FeeNotPaidInFutureRule implements FieldRule<Fee> {
 

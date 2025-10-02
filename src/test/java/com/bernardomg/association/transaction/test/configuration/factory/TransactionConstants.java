@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 public final class TransactionConstants {
 
@@ -22,6 +23,9 @@ public final class TransactionConstants {
     public static final Instant   DATE                             = LocalDate.of(2020, Month.FEBRUARY, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
+
+    public static final Instant   DATE_FUTURE                      = Instant.now()
+        .plus(2L, ChronoUnit.DAYS);
 
     public static final String    DESCRIPTION                      = "Transaction";
 
