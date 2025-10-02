@@ -5,6 +5,7 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
@@ -13,6 +14,7 @@ import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
@@ -41,6 +43,10 @@ public final class FeeDtoMapper {
         }
 
         return new Fee(month, false, person, transaction);
+    }
+
+    public static final FeePayments toDomain(final FeePaymentsDto dto) {
+        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
     }
 
     public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {

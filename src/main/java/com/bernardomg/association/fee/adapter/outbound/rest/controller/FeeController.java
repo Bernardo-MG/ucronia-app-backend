@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
+import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
@@ -106,16 +107,15 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"),
-            @CacheEvict(cacheNames = {
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
-                    // Funds caches
-                    MembersCaches.MONTHLY_BALANCE,
-                    // Member caches
-                    MembersCaches.MEMBERS, MembersCaches.MEMBER,
-                    // Person caches
-                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"), @CacheEvict(cacheNames = {
+            // Fee caches
+            FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+            // Funds caches
+            MembersCaches.MONTHLY_BALANCE,
+            // Member caches
+            MembersCaches.MEMBERS, MembersCaches.MEMBER,
+            // Person caches
+            PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
         final Fee fee;
 
@@ -167,9 +167,11 @@ public class FeeController implements FeeApi {
             // Person caches
             PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
     public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
-        Collection<Fee> fees;
+        final Collection<Fee> fees;
+        final FeePayments     payments;
 
-        fees = service.payFees(feePaymentsDto.getMonths(), feePaymentsDto.getMember(), feePaymentsDto.getPaymentDate());
+        payments = FeeDtoMapper.toDomain(feePaymentsDto);
+        fees = service.payFees(payments);
 
         return FeeDtoMapper.toResponseDto(fees);
     }
