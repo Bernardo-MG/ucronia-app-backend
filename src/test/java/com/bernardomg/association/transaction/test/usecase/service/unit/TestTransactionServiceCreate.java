@@ -36,10 +36,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -120,7 +120,7 @@ class TestTransactionServiceCreate {
         execution = () -> service.create(Transactions.future());
 
         // THEN
-        failure = new FieldFailure("invalid", "date", "date.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+        failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

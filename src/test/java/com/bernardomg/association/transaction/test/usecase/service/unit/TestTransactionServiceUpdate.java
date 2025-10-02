@@ -36,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
@@ -114,14 +113,20 @@ class TestTransactionServiceUpdate {
     @Test
     @DisplayName("With the transaction with a future date, it throws an exception")
     void testUpdate_Future() {
+        final Transaction      transaction;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
+        // GIVEN
+        transaction = Transactions.future();
+
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
         // WHEN
-        execution = () -> service.update(Transactions.future());
+        execution = () -> service.update(transaction);
 
         // THEN
-        failure = new FieldFailure("invalid", "date", "date.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+        failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
