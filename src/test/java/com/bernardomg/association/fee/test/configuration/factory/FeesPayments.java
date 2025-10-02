@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
@@ -24,8 +23,7 @@ public final class FeesPayments {
     }
 
     public static final FeePayments paidFuture() {
-        return new FeePayments(PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE.plus(1L, ChronoUnit.DAYS),
-            List.of(FeeConstants.DATE));
+        return new FeePayments(PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE_FUTURE, List.of(FeeConstants.DATE));
     }
 
     public static final FeePayments single() {

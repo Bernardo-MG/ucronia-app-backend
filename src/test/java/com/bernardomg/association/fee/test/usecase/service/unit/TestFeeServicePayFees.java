@@ -29,9 +29,7 @@ import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.time.Instant;
 import java.time.Month;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -210,24 +208,15 @@ class TestFeeServicePayFees {
     void testPayFees_PaidInFuture() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
-        final Instant          payment;
 
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
-        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
-        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
-        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
-
-        payment = Instant.now()
-            .plus(2L, ChronoUnit.DAYS);
 
         // WHEN
         execution = () -> service.payFees(FeesPayments.paidFuture());
 
         // THEN
-        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", payment);
+        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
