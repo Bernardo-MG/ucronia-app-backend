@@ -245,16 +245,15 @@ class TestFeeServiceUpdate {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
-            .willReturn(Optional.of(Fees.alternativePerson()));
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(Fees.paidNextYear(1L));
+        execution = () -> service.update(Fees.paidInFuture());
 
         // THEN
-        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.NEXT_YEAR_MONTH);
+        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

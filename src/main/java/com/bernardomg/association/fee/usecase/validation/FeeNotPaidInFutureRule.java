@@ -31,10 +31,14 @@ public final class FeeNotPaidInFutureRule implements FieldRule<Fee> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final Optional<Instant>      date;
+        final Optional<Boolean>      exists;
+        final Instant                today;
 
+        today = Instant.now();
         date = fee.transaction()
             .map(Transaction::date);
-        if (date.isPresent()) {
+        exists = date.map(d -> d.isAfter(today));
+        if (exists.isPresent() && exists.get()) {
             log.error("Attempting to pay fee at future date {}", date.get());
             fieldFailure = new FieldFailure("invalid", "paymentDate", date.get());
             failure = Optional.of(fieldFailure);

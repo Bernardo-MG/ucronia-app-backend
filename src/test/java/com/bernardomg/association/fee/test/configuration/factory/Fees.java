@@ -143,6 +143,17 @@ public final class Fees {
         return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
     }
 
+    public static final Fee paidInFuture() {
+        final Fee.Member      person;
+        final Fee.Transaction transaction;
+        final PersonName      name;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        person = new Fee.Member(PersonConstants.NUMBER, name);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE_FUTURE, TransactionConstants.INDEX);
+        return new Fee(FeeConstants.DATE, true, person, Optional.of(transaction));
+    }
+
     public static final Fee paidAtDate(final Instant paymentDate) {
         final Fee.Member      person;
         final Fee.Transaction transaction;
