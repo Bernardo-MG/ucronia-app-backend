@@ -1,22 +1,21 @@
 
 package com.bernardomg.association.fee.usecase.validation;
 
-import java.time.YearMonth;
-import java.util.Collection;
-import java.util.List;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
  * Checks the fees's months are not duplicated.
  */
-public final class FeeNotPaidInFutureRule implements FieldRule<Collection<Fee>> {
+public final class FeeNotPaidInFutureRule implements FieldRule<Fee> {
 
     /**
      * Logger for the class.
@@ -28,24 +27,16 @@ public final class FeeNotPaidInFutureRule implements FieldRule<Collection<Fee>> 
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Collection<Fee> fees) {
+    public final Optional<FieldFailure> check(final Fee fee) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final List<YearMonth>        uniqueMonths;
-        final long                   duplicates;
+        final Optional<Instant>      date;
 
-        uniqueMonths = fees.stream()
-            .map(Fee::month)
-            .distinct()
-            .sorted()
-            .toList();
-        if (uniqueMonths.size() < fees.size()) {
-            // We have repeated dates
-            // TODO: is this really an error? It can be corrected easily
-            duplicates = (fees.size() - uniqueMonths.size());
-            log.error("Received {} fee months, but {} are duplicates", fees.size(), duplicates);
-            // TODO: set duplicates, not number
-            fieldFailure = new FieldFailure("duplicated", "months[]", duplicates);
+        date = fee.transaction()
+            .map(Transaction::date);
+        if (date.isPresent()) {
+            log.error("Attempting to pay fee at future date {}", date.get());
+            fieldFailure = new FieldFailure("invalid", "paymentDate", date.get());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

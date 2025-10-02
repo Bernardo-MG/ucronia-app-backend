@@ -38,7 +38,9 @@ public final class FeeConstants {
     public static final Instant   PAYMENT_DATE             = LocalDate.of(2020, Month.FEBRUARY, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
-    public static final Instant   PAYMENT_DATE_FUTURE             = Instant.now().plus(2L, ChronoUnit.DAYS);
+
+    public static final Instant   PAYMENT_DATE_FUTURE      = Instant.now()
+        .plus(2L, ChronoUnit.DAYS);
 
     public static final YearMonth PREVIOUS_MONTH           = YearMonth.now()
         .minusMonths(1);

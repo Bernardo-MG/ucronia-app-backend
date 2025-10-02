@@ -48,6 +48,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeMemberNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNoDuplicatedMonthsRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
@@ -118,8 +119,8 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(personRepository, feeRepository));
-        validatorUpdate = new FieldRuleValidator<>(new FeeTransactionNotChangedRule(feeRepository),
-            new FeeMemberNotChangedRule(feeRepository));
+        validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
+            new FeeTransactionNotChangedRule(feeRepository), new FeeMemberNotChangedRule(feeRepository));
     }
 
     @Override
