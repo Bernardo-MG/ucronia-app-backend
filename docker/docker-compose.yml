@@ -47,8 +47,8 @@ services:
       - spring.mail.username=username
       - spring.mail.password=password
       - email.security.from=security@somewhere.com
-      - email.security.activateUser.url=https://localhost:4220/users/activate
-      - email.security.passwordRecovery.url=https://localhost:4220/password/reset/
+      - email.security.activateUser.url=http://localhost:4200/users/activate
+      - email.security.passwordRecovery.url=http://localhost:4200/password/reset/
     volumes:
       - association-logs:/app/logs
     networks:
@@ -62,6 +62,10 @@ services:
     image: maildev/maildev:2.2.1
     ports:
       - "1080:1080"
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
       - mail
   #============#
