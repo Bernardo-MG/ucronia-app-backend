@@ -3,6 +3,7 @@ get:
   operationId: getFeesCalendar
   tags: [FeeCalendar]
   parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
     - name: year
       in: path
       required: true
@@ -15,12 +16,6 @@ get:
       schema:
         type: string
         enum: [ACTIVE, ALL, INACTIVE]
-    - name: sort
-      in: query
-      required: false
-      description: Sorting to apply.
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     '200':
       description: All the member fees for the given year

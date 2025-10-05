@@ -116,8 +116,8 @@ public class PersonController implements PersonApi {
     @Override
     @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
-    public PersonPageResponseDto getAllPersons(@Valid final PersonStatusDto status, @Valid final String name,
-            @Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public PersonPageResponseDto getAllPersons(@Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
+            @Valid List<String> sort, @Valid PersonStatusDto status, @Valid String name) {
         final Page<Person> persons;
         final Pagination   pagination;
         final Sorting      sorting;

@@ -20,24 +20,9 @@ get:
   operationId: getAllContactMethods
   tags: [ContactMethod]
   parameters:
-    - name: page
-      in: query
-      required: false
-      description: Page to return.
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/pageParam'
-    - name: size
-      in: query
-      required: false
-      description: Page size.
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
-    - name: sort
-      in: query
-      required: false
-      description: Sorting to apply.
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
   responses:
     '200':
       description: Contact methods page.
