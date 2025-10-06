@@ -16,12 +16,12 @@ public final class FeeSpecifications {
 
         if (query.date() != null) {
             spec = Optional.of(on(query.date()));
-        } else if ((query.startDate() != null) && (query.endDate() != null)) {
-            spec = Optional.of(between(query.startDate(), query.endDate()));
-        } else if (query.startDate() != null) {
-            spec = Optional.of(after(query.startDate()));
-        } else if (query.endDate() != null) {
-            spec = Optional.of(before(query.endDate()));
+        } else if ((query.from() != null) && (query.to() != null)) {
+            spec = Optional.of(between(query.from(), query.to()));
+        } else if (query.from() != null) {
+            spec = Optional.of(after(query.from()));
+        } else if (query.to() != null) {
+            spec = Optional.of(before(query.to()));
         } else {
             spec = Optional.empty();
         }

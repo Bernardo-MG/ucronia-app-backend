@@ -29,12 +29,12 @@ get:
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
-    - name: startDate
+    - name: from
       description: Starting date to query for.
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
-    - name: endDate
+    - name: to
       description: Ending date to query for.
       in: query
       schema:

@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -78,12 +78,12 @@ public class TransactionBalanceController implements TransactionBalanceApi {
     @Override
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
-    public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final YearMonth startDate,
-            @Valid final YearMonth endDate) {
-        Collection<TransactionMonthlyBalance> balance;
-        final TransactionBalanceQuery         query;
+    public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final Instant from,
+            @Valid final Instant to) {
+        final Collection<TransactionMonthlyBalance> balance;
+        final TransactionBalanceQuery               query;
 
-        query = new TransactionBalanceQuery(startDate, endDate);
+        query = new TransactionBalanceQuery(from, to);
         balance = service.getMonthlyBalance(query);
         return TransactionBalanceDtoMapper.toResponseDto(balance);
     }

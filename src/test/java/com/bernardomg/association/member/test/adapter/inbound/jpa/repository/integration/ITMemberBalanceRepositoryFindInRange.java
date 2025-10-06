@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.ZoneOffset;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,10 @@ class ITMemberBalanceRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(null, MemberBalanceConstants.START_MONTH.plusMonths(2), sorting);
+        balances = memberBalanceRepository.findInRange(null, MemberBalanceConstants.START_MONTH.plusMonths(2)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -105,8 +110,15 @@ class ITMemberBalanceRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1),
-            MemberBalanceConstants.START_MONTH.plusMonths(3), sorting);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(),
+            MemberBalanceConstants.START_MONTH.plusMonths(3)
+                .atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant(),
+            sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -128,7 +140,10 @@ class ITMemberBalanceRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1), null, sorting);
+        balances = memberBalanceRepository.findInRange(MemberBalanceConstants.START_MONTH.plusMonths(1)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), null, sorting);
 
         // THEN
         Assertions.assertThat(balances)

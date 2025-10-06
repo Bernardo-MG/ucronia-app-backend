@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.transaction.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
-public final record TransactionBalanceQuery(YearMonth startDate, YearMonth endDate) {
+public final record TransactionBalanceQuery(Instant from, Instant endDate) {
 
 }

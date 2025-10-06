@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -41,8 +42,13 @@ class TestMemberBalanceServiceGetMonthlyBalance {
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        given(memberBalanceRepository.findInRange(eq(MemberBalanceConstants.PREVIOUS_MONTH),
-            eq(MemberBalanceConstants.CURRENT_MONTH), any())).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
+        given(memberBalanceRepository.findInRange(eq(MemberBalanceConstants.PREVIOUS_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant()), eq(
+                MemberBalanceConstants.CURRENT_MONTH.atDay(1)
+                    .atStartOfDay(ZoneOffset.UTC)
+                    .toInstant()),
+            any())).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
 
         query = MemberBalanceQueryRequests.previousAndThis();
 
@@ -68,7 +74,13 @@ class TestMemberBalanceServiceGetMonthlyBalance {
 
         // THEN
         Mockito.verify(memberBalanceRepository)
-            .findInRange(eq(MemberBalanceConstants.PREVIOUS_MONTH), eq(MemberBalanceConstants.CURRENT_MONTH), any());
+            .findInRange(eq(MemberBalanceConstants.PREVIOUS_MONTH.atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant()), eq(
+                    MemberBalanceConstants.CURRENT_MONTH.atDay(1)
+                        .atStartOfDay(ZoneOffset.UTC)
+                        .toInstant()),
+                any());
     }
 
     @Test
@@ -78,8 +90,13 @@ class TestMemberBalanceServiceGetMonthlyBalance {
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        given(memberBalanceRepository.findInRange(eq(MemberBalanceConstants.PREVIOUS_MONTH),
-            eq(MemberBalanceConstants.CURRENT_MONTH), any())).willReturn(List.of());
+        given(memberBalanceRepository.findInRange(eq(MemberBalanceConstants.PREVIOUS_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant()), eq(
+                MemberBalanceConstants.CURRENT_MONTH.atDay(1)
+                    .atStartOfDay(ZoneOffset.UTC)
+                    .toInstant()),
+            any())).willReturn(List.of());
 
         query = MemberBalanceQueryRequests.previousAndThis();
 

@@ -118,8 +118,9 @@ public class TransactionController implements TransactionApi {
     @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
-    public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort, @Valid Instant date, @Valid Instant startDate, @Valid Instant endDate) {
+    public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
+            @Valid final Instant startDate, @Valid final Instant endDate) {
         final TransactionQuery  query;
         final Pagination        pagination;
         final Sorting           sorting;

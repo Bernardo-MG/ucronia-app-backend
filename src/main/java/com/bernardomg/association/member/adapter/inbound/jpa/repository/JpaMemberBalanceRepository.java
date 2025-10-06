@@ -41,36 +41,18 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
     }
 
     @Override
-    public final Collection<MonthlyMemberBalance> findInRange(final YearMonth startDate, final YearMonth endDate,
+    public final Collection<MonthlyMemberBalance> findInRange(final Instant from, final Instant to,
             final Sorting sorting) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
         final Collection<MonthlyMemberBalance>                    monthlyBalances;
         final Sort                                                sort;
-        final Instant                                             startDateParsed;
-        final Instant                                             endDateParsed;
 
         // TODO: the dates are optional
 
-        log.debug("Finding balance in from {} to {} sorting by {}", startDate, endDate, sorting);
+        log.debug("Finding balance in from {} to {} sorting by {}", from, to, sorting);
 
-        // Specification from the request
-        if (startDate == null) {
-            startDateParsed = null;
-        } else {
-            startDateParsed = startDate.atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
-        }
-        if (endDate == null) {
-            // TODO: better use optional
-            endDateParsed = null;
-        } else {
-            endDateParsed = endDate.atEndOfMonth()
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
-        }
-        spec = MonthlyMemberBalanceSpecifications.inRange(startDateParsed, endDateParsed);
+        spec = MonthlyMemberBalanceSpecifications.inRange(from, to);
 
         sort = SpringSorting.toSort(sorting);
         if (spec.isPresent()) {
@@ -83,7 +65,7 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found balance from {} to {}: {}", startDate, endDate, monthlyBalances);
+        log.debug("Found balance from {} to {}: {}", from, to, monthlyBalances);
 
         return monthlyBalances;
     }

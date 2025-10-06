@@ -127,8 +127,9 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
-    public FeePageResponseDto getAllFees(@Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort, @Valid Instant date, @Valid Instant startDate, @Valid Instant endDate) {
+    public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant startDate,
+            @Valid final Instant endDate) {
         final FeeQuery   query;
         final Pagination pagination;
         final Sorting    sorting;

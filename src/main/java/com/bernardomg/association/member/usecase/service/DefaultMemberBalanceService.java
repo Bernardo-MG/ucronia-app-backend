@@ -24,7 +24,9 @@
 
 package com.bernardomg.association.member.usecase.service;
 
+import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -64,15 +66,18 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     @Override
     public final Collection<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
-        final YearMonth                        now;
-        final YearMonth                        end;
+        final Instant                          now;
+        final Instant                          end;
         final Sorting                          sorting;
         final Collection<MonthlyMemberBalance> balance;
 
         log.debug("Reading monthly balance with query {}", query);
 
         // Up to this month
-        now = YearMonth.now();
+        now = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         if ((query.endDate() == null) || (query.endDate()
             .isAfter(now))) {
             log.debug("Replacing end date {} with current date {}", query.endDate(), now);

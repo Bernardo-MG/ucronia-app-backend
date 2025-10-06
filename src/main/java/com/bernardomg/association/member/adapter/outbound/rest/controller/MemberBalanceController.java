@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -66,8 +66,8 @@ public class MemberBalanceController implements MemberBalanceApi {
     @Override
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
-    public MonthlyMemberBalancesResponseDto getMonthlyMemberBalance(@Valid final YearMonth from,
-            @Valid final YearMonth to, @Valid final Long memberNumber) {
+    public MonthlyMemberBalancesResponseDto getMonthlyMemberBalance(@Valid final Instant from, @Valid final Instant to,
+            @Valid final Long memberNumber) {
         final Collection<MonthlyMemberBalance> balances;
         final MemberBalanceQuery               query;
 

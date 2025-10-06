@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.member.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
-public final record MemberBalanceQuery(YearMonth startDate, YearMonth endDate) {
+public final record MemberBalanceQuery(Instant startDate, Instant endDate) {
 
 }

@@ -25,7 +25,6 @@
 package com.bernardomg.association.transaction.adapter.inbound.jpa.specification;
 
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -73,31 +72,13 @@ public final class MonthlyBalanceSpecifications {
      */
     public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final TransactionBalanceQuery request) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
-        final Instant                                       startDateParsed;
-        final Instant                                       endDateParsed;
 
-        if ((request.startDate() != null) && (request.endDate() != null)) {
-            startDateParsed = request.startDate()
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
-            endDateParsed = request.endDate()
-                .atEndOfMonth()
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
-            spec = Optional.of(betweenIncluding(startDateParsed, endDateParsed));
-        } else if (request.startDate() != null) {
-            startDateParsed = request.startDate()
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
-            spec = Optional.of(onOrAfter(startDateParsed));
+        if ((request.from() != null) && (request.endDate() != null)) {
+            spec = Optional.of(betweenIncluding(request.from(), request.endDate()));
+        } else if (request.from() != null) {
+            spec = Optional.of(onOrAfter(request.from()));
         } else if (request.endDate() != null) {
-            endDateParsed = request.endDate()
-                .atEndOfMonth()
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
-            spec = Optional.of(onOrBefore(endDateParsed));
+            spec = Optional.of(onOrBefore(request.endDate()));
         } else {
             spec = Optional.empty();
         }
