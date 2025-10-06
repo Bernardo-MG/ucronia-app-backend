@@ -1,0 +1,22 @@
+get:
+  summary: Get calendar month.
+  operationId: getTransactionCalendar
+  tags: [TransactionCalendar]
+  parameters:
+    - name: from
+      description: Starting date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: to
+      description: Ending date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+  responses:
+    '200':
+      description: Calendar month
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions_calendar.yml#/components/schemas/TransactionCalendarMonthResponse'

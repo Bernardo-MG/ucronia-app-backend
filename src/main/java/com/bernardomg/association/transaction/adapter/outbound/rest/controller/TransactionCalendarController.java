@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
+import java.time.Instant;
 import java.time.YearMonth;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -39,6 +40,8 @@ import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
 import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Funds calendar REST controller.
@@ -57,6 +60,15 @@ public class TransactionCalendarController implements TransactionCalendarApi {
     public TransactionCalendarController(final TransactionCalendarService service) {
         super();
         this.service = service;
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = TransactionCaches.CALENDAR)
+    public TransactionCalendarMonthResponseDto getTransactionCalendar(@Valid final Instant from,
+            @Valid final Instant to) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

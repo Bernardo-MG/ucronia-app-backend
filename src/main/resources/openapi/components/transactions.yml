@@ -56,3 +56,7 @@ components:
       properties:
         content:
           $ref: '#/components/schemas/Transaction'
+    TransactionsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Transaction'
