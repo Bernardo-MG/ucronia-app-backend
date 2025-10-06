@@ -58,21 +58,21 @@ public final class TransactionSpecifications {
     /**
      * Creates an specification from the request.
      *
-     * @param request
+     * @param query
      *            request to create a specification from
      * @return specification for the request
      */
-    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionQuery request) {
+    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionQuery query) {
         final Optional<Specification<TransactionEntity>> spec;
 
-        if (request.date() != null) {
-            spec = Optional.of(on(request.date()));
-        } else if ((request.startDate() != null) && (request.endDate() != null)) {
-            spec = Optional.of(betweenIncluding(request.startDate(), request.endDate()));
-        } else if (request.startDate() != null) {
-            spec = Optional.of(onOrAfter(request.startDate()));
-        } else if (request.endDate() != null) {
-            spec = Optional.of(onOrBefore(request.endDate()));
+        if (query.date() != null) {
+            spec = Optional.of(on(query.date()));
+        } else if ((query.from() != null) && (query.to() != null)) {
+            spec = Optional.of(betweenIncluding(query.from(), query.to()));
+        } else if (query.from() != null) {
+            spec = Optional.of(onOrAfter(query.from()));
+        } else if (query.to() != null) {
+            spec = Optional.of(onOrBefore(query.to()));
         } else {
             spec = Optional.empty();
         }
@@ -100,20 +100,20 @@ public final class TransactionSpecifications {
      * @return transactions on the date
      */
     public static final Specification<TransactionEntity> on(final YearMonth month) {
-        final Instant startDate;
-        final Instant endDate;
+        final Instant from;
+        final Instant to;
 
         // Starts on the first day of the month
-        startDate = LocalDate.of(month.getYear(), month.getMonthValue(), 1)
+        from = LocalDate.of(month.getYear(), month.getMonthValue(), 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
         // Ends on the last day of the month
-        endDate = LocalDate.of(month.getYear(), month.getMonthValue(), month.getMonth()
+        to = LocalDate.of(month.getYear(), month.getMonthValue(), month.getMonth()
             .length(month.isLeapYear()))
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
 
-        return betweenIncluding(startDate, endDate);
+        return betweenIncluding(from, to);
     }
 
     /**

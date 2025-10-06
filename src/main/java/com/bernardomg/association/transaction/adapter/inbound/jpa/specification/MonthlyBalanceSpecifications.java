@@ -73,12 +73,12 @@ public final class MonthlyBalanceSpecifications {
     public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final TransactionBalanceQuery request) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
 
-        if ((request.from() != null) && (request.endDate() != null)) {
-            spec = Optional.of(betweenIncluding(request.from(), request.endDate()));
+        if ((request.from() != null) && (request.to() != null)) {
+            spec = Optional.of(betweenIncluding(request.from(), request.to()));
         } else if (request.from() != null) {
             spec = Optional.of(onOrAfter(request.from()));
-        } else if (request.endDate() != null) {
-            spec = Optional.of(onOrBefore(request.endDate()));
+        } else if (request.to() != null) {
+            spec = Optional.of(onOrBefore(request.to()));
         } else {
             spec = Optional.empty();
         }

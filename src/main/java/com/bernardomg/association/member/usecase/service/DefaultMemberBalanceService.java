@@ -78,16 +78,16 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        if ((query.endDate() == null) || (query.endDate()
+        if ((query.to() == null) || (query.to()
             .isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", query.endDate(), now);
+            log.debug("Replacing end date {} with current date {}", query.to(), now);
             end = now;
         } else {
-            end = query.endDate();
+            end = query.to();
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        balance = memberBalanceRepository.findInRange(query.startDate(), end, sorting);
+        balance = memberBalanceRepository.findInRange(query.from(), end, sorting);
 
         log.debug("Read monthly balance with query {}: {}", query, balance);
 

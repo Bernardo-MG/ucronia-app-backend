@@ -37,17 +37,16 @@ public final class MonthlyMemberBalanceSpecifications {
         return (root, query, cb) -> cb.between(root.get("month"), start, end);
     }
 
-    public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final Instant startDate,
-            final Instant endDate) {
+    public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final Instant from, final Instant to) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
 
         // TODO: use optionals, not nulls
-        if ((startDate != null) && (endDate != null)) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(startDate, endDate));
-        } else if (startDate != null) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrAfter(startDate));
-        } else if (endDate != null) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrBefore(endDate));
+        if ((from != null) && (to != null)) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(from, to));
+        } else if (from != null) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrAfter(from));
+        } else if (to != null) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrBefore(to));
         } else {
             spec = Optional.empty();
         }

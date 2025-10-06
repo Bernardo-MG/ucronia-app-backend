@@ -58,10 +58,10 @@ class ITFeeRepositoryGetAllFilter {
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @MultipleMembershipInactivePerson
     @MultipleFees
-    void testFindAll_EndDate() {
+    void testFindAll_From() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -71,37 +71,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
-        // TODO: use constants for the dates
-        feeQuery = FeesQuery.endDate(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
-    @MultipleMembershipInactivePerson
-    @MultipleFees
-    void testFindAll_EndDate_NotInRange() {
-        final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
-
-        feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY)
+        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JUNE)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
@@ -113,6 +83,37 @@ class ITFeeRepositoryGetAllFilter {
         Assertions.assertThat(fees)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .containsExactly(Fees.notPaidForMonth(5, Month.JUNE));
+    }
+
+    @Test
+    @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
+    @MultipleMembershipInactivePerson
+    @MultipleFees
+    void testFindAll_From_NotInRange() {
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+
+        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JULY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
             .isEmpty();
     }
 
@@ -160,7 +161,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY)
+        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
@@ -271,10 +272,10 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the start date, the returned data is filtered")
+    @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @MultipleMembershipInactivePerson
     @MultipleFees
-    void testFindAll_StartDate() {
+    void testFindAll_To() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -284,8 +285,8 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JUNE)
-            .atDay(1)
+        // TODO: use constants for the dates
+        feeQuery = FeesQuery.to(FeeConstants.DATE.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
 
@@ -297,14 +298,14 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
-            .containsExactly(Fees.notPaidForMonth(5, Month.JUNE));
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
 
     @Test
-    @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
+    @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
     @MultipleMembershipInactivePerson
     @MultipleFees
-    void testFindAll_StartDate_NotInRange() {
+    void testFindAll_To_NotInRange() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -314,7 +315,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JULY)
+        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
@@ -326,7 +327,6 @@ class ITFeeRepositoryGetAllFilter {
         Assertions.assertThat(fees)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
             .isEmpty();
     }
 

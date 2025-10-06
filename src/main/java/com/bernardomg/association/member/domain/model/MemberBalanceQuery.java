@@ -26,6 +26,6 @@ package com.bernardomg.association.member.domain.model;
 
 import java.time.Instant;
 
-public final record MemberBalanceQuery(Instant startDate, Instant endDate) {
+public final record MemberBalanceQuery(Instant from, Instant to) {
 
 }

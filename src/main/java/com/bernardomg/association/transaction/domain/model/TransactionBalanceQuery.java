@@ -26,6 +26,6 @@ package com.bernardomg.association.transaction.domain.model;
 
 import java.time.Instant;
 
-public final record TransactionBalanceQuery(Instant from, Instant endDate) {
+public final record TransactionBalanceQuery(Instant from, Instant to) {
 
 }

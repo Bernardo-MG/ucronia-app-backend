@@ -11,8 +11,8 @@ public final class FeesQuery {
         return new FeeQuery(null, null, null);
     }
 
-    public static final FeeQuery endDate(final Instant date) {
-        return new FeeQuery(null, null, date);
+    public static final FeeQuery from(final Instant date) {
+        return new FeeQuery(null, date, null);
     }
 
     public static final FeeQuery inDate(final Instant date) {
@@ -23,8 +23,8 @@ public final class FeesQuery {
         return new FeeQuery(null, start, end);
     }
 
-    public static final FeeQuery startDate(final Instant date) {
-        return new FeeQuery(null, date, null);
+    public static final FeeQuery to(final Instant date) {
+        return new FeeQuery(null, null, date);
     }
 
 }

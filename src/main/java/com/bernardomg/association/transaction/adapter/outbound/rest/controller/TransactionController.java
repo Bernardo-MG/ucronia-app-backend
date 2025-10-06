@@ -120,7 +120,7 @@ public class TransactionController implements TransactionApi {
     @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
     public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
-            @Valid final Instant startDate, @Valid final Instant endDate) {
+            @Valid final Instant from, @Valid final Instant to) {
         final TransactionQuery  query;
         final Pagination        pagination;
         final Sorting           sorting;
@@ -128,7 +128,7 @@ public class TransactionController implements TransactionApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new TransactionQuery(date, startDate, endDate);
+        query = new TransactionQuery(date, from, to);
         transactions = service.getAll(query, pagination, sorting);
 
         return TransactionDtoMapper.toResponseDto(transactions);

@@ -13,11 +13,11 @@ public final class TransactionBalanceQueries {
         return new TransactionBalanceQuery(null, null);
     }
 
-    public static final TransactionBalanceQuery endDate(final int year, final Month month) {
-        return new TransactionBalanceQuery(null, YearMonth.of(year, month)
+    public static final TransactionBalanceQuery from(final int year, final Month month) {
+        return new TransactionBalanceQuery(YearMonth.of(year, month)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+            .toInstant(), null);
     }
 
     public static final TransactionBalanceQuery range(final int year, final Month start, final Month end) {
@@ -31,11 +31,11 @@ public final class TransactionBalanceQueries {
                 .toInstant());
     }
 
-    public static final TransactionBalanceQuery startDate(final int year, final Month month) {
-        return new TransactionBalanceQuery(YearMonth.of(year, month)
+    public static final TransactionBalanceQuery to(final int year, final Month month) {
+        return new TransactionBalanceQuery(null, YearMonth.of(year, month)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), null);
+            .toInstant());
     }
 
     public TransactionBalanceQueries() {

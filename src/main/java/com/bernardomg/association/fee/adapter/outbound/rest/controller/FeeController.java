@@ -128,8 +128,8 @@ public class FeeController implements FeeApi {
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant startDate,
-            @Valid final Instant endDate) {
+            @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
+            @Valid final Instant to) {
         final FeeQuery   query;
         final Pagination pagination;
         final Sorting    sorting;
@@ -137,7 +137,7 @@ public class FeeController implements FeeApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new FeeQuery(date, startDate, endDate);
+        query = new FeeQuery(date, from, to);
         fees = service.getAll(query, pagination, sorting);
 
         return FeeDtoMapper.toResponseDto(fees);

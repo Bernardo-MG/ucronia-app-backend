@@ -15,12 +15,12 @@ public final class TransactionsQueries {
         return new TransactionQuery(null, null, null);
     }
 
-    public static final TransactionQuery endDate(final Instant date) {
-        return new TransactionQuery(null, null, date);
+    public static final TransactionQuery from(final Instant date) {
+        return new TransactionQuery(null, date, null);
     }
 
-    public static final TransactionQuery startDate(final Instant date) {
-        return new TransactionQuery(null, date, null);
+    public static final TransactionQuery to(final Instant date) {
+        return new TransactionQuery(null, null, date);
     }
 
 }
