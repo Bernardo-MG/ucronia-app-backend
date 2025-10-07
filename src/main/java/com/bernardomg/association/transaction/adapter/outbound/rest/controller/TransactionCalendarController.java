@@ -27,6 +27,7 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,8 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
@@ -68,10 +71,13 @@ public class TransactionCalendarController implements TransactionCalendarApi {
     @Override
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR)
-    public TransactionsResponseDto getTransactionCalendar(@Valid final Instant from, @Valid final Instant to) {
+    public TransactionsResponseDto getTransactionCalendar(@Valid final List<String> sort, @Valid final Instant from,
+            @Valid final Instant to) {
         final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
-        transactions = service.getInRange(from, to);
+        sorting = WebSorting.toSorting(sort);
+        transactions = service.getInRange(from, to, sorting);
 
         return TransactionDtoMapper.toResponseDto(transactions);
     }

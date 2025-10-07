@@ -26,7 +26,7 @@ public interface TransactionRepository {
 
     public TransactionCalendarMonth findInMonth(final YearMonth date);
 
-    public Collection<Transaction> findInRange(final Instant from, final Instant to);
+    public Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting);
 
     public long findNextIndex();
 

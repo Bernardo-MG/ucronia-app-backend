@@ -31,6 +31,7 @@ import java.util.Collection;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Transaction calendar service.
@@ -56,9 +57,11 @@ public interface TransactionCalendarService {
      *            starting date
      * @param to
      *            end date
+     * @param sorting
+     *            sorting to apply
      * @return all the transactions for the month
      */
-    public Collection<Transaction> getInRange(final Instant from, final Instant to);
+    public Collection<Transaction> getInRange(final Instant from, final Instant to, final Sorting sorting);
 
     /**
      * Returns the range of available months.

@@ -146,14 +146,16 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Collection<Transaction> findInRange(final Instant from, final Instant to) {
+    public final Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting) {
         final Specification<TransactionEntity> spec;
         final Collection<Transaction>          transactions;
+        final Sort                             sort;
 
         log.debug("Finding transactions in range from {} to {}", from, to);
 
+        sort = SpringSorting.toSort(sorting);
         spec = TransactionSpecifications.betweenIncluding(from, to);
-        transactions = transactionSpringRepository.findAll(spec)
+        transactions = transactionSpringRepository.findAll(spec, sort)
             .stream()
             .map(this::toDomain)
             .toList();

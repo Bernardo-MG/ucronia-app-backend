@@ -22,82 +22,69 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.unit;
+package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
-import static org.mockito.BDDMockito.given;
-
+import java.time.Month;
 import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction calendar service - get in range")
-class TestTransactionCalendarServiceGetInRange {
+@IntegrationTest
+@DisplayName("TransactionRepository - find in range")
+@MultipleTransactionsSameMonth
+class ITTransactionRepositoryFindInRangeSort {
 
-    @InjectMocks
-    private DefaultTransactionCalendarService service;
-
-    @Mock
-    private TransactionRepository             transactionRepository;
-
-    public TestTransactionCalendarServiceGetInRange() {
-        super();
-    }
+    @Autowired
+    private TransactionRepository repository;
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testGetInRange() {
+    @DisplayName("With ascending order by date it returns the ordered data")
+    void testFindInRange_Date_Asc() {
         final Collection<Transaction> transactions;
         final Sorting                 sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
-        given(
-            transactionRepository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting))
-                .willReturn(List.of(Transactions.positive()));
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        transactions = service.getInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .containsExactly(Transactions.positive());
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
+                Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
+                Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
-    void testGetInRange_NoData() {
+    @DisplayName("With descending order by date it returns the ordered data")
+    void testFindInRange_Date_Desc() {
         final Collection<Transaction> transactions;
         final Sorting                 sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
-        given(
-            transactionRepository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting))
-                .willReturn(List.of());
+        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
 
         // WHEN
-        transactions = service.getInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .isEmpty();
+            .containsExactly(Transactions.forIndexAndMonth(5, Month.JANUARY),
+                Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
+                Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
 }

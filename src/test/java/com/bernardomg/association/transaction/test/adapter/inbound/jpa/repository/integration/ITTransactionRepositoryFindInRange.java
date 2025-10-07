@@ -37,6 +37,7 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,9 +52,11 @@ class ITTransactionRepositoryFindInRange {
     @DisplayName("When searching in a range with dates, these are returned")
     void testInRange_InRange() {
         final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // WHEN
-        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE);
+        sorting = Sorting.unsorted();
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -66,10 +69,12 @@ class ITTransactionRepositoryFindInRange {
     @DisplayName("When searching in a range without dates, nothing is returned")
     void testInRange_OutOfRange() {
         final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // WHEN
+        sorting = Sorting.unsorted();
         transactions = repository.findInRange(TransactionConstants.OUT_OF_RANGE_DATE,
-            TransactionConstants.OUT_OF_RANGE_DATE);
+            TransactionConstants.OUT_OF_RANGE_DATE, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -80,9 +85,12 @@ class ITTransactionRepositoryFindInRange {
     @DisplayName("When searching in a range with a single date, this is returned")
     void testInRange_SingleDay_InRange() {
         final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // WHEN
-        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.START_DATE);
+        sorting = Sorting.unsorted();
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.START_DATE,
+            sorting);
 
         // THEN
         Assertions.assertThat(transactions)

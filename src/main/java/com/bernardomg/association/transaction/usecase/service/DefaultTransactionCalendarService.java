@@ -36,6 +36,7 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Default implementation of the transaction service.
@@ -61,8 +62,8 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
-    public final Collection<Transaction> getInRange(final Instant from, final Instant to) {
-        return transactionRepository.findInRange(from, to);
+    public final Collection<Transaction> getInRange(final Instant from, final Instant to, final Sorting sorting) {
+        return transactionRepository.findInRange(from, to, sorting);
     }
 
     @Override
