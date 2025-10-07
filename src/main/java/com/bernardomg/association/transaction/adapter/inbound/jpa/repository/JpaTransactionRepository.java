@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
@@ -142,6 +143,24 @@ public final class JpaTransactionRepository implements TransactionRepository {
         log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
 
         return monthCalendar;
+    }
+
+    @Override
+    public final Collection<Transaction> findInRange(final Instant from, final Instant to) {
+        final Specification<TransactionEntity> spec;
+        final Collection<Transaction>          transactions;
+
+        log.debug("Finding transactions in range from {} to {}", from, to);
+
+        spec = TransactionSpecifications.betweenIncluding(from, to);
+        transactions = transactionSpringRepository.findAll(spec)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Forund transactions in range from {} to {}: {}", from, to, transactions);
+
+        return transactions;
     }
 
     @Override

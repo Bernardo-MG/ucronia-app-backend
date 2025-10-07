@@ -45,7 +45,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all with filter - pagination")
+@DisplayName("TransactionRepository - find all with filter - pagination")
 @MultipleTransactionsSameMonth
 class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginationIT<Transaction> {
 

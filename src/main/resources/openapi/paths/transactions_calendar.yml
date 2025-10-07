@@ -19,4 +19,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/transactions_calendar.yml#/components/schemas/TransactionCalendarMonthResponse'
+            $ref: '../components/transactions.yml#/components/schemas/TransactionsResponse'

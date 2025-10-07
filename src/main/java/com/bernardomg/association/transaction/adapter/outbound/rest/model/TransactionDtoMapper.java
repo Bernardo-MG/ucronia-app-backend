@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -24,6 +26,7 @@ import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto
 import com.bernardomg.ucronia.openapi.model.TransactionDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
+import com.bernardomg.ucronia.openapi.model.TransactionsResponseDto;
 
 public final class TransactionDtoMapper {
 
@@ -33,6 +36,13 @@ public final class TransactionDtoMapper {
 
     public static final Transaction toDomain(final TransactionCreationDto creation) {
         return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription());
+    }
+
+    public static final TransactionsResponseDto toResponseDto(final Collection<Transaction> transactions) {
+        final List<TransactionDto> content = transactions.stream()
+            .map(TransactionDtoMapper::toDto)
+            .toList();
+        return new TransactionsResponseDto().content(content);
     }
 
     public static final TransactionResponseDto toResponseDto(final Optional<Transaction> transaction) {

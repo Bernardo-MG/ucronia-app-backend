@@ -24,41 +24,52 @@
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Month;
+import java.util.Collection;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.configuration.data.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - find all")
-class ITTransactionRepositoryFindAll {
+@DisplayName("TransactionRepository - find in range")
+@MultipleTransactionsSameMonth
+class ITTransactionRepositoryFindInRange {
 
     @Autowired
     private TransactionRepository repository;
 
-    public ITTransactionRepositoryFindAll() {
-        super();
-        // TODO: test sorting
+    @Test
+    @DisplayName("When searching in a range with dates, these are returned")
+    void testInRange_InRange() {
+        final Collection<Transaction> transactions;
+
+        // WHEN
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
+                Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
+                Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
-    void testFindAll_NoData() {
-        final Iterable<Transaction> transactions;
-        final Sorting               sorting;
-
-        // GIVEN
-        sorting = Sorting.unsorted();
+    @DisplayName("When searching in a range without dates, nothing is returned")
+    void testInRange_OutOfRange() {
+        final Collection<Transaction> transactions;
 
         // WHEN
-        transactions = repository.findAll(sorting);
+        transactions = repository.findInRange(TransactionConstants.OUT_OF_RANGE_DATE,
+            TransactionConstants.OUT_OF_RANGE_DATE);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -66,21 +77,16 @@ class ITTransactionRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is a transaction, it is returned")
-    @PositiveTransaction
-    void testFindAll_Transaction() {
-        final Iterable<Transaction> transactions;
-        final Sorting               sorting;
-
-        // GIVEN
-        sorting = Sorting.unsorted();
+    @DisplayName("When searching in a range with a single date, this is returned")
+    void testInRange_SingleDay_InRange() {
+        final Collection<Transaction> transactions;
 
         // WHEN
-        transactions = repository.findAll(sorting);
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.START_DATE);
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.positive());
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
 }

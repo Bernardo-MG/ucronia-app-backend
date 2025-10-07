@@ -47,7 +47,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all with filter - sort")
+@DisplayName("TransactionRepository - find all with filter - sort")
 @MultipleTransactionsSameMonth
 class ITTransactionRepositoryFindAllWithFilterSort {
 

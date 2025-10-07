@@ -51,7 +51,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all with filter")
+@DisplayName("TransactionRepository - find all with filter")
 class ITTransactionRepositoryFindAllWithFilter {
 
     @Autowired

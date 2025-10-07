@@ -24,12 +24,15 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
+import java.time.Instant;
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -55,6 +58,11 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     @Override
     public final TransactionCalendarMonth getForMonth(final YearMonth date) {
         return transactionRepository.findInMonth(date);
+    }
+
+    @Override
+    public final Collection<Transaction> getInRange(final Instant from, final Instant to) {
+        return transactionRepository.findInRange(from, to);
     }
 
     @Override
