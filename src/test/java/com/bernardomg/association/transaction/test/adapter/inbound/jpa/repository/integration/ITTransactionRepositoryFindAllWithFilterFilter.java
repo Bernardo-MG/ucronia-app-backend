@@ -27,6 +27,7 @@ package com.bernardomg.association.transaction.test.adapter.inbound.jpa.reposito
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -39,6 +40,7 @@ import com.bernardomg.association.transaction.configuration.data.annotation.Mult
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
 import com.bernardomg.data.domain.Page;
@@ -47,7 +49,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - get all with filter - filtered")
+@DisplayName("TransactionRepository - find all with filter - filtered")
 class ITTransactionRepositoryFindAllWithFilterFilter {
 
     @Autowired
@@ -70,9 +72,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.from(LocalDate.of(2020, Month.JANUARY, 2)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        transactionQuery = TransactionsQueries.from(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -99,9 +99,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.to(LocalDate.of(2020, Month.JANUARY, 2)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        transactionQuery = TransactionsQueries.to(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -127,9 +125,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        transactionQuery = TransactionsQueries.date(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);

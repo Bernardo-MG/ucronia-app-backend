@@ -24,10 +24,12 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
-import java.time.YearMonth;
+import java.time.Instant;
+import java.util.Collection;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.data.domain.Sorting;
 
 /**
  * Transaction calendar service.
@@ -38,13 +40,17 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 public interface TransactionCalendarService {
 
     /**
-     * Returns all the transactions for a month.
+     * Returns all the transactions in the range.
      *
-     * @param month
-     *            the month to read
+     * @param from
+     *            starting date
+     * @param to
+     *            end date
+     * @param sorting
+     *            sorting to apply
      * @return all the transactions for the month
      */
-    public TransactionCalendarMonth getForMonth(final YearMonth month);
+    public Collection<Transaction> getInRange(final Instant from, final Instant to, final Sorting sorting);
 
     /**
      * Returns the range of available months.

@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -120,28 +120,23 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final TransactionCalendarMonth findInMonth(final YearMonth date) {
+    public final Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting) {
         final Specification<TransactionEntity> spec;
-        final Collection<TransactionEntity>    read;
         final Collection<Transaction>          transactions;
-        final TransactionCalendarMonth         monthCalendar;
         final Sort                             sort;
 
-        log.debug("Finding all the transactions for the month {}", date);
+        log.debug("Finding transactions in range from {} to {}", from, to);
 
-        sort = Sort.by("date", "description", "amount");
-
-        spec = TransactionSpecifications.on(date);
-        read = transactionSpringRepository.findAll(spec, sort);
-
-        transactions = read.stream()
+        sort = SpringSorting.toSort(sorting);
+        spec = TransactionSpecifications.betweenIncluding(from, to);
+        transactions = transactionSpringRepository.findAll(spec, sort)
+            .stream()
             .map(this::toDomain)
             .toList();
-        monthCalendar = new TransactionCalendarMonth(date, transactions);
 
-        log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
+        log.debug("Forund transactions in range from {} to {}: {}", from, to, transactions);
 
-        return monthCalendar;
+        return transactions;
     }
 
     @Override

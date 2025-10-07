@@ -26,6 +26,9 @@ package com.bernardomg.association.transaction.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,15 +37,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonths;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
+import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction calendar service - get for month")
-class TestTransactionCalendarServiceGetForMonth {
+@DisplayName("Transaction calendar service - get in range")
+class TestTransactionCalendarServiceGetInRange {
 
     @InjectMocks
     private DefaultTransactionCalendarService service;
@@ -50,44 +54,50 @@ class TestTransactionCalendarServiceGetForMonth {
     @Mock
     private TransactionRepository             transactionRepository;
 
-    public TestTransactionCalendarServiceGetForMonth() {
+    public TestTransactionCalendarServiceGetInRange() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testGetRange() {
-        final TransactionCalendarMonth month;
+    void testGetInRange() {
+        final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // GIVEN
-        given(transactionRepository.findInMonth(TransactionConstants.MONTH))
-            .willReturn(TransactionCalendarMonths.single());
+        sorting = Sorting.unsorted();
+        given(
+            transactionRepository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting))
+                .willReturn(List.of(Transactions.positive()));
 
         // WHEN
-        month = service.getForMonth(TransactionConstants.MONTH);
+        transactions = service.getInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
 
         // THEN
-        Assertions.assertThat(month)
-            .as("range")
-            .isEqualTo(TransactionCalendarMonths.single());
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .containsExactly(Transactions.positive());
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testGetRange_NoData() {
-        final TransactionCalendarMonth month;
+    void testGetInRange_NoData() {
+        final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // GIVEN
-        given(transactionRepository.findInMonth(TransactionConstants.MONTH))
-            .willReturn(TransactionCalendarMonths.empty());
+        sorting = Sorting.unsorted();
+        given(
+            transactionRepository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting))
+                .willReturn(List.of());
 
         // WHEN
-        month = service.getForMonth(TransactionConstants.MONTH);
+        transactions = service.getInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
 
         // THEN
-        Assertions.assertThat(month)
-            .as("range")
-            .isEqualTo(TransactionCalendarMonths.empty());
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .isEmpty();
     }
 
 }

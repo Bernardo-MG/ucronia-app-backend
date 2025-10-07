@@ -25,88 +25,76 @@
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
-import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
-@DisplayName("TransactionRepository - find all with filter - pagination")
+@DisplayName("TransactionRepository - find in range")
 @MultipleTransactionsSameMonth
-class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginationIT<Transaction> {
+class ITTransactionRepositoryFindInRange {
 
     @Autowired
     private TransactionRepository repository;
 
-    public ITTransactionRepositoryFindAllWithFilterPagination() {
-        super(5);
-    }
-
-    @Override
-    protected final Page<Transaction> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(TransactionsQueries.empty(), pagination, sorting);
-    }
-
     @Test
-    @DisplayName("With pagination for the first page, it returns the first page")
-    void testFindAll_Page1() {
-        final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
-        final Pagination        pagination;
-        final Sorting           sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 1);
-        sorting = Sorting.unsorted();
-
-        transactionQuery = TransactionsQueries.empty();
+    @DisplayName("When searching in a range with dates, these are returned")
+    void testInRange_InRange() {
+        final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        sorting = Sorting.unsorted();
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.END_DATE, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Transactions.forIndex(1, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
+                Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
+                Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
     }
 
     @Test
-    @DisplayName("With pagination for the second page, it returns the second page")
-    void testFindAll_Page2() {
-        final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
-        final Pagination        pagination;
-        final Sorting           sorting;
-
-        // GIVEN
-        pagination = new Pagination(2, 1);
-        sorting = Sorting.unsorted();
-
-        transactionQuery = TransactionsQueries.empty();
+    @DisplayName("When searching in a range without dates, nothing is returned")
+    void testInRange_OutOfRange() {
+        final Collection<Transaction> transactions;
+        final Sorting                 sorting;
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        sorting = Sorting.unsorted();
+        transactions = repository.findInRange(TransactionConstants.OUT_OF_RANGE_DATE,
+            TransactionConstants.OUT_OF_RANGE_DATE, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Transactions.forIndexAndMonth(2, Month.JANUARY));
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When searching in a range with a single date, this is returned")
+    void testInRange_SingleDay_InRange() {
+        final Collection<Transaction> transactions;
+        final Sorting                 sorting;
+
+        // WHEN
+        sorting = Sorting.unsorted();
+        transactions = repository.findInRange(TransactionConstants.START_DATE, TransactionConstants.START_DATE,
+            sorting);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
 }

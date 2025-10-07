@@ -1,15 +1,5 @@
 components:
   schemas:
-    TransactionCalendarMonth:
-      type: object
-      required: [month, transactions]
-      properties:
-        month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
-        transactions:
-          type: array
-          items:
-            $ref: 'transactions.yml#/components/schemas/Transaction'
     TransactionCalendarMonthsRange:
       type: object
       required: [months]
@@ -18,11 +8,6 @@ components:
           type: array
           items:
             $ref: '../common/dates.yml#/components/schemas/Month'
-    TransactionCalendarMonthResponse:
-      type: object
-      properties:
-        content:
-          $ref: '#/components/schemas/TransactionCalendarMonth'
     TransactionCalendarMonthsRangeResponse:
       type: object
       properties:
