@@ -59,8 +59,6 @@ paths:
     $ref: paths/transactions_calendar.yml
   /transaction/calendar/range:
     $ref: paths/transactions_calendar_range.yml
-  /transaction/calendar/{year}/{month}:
-    $ref: paths/transactions_calendar_month.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:

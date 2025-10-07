@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -118,31 +117,6 @@ public final class JpaTransactionRepository implements TransactionRepository {
         log.debug("Found transactions {}", read);
 
         return SpringPagination.toPage(read);
-    }
-
-    @Override
-    public final TransactionCalendarMonth findInMonth(final YearMonth date) {
-        final Specification<TransactionEntity> spec;
-        final Collection<TransactionEntity>    read;
-        final Collection<Transaction>          transactions;
-        final TransactionCalendarMonth         monthCalendar;
-        final Sort                             sort;
-
-        log.debug("Finding all the transactions for the month {}", date);
-
-        sort = Sort.by("date", "description", "amount");
-
-        spec = TransactionSpecifications.on(date);
-        read = transactionSpringRepository.findAll(spec, sort);
-
-        transactions = read.stream()
-            .map(this::toDomain)
-            .toList();
-        monthCalendar = new TransactionCalendarMonth(date, transactions);
-
-        log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
-
-        return monthCalendar;
     }
 
     @Override

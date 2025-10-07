@@ -25,7 +25,6 @@
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
 import java.time.Instant;
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.data.domain.Sorting;
@@ -43,7 +41,6 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
-import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionsResponseDto;
 
@@ -80,19 +77,6 @@ public class TransactionCalendarController implements TransactionCalendarApi {
         transactions = service.getInRange(from, to, sorting);
 
         return TransactionDtoMapper.toResponseDto(transactions);
-    }
-
-    @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.CALENDAR)
-    public TransactionCalendarMonthResponseDto getTransactionCalendarMonth(final Integer year, final Integer month) {
-        final TransactionCalendarMonth calendarMonth;
-        final YearMonth                date;
-
-        date = YearMonth.of(year, month);
-        calendarMonth = service.getForMonth(date);
-
-        return TransactionDtoMapper.toResponseDto(calendarMonth);
     }
 
     @Override
