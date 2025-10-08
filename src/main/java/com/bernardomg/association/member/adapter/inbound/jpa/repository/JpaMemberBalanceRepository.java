@@ -1,11 +1,16 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -18,12 +23,14 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaMemberBalanceRepository implements MemberBalanceRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                        log = LoggerFactory.getLogger(JpaMemberBalanceRepository.class);
 
     private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository;
 
@@ -34,19 +41,18 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
     }
 
     @Override
-    public final Iterable<MonthlyMemberBalance> findInRange(final YearMonth startDate, final YearMonth endDate,
+    public final Collection<MonthlyMemberBalance> findInRange(final Instant from, final Instant to,
             final Sorting sorting) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
-        final Iterable<MonthlyMemberBalance>                      monthlyBalances;
+        final Collection<MonthlyMemberBalance>                    monthlyBalances;
         final Sort                                                sort;
 
         // TODO: the dates are optional
 
-        log.debug("Finding balance in from {} to {} sorting by {}", startDate, endDate, sorting);
+        log.debug("Finding balance in from {} to {} sorting by {}", from, to, sorting);
 
-        // Specification from the request
-        spec = MonthlyMemberBalanceSpecifications.inRange(startDate, endDate);
+        spec = MonthlyMemberBalanceSpecifications.inRange(from, to);
 
         sort = SpringSorting.toSort(sorting);
         if (spec.isPresent()) {
@@ -59,18 +65,17 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
             .map(this::toDomain)
             .toList();
 
-        log.debug("Found balance in from {} to {}: {}", startDate, endDate, monthlyBalances);
+        log.debug("Found balance from {} to {}: {}", from, to, monthlyBalances);
 
         return monthlyBalances;
     }
 
     private final MonthlyMemberBalance toDomain(final MonthlyMemberBalanceEntity entity) {
         final YearMonth month;
+        final LocalDate monthParsed;
 
-        month = YearMonth.of(entity.getMonth()
-            .getYear(),
-            entity.getMonth()
-                .getMonth());
+        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
+        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
         return new MonthlyMemberBalance(month, entity.getTotal());
     }
 

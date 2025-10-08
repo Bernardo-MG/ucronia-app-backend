@@ -26,16 +26,9 @@ package com.bernardomg.event.test.config;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-@ToString
-@EqualsAndHashCode(callSuper = true)
-@Getter
 public final class AlternativeTestEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 1L;

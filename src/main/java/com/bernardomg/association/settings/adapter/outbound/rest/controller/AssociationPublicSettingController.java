@@ -25,18 +25,15 @@
 package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
-import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSettings;
 import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
-
-import lombok.AllArgsConstructor;
+import com.bernardomg.ucronia.openapi.api.PublicSettingsApi;
+import com.bernardomg.ucronia.openapi.model.PublicSettingsDto;
+import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
 
 /**
  * Settings REST controller.
@@ -45,18 +42,22 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/settings/public")
-@AllArgsConstructor
-public class AssociationPublicSettingController {
+public class AssociationPublicSettingController implements PublicSettingsApi {
 
     private final SettingService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public AssociationPublicSettingController(final SettingService service) {
+        super();
+        this.service = service;
+    }
+
+    @Override
     @Unsecured
     @Cacheable(cacheNames = SettingsCaches.PUBLIC)
-    public PublicSettings readOnePublic() {
-        final String calendarId;
-        final String mapId;
+    public PublicSettingsResponseDto getPublicSettings() {
+        final String            calendarId;
+        final String            mapId;
+        final PublicSettingsDto settings;
 
         calendarId = service.getOne("social.teamup.id")
             .map(Setting::value)
@@ -64,7 +65,10 @@ public class AssociationPublicSettingController {
         mapId = service.getOne("social.googleMap.id")
             .map(Setting::value)
             .orElse(null);
-        return new PublicSettings(mapId, calendarId);
+
+        settings = new PublicSettingsDto().calendarCode(calendarId)
+            .mapCode(mapId);
+        return new PublicSettingsResponseDto().content(settings);
     }
 
 }

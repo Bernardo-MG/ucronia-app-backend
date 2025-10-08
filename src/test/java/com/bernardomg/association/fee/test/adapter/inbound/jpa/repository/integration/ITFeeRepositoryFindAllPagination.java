@@ -27,6 +27,7 @@ package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integ
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleInactiveMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -45,7 +47,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - pagination")
-@MultipleInactiveMembershipPerson
+@MultipleMembershipInactivePerson
 @MultipleFees
 class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
@@ -57,17 +59,17 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     }
 
     @Override
-    protected Iterable<Fee> read(final Pagination pagination, final Sorting sorting) {
+    protected Page<Fee> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAll(FeesQuery.empty(), pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final FeeQuery      feeQuery;
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final FeeQuery   feeQuery;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 1);
@@ -80,6 +82,8 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paid());
     }
@@ -87,10 +91,10 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final FeeQuery      feeQuery;
-        final Iterable<Fee> fees;
-        final Pagination    pagination;
-        final Sorting       sorting;
+        final FeeQuery   feeQuery;
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(2, 1);
@@ -103,6 +107,8 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
         // THEN
         Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(2, Month.MARCH));
     }

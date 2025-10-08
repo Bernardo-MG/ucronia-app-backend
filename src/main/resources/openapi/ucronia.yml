@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /security/user/{username}/person:
+    $ref: paths/user_person.yml
+  /security/user/{username}/person/{memberNumber}:
+    $ref: paths/user_person_by_id.yml
+  /security/user/{username}/person/available:
+    $ref: paths/user_person_available.yml
+  /settings:
+    $ref: paths/settings.yml
+  /settings/{code}:
+    $ref: paths/settings_by_id.yml
+  /settings/public:
+    $ref: paths/settings_public.yml
+  /fee:
+    $ref: paths/fees.yml
+  /person:
+    $ref: paths/persons.yml
+  /person/{number}:
+    $ref: paths/persons_by_id.yml
+  /person/contactMethod:
+    $ref: paths/contact_methods.yml
+  /person/contactMethod/{number}:
+    $ref: paths/contact_methods_by_id.yml
+  /member:
+    $ref: paths/members.yml
+  /member/{number}:
+    $ref: paths/members_by_id.yml
+  /member/monthly:
+    $ref: paths/members_monthly_balance.yml
+  /fee/{month}/{member}:
+    $ref: paths/fees_by_id.yml
+  /fee/pay:
+    $ref: paths/fees_pay.yml
+  /fee/range:
+    $ref: paths/fees_range.yml
+  /fee/{year}:
+    $ref: paths/fees_for_member.yml
+  /fee/balance:
+    $ref: paths/fees_balance.yml
+  /user/fee:
+    $ref: paths/user_fees.yml
+  /transaction:
+    $ref: paths/transactions.yml
+  /transaction/{index}:
+    $ref: paths/transactions_by_id.yml
+  /transaction/balance:
+    $ref: paths/transactions_year_balance.yml
+  /transaction/balance/monthly:
+    $ref: paths/transactions_monthly_balance.yml
+  /transaction/calendar:
+    $ref: paths/transactions_calendar.yml
+  /transaction/calendar/range:
+    $ref: paths/transactions_calendar_range.yml
+  /library/author:
+    $ref: paths/authors.yml
+  /library/author/{number}:
+    $ref: paths/authors_by_id.yml
+  /library/bookType:
+    $ref: paths/book_types.yml
+  /library/bookType/{number}:
+    $ref: paths/book_types_by_id.yml
+  /library/gameSystem:
+    $ref: paths/game_systems.yml
+  /library/gameSystem/{number}:
+    $ref: paths/game_systems_by_id.yml
+  /library/publisher:
+    $ref: paths/publishers.yml
+  /library/publisher/{number}:
+    $ref: paths/publishers_by_id.yml
+  /library/lending:
+    $ref: paths/book_lendings.yml
+  /library/book/fiction:
+    $ref: paths/books_fiction.yml
+  /library/book/fiction/{number}:
+    $ref: paths/books_fiction_by_id.yml
+  /library/book/game:
+    $ref: paths/books_game.yml
+  /library/book/game/{number}:
+    $ref: paths/books_game_by_id.yml

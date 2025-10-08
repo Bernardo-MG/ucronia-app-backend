@@ -27,6 +27,8 @@ package com.bernardomg.association.library.booktype.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +62,7 @@ class TestBookTypeServiceDelete {
     @DisplayName("When deleting a book type, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
+        given(bookTypeRepository.findOne(BookTypeConstants.NUMBER)).willReturn(Optional.of(BookTypes.valid()));
 
         // WHEN
         service.delete(BookTypeConstants.NUMBER);
@@ -74,7 +77,7 @@ class TestBookTypeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(false);
+        given(bookTypeRepository.findOne(BookTypeConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(BookTypeConstants.NUMBER);

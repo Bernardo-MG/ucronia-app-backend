@@ -33,8 +33,10 @@ import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -44,10 +46,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositorySave {
 
     @Autowired
-    private PersonRepository       personRepository;
+    private PersonRepository       repository;
 
     @Autowired
-    private PersonSpringRepository repository;
+    private PersonSpringRepository springRepository;
 
     public ITPersonRepositorySave() {
         super();
@@ -63,14 +65,14 @@ class ITPersonRepositorySave {
         person = Persons.membershipInactive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -85,15 +87,14 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
-                "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -108,15 +109,14 @@ class ITPersonRepositorySave {
         person = Persons.membershipInactive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person",
-                "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -131,15 +131,38 @@ class ITPersonRepositorySave {
         person = Persons.membershipActive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipActive());
+    }
+
+    @Test
+    @DisplayName("When a person exists and a contact is added, the person is persisted")
+    @EmailContactMethod
+    @NoMembershipPerson
+    void testSave_Existing_AddContact_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(PersonEntities.withEmail());
     }
 
     @Test
@@ -153,14 +176,14 @@ class ITPersonRepositorySave {
         person = Persons.membershipActive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipActive());
     }
 
@@ -175,14 +198,37 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(PersonEntities.noMembership());
+    }
+
+    @Test
+    @DisplayName("When a person exists and a contact is remove, the person is persisted")
+    @EmailContactMethod
+    @WithContact
+    void testSave_Existing_RemoveContact_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.noMembership();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -197,7 +243,7 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        saved = personRepository.save(person);
+        saved = repository.save(person);
 
         // THEN
         Assertions.assertThat(saved)
@@ -215,14 +261,14 @@ class ITPersonRepositorySave {
         person = Persons.membershipInactive();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.membershipInactive());
     }
 
@@ -236,14 +282,14 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        personRepository.save(person);
+        repository.save(person);
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.person")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(PersonEntities.noMembership());
     }
 
@@ -257,12 +303,53 @@ class ITPersonRepositorySave {
         person = Persons.noMembership();
 
         // WHEN
-        saved = personRepository.save(person);
+        saved = repository.save(person);
 
         // THEN
         Assertions.assertThat(saved)
             .as("person")
             .isEqualTo(Persons.noMembership());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is persisted")
+    @EmailContactMethod
+    void testSave_WithContact_PersistedData() {
+        final Person                 person;
+        final Iterable<PersonEntity> entities;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        repository.save(person);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contacts.person")
+            .containsExactly(PersonEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a person with a contact method, the person is returned")
+    @EmailContactMethod
+    void testSave_WithContact_ReturnedData() {
+        final Person person;
+        final Person saved;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        // WHEN
+        saved = repository.save(person);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("person")
+            .isEqualTo(Persons.withEmail());
     }
 
 }

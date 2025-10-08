@@ -1,0 +1,34 @@
+post:
+  summary: Create a new publisher
+  operationId: createPublisher
+  tags:
+    - Publisher
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/publishers.yml#/components/schemas/PublisherCreation'
+  responses:
+    '201':
+      description: Publisher created successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/publishers.yml#/components/schemas/PublisherResponse'
+get:
+  summary: Get all publishers
+  operationId: getAllPublishers
+  tags:
+    - Publisher
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+  responses:
+    '200':
+      description: List of publishers
+      content:
+        application/json:
+          schema:
+            $ref: '../components/publishers.yml#/components/schemas/PublisherPageResponse'

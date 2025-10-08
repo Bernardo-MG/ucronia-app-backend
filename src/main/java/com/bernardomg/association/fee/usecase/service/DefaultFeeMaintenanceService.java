@@ -28,6 +28,8 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,17 +38,19 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the fee maintenance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger    log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
     private final FeeRepository    feeRepository;
 
@@ -81,14 +85,14 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean notExists(final Fee fee) {
-        return !feeRepository.exists(fee.person()
+        return !feeRepository.exists(fee.member()
             .number(), fee.month());
     }
 
     private final Fee toUnpaidThisMonth(final Person feePerson) {
-        final Fee.Person person;
+        final Fee.Member person;
 
-        person = new Fee.Person(feePerson.number(), feePerson.name());
+        person = new Fee.Member(feePerson.number(), feePerson.name());
         return Fee.unpaid(YearMonth.now(), person);
     }
 

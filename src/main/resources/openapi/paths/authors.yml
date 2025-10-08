@@ -1,0 +1,34 @@
+post:
+  summary: Create a new author
+  operationId: createAuthor
+  tags:
+    - Author
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/authors.yml#/components/schemas/AuthorCreation'
+  responses:
+    '201':
+      description: Author created successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../components/authors.yml#/components/schemas/AuthorResponse'
+get:
+  summary: Get all authors
+  operationId: getAllAuthors
+  tags:
+    - Author
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+  responses:
+    '200':
+      description: List of authors
+      content:
+        application/json:
+          schema:
+            $ref: '../components/authors.yml#/components/schemas/AuthorPageResponse'

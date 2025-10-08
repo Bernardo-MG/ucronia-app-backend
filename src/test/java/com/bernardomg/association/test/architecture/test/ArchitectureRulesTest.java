@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.test.architecture.test;
 
+import com.bernardomg.association.test.architecture.rule.EntityRules;
 import com.bernardomg.association.test.architecture.rule.SecurityRules;
 import com.bernardomg.framework.testing.architecture.rule.CacheRules;
 import com.bernardomg.framework.testing.architecture.rule.CodingRules;
@@ -31,6 +32,10 @@ public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests dependencyRules       = ArchTests.in(DependencyRules.class);
+
+    // TODO: merge with JpaEntityRules
+    @ArchTest
+    static final ArchTests entityRules           = ArchTests.in(EntityRules.class);
 
     @ArchTest
     static final ArchTests jpaEntityRules        = ArchTests.in(JpaEntityRules.class);

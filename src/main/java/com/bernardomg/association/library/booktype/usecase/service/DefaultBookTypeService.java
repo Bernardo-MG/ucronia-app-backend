@@ -4,6 +4,8 @@ package com.bernardomg.association.library.booktype.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,17 +15,20 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotEmptyRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class DefaultBookTypeService implements BookTypeService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger       log = LoggerFactory.getLogger(DefaultBookTypeService.class);
 
     private final BookTypeRepository  bookTypeRepository;
 
@@ -65,22 +70,27 @@ public final class DefaultBookTypeService implements BookTypeService {
     }
 
     @Override
-    public final void delete(final Long number) {
+    public final BookType delete(final Long number) {
+        final BookType deleted;
 
         log.debug("Deleting book type {}", number);
 
-        if (!bookTypeRepository.exists(number)) {
-            throw new MissingBookTypeException(number);
-        }
+        deleted = bookTypeRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing book type {}", number);
+                throw new MissingBookTypeException(number);
+            });
 
         bookTypeRepository.delete(number);
 
         log.debug("Deleted book type {}", number);
+
+        return deleted;
     }
 
     @Override
-    public final Iterable<BookType> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<BookType> books;
+    public final Page<BookType> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<BookType> books;
 
         log.debug("Reading book types with pagination {} and sorting {}", pagination, sorting);
 

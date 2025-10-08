@@ -1,0 +1,32 @@
+post:
+  summary: Create a new contact method.
+  operationId: createContactMethod
+  tags: [ContactMethod]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodCreation'
+  responses:
+    '201':
+      description: Contact method created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodResponse'
+get:
+  summary: Get all contact methods.
+  operationId: getAllContactMethods
+  tags: [ContactMethod]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+  responses:
+    '200':
+      description: Contact methods page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodPageResponse'

@@ -1,0 +1,38 @@
+components:
+  schemas:
+    BookType:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          example: 'Core book'
+    BookTypeCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: 'Core book'
+    BookTypeChange:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: 'Core book'
+    BookTypePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/BookType'
+    BookTypeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/BookType'

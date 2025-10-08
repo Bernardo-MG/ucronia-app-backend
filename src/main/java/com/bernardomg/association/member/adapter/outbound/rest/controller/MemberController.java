@@ -24,22 +24,28 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.MemberApi;
+import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Member REST controller.
@@ -48,28 +54,43 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/member")
-@AllArgsConstructor
-public class MemberController {
+public class MemberController implements MemberApi {
 
     /**
      * Reduced member service.
      */
     private final MemberService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBERS)
-    public Iterable<Member> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
+    public MemberController(final MemberService service) {
+        super();
+        this.service = service;
     }
 
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.MEMBERS)
+    public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final Page<Member> members;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        members = service.getAll(pagination, sorting);
+
+        return MemberDtoMapper.toResponseDto(members);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
-    public Member readOne(@PathVariable("number") final Long number) {
-        return service.getOne(number)
-            .orElse(null);
+    public MemberResponseDto getMemberByNumber(final Long number) {
+        Optional<Member> member;
+
+        member = service.getOne(number);
+
+        return MemberDtoMapper.toResponseDto(member);
     }
 
 }

@@ -1,7 +1,8 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,11 +14,13 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRe
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
-import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.configuration.data.annotation.FeeTransaction;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -25,21 +28,23 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITFeeRepositorySave {
 
     @Autowired
-    private FeeRepository       repository;
+    private FeeRepository               repository;
 
     @Autowired
-    private FeeSpringRepository springRepository;
+    private FeeSpringRepository         springRepository;
+
+    @Autowired
+    private TransactionSpringRepository transactionSpringRepository;
 
     @Test
-    @DisplayName("When saving an existing fee, it is returned")
+    @DisplayName("Persists the data")
     @MembershipActivePerson
-    @PaidFee
-    void testSave_Existing_ReturnedData() {
+    void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
 
         // GIVEN
-        fee = Fees.paid();
+        fee = Fees.notPaid();
 
         // WHEN
         repository.save(fee);
@@ -49,22 +54,42 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
-                "transaction.id")
-            .containsExactly(FeeEntities.paid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .containsExactly(FeeEntities.notPaid());
     }
 
     @Test
-    @DisplayName("When the payment date is changed, the data is persisted")
+    @DisplayName("Returns the created data")
     @MembershipActivePerson
-    @FeeTransaction
-    void testSave_PaymentDateChanged_PersistedData() {
-        final Iterable<FeeEntity> fees;
-        final Fee                 fee;
-        final LocalDate           date;
+    void testSave_NotPaid_ReturnedData() {
+        final Fee created;
+        final Fee fee;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        fee = Fees.notPaid();
+
+        // WHEN
+        created = repository.save(fee);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("fees")
+            .isEqualTo(Fees.notPaid());
+    }
+
+    @Test
+    @DisplayName("When changing a fee date, it is persisted")
+    @MembershipActivePerson
+    @PaidFee
+    void testSave_Paid_ChangeDate_PersistedData() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+        final Instant             date;
+
+        // GIVEN
+        date = ZonedDateTime.now()
+            .plusMonths(1)
+            .toInstant();
         fee = Fees.paidAtDate(date);
 
         // WHEN
@@ -73,18 +98,74 @@ class ITFeeRepositorySave {
         // THEN
         fees = springRepository.findAll();
 
+        // TODO: check the transaction date changes
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
-                "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
             .containsExactly(FeeEntities.paidAtDate(date));
+    }
+
+    @Test
+    @DisplayName("When changing a fee date, it is persisted in the transaction")
+    @MembershipActivePerson
+    @PaidFee
+    void testSave_Paid_ChangeDate_PersistedTransaction() {
+        final Fee                         fee;
+        final Instant                     date;
+        final Iterable<TransactionEntity> transactions;
+
+        // GIVEN
+        date = ZonedDateTime.now()
+            .plusMonths(1)
+            .toInstant();
+        fee = Fees.paidAtDate(date);
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        transactions = transactionSpringRepository.findAll();
+
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .hasSize(1)
+            .first()
+            .extracting(TransactionEntity::getDate)
+            .isEqualTo(date);
+    }
+
+    @Test
+    @DisplayName("When changing a fee date, it is returned")
+    @MembershipActivePerson
+    @PaidFee
+    void testSave_Paid_ChangeDate_ReturnedData() {
+        final Fee     created;
+        final Fee     fee;
+        final Instant date;
+
+        // GIVEN
+        date = ZonedDateTime.now()
+            .plusMonths(1)
+            .toInstant();
+        fee = Fees.paidAtDate(date);
+
+        // WHEN
+        created = repository.save(fee);
+
+        // THEN
+
+        Assertions.assertThat(created)
+            .as("fee")
+            .usingRecursiveComparison()
+            .ignoringFields("id", "person.id", "personId", "transaction.id")
+            .isEqualTo(Fees.paidAtDate(date));
     }
 
     @Test
     @DisplayName("Persists the data")
     @MembershipActivePerson
     @FeeTransaction
-    void testSave_PersistedData() {
+    void testSave_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
 
@@ -99,16 +180,68 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transactionId",
-                "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
             .containsExactly(FeeEntities.paid());
+    }
+
+    @Test
+    @DisplayName("Persists the fee to transaction relationship")
+    @MembershipActivePerson
+    @FeeTransaction
+    void testSave_Paid_PersistedRelationship() {
+        final Fee               fee;
+        final FeeEntity         feeEntity;
+        final TransactionEntity transactionEntity;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        feeEntity = springRepository.findAll()
+            .iterator()
+            .next();
+        transactionEntity = transactionSpringRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(feeEntity)
+            .as("fee entity")
+            .extracting(FeeEntity::getTransaction)
+            .extracting(TransactionEntity::getId)
+            .isEqualTo(transactionEntity.getId());
+    }
+
+    @Test
+    @DisplayName("Persists the transaction")
+    @MembershipActivePerson
+    @FeeTransaction
+    void testSave_Paid_PersistedTransaction() {
+        final Iterable<TransactionEntity> transactions;
+        final Fee                         fee;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        transactions = transactionSpringRepository.findAll();
+
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(TransactionEntities.februaryFee());
     }
 
     @Test
     @DisplayName("Returns the created data")
     @MembershipActivePerson
     @FeeTransaction
-    void testSave_ReturnedData() {
+    void testSave_Paid_ReturnedData() {
         final Fee created;
         final Fee fee;
 

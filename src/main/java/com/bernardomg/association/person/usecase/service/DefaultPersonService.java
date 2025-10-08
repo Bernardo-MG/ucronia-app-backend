@@ -4,6 +4,8 @@ package com.bernardomg.association.person.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,14 +13,17 @@ import com.bernardomg.association.person.domain.exception.MissingPersonException
 import com.bernardomg.association.person.domain.filter.PersonFilter;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.usecase.validation.PersonContactMethodExistsRule;
+import com.bernardomg.association.person.usecase.validation.PersonIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.person.usecase.validation.PersonIdentifierNotExistRule;
 import com.bernardomg.association.person.usecase.validation.PersonNameNotEmptyRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the person service.
@@ -26,10 +31,14 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultPersonService implements PersonService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger     log = LoggerFactory.getLogger(DefaultPersonService.class);
 
     private final Validator<Person> createPersonValidator;
 
@@ -39,13 +48,18 @@ public final class DefaultPersonService implements PersonService {
 
     private final Validator<Person> updatePersonValidator;
 
-    public DefaultPersonService(final PersonRepository personRepo) {
+    public DefaultPersonService(final PersonRepository personRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
-        createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
-        updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
-        patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule());
+        createPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
+            new PersonContactMethodExistsRule(contactMethodRepo), new PersonIdentifierNotExistRule(personRepo));
+        updatePersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
+            new PersonContactMethodExistsRule(contactMethodRepo),
+            new PersonIdentifierNotExistForAnotherRule(personRepo));
+        patchPersonValidator = new FieldRuleValidator<>(new PersonNameNotEmptyRule(),
+            new PersonContactMethodExistsRule(contactMethodRepo),
+            new PersonIdentifierNotExistForAnotherRule(personRepo));
     }
 
     @Override
@@ -58,8 +72,8 @@ public final class DefaultPersonService implements PersonService {
         // Set number
         number = personRepository.findNextNumber();
 
-        toCreate = new Person(person.identifier(), number, person.name(), person.birthDate(), person.phone(),
-            person.membership());
+        toCreate = new Person(person.identifier(), number, person.name(), person.birthDate(), person.membership(),
+            person.contacts());
 
         createPersonValidator.validate(toCreate);
 
@@ -67,20 +81,24 @@ public final class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final Person delete(final long number) {
+        final Person existing;
+
         log.debug("Deleting person {}", number);
 
-        if (!personRepository.exists(number)) {
-            log.error("Missing person {}", number);
-            throw new MissingPersonException(number);
-        }
+        existing = personRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing person {}", number);
+                throw new MissingPersonException(number);
+            });
 
         personRepository.delete(number);
+
+        return existing;
     }
 
     @Override
-    public final Iterable<Person> getAll(final PersonFilter filter, final Pagination pagination,
-            final Sorting sorting) {
+    public final Page<Person> getAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting) {
         log.debug("Reading persons with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         return personRepository.findAll(filter, pagination, sorting);
@@ -108,7 +126,7 @@ public final class DefaultPersonService implements PersonService {
 
         log.debug("Patching member {} using data {}", person.number(), person);
 
-        // TODO: Identificator and phone must be unique or empty
+        // TODO: Identificator must be unique or empty
         // TODO: Apply the creation validations
 
         existing = personRepository.findOne(person.number())
@@ -128,7 +146,7 @@ public final class DefaultPersonService implements PersonService {
     public final Person update(final Person person) {
         log.debug("Updating person {} using data {}", person.number(), person);
 
-        // TODO: Identificator and phone must be unique or empty
+        // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
         if (!personRepository.exists(person.number())) {
@@ -162,10 +180,9 @@ public final class DefaultPersonService implements PersonService {
                 .orElse(existing.number()),
             name, Optional.ofNullable(updated.birthDate())
                 .orElse(existing.birthDate()),
-            Optional.ofNullable(updated.phone())
-                .orElse(existing.phone()),
             Optional.ofNullable(updated.membership())
-                .orElse(Optional.empty()));
+                .orElse(Optional.empty()),
+            updated.contacts());
     }
 
 }

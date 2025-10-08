@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -22,26 +25,27 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
-import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaFictionBookRepository implements FictionBookRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log = LoggerFactory.getLogger(JpaFictionBookRepository.class);
 
     private final AuthorSpringRepository      authorSpringRepository;
 
@@ -114,9 +118,9 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     @Override
-    public final Iterable<FictionBook> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<FictionBook> read;
-        final Pageable              pageable;
+    public final Page<FictionBook> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<FictionBook> read;
+        final Pageable                                          pageable;
 
         log.debug("Finding books with pagination {} and sorting {}", pagination, sorting);
 
@@ -126,7 +130,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
         log.debug("Found books {}", read);
 
-        return read;
+        return SpringPagination.toPage(read);
     }
 
     @Override
@@ -204,15 +208,15 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     private final FictionBook toDomain(final FictionBookEntity entity) {
-        final Collection<Publisher>   publishers;
-        final Collection<Donor>       donors;
-        final Collection<Author>      authors;
-        final boolean                 lent;
-        final Collection<BookLending> lendings;
-        final Title                   title;
-        final String                  supertitle;
-        final String                  subtitle;
-        final Optional<Donation>      donation;
+        final Collection<Publisher>       publishers;
+        final Collection<Donor>           donors;
+        final Collection<Author>          authors;
+        final boolean                     lent;
+        final Collection<BookLendingInfo> lendings;
+        final Title                       title;
+        final String                      supertitle;
+        final String                      subtitle;
+        final Optional<Donation>          donation;
 
         // Publishers
         if (entity.getPublishers() == null) {
@@ -276,17 +280,13 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
             entity.getPublishDate(), lent, authors, lendings, publishers, donation);
     }
 
-    private final BookLending toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
+    private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
-        final LentBook           lentBook;
-        final Title              title;
-
         // TODO: should not contain all the member data
         borrower = personSpringRepository.findById(entity.getPersonId())
             .map(this::toDomain);
-        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
+        return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final Borrower toDomain(final PersonEntity entity) {
@@ -314,6 +314,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final Collection<PublisherEntity> publishers;
         final Collection<PersonEntity>    donors;
         final Collection<AuthorEntity>    authors;
+        final FictionBookEntity           entity;
 
         // Publishers
         publisherNumbers = domain.publishers()
@@ -343,24 +344,25 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
             .toList();
         authors = authorSpringRepository.findAllByNumberIn(authorNumbers);
 
-        return FictionBookEntity.builder()
-            .withNumber(domain.number())
-            .withIsbn(domain.isbn())
-            .withSupertitle(domain.title()
-                .supertitle())
-            .withTitle(domain.title()
-                .title())
-            .withSubtitle(domain.title()
-                .subtitle())
-            .withLanguage(domain.language())
-            .withPublishDate(domain.publishDate())
-            .withDonationDate(domain.donation()
-                .map(Donation::date)
-                .orElse(null))
-            .withAuthors(authors)
-            .withPublishers(publishers)
-            .withDonors(donors)
-            .build();
+        entity = new FictionBookEntity();
+        entity.setNumber(domain.number());
+        entity.setIsbn(domain.isbn());
+        entity.setSupertitle(domain.title()
+            .supertitle());
+        entity.setTitle(domain.title()
+            .title());
+        entity.setSubtitle(domain.title()
+            .subtitle());
+        entity.setLanguage(domain.language());
+        entity.setPublishDate(domain.publishDate());
+        entity.setDonationDate(domain.donation()
+            .map(Donation::date)
+            .orElse(null));
+        entity.setAuthors(authors);
+        entity.setPublishers(publishers);
+        entity.setDonors(donors);
+
+        return entity;
     }
 
 }

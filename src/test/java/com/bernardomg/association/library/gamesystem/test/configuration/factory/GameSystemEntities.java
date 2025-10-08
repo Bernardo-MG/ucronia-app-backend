@@ -6,10 +6,16 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 public final class GameSystemEntities {
 
     public static final GameSystemEntity valid() {
-        return GameSystemEntity.builder()
-            .withNumber(GameSystemConstants.NUMBER)
-            .withName(GameSystemConstants.NAME)
-            .build();
+        final GameSystemEntity entity;
+
+        entity = new GameSystemEntity();
+        entity.setNumber(GameSystemConstants.NUMBER);
+        entity.setName(GameSystemConstants.NAME);
+
+        return entity;
     }
 
+    private GameSystemEntities() {
+        super();
+    }
 }

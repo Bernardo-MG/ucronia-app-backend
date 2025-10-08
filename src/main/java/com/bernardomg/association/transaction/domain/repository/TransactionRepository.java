@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.transaction.domain.repository;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -20,10 +20,9 @@ public interface TransactionRepository {
 
     public Collection<Transaction> findAll(final Sorting sorting);
 
-    public Iterable<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
-            final Sorting sorting);
+    public Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination, final Sorting sorting);
 
-    public TransactionCalendarMonth findInMonth(final YearMonth date);
+    public Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting);
 
     public long findNextIndex();
 

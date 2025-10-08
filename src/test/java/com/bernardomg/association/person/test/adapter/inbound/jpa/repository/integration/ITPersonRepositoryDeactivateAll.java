@@ -45,10 +45,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryDeactivateAll {
 
     @Autowired
-    private PersonSpringRepository personRepository;
+    private PersonSpringRepository repository;
 
     @Autowired
-    private PersonRepository       repository;
+    private PersonRepository       springRepository;
 
     @Test
     @DisplayName("With an existing active member, it is deactivated")
@@ -57,10 +57,10 @@ class ITPersonRepositoryDeactivateAll {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.deactivateAll(List.of(PersonConstants.NUMBER));
+        springRepository.deactivateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
-        entities = personRepository.findAll();
+        entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -75,10 +75,10 @@ class ITPersonRepositoryDeactivateAll {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.deactivateAll(List.of(PersonConstants.NUMBER));
+        springRepository.deactivateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
-        entities = personRepository.findAll();
+        entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
@@ -92,10 +92,10 @@ class ITPersonRepositoryDeactivateAll {
         final Iterable<PersonEntity> entities;
 
         // WHEN
-        repository.deactivateAll(List.of(PersonConstants.NUMBER));
+        springRepository.deactivateAll(List.of(PersonConstants.NUMBER));
 
         // THEN
-        entities = personRepository.findAll();
+        entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")

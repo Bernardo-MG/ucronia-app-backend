@@ -4,6 +4,8 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,10 +13,12 @@ import com.bernardomg.association.transaction.domain.exception.MissingTransactio
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.usecase.validation.TransactionNotPaidInFutureRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the transaction service.
@@ -22,17 +26,28 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultTransactionService implements TransactionService {
 
-    private final TransactionRepository transactionRepository;
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(DefaultTransactionService.class);
+
+    private final TransactionRepository  transactionRepository;
+
+    private final Validator<Transaction> validatorCreate;
+
+    private final Validator<Transaction> validatorUpdate;
 
     public DefaultTransactionService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
+
+        validatorCreate = new FieldRuleValidator<>(new TransactionNotPaidInFutureRule());
+        validatorUpdate = new FieldRuleValidator<>(new TransactionNotPaidInFutureRule());
     }
 
     @Override
@@ -41,6 +56,8 @@ public final class DefaultTransactionService implements TransactionService {
         final Transaction toCreate;
 
         log.debug("Creating transaction {}", transaction);
+
+        validatorCreate.validate(transaction);
 
         // Get index
         index = transactionRepository.findNextIndex();
@@ -51,21 +68,25 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final void delete(final long index) {
+    public final Transaction delete(final long index) {
+        final Transaction transaction;
 
         log.debug("Deleting transaction {}", index);
 
-        if (!transactionRepository.exists(index)) {
-            log.error("Missing transaction {}", index);
-            throw new MissingTransactionException(index);
-        }
+        transaction = transactionRepository.findOne(index)
+            .orElseThrow(() -> {
+                log.error("Missing transaction {}", index);
+                throw new MissingTransactionException(index);
+            });
 
         // TODO: Check this deletes on cascade
         transactionRepository.delete(index);
+
+        return transaction;
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
+    public final Page<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
             final Sorting sorting) {
         return transactionRepository.findAll(query, pagination, sorting);
     }
@@ -100,6 +121,8 @@ public final class DefaultTransactionService implements TransactionService {
 
         toUpdate = new Transaction(transaction.index(), transaction.date(), transaction.amount(),
             transaction.description());
+
+        validatorUpdate.validate(toUpdate);
 
         return transactionRepository.save(toUpdate);
     }

@@ -26,6 +26,6 @@ package com.bernardomg.association.member.domain.model;
 
 import java.time.YearMonth;
 
-public record MonthlyMemberBalance(YearMonth date, Long total) {
+public record MonthlyMemberBalance(YearMonth month, Long total) {
 
 }

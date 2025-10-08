@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.specification;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -46,8 +46,8 @@ public final class MonthlyBalanceSpecifications {
      *            month to mark the lower limit
      * @return monthly balances before the month
      */
-    public static Specification<MonthlyBalanceEntity> before(final YearMonth month) {
-        return (root, query, cb) -> cb.lessThan(root.get("month"), month.atDay(1));
+    public static Specification<MonthlyBalanceEntity> before(final Instant month) {
+        return (root, query, cb) -> cb.lessThan(root.get("month"), month);
     }
 
     /**
@@ -59,8 +59,8 @@ public final class MonthlyBalanceSpecifications {
      *            final month
      * @return monthly balances between both months
      */
-    public static Specification<MonthlyBalanceEntity> betweenIncluding(final YearMonth start, final YearMonth end) {
-        return (root, query, cb) -> cb.between(root.get("month"), start.atDay(1), end.atDay(1));
+    public static Specification<MonthlyBalanceEntity> betweenIncluding(final Instant start, final Instant end) {
+        return (root, query, cb) -> cb.between(root.get("month"), start, end);
     }
 
     /**
@@ -73,12 +73,12 @@ public final class MonthlyBalanceSpecifications {
     public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final TransactionBalanceQuery request) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
 
-        if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
-        } else if (request.getStartDate() != null) {
-            spec = Optional.of(onOrAfter(request.getStartDate()));
-        } else if (request.getEndDate() != null) {
-            spec = Optional.of(onOrBefore(request.getEndDate()));
+        if ((request.from() != null) && (request.to() != null)) {
+            spec = Optional.of(betweenIncluding(request.from(), request.to()));
+        } else if (request.from() != null) {
+            spec = Optional.of(onOrAfter(request.from()));
+        } else if (request.to() != null) {
+            spec = Optional.of(onOrBefore(request.to()));
         } else {
             spec = Optional.empty();
         }
@@ -93,8 +93,8 @@ public final class MonthlyBalanceSpecifications {
      *            month to mark the lower limit
      * @return monthly balances on or after the month
      */
-    public static Specification<MonthlyBalanceEntity> onOrAfter(final YearMonth month) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), month.atDay(1));
+    public static Specification<MonthlyBalanceEntity> onOrAfter(final Instant month) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), month);
     }
 
     /**
@@ -104,8 +104,8 @@ public final class MonthlyBalanceSpecifications {
      *            month to mark the lower limit
      * @return monthly balances on or before the month
      */
-    public static Specification<MonthlyBalanceEntity> onOrBefore(final YearMonth month) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), month.atDay(1));
+    public static Specification<MonthlyBalanceEntity> onOrBefore(final Instant month) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), month);
     }
 
     private MonthlyBalanceSpecifications() {

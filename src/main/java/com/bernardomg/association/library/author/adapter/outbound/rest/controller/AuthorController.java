@@ -24,34 +24,33 @@
 
 package com.bernardomg.association.library.author.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.author.adapter.outbound.cache.LibraryAuthorCaches;
-import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorChange;
-import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorCreation;
+import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorDtoMapper;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.AuthorApi;
+import com.bernardomg.ucronia.openapi.model.AuthorChangeDto;
+import com.bernardomg.ucronia.openapi.model.AuthorCreationDto;
+import com.bernardomg.ucronia.openapi.model.AuthorPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.AuthorResponseDto;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
 
 /**
  * Author REST controller.
@@ -60,59 +59,81 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/library/author")
-@AllArgsConstructor
-public class AuthorController {
+public class AuthorController implements AuthorApi {
 
     /**
      * Author service.
      */
     private final AuthorService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS, LibraryAuthorCaches.AUTHOR }, allEntries = true) })
-    public Author create(@Valid @RequestBody final AuthorCreation request) {
-        final Author author;
-
-        author = new Author(-1L, request.getName());
-        return service.create(author);
+    public AuthorController(final AuthorService service) {
+        super();
+        this.service = service;
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
+    public AuthorResponseDto createAuthor(@Valid final AuthorCreationDto authorCreationDto) {
+        final Author author;
+
+        author = service.create(new Author(-1L, authorCreationDto.getName()));
+
+        return AuthorDtoMapper.toResponseDto(author);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHOR }),
             @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryAuthorCaches.AUTHORS)
-    public Iterable<Author> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
-    }
-
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryAuthorCaches.AUTHOR)
-    public Author readOne(@PathVariable("number") final long number) {
-        return service.getOne(number)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
-    public Author update(@PathVariable("number") final long number, @Valid @RequestBody final AuthorChange change) {
+    public AuthorResponseDto deleteAuthor(final Long number) {
         final Author author;
 
-        author = new Author(number, change.getName());
-        return service.update(author);
+        author = service.delete(number);
+
+        return AuthorDtoMapper.toResponseDto(author);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryAuthorCaches.AUTHORS)
+    public AuthorPageResponseDto getAllAuthors(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final Page<Author> authors;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        authors = service.getAll(pagination, sorting);
+
+        return AuthorDtoMapper.toResponseDto(authors);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryAuthorCaches.AUTHOR)
+    public AuthorResponseDto getAuthorById(final Long number) {
+        final Optional<Author> author;
+
+        author = service.getOne(number);
+
+        return AuthorDtoMapper.toResponseDto(author);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
+    public AuthorResponseDto updateAuthor(final Long number, @Valid final AuthorChangeDto authorChangeDto) {
+        final Author updated;
+        final Author author;
+
+        author = new Author(number, authorChangeDto.getName());
+        updated = service.update(author);
+
+        return AuthorDtoMapper.toResponseDto(updated);
     }
 
 }

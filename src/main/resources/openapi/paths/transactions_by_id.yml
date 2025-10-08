@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific transaction
+  operationId: getOneTransaction
+  tags: [Transaction]
+  parameters:
+    - in: path
+      name: index
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Transaction details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions.yml#/components/schemas/TransactionResponse'
+delete:
+  summary: Delete a transaction
+  operationId: deleteTransaction
+  tags: [Transaction]
+  parameters:
+    - in: path
+      name: index
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Deleted transaction
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions.yml#/components/schemas/TransactionResponse'
+put:
+  summary: Update a transaction
+  operationId: updateTransaction
+  tags: [Transaction]
+  parameters:
+    - in: path
+      name: index
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/transactions.yml#/components/schemas/TransactionChange'
+  responses:
+    '200':
+      description: Transaction updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions.yml#/components/schemas/TransactionResponse'

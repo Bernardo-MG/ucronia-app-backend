@@ -4,6 +4,8 @@ package com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.reposi
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,16 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaGameSystemRepository implements GameSystemRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger              log = LoggerFactory.getLogger(JpaGameSystemRepository.class);
 
     private final GameSystemSpringRepository gameSystemSpringRepository;
 
@@ -79,9 +84,9 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final Iterable<GameSystem> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<GameSystem> read;
-        final Pageable             pageable;
+    public final Page<GameSystem> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<GameSystem> read;
+        final Pageable                                         pageable;
 
         log.debug("Finding game systems with pagination {} and sorting {}", pagination, sorting);
 
@@ -91,7 +96,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Found game systems {}", read);
 
-        return read;
+        return SpringPagination.toPage(read);
     }
 
     @Override
@@ -151,10 +156,12 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     private final GameSystemEntity toEntity(final GameSystem domain) {
-        return GameSystemEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final GameSystemEntity entity;
+
+        entity = new GameSystemEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+        return entity;
     }
 
 }

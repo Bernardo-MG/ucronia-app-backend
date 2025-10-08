@@ -27,7 +27,7 @@ package com.bernardomg.association.person.domain.exception;
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing guest exception.
+ * Missing person exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -36,8 +36,8 @@ public final class MissingPersonException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingPersonException(final long guest) {
-        super("person", guest);
+    public MissingPersonException(final long person) {
+        super("person", person);
     }
 
 }

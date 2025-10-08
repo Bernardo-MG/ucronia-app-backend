@@ -1,0 +1,21 @@
+components:
+  schemas:
+    FeeBalance:
+      type: object
+      required: [paid, unpaid]
+      properties:
+        paid:
+          type: integer
+          format: int64
+          example: 120
+          description: Number of fees that have been paid
+        unpaid:
+          type: integer
+          format: int64
+          example: 30
+          description: Number of fees that are still unpaid
+    FeeBalanceResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/FeeBalance'

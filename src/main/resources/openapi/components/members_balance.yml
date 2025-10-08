@@ -1,0 +1,19 @@
+components:
+  schemas:
+    MonthlyMemberBalance:
+      type: object
+      required: [date, total]
+      properties:
+        month:
+          $ref: '../common/dates.yml#/components/schemas/Month'
+        total:
+          type: integer
+          format: int64
+          description: Total member balance for the month.
+    MonthlyMemberBalancesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MonthlyMemberBalance'

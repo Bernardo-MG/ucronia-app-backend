@@ -25,6 +25,7 @@
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -54,9 +56,9 @@ class ITMemberRepositoryFindAll {
     @DisplayName("With an active member, it returns the member")
     @MembershipActivePerson
     void testFindActive_Active() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -67,6 +69,8 @@ class ITMemberRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
             .containsExactly(Members.valid());
     }
@@ -75,9 +79,9 @@ class ITMemberRepositoryFindAll {
     @DisplayName("With an inactive member, it returns nothing")
     @MembershipInactivePerson
     void testFindActive_Inactive() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -88,6 +92,8 @@ class ITMemberRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
             .isEmpty();
     }
@@ -95,9 +101,9 @@ class ITMemberRepositoryFindAll {
     @Test
     @DisplayName("With no data, it returns nothing")
     void testFindActive_NoData() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -108,6 +114,8 @@ class ITMemberRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
             .isEmpty();
     }
@@ -116,9 +124,9 @@ class ITMemberRepositoryFindAll {
     @DisplayName("With a member with no membership, it returns nothing")
     @NoMembershipPerson
     void testFindActive_NoMembership() {
-        final Iterable<Member> members;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -129,6 +137,8 @@ class ITMemberRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
             .isEmpty();
     }

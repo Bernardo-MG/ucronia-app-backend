@@ -1,23 +1,24 @@
 
 package com.bernardomg.association.library.lending.domain.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.person.domain.model.PersonName;
 
-public record BookLending(LentBook book, Borrower borrower, LocalDate lendingDate, LocalDate returnDate) {
+public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Instant returnDate) {
 
-    public BookLending(final LentBook book, final Borrower borrower, final LocalDate lendingDate) {
+    public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate) {
         this(book, borrower, lendingDate, null);
     }
 
-    public BookLending returned(final LocalDate date) {
+    public BookLending returned(final Instant date) {
         return new BookLending(book, borrower, lendingDate, date);
     }
 
     public record LentBook(long number, Title title) {
+        // TODO: not all the info is being returned to the frontend?
 
     }
 
@@ -28,8 +29,9 @@ public record BookLending(LentBook book, Borrower borrower, LocalDate lendingDat
     public Long getDays() {
         final Long days;
 
+        // TODO: don't generate, set on creation
         if (returnDate == null) {
-            days = ChronoUnit.DAYS.between(lendingDate, LocalDate.now()) + 1;
+            days = ChronoUnit.DAYS.between(lendingDate, Instant.now()) + 1;
         } else {
             days = ChronoUnit.DAYS.between(lendingDate, returnDate) + 1;
         }

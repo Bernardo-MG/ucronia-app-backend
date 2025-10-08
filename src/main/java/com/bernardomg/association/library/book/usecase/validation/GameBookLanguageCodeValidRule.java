@@ -5,19 +5,24 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
- * Checks the donor has a name.
+ * Checks the game book has a valid language code.
  */
-@Slf4j
 public final class GameBookLanguageCodeValidRule implements FieldRule<GameBook> {
 
-    private final Set<String> languages = Set.of(Locale.getISOLanguages());
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log       = LoggerFactory.getLogger(GameBookLanguageCodeValidRule.class);
+
+    private final Set<String>   languages = Set.of(Locale.getISOLanguages());
 
     public GameBookLanguageCodeValidRule() {
         super();

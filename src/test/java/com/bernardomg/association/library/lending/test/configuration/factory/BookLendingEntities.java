@@ -7,20 +7,24 @@ import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.Book
 public final class BookLendingEntities {
 
     public static final BookLendingEntity lent() {
-        return BookLendingEntity.builder()
-            .withBookId(1L)
-            .withPersonId(1L)
-            .withLendingDate(BookConstants.LENT_DATE)
-            .build();
+        final BookLendingEntity entity = new BookLendingEntity();
+        entity.setBookId(1L);
+        entity.setPersonId(1L);
+        entity.setLendingDate(BookConstants.LENT_DATE);
+        return entity;
     }
 
     public static final BookLendingEntity returned() {
-        return BookLendingEntity.builder()
-            .withBookId(1L)
-            .withPersonId(1L)
-            .withLendingDate(BookConstants.LENT_DATE)
-            .withReturnDate(BookConstants.RETURNED_DATE)
-            .build();
+        final BookLendingEntity entity = new BookLendingEntity();
+        entity.setBookId(1L);
+        entity.setPersonId(1L);
+        entity.setLendingDate(BookConstants.LENT_DATE);
+        entity.setReturnDate(BookConstants.RETURNED_DATE);
+        return entity;
+    }
+
+    private BookLendingEntities() {
+        super();
     }
 
 }

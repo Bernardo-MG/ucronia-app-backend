@@ -34,12 +34,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
@@ -51,13 +54,56 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestPersonServiceUpdate {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServiceUpdate() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a person with an existing identifier, an exception is thrown")
+    void testCreate_IdentifierExists() {
+        final ThrowingCallable execution;
+        final Person           person;
+
+        // GIVEN
+        person = Persons.nameChange();
+
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.existsByIdentifierForAnother(PersonConstants.NUMBER, PersonConstants.IDENTIFIER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(person);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "identifier", PersonConstants.IDENTIFIER));
+    }
+
+    @Test
+    @DisplayName("With a person with an existing identifier, but the identifier is empty, no exception is thrown")
+    void testCreate_IdentifierExistsAndEmpty() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.noIdentifier();
+
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(person);
+
+        // THEN
+        verify(personRepository).save(Persons.noIdentifier());
+        verify(personRepository, Mockito.never()).existsByIdentifierForAnother(PersonConstants.NUMBER,
+            PersonConstants.IDENTIFIER);
     }
 
     @Test
@@ -151,6 +197,44 @@ class TestPersonServiceUpdate {
         Assertions.assertThat(updated)
             .as("person")
             .isEqualTo(Persons.nameChange());
+    }
+
+    @Test
+    @DisplayName("With a person with a not existing contact method, an exception is thrown")
+    void testUpdate_WithContact_NotExisting() {
+        final Person           person;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(person);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("notExisting", "contact", ContactMethodConstants.NUMBER));
+    }
+
+    @Test
+    @DisplayName("When updating a person with a contact method, the change is persisted")
+    void testUpdate_WithContact_PersistedData() {
+        final Person person;
+
+        // GIVEN
+        person = Persons.withEmail();
+
+        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(person);
+
+        // THEN
+        verify(personRepository).save(Persons.withEmail());
     }
 
 }

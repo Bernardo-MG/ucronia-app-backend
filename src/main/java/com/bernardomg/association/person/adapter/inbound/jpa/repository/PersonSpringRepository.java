@@ -51,6 +51,22 @@ public interface PersonSpringRepository
     @Query("""
             SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Person p
+            WHERE p.identifier = :identifier
+            """)
+    public boolean existsByIdentifier(@Param("identifier") final String identifier);
+
+    @Query("""
+            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM Person p
+            WHERE p.number != :number
+              AND p.identifier = :identifier
+            """)
+    public boolean existsByIdentifierForAnother(@Param("number") final Long number,
+            @Param("identifier") final String identifier);
+
+    @Query("""
+            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM Person p
             WHERE p.number = :number
             """)
     public boolean existsByNumber(@Param("number") final Long number);

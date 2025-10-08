@@ -1,11 +1,12 @@
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +22,19 @@ import com.bernardomg.association.library.lending.domain.repository.BookLendingR
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaBookLendingRepository implements BookLendingRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log = LoggerFactory.getLogger(JpaBookLendingRepository.class);
 
     private final BookLendingSpringRepository bookLendingSpringRepository;
 
@@ -48,20 +52,20 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Iterable<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
-        final Page<BookLending> lendings;
-        final Pageable          pageable;
+    public final Page<BookLending> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<BookLending> read;
+        final Pageable                                          pageable;
 
         log.debug("Finding all the book lendings");
 
         // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
-        lendings = bookLendingSpringRepository.findAllReturned(pageable)
+        read = bookLendingSpringRepository.findAllReturned(pageable)
             .map(this::toDomain);
 
-        log.debug("Found all the book lendings: {}", lendings);
+        log.debug("Found all the book lendings: {}", read);
 
-        return lendings;
+        return SpringPagination.toPage(read);
     }
 
     @Override
@@ -120,7 +124,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     @Override
     public final Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
-            final LocalDate lendingDate) {
+            final Instant lendingDate) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
@@ -208,12 +212,15 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
             final PersonEntity personEntity) {
-        return BookLendingEntity.builder()
-            .withBookId(bookEntity.getId())
-            .withPersonId(personEntity.getId())
-            .withLendingDate(domain.lendingDate())
-            .withReturnDate(domain.returnDate())
-            .build();
+        final BookLendingEntity entity;
+
+        entity = new BookLendingEntity();
+        entity.setBookId(bookEntity.getId());
+        entity.setPersonId(personEntity.getId());
+        entity.setLendingDate(domain.lendingDate());
+        entity.setReturnDate(domain.returnDate());
+
+        return entity;
     }
 
 }

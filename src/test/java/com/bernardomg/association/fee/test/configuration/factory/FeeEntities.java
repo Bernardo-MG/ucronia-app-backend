@@ -1,159 +1,192 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 
 public final class FeeEntities {
 
     public static final FeeEntity currentMonth() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     public static final FeeEntity currentMonthAlternative() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.alternative())
-            .withPersonId(1L)
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.alternative());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     public static final FeeEntity nextMonth() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.NEXT_MONTH)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.NEXT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     public static final FeeEntity nextYear() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.NEXT_YEAR_MONTH)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.NEXT_YEAR_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
+    }
+
+    public static final FeeEntity notPaid() {
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(false);
+        return entity;
     }
 
     public static final FeeEntity paid() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withTransaction(TransactionEntities.februaryFee())
-            .withTransactionId(TransactionConstants.ID)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(TransactionEntities.februaryFee());
+        return entity;
     }
 
-    public static final FeeEntity paidAtDate(final LocalDate date) {
-        TransactionEntity transaction;
-
-        transaction = TransactionEntities.februaryFee();
+    public static final FeeEntity paidAtDate(final Instant date) {
+        final TransactionEntity transaction = TransactionEntities.februaryFee();
         transaction.setDate(date);
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withTransaction(transaction)
-            .withTransactionId(TransactionConstants.ID)
-            .build();
+
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(transaction);
+        return entity;
     }
 
     public static final FeeEntity paidMultiple() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.DATE)
-            .withPaid(true)
-            .withTransaction(TransactionEntities.multipleFeesStartYear())
-            .withTransactionId(TransactionConstants.ID)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(TransactionEntities.multipleFeesStartYear());
+        return entity;
     }
 
     public static final FeeEntity paidMultipleAtNextDate() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.NEXT_DATE)
-            .withPaid(true)
-            .withTransaction(TransactionEntities.multipleFeesStartYear())
-            .withTransactionId(TransactionConstants.ID)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.NEXT_DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(TransactionEntities.multipleFeesStartYear());
+        return entity;
     }
 
     public static final FeeEntity paidMultipleFirstNextYear() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.FIRST_NEXT_YEAR_DATE)
-            .withPaid(true)
-            .withTransaction(TransactionEntities.multipleFeesEndYear())
-            .withTransactionId(TransactionConstants.ID)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.FIRST_NEXT_YEAR_DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(TransactionEntities.multipleFeesEndYear());
+        return entity;
     }
 
     public static final FeeEntity paidMultipleLastInYear() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.LAST_YEAR_DATE)
-            .withPaid(true)
-            .withTransaction(TransactionEntities.multipleFeesEndYear())
-            .withTransactionId(TransactionConstants.ID)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.LAST_YEAR_DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(TransactionEntities.multipleFeesEndYear());
+        return entity;
     }
 
     public static final FeeEntity paidWithIndex(final long index) {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.CURRENT_MONTH)
-            .withPaid(true)
-            .withTransaction(TransactionEntities.index(index))
-            .withTransactionId(index)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
+        entity.setTransaction(TransactionEntities.index(index));
+        return entity;
     }
 
     public static final FeeEntity previousMonth() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.PREVIOUS_MONTH)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.PREVIOUS_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     public static final FeeEntity previousYear() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.PREVIOUS_YEAR_MONTH)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.PREVIOUS_YEAR_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     public static final FeeEntity twoMonthsBack() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.TWO_MONTHS_BACK)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.TWO_MONTHS_BACK.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     public static final FeeEntity twoYearsBack() {
-        return FeeEntity.builder()
-            .withPerson(PersonEntities.membershipActive())
-            .withPersonId(1L)
-            .withDate(FeeConstants.TWO_YEARS_BACK)
-            .build();
+        final FeeEntity entity = new FeeEntity();
+        entity.setPerson(PersonEntities.membershipActive());
+        entity.setPersonId(1L);
+        entity.setDate(FeeConstants.TWO_YEARS_BACK.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        return entity;
     }
 
     private FeeEntities() {

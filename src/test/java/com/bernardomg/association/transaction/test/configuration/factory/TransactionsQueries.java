@@ -1,33 +1,26 @@
 
 package com.bernardomg.association.transaction.test.configuration.factory;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 
 public final class TransactionsQueries {
 
-    public static final TransactionQuery date(final LocalDate date) {
-        return TransactionQuery.builder()
-            .withDate(date)
-            .build();
+    public static final TransactionQuery date(final Instant date) {
+        return new TransactionQuery(date, null, null);
     }
 
     public static final TransactionQuery empty() {
-        return TransactionQuery.builder()
-            .build();
+        return new TransactionQuery(null, null, null);
     }
 
-    public static final TransactionQuery endDate(final LocalDate date) {
-        return TransactionQuery.builder()
-            .withEndDate(date)
-            .build();
+    public static final TransactionQuery from(final Instant date) {
+        return new TransactionQuery(null, date, null);
     }
 
-    public static final TransactionQuery startDate(final LocalDate date) {
-        return TransactionQuery.builder()
-            .withStartDate(date)
-            .build();
+    public static final TransactionQuery to(final Instant date) {
+        return new TransactionQuery(null, null, date);
     }
 
 }

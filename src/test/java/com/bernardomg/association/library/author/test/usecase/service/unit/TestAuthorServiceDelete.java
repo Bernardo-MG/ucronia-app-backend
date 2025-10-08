@@ -27,6 +27,8 @@ package com.bernardomg.association.library.author.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
+import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +62,7 @@ class TestAuthorServiceDelete {
     @DisplayName("When deleting an author, the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
+        given(authorRepository.findOne(AuthorConstants.NUMBER)).willReturn(Optional.of(Authors.valid()));
 
         // WHEN
         service.delete(AuthorConstants.NUMBER);
@@ -74,7 +77,7 @@ class TestAuthorServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
+        given(authorRepository.findOne(AuthorConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(AuthorConstants.NUMBER);

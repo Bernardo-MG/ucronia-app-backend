@@ -33,9 +33,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -45,7 +47,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITPersonRepositoryFindOne {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Test
     @DisplayName("With a person, it is returned")
@@ -54,7 +56,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -67,11 +69,26 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a person having a contact, it is returned")
+    @EmailContactMethod
+    @WithContact
+    void testFindOne_WithContact() {
+        final Optional<Person> personOptional;
+
+        // WHEN
+        personOptional = repository.findOne(PersonConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(personOptional)
+            .contains(Persons.withEmail());
     }
 
     @Test
@@ -81,7 +98,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -95,7 +112,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)
@@ -109,7 +126,7 @@ class ITPersonRepositoryFindOne {
         final Optional<Person> personOptional;
 
         // WHEN
-        personOptional = personRepository.findOne(PersonConstants.NUMBER);
+        personOptional = repository.findOne(PersonConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(personOptional)

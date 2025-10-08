@@ -27,37 +27,31 @@ package com.bernardomg.association.security.account.domain.model;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.security.account.domain.model.Account;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
  * Representation of an account.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class PersonAccount implements Account {
+public final record PersonAccount(String email, String username, String name, Person person) implements Account {
 
-    /**
-     * User email.
-     */
-    private final String email;
+    @Override
+    public String getEmail() {
+        return email;
+    }
 
-    /**
-     * User name.
-     */
-    private final String name;
+    @Override
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * User person;
-     */
-    private final Person person;
+    public Person getPerson() {
+        return person;
+    }
 
-    /**
-     * User username.
-     */
-    private final String username;
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
 }

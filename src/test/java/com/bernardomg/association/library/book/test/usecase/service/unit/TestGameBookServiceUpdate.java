@@ -106,7 +106,7 @@ class TestGameBookServiceUpdate {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(BookConstants.NUMBER, book);
+        service.update(book);
 
         // THEN
         verify(bookRepository).save(GameBooks.full());
@@ -128,7 +128,7 @@ class TestGameBookServiceUpdate {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(BookConstants.NUMBER, book);
+        service.update(book);
 
         // THEN
         verify(bookRepository).save(GameBooks.full());
@@ -150,7 +150,7 @@ class TestGameBookServiceUpdate {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(BookConstants.NUMBER, book);
+        service.update(book);
 
         // THEN
         verify(bookRepository).save(GameBooks.full());
@@ -169,7 +169,7 @@ class TestGameBookServiceUpdate {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(BookConstants.NUMBER, book);
+        service.update(book);
 
         // THEN
         verify(bookRepository, Mockito.never()).existsByIsbnForAnother(ArgumentMatchers.anyLong(),
@@ -188,7 +188,7 @@ class TestGameBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "title", GameBooks.emptyTitle()
@@ -214,7 +214,7 @@ class TestGameBookServiceUpdate {
         given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -241,7 +241,7 @@ class TestGameBookServiceUpdate {
             .willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -265,7 +265,7 @@ class TestGameBookServiceUpdate {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "language", "abc"));
@@ -284,7 +284,7 @@ class TestGameBookServiceUpdate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -307,7 +307,7 @@ class TestGameBookServiceUpdate {
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -327,7 +327,7 @@ class TestGameBookServiceUpdate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -349,7 +349,7 @@ class TestGameBookServiceUpdate {
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -370,7 +370,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -388,7 +388,7 @@ class TestGameBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(BookConstants.NUMBER, book);
+        service.update(book);
 
         // THEN
         verify(bookRepository).save(GameBooks.minimal());
@@ -406,7 +406,7 @@ class TestGameBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(BookConstants.NUMBER, book);
+        execution = () -> service.update(book);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -429,7 +429,7 @@ class TestGameBookServiceUpdate {
         given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(BookConstants.NUMBER, book);
+        service.update(book);
 
         // THEN
         verify(bookRepository).save(GameBooks.full());
@@ -454,7 +454,7 @@ class TestGameBookServiceUpdate {
         given(bookRepository.save(GameBooks.full())).willReturn(GameBooks.full());
 
         // WHEN
-        created = service.update(BookConstants.NUMBER, book);
+        created = service.update(book);
 
         // THEN
         Assertions.assertThat(created)

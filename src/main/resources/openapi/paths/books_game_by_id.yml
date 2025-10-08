@@ -1,0 +1,64 @@
+get:
+  summary: Get a game book by number
+  operationId: getGameBookById
+  tags:
+    - GameBook
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Game book found
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/GameBookResponse'
+    '404':
+      description: Game book not found
+
+put:
+  summary: Update a game book
+  operationId: updateGameBook
+  tags:
+    - GameBook
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/books.yml#/components/schemas/GameBookUpdate'
+  responses:
+    '200':
+      description: Game book successfully updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/GameBookResponse'
+
+delete:
+  summary: Delete a game book
+  operationId: deleteGameBook
+  tags:
+    - GameBook
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Game book deleted
+      content:
+        application/json:
+          schema:
+            $ref: '../components/books.yml#/components/schemas/GameBookResponse'

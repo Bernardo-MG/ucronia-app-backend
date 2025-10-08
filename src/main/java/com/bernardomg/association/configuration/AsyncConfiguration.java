@@ -42,16 +42,16 @@ public class AsyncConfiguration implements AsyncConfigurer {
         final ThreadPoolTaskExecutor executor;
 
         executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(asyncProperties.getExecutor()
-            .getCorePoolSize());
-        executor.setMaxPoolSize(asyncProperties.getExecutor()
-            .getMaxPoolSize());
-        executor.setQueueCapacity(asyncProperties.getExecutor()
-            .getQueueCapacity());
-        executor.setThreadNamePrefix(asyncProperties.getExecutor()
-            .getThreadNamePrefix());
-        executor.setThreadGroupName(asyncProperties.getExecutor()
-            .getGroupName());
+        executor.setCorePoolSize(asyncProperties.executor()
+            .corePoolSize());
+        executor.setMaxPoolSize(asyncProperties.executor()
+            .maxPoolSize());
+        executor.setQueueCapacity(asyncProperties.executor()
+            .queueCapacity());
+        executor.setThreadNamePrefix(asyncProperties.executor()
+            .threadNamePrefix());
+        executor.setThreadGroupName(asyncProperties.executor()
+            .groupName());
         executor.initialize();
 
         return executor;
@@ -67,12 +67,12 @@ public class AsyncConfiguration implements AsyncConfigurer {
         final ThreadPoolTaskScheduler scheduler;
 
         scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setThreadNamePrefix(asyncProperties.getScheduler()
-            .getThreadNamePrefix());
-        scheduler.setThreadGroupName(asyncProperties.getScheduler()
-            .getGroupName());
-        scheduler.setPoolSize(asyncProperties.getScheduler()
-            .getPoolSize());
+        scheduler.setThreadNamePrefix(asyncProperties.scheduler()
+            .threadNamePrefix());
+        scheduler.setThreadGroupName(asyncProperties.scheduler()
+            .groupName());
+        scheduler.setPoolSize(asyncProperties.scheduler()
+            .poolSize());
         scheduler.setErrorHandler(TaskUtils.getDefaultErrorHandler(false));
 
         return scheduler;

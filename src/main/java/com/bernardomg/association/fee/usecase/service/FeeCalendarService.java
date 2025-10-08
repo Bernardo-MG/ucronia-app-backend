@@ -25,9 +25,10 @@
 package com.bernardomg.association.fee.usecase.service;
 
 import java.time.Year;
+import java.util.Collection;
 
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.data.domain.Sorting;
 
@@ -45,7 +46,7 @@ public interface FeeCalendarService {
      *
      * @return the range of available years
      */
-    public FeeCalendarYearsRange getRange();
+    public YearsRange getRange();
 
     /**
      * Returns all the member fees for a year.
@@ -58,6 +59,6 @@ public interface FeeCalendarService {
      *            sorting to apply
      * @return all the member fees for a year
      */
-    public Iterable<FeeCalendar> getYear(final Year year, final MemberStatus status, final Sorting sorting);
+    public Collection<MemberFees> getYear(final Year year, final MemberStatus status, final Sorting sorting);
 
 }

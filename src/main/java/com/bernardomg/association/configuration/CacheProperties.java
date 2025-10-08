@@ -28,7 +28,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
 
 /**
  * Cache configuration properties.
@@ -37,14 +36,20 @@ import lombok.Data;
  *
  */
 @Validated
-@Data
 @ConfigurationProperties(prefix = "cache")
-public final class CacheProperties {
+public final record CacheProperties(@PositiveOrZero Integer expireAfterAccess, @PositiveOrZero Integer maximumSize) {
 
-    @PositiveOrZero
-    private Integer expireAfterAccess = 600;
-
-    @PositiveOrZero
-    private Integer maximumSize       = 500;
+    public CacheProperties(final Integer expireAfterAccess, final Integer maximumSize) {
+        if (expireAfterAccess == null) {
+            this.expireAfterAccess = 600;
+        } else {
+            this.expireAfterAccess = expireAfterAccess;
+        }
+        if (maximumSize == null) {
+            this.maximumSize = 500;
+        } else {
+            this.maximumSize = maximumSize;
+        }
+    }
 
 }

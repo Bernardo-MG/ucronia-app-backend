@@ -2,64 +2,169 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "Person")
 @Table(schema = "association", name = "persons")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class PersonEntity implements Serializable {
 
     /**
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
+    private static final long                     serialVersionUID = 1328776989450853491L;
 
     @Column(name = "active", nullable = false)
-    private Boolean           active;
+    private Boolean                               active;
 
     @Column(name = "birth_date")
-    private LocalDate         birthDate;
+    private Instant                               birthDate;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<PersonContactMethodEntity> contacts;
 
     @Column(name = "first_name", nullable = false)
-    private String            firstName;
+    private String                                firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                                  id;
 
     @Column(name = "identifier")
-    private String            identifier;
+    private String                                identifier;
 
     @Column(name = "last_name")
-    private String            lastName;
+    private String                                lastName;
 
     @Column(name = "member", nullable = false)
-    private Boolean           member;
+    private Boolean                               member;
 
     @Column(name = "number")
-    private Long              number;
-
-    @Column(name = "phone")
-    private String            phone;
+    private Long                                  number;
 
     @Column(name = "renew_membership")
-    private Boolean           renewMembership;
+    private Boolean                               renewMembership;
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final PersonEntity other = (PersonEntity) obj;
+        return Objects.equals(active, other.active) && Objects.equals(birthDate, other.birthDate)
+                && Objects.equals(contacts, other.contacts) && Objects.equals(firstName, other.firstName)
+                && Objects.equals(id, other.id) && Objects.equals(identifier, other.identifier)
+                && Objects.equals(lastName, other.lastName) && Objects.equals(member, other.member)
+                && Objects.equals(number, other.number) && Objects.equals(renewMembership, other.renewMembership);
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public Instant getBirthDate() {
+        return birthDate;
+    }
+
+    public Collection<PersonContactMethodEntity> getContacts() {
+        return contacts;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Boolean getMember() {
+        return member;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public Boolean getRenewMembership() {
+        return renewMembership;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(active, birthDate, contacts, firstName, id, identifier, lastName, member, number,
+            renewMembership);
+    }
+
+    public void setActive(final Boolean active) {
+        this.active = active;
+    }
+
+    public void setBirthDate(final Instant birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setContacts(final Collection<PersonContactMethodEntity> contacts) {
+        this.contacts = contacts;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setMember(final Boolean member) {
+        this.member = member;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
+    public void setRenewMembership(final Boolean renewMembership) {
+        this.renewMembership = renewMembership;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id
+                + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number=" + number
+                + ", renewMembership=" + renewMembership + ", contacts=" + contacts + "]";
+    }
 
 }

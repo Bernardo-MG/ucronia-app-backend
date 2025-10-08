@@ -84,6 +84,52 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
             .containsExactly(TransactionMonthlyBalances.currentMonth(amount));
     }
 
+    @Test
+    @DisplayName("Returns balance for the end of the current month")
+    void testFindMonthlyBalance_CurrentMonthEnd() {
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sorting                               sorting;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonthEnd(1F);
+
+        sorting = Sorting.unsorted();
+
+        query = TransactionBalanceQueries.empty();
+
+        // WHEN
+        balances = repository.findMonthlyBalance(query, sorting);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
+    }
+
+    @Test
+    @DisplayName("Returns balance for the start of the current month")
+    void testFindMonthlyBalance_CurrentMonthStart() {
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sorting                               sorting;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonthStart(1F);
+
+        sorting = Sorting.unsorted();
+
+        query = TransactionBalanceQueries.empty();
+
+        // WHEN
+        balances = repository.findMonthlyBalance(query, sorting);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
+    }
+
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
@@ -185,6 +231,29 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
                 TransactionMonthlyBalances.forAmount(Month.OCTOBER, 1, 10),
                 TransactionMonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
                 TransactionMonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+    }
+
+    @Test
+    @DisplayName("Returns balance for the current month")
+    void testFindMonthlyBalance_MonthStart() {
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sorting                               sorting;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(1F);
+
+        sorting = Sorting.unsorted();
+
+        query = TransactionBalanceQueries.empty();
+
+        // WHEN
+        balances = repository.findMonthlyBalance(query, sorting);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
     }
 
     @Test

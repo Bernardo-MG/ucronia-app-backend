@@ -28,8 +28,10 @@ import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -102,9 +104,7 @@ class TestFeeServiceUpdate {
         toUpdate = Fees.addPayment();
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
-        given(feeRepository.pay(Persons.membershipActive(), List.of(Fees.notPaid()), Transactions.positive()))
-            .willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
@@ -116,7 +116,7 @@ class TestFeeServiceUpdate {
         service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(Fees.notPaid());
+        verify(feeRepository).save(Fees.paid());
     }
 
     @Test
@@ -128,9 +128,7 @@ class TestFeeServiceUpdate {
         toUpdate = Fees.addPayment();
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
-        given(feeRepository.pay(Persons.membershipActive(), List.of(Fees.notPaid()), Transactions.positive()))
-            .willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
@@ -142,7 +140,7 @@ class TestFeeServiceUpdate {
         service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).pay(Persons.membershipActive(), List.of(Fees.notPaid()), Transactions.positive());
+        verify(transactionRepository).save(Transactions.positive());
     }
 
     @Test
@@ -184,7 +182,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paid());
 
         // THEN
-        failure = new FieldFailure("modified", "payment", "payment.modified", TransactionConstants.INDEX);
+        failure = new FieldFailure("modified", "transaction", "transaction.modified", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -241,13 +239,36 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a fee, and a payment is changed, no event is sent")
-    void testUpdate_PaymentDateChanged_NotSendEvent() {
-        final LocalDate date;
-        final Fee       toUpdate;
+    @DisplayName("With the fee is paid in the future, it throws an exception")
+    void testUpdate_PaidInFuture() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(Fees.paidInFuture());
+
+        // THEN
+        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("When updating a fee, and a payment is changed, no event is sent")
+    void testUpdate_PaymentDateChanged_NotSendEvent() {
+        final Instant date;
+        final Fee     toUpdate;
+
+        // GIVEN
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -268,12 +289,15 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is changed, the change is returned")
     void testUpdate_PaymentDateChanged_ReturnedData() {
-        final Fee       toUpdate;
-        final LocalDate date;
-        final Fee       updated;
+        final Fee     toUpdate;
+        final Instant date;
+        final Fee     updated;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -295,11 +319,14 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is changed, the fee is saved")
     void testUpdate_PaymentDateChanged_SaveFee() {
-        final Fee       toUpdate;
-        final LocalDate date;
+        final Fee     toUpdate;
+        final Instant date;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -319,11 +346,14 @@ class TestFeeServiceUpdate {
     @Test
     @DisplayName("When the payment date is changed, the payment is updated")
     void testUpdate_PaymentDateChanged_SavePayment() {
-        final Fee       toUpdate;
-        final LocalDate date;
+        final Fee     toUpdate;
+        final Instant date;
 
         // GIVEN
-        date = FeeConstants.PAYMENT_DATE.plusMonths(1);
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         toUpdate = Fees.paidAtDate(date);
 
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
@@ -417,7 +447,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paid());
 
         // THEN
-        failure = new FieldFailure("modified", "person", "person.modified", TransactionConstants.INDEX);
+        failure = new FieldFailure("modified", "member", "member.modified", TransactionConstants.INDEX);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -436,7 +466,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.notPaid());
 
         // THEN
-        failure = new FieldFailure("removed", "payment", "payment.removed", null);
+        failure = new FieldFailure("removed", "transaction", "transaction.removed", null);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

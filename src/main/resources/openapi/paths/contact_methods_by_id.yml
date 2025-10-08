@@ -1,0 +1,69 @@
+get:
+  summary: Get a specific contact method by number.
+  operationId: getContactMethodByNumber
+  tags: [ContactMethod]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact method number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Requested contact method.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodResponse'
+    '404':
+      description: Contact method not found.
+put:
+  summary: Update a contact method.
+  operationId: updateContactMethod
+  tags: [ContactMethod]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact method number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodChange'
+  responses:
+    '200':
+      description: Updated contact method.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodResponse'
+    '404':
+      description: Contact method not found.
+delete:
+  summary: Delete a contact method.
+  operationId: deleteContactMethod
+  tags: [ContactMethod]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact method number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Requested contact method.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodResponse'
+    '404':
+      description: Contact method not found.

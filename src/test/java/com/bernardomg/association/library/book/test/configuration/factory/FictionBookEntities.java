@@ -11,65 +11,68 @@ import com.bernardomg.association.person.test.configuration.factory.PersonEntiti
 public final class FictionBookEntities {
 
     public static final FictionBookEntity full() {
-        return FictionBookEntity.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withSupertitle(BookConstants.SUPERTITLE)
-            .withTitle(BookConstants.TITLE)
-            .withSubtitle(BookConstants.SUBTITLE)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withPublishDate(BookConstants.PUBLISH_DATE)
-            .withDonationDate(BookConstants.DONATION_DATE)
-            .withAuthors(List.of(AuthorEntities.valid()))
-            .withDonors(List.of(PersonEntities.noMembership()))
-            .withPublishers(List.of(PublisherEntities.valid()))
-            .build();
+        final FictionBookEntity entity = new FictionBookEntity();
+        entity.setNumber(BookConstants.NUMBER);
+        entity.setSupertitle(BookConstants.SUPERTITLE);
+        entity.setTitle(BookConstants.TITLE);
+        entity.setSubtitle(BookConstants.SUBTITLE);
+        entity.setIsbn(BookConstants.ISBN_10);
+        entity.setLanguage(BookConstants.LANGUAGE);
+        entity.setPublishDate(BookConstants.PUBLISH_DATE);
+        entity.setDonationDate(BookConstants.DONATION_DATE);
+        entity.setAuthors(List.of(AuthorEntities.valid()));
+        entity.setDonors(List.of(PersonEntities.noMembership()));
+        entity.setPublishers(List.of(PublisherEntities.valid()));
+        return entity;
     }
 
     public static final FictionBookEntity isbn13() {
-        return FictionBookEntity.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withSupertitle(BookConstants.SUPERTITLE)
-            .withTitle(BookConstants.TITLE)
-            .withSubtitle(BookConstants.SUBTITLE)
-            .withIsbn(BookConstants.ISBN_13)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withPublishDate(BookConstants.PUBLISH_DATE)
-            .withDonationDate(BookConstants.DONATION_DATE)
-            .withAuthors(List.of(AuthorEntities.valid()))
-            .withDonors(List.of(PersonEntities.noMembership()))
-            .withPublishers(List.of(PublisherEntities.valid()))
-            .build();
+        final FictionBookEntity entity = new FictionBookEntity();
+        entity.setNumber(BookConstants.NUMBER);
+        entity.setSupertitle(BookConstants.SUPERTITLE);
+        entity.setTitle(BookConstants.TITLE);
+        entity.setSubtitle(BookConstants.SUBTITLE);
+        entity.setIsbn(BookConstants.ISBN_13);
+        entity.setLanguage(BookConstants.LANGUAGE);
+        entity.setPublishDate(BookConstants.PUBLISH_DATE);
+        entity.setDonationDate(BookConstants.DONATION_DATE);
+        entity.setAuthors(List.of(AuthorEntities.valid()));
+        entity.setDonors(List.of(PersonEntities.noMembership()));
+        entity.setPublishers(List.of(PublisherEntities.valid()));
+        return entity;
     }
 
     public static final FictionBookEntity minimal() {
-        return FictionBookEntity.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withSupertitle("")
-            .withTitle(BookConstants.TITLE)
-            .withSubtitle("")
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withAuthors(List.of())
-            .withDonors(List.of())
-            .withPublishers(List.of())
-            .build();
+        final FictionBookEntity entity = new FictionBookEntity();
+        entity.setNumber(BookConstants.NUMBER);
+        entity.setSupertitle("");
+        entity.setTitle(BookConstants.TITLE);
+        entity.setSubtitle("");
+        entity.setIsbn(BookConstants.ISBN_10);
+        entity.setLanguage(BookConstants.LANGUAGE);
+        entity.setAuthors(List.of());
+        entity.setDonors(List.of());
+        entity.setPublishers(List.of());
+        return entity;
     }
 
     public static final FictionBookEntity noRelationships() {
-        return FictionBookEntity.builder()
-            .withNumber(BookConstants.NUMBER)
-            .withSupertitle(BookConstants.SUPERTITLE)
-            .withTitle(BookConstants.TITLE)
-            .withSubtitle(BookConstants.SUBTITLE)
-            .withIsbn(BookConstants.ISBN_10)
-            .withLanguage(BookConstants.LANGUAGE)
-            .withPublishDate(BookConstants.PUBLISH_DATE)
-            .withDonationDate(BookConstants.DONATION_DATE)
-            .withAuthors(List.of())
-            .withDonors(List.of())
-            .withPublishers(List.of())
-            .build();
+        final FictionBookEntity entity = new FictionBookEntity();
+        entity.setNumber(BookConstants.NUMBER);
+        entity.setSupertitle(BookConstants.SUPERTITLE);
+        entity.setTitle(BookConstants.TITLE);
+        entity.setSubtitle(BookConstants.SUBTITLE);
+        entity.setIsbn(BookConstants.ISBN_10);
+        entity.setLanguage(BookConstants.LANGUAGE);
+        entity.setPublishDate(BookConstants.PUBLISH_DATE);
+        entity.setDonationDate(BookConstants.DONATION_DATE);
+        entity.setAuthors(List.of());
+        entity.setDonors(List.of());
+        entity.setPublishers(List.of());
+        return entity;
     }
 
+    private FictionBookEntities() {
+        super();
+    }
 }

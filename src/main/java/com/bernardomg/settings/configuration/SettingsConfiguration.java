@@ -19,9 +19,9 @@ import com.bernardomg.settings.usecase.service.SettingService;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.settings.adapter.inbound.jpa" })
 public class SettingsConfiguration {
 
-    @Bean("settingWhitelist")
-    public WhitelistRoute geSettingWhitelist() {
-        return WhitelistRoute.of("/settings/public/**", HttpMethod.GET);
+    @Bean("settingRepository")
+    public SettingRepository getSettingRepository(final SettingsSpringRepository settingSpringRepo) {
+        return new JpaSettingsRepository(settingSpringRepo);
     }
 
     @Bean("settingService")
@@ -29,9 +29,9 @@ public class SettingsConfiguration {
         return new DefaultSettingService(settingRepository);
     }
 
-    @Bean("settingRepository")
-    public SettingRepository settingRepository(final SettingsSpringRepository settingSpringRepo) {
-        return new JpaSettingsRepository(settingSpringRepo);
+    @Bean("settingWhitelist")
+    public WhitelistRoute getSettingWhitelist() {
+        return WhitelistRoute.of("/settings/public/**", HttpMethod.GET);
     }
 
 }

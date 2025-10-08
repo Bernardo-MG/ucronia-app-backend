@@ -4,6 +4,8 @@ package com.bernardomg.association.library.publisher.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,17 +15,20 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class DefaultPublisherService implements PublisherService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(DefaultPublisherService.class);
 
     private final Validator<Publisher> createPublisherValidator;
 
@@ -65,22 +70,27 @@ public final class DefaultPublisherService implements PublisherService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final Publisher delete(final long number) {
+        final Publisher deleted;
 
         log.debug("Deleting publisher {}", number);
 
-        if (!publisherRepository.exists(number)) {
-            throw new MissingPublisherException(number);
-        }
+        deleted = publisherRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing publisher {}", number);
+                throw new MissingPublisherException(number);
+            });
 
         publisherRepository.delete(number);
 
         log.debug("Deleted publisher {}", number);
+
+        return deleted;
     }
 
     @Override
-    public final Iterable<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Publisher> publishers;
+    public final Page<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Publisher> publishers;
 
         log.debug("Reading publishers with pagination {} and sorting {}", pagination, sorting);
 

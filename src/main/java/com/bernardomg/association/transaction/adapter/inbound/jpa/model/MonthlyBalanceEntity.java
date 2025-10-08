@@ -25,17 +25,13 @@
 package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Monthly balance entity. The table is actually a view.
@@ -44,10 +40,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "MonthlyBalance")
 @Table(schema = "association", name = "monthly_balances")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class MonthlyBalanceEntity implements Serializable {
 
     @Transient
@@ -55,12 +47,41 @@ public class MonthlyBalanceEntity implements Serializable {
 
     @Id
     @Column(name = "date", nullable = false)
-    private LocalDate         month;
+    private Instant           month;
 
     @Column(name = "results", nullable = false)
     private Float             results;
 
     @Column(name = "total", nullable = false)
     private Float             total;
+
+    public Instant getMonth() {
+        return month;
+    }
+
+    public Float getResults() {
+        return results;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setMonth(final Instant month) {
+        this.month = month;
+    }
+
+    public void setResults(final Float results) {
+        this.results = results;
+    }
+
+    public void setTotal(final Float total) {
+        this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "MonthlyBalanceEntity [month=" + month + ", results=" + results + ", total=" + total + "]";
+    }
 
 }

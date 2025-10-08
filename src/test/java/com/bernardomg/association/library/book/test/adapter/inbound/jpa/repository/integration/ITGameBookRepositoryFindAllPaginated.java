@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
 import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -55,9 +57,9 @@ class ITGameBookRepositoryFindAllPaginated {
     @NoMembershipPerson
     @FullGameBook
     void testFindAll() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -68,6 +70,8 @@ class ITGameBookRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .containsExactly(GameBooks.full());
     }
@@ -78,9 +82,9 @@ class ITGameBookRepositoryFindAllPaginated {
     @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -91,6 +95,8 @@ class ITGameBookRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .containsExactly(GameBooks.lent());
     }
@@ -102,9 +108,9 @@ class ITGameBookRepositoryFindAllPaginated {
     @FullGameBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -115,6 +121,8 @@ class ITGameBookRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .containsExactly(GameBooks.lentHistory());
     }
@@ -122,9 +130,9 @@ class ITGameBookRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -135,6 +143,8 @@ class ITGameBookRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .isEmpty();
     }
@@ -145,9 +155,9 @@ class ITGameBookRepositoryFindAllPaginated {
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -158,6 +168,8 @@ class ITGameBookRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .containsExactly(GameBooks.returned());
     }
@@ -169,9 +181,9 @@ class ITGameBookRepositoryFindAllPaginated {
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {
-        final Iterable<GameBook> books;
-        final Pagination         pagination;
-        final Sorting            sorting;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -182,6 +194,8 @@ class ITGameBookRepositoryFindAllPaginated {
 
         // THEN
         Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
             .containsExactly(GameBooks.returnedHistory());
     }

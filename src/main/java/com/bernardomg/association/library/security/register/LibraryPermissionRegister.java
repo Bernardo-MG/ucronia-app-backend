@@ -80,14 +80,13 @@ public final class LibraryPermissionRegister implements PermissionRegister {
             new ResourcePermissionPair("LIBRARY_PUBLISHER", "VIEW"), new ResourcePermissionPair("LIBRARY_BOOK", "VIEW"),
             new ResourcePermissionPair("LIBRARY_BOOK_TYPE", "VIEW"),
             new ResourcePermissionPair("LIBRARY_GAME_SYSTEM", "VIEW"),
-            new ResourcePermissionPair("LIBRARY_LENDING", "VIEW"), new ResourcePermissionPair("LIBRARY_ADMIN", "VIEW"),
             new ResourcePermissionPair("LIBRARY_LENDING", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of("INVENTORY_DONOR", "LIBRARY", "LIBRARY_ADMIN", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER",
-            "LIBRARY_BOOK", "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
+        return List.of("INVENTORY_DONOR", "LIBRARY", "LIBRARY_AUTHOR", "LIBRARY_PUBLISHER", "LIBRARY_BOOK",
+            "LIBRARY_BOOK_TYPE", "LIBRARY_GAME_SYSTEM", "LIBRARY_LENDING");
     }
 
 }

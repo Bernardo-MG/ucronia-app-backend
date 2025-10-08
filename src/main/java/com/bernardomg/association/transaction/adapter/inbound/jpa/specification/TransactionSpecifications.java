@@ -24,8 +24,10 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.specification;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -49,28 +51,28 @@ public final class TransactionSpecifications {
      *            final date
      * @return transactions between both dates
      */
-    public static final Specification<TransactionEntity> betweenIncluding(final LocalDate start, final LocalDate end) {
+    public static final Specification<TransactionEntity> betweenIncluding(final Instant start, final Instant end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
     /**
      * Creates an specification from the request.
      *
-     * @param request
+     * @param query
      *            request to create a specification from
      * @return specification for the request
      */
-    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionQuery request) {
+    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionQuery query) {
         final Optional<Specification<TransactionEntity>> spec;
 
-        if (request.getDate() != null) {
-            spec = Optional.of(on(request.getDate()));
-        } else if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
-        } else if (request.getStartDate() != null) {
-            spec = Optional.of(onOrAfter(request.getStartDate()));
-        } else if (request.getEndDate() != null) {
-            spec = Optional.of(onOrBefore(request.getEndDate()));
+        if (query.date() != null) {
+            spec = Optional.of(on(query.date()));
+        } else if ((query.from() != null) && (query.to() != null)) {
+            spec = Optional.of(betweenIncluding(query.from(), query.to()));
+        } else if (query.from() != null) {
+            spec = Optional.of(onOrAfter(query.from()));
+        } else if (query.to() != null) {
+            spec = Optional.of(onOrBefore(query.to()));
         } else {
             spec = Optional.empty();
         }
@@ -85,7 +87,7 @@ public final class TransactionSpecifications {
      *            date to search on
      * @return transactions on the date
      */
-    public static final Specification<TransactionEntity> on(final LocalDate date) {
+    public static final Specification<TransactionEntity> on(final Instant date) {
         // TODO: Should remove hour?
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
@@ -98,16 +100,20 @@ public final class TransactionSpecifications {
      * @return transactions on the date
      */
     public static final Specification<TransactionEntity> on(final YearMonth month) {
-        final LocalDate startDate;
-        final LocalDate endDate;
+        final Instant from;
+        final Instant to;
 
         // Starts on the first day of the month
-        startDate = LocalDate.of(month.getYear(), month.getMonthValue(), 1);
+        from = LocalDate.of(month.getYear(), month.getMonthValue(), 1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         // Ends on the last day of the month
-        endDate = LocalDate.of(month.getYear(), month.getMonthValue(), month.getMonth()
-            .length(month.isLeapYear()));
+        to = LocalDate.of(month.getYear(), month.getMonthValue(), month.getMonth()
+            .length(month.isLeapYear()))
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
-        return betweenIncluding(startDate, endDate);
+        return betweenIncluding(from, to);
     }
 
     /**
@@ -117,7 +123,7 @@ public final class TransactionSpecifications {
      *            date to mark the lower limit
      * @return transactions on or after the date
      */
-    public static final Specification<TransactionEntity> onOrAfter(final LocalDate date) {
+    public static final Specification<TransactionEntity> onOrAfter(final Instant date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
@@ -128,7 +134,7 @@ public final class TransactionSpecifications {
      *            date to mark the lower limit
      * @return transactions on or before the date
      */
-    public static final Specification<TransactionEntity> onOrBefore(final LocalDate date) {
+    public static final Specification<TransactionEntity> onOrBefore(final Instant date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 

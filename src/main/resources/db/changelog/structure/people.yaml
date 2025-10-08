@@ -34,10 +34,6 @@ databaseChangeLog:
                   name: birth_date
                   type: datetime
               - column:
-                  name: phone
-                  type: varchar(15)
-                  defaultValue: ''
-              - column:
                   name: identifier
                   type: varchar(15)
                   constraints:
@@ -66,6 +62,69 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createTable:
+            schemaName: association
+            tableName: contact_methods
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: association
+            tableName: contact_methods
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+  - changeSet:
+      id: person_relationships
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: association
+            tableName: person_contact_methods
+            columns:
+              - column:
+                  name: person_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_person_contact_methods_contact_method
+                    references: association.persons(id)
+                    deleteCascade: true
+              - column:
+                  name: contact_method_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_person_contact_methods_person
+                    references: association.contact_methods(id)
+                    deleteCascade: true
+              - column:
+                  name: contact
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: person_contact_methods_key
+            schemaName: association
+            tableName: person_contact_methods
+            columnNames: 'person_id, contact_method_id'
   - changeSet:
       id: fees
       author: Bernardo

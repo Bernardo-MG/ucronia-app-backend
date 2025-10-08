@@ -1,0 +1,15 @@
+get:
+  summary: Returns all fees for the user in session
+  operationId: getUserFees
+  tags: [MyFees]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+  responses:
+    '200':
+      description: Paginated list of user fees
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeePageResponse'

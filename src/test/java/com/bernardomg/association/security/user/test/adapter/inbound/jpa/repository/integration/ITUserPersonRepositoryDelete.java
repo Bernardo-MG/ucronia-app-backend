@@ -36,7 +36,7 @@ import com.bernardomg.association.security.user.test.configuration.factory.UserC
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserPersonRepository - delete")
+@DisplayName("UserPersonRepository - unassign person")
 class ITUserPersonRepositoryDelete {
 
     @Autowired
@@ -48,10 +48,10 @@ class ITUserPersonRepositoryDelete {
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")
     @ValidUserWithPerson
-    void testDelete() {
+    void testUnassignPerson() {
 
         // WHEN
-        repository.delete(UserConstants.USERNAME);
+        repository.unassignPerson(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(userPersonSpringRepository.count())
@@ -61,10 +61,10 @@ class ITUserPersonRepositoryDelete {
 
     @Test
     @DisplayName("With no member assigned to the user, it does nothing")
-    void testDelete_NoData() {
+    void testUnassignPerson_NoData() {
 
         // WHEN
-        repository.delete(UserConstants.USERNAME);
+        repository.unassignPerson(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(userPersonSpringRepository.count())

@@ -1,12 +1,14 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,21 +18,23 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaTransactionRepository implements TransactionRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger               log = LoggerFactory.getLogger(JpaTransactionRepository.class);
 
     private final TransactionSpringRepository transactionSpringRepository;
 
@@ -90,12 +94,12 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Iterable<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
+    public final Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
             final Sorting sorting) {
-        final Page<TransactionEntity>                    page;
-        final Optional<Specification<TransactionEntity>> spec;
-        final Iterable<Transaction>                      read;
-        final Pageable                                   pageable;
+        final org.springframework.data.domain.Page<TransactionEntity> page;
+        final Optional<Specification<TransactionEntity>>              spec;
+        final org.springframework.data.domain.Page<Transaction>       read;
+        final Pageable                                                pageable;
 
         log.debug("Finding transactions with sample {} and pagination {} and sorting {}", query, pagination, sorting);
 
@@ -112,32 +116,27 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Found transactions {}", read);
 
-        return read;
+        return SpringPagination.toPage(read);
     }
 
     @Override
-    public final TransactionCalendarMonth findInMonth(final YearMonth date) {
+    public final Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting) {
         final Specification<TransactionEntity> spec;
-        final Collection<TransactionEntity>    read;
         final Collection<Transaction>          transactions;
-        final TransactionCalendarMonth         monthCalendar;
         final Sort                             sort;
 
-        log.debug("Finding all the transactions for the month {}", date);
+        log.debug("Finding transactions in range from {} to {}", from, to);
 
-        sort = Sort.by("date", "description", "amount");
-
-        spec = TransactionSpecifications.on(date);
-        read = transactionSpringRepository.findAll(spec, sort);
-
-        transactions = read.stream()
+        sort = SpringSorting.toSort(sorting);
+        spec = TransactionSpecifications.betweenIncluding(from, to);
+        transactions = transactionSpringRepository.findAll(spec, sort)
+            .stream()
             .map(this::toDomain)
             .toList();
-        monthCalendar = new TransactionCalendarMonth(date, transactions);
 
-        log.debug("Found all the transactions for the month {}: {}", date, monthCalendar);
+        log.debug("Forund transactions in range from {} to {}: {}", from, to, transactions);
 
-        return monthCalendar;
+        return transactions;
     }
 
     @Override
@@ -217,12 +216,15 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     private final TransactionEntity toEntity(final Transaction transaction) {
-        return TransactionEntity.builder()
-            .withIndex(transaction.index())
-            .withDescription(transaction.description())
-            .withDate(transaction.date())
-            .withAmount(transaction.amount())
-            .build();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
+        entity.setIndex(transaction.index());
+        entity.setDescription(transaction.description());
+        entity.setDate(transaction.date());
+        entity.setAmount(transaction.amount());
+
+        return entity;
     }
 
 }

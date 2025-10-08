@@ -1,0 +1,21 @@
+get:
+  summary: Get a specific member by number.
+  operationId: getMemberByNumber
+  tags: [Member]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Requested member.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+    '404':
+      description: Member not found.

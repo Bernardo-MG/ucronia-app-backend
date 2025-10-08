@@ -8,7 +8,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public final class PostgresDbExtension implements Extension, BeforeAllCallback {
 
-    private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>("postgres:16-alpine");
+    private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>("postgres:18-alpine");
 
     @Override
     public void beforeAll(final ExtensionContext context) {

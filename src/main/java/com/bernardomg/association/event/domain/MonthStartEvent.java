@@ -25,19 +25,13 @@
 package com.bernardomg.association.event.domain;
 
 import java.time.YearMonth;
+import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 
 /**
  * New month has started event.
  */
-@ToString
-@EqualsAndHashCode(callSuper = true)
-@Getter
 public final class MonthStartEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7173269718677701462L;
@@ -48,6 +42,32 @@ public final class MonthStartEvent extends AbstractEvent {
         super(source);
 
         month = date;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final MonthStartEvent other = (MonthStartEvent) obj;
+        return Objects.equals(month, other.month);
+    }
+
+    public YearMonth getMonth() {
+        return month;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), month);
+    }
+
+    @Override
+    public String toString() {
+        return "MonthStartEvent [month=" + month + "]";
     }
 
 }

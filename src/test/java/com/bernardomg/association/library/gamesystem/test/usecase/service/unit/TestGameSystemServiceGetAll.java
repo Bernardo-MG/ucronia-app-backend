@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,7 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -60,21 +62,25 @@ class TestGameSystemServiceGetAll {
     @Test
     @DisplayName("When there are game systems, they are returned")
     void testGetAll() {
-        final Pagination           pagination;
-        final Sorting              sorting;
-        final Iterable<GameSystem> systems;
+        final Pagination       pagination;
+        final Sorting          sorting;
+        final Page<GameSystem> systems;
+        final Page<GameSystem> existing;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(gameSystemRepository.findAll(pagination, sorting)).willReturn(List.of(GameSystems.valid()));
+        existing = new Page<>(List.of(GameSystems.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(gameSystemRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         systems = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(systems)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("game systems")
             .containsExactly(GameSystems.valid());
     }
@@ -82,21 +88,25 @@ class TestGameSystemServiceGetAll {
     @Test
     @DisplayName("When there are no game systems, nothing is returned")
     void testGetAll_NoData() {
-        final Pagination           pagination;
-        final Sorting              sorting;
-        final Iterable<GameSystem> systems;
+        final Pagination       pagination;
+        final Sorting          sorting;
+        final Page<GameSystem> systems;
+        final Page<GameSystem> existing;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        given(gameSystemRepository.findAll(pagination, sorting)).willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(gameSystemRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         systems = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(systems)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("game systems")
             .isEmpty();
     }

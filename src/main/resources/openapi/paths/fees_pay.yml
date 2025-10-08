@@ -1,0 +1,17 @@
+post:
+  summary: Pay fees
+  operationId: payFee
+  tags: [Fee]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fees.yml#/components/schemas/FeePayments'
+  responses:
+    '201':
+      description: Fees paid
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeesResponse'

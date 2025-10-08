@@ -3,33 +3,39 @@ package com.bernardomg.association.transaction.test.configuration.factory;
 
 import java.time.Month;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 
 public final class TransactionBalanceQueries {
 
     public static final TransactionBalanceQuery empty() {
-        return TransactionBalanceQuery.builder()
-            .build();
+        return new TransactionBalanceQuery(null, null);
     }
 
-    public static final TransactionBalanceQuery endDate(final int year, final Month month) {
-        return TransactionBalanceQuery.builder()
-            .withEndDate(YearMonth.of(year, month))
-            .build();
+    public static final TransactionBalanceQuery from(final int year, final Month month) {
+        return new TransactionBalanceQuery(YearMonth.of(year, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), null);
     }
 
     public static final TransactionBalanceQuery range(final int year, final Month start, final Month end) {
-        return TransactionBalanceQuery.builder()
-            .withStartDate(YearMonth.of(year, start))
-            .withEndDate(YearMonth.of(year, end))
-            .build();
+        return new TransactionBalanceQuery(YearMonth.of(year, start)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(),
+            YearMonth.of(year, end)
+                .atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant());
     }
 
-    public static final TransactionBalanceQuery startDate(final int year, final Month month) {
-        return TransactionBalanceQuery.builder()
-            .withStartDate(YearMonth.of(year, month))
-            .build();
+    public static final TransactionBalanceQuery to(final int year, final Month month) {
+        return new TransactionBalanceQuery(null, YearMonth.of(year, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
     }
 
     public TransactionBalanceQueries() {

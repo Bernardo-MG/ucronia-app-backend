@@ -30,14 +30,20 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.AttributeConverter;
 
 /**
  * Converts between {@link YearMonth} and {@link Date}.
+ * <p>
+ * TODO: Can be adapted to transform into Instant?
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Component
+@Deprecated
 public final class YearMonthDateAttributeConverter implements AttributeConverter<YearMonth, Date> {
 
     public YearMonthDateAttributeConverter() {

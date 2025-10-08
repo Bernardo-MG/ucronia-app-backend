@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -13,10 +14,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -25,18 +29,19 @@ import com.bernardomg.association.library.book.domain.repository.FictionBookRepo
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class ExcelPoiBookReportService implements BookReportService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger         log = LoggerFactory.getLogger(ExcelPoiBookReportService.class);
 
     private final FictionBookRepository fictionBookRepository;
 
@@ -268,11 +273,11 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final Iterable<FictionBook> books) {
-        int         index;
-        Row         row;
-        Cell        cell;
-        BookLending lending;
-        Donation    donation;
+        int             index;
+        Row             row;
+        Cell            cell;
+        BookLendingInfo lending;
+        Donation        donation;
 
         index = 1;
         for (final FictionBook book : books) {
@@ -296,7 +301,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
-            cell.setCellValue(book.publishDate());
+            if (book.publishDate() != null) {
+                cell.setCellValue(Date.from(book.publishDate()));
+            }
             cell.setCellStyle(dateStyle);
 
             cell = row.createCell(5);
@@ -327,7 +334,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(8);
-                cell.setCellValue(donation.date());
+                cell.setCellValue(Date.from(donation.date()));
                 cell.setCellStyle(dateStyle);
             }
 
@@ -348,7 +355,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(11);
-                cell.setCellValue(lending.lendingDate());
+                cell.setCellValue(Date.from(lending.lendingDate()));
                 cell.setCellStyle(dateStyle);
 
                 cell = row.createCell(12);
@@ -363,11 +370,11 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     private final void loadGames(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final Iterable<GameBook> books) {
-        int         index;
-        Row         row;
-        Cell        cell;
-        BookLending lending;
-        Donation    donation;
+        int             index;
+        Row             row;
+        Cell            cell;
+        BookLendingInfo lending;
+        Donation        donation;
 
         index = 1;
         for (final GameBook book : books) {
@@ -391,7 +398,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
-            cell.setCellValue(book.publishDate());
+            if (book.publishDate() != null) {
+                cell.setCellValue(Date.from(book.publishDate()));
+            }
             cell.setCellStyle(dateStyle);
 
             cell = row.createCell(5);
@@ -434,7 +443,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(10);
-                cell.setCellValue(donation.date());
+                cell.setCellValue(Date.from(donation.date()));
                 cell.setCellStyle(dateStyle);
             }
 
@@ -455,7 +464,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(13);
-                cell.setCellValue(lending.lendingDate());
+                cell.setCellValue(Date.from(lending.lendingDate()));
                 cell.setCellStyle(dateStyle);
 
                 cell = row.createCell(14);

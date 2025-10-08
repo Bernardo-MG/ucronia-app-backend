@@ -1,0 +1,96 @@
+get:
+  summary: Get a specific person by number.
+  operationId: getPersonByNumber
+  tags: [Person]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Person number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Requested person.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+    '404':
+      description: Person not found.
+put:
+  summary: Update a person.
+  operationId: updatePerson
+  tags: [Person]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Person number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/persons.yml#/components/schemas/PersonChange'
+  responses:
+    '200':
+      description: Updated person.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+    '404':
+      description: Person not found.
+patch:
+  summary: Partially update a person.
+  operationId: patchPerson
+  tags: [Person]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Person number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/persons.yml#/components/schemas/PersonChange'
+  responses:
+    '200':
+      description: Patched person.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+    '404':
+      description: Person not found.
+delete:
+  summary: Delete a person.
+  operationId: deletePerson
+  tags: [Person]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Person number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Person deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+    '404':
+      description: Person not found.

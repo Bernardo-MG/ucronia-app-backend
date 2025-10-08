@@ -34,8 +34,8 @@ public class CacheConfiguration {
     public CaffeineSpec getCaffeineSpec(final CacheProperties cacheProperties) {
         final String spec;
 
-        spec = String.format("maximumSize=%d,expireAfterAccess=%ds", cacheProperties.getMaximumSize(),
-            cacheProperties.getExpireAfterAccess());
+        spec = String.format("maximumSize=%d,expireAfterAccess=%ds", cacheProperties.maximumSize(),
+            cacheProperties.expireAfterAccess());
         return CaffeineSpec.parse(spec);
     }
 

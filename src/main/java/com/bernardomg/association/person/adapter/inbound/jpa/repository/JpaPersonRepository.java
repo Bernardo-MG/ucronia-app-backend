@@ -5,36 +5,49 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
+import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
+import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.model.Person.Membership;
+import com.bernardomg.association.person.domain.model.Person.PersonContact;
 import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaPersonRepository implements PersonRepository {
 
-    private final PersonSpringRepository personSpringRepository;
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                 log = LoggerFactory.getLogger(JpaPersonRepository.class);
 
-    public JpaPersonRepository(final PersonSpringRepository personSpringRepo) {
+    private final ContactMethodSpringRepository contactMethodSpringRepository;
+
+    private final PersonSpringRepository        personSpringRepository;
+
+    public JpaPersonRepository(final PersonSpringRepository personSpringRepo,
+            final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
 
     @Override
@@ -104,48 +117,73 @@ public final class JpaPersonRepository implements PersonRepository {
 
     @Override
     public final void delete(final long number) {
-        log.debug("Deleting fee {}", number);
+        log.debug("Deleting person {}", number);
 
         personSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted fee {}", number);
+        log.debug("Deleted person {}", number);
     }
 
     @Override
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if fee {} exists", number);
+        log.debug("Checking if person {} exists", number);
 
         exists = personSpringRepository.existsByNumber(number);
 
-        log.debug("Fee {} exists: {}", number, exists);
+        log.debug("Person {} exists: {}", number, exists);
 
         return exists;
     }
 
     @Override
-    public final Iterable<Person> findAll(final PersonFilter filter, final Pagination pagination,
-            final Sorting sorting) {
-        final Page<Person>                          persons;
-        final Pageable                              pageable;
-        final Optional<Specification<PersonEntity>> spec;
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists", identifier);
+
+        exists = personSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a person distinct from {}", identifier, number);
+
+        exists = personSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a person distinct from {}: {}", identifier, number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final Page<Person> findAll(final PersonFilter filter, final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Person> read;
+        final Pageable                                     pageable;
+        final Optional<Specification<PersonEntity>>        spec;
 
         log.debug("Finding all the people");
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = PersonSpecifications.filter(filter);
         if (spec.isEmpty()) {
-            persons = personSpringRepository.findAll(pageable)
+            read = personSpringRepository.findAll(pageable)
                 .map(this::toDomain);
         } else {
-            persons = personSpringRepository.findAll(spec.get(), pageable)
+            read = personSpringRepository.findAll(spec.get(), pageable)
                 .map(this::toDomain);
         }
 
-        log.debug("Found all the people: {}", persons);
+        log.debug("Found all the people: {}", read);
 
-        return persons;
+        return SpringPagination.toPage(read);
     }
 
     @Override
@@ -184,11 +222,11 @@ public final class JpaPersonRepository implements PersonRepository {
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next number for the transactions");
+        log.debug("Finding next number for the persons");
 
         number = personSpringRepository.findNextNumber();
 
-        log.debug("Found next number for the transactions: {}", number);
+        log.debug("Found next number for the persons: {}", number);
 
         return number;
     }
@@ -254,9 +292,21 @@ public final class JpaPersonRepository implements PersonRepository {
         return saved;
     }
 
+    private final ContactMethod toDomain(final ContactMethodEntity entity) {
+        return new ContactMethod(entity.getNumber(), entity.getName());
+    }
+
+    private final PersonContact toDomain(final PersonContactMethodEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new PersonContact(method, entity.getContact());
+    }
+
     private final Person toDomain(final PersonEntity entity) {
-        final PersonName           name;
-        final Optional<Membership> membership;
+        final PersonName                name;
+        final Optional<Membership>      membership;
+        final Collection<PersonContact> contacts;
 
         name = new PersonName(entity.getFirstName(), entity.getLastName());
         if (!entity.getMember()) {
@@ -264,14 +314,22 @@ public final class JpaPersonRepository implements PersonRepository {
         } else {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getPhone(),
-            membership);
+
+        contacts = entity.getContacts()
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
+            contacts);
     }
 
     private final PersonEntity toEntity(final Person data) {
-        final boolean member;
-        final boolean active;
-        final boolean renew;
+        final boolean                               member;
+        final boolean                               active;
+        final boolean                               renew;
+        final PersonEntity                          entity;
+        final Collection<PersonContactMethodEntity> contacts;
 
         if (data.membership()
             .isPresent()) {
@@ -287,19 +345,46 @@ public final class JpaPersonRepository implements PersonRepository {
             active = true;
             renew = true;
         }
-        return PersonEntity.builder()
-            .withNumber(data.number())
-            .withFirstName(data.name()
-                .firstName())
-            .withLastName(data.name()
-                .lastName())
-            .withIdentifier(data.identifier())
-            .withPhone(data.phone())
-            .withBirthDate(data.birthDate())
-            .withMember(member)
-            .withActive(active)
-            .withRenewMembership(renew)
-            .build();
+
+        entity = new PersonEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier(data.identifier());
+        entity.setBirthDate(data.birthDate());
+        entity.setMember(member);
+        entity.setActive(active);
+        entity.setRenewMembership(renew);
+
+        contacts = data.contacts()
+            .stream()
+            .map(c -> toEntity(entity, c))
+            .toList();
+        entity.setContacts(contacts);
+
+        return entity;
+    }
+
+    private final PersonContactMethodEntity toEntity(final PersonEntity person, final PersonContact data) {
+        final PersonContactMethodEntity     entity;
+        final Optional<ContactMethodEntity> contactMethod;
+
+        contactMethod = contactMethodSpringRepository.findByNumber(data.method()
+            .number());
+
+        if (contactMethod.isEmpty()) {
+            throw new MissingContactMethodException(data.method()
+                .number());
+        }
+
+        entity = new PersonContactMethodEntity();
+        entity.setPerson(person);
+        entity.setContactMethod(contactMethod.get());
+        entity.setContact(data.contact());
+
+        return entity;
     }
 
 }

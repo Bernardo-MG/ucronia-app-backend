@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.member.usecase.service;
 
+import java.util.Collection;
+
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 
@@ -42,6 +44,6 @@ public interface MemberBalanceService {
      *            query to filter balances
      * @return the monthly member balance
      */
-    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query);
+    public Collection<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query);
 
 }

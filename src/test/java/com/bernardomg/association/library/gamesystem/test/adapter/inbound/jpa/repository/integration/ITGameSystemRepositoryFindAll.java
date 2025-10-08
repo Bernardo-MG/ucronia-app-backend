@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -48,9 +50,9 @@ class ITGameSystemRepositoryFindAll {
     @DisplayName("When there are game systems, they are returned")
     @ValidGameSystem
     void testFindAll() {
-        final Iterable<GameSystem> gameSystems;
-        final Pagination           pagination;
-        final Sorting              sorting;
+        final Page<GameSystem> gameSystems;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -61,6 +63,8 @@ class ITGameSystemRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(gameSystems)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("game systems")
             .containsExactly(GameSystems.valid());
     }
@@ -68,9 +72,9 @@ class ITGameSystemRepositoryFindAll {
     @Test
     @DisplayName("When there are no game systems, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<GameSystem> gameSystems;
-        final Pagination           pagination;
-        final Sorting              sorting;
+        final Page<GameSystem> gameSystems;
+        final Pagination       pagination;
+        final Sorting          sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -81,6 +85,8 @@ class ITGameSystemRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(gameSystems)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("game systems")
             .isEmpty();
     }

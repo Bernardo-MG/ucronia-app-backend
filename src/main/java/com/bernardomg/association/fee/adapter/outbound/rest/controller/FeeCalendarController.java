@@ -25,24 +25,28 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.Year;
+import java.util.Collection;
+import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarQuery;
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarDtoMapper;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.FeeCalendarApi;
+import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
+import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Member fee calendar REST controller.
@@ -53,44 +57,44 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/fee/calendar")
-@AllArgsConstructor
-public class FeeCalendarController {
+public class FeeCalendarController implements FeeCalendarApi {
 
     /**
      * Member fee calendar service.
      */
     private final FeeCalendarService service;
 
-    /**
-     * Returns the range of available years.
-     *
-     * @return the range of available years
-     */
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
-    public FeeCalendarYearsRange readRange() {
-        return service.getRange();
+    public FeeCalendarController(final FeeCalendarService service) {
+        super();
+
+        this.service = service;
     }
 
-    /**
-     * Returns all the member fees for a year.
-     *
-     * @param year
-     *            year to read
-     * @param request
-     *            request data
-     * @param sorting
-     *            sorting to apply
-     * @return all the member fees for a year
-     */
-    @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
+    public YearsRangeResponseDto getFeesYearsRange() {
+        final YearsRange range;
+
+        range = service.getRange();
+
+        return FeeCalendarDtoMapper.toResponseDto(range);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
-    public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
-            final Sorting sorting) {
-        return service.getYear(Year.of(year), request.getStatus(), sorting);
+    public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
+            @Valid final List<String> sort) {
+        final MemberStatus           memberStatus;
+        final Sorting                sorting;
+        final Collection<MemberFees> fees;
+
+        // TODO: use the fees listing and filter
+        memberStatus = MemberStatus.valueOf(status);
+        sorting = WebSorting.toSorting(sort);
+        fees = service.getYear(Year.of(year), memberStatus, sorting);
+        return FeeCalendarDtoMapper.toResponseDto(fees);
     }
 
 }

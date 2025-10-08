@@ -4,6 +4,8 @@ package com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposit
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,16 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class JpaPublisherRepository implements PublisherRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger             log = LoggerFactory.getLogger(JpaPublisherRepository.class);
 
     private final PublisherSpringRepository publisherSpringRepository;
 
@@ -79,9 +84,9 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final Iterable<Publisher> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Publisher> read;
-        final Pageable            pageable;
+    public final Page<Publisher> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Publisher> read;
+        final Pageable                                        pageable;
 
         log.debug("Finding publishers with pagination {} and sorting {}", pagination, sorting);
 
@@ -91,7 +96,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         log.debug("Found publishers {}", read);
 
-        return read;
+        return SpringPagination.toPage(read);
     }
 
     @Override
@@ -151,10 +156,13 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     private final PublisherEntity toEntity(final Publisher domain) {
-        return PublisherEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final PublisherEntity entity;
+
+        entity = new PublisherEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+
+        return entity;
     }
 
 }

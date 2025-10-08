@@ -1,0 +1,48 @@
+post:
+  summary: Create an unpaid fee.
+  operationId: createUnpaidFee
+  tags: [Fee]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fees.yml#/components/schemas/FeeCreation'
+  responses:
+    '201':
+      description: Fee created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'
+
+get:
+  summary: Get all fees.
+  operationId: getAllFees
+  tags: [Fee]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+    - name: date
+      description: Date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: from
+      description: Starting date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: to
+      description: Ending date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+  responses:
+    '200':
+      description: Fees page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeePageResponse'

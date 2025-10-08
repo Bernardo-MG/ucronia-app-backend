@@ -30,7 +30,6 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
 
 /**
  * Async configuration properties.
@@ -39,50 +38,80 @@ import lombok.Data;
  *
  */
 @Validated
-@Data
 @ConfigurationProperties(prefix = "async")
-public final class AsyncProperties {
+public final record AsyncProperties(@NotNull ExecutorProperties executor, @NotNull SchedulerProperties scheduler) {
+
+    public AsyncProperties(final ExecutorProperties executor, final SchedulerProperties scheduler) {
+        if (executor == null) {
+            this.executor = new ExecutorProperties(null, null, null, null, null);
+        } else {
+            this.executor = executor;
+        }
+        if (scheduler == null) {
+            this.scheduler = new SchedulerProperties(null, null, null);
+        } else {
+            this.scheduler = scheduler;
+        }
+    }
 
     @Validated
-    @Data
-    public final class ExecutorProperties {
+    public final record ExecutorProperties(@PositiveOrZero Integer corePoolSize, @NotEmpty String groupName,
+            @PositiveOrZero Integer maxPoolSize, @PositiveOrZero Integer queueCapacity,
+            @NotEmpty String threadNamePrefix) {
 
-        @PositiveOrZero
-        private Integer corePoolSize     = 1;
-
-        @NotEmpty
-        private String  groupName        = "AsyncGroup";
-
-        @PositiveOrZero
-        private Integer maxPoolSize      = 5;
-
-        @PositiveOrZero
-        private Integer queueCapacity    = 10;
-
-        @NotEmpty
-        private String  threadNamePrefix = "AsyncExecutor-";
+        public ExecutorProperties(final Integer corePoolSize, final String groupName, final Integer maxPoolSize,
+                final Integer queueCapacity, final String threadNamePrefix) {
+            if (corePoolSize == null) {
+                this.corePoolSize = 1;
+            } else {
+                this.corePoolSize = corePoolSize;
+            }
+            if (groupName == null) {
+                this.groupName = "AsyncGroup";
+            } else {
+                this.groupName = groupName;
+            }
+            if (maxPoolSize == null) {
+                this.maxPoolSize = 5;
+            } else {
+                this.maxPoolSize = maxPoolSize;
+            }
+            if (queueCapacity == null) {
+                this.queueCapacity = 10;
+            } else {
+                this.queueCapacity = queueCapacity;
+            }
+            if (threadNamePrefix == null) {
+                this.threadNamePrefix = "AsyncExecutor-";
+            } else {
+                this.threadNamePrefix = threadNamePrefix;
+            }
+        }
 
     }
 
     @Validated
-    @Data
-    public final class SchedulerProperties {
+    public final record SchedulerProperties(@NotEmpty String groupName, @PositiveOrZero Integer poolSize,
+            @NotEmpty String threadNamePrefix) {
 
-        @NotEmpty
-        private String  groupName        = "SchedulerGroup";
-
-        @PositiveOrZero
-        private Integer poolSize         = 2;
-
-        @NotEmpty
-        private String  threadNamePrefix = "AsyncScheduler-";
+        public SchedulerProperties(final String groupName, final Integer poolSize, final String threadNamePrefix) {
+            if (groupName == null) {
+                this.groupName = "SchedulerGroup";
+            } else {
+                this.groupName = groupName;
+            }
+            if (poolSize == null) {
+                this.poolSize = 2;
+            } else {
+                this.poolSize = poolSize;
+            }
+            if (threadNamePrefix == null) {
+                this.threadNamePrefix = "AsyncScheduler-";
+            } else {
+                this.threadNamePrefix = threadNamePrefix;
+            }
+        }
 
     }
-
-    @NotNull
-    private ExecutorProperties  executor  = new ExecutorProperties();
-
-    @NotNull
-    private SchedulerProperties scheduler = new SchedulerProperties();
 
 }

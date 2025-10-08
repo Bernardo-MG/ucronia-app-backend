@@ -1,0 +1,11 @@
+get:
+  summary: Get current balance.
+  operationId: getCurrentTransactionBalance
+  tags: [TransactionBalance]
+  responses:
+    '200':
+      description: Current balance
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions_balance.yml#/components/schemas/TransactionCurrentBalanceResponse'

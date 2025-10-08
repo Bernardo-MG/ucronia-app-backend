@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.author.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -48,9 +50,9 @@ class ITAuthorRepositoryFindAll {
     @DisplayName("When there are authors, they are returned")
     @ValidAuthor
     void testFindAll() {
-        final Iterable<Author> authors;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Author> authors;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -61,6 +63,8 @@ class ITAuthorRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(authors)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("authors")
             .containsExactly(Authors.valid());
     }
@@ -68,9 +72,9 @@ class ITAuthorRepositoryFindAll {
     @Test
     @DisplayName("When there are no authors, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<Author> authors;
-        final Pagination       pagination;
-        final Sorting          sorting;
+        final Page<Author> authors;
+        final Pagination   pagination;
+        final Sorting      sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -81,6 +85,8 @@ class ITAuthorRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(authors)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("authors")
             .isEmpty();
     }

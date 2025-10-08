@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.specification;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -14,14 +14,14 @@ public final class FeeSpecifications {
     public static Optional<Specification<FeeEntity>> fromQuery(final FeeQuery query) {
         final Optional<Specification<FeeEntity>> spec;
 
-        if (query.getDate() != null) {
-            spec = Optional.of(on(query.getDate()));
-        } else if ((query.getStartDate() != null) && (query.getEndDate() != null)) {
-            spec = Optional.of(between(query.getStartDate(), query.getEndDate()));
-        } else if (query.getStartDate() != null) {
-            spec = Optional.of(after(query.getStartDate()));
-        } else if (query.getEndDate() != null) {
-            spec = Optional.of(before(query.getEndDate()));
+        if (query.date() != null) {
+            spec = Optional.of(on(query.date()));
+        } else if ((query.from() != null) && (query.to() != null)) {
+            spec = Optional.of(between(query.from(), query.to()));
+        } else if (query.from() != null) {
+            spec = Optional.of(after(query.from()));
+        } else if (query.to() != null) {
+            spec = Optional.of(before(query.to()));
         } else {
             spec = Optional.empty();
         }
@@ -29,19 +29,19 @@ public final class FeeSpecifications {
         return spec;
     }
 
-    private static Specification<FeeEntity> after(final YearMonth date) {
+    private static Specification<FeeEntity> after(final Instant date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    private static Specification<FeeEntity> before(final YearMonth date) {
+    private static Specification<FeeEntity> before(final Instant date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    private static Specification<FeeEntity> between(final YearMonth start, final YearMonth end) {
+    private static Specification<FeeEntity> between(final Instant start, final Instant end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    private static Specification<FeeEntity> on(final YearMonth date) {
+    private static Specification<FeeEntity> on(final Instant date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 

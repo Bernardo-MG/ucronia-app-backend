@@ -59,7 +59,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.endDate(2019, Month.DECEMBER);
+        query = TransactionBalanceQueries.to(2019, Month.DECEMBER);
 
         // WHEN
         balances = repository.findMonthlyBalance(query, sorting);
@@ -81,7 +81,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.endDate(2020, Month.DECEMBER);
+        query = TransactionBalanceQueries.to(2020, Month.DECEMBER);
 
         // WHEN
         balances = repository.findMonthlyBalance(query, sorting);
@@ -214,7 +214,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.startDate(2021, Month.JANUARY);
+        query = TransactionBalanceQueries.from(2021, Month.JANUARY);
 
         // WHEN
         balances = repository.findMonthlyBalance(query, sorting);
@@ -236,7 +236,7 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.startDate(2020, Month.JANUARY);
+        query = TransactionBalanceQueries.from(2020, Month.JANUARY);
 
         // WHEN
         balances = repository.findMonthlyBalance(query, sorting);

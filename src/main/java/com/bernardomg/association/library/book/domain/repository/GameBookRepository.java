@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -18,7 +19,7 @@ public interface GameBookRepository {
 
     public boolean existsByIsbnForAnother(final long number, final String isbn);
 
-    public Iterable<GameBook> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<GameBook> findAll(final Pagination pagination, final Sorting sorting);
 
     public Collection<GameBook> findAll(final Sorting sorting);
 

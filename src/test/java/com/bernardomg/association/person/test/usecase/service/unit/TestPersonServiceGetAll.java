@@ -30,7 +30,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -43,11 +42,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.filter.PersonFilter;
-import com.bernardomg.association.person.domain.filter.PersonFilter.PersonStatus;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.test.configuration.factory.PersonFilters;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -57,10 +58,13 @@ import com.bernardomg.data.domain.Sorting.Property;
 class TestPersonServiceGetAll {
 
     @Mock
-    private PersonRepository     personRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServiceGetAll() {
         super();
@@ -69,25 +73,27 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Iterable<Person>   persons;
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Person> readPersons;
-        final PersonFilter       filter;
+        final Page<Person> persons;
+        final Page<Person> existing;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
-        readPersons = List.of();
-        given(personRepository.findAll(filter, pagination, sorting)).willReturn(readPersons);
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         persons = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("persons")
             .isEmpty();
     }
@@ -95,23 +101,27 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When getting all the persons, it returns all the persons")
     void testGetAll_ReturnsData() {
-        final Iterable<Person> persons;
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final PersonFilter     filter;
+        final Page<Person> persons;
+        final Page<Person> existing;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
-        given(personRepository.findAll(filter, pagination, sorting)).willReturn(List.of(Persons.noMembership()));
+        existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         persons = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(persons)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("persons")
             .containsExactly(Persons.noMembership());
     }
@@ -119,18 +129,18 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When sorting ascending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FirstName() {
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Person> readPersons;
-        final PersonFilter       filter;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final PersonFilter filter;
+        final Page<Person> existing;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
-        readPersons = List.of(Persons.noMembership());
-        given(personRepository.findAll(filter, pagination, sorting)).willReturn(readPersons);
+        existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         service.getAll(filter, pagination, sorting);
@@ -145,18 +155,18 @@ class TestPersonServiceGetAll {
     @Test
     @DisplayName("When sorting descending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FirstName() {
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Collection<Person> readPersons;
-        final PersonFilter       filter;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final Page<Person> existing;
+        final PersonFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
-        filter = new PersonFilter(PersonStatus.ALL_MEMBER, "");
+        filter = PersonFilters.empty();
 
-        readPersons = List.of(Persons.noMembership());
-        given(personRepository.findAll(filter, pagination, sorting)).willReturn(readPersons);
+        existing = new Page<>(List.of(Persons.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(personRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         service.getAll(filter, pagination, sorting);

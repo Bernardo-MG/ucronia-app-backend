@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -30,8 +31,9 @@ public interface TransactionService {
      *
      * @param id
      *            id of the transaction to delete
+     * @return the deleted transaction
      */
-    public void delete(final long id);
+    public Transaction delete(final long id);
 
     /**
      * Returns all the transactions matching the sample. If the sample fields are empty, then all the transactions are
@@ -45,7 +47,7 @@ public interface TransactionService {
      *            sorting to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<Transaction> getAll(final TransactionQuery transaction, final Pagination pagination,
+    public Page<Transaction> getAll(final TransactionQuery transaction, final Pagination pagination,
             final Sorting sorting);
 
     /**
@@ -58,7 +60,7 @@ public interface TransactionService {
     public Optional<Transaction> getOne(final long id);
 
     /**
-     * Updates the transaction for the received id with the received data.
+     * Updates the received transaction.
      *
      * @param transaction
      *            new data for the transaction

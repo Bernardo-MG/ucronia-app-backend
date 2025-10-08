@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.specification;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -33,22 +33,20 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMember
 
 public final class MonthlyMemberBalanceSpecifications {
 
-    public static Specification<MonthlyMemberBalanceEntity> betweenIncluding(final YearMonth start,
-            final YearMonth end) {
-        return (root, query, cb) -> cb.between(root.get("month"), start.atDay(1), end.atDay(1));
+    public static Specification<MonthlyMemberBalanceEntity> betweenIncluding(final Instant start, final Instant end) {
+        return (root, query, cb) -> cb.between(root.get("month"), start, end);
     }
 
-    public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final YearMonth startDate,
-            final YearMonth endDate) {
+    public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final Instant from, final Instant to) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
 
         // TODO: use optionals, not nulls
-        if ((startDate != null) && (endDate != null)) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(startDate, endDate));
-        } else if (startDate != null) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrAfter(startDate));
-        } else if (endDate != null) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrBefore(endDate));
+        if ((from != null) && (to != null)) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(from, to));
+        } else if (from != null) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrAfter(from));
+        } else if (to != null) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrBefore(to));
         } else {
             spec = Optional.empty();
         }
@@ -56,12 +54,12 @@ public final class MonthlyMemberBalanceSpecifications {
         return spec;
     }
 
-    public static Specification<MonthlyMemberBalanceEntity> onOrAfter(final YearMonth date) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date.atDay(1));
+    public static Specification<MonthlyMemberBalanceEntity> onOrAfter(final Instant date) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date);
     }
 
-    public static Specification<MonthlyMemberBalanceEntity> onOrBefore(final YearMonth date) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date.atEndOfMonth());
+    public static Specification<MonthlyMemberBalanceEntity> onOrBefore(final Instant date) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date);
     }
 
     private MonthlyMemberBalanceSpecifications() {

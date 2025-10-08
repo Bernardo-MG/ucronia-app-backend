@@ -34,9 +34,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.configuration.factory.FeeCalendarYearsRanges;
+import com.bernardomg.association.fee.test.configuration.factory.YearsRanges;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
@@ -60,10 +60,10 @@ class TestFeeCalendarServiceGetRange {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetRange() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
-        given(feeRepository.findRange()).willReturn(FeeCalendarYearsRanges.current());
+        given(feeRepository.findRange()).willReturn(YearsRanges.current());
 
         // WHEN
         range = service.getRange();
@@ -71,7 +71,7 @@ class TestFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range)
             .as("year range")
-            .isEqualTo(FeeCalendarYearsRanges.current());
+            .isEqualTo(YearsRanges.current());
     }
 
 }

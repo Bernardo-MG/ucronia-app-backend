@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,17 +29,20 @@ import com.bernardomg.association.library.publisher.domain.exception.MissingPubl
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 @Transactional
 public final class DefaultFictionBookService implements FictionBookService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(DefaultFictionBookService.class);
 
     private final AuthorRepository       authorRepository;
 
@@ -125,23 +130,27 @@ public final class DefaultFictionBookService implements FictionBookService {
     }
 
     @Override
-    public final void delete(final long number) {
+    public final FictionBook delete(final long number) {
+        final FictionBook deleted;
 
         log.debug("Deleting book {}", number);
 
-        if (!bookRepository.exists(number)) {
-            log.error("Missing book {}", number);
-            throw new MissingBookException(number);
-        }
+        deleted = bookRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing book {}", number);
+                throw new MissingBookException(number);
+            });
 
         bookRepository.delete(number);
 
         log.debug("Deleted book {}", number);
+
+        return deleted;
     }
 
     @Override
-    public final Iterable<FictionBook> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<FictionBook> books;
+    public final Page<FictionBook> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<FictionBook> books;
 
         log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
 
@@ -170,7 +179,7 @@ public final class DefaultFictionBookService implements FictionBookService {
     }
 
     @Override
-    public final FictionBook update(final long number, final FictionBook book) {
+    public final FictionBook update(final FictionBook book) {
         final FictionBook           toUpdate;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
@@ -178,15 +187,15 @@ public final class DefaultFictionBookService implements FictionBookService {
         final Optional<Donation>    donation;
         final FictionBook           updated;
 
-        log.debug("Updating book with number {} using data {}", number, book);
+        log.debug("Updating book with number {} using data {}", book.number(), book);
 
         // TODO: verify the language is a valid code
         // TODO: validate isbn
 
         // Check book exists
-        if (!bookRepository.exists(number)) {
-            log.error("Missing book {}", number);
-            throw new MissingBookException(number);
+        if (!bookRepository.exists(book.number())) {
+            log.error("Missing book {}", book.number());
+            throw new MissingBookException(book.number());
         }
 
         validateRelationships(book);
@@ -215,14 +224,14 @@ public final class DefaultFictionBookService implements FictionBookService {
         } else {
             donation = Optional.empty();
         }
-        toUpdate = new FictionBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false,
+        toUpdate = new FictionBook(book.number(), book.title(), book.isbn(), book.language(), book.publishDate(), false,
             authors, List.of(), publishers, donation);
 
         updateBookValidator.validate(toUpdate);
 
         updated = bookRepository.save(toUpdate);
 
-        log.debug("Updated book with number {} using data {}", number, book);
+        log.debug("Updated book with number {} using data {}", book.number(), book);
 
         return updated;
     }

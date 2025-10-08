@@ -1,10 +1,13 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 public final class FeeConstants {
 
@@ -32,7 +35,12 @@ public final class FeeConstants {
     /**
      * TODO: rename, this is confusing with the payment date
      */
-    public static final LocalDate PAYMENT_DATE             = LocalDate.of(2020, Month.FEBRUARY, 1);
+    public static final Instant   PAYMENT_DATE             = LocalDate.of(2020, Month.FEBRUARY, 1)
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
+
+    public static final Instant   PAYMENT_DATE_FUTURE      = Instant.now()
+        .plus(2L, ChronoUnit.DAYS);
 
     public static final YearMonth PREVIOUS_MONTH           = YearMonth.now()
         .minusMonths(1);

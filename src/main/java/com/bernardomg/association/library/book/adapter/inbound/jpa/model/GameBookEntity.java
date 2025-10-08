@@ -2,14 +2,9 @@
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Collection;
 
-import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
-import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -17,16 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "GameBook")
 @DiscriminatorValue("game")
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class GameBookEntity extends RootBookEntity implements Serializable {
 
     /**
@@ -49,18 +37,42 @@ public class GameBookEntity extends RootBookEntity implements Serializable {
     @Column(name = "game_system_id", insertable = false, updatable = false)
     private Long              gameSystemId;
 
-    @Builder(setterPrefix = "with")
-    public GameBookEntity(final Collection<AuthorEntity> authors, final LocalDate donationDate,
-            final Collection<PersonEntity> donors, final Long id, final String isbn, final String language,
-            final Long number, final LocalDate publishDate, final Collection<PublisherEntity> publishers,
-            final String subtitle, final String supertitle, final String title, final BookTypeEntity bookType,
-            final Long bookTypeId, final GameSystemEntity gameSystem, final Long gameSystemId) {
-        super(authors, donationDate, donors, id, isbn, language, number, publishDate, publishers, subtitle, supertitle,
-            title);
+    public BookTypeEntity getBookType() {
+        return bookType;
+    }
+
+    public Long getBookTypeId() {
+        return bookTypeId;
+    }
+
+    public GameSystemEntity getGameSystem() {
+        return gameSystem;
+    }
+
+    public Long getGameSystemId() {
+        return gameSystemId;
+    }
+
+    public void setBookType(final BookTypeEntity bookType) {
         this.bookType = bookType;
+    }
+
+    public void setBookTypeId(final Long bookTypeId) {
         this.bookTypeId = bookTypeId;
+    }
+
+    public void setGameSystem(final GameSystemEntity gameSystem) {
         this.gameSystem = gameSystem;
+    }
+
+    public void setGameSystemId(final Long gameSystemId) {
         this.gameSystemId = gameSystemId;
+    }
+
+    @Override
+    public String toString() {
+        return "GameBookEntity [bookType=" + bookType + ", bookTypeId=" + bookTypeId + ", gameSystem=" + gameSystem
+                + ", gameSystemId=" + gameSystemId + ", toString()=" + super.toString() + "]";
     }
 
 }

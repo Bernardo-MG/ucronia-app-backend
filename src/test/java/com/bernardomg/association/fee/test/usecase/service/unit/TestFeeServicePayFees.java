@@ -24,17 +24,17 @@
 
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.time.Month;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,6 +50,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.FeesPayments;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
@@ -57,6 +58,8 @@ import com.bernardomg.association.person.test.configuration.factory.PersonConsta
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -87,53 +90,6 @@ class TestFeeServicePayFees {
     private TransactionRepository     transactionRepository;
 
     @Test
-    @DisplayName("Can pay fees")
-    void testPayFees() {
-        final Collection<Fee> fees;
-
-        // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
-        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.DATE)))
-            .willReturn(List.of(Fees.paid()));
-
-        // WHEN
-        fees = service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paid());
-    }
-
-    @Test
-    @DisplayName("When paying the current month, an event is sent")
-    void testPayFees_CurrentMonth_SendEvent() {
-        // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.save(List.of(Fees.notPaidCurrentMonth()))).willReturn(List.of(Fees.notPaidCurrentMonth()));
-        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
-            .willReturn(List.of(Fees.paidCurrentMonth()));
-
-        // WHEN
-        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
-
-        // THEN
-        verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(e)
-                .isInstanceOf(FeePaidEvent.class);
-            soft.assertThat(e)
-                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
-                .extracting(FeePaidEvent::getDate)
-                .isEqualTo(FeeConstants.CURRENT_MONTH);
-            soft.assertThat(e)
-                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
-                .extracting(FeePaidEvent::getPersonNumber)
-                .isEqualTo(PersonConstants.NUMBER);
-        })));
-    }
-
-    @Test
     @DisplayName("With duplicated dates, it throws an exception")
     void testPayFees_DuplicatedDates() {
         final ThrowingCallable execution;
@@ -143,11 +99,10 @@ class TestFeeServicePayFees {
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.duplicated());
 
         // THEN
-        failure = new FieldFailure("duplicated", "feeMonths[]", "feeMonths[].duplicated", 1L);
+        failure = new FieldFailure("duplicated", "months[]", "months[].duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -160,10 +115,9 @@ class TestFeeServicePayFees {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         given(feeRepository.save(List.of())).willReturn(List.of());
-        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of())).willReturn(List.of());
 
         // WHEN
-        fees = service.payFees(List.of(), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        fees = service.payFees(FeesPayments.empty());
 
         // THEN
         Assertions.assertThat(fees)
@@ -182,13 +136,36 @@ class TestFeeServicePayFees {
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.single());
 
         // THEN
-        failure = new FieldFailure("existing", "feeMonths[]", "feeMonths[].existing", List.of(FeeConstants.DATE));
+        failure = new FieldFailure("existing", "months[]", "months[].existing", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("Can pay a multiple fees")
+    void testPayFees_Multiple() {
+        final Collection<Fee> fees;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection()))
+            .willReturn(List.of(Fees.paid(), Fees.paidForMonth(Month.MARCH.getValue())));
+        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.forAmount(TransactionConstants.AMOUNT * 2)))
+            .willReturn(Transactions.positive());
+
+        // WHEN
+        fees = service.payFees(FeesPayments.multiple());
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid(), Fees.paidForMonth(Month.MARCH.getValue()));
     }
 
     @Test
@@ -202,11 +179,10 @@ class TestFeeServicePayFees {
         given(feeRepository.existsPaid(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.multiple());
 
         // THEN
-        failure = new FieldFailure("existing", "feeMonths[]", "feeMonths[].existing", List.of(FeeConstants.DATE));
+        failure = new FieldFailure("existing", "months[]", "months[].existing", List.of(FeeConstants.DATE));
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -220,8 +196,7 @@ class TestFeeServicePayFees {
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.payFees(List.of(FeeConstants.DATE), PersonConstants.NUMBER,
-            FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.single());
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -229,31 +204,21 @@ class TestFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When paying the previous month, an event is sent")
-    void testPayFees_PreviousMonth_SendEvent() {
+    @DisplayName("With the fee is paid in the future, it throws an exception")
+    void testPayFees_PaidInFuture() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.save(List.of(Fees.notPaidPreviousMonth())))
-            .willReturn(List.of(Fees.notPaidPreviousMonth()));
-        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.PREVIOUS_MONTH)))
-            .willReturn(List.of(Fees.paidPreviousMonth()));
 
         // WHEN
-        service.payFees(List.of(FeeConstants.PREVIOUS_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        execution = () -> service.payFees(FeesPayments.paidFuture());
 
         // THEN
-        verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(e)
-                .isInstanceOf(FeePaidEvent.class);
-            soft.assertThat(e)
-                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
-                .extracting(FeePaidEvent::getDate)
-                .isEqualTo(FeeConstants.PREVIOUS_MONTH);
-            soft.assertThat(e)
-                .asInstanceOf(InstanceOfAssertFactories.type(FeePaidEvent.class))
-                .extracting(FeePaidEvent::getPersonNumber)
-                .isEqualTo(PersonConstants.NUMBER);
-        })));
+        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
@@ -261,16 +226,40 @@ class TestFeeServicePayFees {
     void testPayFees_SendEvent() {
         // GIVEN
         given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.save(List.of(Fees.notPaidCurrentMonth()))).willReturn(List.of(Fees.notPaidCurrentMonth()));
-        given(feeRepository.findAllForPersonInDates(PersonConstants.NUMBER, List.of(FeeConstants.CURRENT_MONTH)))
-            .willReturn(List.of(Fees.paid()));
+        given(feeRepository.save(List.of(Fees.paid()))).willReturn(List.of(Fees.paid()));
+        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
 
         // WHEN
-        service.payFees(List.of(FeeConstants.CURRENT_MONTH), PersonConstants.NUMBER, FeeConstants.PAYMENT_DATE);
+        service.payFees(FeesPayments.single());
 
         // THEN
         verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
             .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("Can pay a single fee")
+    void testPayFees_Single() {
+        final Collection<Fee> fees;
+
+        // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
+
+        // WHEN
+        fees = service.payFees(FeesPayments.single());
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
     }
 
 }

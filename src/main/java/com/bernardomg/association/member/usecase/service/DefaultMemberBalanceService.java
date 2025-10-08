@@ -24,10 +24,15 @@
 
 package com.bernardomg.association.member.usecase.service;
 
+import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,18 +41,20 @@ import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.data.domain.Sorting;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the member balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultMemberBalanceService implements MemberBalanceService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberBalanceService.class);
 
     private final MemberBalanceRepository memberBalanceRepository;
 
@@ -58,25 +65,33 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
     }
 
     @Override
-    public final Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
-        final YearMonth now;
-        final YearMonth end;
-        final Sorting   sorting;
+    public final Collection<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
+        final Instant                          now;
+        final Instant                          end;
+        final Sorting                          sorting;
+        final Collection<MonthlyMemberBalance> balance;
 
         log.debug("Reading monthly balance with query {}", query);
 
         // Up to this month
-        now = YearMonth.now();
-        if ((query.getEndDate() == null) || (query.getEndDate()
+        now = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        if ((query.to() == null) || (query.to()
             .isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", query.getEndDate(), now);
+            log.debug("Replacing end date {} with current date {}", query.to(), now);
             end = now;
         } else {
-            end = query.getEndDate();
+            end = query.to();
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return memberBalanceRepository.findInRange(query.getStartDate(), end, sorting);
+        balance = memberBalanceRepository.findInRange(query.from(), end, sorting);
+
+        log.debug("Read monthly balance with query {}: {}", query, balance);
+
+        return balance;
     }
 
 }

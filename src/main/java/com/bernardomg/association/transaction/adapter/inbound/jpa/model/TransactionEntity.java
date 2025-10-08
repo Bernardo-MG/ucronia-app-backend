@@ -2,7 +2,7 @@
 package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,17 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "Transaction")
 @Table(schema = "association", name = "transactions")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class TransactionEntity implements Serializable {
 
     @Transient
@@ -31,7 +23,7 @@ public class TransactionEntity implements Serializable {
     private Float             amount;
 
     @Column(name = "date", nullable = false)
-    private LocalDate         date;
+    private Instant           date;
 
     @Column(name = "description", length = 200)
     private String            description;
@@ -43,5 +35,51 @@ public class TransactionEntity implements Serializable {
 
     @Column(name = "index", nullable = false, unique = true)
     private Long              index;
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getIndex() {
+        return index;
+    }
+
+    public void setAmount(final Float amount) {
+        this.amount = amount;
+    }
+
+    public void setDate(final Instant date) {
+        this.date = date;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIndex(final Long index) {
+        this.index = index;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id=" + id
+                + ", index=" + index + "]";
+    }
 
 }

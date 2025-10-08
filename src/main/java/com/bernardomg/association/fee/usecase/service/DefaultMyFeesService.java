@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,20 +41,23 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the user fee service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Service
 @Transactional
 public final class DefaultMyFeesService implements MyFeesService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(DefaultMyFeesService.class);
 
     private final FeeRepository        feeRepository;
 
@@ -66,9 +71,9 @@ public final class DefaultMyFeesService implements MyFeesService {
     }
 
     @Override
-    public final Iterable<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
         final Authentication   authentication;
-        final Iterable<Fee>    fees;
+        final Page<Fee>        fees;
         final UserDetails      userDetails;
         final Optional<Person> person;
 
@@ -78,14 +83,14 @@ public final class DefaultMyFeesService implements MyFeesService {
             .getAuthentication();
         if ((authentication instanceof AnonymousAuthenticationToken)
                 || !(authentication.getPrincipal() instanceof UserDetails)) {
-            fees = List.of();
+            fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
             // TODO: maybe throw an exception
         } else {
             userDetails = (UserDetails) authentication.getPrincipal();
             person = userPersonRepository.findByUsername(userDetails.getUsername());
             if (person.isEmpty()) {
                 log.warn("User {} has no member assigned", userDetails.getUsername());
-                fees = List.of();
+                fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
             } else {
                 fees = feeRepository.findAllForPerson(person.get()
                     .number(), pagination, sorting);

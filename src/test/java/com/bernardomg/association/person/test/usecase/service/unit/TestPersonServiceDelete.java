@@ -27,6 +27,8 @@ package com.bernardomg.association.person.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -37,19 +39,24 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
+import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultPersonService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Guest service - delete")
+@DisplayName("Person service - delete")
 class TestPersonServiceDelete {
 
     @Mock
-    private PersonRepository     guestRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private PersonRepository        personRepository;
 
     @InjectMocks
-    private DefaultPersonService service;
+    private DefaultPersonService    service;
 
     public TestPersonServiceDelete() {
         super();
@@ -59,22 +66,22 @@ class TestPersonServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(guestRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
 
         // WHEN
         service.delete(PersonConstants.NUMBER);
 
         // THEN
-        verify(guestRepository).delete(PersonConstants.NUMBER);
+        verify(personRepository).delete(PersonConstants.NUMBER);
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist an exception is thrown")
+    @DisplayName("When the person doesn't exist an exception is thrown")
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(guestRepository.exists(PersonConstants.NUMBER)).willReturn(false);
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(PersonConstants.NUMBER);

@@ -24,21 +24,8 @@
 
 package com.bernardomg.association.transaction.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder(setterPrefix = "with")
-@NoArgsConstructor
-@AllArgsConstructor
-public final class TransactionBalanceQuery {
-
-    private YearMonth endDate;
-
-    private YearMonth startDate;
+public final record TransactionBalanceQuery(Instant from, Instant to) {
 
 }

@@ -24,34 +24,35 @@
 
 package com.bernardomg.association.library.publisher.adapter.outbound.rest.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.publisher.adapter.outbound.cache.LibraryPublisherCaches;
-import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherChange;
-import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherCreation;
+import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherDtoMapper;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.PublisherApi;
+import com.bernardomg.ucronia.openapi.model.PublisherChangeDto;
+import com.bernardomg.ucronia.openapi.model.PublisherCreationDto;
+import com.bernardomg.ucronia.openapi.model.PublisherPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.PublisherResponseDto;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
 
 /**
  * Publisher REST controller.
@@ -60,60 +61,82 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/library/publisher")
-@AllArgsConstructor
-public class PublisherController {
+public class PublisherController implements PublisherApi {
 
     /**
      * Publisher service.
      */
     private final PublisherService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS, LibraryPublisherCaches.PUBLISHER },
-            allEntries = true) })
-    public Publisher create(@Valid @RequestBody final PublisherCreation request) {
-        final Publisher publisher;
-
-        publisher = new Publisher(-1L, request.getName());
-        return service.create(publisher);
+    public PublisherController(final PublisherService service) {
+        super();
+        this.service = service;
     }
 
-    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryPublisherCaches.PUBLISHER, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
+    public PublisherResponseDto createPublisher(@Valid final PublisherCreationDto publisherCreationDto) {
+        final Publisher publisher;
+
+        publisher = service.create(new Publisher(-1L, publisherCreationDto.getName()));
+
+        return PublisherDtoMapper.toResponseDto(publisher);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHER }),
             @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
-    public void delete(@PathVariable("number") final long number) {
-        service.delete(number);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHERS)
-    public Iterable<Publisher> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
-    }
-
-    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHER)
-    public Publisher readOne(@PathVariable("number") final long number) {
-        return service.getOne(number)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryPublisherCaches.PUBLISHER, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
-    public Publisher update(@PathVariable("number") final long number,
-            @Valid @RequestBody final PublisherChange change) {
+    public PublisherResponseDto deletePublisher(final Long number) {
         final Publisher publisher;
 
-        publisher = new Publisher(number, change.getName());
-        return service.update(publisher);
+        publisher = service.delete(number);
+
+        return PublisherDtoMapper.toResponseDto(publisher);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHERS)
+    public PublisherPageResponseDto getAllPublishers(@Min(0) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<Publisher> publishers;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        publishers = service.getAll(pagination, sorting);
+
+        return PublisherDtoMapper.toResponseDto(publishers);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
+    @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHER)
+    public PublisherResponseDto getPublisherById(final Long number) {
+        final Optional<Publisher> publisher;
+
+        publisher = service.getOne(number);
+
+        return PublisherDtoMapper.toResponseDto(publisher);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = LibraryPublisherCaches.PUBLISHER, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
+    public PublisherResponseDto updatePublisher(final Long number, @Valid final PublisherChangeDto publisherChangeDto) {
+        final Publisher updated;
+        final Publisher publisher;
+
+        publisher = new Publisher(number, publisherChangeDto.getName());
+        updated = service.update(publisher);
+
+        return PublisherDtoMapper.toResponseDto(updated);
     }
 
 }

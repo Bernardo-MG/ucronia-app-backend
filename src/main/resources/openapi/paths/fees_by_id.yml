@@ -1,0 +1,72 @@
+get:
+  summary: Get a specific fee
+  operationId: getOneFee
+  tags: [Fee]
+  parameters:
+    - name: member
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+    - name: month
+      in: path
+      required: true
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
+  responses:
+    '200':
+      description: Fee details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'
+delete:
+  summary: Delete a fee
+  operationId: deleteFee
+  tags: [Fee]
+  parameters:
+    - name: member
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+    - name: month
+      in: path
+      required: true
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
+  responses:
+    '200':
+      description: Deleted fee
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'
+put:
+  summary: Update a fee
+  operationId: updateFee
+  tags: [Fee]
+  parameters:
+    - name: member
+      in: path
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+    - name: month
+      in: path
+      required: true
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Month'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fees.yml#/components/schemas/FeeChange'
+  responses:
+    '200':
+      description: Fee updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees.yml#/components/schemas/FeeResponse'

@@ -4,6 +4,7 @@ package com.bernardomg.association.library.booktype.domain.repository;
 import java.util.Optional;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
@@ -17,7 +18,7 @@ public interface BookTypeRepository {
 
     public boolean existsByNameForAnother(final String name, final long number);
 
-    public Iterable<BookType> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<BookType> findAll(final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();
 

@@ -38,8 +38,6 @@ import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Transaction report REST controller.
  *
@@ -48,13 +46,17 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/library/book")
-@AllArgsConstructor
 public class BookReportController {
 
     /**
      * Book report service.
      */
     private final BookReportService service;
+
+    public BookReportController(final BookReportService service) {
+        super();
+        this.service = service;
+    }
 
     /**
      * Returns an Excel report with all the books.

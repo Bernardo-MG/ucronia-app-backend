@@ -42,6 +42,8 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Transaction service - update")
@@ -106,6 +108,27 @@ class TestTransactionServiceUpdate {
         Assertions.assertThat(updated)
             .as("transaction")
             .isEqualTo(Transactions.positive());
+    }
+
+    @Test
+    @DisplayName("With the transaction with a future date, it throws an exception")
+    void testUpdate_Future() {
+        final Transaction      transaction;
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        transaction = Transactions.future();
+
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(transaction);
+
+        // THEN
+        failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test

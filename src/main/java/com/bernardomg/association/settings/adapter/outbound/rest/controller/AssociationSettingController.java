@@ -25,27 +25,25 @@
 package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
-import com.bernardomg.association.settings.adapter.outbound.rest.model.SettingChange;
+import com.bernardomg.association.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
+import com.bernardomg.ucronia.openapi.api.AssociationSettingsApi;
+import com.bernardomg.ucronia.openapi.model.SettingChangeDto;
+import com.bernardomg.ucronia.openapi.model.SettingResponseDto;
+import com.bernardomg.ucronia.openapi.model.SettingsResponseDto;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Settings REST controller.
@@ -54,32 +52,43 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/settings")
-@AllArgsConstructor
-public class AssociationSettingController {
+public class AssociationSettingController implements AssociationSettingsApi {
 
     private final SettingService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @Unsecured
-    public Collection<Setting> readAll() {
-        return service.getAll();
+    public AssociationSettingController(final SettingService service) {
+        super();
+        // TODO: are the permissions correct?
+        this.service = service;
     }
 
-    @GetMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @Unsecured
-    public Setting readOne(@PathVariable("code") final String code) {
-        // TODO: improve security, not all the configuration can be read by everybody
-        return service.getOne(code)
-            .orElse(null);
+    public SettingsResponseDto getAllAssociationSettings() {
+        final Collection<Setting> settings;
+
+        settings = service.getAll();
+        return SettingsDtoMapper.toResponseDto(settings);
     }
 
-    @PutMapping(path = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @Unsecured
+    public SettingResponseDto getAssociationSettingByCode(final String code) {
+        final Optional<Setting> setting;
+
+        setting = service.getOne(code);
+        return SettingsDtoMapper.toResponseDto(setting);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { SettingsCaches.PUBLIC }, allEntries = true) })
-    public Setting update(@PathVariable("code") final String code,
-            @Valid @RequestBody final SettingChange configuration) {
-        return service.update(code, configuration.getValue());
+    public SettingResponseDto updateAssociationSetting(final String code,
+            @Valid final SettingChangeDto settingChangeDto) {
+        final Setting setting;
+
+        setting = service.update(code, settingChangeDto.getValue());
+        return SettingsDtoMapper.toResponseDto(setting);
     }
 
 }

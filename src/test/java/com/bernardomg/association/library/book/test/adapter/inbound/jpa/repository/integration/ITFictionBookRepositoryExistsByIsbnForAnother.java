@@ -43,7 +43,7 @@ class ITFictionBookRepositoryExistsByIsbnForAnother {
     private FictionBookRepository repository;
 
     @Test
-    @DisplayName("When the fiction book exists and looking for another person, it exists")
+    @DisplayName("When the fiction book exists and looking for another book, it exists")
     @NoMembershipPerson
     @FullFictionBook
     void testExistsByIsbnForAnother() {
@@ -73,7 +73,7 @@ class ITFictionBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When the fiction book exists and looking for the same person, it doesn't exists")
+    @DisplayName("When the fiction book exists and looking for the same book, it doesn't exists")
     @NoMembershipPerson
     @FullFictionBook
     void testExistsByIsbnForAnother_SameNumber() {

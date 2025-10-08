@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, JpaSpecificationExecutor<FeeEntity> {
 
-    public void deleteByPersonIdAndDate(final Long personId, final YearMonth date);
+    public void deleteByPersonIdAndDate(final Long personId, final Instant date);
 
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
@@ -50,7 +50,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                WHERE p.number = :number
                  AND f.date = :date
             """)
-    public boolean existsByPersonNumberAndDate(@Param("number") final Long number, @Param("date") final YearMonth date);
+    public boolean existsByPersonNumberAndDate(@Param("number") final Long number, @Param("date") final Instant date);
 
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
@@ -58,10 +58,10 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                  INNER JOIN Person p ON p.id = f.personId
                WHERE p.number = :number
                  AND f.date = :date
-                 AND f.transactionId IS NOT NULL
+                 AND f.transaction IS NOT NULL
             """)
     public boolean existsByPersonNumberAndDateAndPaid(@Param("number") final Long number,
-            @Param("date") final YearMonth date);
+            @Param("date") final Instant date);
 
     /**
      * Returns all the fees in the received date.
@@ -70,13 +70,13 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      *            date to filter by
      * @return all the fees in the date
      */
-    public List<FeeEntity> findAllByDate(final YearMonth date);
+    public List<FeeEntity> findAllByDate(final Instant date);
 
     @Query("""
-            SELECT f
-            FROM Fee f
-               INNER JOIN Person p ON p.id = f.personId
-            WHERE p.number = :number
+               SELECT f
+               FROM Fee f
+                  INNER JOIN Person p ON p.id = f.personId
+               WHERE p.number = :number
             """)
     public Page<FeeEntity> findAllByPersonNumber(@Param("number") final Long number, final Pageable pageable);
 
@@ -84,41 +84,35 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT f
                FROM Person p
                  INNER JOIN Fee f ON p.id = f.personId
-                 LEFT JOIN Transaction t ON f.transactionId = t.id
+                 LEFT JOIN Transaction t ON f.transaction.id = t.id
                WHERE p.number = :memberNumber
                  AND f.date in :feeMonths
             """)
     public Collection<FeeEntity> findAllFeesByPersonNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
-            @Param("feeMonths") final Collection<YearMonth> feeMonths);
+            @Param("feeMonths") final Collection<Instant> feeMonths);
 
     /**
      * Returns all member fees inside the received range.
      *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
+     * @param year
+     *            year to filter by
      * @param sort
      *            sorting information
      * @return all member fees filtered by date range
      */
     @Query("""
-            SELECT f
-            FROM Fee f
-               INNER JOIN Person p ON p.id = f.personId
-            WHERE f.date >= :start
-              AND f.date <= :end
+               SELECT f
+               FROM Fee f
+                  INNER JOIN Person p ON p.id = f.personId
+               WHERE EXTRACT(YEAR FROM f.date) = :year
             """)
-    public Collection<FeeEntity> findAllInRange(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, final Sort sort);
+    public Collection<FeeEntity> findAllForYear(@Param("year") int year, Sort sort);
 
     /**
      * Returns all member fees with any of the received ids, and which are inside the received range.
      *
-     * @param start
-     *            starting date to search in
-     * @param end
-     *            end date to search in
+     * @param year
+     *            year to filter by
      * @param ids
      *            ids of the members to filter by
      * @param sort
@@ -129,12 +123,11 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             SELECT f
             FROM Fee f
                INNER JOIN Person p ON p.id = f.personId
-            WHERE f.date >= :start
-              AND f.date <= :end
+            WHERE EXTRACT(YEAR FROM f.date) = :year
               AND f.personId IN :ids
             """)
-    public Collection<FeeEntity> findAllInRangeForPersonsIn(@Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
+    public Collection<FeeEntity> findAllForYearAndPersonsIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
+            Sort sort);
 
     @Query("""
             SELECT f
@@ -152,7 +145,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<FeeEntity> findByPersonIdAndDate(final Long personId, final YearMonth date);
+    public Optional<FeeEntity> findByPersonIdAndDate(final Long personId, final Instant date);
 
     /**
      * Finds the fee for the member in the date.
@@ -163,7 +156,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      *            date to filter by
      * @return fee for the member in the date
      */
-    public Optional<FeeEntity> findByPersonNumberAndDate(final Long memberNumber, final YearMonth date);
+    public Optional<FeeEntity> findByPersonNumberAndDate(final Long memberNumber, final Instant date);
 
     /**
      * Returns all the years based on the existing fees.

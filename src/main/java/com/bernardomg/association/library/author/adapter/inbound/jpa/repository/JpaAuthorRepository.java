@@ -4,6 +4,8 @@ package com.bernardomg.association.library.author.adapter.inbound.jpa.repository
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,16 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 @Transactional
 public final class JpaAuthorRepository implements AuthorRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(JpaAuthorRepository.class);
 
     private final AuthorSpringRepository authorSpringRepository;
 
@@ -79,9 +84,9 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public final Iterable<Author> findAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<Author> read;
-        final Pageable         pageable;
+    public final Page<Author> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Author> read;
+        final Pageable                                     pageable;
 
         log.debug("Finding authors with pagination {} and sorting {}", pagination, sorting);
 
@@ -91,7 +96,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         log.debug("Found authors {}", read);
 
-        return read;
+        return SpringPagination.toPage(read);
     }
 
     @Override
@@ -151,10 +156,13 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     private final AuthorEntity toEntity(final Author domain) {
-        return AuthorEntity.builder()
-            .withNumber(domain.number())
-            .withName(domain.name())
-            .build();
+        final AuthorEntity entity;
+
+        entity = new AuthorEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+
+        return entity;
     }
 
 }

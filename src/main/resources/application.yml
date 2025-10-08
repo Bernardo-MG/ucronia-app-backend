@@ -7,21 +7,19 @@
 
 spring:
   data:
-    # Web data
     web:
       pageable:
         default-page-size: 10
-  # AOP
   aop:
     proxy-target-class: false
-  # Cache
   cache:
     cache-names: cache1
     caffeine:
       spec: maximumSize=500,expireAfterAccess=10m
-  # Liquibase
   liquibase:
     liquibase-schema: db_versioning
+  jackson:
+    time-zone: UTC
 
 # OpenAPI
 springdoc:

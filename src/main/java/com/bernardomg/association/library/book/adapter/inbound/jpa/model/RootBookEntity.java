@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Collection;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
@@ -21,15 +21,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "RootBook")
 @Table(schema = "inventory", name = "books")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class RootBookEntity {
@@ -41,7 +35,7 @@ public abstract class RootBookEntity {
     private Collection<AuthorEntity>    authors;
 
     @Column(name = "donation_date")
-    private LocalDate                   donationDate;
+    private Instant                     donationDate;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_donors",
@@ -64,7 +58,7 @@ public abstract class RootBookEntity {
     private Long                        number;
 
     @Column(name = "publish_date")
-    private LocalDate                   publishDate;
+    private Instant                     publishDate;
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_publishers",
@@ -80,5 +74,109 @@ public abstract class RootBookEntity {
 
     @Column(name = "title", nullable = false)
     private String                      title;
+
+    public Collection<AuthorEntity> getAuthors() {
+        return authors;
+    }
+
+    public Instant getDonationDate() {
+        return donationDate;
+    }
+
+    public Collection<PersonEntity> getDonors() {
+        return donors;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public Instant getPublishDate() {
+        return publishDate;
+    }
+
+    public Collection<PublisherEntity> getPublishers() {
+        return publishers;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public String getSupertitle() {
+        return supertitle;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setAuthors(final Collection<AuthorEntity> authors) {
+        this.authors = authors;
+    }
+
+    public void setDonationDate(final Instant donationDate) {
+        this.donationDate = donationDate;
+    }
+
+    public void setDonors(final Collection<PersonEntity> donors) {
+        this.donors = donors;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIsbn(final String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setLanguage(final String language) {
+        this.language = language;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
+    public void setPublishDate(final Instant publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public void setPublishers(final Collection<PublisherEntity> publishers) {
+        this.publishers = publishers;
+    }
+
+    public void setSubtitle(final String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setSupertitle(final String supertitle) {
+        this.supertitle = supertitle;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "RootBookEntity [authors=" + authors + ", donationDate=" + donationDate + ", donors=" + donors + ", id="
+                + id + ", isbn=" + isbn + ", language=" + language + ", number=" + number + ", publishDate="
+                + publishDate + ", publishers=" + publishers + ", subtitle=" + subtitle + ", supertitle=" + supertitle
+                + ", title=" + title + "]";
+    }
 
 }
