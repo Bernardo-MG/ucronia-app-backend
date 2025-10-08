@@ -17,14 +17,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MonthlyMemberBalance'
-    MemberBalanceQuery:
-      type: object
-      properties:
-        from:
-          $ref: '../common/dates.yml#/components/schemas/Month'
-          description: Start year-month for filtering.
-        to:
-          $ref: '../common/dates.yml#/components/schemas/Month'
-          description: End year-month for filtering.
-        memberNumber:
-          $ref: '../common/ids.yml#/components/schemas/Id'
