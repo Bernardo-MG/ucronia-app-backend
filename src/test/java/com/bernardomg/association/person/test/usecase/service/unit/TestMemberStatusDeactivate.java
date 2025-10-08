@@ -24,20 +24,24 @@
 
 package com.bernardomg.association.person.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.time.YearMonth;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,12 +59,13 @@ class TestMemberStatusDeactivate {
     }
 
     @Test
-    @DisplayName("When activating for the current month, the member is activated")
-    void testActivate_CurrentMonth() {
+    @DisplayName("When activating for the current month, the member is deactivated")
+    void testDeactivate_CurrentMonth() {
         final YearMonth date;
         final Long      number;
 
         // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
         date = YearMonth.now();
         number = PersonConstants.NUMBER;
 
@@ -68,12 +73,12 @@ class TestMemberStatusDeactivate {
         service.deactivate(date, number);
 
         // THEN
-        verify(personRepository).deactivate(number);
+        verify(personRepository).save(Persons.membershipInactiveNoRenew());
     }
 
     @Test
-    @DisplayName("When activating for the previous month, the member is not activated")
-    void testActivate_PreviousMonth() {
+    @DisplayName("When activating for the previous month, the member is not deactivated")
+    void testDeactivate_PreviousMonth() {
         final YearMonth date;
         final Long      number;
 
@@ -86,7 +91,7 @@ class TestMemberStatusDeactivate {
         service.deactivate(date, number);
 
         // THEN
-        verify(personRepository, Mockito.never()).deactivate(number);
+        verify(personRepository, never()).save(any());
     }
 
 }

@@ -84,25 +84,6 @@ public final class JpaPersonRepository implements PersonRepository {
     }
 
     @Override
-    public final void deactivate(final long number) {
-        final Optional<PersonEntity> read;
-        final PersonEntity           person;
-
-        log.trace("Deactivating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = personSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            person = read.get();
-            person.setActive(false);
-            personSpringRepository.save(person);
-
-            log.trace("Deactivated member {}", number);
-        }
-    }
-
-    @Override
     public final void deactivateAll(final Collection<Long> numbers) {
         final Collection<PersonEntity> read;
 

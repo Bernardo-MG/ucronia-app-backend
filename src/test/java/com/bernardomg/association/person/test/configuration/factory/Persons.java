@@ -77,6 +77,16 @@ public final class Persons {
             Optional.of(membership), List.of());
     }
 
+    public static final Person membershipInactiveNoRenew() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(false, false);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
+            Optional.of(membership), List.of());
+    }
+
     public static final Person membershipInactiveNew() {
         final PersonName name;
         final Membership membership;
