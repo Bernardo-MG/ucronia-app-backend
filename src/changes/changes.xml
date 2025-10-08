@@ -407,7 +407,19 @@
             Split books into game and fiction.
          </action>
       </release>
-      <release version="1.0.0" date="2025-03-15" description="">
+      <release version="0.6.0" date="2025-10-08" description="Backend corrections">
+         <action dev="bmg" type="update">
+            Using OpenAPI for endpoints.
+         </action>
+         <action dev="bmg" type="add">
+            Added validations.
+         </action>
+         <action dev="bmg" type="delete">
+            Removed Lombok.
+         </action>
+         <action dev="bmg" type="fix">
+            Lots of fixes.
+         </action>
       </release>
    </body>
 </document>
