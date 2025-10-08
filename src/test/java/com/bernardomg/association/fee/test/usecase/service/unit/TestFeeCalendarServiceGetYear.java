@@ -36,10 +36,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
+import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.configuration.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
@@ -63,8 +63,8 @@ class TestFeeCalendarServiceGetYear {
     @Test
     @DisplayName("When filtering by active the correct query is used")
     void testGetYear_Active() {
-        final Iterable<FeeCalendar> calendars;
-        final Sorting               sorting;
+        final Iterable<MemberFees> calendars;
+        final Sorting              sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
@@ -77,14 +77,14 @@ class TestFeeCalendarServiceGetYear {
 
         // THEN
         Assertions.assertThat(calendars)
-            .containsExactly(FeeCalendars.activePaidCurrentMonth());
+            .containsExactly(MembersFees.activePaidCurrentMonth());
     }
 
     @Test
     @DisplayName("When filtering by all the correct query is used")
     void testGetYear_All() {
-        final Iterable<FeeCalendar> calendars;
-        final Sorting               sorting;
+        final Iterable<MemberFees> calendars;
+        final Sorting              sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
@@ -98,14 +98,14 @@ class TestFeeCalendarServiceGetYear {
 
         // THEN
         Assertions.assertThat(calendars)
-            .containsExactly(FeeCalendars.activePaidCurrentMonth());
+            .containsExactly(MembersFees.activePaidCurrentMonth());
     }
 
     @Test
     @DisplayName("When filtering by inactive the correct query is used")
     void testGetYear_Inactive() {
-        final Iterable<FeeCalendar> calendars;
-        final Sorting               sorting;
+        final Iterable<MemberFees> calendars;
+        final Sorting              sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
@@ -118,7 +118,7 @@ class TestFeeCalendarServiceGetYear {
 
         // THEN
         Assertions.assertThat(calendars)
-            .containsExactly(FeeCalendars.inactivePaidCurrentMonth());
+            .containsExactly(MembersFees.inactivePaidCurrentMonth());
     }
 
 }

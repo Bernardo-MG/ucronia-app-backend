@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -35,7 +35,7 @@ public interface FeeRepository {
 
     public Optional<Fee> findOne(final Long number, final YearMonth date);
 
-    public FeeCalendarYearsRange findRange();
+    public YearsRange findRange();
 
     public Collection<Fee> save(final Collection<Fee> fees);
 

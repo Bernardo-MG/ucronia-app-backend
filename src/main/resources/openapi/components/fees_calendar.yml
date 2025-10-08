@@ -2,7 +2,7 @@ components:
   schemas:
     FeeCalendarMember:
       type: object
-      required: [number, name, membership]
+      required: [number, name, active]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -10,7 +10,7 @@ components:
           $ref: 'contacts.yml#/components/schemas/ContactName'
         active:
           type: boolean
-    FeeCalendarYearsRange:
+    YearsRange:
       type: object
       required: [years]
       properties:
@@ -19,36 +19,33 @@ components:
           items:
             type: integer
             example: 2023
-    FeeCalendar:
+    MemberFees:
       type: object
-      required: [member, year, months]
+      required: [member, months]
       properties:
         member:
           $ref: '#/components/schemas/FeeCalendarMember'
-        year:
-          type: integer
-          example: 2025
-        months:
+        fees:
           type: array
           items:
-            $ref: '#/components/schemas/FeeCalendarMonth'
-    FeeCalendarMonth:
+            $ref: '#/components/schemas/MemberFee'
+    MemberFee:
       type: object
-      required: [month, monthNumber, paid]
+      required: [month, paid]
       properties:
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         paid:
           type: boolean
-    FeeCalendarYearsRangeResponse:
+    YearsRangeResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/FeeCalendarYearsRange'
-    FeeCalendarResponse:
+          $ref: '#/components/schemas/YearsRange'
+    MemberFeesResponse:
       type: object
       properties:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/FeeCalendar'
+            $ref: '#/components/schemas/MemberFees'

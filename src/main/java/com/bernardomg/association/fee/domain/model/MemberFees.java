@@ -29,9 +29,9 @@ import java.util.Collection;
 
 import com.bernardomg.association.person.domain.model.PersonName;
 
-public record FeeCalendar(Member member, Collection<FeeCalendarMonth> months, Integer year) {
+public record MemberFees(Member member, Collection<Fee> fees) {
 
-    public record FeeCalendarMonth(YearMonth month, Boolean paid) {}
+    public record Fee(YearMonth month, Boolean paid) {}
 
     public static record Member(Long number, PersonName name, Boolean active) {}
 
