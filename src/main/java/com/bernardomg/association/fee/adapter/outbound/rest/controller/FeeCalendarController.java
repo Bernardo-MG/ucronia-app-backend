@@ -84,7 +84,7 @@ public class FeeCalendarController implements FeeCalendarApi {
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
-    public MemberFeesResponseDto getMemberFeeMonths(final Integer year, @NotNull @Valid final String status,
+    public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
             @Valid final List<String> sort) {
         final MemberStatus           memberStatus;
         final Sorting                sorting;
