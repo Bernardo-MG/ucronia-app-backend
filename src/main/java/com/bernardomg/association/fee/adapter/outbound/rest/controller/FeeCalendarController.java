@@ -90,6 +90,7 @@ public class FeeCalendarController implements FeeCalendarApi {
         final Sorting                sorting;
         final Collection<MemberFees> fees;
 
+        // TODO: use the fees listing and filter
         memberStatus = MemberStatus.valueOf(status);
         sorting = WebSorting.toSorting(sort);
         fees = service.getYear(Year.of(year), memberStatus, sorting);
