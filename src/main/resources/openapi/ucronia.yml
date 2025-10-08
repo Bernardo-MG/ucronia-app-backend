@@ -40,9 +40,9 @@ paths:
   /fee/pay:
     $ref: paths/fees_pay.yml
   /fee/calendar/range:
-    $ref: paths/fees_calendar_range.yml
+    $ref: paths/fees_range.yml
   /fee/calendar/{year}:
-    $ref: paths/fees_calendar.yml
+    $ref: paths/fees_for_member.yml
   /fee/balance:
     $ref: paths/fees_balance.yml
   /user/fee:

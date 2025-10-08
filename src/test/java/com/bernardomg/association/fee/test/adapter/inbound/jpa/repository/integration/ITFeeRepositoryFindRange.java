@@ -31,7 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
@@ -61,7 +61,7 @@ class ITFeeRepositoryFindRange {
     @MembershipActivePerson
     @FeeFullYear
     void testFindRange_FullYear() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -79,7 +79,7 @@ class ITFeeRepositoryFindRange {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindRange_FullYear_TwoMembers() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -94,7 +94,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a not paid fee for the next year, nothing is returned")
     @MembershipActivePerson
     void testFindRange_NextYear_NotPaid() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(false);
@@ -112,7 +112,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a paid fee for the next year, nothing is returned")
     @MembershipActivePerson
     void testFindRange_NextYear_Paid() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(true);
@@ -129,7 +129,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With no data, the range is empty")
     void testFindRange_NoData() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -144,7 +144,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With no fees, the range is empty")
     @MembershipActivePerson
     void testFindRange_NoFees() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -159,7 +159,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a not paid fee, the year range is returned")
     @MembershipActivePerson
     void testFindRange_NotPaid() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -177,7 +177,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a paid fee, the year range is returned")
     @MembershipActivePerson
     void testFindRange_Paid() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -195,7 +195,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a not paid fee, the year range is returned")
     @MembershipActivePerson
     void testFindRange_PreviousYear_NotPaid() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeePreviousYear(false);
@@ -213,7 +213,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a paid fee, the year range is returned")
     @MembershipActivePerson
     void testFindRange_PreviousYear_Paid() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeePreviousYear(true);
@@ -231,7 +231,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With two years connected, the year range is returned")
     @MembershipActivePerson
     void testFindRange_TwoConnectedYears() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeePreviousYear(true);
@@ -250,7 +250,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With two years connected and not in order, the year range is returned")
     @MembershipActivePerson
     void testFindRange_TwoConnectedYears_NotInOrder() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -269,7 +269,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With two years with a gap, the year range is returned")
     @MembershipActivePerson
     void testFindRange_TwoYearsWithGap() {
-        final FeeCalendarYearsRange range;
+        final YearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeTwoYearsBack(true);

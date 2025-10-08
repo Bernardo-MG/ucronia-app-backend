@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarDtoMapper;
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.data.domain.Sorting;
@@ -42,8 +42,8 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeCalendarApi;
-import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
-import com.bernardomg.ucronia.openapi.model.FeeCalendarYearsRangeResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
+import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -72,28 +72,28 @@ public class FeeCalendarController implements FeeCalendarApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
+    public YearsRangeResponseDto getFeesYearsRange() {
+        final YearsRange range;
+
+        range = service.getRange();
+
+        return FeeCalendarDtoMapper.toResponseDto(range);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.CALENDAR)
-    public FeeCalendarResponseDto getFeesCalendar(final Integer year, @NotNull @Valid final String status,
+    public MemberFeesResponseDto getMemberFeeMonths(final Integer year, @NotNull @Valid final String status,
             @Valid final List<String> sort) {
-        final MemberStatus            memberStatus;
-        final Sorting                 sorting;
-        final Collection<FeeCalendar> fees;
+        final MemberStatus           memberStatus;
+        final Sorting                sorting;
+        final Collection<MemberFees> fees;
 
         memberStatus = MemberStatus.valueOf(status);
         sorting = WebSorting.toSorting(sort);
         fees = service.getYear(Year.of(year), memberStatus, sorting);
         return FeeCalendarDtoMapper.toResponseDto(fees);
-    }
-
-    @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
-    public FeeCalendarYearsRangeResponseDto getFeesCalendarYearsRange() {
-        final FeeCalendarYearsRange range;
-
-        range = service.getRange();
-
-        return FeeCalendarDtoMapper.toResponseDto(range);
     }
 
 }

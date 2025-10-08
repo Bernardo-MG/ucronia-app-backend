@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
@@ -287,9 +287,9 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final FeeCalendarYearsRange findRange() {
-        final Collection<Year>      years;
-        final FeeCalendarYearsRange range;
+    public final YearsRange findRange() {
+        final Collection<Year> years;
+        final YearsRange       range;
 
         log.debug("Finding fees range");
 
@@ -297,7 +297,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .stream()
             .map(Year::of)
             .toList();
-        range = new FeeCalendarYearsRange(years);
+        range = new YearsRange(years);
 
         log.debug("Found fees range: {}", range);
 
