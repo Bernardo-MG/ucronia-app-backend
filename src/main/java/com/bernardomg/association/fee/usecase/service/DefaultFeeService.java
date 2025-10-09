@@ -24,10 +24,15 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.text.Normalizer;
 import java.time.Instant;
+import java.time.Year;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +50,8 @@ import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeMemberNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
@@ -53,8 +60,10 @@ import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExi
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNoDuplicatedMonthsRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
@@ -189,6 +198,71 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
+    public final Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting) {
+        final Collection<Fee>        readFees;
+        final Map<Object, List<Fee>> memberFees;
+        final Collection<MemberFees> calendarFees;
+        final Collection<MemberFees> sortedCalendarFees;
+        final Collection<Long>       memberNumbers;
+        final Comparator<MemberFees> feeCalendarComparator;
+        List<Fee>                    fees;
+        MemberFees                   calendarFee;
+        Collection<MemberFees.Fee>   membFees;
+        PersonName                   name;
+
+        log.info("Getting fee calendar for year {} and status {}", year, status);
+
+        // Select query based on status
+        readFees = switch (status) {
+            case ACTIVE -> feeRepository.findAllInYearForActiveMembers(year, sorting);
+            case INACTIVE -> feeRepository.findAllInYearForInactiveMembers(year, sorting);
+            default -> feeRepository.findAllInYear(year, sorting);
+        };
+
+        log.debug("Read fees: {}", readFees);
+
+        // Member fees grouped by id
+        memberFees = readFees.stream()
+            .collect(Collectors.groupingBy(f -> f.member()
+                .number()));
+        log.debug("Member fees: {}", memberFees);
+
+        // Sorted ids
+        memberNumbers = readFees.stream()
+            .map(Fee::member)
+            .map(Fee.Member::number)
+            .distinct()
+            .sorted()
+            .toList();
+        log.debug("Member numbers: {}", memberNumbers);
+
+        calendarFees = new ArrayList<>();
+        for (final Long memberNumber : memberNumbers) {
+            fees = memberFees.get(memberNumber);
+            membFees = fees.stream()
+                .map(this::toMemberFee)
+                .sorted(Comparator.comparing(MemberFees.Fee::month))
+                .toList();
+            name = fees.iterator()
+                .next()
+                .member()
+                .name();
+            calendarFee = toFeeYear(memberNumber, name, status, membFees);
+            calendarFees.add(calendarFee);
+        }
+        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.member()
+            .name()
+            .fullName()));
+        sortedCalendarFees = calendarFees.stream()
+            .sorted(feeCalendarComparator)
+            .collect(Collectors.toList());
+
+        log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
+
+        return sortedCalendarFees;
+    }
+
+    @Override
     public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
         final boolean       personExists;
         final Optional<Fee> fee;
@@ -210,6 +284,19 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Got fee for {} in {}: {}", personNumber, date, fee);
 
         return fee;
+    }
+
+    @Override
+    public final YearsRange getRange() {
+        final YearsRange range;
+
+        log.info("Getting fee calendar range");
+
+        range = feeRepository.findRange();
+
+        log.debug("Got fee calendar range: {}", range);
+
+        return range;
     }
 
     @Override
@@ -368,6 +455,12 @@ public final class DefaultFeeService implements FeeService {
         return changed;
     }
 
+    private final String normalizeString(final String input) {
+        // TODO: test this
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+            .replaceAll("\\p{M}", "");
+    }
+
     private final Transaction savePaymentTransaction(final Person person, final Collection<Fee> fees,
             final Instant payDate) {
         final Transaction           transaction;
@@ -408,6 +501,26 @@ public final class DefaultFeeService implements FeeService {
     private final void sendFeePaidEvent(final Fee fee) {
         eventEmitter.emit(new FeePaidEvent(fee, fee.month(), fee.member()
             .number()));
+    }
+
+    private final MemberFees toFeeYear(final Long personNumber, final PersonName name, final MemberStatus status,
+            final Collection<MemberFees.Fee> fees) {
+        final boolean           active;
+        final MemberFees.Member person;
+
+        active = switch (status) {
+            case ACTIVE -> true;
+            case INACTIVE -> false;
+            // TODO: get all active in a single query
+            default -> personRepository.isActive(personNumber);
+        };
+
+        person = new MemberFees.Member(personNumber, name, active);
+        return new MemberFees(person, fees);
+    }
+
+    private final MemberFees.Fee toMemberFee(final Fee fee) {
+        return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
     private final Fee toPaidFee(final Person person, final YearMonth month, final Transaction transaction) {

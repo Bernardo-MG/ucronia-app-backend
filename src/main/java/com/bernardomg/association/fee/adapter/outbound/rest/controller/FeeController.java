@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.Instant;
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
@@ -37,12 +38,16 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarDtoMapper;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.data.domain.Page;
@@ -58,9 +63,12 @@ import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
+import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Fee REST controller.
@@ -141,6 +149,33 @@ public class FeeController implements FeeApi {
         fees = service.getAll(query, pagination, sorting);
 
         return FeeDtoMapper.toResponseDto(fees);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
+    public YearsRangeResponseDto getFeesYearsRange() {
+        final YearsRange range;
+
+        range = service.getRange();
+
+        return FeeCalendarDtoMapper.toResponseDto(range);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = FeeCaches.CALENDAR)
+    public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
+            @Valid final List<String> sort) {
+        final MemberStatus           memberStatus;
+        final Sorting                sorting;
+        final Collection<MemberFees> fees;
+
+        // TODO: use the fees listing and filter
+        memberStatus = MemberStatus.valueOf(status);
+        sorting = WebSorting.toSorting(sort);
+        fees = service.getForYear(Year.of(year), memberStatus, sorting);
+        return FeeCalendarDtoMapper.toResponseDto(fees);
     }
 
     @Override

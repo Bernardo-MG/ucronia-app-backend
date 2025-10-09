@@ -37,23 +37,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.YearsRanges;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee calendar service - get range")
-class TestFeeCalendarServiceGetRange {
+@DisplayName("Fee service - get range")
+class TestFeeServiceGetRange {
 
     @Mock
-    private FeeRepository             feeRepository;
+    private FeeRepository     feeRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private PersonRepository  personRepository;
 
     @InjectMocks
-    private DefaultFeeCalendarService service;
+    private DefaultFeeService service;
 
-    public TestFeeCalendarServiceGetRange() {
+    public TestFeeServiceGetRange() {
         super();
     }
 
