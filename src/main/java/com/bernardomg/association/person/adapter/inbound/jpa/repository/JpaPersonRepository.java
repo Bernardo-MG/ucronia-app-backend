@@ -2,6 +2,7 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -48,71 +49,6 @@ public final class JpaPersonRepository implements PersonRepository {
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-    }
-
-    @Override
-    public final void activate(final long number) {
-        final Optional<PersonEntity> read;
-        final PersonEntity           person;
-
-        log.trace("Activating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = personSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            person = read.get();
-            person.setActive(true);
-            person.setRenewMembership(true);
-            personSpringRepository.save(person);
-
-            log.trace("Activated member {}", number);
-        }
-    }
-
-    @Override
-    public final void activateAll(final Collection<Long> numbers) {
-        final Collection<PersonEntity> read;
-
-        log.trace("Activating members {}", numbers);
-
-        read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActive(true));
-        personSpringRepository.saveAll(read);
-
-        log.trace("Activated members {}", numbers);
-    }
-
-    @Override
-    public final void deactivate(final long number) {
-        final Optional<PersonEntity> read;
-        final PersonEntity           person;
-
-        log.trace("Deactivating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = personSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            person = read.get();
-            person.setActive(false);
-            personSpringRepository.save(person);
-
-            log.trace("Deactivated member {}", number);
-        }
-    }
-
-    @Override
-    public final void deactivateAll(final Collection<Long> numbers) {
-        final Collection<PersonEntity> read;
-
-        log.trace("Deactivating members {}", numbers);
-
-        read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActive(false));
-        personSpringRepository.saveAll(read);
-
-        log.trace("Deactivated members {}", numbers);
     }
 
     @Override
@@ -275,11 +211,6 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
-        if (entity.getMember()) {
-            entity.setMember(entity.getMember());
-            entity.setActive(entity.getActive());
-        }
-
         created = personSpringRepository.save(entity);
 
         // TODO: Why not returning the saved one?
@@ -288,6 +219,27 @@ public final class JpaPersonRepository implements PersonRepository {
             .get();
 
         log.debug("Saved person {}", saved);
+
+        return saved;
+    }
+
+    @Override
+    public Collection<Person> saveAll(final Collection<Person> persons) {
+        final List<PersonEntity> entities;
+        final List<Person>       saved;
+
+        log.debug("Saving persons {}", persons);
+
+        entities = persons.stream()
+            .map(this::toEntity)
+            .toList();
+
+        saved = personSpringRepository.saveAll(entities)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Saved persons {}", saved);
 
         return saved;
     }
