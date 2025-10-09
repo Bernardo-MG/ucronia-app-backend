@@ -63,7 +63,7 @@ public final class FeeNotPaidInFutureRule implements FieldRule<Fee> {
         exists = date.map(d -> d.isAfter(today));
         if (exists.isPresent() && exists.get()) {
             log.error("Attempting to pay fee at future date {}", date.get());
-            fieldFailure = new FieldFailure("invalid", "paymentDate", date.get());
+            fieldFailure = new FieldFailure("invalid", "transaction.date", date.get());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
