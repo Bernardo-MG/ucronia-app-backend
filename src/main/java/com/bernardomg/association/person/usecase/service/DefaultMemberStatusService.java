@@ -5,6 +5,7 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +47,9 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     @Override
     public final void applyRenewal() {
         final Collection<Person> persons;
-        final Collection<Long>   toActivate;
-        final Collection<Long>   toDeactivate;
+        final Collection<Person> toActivate;
+        final Collection<Person> toDeactivate;
+        final Collection<Person> toSave;
 
         log.debug("Applying membership renewals");
 
@@ -57,26 +59,25 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             .filter(p -> !p.membership()
                 .get()
                 .active())
-            .map(Person::number)
+            .map(this::activated)
             .toList();
-        // TODO: activate outside the repo
-        personRepository.activateAll(toActivate);
 
         toDeactivate = persons.stream()
             .filter(p -> p.membership()
                 .get()
                 .active())
-            .map(Person::number)
+            .map(this::deactivated)
             .toList();
-        // TODO: deactivate outside the repo
-        personRepository.deactivateAll(toDeactivate);
+
+        toSave = Stream.concat(toActivate.stream(), toDeactivate.stream())
+            .toList();
+        personRepository.saveAll(toSave);
     }
 
     @Override
     public final void deactivate(final YearMonth date, final Long personNumber) {
         final Optional<Person> person;
         final Person           disabled;
-        final Membership       membership;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
@@ -87,18 +88,26 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             if (person.isEmpty()) {
                 log.warn("Missing person {}", personNumber);
             } else {
-                membership = new Membership(false, false);
-                disabled = new Person(person.get()
-                    .identifier(), personNumber,
-                    person.get()
-                        .name(),
-                    person.get()
-                        .birthDate(),
-                    Optional.of(membership), person.get()
-                        .contacts());
+                disabled = deactivated(person.get());
                 personRepository.save(disabled);
             }
         }
+    }
+
+    private final Person activated(final Person original) {
+        final Membership membership;
+
+        membership = new Membership(true, true);
+        return new Person(original.identifier(), original.number(), original.name(), original.birthDate(),
+            Optional.of(membership), original.contacts());
+    }
+
+    private final Person deactivated(final Person original) {
+        final Membership membership;
+
+        membership = new Membership(false, false);
+        return new Person(original.identifier(), original.number(), original.name(), original.birthDate(),
+            Optional.of(membership), original.contacts());
     }
 
 }

@@ -2,6 +2,7 @@
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -68,32 +69,6 @@ public final class JpaPersonRepository implements PersonRepository {
 
             log.trace("Activated member {}", number);
         }
-    }
-
-    @Override
-    public final void activateAll(final Collection<Long> numbers) {
-        final Collection<PersonEntity> read;
-
-        log.trace("Activating members {}", numbers);
-
-        read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActive(true));
-        personSpringRepository.saveAll(read);
-
-        log.trace("Activated members {}", numbers);
-    }
-
-    @Override
-    public final void deactivateAll(final Collection<Long> numbers) {
-        final Collection<PersonEntity> read;
-
-        log.trace("Deactivating members {}", numbers);
-
-        read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActive(false));
-        personSpringRepository.saveAll(read);
-
-        log.trace("Deactivated members {}", numbers);
     }
 
     @Override
@@ -256,11 +231,6 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
-        if (entity.getMember()) {
-            entity.setMember(entity.getMember());
-            entity.setActive(entity.getActive());
-        }
-
         created = personSpringRepository.save(entity);
 
         // TODO: Why not returning the saved one?
@@ -269,6 +239,27 @@ public final class JpaPersonRepository implements PersonRepository {
             .get();
 
         log.debug("Saved person {}", saved);
+
+        return saved;
+    }
+
+    @Override
+    public Collection<Person> saveAll(final Collection<Person> persons) {
+        final List<PersonEntity> entities;
+        final List<Person>       saved;
+
+        log.debug("Saving persons {}", persons);
+
+        entities = persons.stream()
+            .map(this::toEntity)
+            .toList();
+
+        saved = personSpringRepository.saveAll(entities)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+
+        log.debug("Saved persons {}", saved);
 
         return saved;
     }

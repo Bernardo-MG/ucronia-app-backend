@@ -12,11 +12,8 @@ import com.bernardomg.data.domain.Sorting;
 
 public interface PersonRepository {
 
+    @Deprecated
     public void activate(final long number);
-
-    public void activateAll(final Collection<Long> numbers);
-
-    public void deactivateAll(final Collection<Long> numbers);
 
     public void delete(final long number);
 
@@ -39,5 +36,7 @@ public interface PersonRepository {
     public boolean isActive(final long number);
 
     public Person save(final Person person);
+
+    public Collection<Person> saveAll(final Collection<Person> persons);
 
 }
