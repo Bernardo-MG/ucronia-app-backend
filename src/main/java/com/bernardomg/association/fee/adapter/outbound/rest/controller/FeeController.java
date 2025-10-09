@@ -38,7 +38,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeCalendarDtoMapper;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -159,7 +158,7 @@ public class FeeController implements FeeApi {
 
         range = service.getRange();
 
-        return FeeCalendarDtoMapper.toResponseDto(range);
+        return FeeDtoMapper.toResponseDto(range);
     }
 
     @Override
@@ -175,7 +174,7 @@ public class FeeController implements FeeApi {
         memberStatus = MemberStatus.valueOf(status);
         sorting = WebSorting.toSorting(sort);
         fees = service.getForYear(Year.of(year), memberStatus, sorting);
-        return FeeCalendarDtoMapper.toResponseDto(fees);
+        return FeeDtoMapper.toMemberResponseDto(fees);
     }
 
     @Override

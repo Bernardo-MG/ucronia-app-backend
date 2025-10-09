@@ -24,27 +24,37 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeeDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeesDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
 import com.bernardomg.ucronia.openapi.model.MinimalTransactionDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
+import com.bernardomg.ucronia.openapi.model.YearsRangeDto;
+import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 public final class FeeDtoMapper {
 
@@ -70,6 +80,12 @@ public final class FeeDtoMapper {
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {
         return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
+    }
+
+    public static final MemberFeesResponseDto toMemberResponseDto(final Collection<MemberFees> fees) {
+        return new MemberFeesResponseDto().content(fees.stream()
+            .map(FeeDtoMapper::toDto)
+            .toList());
     }
 
     public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {
@@ -109,6 +125,16 @@ public final class FeeDtoMapper {
             .sort(sortingResponse);
     }
 
+    public static final YearsRangeResponseDto toResponseDto(final YearsRange range) {
+        final List<Integer> years;
+
+        years = range.years()
+            .stream()
+            .map(Year::getValue)
+            .toList();
+        return new YearsRangeResponseDto().content(new YearsRangeDto().years(years));
+    }
+
     private static final FeeDto toDto(final Fee fee) {
         final ContactNameDto        contactName;
         final MinimalContactDto     member;
@@ -141,6 +167,38 @@ public final class FeeDtoMapper {
             .paid(fee.paid())
             .member(member)
             .transaction(transaction);
+    }
+
+    private static final MemberFeesDto toDto(final MemberFees memberFee) {
+        final FeeCalendarMemberDto member;
+        final ContactNameDto       contactName;
+        final List<MemberFeeDto>   months;
+
+        contactName = new ContactNameDto().firstName(memberFee.member()
+            .name()
+            .firstName())
+            .lastName(memberFee.member()
+                .name()
+                .lastName())
+            .fullName(memberFee.member()
+                .name()
+                .fullName());
+        member = new FeeCalendarMemberDto().name(contactName)
+            .number(memberFee.member()
+                .number())
+            .active(memberFee.member()
+                .active());
+        months = memberFee.fees()
+            .stream()
+            .map(FeeDtoMapper::toDto)
+            .toList();
+        return new MemberFeesDto().member(member)
+            .fees(months);
+    }
+
+    private static final MemberFeeDto toDto(final MemberFees.Fee fee) {
+        return new MemberFeeDto().month(fee.month())
+            .paid(fee.paid());
     }
 
     private static final PropertyDto toDto(final Property property) {
