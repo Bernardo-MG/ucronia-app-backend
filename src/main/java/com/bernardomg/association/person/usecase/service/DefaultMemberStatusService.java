@@ -35,12 +35,22 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     @Override
     public final void activate(final YearMonth date, final Long personNumber) {
+        final Optional<Person> person;
+        final Person           activated;
+
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Activating member status for person {}", personNumber);
-            // If paying for the current month, the user is set to active
-            // TODO: modify in the service and save
-            personRepository.activate(personNumber);
+            log.debug("Activating membership for {}", personNumber);
+            person = personRepository.findOne(personNumber);
+
+            if (person.isEmpty()) {
+                log.warn("Missing person {}", personNumber);
+            } else {
+                activated = activated(person.get());
+                personRepository.save(activated);
+
+                log.debug("Activated membership for {}", personNumber);
+            }
         }
     }
 
@@ -77,7 +87,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     @Override
     public final void deactivate(final YearMonth date, final Long personNumber) {
         final Optional<Person> person;
-        final Person           disabled;
+        final Person           deactivated;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
@@ -88,8 +98,10 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             if (person.isEmpty()) {
                 log.warn("Missing person {}", personNumber);
             } else {
-                disabled = deactivated(person.get());
-                personRepository.save(disabled);
+                deactivated = deactivated(person.get());
+                personRepository.save(deactivated);
+
+                log.debug("Deactivated membership for {}", personNumber);
             }
         }
     }

@@ -12,9 +12,6 @@ import com.bernardomg.data.domain.Sorting;
 
 public interface PersonRepository {
 
-    @Deprecated
-    public void activate(final long number);
-
     public void delete(final long number);
 
     public boolean exists(final long number);
