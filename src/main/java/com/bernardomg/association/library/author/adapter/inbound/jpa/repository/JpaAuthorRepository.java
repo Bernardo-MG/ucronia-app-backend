@@ -34,6 +34,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
+import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntityMapper;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.data.domain.Page;
@@ -115,7 +116,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = authorSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(AuthorEntityMapper::toDomain);
 
         log.debug("Found authors {}", read);
 
@@ -142,7 +143,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
         log.debug("Finding author with name {}", number);
 
         author = authorSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(AuthorEntityMapper::toDomain);
 
         log.debug("Found author with name {}: {}", number, author);
 
@@ -158,7 +159,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         log.debug("Saving author {}", author);
 
-        entity = toEntity(author);
+        entity = AuthorEntityMapper.toEntity(author);
 
         existing = authorSpringRepository.findByNumber(author.number());
         if (existing.isPresent()) {
@@ -167,25 +168,11 @@ public final class JpaAuthorRepository implements AuthorRepository {
         }
 
         created = authorSpringRepository.save(entity);
-        saved = toDomain(created);
+        saved = AuthorEntityMapper.toDomain(created);
 
         log.debug("Saved author {}", saved);
 
         return saved;
-    }
-
-    private final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getNumber(), entity.getName());
-    }
-
-    private final AuthorEntity toEntity(final Author domain) {
-        final AuthorEntity entity;
-
-        entity = new AuthorEntity();
-        entity.setNumber(domain.number());
-        entity.setName(domain.name());
-
-        return entity;
     }
 
 }

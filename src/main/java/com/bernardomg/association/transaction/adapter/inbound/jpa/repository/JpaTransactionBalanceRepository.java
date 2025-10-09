@@ -40,6 +40,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionBalanceEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.MonthlyBalanceSpecifications;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
@@ -146,21 +147,12 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         balance = monthlyBalanceRepository.findAll(spec, sort);
 
         monthlyBalance = balance.stream()
-            .map(this::toDomain)
+            .map(TransactionBalanceEntityMapper::toDomain)
             .toList();
 
         log.debug("Found monthly balance {}", monthlyBalance);
 
         return monthlyBalance;
-    }
-
-    private final TransactionMonthlyBalance toDomain(final MonthlyBalanceEntity entity) {
-        final YearMonth month;
-        final LocalDate monthParsed;
-
-        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
-        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
-        return new TransactionMonthlyBalance(month, entity.getResults(), entity.getTotal());
     }
 
 }

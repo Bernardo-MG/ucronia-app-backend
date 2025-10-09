@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
@@ -54,7 +55,6 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposito
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -226,10 +226,6 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         return saved;
     }
 
-    private final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getNumber(), entity.getName());
-    }
-
     private final FictionBook toDomain(final FictionBookEntity entity) {
         final Collection<Publisher>       publishers;
         final Collection<Donor>           donors;
@@ -247,7 +243,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         } else {
             publishers = entity.getPublishers()
                 .stream()
-                .map(this::toDomain)
+                .map(BookEntityMapper::toDomain)
                 .toList();
         }
 
@@ -257,7 +253,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         } else {
             authors = entity.getAuthors()
                 .stream()
-                .map(this::toDomain)
+                .map(BookEntityMapper::toDomain)
                 .toList();
         }
 
@@ -267,7 +263,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         } else {
             donors = entity.getDonors()
                 .stream()
-                .map(this::toDonorDomain)
+                .map(BookEntityMapper::toDonorDomain)
                 .toList();
         }
         if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
@@ -307,27 +303,9 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final Optional<Borrower> borrower;
         // TODO: should not contain all the member data
         borrower = personSpringRepository.findById(entity.getPersonId())
-            .map(this::toDomain);
+            .map(BookEntityMapper::toDomain);
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
-    }
-
-    private final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
-    }
-
-    private final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
-    }
-
-    private final Donor toDonorDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Donor(entity.getNumber(), name);
     }
 
     private final FictionBookEntity toEntity(final FictionBook domain) {

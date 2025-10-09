@@ -34,6 +34,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
+import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntityMapper;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.data.domain.Page;
@@ -115,7 +116,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = bookTypeSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(BookTypeEntityMapper::toDomain);
 
         log.debug("Found book types {}", read);
 
@@ -142,7 +143,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         log.debug("Finding book type with name {}", number);
 
         bookType = bookTypeSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(BookTypeEntityMapper::toDomain);
 
         log.debug("Found book type with name {}: {}", number, bookType);
 
@@ -158,7 +159,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
         log.debug("Saving book type {}", bookType);
 
-        entity = toEntity(bookType);
+        entity = BookTypeEntityMapper.toEntity(bookType);
 
         existing = bookTypeSpringRepository.findByNumber(bookType.number());
         if (existing.isPresent()) {
@@ -167,25 +168,11 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         }
 
         created = bookTypeSpringRepository.save(entity);
-        saved = toDomain(created);
+        saved = BookTypeEntityMapper.toDomain(created);
 
         log.debug("Saved book type {}", saved);
 
         return saved;
-    }
-
-    private final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getNumber(), entity.getName());
-    }
-
-    private final BookTypeEntity toEntity(final BookType domain) {
-        final BookTypeEntity entity;
-
-        entity = new BookTypeEntity();
-        entity.setNumber(domain.number());
-        entity.setName(domain.name());
-
-        return entity;
     }
 
 }

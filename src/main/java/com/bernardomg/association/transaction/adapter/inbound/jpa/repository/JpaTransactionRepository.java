@@ -39,6 +39,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
@@ -108,7 +109,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         sort = SpringSorting.toSort(sorting);
         read = transactionSpringRepository.findAll(sort)
             .stream()
-            .map(this::toDomain)
+            .map(TransactionEntityMapper::toDomain)
             .toList();
 
         log.debug("Found transactions {}", read);
@@ -135,7 +136,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
             page = transactionSpringRepository.findAll(spec.get(), pageable);
         }
 
-        read = page.map(this::toDomain);
+        read = page.map(TransactionEntityMapper::toDomain);
 
         log.debug("Found transactions {}", read);
 
@@ -154,7 +155,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         spec = TransactionSpecifications.betweenIncluding(from, to);
         transactions = transactionSpringRepository.findAll(spec, sort)
             .stream()
-            .map(this::toDomain)
+            .map(TransactionEntityMapper::toDomain)
             .toList();
 
         log.debug("Forund transactions in range from {} to {}: {}", from, to, transactions);
@@ -182,7 +183,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         log.debug("Finding transaction with index {}", index);
 
         transaction = transactionSpringRepository.findByIndex(index)
-            .map(this::toDomain);
+            .map(TransactionEntityMapper::toDomain);
 
         log.debug("Found transaction with index {}: {}", index, transaction);
 
@@ -217,7 +218,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Saving transaction {}", transaction);
 
-        entity = toEntity(transaction);
+        entity = TransactionEntityMapper.toEntity(transaction);
 
         existing = transactionSpringRepository.findByIndex(transaction.index());
         if (existing.isPresent()) {
@@ -226,28 +227,11 @@ public final class JpaTransactionRepository implements TransactionRepository {
         }
 
         created = transactionSpringRepository.save(entity);
-        saved = toDomain(created);
+        saved = TransactionEntityMapper.toDomain(created);
 
         log.debug("Saved transaction {}", saved);
 
         return saved;
-    }
-
-    private final Transaction toDomain(final TransactionEntity transaction) {
-        return new Transaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
-            transaction.getDescription());
-    }
-
-    private final TransactionEntity toEntity(final Transaction transaction) {
-        final TransactionEntity entity;
-
-        entity = new TransactionEntity();
-        entity.setIndex(transaction.index());
-        entity.setDescription(transaction.description());
-        entity.setDate(transaction.date());
-        entity.setAmount(transaction.amount());
-
-        return entity;
     }
 
 }

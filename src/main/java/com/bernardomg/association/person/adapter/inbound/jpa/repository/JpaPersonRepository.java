@@ -39,14 +39,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntityMapper;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
 import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
-import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.Person.PersonContact;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -134,10 +132,10 @@ public final class JpaPersonRepository implements PersonRepository {
         spec = PersonSpecifications.filter(filter);
         if (spec.isEmpty()) {
             read = personSpringRepository.findAll(pageable)
-                .map(this::toDomain);
+                .map(PersonEntityMapper::toDomain);
         } else {
             read = personSpringRepository.findAll(spec.get(), pageable)
-                .map(this::toDomain);
+                .map(PersonEntityMapper::toDomain);
         }
 
         log.debug("Found all the people: {}", read);
@@ -153,7 +151,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         persons = personSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
             .stream()
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the members to renew: {}", persons);
@@ -169,7 +167,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         persons = personSpringRepository.findAllWithRenewalMismatch()
             .stream()
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the people with a renewal mismatch: {}", persons);
@@ -197,7 +195,7 @@ public final class JpaPersonRepository implements PersonRepository {
         log.debug("Finding person with number {}", number);
 
         person = personSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(PersonEntityMapper::toDomain);
 
         log.debug("Found person with number {}: {}", number, person);
 
@@ -238,7 +236,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         // TODO: Why not returning the saved one?
         saved = personSpringRepository.findByNumber(created.getNumber())
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .get();
 
         log.debug("Saved person {}", saved);
@@ -259,44 +257,12 @@ public final class JpaPersonRepository implements PersonRepository {
 
         saved = personSpringRepository.saveAll(entities)
             .stream()
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved persons {}", saved);
 
         return saved;
-    }
-
-    private final ContactMethod toDomain(final ContactMethodEntity entity) {
-        return new ContactMethod(entity.getNumber(), entity.getName());
-    }
-
-    private final PersonContact toDomain(final PersonContactMethodEntity entity) {
-        final ContactMethod method;
-
-        method = toDomain(entity.getContactMethod());
-        return new PersonContact(method, entity.getContact());
-    }
-
-    private final Person toDomain(final PersonEntity entity) {
-        final PersonName                name;
-        final Optional<Membership>      membership;
-        final Collection<PersonContact> contacts;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        if (!entity.getMember()) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
-        }
-
-        contacts = entity.getContacts()
-            .stream()
-            .map(this::toDomain)
-            .toList();
-
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
-            contacts);
     }
 
     private final PersonEntity toEntity(final Person data) {

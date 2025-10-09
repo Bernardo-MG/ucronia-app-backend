@@ -34,6 +34,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntity;
+import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntityMapper;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
@@ -64,7 +65,7 @@ public final class JpaSettingsRepository implements SettingRepository {
 
         settings = settingSpringRepository.findAll(sort)
             .stream()
-            .map(this::toDomain)
+            .map(SettingsEntityMapper::toDomain)
             .toList();
 
         log.trace("Found all the settings: {}", settings);
@@ -79,7 +80,7 @@ public final class JpaSettingsRepository implements SettingRepository {
         log.trace("Finding setting with code {}", code);
 
         setting = settingSpringRepository.findByCode(code)
-            .map(this::toDomain);
+            .map(SettingsEntityMapper::toDomain);
 
         log.trace("Found setting with code {}: {}", code, setting);
 
@@ -95,7 +96,7 @@ public final class JpaSettingsRepository implements SettingRepository {
         log.trace("Finding float setting value with code {}", code);
 
         read = settingSpringRepository.findByCode(code)
-            .map(this::toDomain);
+            .map(SettingsEntityMapper::toDomain);
         if (read.isPresent()) {
             text = read.get()
                 .value();
@@ -117,7 +118,7 @@ public final class JpaSettingsRepository implements SettingRepository {
 
         log.trace("Saving setting {}", setting);
 
-        entity = toEntity(setting);
+        entity = SettingsEntityMapper.toEntity(setting);
 
         existing = settingSpringRepository.findByCode(setting.code());
         if (existing.isPresent()) {
@@ -129,22 +130,7 @@ public final class JpaSettingsRepository implements SettingRepository {
 
         log.trace("Saved setting {}", saved);
 
-        return toDomain(saved);
-    }
-
-    private final Setting toDomain(final SettingsEntity entity) {
-        return new Setting(entity.getType(), entity.getCode(), entity.getValue());
-    }
-
-    private final SettingsEntity toEntity(final Setting model) {
-        SettingsEntity entity;
-
-        entity = new SettingsEntity();
-        entity.setCode(model.code());
-        entity.setValue(model.value());
-        entity.setType(model.type());
-
-        return entity;
+        return SettingsEntityMapper.toDomain(saved);
     }
 
 }

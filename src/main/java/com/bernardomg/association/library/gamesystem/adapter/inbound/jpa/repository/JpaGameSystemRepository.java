@@ -34,6 +34,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
+import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntityMapper;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.data.domain.Page;
@@ -115,7 +116,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = gameSystemSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(GameSystemEntityMapper::toDomain);
 
         log.debug("Found game systems {}", read);
 
@@ -142,7 +143,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         log.debug("Finding game system with name {}", number);
 
         gameSystem = gameSystemSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(GameSystemEntityMapper::toDomain);
 
         log.debug("Found game system with name {}: {}", number, gameSystem);
 
@@ -158,7 +159,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Saving game system {}", gameSystem);
 
-        entity = toEntity(gameSystem);
+        entity = GameSystemEntityMapper.toEntity(gameSystem);
 
         existing = gameSystemSpringRepository.findByNumber(gameSystem.number());
         if (existing.isPresent()) {
@@ -167,24 +168,11 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         }
 
         created = gameSystemSpringRepository.save(entity);
-        saved = toDomain(created);
+        saved = GameSystemEntityMapper.toDomain(created);
 
         log.debug("Saved game system {}", saved);
 
         return saved;
-    }
-
-    private final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getNumber(), entity.getName());
-    }
-
-    private final GameSystemEntity toEntity(final GameSystem domain) {
-        final GameSystemEntity entity;
-
-        entity = new GameSystemEntity();
-        entity.setNumber(domain.number());
-        entity.setName(domain.name());
-        return entity;
     }
 
 }

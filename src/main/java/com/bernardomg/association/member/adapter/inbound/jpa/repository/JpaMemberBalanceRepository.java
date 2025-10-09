@@ -25,9 +25,6 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,6 +37,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MonthlyMemberBalanceSpecifications;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
@@ -85,21 +83,12 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
         }
 
         monthlyBalances = balances.stream()
-            .map(this::toDomain)
+            .map(MonthlyMemberBalanceEntityMapper::toDomain)
             .toList();
 
         log.debug("Found balance from {} to {}: {}", from, to, monthlyBalances);
 
         return monthlyBalances;
-    }
-
-    private final MonthlyMemberBalance toDomain(final MonthlyMemberBalanceEntity entity) {
-        final YearMonth month;
-        final LocalDate monthParsed;
-
-        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
-        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
-        return new MonthlyMemberBalance(month, entity.getTotal());
     }
 
 }

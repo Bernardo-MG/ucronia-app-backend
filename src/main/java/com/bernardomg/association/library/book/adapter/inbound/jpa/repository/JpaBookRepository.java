@@ -34,9 +34,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -47,11 +47,8 @@ import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.PersonName;
 
 @Repository
 @Transactional
@@ -91,10 +88,6 @@ public final class JpaBookRepository implements BookRepository {
         return book;
     }
 
-    private final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getNumber(), entity.getName());
-    }
-
     private final Book toDomain(final BookEntity entity) {
         final Collection<Publisher>   publishers;
         final Collection<Donor>       donors;
@@ -112,7 +105,7 @@ public final class JpaBookRepository implements BookRepository {
         } else {
             publishers = entity.getPublishers()
                 .stream()
-                .map(this::toDomain)
+                .map(BookEntityMapper::toDomain)
                 .toList();
         }
 
@@ -122,7 +115,7 @@ public final class JpaBookRepository implements BookRepository {
         } else {
             authors = entity.getAuthors()
                 .stream()
-                .map(this::toDomain)
+                .map(BookEntityMapper::toDomain)
                 .toList();
         }
 
@@ -132,7 +125,7 @@ public final class JpaBookRepository implements BookRepository {
         } else {
             donors = entity.getDonors()
                 .stream()
-                .map(this::toDonorDomain)
+                .map(BookEntityMapper::toDonorDomain)
                 .toList();
         }
         if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
@@ -175,28 +168,10 @@ public final class JpaBookRepository implements BookRepository {
 
         // TODO: should not contain all the member data
         borrower = personSpringRepository.findById(entity.getPersonId())
-            .map(this::toDomain);
+            .map(BookEntityMapper::toDomain);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
         return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
-    }
-
-    private final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
-    }
-
-    private final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
-    }
-
-    private final Donor toDonorDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Donor(entity.getNumber(), name);
     }
 
 }

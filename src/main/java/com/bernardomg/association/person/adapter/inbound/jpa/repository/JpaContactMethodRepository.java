@@ -33,6 +33,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntityMapper;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.data.domain.Page;
@@ -98,7 +99,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = contactMethodSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(ContactMethodEntityMapper::toDomain);
 
         log.debug("Found all the contact methods: {}", read);
 
@@ -125,7 +126,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
         log.debug("Finding contact method with number {}", number);
 
         ContactMethod = contactMethodSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(ContactMethodEntityMapper::toDomain);
 
         log.debug("Found contact method with number {}: {}", number, ContactMethod);
 
@@ -141,7 +142,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         log.debug("Saving person {}", person);
 
-        entity = toEntity(person);
+        entity = ContactMethodEntityMapper.toEntity(person);
 
         existing = contactMethodSpringRepository.findByNumber(person.number());
         if (existing.isPresent()) {
@@ -153,26 +154,12 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         // TODO: Why not returning the saved one?
         saved = contactMethodSpringRepository.findByNumber(created.getNumber())
-            .map(this::toDomain)
+            .map(ContactMethodEntityMapper::toDomain)
             .get();
 
         log.debug("Saved person {}", saved);
 
         return saved;
-    }
-
-    private final ContactMethod toDomain(final ContactMethodEntity entity) {
-        return new ContactMethod(entity.getNumber(), entity.getName());
-    }
-
-    private final ContactMethodEntity toEntity(final ContactMethod data) {
-        final ContactMethodEntity entity;
-
-        entity = new ContactMethodEntity();
-        entity.setNumber(data.number());
-        entity.setName(data.name());
-
-        return entity;
     }
 
 }

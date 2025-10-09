@@ -33,11 +33,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -69,7 +68,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = personSpringRepository.findAllActiveMembers(pageable)
-            .map(this::toDomain);
+            .map(MemberEntityMapper::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
@@ -83,19 +82,11 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding public member with number {}", number);
 
         member = personSpringRepository.findByNumberWithMembership(number)
-            .map(this::toDomain);
+            .map(MemberEntityMapper::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);
 
         return member;
-    }
-
-    private final Member toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership flag
-        return new Member(entity.getNumber(), name);
     }
 
 }

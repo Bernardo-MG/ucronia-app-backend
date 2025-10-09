@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
+import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntityMapper;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.data.domain.Page;
@@ -115,7 +116,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = publisherSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(PublisherEntityMapper::toDomain);
 
         log.debug("Found publishers {}", read);
 
@@ -142,7 +143,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
         log.debug("Finding publisher with name {}", number);
 
         publisher = publisherSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(PublisherEntityMapper::toDomain);
 
         log.debug("Found publisher with name {}: {}", number, publisher);
 
@@ -158,7 +159,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         log.debug("Saving publisher {}", publisher);
 
-        entity = toEntity(publisher);
+        entity = PublisherEntityMapper.toEntity(publisher);
 
         existing = publisherSpringRepository.findByNumber(publisher.number());
         if (existing.isPresent()) {
@@ -167,25 +168,11 @@ public final class JpaPublisherRepository implements PublisherRepository {
         }
 
         created = publisherSpringRepository.save(entity);
-        saved = toDomain(created);
+        saved = PublisherEntityMapper.toDomain(created);
 
         log.debug("Saved publisher {}", saved);
 
         return saved;
-    }
-
-    private final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
-    }
-
-    private final PublisherEntity toEntity(final Publisher domain) {
-        final PublisherEntity entity;
-
-        entity = new PublisherEntity();
-        entity.setNumber(domain.number());
-        entity.setName(domain.name());
-
-        return entity;
     }
 
 }

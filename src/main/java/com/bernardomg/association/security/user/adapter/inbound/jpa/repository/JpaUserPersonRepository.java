@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,9 +34,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntityMapper;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
 import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
 import com.bernardomg.data.domain.Page;
@@ -90,7 +89,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
             userMember.setUser(user.get());
 
             userPersonSpringRepository.save(userMember);
-            result = toDomain(person.get());
+            result = PersonEntityMapper.toDomain(person.get());
 
             log.trace("Assigned person {} to username {}", number, username);
         } else {
@@ -124,7 +123,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = userPersonSpringRepository.findAllNotAssigned(pageable)
-            .map(this::toDomain);
+            .map(PersonEntityMapper::toDomain);
 
         log.trace("Found all the people: {}", read);
 
@@ -146,7 +145,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
                 .getId());
             if ((userMember.isPresent()) && (userMember.get()
                 .getPerson() != null)) {
-                person = Optional.of(toDomain(userMember.get()
+                person = Optional.of(PersonEntityMapper.toDomain(userMember.get()
                     .getPerson()));
             } else {
                 person = Optional.empty();
@@ -182,14 +181,6 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
         }
 
         return person;
-    }
-
-    private final Person toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), Optional.empty(),
-            List.of());
     }
 
 }
