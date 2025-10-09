@@ -96,7 +96,7 @@ public class FeeController implements FeeApi {
                     key = "#result.content.member.number + ':' + #result.content.month") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
-                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
                     // Funds caches
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
                     TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
@@ -116,7 +116,7 @@ public class FeeController implements FeeApi {
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"), @CacheEvict(cacheNames = {
             // Fee caches
-            FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+            FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
             // Funds caches
             MembersCaches.MONTHLY_BALANCE,
             // Member caches
@@ -152,7 +152,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.CALENDAR_RANGE)
+    @Cacheable(cacheNames = FeeCaches.YEAR_RANGE)
     public YearsRangeResponseDto getFeesYearsRange() {
         final YearsRange range;
 
@@ -163,7 +163,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.CALENDAR)
+    @Cacheable(cacheNames = FeeCaches.MEMBER_FEES)
     public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
             @Valid final List<String> sort) {
         final MemberStatus           memberStatus;
@@ -192,7 +192,7 @@ public class FeeController implements FeeApi {
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
-            FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+            FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
             // Funds caches
             TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
             TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
@@ -217,7 +217,7 @@ public class FeeController implements FeeApi {
                     key = "#result.content.member.number + ':' + #result.content.month") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
-                    FeeCaches.FEES, FeeCaches.CALENDAR, FeeCaches.CALENDAR_RANGE,
+                    FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
                     // Funds caches
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
                     TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
