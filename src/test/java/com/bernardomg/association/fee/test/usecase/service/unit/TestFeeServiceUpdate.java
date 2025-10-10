@@ -253,7 +253,8 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paidInFuture());
 
         // THEN
-        failure = new FieldFailure("invalid", "transaction.date", "transaction.date.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+        failure = new FieldFailure("invalid", "transaction.date", "transaction.date.invalid",
+            FeeConstants.PAYMENT_DATE_FUTURE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

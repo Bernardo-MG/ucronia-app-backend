@@ -158,16 +158,9 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee delete(final long personNumber, final YearMonth date) {
-        final boolean personExists;
         final Fee     fee;
 
         log.info("Deleting fee for {} in {}", personNumber, date);
-
-        personExists = personRepository.exists(personNumber);
-        if (!personExists) {
-            log.error("Missing person {}", personNumber);
-            throw new MissingPersonException(personNumber);
-        }
 
         fee = feeRepository.findOne(personNumber, date)
             .orElseThrow(() -> {
@@ -263,16 +256,9 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Optional<Fee> getOne(final long personNumber, final YearMonth date) {
-        final boolean       personExists;
         final Optional<Fee> fee;
 
         log.info("Getting fee for {} in {}", personNumber, date);
-
-        personExists = personRepository.exists(personNumber);
-        if (!personExists) {
-            log.error("Missing person {}", personNumber);
-            throw new MissingPersonException(personNumber);
-        }
 
         fee = feeRepository.findOne(personNumber, date);
         if (fee.isEmpty()) {

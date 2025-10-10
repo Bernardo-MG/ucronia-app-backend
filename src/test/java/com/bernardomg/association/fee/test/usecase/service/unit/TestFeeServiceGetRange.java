@@ -33,25 +33,41 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.YearsRanges;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get range")
 class TestFeeServiceGetRange {
 
     @Mock
-    private FeeRepository     feeRepository;
+    private EventEmitter              eventEmitter;
 
     @Mock
-    private PersonRepository  personRepository;
+    private FeeRepository             feeRepository;
+
+    @Mock
+    private MessageSource             messageSource;
+
+    @Mock
+    private PersonRepository          personRepository;
 
     @InjectMocks
-    private DefaultFeeService service;
+    private DefaultFeeService         service;
+
+    @Mock
+    private AssociationSettingsSource settingsSource;
+
+    @Mock
+    private TransactionRepository     transactionRepository;
 
     public TestFeeServiceGetRange() {
         super();
