@@ -253,7 +253,7 @@ class TestFeeServiceUpdate {
         execution = () -> service.update(Fees.paidInFuture());
 
         // THEN
-        failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
+        failure = new FieldFailure("invalid", "transaction.date", "transaction.date.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -429,27 +429,6 @@ class TestFeeServiceUpdate {
 
         // THEN
         verify(feeRepository).save(toUpdate);
-    }
-
-    @Test
-    @DisplayName("When the person is changed, an exception is thrown")
-    void testUpdate_PersonTransaction() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE))
-            .willReturn(Optional.of(Fees.alternativePerson()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.update(Fees.paid());
-
-        // THEN
-        failure = new FieldFailure("modified", "member", "member.modified", TransactionConstants.INDEX);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
