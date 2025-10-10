@@ -158,7 +158,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee delete(final long personNumber, final YearMonth date) {
-        final Fee     fee;
+        final Fee fee;
 
         log.info("Deleting fee for {} in {}", personNumber, date);
 
@@ -286,7 +286,6 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
-        final Collection<Fee> newFees;
         final Collection<Fee> feesToSave;
         final Person          person;
         final Collection<Fee> created;
@@ -303,12 +302,7 @@ public final class DefaultFeeService implements FeeService {
 
         validatorPay.validate(feesPayments);
 
-        newFees = feesPayments.months()
-            .stream()
-            .map(d -> toUnpaidFee(person, d))
-            .toList();
-
-        transaction = savePaymentTransaction(person, newFees, feesPayments.paymentDate());
+        transaction = savePaymentTransaction(person, feesPayments.months(), feesPayments.paymentDate());
 
         feesToSave = feesPayments.months()
             .stream()
@@ -379,7 +373,7 @@ public final class DefaultFeeService implements FeeService {
 
         if (addedPayment(fee)) {
             // Added payment
-            transaction = savePaymentTransaction(person, List.of(fee), fee.transaction()
+            transaction = savePaymentTransaction(person, List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
             toSave = toPaidFee(person, fee.month(), transaction);
@@ -446,20 +440,15 @@ public final class DefaultFeeService implements FeeService {
             .replaceAll("\\p{M}", "");
     }
 
-    private final Transaction savePaymentTransaction(final Person person, final Collection<Fee> fees,
+    private final Transaction savePaymentTransaction(final Person person, final Collection<YearMonth> feeMonths,
             final Instant payDate) {
-        final Transaction           transaction;
-        final Float                 feeAmount;
-        final String                name;
-        final String                dates;
-        final String                message;
-        final Object[]              messageArguments;
-        final Long                  index;
-        final Collection<YearMonth> feeMonths;
-
-        feeMonths = fees.stream()
-            .map(Fee::month)
-            .toList();
+        final Transaction transaction;
+        final Float       feeAmount;
+        final String      name;
+        final String      dates;
+        final String      message;
+        final Object[]    messageArguments;
+        final Long        index;
 
         // Calculate amount
         feeAmount = settingsSource.getFeeAmount() * feeMonths.size();
