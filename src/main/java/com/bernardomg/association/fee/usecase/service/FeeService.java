@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
@@ -31,6 +32,9 @@ import java.util.Optional;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -80,6 +84,19 @@ public interface FeeService {
     public Page<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
+     * Returns all the member fees for a year.
+     *
+     * @param year
+     *            year to read
+     * @param status
+     *            member active status
+     * @param sorting
+     *            sorting to apply
+     * @return all the member fees for a year
+     */
+    public Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting);
+
+    /**
      * Returns the fee for the received member in the received date, if it exists. Otherwise an empty {@code Optional}
      * is returned.
      *
@@ -90,6 +107,14 @@ public interface FeeService {
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Fee> getOne(final long memberNumber, final YearMonth date);
+
+    /**
+     * Returns the range of available years. These are all the years which have fees assigned, except for any future
+     * year.
+     *
+     * @return the range of available years
+     */
+    public YearsRange getRange();
 
     /**
      * Pays fees for a member. This creates the fees for the received months, and registers a payment on the received

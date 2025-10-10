@@ -83,7 +83,7 @@ public class PersonController implements PersonApi {
                     // Person caches
                     PersonsCaches.PERSONS,
                     // Fee caches
-                    FeeCaches.CALENDAR,
+                    FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public PersonResponseDto createPerson(@Valid final PersonCreationDto personCreationDto) {
@@ -102,7 +102,7 @@ public class PersonController implements PersonApi {
             // Person caches
             PersonsCaches.PERSONS,
             // Fee caches
-            FeeCaches.CALENDAR,
+            FeeCaches.MEMBER_FEES,
             // Member caches
             MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public PersonResponseDto deletePerson(final Long number) {
@@ -155,7 +155,7 @@ public class PersonController implements PersonApi {
                     // Person caches
                     PersonsCaches.PERSONS,
                     // Fee caches
-                    FeeCaches.CALENDAR,
+                    FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public PersonResponseDto patchPerson(final Long number, @Valid final PersonChangeDto personChangeDto) {
@@ -175,7 +175,7 @@ public class PersonController implements PersonApi {
                     // Person caches
                     PersonsCaches.PERSONS,
                     // Fee caches
-                    FeeCaches.CALENDAR,
+                    FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public PersonResponseDto updatePerson(final Long number, @Valid final PersonChangeDto personChangeDto) {
