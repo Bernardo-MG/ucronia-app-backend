@@ -30,9 +30,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.schedule.event.MonthStartEvent;
 
 /**
  * Listens for the month start event and applies the renewal status.
