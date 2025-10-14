@@ -24,6 +24,8 @@
 
 package com.bernardomg.association;
 
+import java.util.Locale;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -48,6 +50,8 @@ public class UcroniaApplication {
      *            execution parameters
      */
     public static void main(final String[] args) {
+        // TODO: This shouldn't be needed
+        Locale.setDefault(Locale.of("es", "ES"));
         SpringApplication.run(UcroniaApplication.class, args);
     }
 

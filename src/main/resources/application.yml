@@ -6,6 +6,12 @@
 # debug: true
 
 spring:
+  mvc:
+    locale: es
+    locale-resolver: fixed
+  messages:
+    encoding: UTF-8
+    basename: messages,security-messages/messages
   data:
     web:
       pageable:
