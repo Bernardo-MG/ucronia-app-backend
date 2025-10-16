@@ -46,6 +46,7 @@ services:
       - spring.mail.port=1025
       - spring.mail.username=username
       - spring.mail.password=password
+      - email.security.appName=Ucronía
       - email.security.from=security@somewhere.com
       - email.security.activateUser.url=http://localhost:4200/users/activate
       - email.security.passwordRecovery.url=http://localhost:4200/password/reset/

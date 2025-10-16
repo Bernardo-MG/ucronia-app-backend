@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.repository;
 
@@ -15,13 +38,13 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEnt
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -157,10 +180,10 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             .number());
 
         if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            toCreate = toEntity(lending, bookEntity.get(), personEntity.get());
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), personEntity.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = toDomain(created, bookEntity.get(), personEntity.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), personEntity.get());
 
             log.debug("Saved book lending {}", lending);
         } else {
@@ -179,7 +202,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
         borrower = personSpringRepository.findById(entity.getPersonId())
-            .map(this::toDomain);
+            .map(BookLendingEntityMapper::toDomain);
         title = new Title(bookEntity.get()
             .getSupertitle(),
             bookEntity.get()
@@ -189,38 +212,6 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         lentBook = new LentBook(bookEntity.get()
             .getNumber(), title);
         return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
-    }
-
-    private final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final PersonEntity personEntity) {
-        final Borrower borrower;
-        final LentBook lentBook;
-        final Title    title;
-
-        borrower = toDomain(personEntity);
-        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
-    }
-
-    private final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
-    }
-
-    private final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
-            final PersonEntity personEntity) {
-        final BookLendingEntity entity;
-
-        entity = new BookLendingEntity();
-        entity.setBookId(bookEntity.getId());
-        entity.setPersonId(personEntity.getId());
-        entity.setLendingDate(domain.lendingDate());
-        entity.setReturnDate(domain.returnDate());
-
-        return entity;
     }
 
 }

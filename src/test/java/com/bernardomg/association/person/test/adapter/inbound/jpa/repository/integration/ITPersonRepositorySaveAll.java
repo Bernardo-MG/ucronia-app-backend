@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.person.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -33,73 +34,63 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.domain.model.Person;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersonRepository - deactivate all")
-class ITPersonRepositoryDeactivateAll {
+@DisplayName("PersonRepository - save")
+class ITPersonRepositorySaveAll {
 
     @Autowired
-    private PersonSpringRepository repository;
+    private PersonRepository       repository;
 
     @Autowired
-    private PersonRepository       springRepository;
+    private PersonSpringRepository springRepository;
 
-    @Test
-    @DisplayName("With an existing active member, it is deactivated")
-    @MembershipActivePerson
-    void testDeactivateAll_Active() {
-        final Iterable<PersonEntity> entities;
-
-        // WHEN
-        springRepository.deactivateAll(List.of(PersonConstants.NUMBER));
-
-        // THEN
-        entities = repository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("membership.person")
-            .containsExactly(PersonEntities.membershipInactive());
+    public ITPersonRepositorySaveAll() {
+        super();
     }
 
     @Test
-    @DisplayName("With an existing inactive member, nothing changed")
-    @MembershipInactivePerson
-    void testDeactivateAll_Inactive() {
+    @DisplayName("With a valid person, the person is persisted")
+    void testSave_PersistedData() {
+        final Person                 person;
         final Iterable<PersonEntity> entities;
 
+        // GIVEN
+        person = Persons.noMembership();
+
         // WHEN
-        springRepository.deactivateAll(List.of(PersonConstants.NUMBER));
+        repository.saveAll(List.of(person));
 
         // THEN
-        entities = repository.findAll();
+        entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("membership.person")
-            .containsExactly(PersonEntities.membershipInactive());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(PersonEntities.noMembership());
     }
 
     @Test
-    @DisplayName("With no member, nothing changes")
-    void testDeactivateAll_NoData() {
-        final Iterable<PersonEntity> entities;
+    @DisplayName("With a valid person, the created person is returned")
+    void testSave_ReturnedData() {
+        final Person             person;
+        final Collection<Person> saved;
+
+        // GIVEN
+        person = Persons.noMembership();
 
         // WHEN
-        springRepository.deactivateAll(List.of(PersonConstants.NUMBER));
+        saved = repository.saveAll(List.of(person));
 
         // THEN
-        entities = repository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .isEmpty();
+        Assertions.assertThat(saved)
+            .as("person")
+            .containsExactly(Persons.noMembership());
     }
 
 }

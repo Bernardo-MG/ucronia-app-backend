@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository;
 
@@ -11,6 +34,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
+import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntityMapper;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.data.domain.Page;
@@ -92,7 +116,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = gameSystemSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(GameSystemEntityMapper::toDomain);
 
         log.debug("Found game systems {}", read);
 
@@ -119,7 +143,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         log.debug("Finding game system with name {}", number);
 
         gameSystem = gameSystemSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(GameSystemEntityMapper::toDomain);
 
         log.debug("Found game system with name {}: {}", number, gameSystem);
 
@@ -135,7 +159,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Saving game system {}", gameSystem);
 
-        entity = toEntity(gameSystem);
+        entity = GameSystemEntityMapper.toEntity(gameSystem);
 
         existing = gameSystemSpringRepository.findByNumber(gameSystem.number());
         if (existing.isPresent()) {
@@ -144,24 +168,11 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         }
 
         created = gameSystemSpringRepository.save(entity);
-        saved = toDomain(created);
+        saved = GameSystemEntityMapper.toDomain(created);
 
         log.debug("Saved game system {}", saved);
 
         return saved;
-    }
-
-    private final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getNumber(), entity.getName());
-    }
-
-    private final GameSystemEntity toEntity(final GameSystem domain) {
-        final GameSystemEntity entity;
-
-        entity = new GameSystemEntity();
-        entity.setNumber(domain.number());
-        entity.setName(domain.name());
-        return entity;
     }
 
 }

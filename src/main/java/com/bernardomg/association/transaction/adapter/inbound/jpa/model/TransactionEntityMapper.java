@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,52 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.event.domain;
+package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
-import java.time.YearMonth;
-import java.util.Objects;
-
-import com.bernardomg.event.domain.AbstractEvent;
+import com.bernardomg.association.transaction.domain.model.Transaction;
 
 /**
- * New month has started event.
+ * Author repository mapper.
  */
-public final class MonthStartEvent extends AbstractEvent {
+public final class TransactionEntityMapper {
 
-    private static final long serialVersionUID = 7173269718677701462L;
-
-    private final YearMonth   month;
-
-    public MonthStartEvent(final Object source, final YearMonth date) {
-        super(source);
-
-        month = date;
+    public static final Transaction toDomain(final TransactionEntity transaction) {
+        return new Transaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
+            transaction.getDescription());
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        final MonthStartEvent other = (MonthStartEvent) obj;
-        return Objects.equals(month, other.month);
+    public static final TransactionEntity toEntity(final Transaction transaction) {
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
+        entity.setIndex(transaction.index());
+        entity.setDescription(transaction.description());
+        entity.setDate(transaction.date());
+        entity.setAmount(transaction.amount());
+
+        return entity;
     }
 
-    public YearMonth getMonth() {
-        return month;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), month);
-    }
-
-    @Override
-    public String toString() {
-        return "MonthStartEvent [month=" + month + "]";
+    private TransactionEntityMapper() {
+        super();
     }
 
 }

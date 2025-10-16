@@ -1,9 +1,34 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.person.usecase.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 
 @Service
@@ -32,20 +58,31 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     @Override
     public final void activate(final YearMonth date, final Long personNumber) {
+        final Optional<Person> person;
+        final Person           activated;
+
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Activating member status for person {}", personNumber);
-            // If paying for the current month, the user is set to active
-            // TODO: modify in the service and save
-            personRepository.activate(personNumber);
+            log.debug("Activating membership for {}", personNumber);
+            person = personRepository.findOne(personNumber);
+
+            if (person.isEmpty()) {
+                log.warn("Missing person {}", personNumber);
+            } else {
+                activated = activated(person.get());
+                personRepository.save(activated);
+
+                log.debug("Activated membership for {}", personNumber);
+            }
         }
     }
 
     @Override
     public final void applyRenewal() {
         final Collection<Person> persons;
-        final Collection<Long>   toActivate;
-        final Collection<Long>   toDeactivate;
+        final Collection<Person> toActivate;
+        final Collection<Person> toDeactivate;
+        final Collection<Person> toSave;
 
         log.debug("Applying membership renewals");
 
@@ -55,27 +92,57 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             .filter(p -> !p.membership()
                 .get()
                 .active())
-            .map(Person::number)
+            .map(this::activated)
             .toList();
-        personRepository.activateAll(toActivate);
 
         toDeactivate = persons.stream()
             .filter(p -> p.membership()
                 .get()
                 .active())
-            .map(Person::number)
+            .map(this::deactivated)
             .toList();
-        personRepository.deactivateAll(toDeactivate);
+
+        toSave = Stream.concat(toActivate.stream(), toDeactivate.stream())
+            .toList();
+        personRepository.saveAll(toSave);
     }
 
     @Override
     public final void deactivate(final YearMonth date, final Long personNumber) {
+        final Optional<Person> person;
+        final Person           deactivated;
+
+        // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Deactivating member status for person {}", personNumber);
-            // If deleting at the current month, the user is set to inactive
-            personRepository.deactivate(personNumber);
+            log.debug("Deactivating membership for {}", personNumber);
+            person = personRepository.findOne(personNumber);
+
+            if (person.isEmpty()) {
+                log.warn("Missing person {}", personNumber);
+            } else {
+                deactivated = deactivated(person.get());
+                personRepository.save(deactivated);
+
+                log.debug("Deactivated membership for {}", personNumber);
+            }
         }
+    }
+
+    private final Person activated(final Person original) {
+        final Membership membership;
+
+        membership = new Membership(true, true);
+        return new Person(original.identifier(), original.number(), original.name(), original.birthDate(),
+            Optional.of(membership), original.contacts());
+    }
+
+    private final Person deactivated(final Person original) {
+        final Membership membership;
+
+        membership = new Membership(false, false);
+        return new Person(original.identifier(), original.number(), original.name(), original.birthDate(),
+            Optional.of(membership), original.contacts());
     }
 
 }

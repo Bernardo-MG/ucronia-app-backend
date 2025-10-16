@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,6 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
@@ -88,7 +87,6 @@ class TestFeeServiceDelete {
     @DisplayName("When deleting the current month fee, an event is sent")
     void testDelete_CurrentMonth_SendEvent() {
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH))
             .willReturn(Optional.of(Fees.paidCurrentMonth()));
 
@@ -116,7 +114,6 @@ class TestFeeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
@@ -128,26 +125,9 @@ class TestFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("With a not existing member, an exception is thrown")
-    void testDelete_NotExistingPerson() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.delete(PersonConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
-    }
-
-    @Test
     @DisplayName("When deleting the previous month fee, an event is sent")
     void testDelete_PreviousMonth_SendEvent() {
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.PREVIOUS_MONTH))
             .willReturn(Optional.of(Fees.paidPreviousMonth()));
 
@@ -173,7 +153,6 @@ class TestFeeServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN

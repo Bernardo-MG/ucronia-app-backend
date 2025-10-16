@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,43 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.service;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.time.Year;
-import java.util.Collection;
-
-import com.bernardomg.association.fee.domain.model.MemberFees;
-import com.bernardomg.association.fee.domain.model.YearsRange;
-import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.domain.model.PersonName;
 
 /**
- * Fee calendar service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Author repository mapper.
  */
-public interface FeeCalendarService {
+public final class MemberEntityMapper {
 
-    /**
-     * Returns the range of available years. These are all the years which have fees assigned, except for any future
-     * year.
-     *
-     * @return the range of available years
-     */
-    public YearsRange getRange();
+    public static final Member toDomain(final PersonEntity entity) {
+        final PersonName name;
 
-    /**
-     * Returns all the member fees for a year.
-     *
-     * @param year
-     *            year to read
-     * @param status
-     *            member active status
-     * @param sorting
-     *            sorting to apply
-     * @return all the member fees for a year
-     */
-    public Collection<MemberFees> getYear(final Year year, final MemberStatus status, final Sorting sorting);
+        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        // TODO: check it has membership flag
+        return new Member(entity.getNumber(), name);
+    }
+
+    private MemberEntityMapper() {
+        super();
+    }
 
 }

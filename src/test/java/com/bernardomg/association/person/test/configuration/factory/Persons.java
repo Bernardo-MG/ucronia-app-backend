@@ -20,6 +20,16 @@ public final class Persons {
             PersonConstants.BIRTH_DATE, Optional.empty(), List.of());
     }
 
+    public static final Person alternativeMembershipActive() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
+        membership = new Membership(true, true);
+        return new Person(PersonConstants.ALTERNATIVE_IDENTIFIER, PersonConstants.ALTERNATIVE_NUMBER, name,
+            PersonConstants.BIRTH_DATE, Optional.of(membership), List.of());
+    }
+
     public static final Person alternativeMembershipInactive() {
         final PersonName name;
         final Membership membership;
@@ -84,6 +94,16 @@ public final class Persons {
         name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
         membership = new Membership(false, false);
         return new Person("", PersonConstants.NUMBER, name, null, Optional.of(membership), List.of());
+    }
+
+    public static final Person membershipInactiveNoRenew() {
+        final PersonName name;
+        final Membership membership;
+
+        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
+        membership = new Membership(false, false);
+        return new Person(PersonConstants.IDENTIFIER, PersonConstants.NUMBER, name, PersonConstants.BIRTH_DATE,
+            Optional.of(membership), List.of());
     }
 
     public static final Person nameChange() {

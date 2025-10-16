@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultMemberStatusService;
 
@@ -65,8 +64,7 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).activateAll(List.of());
-        verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
+        verify(personRepository).saveAll(List.of(Persons.membershipInactiveNoRenew()));
     }
 
     @Test
@@ -80,8 +78,8 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).activateAll(List.of(PersonConstants.ALTERNATIVE_NUMBER));
-        verify(personRepository).deactivateAll(List.of(PersonConstants.NUMBER));
+        verify(personRepository)
+            .saveAll(List.of(Persons.alternativeMembershipActive(), Persons.membershipInactiveNoRenew()));
     }
 
     @Test
@@ -94,8 +92,7 @@ class TestMemberStatusApplyRenewal {
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).activateAll(List.of(PersonConstants.NUMBER));
-        verify(personRepository).deactivateAll(List.of());
+        verify(personRepository).saveAll(List.of(Persons.membershipActive()));
     }
 
 }

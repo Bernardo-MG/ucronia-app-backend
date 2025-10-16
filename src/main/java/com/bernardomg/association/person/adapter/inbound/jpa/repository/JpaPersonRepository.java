@@ -1,7 +1,31 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.person.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,14 +39,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntityMapper;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.PersonSpecifications;
 import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.PersonFilter;
-import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.Person.Membership;
 import com.bernardomg.association.person.domain.model.Person.PersonContact;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -48,71 +70,6 @@ public final class JpaPersonRepository implements PersonRepository {
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-    }
-
-    @Override
-    public final void activate(final long number) {
-        final Optional<PersonEntity> read;
-        final PersonEntity           person;
-
-        log.trace("Activating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = personSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            person = read.get();
-            person.setActive(true);
-            person.setRenewMembership(true);
-            personSpringRepository.save(person);
-
-            log.trace("Activated member {}", number);
-        }
-    }
-
-    @Override
-    public final void activateAll(final Collection<Long> numbers) {
-        final Collection<PersonEntity> read;
-
-        log.trace("Activating members {}", numbers);
-
-        read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActive(true));
-        personSpringRepository.saveAll(read);
-
-        log.trace("Activated members {}", numbers);
-    }
-
-    @Override
-    public final void deactivate(final long number) {
-        final Optional<PersonEntity> read;
-        final PersonEntity           person;
-
-        log.trace("Deactivating member {}", number);
-
-        // TODO: throw an exception if it doesn't exist
-
-        read = personSpringRepository.findByNumber(number);
-        if (read.isPresent()) {
-            person = read.get();
-            person.setActive(false);
-            personSpringRepository.save(person);
-
-            log.trace("Deactivated member {}", number);
-        }
-    }
-
-    @Override
-    public final void deactivateAll(final Collection<Long> numbers) {
-        final Collection<PersonEntity> read;
-
-        log.trace("Deactivating members {}", numbers);
-
-        read = personSpringRepository.findAllByNumberIn(numbers);
-        read.forEach(p -> p.setActive(false));
-        personSpringRepository.saveAll(read);
-
-        log.trace("Deactivated members {}", numbers);
     }
 
     @Override
@@ -175,10 +132,10 @@ public final class JpaPersonRepository implements PersonRepository {
         spec = PersonSpecifications.filter(filter);
         if (spec.isEmpty()) {
             read = personSpringRepository.findAll(pageable)
-                .map(this::toDomain);
+                .map(PersonEntityMapper::toDomain);
         } else {
             read = personSpringRepository.findAll(spec.get(), pageable)
-                .map(this::toDomain);
+                .map(PersonEntityMapper::toDomain);
         }
 
         log.debug("Found all the people: {}", read);
@@ -194,7 +151,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         persons = personSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
             .stream()
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the members to renew: {}", persons);
@@ -210,7 +167,7 @@ public final class JpaPersonRepository implements PersonRepository {
 
         persons = personSpringRepository.findAllWithRenewalMismatch()
             .stream()
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the people with a renewal mismatch: {}", persons);
@@ -238,7 +195,7 @@ public final class JpaPersonRepository implements PersonRepository {
         log.debug("Finding person with number {}", number);
 
         person = personSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(PersonEntityMapper::toDomain);
 
         log.debug("Found person with number {}: {}", number, person);
 
@@ -275,16 +232,11 @@ public final class JpaPersonRepository implements PersonRepository {
                 .getId());
         }
 
-        if (entity.getMember()) {
-            entity.setMember(entity.getMember());
-            entity.setActive(entity.getActive());
-        }
-
         created = personSpringRepository.save(entity);
 
         // TODO: Why not returning the saved one?
         saved = personSpringRepository.findByNumber(created.getNumber())
-            .map(this::toDomain)
+            .map(PersonEntityMapper::toDomain)
             .get();
 
         log.debug("Saved person {}", saved);
@@ -292,36 +244,25 @@ public final class JpaPersonRepository implements PersonRepository {
         return saved;
     }
 
-    private final ContactMethod toDomain(final ContactMethodEntity entity) {
-        return new ContactMethod(entity.getNumber(), entity.getName());
-    }
+    @Override
+    public Collection<Person> saveAll(final Collection<Person> persons) {
+        final List<PersonEntity> entities;
+        final List<Person>       saved;
 
-    private final PersonContact toDomain(final PersonContactMethodEntity entity) {
-        final ContactMethod method;
+        log.debug("Saving persons {}", persons);
 
-        method = toDomain(entity.getContactMethod());
-        return new PersonContact(method, entity.getContact());
-    }
-
-    private final Person toDomain(final PersonEntity entity) {
-        final PersonName                name;
-        final Optional<Membership>      membership;
-        final Collection<PersonContact> contacts;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        if (!entity.getMember()) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
-        }
-
-        contacts = entity.getContacts()
-            .stream()
-            .map(this::toDomain)
+        entities = persons.stream()
+            .map(this::toEntity)
             .toList();
 
-        return new Person(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
-            contacts);
+        saved = personSpringRepository.saveAll(entities)
+            .stream()
+            .map(PersonEntityMapper::toDomain)
+            .toList();
+
+        log.debug("Saved persons {}", saved);
+
+        return saved;
     }
 
     private final PersonEntity toEntity(final Person data) {

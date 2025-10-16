@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.repository;
 
@@ -16,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
@@ -37,7 +61,6 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposito
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -216,14 +239,6 @@ public final class JpaGameBookRepository implements GameBookRepository {
         return saved;
     }
 
-    private final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getNumber(), entity.getName());
-    }
-
-    private final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getNumber(), entity.getName());
-    }
-
     private final GameBook toDomain(final GameBookEntity entity) {
         final Collection<Publisher>       publishers;
         final Optional<GameSystem>        gameSystem;
@@ -241,14 +256,14 @@ public final class JpaGameBookRepository implements GameBookRepository {
         if (entity.getGameSystem() == null) {
             gameSystem = Optional.empty();
         } else {
-            gameSystem = Optional.of(toDomain(entity.getGameSystem()));
+            gameSystem = Optional.of(BookEntityMapper.toDomain(entity.getGameSystem()));
         }
 
         // Book type
         if (entity.getBookType() == null) {
             bookType = Optional.empty();
         } else {
-            bookType = Optional.of(toDomain(entity.getBookType()));
+            bookType = Optional.of(BookEntityMapper.toDomain(entity.getBookType()));
         }
 
         // Publishers
@@ -257,7 +272,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         } else {
             publishers = entity.getPublishers()
                 .stream()
-                .map(this::toDomain)
+                .map(BookEntityMapper::toDomain)
                 .toList();
         }
 
@@ -267,7 +282,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         } else {
             authors = entity.getAuthors()
                 .stream()
-                .map(this::toDomain)
+                .map(BookEntityMapper::toDomain)
                 .toList();
         }
 
@@ -277,7 +292,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         } else {
             donors = entity.getDonors()
                 .stream()
-                .map(this::toDonorDomain)
+                .map(BookEntityMapper::toDonorDomain)
                 .toList();
         }
         if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
@@ -317,31 +332,9 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final Optional<Borrower> borrower;
         // TODO: should not contain all the member data
         borrower = personSpringRepository.findById(entity.getPersonId())
-            .map(this::toDomain);
+            .map(BookEntityMapper::toDomain);
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
-    }
-
-    private final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getNumber(), entity.getName());
-    }
-
-    private final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
-    }
-
-    private final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
-    }
-
-    private final Donor toDonorDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Donor(entity.getNumber(), name);
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {

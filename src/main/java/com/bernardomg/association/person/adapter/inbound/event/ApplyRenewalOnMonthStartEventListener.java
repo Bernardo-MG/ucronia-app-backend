@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,9 +30,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.event.domain.MonthStartEvent;
 import com.bernardomg.association.person.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.schedule.event.MonthStartEvent;
 
 /**
  * Listens for the month start event and applies the renewal status.

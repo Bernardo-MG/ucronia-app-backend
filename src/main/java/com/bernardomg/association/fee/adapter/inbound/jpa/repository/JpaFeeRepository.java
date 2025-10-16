@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
@@ -18,6 +41,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntityMapper;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -25,7 +49,6 @@ import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.data.domain.Page;
@@ -135,11 +158,11 @@ public final class JpaFeeRepository implements FeeRepository {
                 .toList());
             pageable = SpringPagination.toPageable(pagination, correctedSorting);
             found = feeSpringRepository.findAllWithPerson(pageable)
-                .map(this::toDomain);
+                .map(FeeEntityMapper::toDomain);
         } else {
             pageable = SpringPagination.toPageable(pagination, sorting);
             found = feeSpringRepository.findAll(spec.get(), pageable)
-                .map(this::toDomain);
+                .map(FeeEntityMapper::toDomain);
         }
 
         log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
@@ -161,7 +184,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .toList());
         pageable = SpringPagination.toPageable(pagination, correctedSorting);
         found = feeSpringRepository.findAllByPersonNumber(number, pageable)
-            .map(this::toDomain);
+            .map(FeeEntityMapper::toDomain);
 
         log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
@@ -181,7 +204,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .toInstant();
         fees = feeSpringRepository.findAllByDate(dateParsed)
             .stream()
-            .map(this::toDomain)
+            .map(FeeEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all fees in month {}: {}", date, fees);
@@ -204,7 +227,7 @@ public final class JpaFeeRepository implements FeeRepository {
         sort = SpringSorting.toSort(correctedSorting);
         fees = feeSpringRepository.findAllForYear(year.getValue(), sort)
             .stream()
-            .map(this::toDomain)
+            .map(FeeEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all fees in year {}: {}", year, fees);
@@ -232,7 +255,7 @@ public final class JpaFeeRepository implements FeeRepository {
         sort = SpringSorting.toSort(correctedSorting);
         found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
             .stream()
-            .map(this::toDomain)
+            .map(FeeEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all fees for active members in year {}: {}", year, found);
@@ -260,7 +283,7 @@ public final class JpaFeeRepository implements FeeRepository {
         sort = SpringSorting.toSort(correctedSorting);
         found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
             .stream()
-            .map(this::toDomain)
+            .map(FeeEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all fees for inactive members in year {}: {}", year, found);
@@ -279,7 +302,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
         found = feeSpringRepository.findByPersonNumberAndDate(number, dateParsed)
-            .map(this::toDomain);
+            .map(FeeEntityMapper::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
 
@@ -318,7 +341,7 @@ public final class JpaFeeRepository implements FeeRepository {
         entities.forEach(this::loadId);
         saved = feeSpringRepository.saveAll(entities)
             .stream()
-            .map(this::toDomain)
+            .map(FeeEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved fees {}", fees);
@@ -339,7 +362,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Saved fee {}", fee);
 
-        return toDomain(saved);
+        return FeeEntityMapper.toDomain(saved);
     }
 
     private final Sorting.Property correct(final Sorting.Property property) {
@@ -368,38 +391,14 @@ public final class JpaFeeRepository implements FeeRepository {
         }
     }
 
-    private final Fee toDomain(final FeeEntity entity) {
-        final Fee.Member                person;
-        final Optional<Fee.Transaction> transaction;
-        final PersonName                name;
-        final YearMonth                 date;
-
-        name = new PersonName(entity.getPerson()
-            .getFirstName(),
-            entity.getPerson()
-                .getLastName());
-        person = new Fee.Member(entity.getPerson()
-            .getNumber(), name);
-
-        if (entity.getPaid()) {
-            transaction = Optional.of(new Fee.Transaction(entity.getTransaction()
-                .getDate(),
-                entity.getTransaction()
-                    .getIndex()));
-        } else {
-            transaction = Optional.empty();
-        }
-        date = YearMonth.from(entity.getDate()
-            .atZone(ZoneOffset.UTC));
-        return new Fee(date, entity.getPaid(), person, transaction);
-    }
-
     private final FeeEntity toEntity(final Fee fee) {
         final Optional<PersonEntity>      person;
         final Optional<TransactionEntity> transaction;
         final boolean                     paid;
         final FeeEntity                   entity;
         final Instant                     date;
+
+        // TODO: move to mapper
 
         person = personSpringRepository.findByNumber(fee.member()
             .number());

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,6 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
@@ -82,7 +81,6 @@ class TestFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
@@ -100,7 +98,6 @@ class TestFeeServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
         given(feeRepository.findOne(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
@@ -109,22 +106,6 @@ class TestFeeServiceGetOne {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingFeeException.class);
-    }
-
-    @Test
-    @DisplayName("With a not existing person, an exception is thrown")
-    void testGetOne_NotExistingPerson() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.getOne(PersonConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
     }
 
 }

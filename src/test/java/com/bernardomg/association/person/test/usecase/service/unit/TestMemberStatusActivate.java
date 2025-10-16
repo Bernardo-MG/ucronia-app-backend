@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,20 +24,24 @@
 
 package com.bernardomg.association.person.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.time.YearMonth;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.association.person.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,6 +65,7 @@ class TestMemberStatusActivate {
         final Long      number;
 
         // GIVEN
+        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipInactive()));
         date = YearMonth.now();
         number = PersonConstants.NUMBER;
 
@@ -68,7 +73,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(personRepository).activate(number);
+        verify(personRepository).save(Persons.membershipActive());
     }
 
     @Test
@@ -86,7 +91,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(personRepository, Mockito.never()).activate(number);
+        verify(personRepository, never()).save(any());
     }
 
 }
