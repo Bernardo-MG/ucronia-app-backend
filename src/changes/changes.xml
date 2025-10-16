@@ -421,7 +421,16 @@
             Lots of fixes.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-08" description="">
+      <release version="0.6.1" date="2025-10-16" description="User invite corrections">
+         <action dev="bmg" type="fix">
+            Updated and fixed user invitation.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed automatic membership status change.
+         </action>
+         <action dev="bmg" type="fix">
+            Email language correction.
+         </action>
       </release>
    </body>
 </document>
