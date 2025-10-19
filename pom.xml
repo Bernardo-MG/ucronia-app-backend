@@ -184,7 +184,6 @@
       <!-- ============================================== -->
       <apache.poi.version>5.3.0</apache.poi.version>
       <archunit.version>1.3.0</archunit.version>
-      <assertj.version>3.27.3</assertj.version>
       <bernardomg.framework.test.architecture>1.0.5</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.4.4</bernardomg.framework.ws.version>
@@ -506,6 +505,57 @@
          <artifactId>jakarta.mail-api</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================ MICROMETER ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-registry-prometheus</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-observation</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-commons</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-common</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-config</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-model</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-exposition-formats</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-initializer</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-otel-agent</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-otel</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -656,7 +706,6 @@
          <!-- AssertJ -->
          <groupId>org.assertj</groupId>
          <artifactId>assertj-core</artifactId>
-         <version>${assertj.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
