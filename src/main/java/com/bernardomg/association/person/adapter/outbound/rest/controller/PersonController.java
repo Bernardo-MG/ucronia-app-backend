@@ -45,8 +45,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.PersonApi;
 import com.bernardomg.ucronia.openapi.model.PersonChangeDto;
 import com.bernardomg.ucronia.openapi.model.PersonCreationDto;
@@ -77,7 +77,7 @@ public class PersonController implements PersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "PERSON", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "PERSON", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Person caches
@@ -97,7 +97,7 @@ public class PersonController implements PersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "PERSON", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "PERSON", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { PersonsCaches.PERSON }), @CacheEvict(cacheNames = {
             // Person caches
             PersonsCaches.PERSONS,
@@ -114,7 +114,7 @@ public class PersonController implements PersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSONS)
     public PersonPageResponseDto getAllPersons(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final PersonStatusDto status, @Valid final String name) {
@@ -138,7 +138,7 @@ public class PersonController implements PersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "PERSON", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "PERSON", action = Actions.READ)
     @Cacheable(cacheNames = PersonsCaches.PERSON)
     public PersonResponseDto getPersonByNumber(final Long number) {
         Optional<Person> person;
@@ -149,7 +149,7 @@ public class PersonController implements PersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "PERSON", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Person caches
@@ -169,7 +169,7 @@ public class PersonController implements PersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "PERSON", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "PERSON", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = PersonsCaches.PERSON, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Person caches

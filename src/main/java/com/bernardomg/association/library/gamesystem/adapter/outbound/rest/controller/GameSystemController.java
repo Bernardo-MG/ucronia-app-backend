@@ -41,8 +41,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.GameSystemApi;
 import com.bernardomg.ucronia.openapi.model.GameSystemChangeDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemCreationDto;
@@ -72,7 +72,7 @@ public class GameSystemController implements GameSystemApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
     public GameSystemResponseDto createGameSystem(@Valid final GameSystemCreationDto gameSystemCreationDto) {
@@ -84,7 +84,7 @@ public class GameSystemController implements GameSystemApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEM }),
             @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
     public GameSystemResponseDto deleteGameSystem(final Long number) {
@@ -96,7 +96,7 @@ public class GameSystemController implements GameSystemApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
     @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEMS)
     public GameSystemPageResponseDto getAllGameSystems(@Min(0) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
@@ -112,7 +112,7 @@ public class GameSystemController implements GameSystemApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
     @Cacheable(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM)
     public GameSystemResponseDto getGameSystemById(final Long number) {
         final Optional<GameSystem> gameSystem;
@@ -123,7 +123,7 @@ public class GameSystemController implements GameSystemApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryGameSystemCaches.GAME_SYSTEM, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryGameSystemCaches.GAME_SYSTEMS }, allEntries = true) })
     public GameSystemResponseDto updateGameSystem(final Long number,

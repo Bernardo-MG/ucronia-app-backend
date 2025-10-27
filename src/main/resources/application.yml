@@ -31,3 +31,8 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
+
+security:
+  permissions:
+    files:
+      - classpath:association_permissions.yml

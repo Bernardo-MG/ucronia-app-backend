@@ -187,7 +187,7 @@
       <bernardomg.framework.test.architecture>1.0.5</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.4.4</bernardomg.framework.ws.version>
-      <bernardomg.framework.ws.security.version>0.4.33</bernardomg.framework.ws.security.version>
+      <bernardomg.framework.ws.security.version>0.4.36</bernardomg.framework.ws.security.version>
       <commons.lang3.version>3.18.0</commons.lang3.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <openapitools.jackson>0.2.7</openapitools.jackson>
@@ -709,6 +709,12 @@
          <artifactId>archunit-junit5</artifactId>
          <version>${archunit.version}</version>
          <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit-junit5-engine</artifactId>
+        <version>${archunit.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
          <!-- AssertJ -->

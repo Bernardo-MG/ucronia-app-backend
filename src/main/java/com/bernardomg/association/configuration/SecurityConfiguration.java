@@ -24,11 +24,16 @@
 
 package com.bernardomg.association.configuration;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.initializer.configuration.PermissionsFilesProperties;
+
 @Configuration
 @ComponentScan({ "com.bernardomg.association.**.security.register" })
+// TODO: remove when the library is fixed
+@EnableConfigurationProperties(PermissionsFilesProperties.class)
 public class SecurityConfiguration {
 
     public SecurityConfiguration() {

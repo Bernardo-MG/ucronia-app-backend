@@ -33,9 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
 import com.bernardomg.association.settings.adapter.outbound.rest.model.SettingsDtoMapper;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 import com.bernardomg.ucronia.openapi.api.AssociationSettingsApi;
@@ -81,7 +81,7 @@ public class AssociationSettingController implements AssociationSettingsApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { SettingsCaches.PUBLIC }, allEntries = true) })
     public SettingResponseDto updateAssociationSetting(final String code,
             @Valid final SettingChangeDto settingChangeDto) {

@@ -43,8 +43,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.PublisherApi;
 import com.bernardomg.ucronia.openapi.model.PublisherChangeDto;
 import com.bernardomg.ucronia.openapi.model.PublisherCreationDto;
@@ -75,7 +75,7 @@ public class PublisherController implements PublisherApi {
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryPublisherCaches.PUBLISHER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
     public PublisherResponseDto createPublisher(@Valid final PublisherCreationDto publisherCreationDto) {
@@ -87,7 +87,7 @@ public class PublisherController implements PublisherApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "LIBRARY_PUBLISHER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHER }),
             @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
     public PublisherResponseDto deletePublisher(final Long number) {
@@ -99,7 +99,7 @@ public class PublisherController implements PublisherApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
     @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHERS)
     public PublisherPageResponseDto getAllPublishers(@Min(0) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
@@ -115,7 +115,7 @@ public class PublisherController implements PublisherApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
     @Cacheable(cacheNames = LibraryPublisherCaches.PUBLISHER)
     public PublisherResponseDto getPublisherById(final Long number) {
         final Optional<Publisher> publisher;
@@ -126,7 +126,7 @@ public class PublisherController implements PublisherApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryPublisherCaches.PUBLISHER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryPublisherCaches.PUBLISHERS }, allEntries = true) })
     public PublisherResponseDto updatePublisher(final Long number, @Valid final PublisherChangeDto publisherChangeDto) {

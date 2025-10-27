@@ -38,8 +38,8 @@ import com.bernardomg.association.transaction.domain.model.TransactionCalendarMo
 import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
 import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionsResponseDto;
@@ -66,7 +66,7 @@ public class TransactionCalendarController implements TransactionCalendarApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR)
     public TransactionsResponseDto getTransactionCalendar(@Valid final List<String> sort, @Valid final Instant from,
             @Valid final Instant to) {
@@ -80,7 +80,7 @@ public class TransactionCalendarController implements TransactionCalendarApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR_RANGE)
     public TransactionCalendarMonthsRangeResponseDto getTransactionCalendarRange() {
         final TransactionCalendarMonthsRange range;

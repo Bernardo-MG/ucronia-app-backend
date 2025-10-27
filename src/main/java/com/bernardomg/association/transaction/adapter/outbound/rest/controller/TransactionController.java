@@ -44,8 +44,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionApi;
 import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
@@ -75,7 +75,7 @@ public class TransactionController implements TransactionApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
             evict = { @CacheEvict(cacheNames = {
                     // Transaction caches
@@ -97,7 +97,7 @@ public class TransactionController implements TransactionApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { TransactionCaches.TRANSACTION }), @CacheEvict(cacheNames = {
             // Transaction caches
             TransactionCaches.TRANSACTIONS,
@@ -116,7 +116,7 @@ public class TransactionController implements TransactionApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
     public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
@@ -135,7 +135,7 @@ public class TransactionController implements TransactionApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.TRANSACTION)
     public TransactionResponseDto getOneTransaction(final Long index) {
         final Optional<Transaction> transaction;
@@ -146,7 +146,7 @@ public class TransactionController implements TransactionApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
             evict = { @CacheEvict(cacheNames = {
                     // Transaction caches

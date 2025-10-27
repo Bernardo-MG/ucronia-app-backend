@@ -53,8 +53,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeApi;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
@@ -90,7 +90,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     @Caching(
             put = { @CachePut(cacheNames = FeeCaches.FEE,
                     key = "#result.content.member.number + ':' + #result.content.month") },
@@ -113,7 +113,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"), @CacheEvict(cacheNames = {
             // Fee caches
             FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
@@ -132,7 +132,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
@@ -151,7 +151,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.YEAR_RANGE)
     public YearsRangeResponseDto getFeesYearsRange() {
         final YearsRange range;
@@ -162,7 +162,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.MEMBER_FEES)
     public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
             @Valid final List<String> sort) {
@@ -178,7 +178,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0 + ':' + #p1")
     public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
         final Optional<Fee> fee;
@@ -189,7 +189,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
             FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
@@ -211,7 +211,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     @Caching(
             put = { @CachePut(cacheNames = FeeCaches.FEE,
                     key = "#result.content.member.number + ':' + #result.content.month") },

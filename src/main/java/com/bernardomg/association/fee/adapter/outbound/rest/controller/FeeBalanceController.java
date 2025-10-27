@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeBalanceDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeBalance;
 import com.bernardomg.association.fee.usecase.service.FeeBalanceService;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeBalanceApi;
 import com.bernardomg.ucronia.openapi.model.FeeBalanceResponseDto;
 
@@ -52,7 +52,7 @@ public class FeeBalanceController implements FeeBalanceApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     public FeeBalanceResponseDto getFeeBalance() {
         final FeeBalance balance;
 

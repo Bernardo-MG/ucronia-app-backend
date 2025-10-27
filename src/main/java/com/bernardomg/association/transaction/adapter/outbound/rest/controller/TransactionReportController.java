@@ -35,8 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
 import com.bernardomg.excel.web.ExcelResponses;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 
 /**
  * Transaction report REST controller.
@@ -66,7 +66,7 @@ public class TransactionReportController {
      *             if there was a problem processing the excel
      */
     @GetMapping(produces = "application/vnd.ms-excel")
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
     public ResponseEntity<InputStreamResource> readAll() throws IOException {
         final ByteArrayOutputStream stream;
 
