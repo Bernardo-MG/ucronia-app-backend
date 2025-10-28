@@ -36,10 +36,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.UcroniaApplication;
+import com.bernardomg.association.TestApplication;
 
 @SpringJUnitConfig
-@SpringBootTest(classes = UcroniaApplication.class)
+@SpringBootTest(classes = TestApplication.class)
 @ActiveProfiles("test")
 @Transactional
 @Rollback
