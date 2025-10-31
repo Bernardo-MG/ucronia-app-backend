@@ -41,8 +41,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FictionBookApi;
 import com.bernardomg.ucronia.openapi.model.BookCreationDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookPageResponseDto;
@@ -72,7 +72,7 @@ public class FictionBookController implements FictionBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.FICTION_BOOK, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS }, allEntries = true) })
     public FictionBookResponseDto createFictionBook(@Valid final BookCreationDto bookCreationDto) {
@@ -84,7 +84,7 @@ public class FictionBookController implements FictionBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOK }),
             @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS }, allEntries = true) })
     public FictionBookResponseDto deleteFictionBook(final Long number) {
@@ -96,7 +96,7 @@ public class FictionBookController implements FictionBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.FICTION_BOOKS)
     public FictionBookPageResponseDto getAllFictionBooks(@Valid final Integer page, @Valid final Integer size,
             @Valid final List<String> sort) {
@@ -112,7 +112,7 @@ public class FictionBookController implements FictionBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.FICTION_BOOK)
     public FictionBookResponseDto getFictionBookById(final Long number) {
         final Optional<FictionBook> fictionBook;
@@ -123,7 +123,7 @@ public class FictionBookController implements FictionBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.FICTION_BOOK, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS }, allEntries = true) })
     public FictionBookResponseDto updateFictionBook(final Long number,

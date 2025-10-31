@@ -37,11 +37,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.UcroniaApplication;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.test.testcontainer.PostgresDbExtension;
 
 @SpringJUnitConfig
-@SpringBootTest(classes = UcroniaApplication.class)
+@SpringBootTest(classes = TestApplication.class)
 @ActiveProfiles("test")
 @ExtendWith(PostgresDbExtension.class)
 @Transactional

@@ -41,8 +41,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.BookTypeApi;
 import com.bernardomg.ucronia.openapi.model.BookTypeChangeDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeCreationDto;
@@ -72,7 +72,7 @@ public class BookTypeController implements BookTypeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
     public BookTypeResponseDto createBookType(@Valid final BookTypeCreationDto bookTypeCreationDto) {
@@ -84,7 +84,7 @@ public class BookTypeController implements BookTypeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPE }),
             @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
     public BookTypeResponseDto deleteBookType(final Long number) {
@@ -96,7 +96,7 @@ public class BookTypeController implements BookTypeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPES)
     public BookTypePageResponseDto getAllBookTypes(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
@@ -112,7 +112,7 @@ public class BookTypeController implements BookTypeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookTypeCaches.BOOK_TYPE)
     public BookTypeResponseDto getBookTypeById(final Long number) {
         final Optional<BookType> bookType;
@@ -123,7 +123,7 @@ public class BookTypeController implements BookTypeApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookTypeCaches.BOOK_TYPE, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookTypeCaches.BOOK_TYPES }, allEntries = true) })
     public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeChangeDto bookTypeChangeDto) {

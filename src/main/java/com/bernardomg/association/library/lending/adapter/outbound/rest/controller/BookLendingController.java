@@ -38,8 +38,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.BookLendingApi;
 import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
@@ -69,7 +69,7 @@ public class BookLendingController implements BookLendingApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.READ)
     // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
     public BookLendingPageResponseDto getAllBookLendings(@Min(0) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
@@ -86,7 +86,7 @@ public class BookLendingController implements BookLendingApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLendingResponseDto lendBook(@Valid final BookLentDto bookLentDto) {
@@ -98,7 +98,7 @@ public class BookLendingController implements BookLendingApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
             LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLendingResponseDto returnBook(@Valid final BookReturnedDto bookReturnedDto) {

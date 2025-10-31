@@ -35,8 +35,8 @@ import com.bernardomg.association.member.adapter.outbound.rest.model.MemberBalan
 import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberBalanceApi;
 import com.bernardomg.ucronia.openapi.model.MonthlyMemberBalancesResponseDto;
 
@@ -64,7 +64,7 @@ public class MemberBalanceController implements MemberBalanceApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
     public MonthlyMemberBalancesResponseDto getMonthlyMemberBalance(@Valid final Instant from, @Valid final Instant to,
             @Valid final Long memberNumber) {

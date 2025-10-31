@@ -28,7 +28,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
-import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 import com.bernardomg.ucronia.openapi.api.PublicSettingsApi;

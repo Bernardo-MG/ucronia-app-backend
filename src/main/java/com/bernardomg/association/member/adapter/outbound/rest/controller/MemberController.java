@@ -38,8 +38,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberApi;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
@@ -67,7 +67,7 @@ public class MemberController implements MemberApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
@@ -83,7 +83,7 @@ public class MemberController implements MemberApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
     public MemberResponseDto getMemberByNumber(final Long number) {
         Optional<Member> member;

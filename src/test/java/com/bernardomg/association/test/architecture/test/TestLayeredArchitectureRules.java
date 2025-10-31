@@ -12,7 +12,7 @@ import com.tngtech.archunit.lang.ArchRule;
         packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.configuration",
                 "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa" },
         importOptions = ImportOption.DoNotIncludeTests.class)
-public class LayeredArchitectureRulesTest {
+public class TestLayeredArchitectureRules {
 
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()

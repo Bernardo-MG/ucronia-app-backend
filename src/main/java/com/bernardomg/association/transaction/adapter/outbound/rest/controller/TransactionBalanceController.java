@@ -37,8 +37,8 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionBalanceApi;
 import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
@@ -65,7 +65,7 @@ public class TransactionBalanceController implements TransactionBalanceApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.BALANCE)
     public TransactionCurrentBalanceResponseDto getCurrentTransactionBalance() {
         final TransactionCurrentBalance balance;
@@ -76,7 +76,7 @@ public class TransactionBalanceController implements TransactionBalanceApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
     public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final Instant from,
             @Valid final Instant to) {

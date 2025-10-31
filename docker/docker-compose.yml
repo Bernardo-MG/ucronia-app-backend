@@ -73,7 +73,7 @@ services:
   # MONITORING #
   #============#
   prometheus:
-    image: prom/prometheus:v2.53.1
+    image: prom/prometheus:v3.7.3
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -84,7 +84,7 @@ services:
     networks:
       - monitoring
   promtail:
-    image: grafana/promtail:2.9.0
+    image: grafana/promtail:3.5
     command: -config.file=/etc/promtail/config.yaml
     depends_on:
       association-backend:
@@ -97,7 +97,7 @@ services:
     networks:
       - monitoring
   loki:
-    image: grafana/loki:2.9.0
+    image: grafana/loki:3.5
     command: -config.file=/etc/loki/local-config.yaml
     ports:
       - "3100:3100"
@@ -113,7 +113,7 @@ services:
     networks:
       - monitoring
   grafana:
-    image: grafana/grafana:11.1.1
+    image: grafana/grafana:12.2
     ports:
       - "3000:3000"
     environment:

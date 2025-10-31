@@ -41,8 +41,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.AuthorApi;
 import com.bernardomg.ucronia.openapi.model.AuthorChangeDto;
 import com.bernardomg.ucronia.openapi.model.AuthorCreationDto;
@@ -72,7 +72,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
     public AuthorResponseDto createAuthor(@Valid final AuthorCreationDto authorCreationDto) {
@@ -84,7 +84,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHOR }),
             @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
     public AuthorResponseDto deleteAuthor(final Long number) {
@@ -96,7 +96,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.READ)
     @Cacheable(cacheNames = LibraryAuthorCaches.AUTHORS)
     public AuthorPageResponseDto getAllAuthors(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
@@ -112,7 +112,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_AUTHOR", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.READ)
     @Cacheable(cacheNames = LibraryAuthorCaches.AUTHOR)
     public AuthorResponseDto getAuthorById(final Long number) {
         final Optional<Author> author;
@@ -123,7 +123,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryAuthorCaches.AUTHOR, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryAuthorCaches.AUTHORS }, allEntries = true) })
     public AuthorResponseDto updateAuthor(final Long number, @Valid final AuthorChangeDto authorChangeDto) {

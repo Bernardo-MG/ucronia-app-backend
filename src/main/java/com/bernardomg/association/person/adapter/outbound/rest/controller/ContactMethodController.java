@@ -43,8 +43,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.ContactMethodApi;
 import com.bernardomg.ucronia.openapi.model.ContactMethodChangeDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodCreationDto;
@@ -75,7 +75,7 @@ public class ContactMethodController implements ContactMethodApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // ContactMethod caches
@@ -96,7 +96,7 @@ public class ContactMethodController implements ContactMethodApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { ContactMethodCaches.CONTACT_METHOD }), @CacheEvict(cacheNames = {
             // ContactMethod caches
             ContactMethodCaches.CONTACT_METHODS,
@@ -113,7 +113,7 @@ public class ContactMethodController implements ContactMethodApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHODS)
     public ContactMethodPageResponseDto getAllContactMethods(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
@@ -129,7 +129,7 @@ public class ContactMethodController implements ContactMethodApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.READ)
     @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHOD)
     public ContactMethodResponseDto getContactMethodByNumber(final Long number) {
         Optional<ContactMethod> contactMethod;
@@ -140,7 +140,7 @@ public class ContactMethodController implements ContactMethodApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "CONTACT_METHOD", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // ContactMethod caches

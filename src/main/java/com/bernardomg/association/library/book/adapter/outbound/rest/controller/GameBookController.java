@@ -41,8 +41,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.GameBookApi;
 import com.bernardomg.ucronia.openapi.model.BookCreationDto;
 import com.bernardomg.ucronia.openapi.model.GameBookPageResponseDto;
@@ -71,7 +71,7 @@ public class GameBookController implements GameBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBookResponseDto createGameBook(@Valid final BookCreationDto bookCreationDto) {
@@ -83,7 +83,7 @@ public class GameBookController implements GameBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOK }),
             @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBookResponseDto deleteGameBook(final Long number) {
@@ -95,7 +95,7 @@ public class GameBookController implements GameBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOKS)
     public GameBookPageResponseDto getAllGameBooks(@Valid final Integer page, @Valid final Integer size,
             @Valid final List<String> sort) {
@@ -111,7 +111,7 @@ public class GameBookController implements GameBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
     @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOK)
     public GameBookResponseDto getGameBookById(final Long number) {
         final Optional<GameBook> gameBook;
@@ -122,7 +122,7 @@ public class GameBookController implements GameBookApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBookResponseDto updateGameBook(final Long number, @Valid final GameBookUpdateDto gameBookUpdateDto) {

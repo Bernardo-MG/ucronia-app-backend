@@ -35,8 +35,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MyFeesApi;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 
@@ -64,7 +64,7 @@ public class MyFeesController implements MyFeesApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "MY_FEES", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MY_FEES", action = Actions.READ)
     public FeePageResponseDto getUserFees(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
         final Pagination pagination;

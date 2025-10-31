@@ -22,40 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.security.register;
+package com.bernardomg.association;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Locale;
 
-import org.springframework.stereotype.Component;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
+import com.bernardomg.event.configuration.EventConfiguration;
+import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration;
+import com.bernardomg.settings.configuration.SettingsConfiguration;
 
 /**
- * Member permission register.
+ * Application runnable class. This allows Spring Boot to run the application.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-@Component
-public final class MemberPermissionRegister implements PermissionRegister {
+@SpringBootApplication(exclude = { PermissionLoaderAutoConfiguration.class })
+@Import({ SettingsConfiguration.class, EventConfiguration.class })
+public class TestApplication {
 
-    @Override
-    public final Collection<String> getActions() {
-        return List.of();
+    /**
+     * Runnable main method.
+     *
+     * @param args
+     *            execution parameters
+     */
+    public static void main(final String[] args) {
+        // TODO: This shouldn't be needed
+        Locale.setDefault(Locale.of("es", "ES"));
+        SpringApplication.run(UcroniaApplication.class, args);
     }
 
-    @Override
-    public final Collection<ResourcePermissionPair> getPermissions() {
-        // TODO: Use constants
-        return List.of(
-            // Member
-            new ResourcePermissionPair("MEMBER", "READ"),
-            // Views
-            new ResourcePermissionPair("MEMBER", "VIEW"));
-    }
-
-    @Override
-    public final Collection<String> getResources() {
-        return List.of("MEMBER");
+    /**
+     * Default constructor.
+     */
+    public TestApplication() {
+        super();
     }
 
 }

@@ -22,7 +22,7 @@ import com.tngtech.archunit.junit.ArchTests;
         packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.configuration",
                 "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa" },
         importOptions = ImportOption.DoNotIncludeTests.class)
-public class ArchitectureRulesTest {
+public class TestArchitectureRules {
 
     @ArchTest
     static final ArchTests cacheRules            = ArchTests.in(CacheRules.class);

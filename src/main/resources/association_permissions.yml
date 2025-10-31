@@ -1,0 +1,104 @@
+actions:
+  - view
+permissions:
+  - resource: permission
+    actions:
+      - read
+  - resource: transaction
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: balance
+    actions:
+      - read
+  - resource: funds
+    actions:
+      - view
+  - resource: fee
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: my_fees
+    actions:
+      - read
+      - view
+  - resource: inventory_donor
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: library_author
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_publisher
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_book
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_book_type
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_game_system
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_lending
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library
+    actions:
+      - view
+  - resource: member
+    actions:
+      - read
+      - view
+  - resource: person
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: security
+    actions:
+      - view
+  - resource: activity_calendar
+    actions:
+      - view
+  - resource: association_settings
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view

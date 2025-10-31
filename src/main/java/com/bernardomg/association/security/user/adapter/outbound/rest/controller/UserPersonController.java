@@ -38,8 +38,8 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.UserPersonApi;
 import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
@@ -67,7 +67,7 @@ public class UserPersonController implements UserPersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public PersonResponseDto assignPersonToUser(final String username, final Long memberNumber) {
         Person person;
 
@@ -77,7 +77,7 @@ public class UserPersonController implements UserPersonApi {
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public PersonResponseDto getAssignedPerson(final String username) {
         final Optional<Person> person;
 
@@ -87,7 +87,7 @@ public class UserPersonController implements UserPersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public PersonPageResponseDto getAvailablePersons(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         Page<Person>     persons;
@@ -102,7 +102,7 @@ public class UserPersonController implements UserPersonApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public PersonResponseDto unassignPerson(final String username) {
         Person person;
 
