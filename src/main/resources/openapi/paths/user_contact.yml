@@ -1,7 +1,7 @@
 get:
   summary: Get the member assigned to a user.
-  operationId: getAssignedPerson
-  tags: [UserPerson]
+  operationId: getAssignedContact
+  tags: [UserContact]
   parameters:
     - name: username
       in: path
@@ -11,18 +11,18 @@ get:
         type: string
   responses:
     '200':
-      description: Assigned person.
+      description: Assigned contact.
       content:
         application/json:
           schema:
-            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
     '404':
       description: User or assigned member not found.
 
 delete:
   summary: Unassign the member from a user.
-  operationId: unassignPerson
-  tags: [UserPerson]
+  operationId: unassignContact
+  tags: [UserContact]
   parameters:
     - name: username
       in: path
@@ -32,11 +32,11 @@ delete:
         type: string
   responses:
     '200':
-      description: Assigned person.
+      description: Assigned contact.
       content:
         application/json:
           schema:
-            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
     '403':
       description: Forbidden – insufficient permissions.
     '404':

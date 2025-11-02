@@ -47,12 +47,12 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.PersonApi;
-import com.bernardomg.ucronia.openapi.model.PersonChangeDto;
-import com.bernardomg.ucronia.openapi.model.PersonCreationDto;
-import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
-import com.bernardomg.ucronia.openapi.model.PersonStatusDto;
+import com.bernardomg.ucronia.openapi.api.ContactApi;
+import com.bernardomg.ucronia.openapi.model.ContactChangeDto;
+import com.bernardomg.ucronia.openapi.model.ContactCreationDto;
+import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactStatusDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -64,7 +64,7 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-public class ContactController implements PersonApi {
+public class ContactController implements ContactApi {
 
     /**
      * Contact service.
@@ -86,7 +86,7 @@ public class ContactController implements PersonApi {
                     FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public PersonResponseDto createPerson(@Valid final PersonCreationDto personCreationDto) {
+    public ContactResponseDto createContact(@Valid final ContactCreationDto personCreationDto) {
         final Contact member;
         final Contact created;
 
@@ -105,7 +105,7 @@ public class ContactController implements PersonApi {
             FeeCaches.MEMBER_FEES,
             // Member caches
             MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public PersonResponseDto deletePerson(final Long number) {
+    public ContactResponseDto deleteContact(final Long number) {
         final Contact person;
 
         person = service.delete(number);
@@ -116,8 +116,8 @@ public class ContactController implements PersonApi {
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
     @Cacheable(cacheNames = ContactsCaches.CONTACTS)
-    public PersonPageResponseDto getAllPersons(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final PersonStatusDto status, @Valid final String name) {
+    public ContactPageResponseDto getAllContacts(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort, @Valid final ContactStatusDto status, @Valid final String name) {
         final Page<Contact> persons;
         final Pagination    pagination;
         final Sorting       sorting;
@@ -140,7 +140,7 @@ public class ContactController implements PersonApi {
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
     @Cacheable(cacheNames = ContactsCaches.PERSON)
-    public PersonResponseDto getPersonByNumber(final Long number) {
+    public ContactResponseDto getContactByNumber(final Long number) {
         Optional<Contact> person;
 
         person = service.getOne(number);
@@ -158,7 +158,7 @@ public class ContactController implements PersonApi {
                     FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public PersonResponseDto patchPerson(final Long number, @Valid final PersonChangeDto personChangeDto) {
+    public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto personChangeDto) {
         final Contact member;
         final Contact updated;
 
@@ -178,7 +178,7 @@ public class ContactController implements PersonApi {
                     FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public PersonResponseDto updatePerson(final Long number, @Valid final PersonChangeDto personChangeDto) {
+    public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto personChangeDto) {
         final Contact member;
         final Contact updated;
 

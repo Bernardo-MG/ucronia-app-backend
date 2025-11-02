@@ -34,22 +34,39 @@ import com.bernardomg.association.person.domain.model.ContactName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.ucronia.openapi.model.ContactChangeDto;
+import com.bernardomg.ucronia.openapi.model.ContactContactDto;
+import com.bernardomg.ucronia.openapi.model.ContactCreationDto;
+import com.bernardomg.ucronia.openapi.model.ContactDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
 import com.bernardomg.ucronia.openapi.model.MembershipDto;
-import com.bernardomg.ucronia.openapi.model.PersonChangeDto;
-import com.bernardomg.ucronia.openapi.model.PersonContactDto;
-import com.bernardomg.ucronia.openapi.model.PersonCreationDto;
-import com.bernardomg.ucronia.openapi.model.PersonDto;
-import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class ContactDtoMapper {
 
-    public static final Contact toDomain(final long number, final PersonChangeDto change) {
+    public static final Contact toDomain(final ContactCreationDto creation) {
+        final ContactName          name;
+        final Optional<Membership> membership;
+
+        name = new ContactName(creation.getName()
+            .getFirstName(),
+            creation.getName()
+                .getLastName());
+        if (creation.getMember() == null) {
+            membership = Optional.empty();
+        } else {
+            membership = Optional.of(new Membership(true, true));
+        }
+
+        return new Contact("", -1L, name, null, membership, List.of());
+    }
+
+    public static final Contact toDomain(final long number, final ContactChangeDto change) {
         final ContactName          name;
         final Optional<Membership> membership;
 
@@ -69,33 +86,16 @@ public final class ContactDtoMapper {
         return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), membership, List.of());
     }
 
-    public static final Contact toDomain(final PersonCreationDto creation) {
-        final ContactName          name;
-        final Optional<Membership> membership;
-
-        name = new ContactName(creation.getName()
-            .getFirstName(),
-            creation.getName()
-                .getLastName());
-        if (creation.getMember() == null) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(true, true));
-        }
-
-        return new Contact("", -1L, name, null, membership, List.of());
+    public static final ContactResponseDto toResponseDto(final Contact person) {
+        return new ContactResponseDto().content(ContactDtoMapper.toDto(person));
     }
 
-    public static final PersonResponseDto toResponseDto(final Contact person) {
-        return new PersonResponseDto().content(ContactDtoMapper.toDto(person));
-    }
-
-    public static final PersonResponseDto toResponseDto(final Optional<Contact> person) {
-        return new PersonResponseDto().content(person.map(ContactDtoMapper::toDto)
+    public static final ContactResponseDto toResponseDto(final Optional<Contact> person) {
+        return new ContactResponseDto().content(person.map(ContactDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final PersonPageResponseDto toResponseDto(final Page<Contact> page) {
+    public static final ContactPageResponseDto toResponseDto(final Page<Contact> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
@@ -103,7 +103,7 @@ public final class ContactDtoMapper {
             .stream()
             .map(ContactDtoMapper::toDto)
             .toList());
-        return new PersonPageResponseDto().content(page.content()
+        return new ContactPageResponseDto().content(page.content()
             .stream()
             .map(ContactDtoMapper::toDto)
             .toList())
@@ -117,10 +117,10 @@ public final class ContactDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final PersonDto toDto(final Contact person) {
-        ContactNameDto         name;
-        MembershipDto          membership;
-        List<PersonContactDto> contacts;
+    private static final ContactDto toDto(final Contact person) {
+        ContactNameDto          name;
+        MembershipDto           membership;
+        List<ContactContactDto> contacts;
 
         name = new ContactNameDto().firstName(person.name()
             .firstName())
@@ -144,7 +144,7 @@ public final class ContactDtoMapper {
             .map(ContactDtoMapper::toDto)
             .toList();
 
-        return new PersonDto().identifier(person.identifier())
+        return new ContactDto().identifier(person.identifier())
             .number(person.number())
             .name(name)
             .birthDate(person.birthDate())
@@ -152,7 +152,7 @@ public final class ContactDtoMapper {
             .contacts(contacts);
     }
 
-    private static final PersonContactDto toDto(final PersonContact contact) {
+    private static final ContactContactDto toDto(final PersonContact contact) {
         ContactMethodDto method;
 
         method = new ContactMethodDto().number(contact.method()
@@ -160,7 +160,7 @@ public final class ContactDtoMapper {
             .name(contact.method()
                 .name());
 
-        return new PersonContactDto().contact(contact.contact())
+        return new ContactContactDto().contact(contact.contact())
             .method(method);
     }
 

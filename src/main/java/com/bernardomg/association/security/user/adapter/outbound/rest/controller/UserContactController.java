@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserPersonDtoMapper;
+import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserContactDtoMapper;
 import com.bernardomg.association.security.user.usecase.service.UserContactService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -40,9 +40,9 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.UserPersonApi;
-import com.bernardomg.ucronia.openapi.model.PersonPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PersonResponseDto;
+import com.bernardomg.ucronia.openapi.api.UserContactApi;
+import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -54,41 +54,41 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-public class UserPersonController implements UserPersonApi {
+public class UserContactController implements UserContactApi {
 
     /**
      * User member service.
      */
     private final UserContactService service;
 
-    public UserPersonController(final UserContactService service) {
+    public UserContactController(final UserContactService service) {
         super();
         this.service = service;
     }
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
-    public PersonResponseDto assignPersonToUser(final String username, final Long memberNumber) {
+    public ContactResponseDto assignContactToUser(final String username, final Long memberNumber) {
         Contact person;
 
         person = service.assignContact(username, memberNumber);
-        return UserPersonDtoMapper.toResponseDto(person);
+        return UserContactDtoMapper.toResponseDto(person);
     }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
-    public PersonResponseDto getAssignedPerson(final String username) {
+    public ContactResponseDto getAssignedContact(final String username) {
         final Optional<Contact> person;
 
         person = service.getContact(username);
 
-        return UserPersonDtoMapper.toResponseDto(person);
+        return UserContactDtoMapper.toResponseDto(person);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
-    public PersonPageResponseDto getAvailablePersons(@Min(1) @Valid final Integer page,
+    public ContactPageResponseDto getAvailableContacts(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         Page<Contact>    persons;
         final Pagination pagination;
@@ -98,17 +98,17 @@ public class UserPersonController implements UserPersonApi {
         sorting = WebSorting.toSorting(sort);
         persons = service.getAvailableContact(pagination, sorting);
 
-        return UserPersonDtoMapper.toResponseDto(persons);
+        return UserContactDtoMapper.toResponseDto(persons);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
-    public PersonResponseDto unassignPerson(final String username) {
+    public ContactResponseDto unassignContact(final String username) {
         Contact person;
 
         person = service.unassignContact(username);
 
-        return UserPersonDtoMapper.toResponseDto(person);
+        return UserContactDtoMapper.toResponseDto(person);
     }
 
 }

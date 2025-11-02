@@ -1,7 +1,7 @@
 post:
   summary: Assign a member to a user.
-  operationId: assignPersonToUser
-  tags: [UserPerson]
+  operationId: assignContactToUser
+  tags: [UserContact]
   parameters:
     - name: username
       in: path
@@ -18,11 +18,11 @@ post:
         format: int64
   responses:
     '200':
-      description: Assigned person.
+      description: Assigned contact.
       content:
         application/json:
           schema:
-            $ref: '../components/persons.yml#/components/schemas/PersonResponse'
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
     '403':
       description: Forbidden – insufficient permissions.
     '404':

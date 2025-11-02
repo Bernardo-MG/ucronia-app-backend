@@ -31,3 +31,79 @@ components:
         lastName:
           type: string
           example: 'Smith'
+    ContactStatus:
+      type: string
+      description: Status filter for contact queries.
+      enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
+    ContactContact:
+      type: object
+      required: [method, contact]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        contact:
+          type: string
+          description: Contact detail.
+    Membership:
+      type: object
+      required: [active, renew]
+      properties:
+        active:
+          type: boolean
+          description: Whether the membership is active.
+        renew:
+          type: boolean
+          description: Whether the membership is eligible for renewal.
+    Contact:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        membership:
+          $ref: '#/components/schemas/Membership'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactContact'
+    ContactCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        member:
+          type: boolean
+    ContactChange:
+      type: object
+      required: [identifier, name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        membership:
+          $ref: '#/components/schemas/Membership'
+    ContactPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Contact'
+    ContactResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Contact'

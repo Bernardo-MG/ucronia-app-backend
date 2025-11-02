@@ -1,0 +1,96 @@
+get:
+  summary: Get a specific contact by number.
+  operationId: getContactByNumber
+  tags: [Contact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Requested contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+    '404':
+      description: Contact not found.
+put:
+  summary: Update a contact.
+  operationId: updateContact
+  tags: [Contact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/contacts.yml#/components/schemas/ContactChange'
+  responses:
+    '200':
+      description: Updated contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+    '404':
+      description: Contact not found.
+patch:
+  summary: Partially update a contact.
+  operationId: patchContact
+  tags: [Contact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/contacts.yml#/components/schemas/ContactChange'
+  responses:
+    '200':
+      description: Patched contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+    '404':
+      description: Contact not found.
+delete:
+  summary: Delete a contact.
+  operationId: deleteContact
+  tags: [Contact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Contact deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+    '404':
+      description: Contact not found.
