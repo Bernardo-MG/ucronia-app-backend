@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 import com.bernardomg.event.listener.EventListener;
-import com.bernardomg.security.schedule.event.MonthStartEvent;
+import com.bernardomg.schedule.event.MonthStartEvent;
 
 /**
  * Listens for the month start event and registers fees for the active members.
