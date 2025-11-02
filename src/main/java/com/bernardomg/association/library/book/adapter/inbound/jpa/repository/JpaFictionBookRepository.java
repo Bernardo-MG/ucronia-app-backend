@@ -76,19 +76,20 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final FictionBookSpringRepository bookSpringRepository;
 
-    private final ContactSpringRepository     personSpringRepository;
+    private final ContactSpringRepository     contactSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaFictionBookRepository(final FictionBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
-            final ContactSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
+            final ContactSpringRepository contactSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        // TODO: maybe should be members only
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -302,7 +303,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
         // TODO: should not contain all the member data
-        borrower = personSpringRepository.findById(entity.getContactId())
+        borrower = contactSpringRepository.findById(entity.getContactId())
             .map(BookEntityMapper::toDomain);
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
@@ -333,7 +334,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
                 .stream()
                 .map(Donor::number)
                 .toList();
-            donors = personSpringRepository.findAllByNumberIn(donorNumbers);
+            donors = contactSpringRepository.findAllByNumberIn(donorNumbers);
         } else {
             donors = List.of();
         }

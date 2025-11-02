@@ -84,16 +84,16 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookTypeSpringRepository    bookTypeSpringRepository;
 
-    private final GameSystemSpringRepository  gameSystemSpringRepository;
+    private final ContactSpringRepository     contactSpringRepository;
 
-    private final ContactSpringRepository     personSpringRepository;
+    private final GameSystemSpringRepository  gameSystemSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final ContactSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
+            final ContactSpringRepository contactSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -101,7 +101,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
         bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
         gameSystemSpringRepository = Objects.requireNonNull(gameSystemSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        // TODO: maybe should be members only
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -331,7 +332,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
         // TODO: should not contain all the member data
-        borrower = personSpringRepository.findById(entity.getContactId())
+        borrower = contactSpringRepository.findById(entity.getContactId())
             .map(BookEntityMapper::toDomain);
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
@@ -384,7 +385,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
                 .stream()
                 .map(Donor::number)
                 .toList();
-            donors = personSpringRepository.findAllByNumberIn(donorNumbers);
+            donors = contactSpringRepository.findAllByNumberIn(donorNumbers);
         } else {
             donors = List.of();
         }

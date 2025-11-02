@@ -63,14 +63,15 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final ContactSpringRepository     personSpringRepository;
+    private final ContactSpringRepository     contactSpringRepository;
 
-    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ContactSpringRepository personSpringRepo,
+    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ContactSpringRepository contactSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        // TODO: maybe should be members only
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -167,7 +168,7 @@ public final class JpaBookRepository implements BookRepository {
         final Title              title;
 
         // TODO: should not contain all the member data
-        borrower = personSpringRepository.findById(entity.getContactId())
+        borrower = contactSpringRepository.findById(entity.getContactId())
             .map(BookEntityMapper::toDomain);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);

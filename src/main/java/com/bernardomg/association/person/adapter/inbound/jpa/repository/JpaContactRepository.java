@@ -62,13 +62,13 @@ public final class JpaContactRepository implements ContactRepository {
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final ContactSpringRepository       personSpringRepository;
+    private final ContactSpringRepository       contactSpringRepository;
 
-    public JpaContactRepository(final ContactSpringRepository personSpringRepo,
+    public JpaContactRepository(final ContactSpringRepository contactSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
 
@@ -76,7 +76,7 @@ public final class JpaContactRepository implements ContactRepository {
     public final void delete(final long number) {
         log.debug("Deleting contact {}", number);
 
-        personSpringRepository.deleteByNumber(number);
+        contactSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted contact {}", number);
     }
@@ -87,7 +87,7 @@ public final class JpaContactRepository implements ContactRepository {
 
         log.debug("Checking if contact {} exists", number);
 
-        exists = personSpringRepository.existsByNumber(number);
+        exists = contactSpringRepository.existsByNumber(number);
 
         log.debug("Contact {} exists: {}", number, exists);
 
@@ -100,7 +100,7 @@ public final class JpaContactRepository implements ContactRepository {
 
         log.debug("Checking if contact identifier {} exists", identifier);
 
-        exists = personSpringRepository.existsByIdentifier(identifier);
+        exists = contactSpringRepository.existsByIdentifier(identifier);
 
         log.debug("Contact identifier {} exists: {}", identifier, exists);
 
@@ -113,7 +113,7 @@ public final class JpaContactRepository implements ContactRepository {
 
         log.debug("Checking if identifier {} exists for a contact distinct from {}", identifier, number);
 
-        exists = personSpringRepository.existsByIdentifierForAnother(number, identifier);
+        exists = contactSpringRepository.existsByIdentifierForAnother(number, identifier);
 
         log.debug("Identifier {} exists for a contact distinct from {}: {}", identifier, number, exists);
 
@@ -131,10 +131,10 @@ public final class JpaContactRepository implements ContactRepository {
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = ContactSpecifications.filter(filter);
         if (spec.isEmpty()) {
-            read = personSpringRepository.findAll(pageable)
+            read = contactSpringRepository.findAll(pageable)
                 .map(ContactEntityMapper::toDomain);
         } else {
-            read = personSpringRepository.findAll(spec.get(), pageable)
+            read = contactSpringRepository.findAll(spec.get(), pageable)
                 .map(ContactEntityMapper::toDomain);
         }
 
@@ -145,34 +145,34 @@ public final class JpaContactRepository implements ContactRepository {
 
     @Override
     public final Collection<Contact> findAllToRenew() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         log.debug("Finding all the members to renew");
 
-        persons = personSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
+        contacts = contactSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
             .stream()
             .map(ContactEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found all the members to renew: {}", persons);
+        log.debug("Found all the members to renew: {}", contacts);
 
-        return persons;
+        return contacts;
     }
 
     @Override
     public final Collection<Contact> findAllWithRenewalMismatch() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         log.debug("Finding all the members with a renewal mismatch");
 
-        persons = personSpringRepository.findAllWithRenewalMismatch()
+        contacts = contactSpringRepository.findAllWithRenewalMismatch()
             .stream()
             .map(ContactEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found all the members with a renewal mismatch: {}", persons);
+        log.debug("Found all the members with a renewal mismatch: {}", contacts);
 
-        return persons;
+        return contacts;
     }
 
     @Override
@@ -181,7 +181,7 @@ public final class JpaContactRepository implements ContactRepository {
 
         log.debug("Finding next number for the contacts");
 
-        number = personSpringRepository.findNextNumber();
+        number = contactSpringRepository.findNextNumber();
 
         log.debug("Found next number for the contacts: {}", number);
 
@@ -190,16 +190,16 @@ public final class JpaContactRepository implements ContactRepository {
 
     @Override
     public final Optional<Contact> findOne(final Long number) {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         log.debug("Finding contact with number {}", number);
 
-        person = personSpringRepository.findByNumber(number)
+        contact = contactSpringRepository.findByNumber(number)
             .map(ContactEntityMapper::toDomain);
 
-        log.debug("Found contact with number {}: {}", number, person);
+        log.debug("Found contact with number {}: {}", number, contact);
 
-        return person;
+        return contact;
     }
 
     @Override
@@ -208,7 +208,7 @@ public final class JpaContactRepository implements ContactRepository {
 
         log.trace("Checking if member {} is active", number);
 
-        active = personSpringRepository.isActive(number);
+        active = contactSpringRepository.isActive(number);
 
         log.trace("Member {} is active: {}", number, active);
 
@@ -216,26 +216,26 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     @Override
-    public final Contact save(final Contact person) {
+    public final Contact save(final Contact contact) {
         final Optional<ContactEntity> existing;
         final ContactEntity           entity;
         final ContactEntity           created;
         final Contact                 saved;
 
-        log.debug("Saving contact {}", person);
+        log.debug("Saving contact {}", contact);
 
-        entity = toEntity(person);
+        entity = toEntity(contact);
 
-        existing = personSpringRepository.findByNumber(person.number());
+        existing = contactSpringRepository.findByNumber(contact.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = personSpringRepository.save(entity);
+        created = contactSpringRepository.save(entity);
 
         // TODO: Why not returning the saved one?
-        saved = personSpringRepository.findByNumber(created.getNumber())
+        saved = contactSpringRepository.findByNumber(created.getNumber())
             .map(ContactEntityMapper::toDomain)
             .get();
 
@@ -245,17 +245,17 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     @Override
-    public Collection<Contact> saveAll(final Collection<Contact> persons) {
+    public Collection<Contact> saveAll(final Collection<Contact> contacts) {
         final List<ContactEntity> entities;
         final List<Contact>       saved;
 
-        log.debug("Saving contacts {}", persons);
+        log.debug("Saving contacts {}", contacts);
 
-        entities = persons.stream()
+        entities = contacts.stream()
             .map(this::toEntity)
             .toList();
 
-        saved = personSpringRepository.saveAll(entities)
+        saved = contactSpringRepository.saveAll(entities)
             .stream()
             .map(ContactEntityMapper::toDomain)
             .toList();
@@ -308,7 +308,7 @@ public final class JpaContactRepository implements ContactRepository {
         return entity;
     }
 
-    private final PersonContactMethodEntity toEntity(final ContactEntity person, final PersonContact data) {
+    private final PersonContactMethodEntity toEntity(final ContactEntity contact, final PersonContact data) {
         final PersonContactMethodEntity     entity;
         final Optional<ContactMethodEntity> contactMethod;
 
@@ -321,7 +321,7 @@ public final class JpaContactRepository implements ContactRepository {
         }
 
         entity = new PersonContactMethodEntity();
-        entity.setPerson(person);
+        entity.setPerson(contact);
         entity.setContactMethod(contactMethod.get());
         entity.setContact(data.contact());
 

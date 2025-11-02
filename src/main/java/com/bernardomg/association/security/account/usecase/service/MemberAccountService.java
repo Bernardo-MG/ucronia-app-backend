@@ -51,7 +51,7 @@ public final class MemberAccountService implements AccountService {
      */
     private static final Logger         log = LoggerFactory.getLogger(MemberAccountService.class);
 
-    private final UserContactRepository userPersonRepository;
+    private final UserContactRepository userContactRepository;
 
     private final AccountService        wrapped;
 
@@ -59,7 +59,7 @@ public final class MemberAccountService implements AccountService {
         super();
 
         wrapped = Objects.requireNonNull(wrppd);
-        userPersonRepository = Objects.requireNonNull(userMemberRepo);
+        userContactRepository = Objects.requireNonNull(userMemberRepo);
     }
 
     @Override
@@ -73,7 +73,7 @@ public final class MemberAccountService implements AccountService {
 
         wrappedAccount = wrapped.getCurrentUser();
         if (wrappedAccount.isPresent()) {
-            person = userPersonRepository.findByUsername(wrappedAccount.get()
+            person = userContactRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
             account = new ContactAccount(wrappedAccount.get()

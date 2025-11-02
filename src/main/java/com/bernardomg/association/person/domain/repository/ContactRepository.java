@@ -55,8 +55,8 @@ public interface ContactRepository {
 
     public boolean isActive(final long number);
 
-    public Contact save(final Contact person);
+    public Contact save(final Contact contact);
 
-    public Collection<Contact> saveAll(final Collection<Contact> persons);
+    public Collection<Contact> saveAll(final Collection<Contact> contacts);
 
 }

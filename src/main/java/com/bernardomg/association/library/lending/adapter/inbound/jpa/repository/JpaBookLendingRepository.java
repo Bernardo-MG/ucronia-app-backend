@@ -63,15 +63,15 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final ContactSpringRepository     personSpringRepository;
+    private final ContactSpringRepository     contactSpringRepository;
 
     public JpaBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
-            final BookSpringRepository bookSpringRepo, final ContactSpringRepository personSpringRepo) {
+            final BookSpringRepository bookSpringRepo, final ContactSpringRepository contactSpringRepo) {
         super();
 
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
     @Override
@@ -110,19 +110,19 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findOne(final long bookNumber, final long personNumber) {
+    public final Optional<BookLending> findOne(final long bookNumber, final long contactNumber) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding book lending for book {} and person {}", bookNumber, personNumber);
+        log.debug("Finding book lending for book {} and contact {}", bookNumber, contactNumber);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.find(bookNumber, personNumber, pageable)
+        lending = bookLendingSpringRepository.find(bookNumber, contactNumber, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
 
-        log.debug("Found lending for book {} and person {}: {}", bookNumber, personNumber, lending);
+        log.debug("Found lending for book {} and contact {}: {}", bookNumber, contactNumber, lending);
 
         return lending;
     }
@@ -146,15 +146,15 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
+    public final Optional<BookLending> findReturned(final long bookNumber, final long contactNumber,
             final Instant lendingDate) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding returned book {} for person {} and date {}", bookNumber, personNumber, lendingDate);
+        log.debug("Finding returned book {} for contact {} and date {}", bookNumber, contactNumber, lendingDate);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findAllReturned(bookNumber, personNumber, lendingDate, pageable)
+        lending = bookLendingSpringRepository.findAllReturned(bookNumber, contactNumber, lendingDate, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
@@ -170,20 +170,20 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final BookLendingEntity       created;
         final BookLending             saved;
         final Optional<BookEntity>    bookEntity;
-        final Optional<ContactEntity> personEntity;
+        final Optional<ContactEntity> contactEntity;
 
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.book()
             .number());
-        personEntity = personSpringRepository.findByNumber(lending.borrower()
+        contactEntity = contactSpringRepository.findByNumber(lending.borrower()
             .number());
 
-        if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), personEntity.get());
+        if ((bookEntity.isPresent()) && (contactEntity.isPresent())) {
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), contactEntity.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), personEntity.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), contactEntity.get());
 
             log.debug("Saved book lending {}", lending);
         } else {
@@ -201,7 +201,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
-        borrower = personSpringRepository.findById(entity.getContactId())
+        borrower = contactSpringRepository.findById(entity.getContactId())
             .map(BookLendingEntityMapper::toDomain);
         title = new Title(bookEntity.get()
             .getSupertitle(),

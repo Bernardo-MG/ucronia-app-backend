@@ -86,7 +86,7 @@ public class UserContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UserPersonEntity [person=" + contact + ", user=" + user + ", userId=" + userId + "]";
+        return "UserContactEntity [person=" + contact + ", user=" + user + ", userId=" + userId + "]";
     }
 
 }

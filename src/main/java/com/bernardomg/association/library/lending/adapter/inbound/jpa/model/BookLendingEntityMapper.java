@@ -38,12 +38,12 @@ import com.bernardomg.association.person.domain.model.ContactName;
 public final class BookLendingEntityMapper {
 
     public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final ContactEntity personEntity) {
+            final ContactEntity contactEntity) {
         final Borrower borrower;
         final LentBook lentBook;
         final Title    title;
 
-        borrower = toDomain(personEntity);
+        borrower = toDomain(contactEntity);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
         return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
@@ -57,12 +57,12 @@ public final class BookLendingEntityMapper {
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
-            final ContactEntity personEntity) {
+            final ContactEntity contactEntity) {
         final BookLendingEntity entity;
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setContactId(personEntity.getId());
+        entity.setContactId(contactEntity.getId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate());
 

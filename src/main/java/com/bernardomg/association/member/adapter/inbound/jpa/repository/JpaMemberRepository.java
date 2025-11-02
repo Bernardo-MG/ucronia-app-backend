@@ -51,12 +51,12 @@ public final class JpaMemberRepository implements MemberRepository {
      */
     private static final Logger           log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ContactSpringRepository personSpringRepository;
+    private final ContactSpringRepository contactSpringRepository;
 
-    public JpaMemberRepository(final ContactSpringRepository personSpringRepo) {
+    public JpaMemberRepository(final ContactSpringRepository contactSpringRepo) {
         super();
 
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
     @Override
@@ -67,7 +67,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        read = personSpringRepository.findAllActiveMembers(pageable)
+        read = contactSpringRepository.findAllActiveMembers(pageable)
             .map(MemberEntityMapper::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
@@ -81,7 +81,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding public member with number {}", number);
 
-        member = personSpringRepository.findByNumberWithMembership(number)
+        member = contactSpringRepository.findByNumberWithMembership(number)
             .map(MemberEntityMapper::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);

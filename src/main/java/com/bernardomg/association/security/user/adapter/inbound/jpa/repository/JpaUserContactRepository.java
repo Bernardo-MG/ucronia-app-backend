@@ -48,52 +48,52 @@ import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRep
 
 @Repository
 @Transactional
-public final class JpaUserPersonRepository implements UserContactRepository {
+public final class JpaUserContactRepository implements UserContactRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaUserPersonRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaUserContactRepository.class);
 
-    private final ContactSpringRepository     personSpringRepository;
+    private final ContactSpringRepository     contactSpringRepository;
 
-    private final UserContactSpringRepository userPersonSpringRepository;
+    private final UserContactSpringRepository userContactSpringRepository;
 
     private final UserSpringRepository        userSpringRepository;
 
-    public JpaUserPersonRepository(final UserContactSpringRepository userPersonSpringRepo,
-            final UserSpringRepository userSpringRepo, final ContactSpringRepository personSpringRepo) {
+    public JpaUserContactRepository(final UserContactSpringRepository userContactSpringRepo,
+            final UserSpringRepository userSpringRepo, final ContactSpringRepository contactSpringRepo) {
         super();
 
-        userPersonSpringRepository = Objects.requireNonNull(userPersonSpringRepo);
+        userContactSpringRepository = Objects.requireNonNull(userContactSpringRepo);
         userSpringRepository = Objects.requireNonNull(userSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
     @Override
     public final Contact assignContact(final String username, final long number) {
         final UserContactEntity       userMember;
         final Optional<UserEntity>    user;
-        final Optional<ContactEntity> person;
+        final Optional<ContactEntity> contact;
         final Contact                 result;
 
-        log.trace("Assigning person {} to username {}", number, username);
+        log.trace("Assigning contact {} to username {}", number, username);
 
         user = userSpringRepository.findByUsername(username);
-        person = personSpringRepository.findByNumber(number);
-        if ((user.isPresent()) && (person.isPresent())) {
+        contact = contactSpringRepository.findByNumber(number);
+        if ((user.isPresent()) && (contact.isPresent())) {
             userMember = new UserContactEntity();
             userMember.setUserId(user.get()
                 .getId());
-            userMember.setContact(person.get());
+            userMember.setContact(contact.get());
             userMember.setUser(user.get());
 
-            userPersonSpringRepository.save(userMember);
-            result = ContactEntityMapper.toDomain(person.get());
+            userContactSpringRepository.save(userMember);
+            result = ContactEntityMapper.toDomain(contact.get());
 
-            log.trace("Assigned person {} to username {}", number, username);
+            log.trace("Assigned contact {} to username {}", number, username);
         } else {
-            log.warn("Failed to assign person {} to username {}", number, username);
+            log.warn("Failed to assign contact {} to username {}", number, username);
 
             result = null;
         }
@@ -107,7 +107,7 @@ public final class JpaUserPersonRepository implements UserContactRepository {
 
         log.trace("Checking if username {} exists for a user with a number distinct from {}", username, number);
 
-        exists = userPersonSpringRepository.existsByNotUsernameAndMemberNumber(username, number);
+        exists = userContactSpringRepository.existsByNotUsernameAndMemberNumber(username, number);
 
         log.trace("Username {} exists for a user with a number distinct from {}: {}", username, number, exists);
 
@@ -122,7 +122,7 @@ public final class JpaUserPersonRepository implements UserContactRepository {
         log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        read = userPersonSpringRepository.findAllNotAssigned(pageable)
+        read = userContactSpringRepository.findAllNotAssigned(pageable)
             .map(ContactEntityMapper::toDomain);
 
         log.trace("Found all the people: {}", read);
@@ -134,53 +134,53 @@ public final class JpaUserPersonRepository implements UserContactRepository {
     public final Optional<Contact> findByUsername(final String username) {
         final Optional<UserEntity>        user;
         final Optional<UserContactEntity> userMember;
-        final Optional<Contact>           person;
+        final Optional<Contact>           contact;
 
-        log.trace("Finding person for username {}", username);
+        log.trace("Finding contact for username {}", username);
 
         user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
             // TODO: Simplify this, use JPA relationships
-            userMember = userPersonSpringRepository.findByUserId(user.get()
+            userMember = userContactSpringRepository.findByUserId(user.get()
                 .getId());
             if ((userMember.isPresent()) && (userMember.get()
                 .getContact() != null)) {
-                person = Optional.of(ContactEntityMapper.toDomain(userMember.get()
+                contact = Optional.of(ContactEntityMapper.toDomain(userMember.get()
                     .getContact()));
             } else {
-                person = Optional.empty();
+                contact = Optional.empty();
             }
         } else {
-            person = Optional.empty();
+            contact = Optional.empty();
         }
 
-        log.trace("Found person for username {}: {}", username, person);
+        log.trace("Found contact for username {}: {}", username, contact);
 
-        return person;
+        return contact;
     }
 
     @Override
     public final Contact unassignContact(final String username) {
         final Optional<UserEntity> user;
-        final Contact              person;
+        final Contact              contact;
 
         log.debug("Deleting user {}", username);
 
         user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
-            person = findByUsername(username).orElse(null);
+            contact = findByUsername(username).orElse(null);
 
             // TODO: handle relationships
             // TODO: why not delete by username?
-            userPersonSpringRepository.deleteByUserId(user.get()
+            userContactSpringRepository.deleteByUserId(user.get()
                 .getId());
 
             log.debug("Deleted user {}", username);
         } else {
-            person = null;
+            contact = null;
         }
 
-        return person;
+        return contact;
     }
 
 }
