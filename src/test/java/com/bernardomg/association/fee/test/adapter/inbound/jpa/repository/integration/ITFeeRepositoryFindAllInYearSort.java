@@ -41,9 +41,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -56,7 +56,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @AccentActiveMembershipPerson
+    @AccentActiveMembershipContact
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYear_Accents_Name_Asc() {
@@ -76,8 +76,8 @@ class ITFeeRepositoryFindAllInYearSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
-                "Person o Last name 4", "Person u Last name 5");
+            .containsExactly("Contact a Last name 1", "Contact é Last name 2", "Contact i Last name 3",
+                "Contact o Last name 4", "Contact u Last name 5");
     }
 
     @Test
@@ -100,8 +100,8 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MembershipActivePerson
-    @AlternativeActiveMembershipPerson
+    @MembershipActiveContact
+    @AlternativeActiveMembershipContact
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Asc() {
@@ -139,8 +139,8 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MembershipActivePerson
-    @AlternativeActiveMembershipPerson
+    @MembershipActiveContact
+    @AlternativeActiveMembershipContact
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Desc() {

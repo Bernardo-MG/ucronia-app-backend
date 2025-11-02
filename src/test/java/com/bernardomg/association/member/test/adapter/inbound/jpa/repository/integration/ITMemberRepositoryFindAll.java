@@ -33,9 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActiveContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactiveContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -54,7 +54,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member, it returns the member")
-    @MembershipActivePerson
+    @MembershipActiveContact
     void testFindActive_Active() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -77,7 +77,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member, it returns nothing")
-    @MembershipInactivePerson
+    @MembershipInactiveContact
     void testFindActive_Inactive() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -122,7 +122,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With a member with no membership, it returns nothing")
-    @NoMembershipPerson
+    @NoMembershipContact
     void testFindActive_NoMembership() {
         final Page<Member> members;
         final Pagination   pagination;

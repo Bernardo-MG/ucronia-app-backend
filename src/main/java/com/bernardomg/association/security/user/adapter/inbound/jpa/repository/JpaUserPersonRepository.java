@@ -33,12 +33,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntityMapper;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPersonEntity;
-import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
+import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -48,21 +48,21 @@ import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRep
 
 @Repository
 @Transactional
-public final class JpaUserPersonRepository implements UserPersonRepository {
+public final class JpaUserPersonRepository implements UserContactRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger              log = LoggerFactory.getLogger(JpaUserPersonRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaUserPersonRepository.class);
 
-    private final PersonSpringRepository     personSpringRepository;
+    private final ContactSpringRepository     personSpringRepository;
 
-    private final UserPersonSpringRepository userPersonSpringRepository;
+    private final UserContactSpringRepository userPersonSpringRepository;
 
-    private final UserSpringRepository       userSpringRepository;
+    private final UserSpringRepository        userSpringRepository;
 
-    public JpaUserPersonRepository(final UserPersonSpringRepository userPersonSpringRepo,
-            final UserSpringRepository userSpringRepo, final PersonSpringRepository personSpringRepo) {
+    public JpaUserPersonRepository(final UserContactSpringRepository userPersonSpringRepo,
+            final UserSpringRepository userSpringRepo, final ContactSpringRepository personSpringRepo) {
         super();
 
         userPersonSpringRepository = Objects.requireNonNull(userPersonSpringRepo);
@@ -71,25 +71,25 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Person assignPerson(final String username, final long number) {
-        final UserPersonEntity       userMember;
-        final Optional<UserEntity>   user;
-        final Optional<PersonEntity> person;
-        final Person                 result;
+    public final Contact assignContact(final String username, final long number) {
+        final UserContactEntity       userMember;
+        final Optional<UserEntity>    user;
+        final Optional<ContactEntity> person;
+        final Contact                 result;
 
         log.trace("Assigning person {} to username {}", number, username);
 
         user = userSpringRepository.findByUsername(username);
         person = personSpringRepository.findByNumber(number);
         if ((user.isPresent()) && (person.isPresent())) {
-            userMember = new UserPersonEntity();
+            userMember = new UserContactEntity();
             userMember.setUserId(user.get()
                 .getId());
-            userMember.setPerson(person.get());
+            userMember.setContact(person.get());
             userMember.setUser(user.get());
 
             userPersonSpringRepository.save(userMember);
-            result = PersonEntityMapper.toDomain(person.get());
+            result = ContactEntityMapper.toDomain(person.get());
 
             log.trace("Assigned person {} to username {}", number, username);
         } else {
@@ -102,7 +102,7 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final boolean existsByPersonForAnotherUser(final String username, final long number) {
+    public final boolean existsByContactForAnotherUser(final String username, final long number) {
         final boolean exists;
 
         log.trace("Checking if username {} exists for a user with a number distinct from {}", username, number);
@@ -115,15 +115,15 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Page<Person> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Person> read;
-        final Pageable                                     pageable;
+    public final Page<Contact> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Contact> read;
+        final Pageable                                      pageable;
 
         log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = userPersonSpringRepository.findAllNotAssigned(pageable)
-            .map(PersonEntityMapper::toDomain);
+            .map(ContactEntityMapper::toDomain);
 
         log.trace("Found all the people: {}", read);
 
@@ -131,10 +131,10 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Optional<Person> findByUsername(final String username) {
-        final Optional<UserEntity>       user;
-        final Optional<UserPersonEntity> userMember;
-        final Optional<Person>           person;
+    public final Optional<Contact> findByUsername(final String username) {
+        final Optional<UserEntity>        user;
+        final Optional<UserContactEntity> userMember;
+        final Optional<Contact>           person;
 
         log.trace("Finding person for username {}", username);
 
@@ -144,9 +144,9 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
             userMember = userPersonSpringRepository.findByUserId(user.get()
                 .getId());
             if ((userMember.isPresent()) && (userMember.get()
-                .getPerson() != null)) {
-                person = Optional.of(PersonEntityMapper.toDomain(userMember.get()
-                    .getPerson()));
+                .getContact() != null)) {
+                person = Optional.of(ContactEntityMapper.toDomain(userMember.get()
+                    .getContact()));
             } else {
                 person = Optional.empty();
             }
@@ -160,9 +160,9 @@ public final class JpaUserPersonRepository implements UserPersonRepository {
     }
 
     @Override
-    public final Person unassignPerson(final String username) {
+    public final Contact unassignContact(final String username) {
         final Optional<UserEntity> user;
-        final Person               person;
+        final Contact              person;
 
         log.debug("Deleting user {}", username);
 

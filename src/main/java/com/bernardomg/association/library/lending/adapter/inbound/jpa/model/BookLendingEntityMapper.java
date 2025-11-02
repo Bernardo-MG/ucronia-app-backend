@@ -29,8 +29,8 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.person.domain.model.ContactName;
 
 /**
  * Author repository mapper.
@@ -38,7 +38,7 @@ import com.bernardomg.association.person.domain.model.PersonName;
 public final class BookLendingEntityMapper {
 
     public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final PersonEntity personEntity) {
+            final ContactEntity personEntity) {
         final Borrower borrower;
         final LentBook lentBook;
         final Title    title;
@@ -49,20 +49,20 @@ public final class BookLendingEntityMapper {
         return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
-    public static final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
+    public static final Borrower toDomain(final ContactEntity entity) {
+        final ContactName name;
 
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
         return new Borrower(entity.getNumber(), name);
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
-            final PersonEntity personEntity) {
+            final ContactEntity personEntity) {
         final BookLendingEntity entity;
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setPersonId(personEntity.getId());
+        entity.setContactId(personEntity.getId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate());
 

@@ -8,7 +8,7 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBoo
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeEntities;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemEntities;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherEntities;
-import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
+import com.bernardomg.association.person.test.configuration.factory.ContactEntities;
 
 public final class GameBookEntities {
 
@@ -23,7 +23,7 @@ public final class GameBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(PersonEntities.noMembership()));
+        entity.setDonors(List.of(ContactEntities.noMembership()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         entity.setBookType(BookTypeEntities.valid());
         entity.setGameSystem(GameSystemEntities.valid());
@@ -41,7 +41,7 @@ public final class GameBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(PersonEntities.noMembership()));
+        entity.setDonors(List.of(ContactEntities.noMembership()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         entity.setBookType(BookTypeEntities.valid());
         entity.setGameSystem(GameSystemEntities.valid());

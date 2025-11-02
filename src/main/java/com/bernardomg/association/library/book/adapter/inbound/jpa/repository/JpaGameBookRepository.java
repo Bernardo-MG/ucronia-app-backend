@@ -59,8 +59,8 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.Borro
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -86,14 +86,14 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final GameSystemSpringRepository  gameSystemSpringRepository;
 
-    private final PersonSpringRepository      personSpringRepository;
+    private final ContactSpringRepository     personSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final PersonSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
+            final ContactSpringRepository personSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -331,7 +331,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
         // TODO: should not contain all the member data
-        borrower = personSpringRepository.findById(entity.getPersonId())
+        borrower = personSpringRepository.findById(entity.getContactId())
             .map(BookEntityMapper::toDomain);
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
@@ -344,7 +344,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final Collection<PublisherEntity> publishers;
         final Optional<BookTypeEntity>    bookType;
         final Optional<GameSystemEntity>  gameSystem;
-        final Collection<PersonEntity>    donors;
+        final Collection<ContactEntity>   donors;
         final Collection<AuthorEntity>    authors;
         final GameBookEntity              entity;
 

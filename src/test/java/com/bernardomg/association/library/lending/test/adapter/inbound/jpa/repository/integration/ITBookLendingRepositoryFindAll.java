@@ -39,7 +39,7 @@ import com.bernardomg.association.library.lending.domain.repository.BookLendingR
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -57,7 +57,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     @LentBookLending
     void testFindAll_FictionBook_Lent() {
@@ -103,7 +103,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned fiction book, nothing is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_FictionBook_Returned() {
@@ -127,7 +127,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     @LentBookLending
     void testFindAll_GameBook_Lent() {
@@ -173,7 +173,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned game book, nothing is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_GameBook_Returned() {

@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Page;
@@ -66,7 +66,7 @@ class TestFeeServiceGetAll {
     private MessageSource             messageSource;
 
     @Mock
-    private PersonRepository          personRepository;
+    private ContactRepository         personRepository;
 
     @InjectMocks
     private DefaultFeeService         service;

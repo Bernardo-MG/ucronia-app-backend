@@ -31,9 +31,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.person.domain.model.Person;
+import com.bernardomg.association.person.domain.model.Contact;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserPersonDtoMapper;
-import com.bernardomg.association.security.user.usecase.service.UserPersonService;
+import com.bernardomg.association.security.user.usecase.service.UserContactService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -59,9 +59,9 @@ public class UserPersonController implements UserPersonApi {
     /**
      * User member service.
      */
-    private final UserPersonService service;
+    private final UserContactService service;
 
-    public UserPersonController(final UserPersonService service) {
+    public UserPersonController(final UserContactService service) {
         super();
         this.service = service;
     }
@@ -69,9 +69,9 @@ public class UserPersonController implements UserPersonApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public PersonResponseDto assignPersonToUser(final String username, final Long memberNumber) {
-        Person person;
+        Contact person;
 
-        person = service.assignPerson(username, memberNumber);
+        person = service.assignContact(username, memberNumber);
         return UserPersonDtoMapper.toResponseDto(person);
     }
 
@@ -79,9 +79,9 @@ public class UserPersonController implements UserPersonApi {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public PersonResponseDto getAssignedPerson(final String username) {
-        final Optional<Person> person;
+        final Optional<Contact> person;
 
-        person = service.getPerson(username);
+        person = service.getContact(username);
 
         return UserPersonDtoMapper.toResponseDto(person);
     }
@@ -90,13 +90,13 @@ public class UserPersonController implements UserPersonApi {
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public PersonPageResponseDto getAvailablePersons(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        Page<Person>     persons;
+        Page<Contact>    persons;
         final Pagination pagination;
         final Sorting    sorting;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        persons = service.getAvailablePerson(pagination, sorting);
+        persons = service.getAvailableContact(pagination, sorting);
 
         return UserPersonDtoMapper.toResponseDto(persons);
     }
@@ -104,9 +104,9 @@ public class UserPersonController implements UserPersonApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public PersonResponseDto unassignPerson(final String username) {
-        Person person;
+        Contact person;
 
-        person = service.unassignPerson(username);
+        person = service.unassignContact(username);
 
         return UserPersonDtoMapper.toResponseDto(person);
     }

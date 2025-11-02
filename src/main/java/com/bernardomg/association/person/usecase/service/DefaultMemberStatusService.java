@@ -35,9 +35,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.Person.Membership;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.Contact.Membership;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 
 @Service
 @Transactional
@@ -46,11 +46,11 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(DefaultMemberStatusService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultMemberStatusService.class);
 
-    private final PersonRepository personRepository;
+    private final ContactRepository personRepository;
 
-    public DefaultMemberStatusService(final PersonRepository personRepo) {
+    public DefaultMemberStatusService(final ContactRepository personRepo) {
         super();
 
         personRepository = Objects.requireNonNull(personRepo);
@@ -58,8 +58,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     @Override
     public final void activate(final YearMonth date, final Long personNumber) {
-        final Optional<Person> person;
-        final Person           activated;
+        final Optional<Contact> person;
+        final Contact           activated;
 
         if (YearMonth.now()
             .equals(date)) {
@@ -79,10 +79,10 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     @Override
     public final void applyRenewal() {
-        final Collection<Person> persons;
-        final Collection<Person> toActivate;
-        final Collection<Person> toDeactivate;
-        final Collection<Person> toSave;
+        final Collection<Contact> persons;
+        final Collection<Contact> toActivate;
+        final Collection<Contact> toDeactivate;
+        final Collection<Contact> toSave;
 
         log.debug("Applying membership renewals");
 
@@ -109,8 +109,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     @Override
     public final void deactivate(final YearMonth date, final Long personNumber) {
-        final Optional<Person> person;
-        final Person           deactivated;
+        final Optional<Contact> person;
+        final Contact           deactivated;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
@@ -129,19 +129,19 @@ public final class DefaultMemberStatusService implements MemberStatusService {
         }
     }
 
-    private final Person activated(final Person original) {
+    private final Contact activated(final Contact original) {
         final Membership membership;
 
         membership = new Membership(true, true);
-        return new Person(original.identifier(), original.number(), original.name(), original.birthDate(),
+        return new Contact(original.identifier(), original.number(), original.name(), original.birthDate(),
             Optional.of(membership), original.contacts());
     }
 
-    private final Person deactivated(final Person original) {
+    private final Contact deactivated(final Contact original) {
         final Membership membership;
 
         membership = new Membership(false, false);
-        return new Person(original.identifier(), original.number(), original.name(), original.birthDate(),
+        return new Contact(original.identifier(), original.number(), original.name(), original.birthDate(),
             Optional.of(membership), original.contacts());
     }
 

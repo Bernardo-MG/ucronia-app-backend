@@ -38,7 +38,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactiveContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -47,7 +47,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - pagination")
-@MultipleMembershipInactivePerson
+@MultipleMembershipInactiveContact
 @MultipleFees
 class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 

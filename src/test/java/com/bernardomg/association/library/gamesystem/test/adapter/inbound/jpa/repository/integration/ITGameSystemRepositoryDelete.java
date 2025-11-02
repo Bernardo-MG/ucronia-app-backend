@@ -34,7 +34,7 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.reposit
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITGameSystemRepositoryDelete {
 
     @Test
     @DisplayName("When the game system is assigned to a book, it is deleted")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     void testDelete_InBook() {
         // WHEN

@@ -42,7 +42,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -58,7 +58,7 @@ class TestBookLendingServiceGetAll {
     private BookRepository            bookRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private ContactRepository         personRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;

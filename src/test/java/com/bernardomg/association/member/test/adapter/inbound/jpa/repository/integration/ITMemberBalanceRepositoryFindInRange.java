@@ -13,7 +13,7 @@ import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -26,7 +26,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having only the end date")
-    @MembershipActivePerson
+    @MembershipActiveContact
     @FeeFullYear
     void testFindInRange_End() {
         final Sorting                        sorting;
@@ -51,7 +51,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Returns all when not applying range")
-    @MembershipActivePerson
+    @MembershipActiveContact
     @FeeFullYear
     void testFindInRange_NoRange() {
         final Sorting                        sorting;
@@ -100,7 +100,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having in a range")
-    @MembershipActivePerson
+    @MembershipActiveContact
     @FeeFullYear
     void testFindInRange_Range() {
         final Sorting                        sorting;
@@ -130,7 +130,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having only the start date")
-    @MembershipActivePerson
+    @MembershipActiveContact
     @FeeFullYear
     void testFindInRange_Start() {
         final Sorting                        sorting;

@@ -56,7 +56,7 @@ public class PersonContactMethodEntity implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "person_id", nullable = false)
-    private PersonEntity        person;
+    private ContactEntity       person;
 
     @Override
     public boolean equals(final Object obj) {
@@ -79,7 +79,7 @@ public class PersonContactMethodEntity implements Serializable {
         return contactMethod;
     }
 
-    public PersonEntity getPerson() {
+    public ContactEntity getPerson() {
         return person;
     }
 
@@ -96,7 +96,7 @@ public class PersonContactMethodEntity implements Serializable {
         this.contactMethod = contactMethod;
     }
 
-    public void setPerson(final PersonEntity person) {
+    public void setPerson(final ContactEntity person) {
         this.person = person;
     }
 

@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.security.account.domain.model.PersonAccount;
-import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.security.account.domain.model.ContactAccount;
+import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
@@ -49,13 +49,13 @@ public final class MemberAccountService implements AccountService {
     /**
      * Logger for the class.
      */
-    private static final Logger        log = LoggerFactory.getLogger(MemberAccountService.class);
+    private static final Logger         log = LoggerFactory.getLogger(MemberAccountService.class);
 
-    private final UserPersonRepository userPersonRepository;
+    private final UserContactRepository userPersonRepository;
 
-    private final AccountService       wrapped;
+    private final AccountService        wrapped;
 
-    public MemberAccountService(final AccountService wrppd, final UserPersonRepository userMemberRepo) {
+    public MemberAccountService(final AccountService wrppd, final UserContactRepository userMemberRepo) {
         super();
 
         wrapped = Objects.requireNonNull(wrppd);
@@ -67,7 +67,7 @@ public final class MemberAccountService implements AccountService {
         final Optional<Account> wrappedAccount;
         final Optional<Account> result;
         final Account           account;
-        final Optional<Person>  person;
+        final Optional<Contact> person;
 
         log.debug("Getting account for user in session");
 
@@ -76,7 +76,7 @@ public final class MemberAccountService implements AccountService {
             person = userPersonRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
-            account = new PersonAccount(wrappedAccount.get()
+            account = new ContactAccount(wrappedAccount.get()
                 .getEmail(),
                 wrappedAccount.get()
                     .getUsername(),

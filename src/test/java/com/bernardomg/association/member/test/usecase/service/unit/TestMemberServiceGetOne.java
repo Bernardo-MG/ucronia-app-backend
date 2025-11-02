@@ -42,7 +42,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get one")
@@ -64,10 +64,10 @@ class TestMemberServiceGetOne {
         final Optional<Member> memberOptional;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
+        given(publicMemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
 
         // WHEN
-        memberOptional = service.getOne(PersonConstants.NUMBER);
+        memberOptional = service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -80,10 +80,10 @@ class TestMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(publicMemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(PersonConstants.NUMBER);
+        execution = () -> service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

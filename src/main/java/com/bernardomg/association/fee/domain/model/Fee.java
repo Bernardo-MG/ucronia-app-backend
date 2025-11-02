@@ -28,7 +28,7 @@ import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Optional;
 
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.ContactName;
 
 public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transaction> transaction) {
 
@@ -40,7 +40,7 @@ public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transac
         return new Fee(month, true, person, Optional.of(transaction));
     }
 
-    public static record Member(Long number, PersonName name) {}
+    public static record Member(Long number, ContactName name) {}
 
     public static record Transaction(Instant date, Long index) {}
 

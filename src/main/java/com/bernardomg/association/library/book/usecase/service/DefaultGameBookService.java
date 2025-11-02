@@ -57,7 +57,7 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -83,7 +83,7 @@ public final class DefaultGameBookService implements GameBookService {
 
     private final GameSystemRepository gameSystemRepository;
 
-    private final PersonRepository     personRepository;
+    private final ContactRepository    personRepository;
 
     private final PublisherRepository  publisherRepository;
 
@@ -91,7 +91,7 @@ public final class DefaultGameBookService implements GameBookService {
 
     public DefaultGameBookService(final GameBookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
-            final GameSystemRepository gameSystemRepo, final PersonRepository personRepo) {
+            final GameSystemRepository gameSystemRepo, final ContactRepository personRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);

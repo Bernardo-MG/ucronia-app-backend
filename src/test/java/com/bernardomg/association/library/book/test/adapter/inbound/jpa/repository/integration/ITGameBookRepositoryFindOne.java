@@ -43,8 +43,8 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,7 +56,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a game book and it has a donation without date, it is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @DonationNoDateGameBook
     void testFindOne_DonationNoDate() {
         final Optional<GameBook> book;
@@ -87,7 +87,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a full game book, it is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     void testFindOne_Full() {
         final Optional<GameBook> book;
@@ -103,7 +103,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     @LentBookLending
     void testFindOne_FullLent() {
@@ -120,8 +120,8 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @NoMembershipContact
+    @AlternativeContact
     @FullGameBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
@@ -167,7 +167,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -184,8 +184,8 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book with history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @NoMembershipContact
+    @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {

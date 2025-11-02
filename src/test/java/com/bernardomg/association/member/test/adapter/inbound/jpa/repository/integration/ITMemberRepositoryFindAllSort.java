@@ -36,7 +36,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActiveContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -44,7 +44,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find all - sort")
-@MultipleMembershipActivePerson
+@MultipleMembershipActiveContact
 @MultipleFees
 class ITMemberRepositoryFindAllSort {
 

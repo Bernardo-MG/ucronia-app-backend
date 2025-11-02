@@ -27,8 +27,8 @@ package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.Person.PersonContact;
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.Contact.PersonContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -45,12 +45,16 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class UserPersonDtoMapper {
 
-    public static final PersonResponseDto toResponseDto(final Optional<Person> person) {
+    public static final PersonResponseDto toResponseDto(final Contact person) {
+        return new PersonResponseDto().content(UserPersonDtoMapper.toDto(person));
+    }
+
+    public static final PersonResponseDto toResponseDto(final Optional<Contact> person) {
         return new PersonResponseDto().content(person.map(UserPersonDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final PersonPageResponseDto toResponseDto(final Page<Person> page) {
+    public static final PersonPageResponseDto toResponseDto(final Page<Contact> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
@@ -72,11 +76,7 @@ public final class UserPersonDtoMapper {
             .sort(sortingResponse);
     }
 
-    public static final PersonResponseDto toResponseDto(final Person person) {
-        return new PersonResponseDto().content(UserPersonDtoMapper.toDto(person));
-    }
-
-    private static final PersonDto toDto(final Person person) {
+    private static final PersonDto toDto(final Contact person) {
         ContactNameDto         name;
         MembershipDto          membership;
         List<PersonContactDto> contacts;

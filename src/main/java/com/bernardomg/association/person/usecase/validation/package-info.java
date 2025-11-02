@@ -23,7 +23,7 @@
  */
 
 /**
- * Person validators.
+ * Contact validators.
  */
 
 package com.bernardomg.association.person.usecase.validation;

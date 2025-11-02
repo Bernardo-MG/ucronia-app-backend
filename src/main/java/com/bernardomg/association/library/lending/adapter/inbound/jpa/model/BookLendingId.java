@@ -33,32 +33,32 @@ public class BookLendingId implements Serializable {
 
     private Long              bookId;
 
-    private Instant           lendingDate;
+    private Long              contactId;
 
-    private Long              personId;
+    private Instant           lendingDate;
 
     public Long getBookId() {
         return bookId;
+    }
+
+    public Long getContactId() {
+        return contactId;
     }
 
     public Instant getLendingDate() {
         return lendingDate;
     }
 
-    public Long getPersonId() {
-        return personId;
-    }
-
     public void setBookId(final Long bookId) {
         this.bookId = bookId;
     }
 
-    public void setLendingDate(final Instant lendingDate) {
-        this.lendingDate = lendingDate;
+    public void setContactId(final Long contactId) {
+        this.contactId = contactId;
     }
 
-    public void setPersonId(final Long personId) {
-        this.personId = personId;
+    public void setLendingDate(final Instant lendingDate) {
+        this.lendingDate = lendingDate;
     }
 
 }

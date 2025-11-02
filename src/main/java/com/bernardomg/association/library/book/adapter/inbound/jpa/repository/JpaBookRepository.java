@@ -48,7 +48,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactSpringRepository;
 
 @Repository
 @Transactional
@@ -63,9 +63,9 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final PersonSpringRepository      personSpringRepository;
+    private final ContactSpringRepository     personSpringRepository;
 
-    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final PersonSpringRepository personSpringRepo,
+    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ContactSpringRepository personSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
@@ -167,7 +167,7 @@ public final class JpaBookRepository implements BookRepository {
         final Title              title;
 
         // TODO: should not contain all the member data
-        borrower = personSpringRepository.findById(entity.getPersonId())
+        borrower = personSpringRepository.findById(entity.getContactId())
             .map(BookEntityMapper::toDomain);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);

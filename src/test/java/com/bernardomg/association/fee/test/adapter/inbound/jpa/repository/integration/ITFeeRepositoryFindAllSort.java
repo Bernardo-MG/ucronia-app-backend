@@ -44,8 +44,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.person.test.configuration.data.annotation.AccentInactiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.AccentInactiveMembershipContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactiveContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -60,7 +60,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @AccentInactiveMembershipPerson
+    @AccentInactiveMembershipContact
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
@@ -86,13 +86,13 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
-                "Person o Last name 4", "Person u Last name 5");
+            .containsExactly("Contact a Last name 1", "Contact é Last name 2", "Contact i Last name 3",
+                "Contact o Last name 4", "Contact u Last name 5");
     }
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_Date_Asc() {
         final Page<Fee>  fees;
@@ -122,7 +122,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_Date_Desc() {
         final Page<Fee>  fees;
@@ -153,7 +153,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Page<Fee>  fees;
@@ -178,13 +178,13 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
-                "Person 4 Last name 4", "Person 5 Last name 5");
+            .containsExactly("Contact 1 Last name 1", "Contact 2 Last name 2", "Contact 3 Last name 3",
+                "Contact 4 Last name 4", "Contact 5 Last name 5");
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Page<Fee>  fees;
@@ -209,14 +209,14 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",
-                "Person 2 Last name 2", "Person 1 Last name 1");
+            .containsExactly("Contact 5 Last name 5", "Contact 4 Last name 4", "Contact 3 Last name 3",
+                "Contact 2 Last name 2", "Contact 1 Last name 1");
     }
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_NotExisting() {
         final FeeQuery         feeQuery;
@@ -240,7 +240,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Page<Fee>  fees;
@@ -269,7 +269,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
-    @MultipleMembershipInactivePerson
+    @MultipleMembershipInactiveContact
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Page<Fee>  fees;

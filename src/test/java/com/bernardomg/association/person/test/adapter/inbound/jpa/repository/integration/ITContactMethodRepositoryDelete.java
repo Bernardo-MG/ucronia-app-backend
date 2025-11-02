@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.person.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,7 +54,7 @@ class ITContactMethodRepositoryDelete {
     @EmailContactMethod
     void testDelete() {
         // WHEN
-        repository.delete(PersonConstants.NUMBER);
+        repository.delete(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springrepository.count())
@@ -65,7 +65,7 @@ class ITContactMethodRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_noData() {
         // WHEN
-        repository.delete(PersonConstants.NUMBER);
+        repository.delete(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springrepository.count())

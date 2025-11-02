@@ -2,23 +2,23 @@
 package com.bernardomg.association.library.book.test.configuration.factory;
 
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
-import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.domain.model.ContactName;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 
 public final class Borrowers {
 
     public static final Borrower alternative() {
-        final PersonName name;
+        final ContactName name;
 
-        name = new PersonName(PersonConstants.ALTERNATIVE_FIRST_NAME, PersonConstants.ALTERNATIVE_LAST_NAME);
-        return new Borrower(PersonConstants.ALTERNATIVE_NUMBER, name);
+        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
+        return new Borrower(ContactConstants.ALTERNATIVE_NUMBER, name);
     }
 
     public static final Borrower valid() {
-        final PersonName name;
+        final ContactName name;
 
-        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Borrower(PersonConstants.NUMBER, name);
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Borrower(ContactConstants.NUMBER, name);
     }
 
     private Borrowers() {

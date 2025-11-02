@@ -38,10 +38,10 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeActiveMembershipContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActiveContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipContact;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,15 +53,15 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
-    @MembershipActivePerson
-    @AlternativeActiveMembershipPerson
+    @MembershipActiveContact
+    @AlternativeActiveMembershipContact
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Active_TwoMembers_Alternative() {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = repository.findOne(PersonConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(ContactConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -74,7 +74,7 @@ class ITFeeRepositoryFindOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = repository.findOne(PersonConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -83,13 +83,13 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no last name, only the name is returned")
-    @NoLastNameActiveMembershipPerson
+    @NoLastNameActiveMembershipContact
     @PaidFee
     void testFindOne_NoLastName() {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = repository.findOne(PersonConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -98,13 +98,13 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
-    @MembershipActivePerson
+    @MembershipActiveContact
     @NotPaidFee
     void testFindOne_NotPaid() {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = repository.findOne(PersonConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -113,13 +113,13 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
-    @MembershipActivePerson
+    @MembershipActiveContact
     @PaidFee
     void testFindOne_Paid() {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = repository.findOne(PersonConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -128,15 +128,15 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
-    @MembershipActivePerson
-    @AlternativeActiveMembershipPerson
+    @MembershipActiveContact
+    @AlternativeActiveMembershipContact
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Paid_TwoMembers() {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = repository.findOne(PersonConstants.NUMBER, FeeConstants.DATE);
+        fee = repository.findOne(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)

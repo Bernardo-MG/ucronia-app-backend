@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -49,11 +49,11 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger           log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final PersonSpringRepository personSpringRepository;
+    private final ContactSpringRepository personSpringRepository;
 
-    public JpaMemberRepository(final PersonSpringRepository personSpringRepo) {
+    public JpaMemberRepository(final ContactSpringRepository personSpringRepo) {
         super();
 
         personSpringRepository = Objects.requireNonNull(personSpringRepo);

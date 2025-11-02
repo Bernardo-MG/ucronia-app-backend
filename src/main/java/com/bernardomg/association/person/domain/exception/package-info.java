@@ -23,7 +23,7 @@
  */
 
 /**
- * Person exceptions.
+ * Contact exceptions.
  */
 
 package com.bernardomg.association.person.domain.exception;

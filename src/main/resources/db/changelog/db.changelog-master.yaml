@@ -11,7 +11,7 @@ databaseChangeLog:
       file: structure/funds.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/people.yaml
+      file: structure/contact.yaml
       relativeToChangelogFile: true
   # Inventory
   - include:

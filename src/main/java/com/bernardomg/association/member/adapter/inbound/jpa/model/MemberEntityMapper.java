@@ -25,18 +25,18 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.person.domain.model.ContactName;
 
 /**
  * Author repository mapper.
  */
 public final class MemberEntityMapper {
 
-    public static final Member toDomain(final PersonEntity entity) {
-        final PersonName name;
+    public static final Member toDomain(final ContactEntity entity) {
+        final ContactName name;
 
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
         // TODO: check it has membership flag
         return new Member(entity.getNumber(), name);
     }

@@ -38,7 +38,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingEntities;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -71,7 +71,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a fiction book, a lending is persisted")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     void testSave_FictionBook_Persisted() {
         final BookLending lending;
@@ -91,7 +91,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a fiction book, the persisted lending is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     void testSave_FictionBook_Returned() {
         final BookLending lending;
@@ -129,7 +129,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a game book, a lending is persisted")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     void testSave_GameBook_Persisted() {
         final BookLending lending;
@@ -149,7 +149,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a game book, the persisted lending is returned")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     void testSave_GameBook_Returned() {
         final BookLending lending;
@@ -169,7 +169,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a book which doesn't exist, nothing is persisted")
-    @NoMembershipPerson
+    @NoMembershipContact
     void testSave_NoBook() {
         final BookLending lending;
 

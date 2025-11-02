@@ -35,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 
 /**
  * Default implementation of the fee maintenance service.
@@ -50,13 +50,13 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
-    private final FeeRepository    feeRepository;
+    private final FeeRepository     feeRepository;
 
-    private final PersonRepository personRepository;
+    private final ContactRepository personRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final PersonRepository personRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ContactRepository personRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -65,8 +65,8 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     @Override
     public final void registerMonthFees() {
-        final Collection<Fee>    feesToCreate;
-        final Collection<Person> toRenew;
+        final Collection<Fee>     feesToCreate;
+        final Collection<Contact> toRenew;
 
         log.info("Registering fees for this month");
 
@@ -89,10 +89,10 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .number(), fee.month());
     }
 
-    private final Fee toUnpaidThisMonth(final Person feePerson) {
+    private final Fee toUnpaidThisMonth(final Contact feeContact) {
         final Fee.Member person;
 
-        person = new Fee.Member(feePerson.number(), feePerson.name());
+        person = new Fee.Member(feeContact.number(), feeContact.name());
         return Fee.unpaid(YearMonth.now(), person);
     }
 

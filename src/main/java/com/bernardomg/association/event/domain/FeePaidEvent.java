@@ -59,12 +59,12 @@ public final class FeePaidEvent extends AbstractEvent {
         return Objects.equals(date, other.date) && Objects.equals(personNumber, other.personNumber);
     }
 
-    public YearMonth getDate() {
-        return date;
+    public Long getContactNumber() {
+        return personNumber;
     }
 
-    public Long getPersonNumber() {
-        return personNumber;
+    public YearMonth getDate() {
+        return date;
     }
 
     @Override

@@ -23,7 +23,7 @@
  */
 
 /**
- * Person cache constants.
+ * Contact cache constants.
  */
 
 package com.bernardomg.association.person.adapter.inbound.jpa.model;

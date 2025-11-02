@@ -17,9 +17,9 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.person.test.configuration.factory.Contacts;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
@@ -29,7 +29,7 @@ public class TestFeeMaintenanceService {
     private FeeRepository                feeRepository;
 
     @Mock
-    private PersonRepository             personRepository;
+    private ContactRepository            personRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,8 +39,8 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(personRepository.findAllToRenew()).willReturn(List.of(Persons.membershipActive()));
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+        given(personRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
+        given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();
@@ -54,8 +54,8 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(personRepository.findAllToRenew()).willReturn(List.of(Persons.membershipActive()));
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
+        given(personRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
+        given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
         service.registerMonthFees();

@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.library.book.domain.model;
 
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.ContactName;
 
-public record Donor(long number, PersonName name) {
+public record Donor(long number, ContactName name) {
 
 }

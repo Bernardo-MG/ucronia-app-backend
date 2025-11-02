@@ -30,9 +30,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.Contact.PersonContact;
 import com.bernardomg.association.person.domain.model.ContactMethod;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.Person.PersonContact;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
@@ -40,7 +40,7 @@ import com.bernardomg.validation.validator.FieldRule;
 /**
  * Checks the contact method exists.
  */
-public final class PersonContactMethodExistsRule implements FieldRule<Person> {
+public final class PersonContactMethodExistsRule implements FieldRule<Contact> {
 
     /**
      * Logger for the class.
@@ -56,7 +56,7 @@ public final class PersonContactMethodExistsRule implements FieldRule<Person> {
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Person person) {
+    public final Optional<FieldFailure> check(final Contact person) {
         // TODO: what about multiple failues?
         return person.contacts()
             .stream()

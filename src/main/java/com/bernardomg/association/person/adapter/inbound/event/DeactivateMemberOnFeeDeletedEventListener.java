@@ -63,8 +63,8 @@ public final class DeactivateMemberOnFeeDeletedEventListener implements EventLis
     @Override
     public final void handle(final FeeDeletedEvent event) {
         log.debug("Handling fee deleted event at {} for person with number {}", event.getDate(),
-            event.getPersonNumber());
-        service.deactivate(event.getDate(), event.getPersonNumber());
+            event.getContactNumber());
+        service.deactivate(event.getDate(), event.getContactNumber());
     }
 
 }

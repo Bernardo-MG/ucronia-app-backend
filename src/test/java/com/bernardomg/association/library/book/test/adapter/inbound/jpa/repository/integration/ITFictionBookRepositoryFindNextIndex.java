@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,7 +44,7 @@ class ITFictionBookRepositoryFindNextIndex {
 
     @Test
     @DisplayName("When there is a fiction book, the next number is correct")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     void testFindNextNumber() {
         final long index;

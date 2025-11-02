@@ -36,7 +36,7 @@ import com.bernardomg.association.library.book.domain.repository.FictionBookRepo
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,7 +57,7 @@ class ITFictionBookRepositoryDelete {
 
     @Test
     @DisplayName("Then the fiction book exists, it is deleted")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     void testDelete() {
         // WHEN
@@ -83,7 +83,7 @@ class ITFictionBookRepositoryDelete {
 
     @Test
     @DisplayName("When the fiction book is deleted, the related entities are kept")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullFictionBook
     void testDelete_Relationships() {
         // WHEN

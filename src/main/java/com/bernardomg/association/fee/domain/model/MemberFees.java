@@ -27,12 +27,12 @@ package com.bernardomg.association.fee.domain.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.person.domain.model.ContactName;
 
 public record MemberFees(Member member, Collection<Fee> fees) {
 
     public record Fee(YearMonth month, Boolean paid) {}
 
-    public static record Member(Long number, PersonName name, Boolean active) {}
+    public static record Member(Long number, ContactName name, Boolean active) {}
 
 }

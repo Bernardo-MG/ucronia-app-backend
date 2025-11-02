@@ -39,9 +39,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.person.test.configuration.factory.Contacts;
 import com.bernardomg.association.person.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +49,7 @@ import com.bernardomg.association.person.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusDeactivate {
 
     @Mock
-    private PersonRepository           personRepository;
+    private ContactRepository          personRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,15 +65,15 @@ class TestMemberStatusDeactivate {
         final Long      number;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
         date = YearMonth.now();
-        number = PersonConstants.NUMBER;
+        number = ContactConstants.NUMBER;
 
         // WHEN
         service.deactivate(date, number);
 
         // THEN
-        verify(personRepository).save(Persons.membershipInactiveNoRenew());
+        verify(personRepository).save(Contacts.membershipInactiveNoRenew());
     }
 
     @Test
@@ -85,7 +85,7 @@ class TestMemberStatusDeactivate {
         // GIVEN
         date = YearMonth.now()
             .minusMonths(1);
-        number = PersonConstants.NUMBER;
+        number = ContactConstants.NUMBER;
 
         // WHEN
         service.deactivate(date, number);

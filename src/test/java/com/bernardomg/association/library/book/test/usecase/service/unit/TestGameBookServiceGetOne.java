@@ -47,7 +47,7 @@ import com.bernardomg.association.library.book.usecase.service.DefaultGameBookSe
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - get one")
@@ -66,7 +66,7 @@ class TestGameBookServiceGetOne {
     private GameSystemRepository   gameSystemRepository;
 
     @Mock
-    private PersonRepository       personRepository;
+    private ContactRepository      personRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;

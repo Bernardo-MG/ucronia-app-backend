@@ -34,7 +34,7 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposito
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITPublisherRepositoryDelete {
 
     @Test
     @DisplayName("When the publisher is assigned to a book, it is deleted")
-    @NoMembershipPerson
+    @NoMembershipContact
     @FullGameBook
     void testDelete_InBook() {
         // WHEN

@@ -82,7 +82,7 @@ permissions:
     actions:
       - read
       - view
-  - resource: person
+  - resource: contact
     actions:
       - create
       - read

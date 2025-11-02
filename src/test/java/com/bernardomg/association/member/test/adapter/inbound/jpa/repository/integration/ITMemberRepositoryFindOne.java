@@ -34,10 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActiveContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactiveContact;
+import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,12 +49,12 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With an active member, it is returned")
-    @MembershipActivePerson
+    @MembershipActiveContact
     void testFindOne_Active() {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -63,12 +63,12 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With an inactive member, it is returned")
-    @MembershipInactivePerson
+    @MembershipInactiveContact
     void testFindOne_Inactive() {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -81,7 +81,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -90,12 +90,12 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With a member with no membership, it returns nothing")
-    @NoMembershipPerson
+    @NoMembershipContact
     void testFindOne_NoMembership() {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)

@@ -23,7 +23,7 @@
  */
 
 /**
- * Person services.
+ * Contact services.
  */
 
 package com.bernardomg.association.person.usecase.service;

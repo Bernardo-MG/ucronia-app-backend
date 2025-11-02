@@ -49,10 +49,10 @@ import com.bernardomg.association.library.lending.usecase.validation.BookLending
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLastReturnRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLentRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedInFutureRule;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.person.domain.exception.MissingContactException;
+import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.ContactName;
+import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -74,12 +74,12 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final Validator<BookLending> lendBookValidator;
 
-    private final PersonRepository       personRepository;
+    private final ContactRepository      personRepository;
 
     private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final PersonRepository personRepo) {
+            final ContactRepository personRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
@@ -129,7 +129,7 @@ public final class DefaultBookLendingService implements BookLendingService {
             .map(this::toBorrower)
             .orElseThrow(() -> {
                 log.debug("Missing person {}", borrowerNumber);
-                throw new MissingPersonException(borrowerNumber);
+                throw new MissingContactException(borrowerNumber);
             });
 
         title = book.title();
@@ -171,10 +171,10 @@ public final class DefaultBookLendingService implements BookLendingService {
         return returned;
     }
 
-    private final Borrower toBorrower(final Person person) {
-        final PersonName name;
+    private final Borrower toBorrower(final Contact person) {
+        final ContactName name;
 
-        name = new PersonName(person.name()
+        name = new ContactName(person.name()
             .firstName(),
             person.name()
                 .lastName());
