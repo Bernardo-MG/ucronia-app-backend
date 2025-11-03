@@ -344,10 +344,11 @@ public final class DefaultFeeService implements FeeService {
                     .number(), fee.month());
             });
 
+        // TODO: check member
         contact = contactRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
-                log.error("Missing person {}", fee.member()
+                log.error("Missing contact {}", fee.member()
                     .number());
                 throw new MissingContactException(fee.member()
                     .number());

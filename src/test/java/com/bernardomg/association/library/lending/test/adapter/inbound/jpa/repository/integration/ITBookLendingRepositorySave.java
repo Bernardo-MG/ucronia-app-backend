@@ -52,7 +52,7 @@ class ITBookLendingRepositorySave {
     private BookLendingSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving a lending for a fiction book and the person doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a fiction book and the contact doesnt exist, nothing is persisted")
     @MinimalFictionBook
     void testSave_FictionBook_NoMember() {
         final BookLending lending;
@@ -110,7 +110,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a game book and the person doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a game book and the contact doesnt exist, nothing is persisted")
     @MinimalGameBook
     void testSave_GameBook_NoMember() {
         final BookLending lending;

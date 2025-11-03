@@ -56,9 +56,9 @@ public final class PersonContactMethodExistsRule implements FieldRule<Contact> {
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Contact person) {
+    public final Optional<FieldFailure> check(final Contact contact) {
         // TODO: what about multiple failues?
-        return person.contacts()
+        return contact.contacts()
             .stream()
             .map(PersonContact::method)
             .map(this::check)

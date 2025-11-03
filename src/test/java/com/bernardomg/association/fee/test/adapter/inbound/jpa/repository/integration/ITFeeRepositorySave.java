@@ -54,7 +54,8 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(FeeEntities.notPaid());
     }
 
@@ -101,7 +102,8 @@ class ITFeeRepositorySave {
         // TODO: check the transaction date changes
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
@@ -157,7 +159,7 @@ class ITFeeRepositorySave {
         Assertions.assertThat(created)
             .as("fee")
             .usingRecursiveComparison()
-            .ignoringFields("id", "person.id", "personId", "transaction.id")
+            .ignoringFields("id", "contact.id", "contactId", "transaction.id")
             .isEqualTo(Fees.paidAtDate(date));
     }
 
@@ -180,7 +182,8 @@ class ITFeeRepositorySave {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(FeeEntities.paid());
     }
 

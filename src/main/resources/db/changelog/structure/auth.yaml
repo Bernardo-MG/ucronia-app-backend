@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: person_auth
+      id: contact_auth
       author: Bernardo
       changes:
         - createTable:
@@ -13,15 +13,15 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_user_persons_user
+                    foreignKeyName: fk_user_contacts_user
                     references: security.users(id)
                     deleteCascade: true
               - column:
-                  name: person_id
+                  name: contact_id
                   type: bigint
                   constraints:
                     nullable: false
                     unique: true
-                    foreignKeyName: fk_user_persons_person
+                    foreignKeyName: fk_user_contacts_contact
                     references: association.contacts(id)
                     deleteCascade: true

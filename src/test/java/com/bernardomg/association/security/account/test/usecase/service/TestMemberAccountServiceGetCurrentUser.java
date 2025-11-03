@@ -78,7 +78,7 @@ class TestMemberAccountServiceGetCurrentUser {
     }
 
     @Test
-    @DisplayName("When there is a current user, but no assigned person, it is returned")
+    @DisplayName("When there is a current user, but no assigned contact, it is returned")
     void testGetCurrentUser_NoContact() {
         final Optional<Account> account;
 

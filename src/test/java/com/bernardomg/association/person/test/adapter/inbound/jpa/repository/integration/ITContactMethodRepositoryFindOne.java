@@ -60,7 +60,7 @@ class ITContactMethodRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("With no contact, nothing is returned")
     void testFindOne_NoData() {
         final Optional<ContactMethod> contactOptional;
 

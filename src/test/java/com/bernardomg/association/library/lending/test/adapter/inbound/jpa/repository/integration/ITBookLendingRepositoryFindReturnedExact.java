@@ -48,7 +48,7 @@ import com.bernardomg.association.person.test.configuration.factory.ContactConst
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookLendingRepository - find returned for person at date")
+@DisplayName("BookLendingRepository - find returned for contact at date")
 class ITBookLendingRepositoryFindReturnedExact {
 
     @Autowired

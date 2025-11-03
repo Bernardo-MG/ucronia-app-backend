@@ -302,11 +302,11 @@ databaseChangeLog:
                     references: inventory.books(id)
                     deleteCascade: true
               - column:
-                  name: person_id
+                  name: contact_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lending_person
+                    foreignKeyName: fk_book_lending_contact
                     references: association.contacts(id)
                     deleteCascade: true
               - column:
@@ -322,4 +322,4 @@ databaseChangeLog:
             constraintName: book_lendings_key
             schemaName: inventory
             tableName: book_lendings
-            columnNames: 'book_id, person_id, lending_date'
+            columnNames: 'book_id, contact_id, lending_date'

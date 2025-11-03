@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, JpaSpecificationExecutor<FeeEntity> {
 
-    public void deleteByContactIdAndDate(final Long personId, final Instant date);
+    public void deleteByContactIdAndDate(final Long contactId, final Instant date);
 
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists

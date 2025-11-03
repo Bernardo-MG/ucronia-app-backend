@@ -50,7 +50,7 @@ public class BookLendingEntity implements Serializable {
     private Long              bookId;
 
     @Id
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "contact_id", nullable = false)
     private Long              contactId;
 
     @Id

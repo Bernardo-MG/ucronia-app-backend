@@ -47,14 +47,14 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
      */
     private static final Logger     log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
 
+    private final ContactRepository contactRepository;
+
     private final FeeRepository     feeRepository;
 
-    private final ContactRepository personRepository;
-
-    public FeeMonthNotExistingRule(final ContactRepository personRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final ContactRepository contactRepo, final FeeRepository feeRepo) {
         super();
 
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -63,14 +63,14 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final boolean                existing;
-        final Contact                person;
+        final Contact                contact;
 
-        person = personRepository.findOne(fee.member()
+        contact = contactRepository.findOne(fee.member()
             .number())
             .get();
-        existing = feeRepository.exists(person.number(), fee.month());
+        existing = feeRepository.exists(contact.number(), fee.month());
         if (existing) {
-            log.error("Fee for month {} already exists for by {}", fee.month(), person.number());
+            log.error("Fee for month {} already exists for by {}", fee.month(), contact.number());
             // TODO: this is not a field in the model
             fieldFailure = new FieldFailure("existing", "month", fee.month());
             failure = Optional.of(fieldFailure);

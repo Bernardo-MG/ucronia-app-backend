@@ -92,7 +92,7 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
-    @DisplayName("When lending a book which is already lent for another person, an exception is thrown")
+    @DisplayName("When lending a book which is already lent for another contact, an exception is thrown")
     void testLendBook_AlreadyLentForAnother_Exception() {
         final ThrowingCallable execution;
 

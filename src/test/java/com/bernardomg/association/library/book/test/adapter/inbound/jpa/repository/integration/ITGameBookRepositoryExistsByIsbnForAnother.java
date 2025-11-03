@@ -43,7 +43,7 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     private GameBookRepository repository;
 
     @Test
-    @DisplayName("When the game book exists and looking for another person, it exists")
+    @DisplayName("When the game book exists and looking for another contact, it exists")
     @NoMembershipContact
     @FullGameBook
     void testExistsByIsbnForAnother() {
@@ -73,7 +73,7 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When the game book exists and looking for the same person, it doesn't exists")
+    @DisplayName("When the game book exists and looking for the same contact, it doesn't exists")
     @NoMembershipContact
     @FullGameBook
     void testExistsByIsbnForAnother_SameNumber() {

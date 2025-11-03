@@ -108,23 +108,23 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void deactivate(final YearMonth date, final Long personNumber) {
+    public final void deactivate(final YearMonth date, final Long contactNumber) {
         final Optional<Contact> contact;
         final Contact           deactivated;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Deactivating membership for {}", personNumber);
-            contact = contactRepository.findOne(personNumber);
+            log.debug("Deactivating membership for {}", contactNumber);
+            contact = contactRepository.findOne(contactNumber);
 
             if (contact.isEmpty()) {
-                log.warn("Missing person {}", personNumber);
+                log.warn("Missing contact {}", contactNumber);
             } else {
                 deactivated = deactivated(contact.get());
                 contactRepository.save(deactivated);
 
-                log.debug("Deactivated membership for {}", personNumber);
+                log.debug("Deactivated membership for {}", contactNumber);
             }
         }
     }
