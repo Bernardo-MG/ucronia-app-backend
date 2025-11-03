@@ -43,8 +43,8 @@ public interface ContactService {
     /**
      * Persists the received person.
      *
-     * @param person
-     *            person to persist
+     * @param contact
+     *            contact to persist
      * @return the persisted person
      */
     public Contact create(final Contact contact);
@@ -82,8 +82,8 @@ public interface ContactService {
     /**
      * Patches the person for the received id with the received data.
      *
-     * @param person
-     *            new data for the person
+     * @param contact
+     *            new data for the contact
      * @return the updated person
      */
     public Contact patch(final Contact contact);
@@ -91,8 +91,8 @@ public interface ContactService {
     /**
      * Updates the person for the received id with the received data.
      *
-     * @param person
-     *            new data for the person
+     * @param contact
+     *            new data for the contact
      * @return the updated person
      */
     public Contact update(final Contact contact);
