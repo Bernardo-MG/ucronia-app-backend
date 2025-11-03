@@ -54,14 +54,14 @@ class ITContactMethodRepositorySave {
     @Test
     @DisplayName("With a valid contact method, the contact method is persisted")
     void testSave_PersistedData() {
-        final ContactMethod                 person;
+        final ContactMethod                 contact;
         final Iterable<ContactMethodEntity> entities;
 
         // GIVEN
-        person = ContactMethods.email();
+        contact = ContactMethods.email();
 
         // WHEN
-        repository.save(person);
+        repository.save(contact);
 
         // THEN
         entities = springRepository.findAll();
@@ -75,14 +75,14 @@ class ITContactMethodRepositorySave {
     @Test
     @DisplayName("With a valid contact method, the created contact method is returned")
     void testSave_ReturnedData() {
-        final ContactMethod person;
+        final ContactMethod contact;
         final ContactMethod saved;
 
         // GIVEN
-        person = ContactMethods.email();
+        contact = ContactMethods.email();
 
         // WHEN
-        saved = repository.save(person);
+        saved = repository.save(contact);
 
         // THEN
         Assertions.assertThat(saved)

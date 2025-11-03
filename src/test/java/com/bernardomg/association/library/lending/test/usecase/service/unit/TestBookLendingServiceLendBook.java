@@ -68,7 +68,7 @@ class TestBookLendingServiceLendBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private ContactRepository         personRepository;
+    private ContactRepository         contactRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;
@@ -80,7 +80,7 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
@@ -98,7 +98,7 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.lentAlternativeContact()));
 
@@ -123,7 +123,7 @@ class TestBookLendingServiceLendBook {
             .toInstant();
 
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
@@ -147,7 +147,7 @@ class TestBookLendingServiceLendBook {
             .toInstant();
 
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, date);
@@ -179,7 +179,7 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
@@ -194,9 +194,9 @@ class TestBookLendingServiceLendBook {
     void testLendBook_OnLastReturn() {
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
@@ -212,9 +212,9 @@ class TestBookLendingServiceLendBook {
     void testLendBook_PersistedData() {
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         // WHEN
         service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
@@ -229,9 +229,9 @@ class TestBookLendingServiceLendBook {
         final BookLending lending;
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookLendingRepository.save(BookLendings.lent())).willReturn(BookLendings.lent());
 
         // WHEN
@@ -248,9 +248,9 @@ class TestBookLendingServiceLendBook {
     void testLendBook_Today() {
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         // WHEN
         service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE_TODAY);

@@ -53,26 +53,26 @@ class ITContactRepositoryFindOne {
     @DisplayName("With a person, it is returned")
     @NoMembershipContact
     void testFindOne() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // WHEN
-        personOptional = repository.findOne(ContactConstants.NUMBER);
+        contact = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .contains(Contacts.noMembership());
     }
 
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // WHEN
-        personOptional = repository.findOne(ContactConstants.NUMBER);
+        contact = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .isEmpty();
     }
 
@@ -81,13 +81,13 @@ class ITContactRepositoryFindOne {
     @EmailContactMethod
     @WithContact
     void testFindOne_WithContact() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // WHEN
-        personOptional = repository.findOne(ContactConstants.NUMBER);
+        contact = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .contains(Contacts.withEmail());
     }
 
@@ -95,13 +95,13 @@ class ITContactRepositoryFindOne {
     @DisplayName("With a person having an active membership, it is returned")
     @MembershipActiveContact
     void testFindOne_WithMembership_Active() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // WHEN
-        personOptional = repository.findOne(ContactConstants.NUMBER);
+        contact = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .contains(Contacts.membershipActive());
     }
 
@@ -109,13 +109,13 @@ class ITContactRepositoryFindOne {
     @DisplayName("With a person having an inactive membership, it is returned")
     @MembershipInactiveContact
     void testFindOne_WithMembership_Inactive() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // WHEN
-        personOptional = repository.findOne(ContactConstants.NUMBER);
+        contact = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .contains(Contacts.membershipInactive());
     }
 
@@ -123,13 +123,13 @@ class ITContactRepositoryFindOne {
     @DisplayName("With a person having without membership, it is returned")
     @NoMembershipContact
     void testFindOne_WithoutMembership() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // WHEN
-        personOptional = repository.findOne(ContactConstants.NUMBER);
+        contact = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .contains(Contacts.noMembership());
     }
 

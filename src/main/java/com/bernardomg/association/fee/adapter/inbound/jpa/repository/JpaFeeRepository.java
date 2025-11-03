@@ -85,17 +85,18 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final void delete(final Long number, final YearMonth date) {
-        final Optional<ContactEntity> person;
+        final Optional<ContactEntity> contact;
         final Instant                 dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
-        person = contactSpringRepository.findByNumber(number);
-        if (person.isPresent()) {
+        // TODO: only members
+        contact = contactSpringRepository.findByNumber(number);
+        if (contact.isPresent()) {
             dateParsed = date.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
-            feeSpringRepository.deleteByContactIdAndDate(person.get()
+            feeSpringRepository.deleteByContactIdAndDate(contact.get()
                 .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
@@ -176,7 +177,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Pageable                                  pageable;
         final Sorting                                   correctedSorting;
 
-        log.debug("Finding all fees for person {} with pagination {} and sorting {}", number, pagination, sorting);
+        log.debug("Finding all fees for contact {} with pagination {} and sorting {}", number, pagination, sorting);
 
         correctedSorting = new Sorting(sorting.properties()
             .stream()
@@ -186,7 +187,7 @@ public final class JpaFeeRepository implements FeeRepository {
         found = feeSpringRepository.findAllByContactNumber(number, pageable)
             .map(FeeEntityMapper::toDomain);
 
-        log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+        log.debug("Found all fees for contact {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
         return SpringPagination.toPage(found);
@@ -392,7 +393,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final Optional<ContactEntity>     person;
+        final Optional<ContactEntity>     contact;
         final Optional<TransactionEntity> transaction;
         final boolean                     paid;
         final FeeEntity                   entity;
@@ -400,9 +401,9 @@ public final class JpaFeeRepository implements FeeRepository {
 
         // TODO: move to mapper
 
-        person = contactSpringRepository.findByNumber(fee.member()
+        contact = contactSpringRepository.findByNumber(fee.member()
             .number());
-        if (!person.isPresent()) {
+        if (!contact.isPresent()) {
             log.warn("Contact with number {} not found", fee.member()
                 .number());
         }
@@ -428,7 +429,7 @@ public final class JpaFeeRepository implements FeeRepository {
         }
 
         entity = new FeeEntity();
-        entity.setContact(person.orElse(null));
+        entity.setContact(contact.orElse(null));
         date = fee.month()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)

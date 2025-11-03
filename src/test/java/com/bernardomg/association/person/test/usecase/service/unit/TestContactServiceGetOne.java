@@ -65,16 +65,16 @@ class TestContactServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<Contact> personOptional;
+        final Optional<Contact> contact;
 
         // GIVEN
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         // WHEN
-        personOptional = service.getOne(ContactConstants.NUMBER);
+        contact = service.getOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contact)
             .contains(Contacts.noMembership());
     }
 

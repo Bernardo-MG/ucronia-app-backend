@@ -36,15 +36,15 @@ public final class FeePaidEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7044023838333219109L;
 
-    private final YearMonth   date;
+    private final Long        contactNumber;
 
-    private final Long        personNumber;
+    private final YearMonth   date;
 
     public FeePaidEvent(final Object source, final YearMonth d, final Long number) {
         super(source);
 
         date = Objects.requireNonNull(d);
-        personNumber = Objects.requireNonNull(number);
+        contactNumber = Objects.requireNonNull(number);
     }
 
     @Override
@@ -56,11 +56,11 @@ public final class FeePaidEvent extends AbstractEvent {
             return false;
         }
         final FeePaidEvent other = (FeePaidEvent) obj;
-        return Objects.equals(date, other.date) && Objects.equals(personNumber, other.personNumber);
+        return Objects.equals(date, other.date) && Objects.equals(contactNumber, other.contactNumber);
     }
 
     public Long getContactNumber() {
-        return personNumber;
+        return contactNumber;
     }
 
     public YearMonth getDate() {
@@ -69,7 +69,7 @@ public final class FeePaidEvent extends AbstractEvent {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), date, personNumber);
+        return Objects.hash(super.hashCode(), date, contactNumber);
     }
 
 }

@@ -47,6 +47,6 @@ public interface ContactMethodRepository {
 
     public Optional<ContactMethod> findOne(final Long number);
 
-    public ContactMethod save(final ContactMethod person);
+    public ContactMethod save(final ContactMethod contact);
 
 }

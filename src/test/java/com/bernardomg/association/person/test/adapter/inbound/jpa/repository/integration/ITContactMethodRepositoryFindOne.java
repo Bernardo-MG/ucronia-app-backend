@@ -49,26 +49,26 @@ class ITContactMethodRepositoryFindOne {
     @DisplayName("With a contact method, it is returned")
     @EmailContactMethod
     void testFindOne() {
-        final Optional<ContactMethod> personOptional;
+        final Optional<ContactMethod> contactOptional;
 
         // WHEN
-        personOptional = repository.findOne(ContactMethodConstants.NUMBER);
+        contactOptional = repository.findOne(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contactOptional)
             .contains(ContactMethods.email());
     }
 
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<ContactMethod> personOptional;
+        final Optional<ContactMethod> contactOptional;
 
         // WHEN
-        personOptional = repository.findOne(ContactMethodConstants.NUMBER);
+        contactOptional = repository.findOne(ContactMethodConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(personOptional)
+        Assertions.assertThat(contactOptional)
             .isEmpty();
     }
 

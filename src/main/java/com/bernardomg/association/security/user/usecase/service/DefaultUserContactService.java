@@ -81,7 +81,7 @@ public final class DefaultUserContactService implements UserContactService {
         final Contact     readContact;
         final UserContact userContact;
 
-        log.debug("Assigning person {} to {}", contactNumber, username);
+        log.debug("Assigning contact {} to {}", contactNumber, username);
 
         readUser = userRepository.findOne(username)
             .orElseThrow(() -> {

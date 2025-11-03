@@ -63,10 +63,10 @@ class TestGameBookServiceGetOne {
     private BookTypeRepository     bookTypeRepository;
 
     @Mock
-    private GameSystemRepository   gameSystemRepository;
+    private ContactRepository      contactRepository;
 
     @Mock
-    private ContactRepository      personRepository;
+    private GameSystemRepository   gameSystemRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;

@@ -57,7 +57,7 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestUserContactServiceAssignContact {
 
     @Mock
-    private ContactRepository         personRepository;
+    private ContactRepository         contactRepository;
 
     @InjectMocks
     private DefaultUserContactService service;
@@ -75,7 +75,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         given(userContactRepository.existsByContactForAnotherUser(UserConstants.USERNAME, ContactConstants.NUMBER))
             .willReturn(true);
@@ -85,7 +85,7 @@ class TestUserContactServiceAssignContact {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "person", ContactConstants.NUMBER));
+            new FieldFailure("existing", "contact", ContactConstants.NUMBER));
     }
 
     @Test
@@ -95,7 +95,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         given(userContactRepository.existsByContactForAnotherUser(UserConstants.USERNAME, ContactConstants.NUMBER))
             .willReturn(true);
@@ -105,7 +105,7 @@ class TestUserContactServiceAssignContact {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "person", ContactConstants.NUMBER));
+            new FieldFailure("existing", "contact", ContactConstants.NUMBER));
     }
 
     @Test
@@ -115,7 +115,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // TODO: assign when the user already has a person
 
@@ -149,7 +149,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
 
         // WHEN
         service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
@@ -161,19 +161,19 @@ class TestUserContactServiceAssignContact {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     void testAssignContact_ReturnedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
         given(userContactRepository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER))
             .willReturn(Contacts.noMembership());
 
         // WHEN
-        person = service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        contact = service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isEqualTo(Contacts.noMembership());
     }
 

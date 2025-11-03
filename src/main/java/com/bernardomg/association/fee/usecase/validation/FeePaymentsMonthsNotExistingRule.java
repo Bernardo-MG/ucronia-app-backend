@@ -50,14 +50,14 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
      */
     private static final Logger     log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
 
+    private final ContactRepository contactRepository;
+
     private final FeeRepository     feeRepository;
 
-    private final ContactRepository personRepository;
-
-    public FeePaymentsMonthsNotExistingRule(final ContactRepository personRepo, final FeeRepository feeRepo) {
+    public FeePaymentsMonthsNotExistingRule(final ContactRepository contactRepo, final FeeRepository feeRepo) {
         super();
 
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -66,14 +66,14 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final List<YearMonth>        existing;
-        final Contact                person;
+        final Contact                contact;
 
-        person = personRepository.findOne(payments.member())
+        contact = contactRepository.findOne(payments.member())
             .get();
         // TODO: use a single query
         existing = payments.months()
             .stream()
-            .filter(date -> feeRepository.existsPaid(person.number(), date))
+            .filter(date -> feeRepository.existsPaid(contact.number(), date))
             .toList();
         if (!existing.isEmpty()) {
             log.error("Dates {} are already registered", existing);

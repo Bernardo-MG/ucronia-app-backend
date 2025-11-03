@@ -37,7 +37,7 @@ import com.bernardomg.association.person.domain.model.ContactName;
 public final class FeeEntityMapper {
 
     public static final Fee toDomain(final FeeEntity entity) {
-        final Fee.Member                person;
+        final Fee.Member                member;
         final Optional<Fee.Transaction> transaction;
         final ContactName               name;
         final YearMonth                 date;
@@ -46,7 +46,7 @@ public final class FeeEntityMapper {
             .getFirstName(),
             entity.getContact()
                 .getLastName());
-        person = new Fee.Member(entity.getContact()
+        member = new Fee.Member(entity.getContact()
             .getNumber(), name);
 
         if (entity.getPaid()) {
@@ -59,7 +59,7 @@ public final class FeeEntityMapper {
         }
         date = YearMonth.from(entity.getDate()
             .atZone(ZoneOffset.UTC));
-        return new Fee(date, entity.getPaid(), person, transaction);
+        return new Fee(date, entity.getPaid(), member, transaction);
     }
 
     private FeeEntityMapper() {

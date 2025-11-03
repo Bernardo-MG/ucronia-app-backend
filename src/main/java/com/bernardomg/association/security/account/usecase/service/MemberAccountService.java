@@ -67,13 +67,13 @@ public final class MemberAccountService implements AccountService {
         final Optional<Account> wrappedAccount;
         final Optional<Account> result;
         final Account           account;
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         log.debug("Getting account for user in session");
 
         wrappedAccount = wrapped.getCurrentUser();
         if (wrappedAccount.isPresent()) {
-            person = userContactRepository.findByUsername(wrappedAccount.get()
+            contact = userContactRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
             account = new ContactAccount(wrappedAccount.get()
@@ -82,7 +82,7 @@ public final class MemberAccountService implements AccountService {
                     .getUsername(),
                 wrappedAccount.get()
                     .getName(),
-                person.orElse(null));
+                contact.orElse(null));
             result = Optional.of(account);
         } else {
             log.debug("Missing authentication object");

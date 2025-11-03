@@ -78,7 +78,7 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = ContactsCaches.PERSON, key = "#result.content.number") },
+    @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
                     ContactsCaches.CONTACTS,
@@ -98,7 +98,7 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { ContactsCaches.PERSON }), @CacheEvict(cacheNames = {
+    @Caching(evict = { @CacheEvict(cacheNames = { ContactsCaches.CONTACT }), @CacheEvict(cacheNames = {
             // Contact caches
             ContactsCaches.CONTACTS,
             // Fee caches
@@ -106,11 +106,11 @@ public class ContactController implements ContactApi {
             // Member caches
             MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
     public ContactResponseDto deleteContact(final Long number) {
-        final Contact person;
+        final Contact contact;
 
-        person = service.delete(number);
+        contact = service.delete(number);
 
-        return ContactDtoMapper.toResponseDto(person);
+        return ContactDtoMapper.toResponseDto(contact);
     }
 
     @Override
@@ -118,39 +118,39 @@ public class ContactController implements ContactApi {
     @Cacheable(cacheNames = ContactsCaches.CONTACTS)
     public ContactPageResponseDto getAllContacts(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final ContactStatusDto status, @Valid final String name) {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactStatus personStatus;
+        final ContactStatus contactStatus;
         final ContactFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
         if (status != null) {
-            personStatus = ContactStatus.valueOf(status.name());
+            contactStatus = ContactStatus.valueOf(status.name());
         } else {
-            personStatus = null;
+            contactStatus = null;
         }
-        filter = new ContactFilter(personStatus, name);
-        persons = service.getAll(filter, pagination, sorting);
+        filter = new ContactFilter(contactStatus, name);
+        contacts = service.getAll(filter, pagination, sorting);
 
-        return ContactDtoMapper.toResponseDto(persons);
+        return ContactDtoMapper.toResponseDto(contacts);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
-    @Cacheable(cacheNames = ContactsCaches.PERSON)
+    @Cacheable(cacheNames = ContactsCaches.CONTACT)
     public ContactResponseDto getContactByNumber(final Long number) {
-        Optional<Contact> person;
+        Optional<Contact> contact;
 
-        person = service.getOne(number);
+        contact = service.getOne(number);
 
-        return ContactDtoMapper.toResponseDto(person);
+        return ContactDtoMapper.toResponseDto(contact);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ContactsCaches.PERSON, key = "#result.content.number") },
+    @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
                     ContactsCaches.CONTACTS,
@@ -158,11 +158,11 @@ public class ContactController implements ContactApi {
                     FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto personChangeDto) {
+    public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact member;
         final Contact updated;
 
-        member = ContactDtoMapper.toDomain(number, personChangeDto);
+        member = ContactDtoMapper.toDomain(number, contactChangeDto);
         updated = service.patch(member);
 
         return ContactDtoMapper.toResponseDto(updated);
@@ -170,7 +170,7 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ContactsCaches.PERSON, key = "#result.content.number") },
+    @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
                     ContactsCaches.CONTACTS,
@@ -178,11 +178,11 @@ public class ContactController implements ContactApi {
                     FeeCaches.MEMBER_FEES,
                     // Member caches
                     MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
-    public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto personChangeDto) {
+    public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact member;
         final Contact updated;
 
-        member = ContactDtoMapper.toDomain(number, personChangeDto);
+        member = ContactDtoMapper.toDomain(number, contactChangeDto);
         updated = service.update(member);
 
         return ContactDtoMapper.toResponseDto(updated);

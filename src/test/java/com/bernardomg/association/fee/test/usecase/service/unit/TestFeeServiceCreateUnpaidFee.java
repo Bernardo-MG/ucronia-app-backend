@@ -58,6 +58,9 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServiceCreateUnpaidFee {
 
     @Mock
+    private ContactRepository         contactRepository;
+
+    @Mock
     private EventEmitter              eventEmitter;
 
     @Mock
@@ -65,9 +68,6 @@ class TestFeeServiceCreateUnpaidFee {
 
     @Mock
     private MessageSource             messageSource;
-
-    @Mock
-    private ContactRepository         personRepository;
 
     @InjectMocks
     private DefaultFeeService         service;
@@ -84,7 +84,7 @@ class TestFeeServiceCreateUnpaidFee {
         final Fee fee;
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
@@ -104,7 +104,7 @@ class TestFeeServiceCreateUnpaidFee {
         final FieldFailure     failure;
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -122,7 +122,7 @@ class TestFeeServiceCreateUnpaidFee {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.createUnpaidFee(FeeConstants.DATE, ContactConstants.NUMBER);

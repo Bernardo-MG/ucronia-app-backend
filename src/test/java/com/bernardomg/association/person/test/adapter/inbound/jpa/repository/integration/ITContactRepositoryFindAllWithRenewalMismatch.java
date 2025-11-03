@@ -7,7 +7,7 @@
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies of the Software, and to permit contacts to whom the Software is
  * furnished to do so, subject to the following conditions:
  * <p>
  * The above copyright notice and this permission notice shall be included in
@@ -52,14 +52,14 @@ class ITContactRepositoryFindAllWithRenewalMismatch {
     @DisplayName("With no membership, nothing is returned")
     @NoMembershipContact
     void testFindAllWithRenewalMismatch_NoMembership() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllWithRenewalMismatch();
+        contacts = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(persons)
-            .as("persons")
+        Assertions.assertThat(contacts)
+            .as("contacts")
             .isEmpty();
     }
 
@@ -67,14 +67,14 @@ class ITContactRepositoryFindAllWithRenewalMismatch {
     @DisplayName("With an active membership to not renew, it is returned")
     @MembershipActiveToNotRenewContact
     void testFindAllWithRenewalMismatch_ToNotRenewActive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllWithRenewalMismatch();
+        contacts = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(persons)
-            .as("persons")
+        Assertions.assertThat(contacts)
+            .as("contacts")
             .containsExactly(Contacts.membershipActiveNoRenew());
     }
 
@@ -82,14 +82,14 @@ class ITContactRepositoryFindAllWithRenewalMismatch {
     @DisplayName("With an inactive membership to not renew, nothing is returned")
     @MembershipInactiveToNotRenewContact
     void testFindAllWithRenewalMismatch_ToNotRenewInactive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllWithRenewalMismatch();
+        contacts = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(persons)
-            .as("persons")
+        Assertions.assertThat(contacts)
+            .as("contacts")
             .isEmpty();
     }
 
@@ -97,14 +97,14 @@ class ITContactRepositoryFindAllWithRenewalMismatch {
     @DisplayName("With an active membership to renew, nothing is returned")
     @MembershipActiveToRenewContact
     void testFindAllWithRenewalMismatch_ToRenewActive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllWithRenewalMismatch();
+        contacts = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(persons)
-            .as("persons")
+        Assertions.assertThat(contacts)
+            .as("contacts")
             .isEmpty();
     }
 
@@ -112,14 +112,14 @@ class ITContactRepositoryFindAllWithRenewalMismatch {
     @DisplayName("With an inactive membership to renew, it is returned")
     @MembershipInactiveToRenewContact
     void testFindAllWithRenewalMismatch_ToRenewInactive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllWithRenewalMismatch();
+        contacts = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(persons)
-            .as("persons")
+        Assertions.assertThat(contacts)
+            .as("contacts")
             .containsExactly(Contacts.membershipInactive());
     }
 

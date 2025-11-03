@@ -53,7 +53,7 @@ class ITUserContactRepositoryFindAllNotAssigned {
     @DisplayName("When the member is assigned, it is not returned")
     @ValidUserWithContact
     void testFindAllNotAssigned_Assigned() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
 
@@ -62,10 +62,10 @@ class ITUserContactRepositoryFindAllNotAssigned {
         sorting = Sorting.unsorted();
 
         // WHEN
-        persons = repository.findAllNotAssigned(pagination, sorting);
+        contacts = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -76,7 +76,7 @@ class ITUserContactRepositoryFindAllNotAssigned {
     @ValidUserWithContact
     @AlternativeContact
     void testFindAllNotAssigned_AssignedAndNotAssigned() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
 
@@ -85,10 +85,10 @@ class ITUserContactRepositoryFindAllNotAssigned {
         sorting = Sorting.unsorted();
 
         // WHEN
-        persons = repository.findAllNotAssigned(pagination, sorting);
+        contacts = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.alternative());
@@ -97,7 +97,7 @@ class ITUserContactRepositoryFindAllNotAssigned {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAllNotAssigned_NoData() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
 
@@ -106,10 +106,10 @@ class ITUserContactRepositoryFindAllNotAssigned {
         sorting = Sorting.unsorted();
 
         // WHEN
-        persons = repository.findAllNotAssigned(pagination, sorting);
+        contacts = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -120,7 +120,7 @@ class ITUserContactRepositoryFindAllNotAssigned {
     @ValidUser
     @NoMembershipContact
     void testFindAllNotAssigned_NotAssigned() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
 
@@ -129,10 +129,10 @@ class ITUserContactRepositoryFindAllNotAssigned {
         sorting = Sorting.unsorted();
 
         // WHEN
-        persons = repository.findAllNotAssigned(pagination, sorting);
+        contacts = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.noMembership());

@@ -103,7 +103,7 @@ public class FeeController implements FeeApi {
                     // Member caches
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Contact caches
-                    ContactsCaches.PERSON, ContactsCaches.CONTACTS }, allEntries = true) })
+                    ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
         final Fee fee;
 
@@ -122,7 +122,7 @@ public class FeeController implements FeeApi {
             // Member caches
             MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Contact caches
-            ContactsCaches.PERSON, ContactsCaches.CONTACTS }, allEntries = true) })
+            ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
         final Fee fee;
 
@@ -199,7 +199,7 @@ public class FeeController implements FeeApi {
             // Member caches
             MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
             // Contact caches
-            ContactsCaches.PERSON, ContactsCaches.CONTACTS }, allEntries = true) })
+            ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
         final Collection<Fee> fees;
         final FeePayments     payments;
@@ -224,7 +224,7 @@ public class FeeController implements FeeApi {
                     // Member caches
                     MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
                     // Contact caches
-                    ContactsCaches.PERSON, ContactsCaches.CONTACTS }, allEntries = true) })
+                    ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
         final Fee updated;

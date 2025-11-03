@@ -67,20 +67,20 @@ class TestContactServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a person with an existing identifier, an exception is thrown")
+    @DisplayName("With a contact with an existing identifier, an exception is thrown")
     void testCreate_IdentifierExists() {
         final ThrowingCallable execution;
-        final Contact          person;
+        final Contact          contact;
 
         // GIVEN
-        person = Contacts.nameChange();
+        contact = Contacts.nameChange();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(contactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.update(person);
+        execution = () -> service.update(contact);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -88,17 +88,17 @@ class TestContactServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a person with an existing identifier, but the identifier is empty, no exception is thrown")
+    @DisplayName("With a contact with an existing identifier, but the identifier is empty, no exception is thrown")
     void testCreate_IdentifierExistsAndEmpty() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.noIdentifier();
+        contact = Contacts.noIdentifier();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(person);
+        service.update(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.noIdentifier());
@@ -107,18 +107,18 @@ class TestContactServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a person with an empty name, an exception is thrown")
+    @DisplayName("With a contact with an empty name, an exception is thrown")
     void testUpdate_EmptyName() {
         final ThrowingCallable execution;
-        final Contact          person;
+        final Contact          contact;
 
         // GIVEN
-        person = Contacts.emptyName();
+        contact = Contacts.emptyName();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(person);
+        execution = () -> service.update(contact);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -126,18 +126,18 @@ class TestContactServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing person, an exception is thrown")
+    @DisplayName("With a not existing contact, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final Contact          person;
+        final Contact          contact;
         final ThrowingCallable execution;
 
         // GIVEN
-        person = Contacts.nameChange();
+        contact = Contacts.nameChange();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(person);
+        execution = () -> service.update(contact);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -145,74 +145,74 @@ class TestContactServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed")
+    @DisplayName("With a contact having padding whitespaces in first and last name, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.padded();
+        contact = Contacts.padded();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(person);
+        service.update(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.noMembership());
     }
 
     @Test
-    @DisplayName("When updating a person, the change is persisted")
+    @DisplayName("When updating a contact, the change is persisted")
     void testUpdate_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.nameChange();
+        contact = Contacts.nameChange();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(person);
+        service.update(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.nameChange());
     }
 
     @Test
-    @DisplayName("When updating an active person, the change is returned")
+    @DisplayName("When updating an active contact, the change is returned")
     void testUpdate_ReturnedData() {
-        final Contact person;
+        final Contact contact;
         final Contact updated;
 
         // GIVEN
-        person = Contacts.nameChange();
+        contact = Contacts.nameChange();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(contactRepository.save(Contacts.nameChange())).willReturn(Contacts.nameChange());
 
         // WHEN
-        updated = service.update(person);
+        updated = service.update(contact);
 
         // THEN
         Assertions.assertThat(updated)
-            .as("person")
+            .as("contact")
             .isEqualTo(Contacts.nameChange());
     }
 
     @Test
-    @DisplayName("With a person with a not existing contact method, an exception is thrown")
+    @DisplayName("With a contact with a not existing contact method, an exception is thrown")
     void testUpdate_WithContact_NotExisting() {
-        final Contact          person;
+        final Contact          contact;
         final ThrowingCallable execution;
 
         // GIVEN
-        person = Contacts.withEmail();
+        contact = Contacts.withEmail();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(person);
+        execution = () -> service.update(contact);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -220,18 +220,18 @@ class TestContactServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a person with a contact method, the change is persisted")
+    @DisplayName("When updating a contact with a contact method, the change is persisted")
     void testUpdate_WithContact_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.withEmail();
+        contact = Contacts.withEmail();
 
         given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(person);
+        service.update(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.withEmail());

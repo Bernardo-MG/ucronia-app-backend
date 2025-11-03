@@ -50,40 +50,40 @@ class ITUserContactRepositoryFindByUsername {
     @DisplayName("When the user exists it is returned")
     @ValidUserWithContact
     void testFindByUsername() {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         // WHEN
-        person = repository.findByUsername(UserConstants.USERNAME);
+        contact = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .contains(Contacts.noMembership());
     }
 
     @Test
     @DisplayName("When no data exists nothing is returned")
     void testFindByUsername_NoData() {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         // WHEN
-        person = repository.findByUsername(UserConstants.USERNAME);
+        contact = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When the person doesn't exist nothing is returned")
+    @DisplayName("When the contact doesn't exist nothing is returned")
     @ValidUser
     void testFindByUsername_NoMember() {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         // WHEN
-        person = repository.findByUsername(UserConstants.USERNAME);
+        contact = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isEmpty();
     }
 

@@ -48,54 +48,54 @@ public final class DefaultMemberStatusService implements MemberStatusService {
      */
     private static final Logger     log = LoggerFactory.getLogger(DefaultMemberStatusService.class);
 
-    private final ContactRepository personRepository;
+    private final ContactRepository contactRepository;
 
-    public DefaultMemberStatusService(final ContactRepository personRepo) {
+    public DefaultMemberStatusService(final ContactRepository contactRepo) {
         super();
 
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
     }
 
     @Override
-    public final void activate(final YearMonth date, final Long personNumber) {
-        final Optional<Contact> person;
+    public final void activate(final YearMonth date, final Long contactNumber) {
+        final Optional<Contact> contact;
         final Contact           activated;
 
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Activating membership for {}", personNumber);
-            person = personRepository.findOne(personNumber);
+            log.debug("Activating membership for {}", contactNumber);
+            contact = contactRepository.findOne(contactNumber);
 
-            if (person.isEmpty()) {
-                log.warn("Missing person {}", personNumber);
+            if (contact.isEmpty()) {
+                log.warn("Missing contact {}", contactNumber);
             } else {
-                activated = activated(person.get());
-                personRepository.save(activated);
+                activated = activated(contact.get());
+                contactRepository.save(activated);
 
-                log.debug("Activated membership for {}", personNumber);
+                log.debug("Activated membership for {}", contactNumber);
             }
         }
     }
 
     @Override
     public final void applyRenewal() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
         final Collection<Contact> toActivate;
         final Collection<Contact> toDeactivate;
         final Collection<Contact> toSave;
 
         log.debug("Applying membership renewals");
 
-        persons = personRepository.findAllWithRenewalMismatch();
+        contacts = contactRepository.findAllWithRenewalMismatch();
 
-        toActivate = persons.stream()
+        toActivate = contacts.stream()
             .filter(p -> !p.membership()
                 .get()
                 .active())
             .map(this::activated)
             .toList();
 
-        toDeactivate = persons.stream()
+        toDeactivate = contacts.stream()
             .filter(p -> p.membership()
                 .get()
                 .active())
@@ -104,25 +104,25 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         toSave = Stream.concat(toActivate.stream(), toDeactivate.stream())
             .toList();
-        personRepository.saveAll(toSave);
+        contactRepository.saveAll(toSave);
     }
 
     @Override
     public final void deactivate(final YearMonth date, final Long personNumber) {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
         final Contact           deactivated;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
             .equals(date)) {
             log.debug("Deactivating membership for {}", personNumber);
-            person = personRepository.findOne(personNumber);
+            contact = contactRepository.findOne(personNumber);
 
-            if (person.isEmpty()) {
+            if (contact.isEmpty()) {
                 log.warn("Missing person {}", personNumber);
             } else {
-                deactivated = deactivated(person.get());
-                personRepository.save(deactivated);
+                deactivated = deactivated(contact.get());
+                contactRepository.save(deactivated);
 
                 log.debug("Deactivated membership for {}", personNumber);
             }

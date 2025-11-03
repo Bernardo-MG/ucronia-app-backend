@@ -52,13 +52,13 @@ class ITContactRepositoryFindAllToRenew {
     @DisplayName("With no membership, nothing is returned")
     @NoMembershipContact
     void testFindAllToRenew_NoMembership() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        contacts = repository.findAllToRenew();
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .as("persons")
             .isEmpty();
     }
@@ -67,13 +67,13 @@ class ITContactRepositoryFindAllToRenew {
     @DisplayName("With an active membership to not renew, nothing is returned")
     @MembershipActiveToNotRenewContact
     void testFindAllToRenew_ToNotRenewActive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        contacts = repository.findAllToRenew();
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .as("persons")
             .isEmpty();
     }
@@ -82,13 +82,13 @@ class ITContactRepositoryFindAllToRenew {
     @DisplayName("With an inactive membership to not renew, nothing is returned")
     @MembershipInactiveToNotRenewContact
     void testFindAllToRenew_ToNotRenewInactive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        contacts = repository.findAllToRenew();
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .as("persons")
             .isEmpty();
     }
@@ -97,13 +97,13 @@ class ITContactRepositoryFindAllToRenew {
     @DisplayName("With an active membership to renew, it is returned")
     @MembershipActiveToRenewContact
     void testFindAllToRenew_ToRenewActive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        contacts = repository.findAllToRenew();
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .as("persons")
             .containsExactly(Contacts.membershipActive());
     }
@@ -112,13 +112,13 @@ class ITContactRepositoryFindAllToRenew {
     @DisplayName("With an inactive membership to renew, it is returned")
     @MembershipInactiveToRenewContact
     void testFindAllToRenew_ToRenewInactive() {
-        final Collection<Contact> persons;
+        final Collection<Contact> contacts;
 
         // WHEN
-        persons = repository.findAllToRenew();
+        contacts = repository.findAllToRenew();
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .as("persons")
             .containsExactly(Contacts.membershipInactive());
     }

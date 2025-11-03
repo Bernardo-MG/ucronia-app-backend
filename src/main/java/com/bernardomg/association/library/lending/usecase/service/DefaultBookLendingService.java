@@ -72,19 +72,19 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookRepository         bookRepository;
 
-    private final Validator<BookLending> lendBookValidator;
+    private final ContactRepository      contactRepository;
 
-    private final ContactRepository      personRepository;
+    private final Validator<BookLending> lendBookValidator;
 
     private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final ContactRepository personRepo) {
+            final ContactRepository contactRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
 
         lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
             new BookLendingNotLentBeforeLastReturnRule(bookLendingRepo), new BookLendingNotLentInFutureRule());
@@ -125,10 +125,10 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
         book = readBook.get();
 
-        borrower = personRepository.findOne(borrowerNumber)
+        borrower = contactRepository.findOne(borrowerNumber)
             .map(this::toBorrower)
             .orElseThrow(() -> {
-                log.debug("Missing person {}", borrowerNumber);
+                log.debug("Missing contact {}", borrowerNumber);
                 throw new MissingContactException(borrowerNumber);
             });
 
@@ -171,14 +171,14 @@ public final class DefaultBookLendingService implements BookLendingService {
         return returned;
     }
 
-    private final Borrower toBorrower(final Contact person) {
+    private final Borrower toBorrower(final Contact contact) {
         final ContactName name;
 
-        name = new ContactName(person.name()
+        name = new ContactName(contact.name()
             .firstName(),
-            person.name()
+            contact.name()
                 .lastName());
-        return new Borrower(person.number(), name);
+        return new Borrower(contact.number(), name);
     }
 
 }

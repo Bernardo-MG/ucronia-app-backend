@@ -69,46 +69,46 @@ public class UserContactController implements UserContactApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ContactResponseDto assignContactToUser(final String username, final Long memberNumber) {
-        Contact person;
+        Contact contact;
 
-        person = service.assignContact(username, memberNumber);
-        return UserContactDtoMapper.toResponseDto(person);
+        contact = service.assignContact(username, memberNumber);
+        return UserContactDtoMapper.toResponseDto(contact);
     }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public ContactResponseDto getAssignedContact(final String username) {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
-        person = service.getContact(username);
+        contact = service.getContact(username);
 
-        return UserContactDtoMapper.toResponseDto(person);
+        return UserContactDtoMapper.toResponseDto(contact);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public ContactPageResponseDto getAvailableContacts(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        Page<Contact>    persons;
+        Page<Contact>    contacts;
         final Pagination pagination;
         final Sorting    sorting;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        persons = service.getAvailableContact(pagination, sorting);
+        contacts = service.getAvailableContact(pagination, sorting);
 
-        return UserContactDtoMapper.toResponseDto(persons);
+        return UserContactDtoMapper.toResponseDto(contacts);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ContactResponseDto unassignContact(final String username) {
-        Contact person;
+        Contact contact;
 
-        person = service.unassignContact(username);
+        contact = service.unassignContact(username);
 
-        return UserContactDtoMapper.toResponseDto(person);
+        return UserContactDtoMapper.toResponseDto(contact);
     }
 
 }

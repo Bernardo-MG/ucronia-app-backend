@@ -26,9 +26,9 @@ package com.bernardomg.association.person.adapter.outbound.cache;
 
 public final class ContactsCaches {
 
-    public static final String CONTACTS = "persons";
+    public static final String CONTACT  = "contact";
 
-    public static final String PERSON   = "person";
+    public static final String CONTACTS = "contacts";
 
     private ContactsCaches() {
         super();

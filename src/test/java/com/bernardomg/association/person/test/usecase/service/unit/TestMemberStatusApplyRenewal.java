@@ -45,7 +45,7 @@ import com.bernardomg.association.person.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusApplyRenewal {
 
     @Mock
-    private ContactRepository          personRepository;
+    private ContactRepository          contactRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -58,27 +58,27 @@ class TestMemberStatusApplyRenewal {
     @DisplayName("When applying renewal to an active membership, the member is deactivated")
     void testApplyRenewal_Active() {
         // GIVEN
-        given(personRepository.findAllWithRenewalMismatch()).willReturn(List.of(Contacts.membershipActive()));
+        given(contactRepository.findAllWithRenewalMismatch()).willReturn(List.of(Contacts.membershipActive()));
 
         // WHEN
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).saveAll(List.of(Contacts.membershipInactiveNoRenew()));
+        verify(contactRepository).saveAll(List.of(Contacts.membershipInactiveNoRenew()));
     }
 
     @Test
     @DisplayName("When applying renewal to an inactive membership and an active membership, both are updated")
     void testApplyRenewal_ActiveAndInactive() {
         // GIVEN
-        given(personRepository.findAllWithRenewalMismatch())
+        given(contactRepository.findAllWithRenewalMismatch())
             .willReturn(List.of(Contacts.membershipActive(), Contacts.alternativeMembershipInactive()));
 
         // WHEN
         service.applyRenewal();
 
         // THEN
-        verify(personRepository)
+        verify(contactRepository)
             .saveAll(List.of(Contacts.alternativeMembershipActive(), Contacts.membershipInactiveNoRenew()));
     }
 
@@ -86,13 +86,13 @@ class TestMemberStatusApplyRenewal {
     @DisplayName("When applying renewal to an inactive membership, the member is activated")
     void testApplyRenewal_Inactive() {
         // GIVEN
-        given(personRepository.findAllWithRenewalMismatch()).willReturn(List.of(Contacts.membershipInactive()));
+        given(contactRepository.findAllWithRenewalMismatch()).willReturn(List.of(Contacts.membershipInactive()));
 
         // WHEN
         service.applyRenewal();
 
         // THEN
-        verify(personRepository).saveAll(List.of(Contacts.membershipActive()));
+        verify(contactRepository).saveAll(List.of(Contacts.membershipActive()));
     }
 
 }

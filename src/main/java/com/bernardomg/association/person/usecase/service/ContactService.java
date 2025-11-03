@@ -47,7 +47,7 @@ public interface ContactService {
      *            person to persist
      * @return the persisted person
      */
-    public Contact create(final Contact person);
+    public Contact create(final Contact contact);
 
     /**
      * Deletes the person with the received id.
@@ -86,7 +86,7 @@ public interface ContactService {
      *            new data for the person
      * @return the updated person
      */
-    public Contact patch(final Contact person);
+    public Contact patch(final Contact contact);
 
     /**
      * Updates the person for the received id with the received data.
@@ -95,6 +95,6 @@ public interface ContactService {
      *            new data for the person
      * @return the updated person
      */
-    public Contact update(final Contact person);
+    public Contact update(final Contact contact);
 
 }

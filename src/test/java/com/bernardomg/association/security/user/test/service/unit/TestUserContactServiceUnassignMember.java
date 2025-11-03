@@ -48,7 +48,7 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 class TestUserContactServiceUnassignMember {
 
     @Mock
-    private ContactRepository         personRepository;
+    private ContactRepository         contactsRepository;
 
     @InjectMocks
     private DefaultUserContactService service;

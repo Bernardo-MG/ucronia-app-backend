@@ -45,8 +45,8 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class UserContactDtoMapper {
 
-    public static final ContactResponseDto toResponseDto(final Contact person) {
-        return new ContactResponseDto().content(UserContactDtoMapper.toDto(person));
+    public static final ContactResponseDto toResponseDto(final Contact contact) {
+        return new ContactResponseDto().content(UserContactDtoMapper.toDto(contact));
     }
 
     public static final ContactResponseDto toResponseDto(final Optional<Contact> person) {

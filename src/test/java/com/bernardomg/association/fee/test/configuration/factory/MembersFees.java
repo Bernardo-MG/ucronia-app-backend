@@ -12,25 +12,25 @@ import com.bernardomg.association.person.test.configuration.factory.ContactConst
 public final class MembersFees {
 
     public static final MemberFees activePaidCurrentMonth() {
-        final MemberFees.Member          person;
+        final MemberFees.Member          contact;
         final Collection<MemberFees.Fee> months;
         final ContactName                name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        person = new MemberFees.Member(ContactConstants.NUMBER, name, true);
+        contact = new MemberFees.Member(ContactConstants.NUMBER, name, true);
         months = List.of(paid());
-        return new MemberFees(person, months);
+        return new MemberFees(contact, months);
     }
 
     public static final MemberFees inactivePaidCurrentMonth() {
-        final MemberFees.Member          person;
+        final MemberFees.Member          contact;
         final Collection<MemberFees.Fee> months;
         final ContactName                name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        person = new MemberFees.Member(ContactConstants.NUMBER, name, false);
+        contact = new MemberFees.Member(ContactConstants.NUMBER, name, false);
         months = List.of(paid());
-        return new MemberFees(person, months);
+        return new MemberFees(contact, months);
     }
 
     private static final Fee paid() {

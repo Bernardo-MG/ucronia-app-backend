@@ -26,10 +26,10 @@ import com.bernardomg.association.person.test.configuration.factory.Contacts;
 public class TestFeeMaintenanceService {
 
     @Mock
-    private FeeRepository                feeRepository;
+    private ContactRepository            contactRepository;
 
     @Mock
-    private ContactRepository            personRepository;
+    private FeeRepository                feeRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,7 +39,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(personRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
+        given(contactRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -54,7 +54,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(personRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
+        given(contactRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -69,7 +69,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
-        given(personRepository.findAllToRenew()).willReturn(List.of());
+        given(contactRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
         service.registerMonthFees();

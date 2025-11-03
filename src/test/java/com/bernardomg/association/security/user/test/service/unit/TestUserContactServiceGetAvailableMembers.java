@@ -66,7 +66,7 @@ class TestUserContactServiceGetAvailableMembers {
     @Test
     @DisplayName("When there are not assigned persons, these are returned")
     void testGetContact() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Page<Contact> existing;
         final Pagination    pagination;
         final Sorting       sorting;
@@ -79,10 +79,10 @@ class TestUserContactServiceGetAvailableMembers {
         given(userContactRepository.findAllNotAssigned(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        persons = service.getAvailableContact(pagination, sorting);
+        contacts = service.getAvailableContact(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.noMembership());
@@ -91,7 +91,7 @@ class TestUserContactServiceGetAvailableMembers {
     @Test
     @DisplayName("When there are no not assigned persons, nothing is returned")
     void testGetContact_NoContact() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Page<Contact> existing;
         final Pagination    pagination;
         final Sorting       sorting;
@@ -104,10 +104,10 @@ class TestUserContactServiceGetAvailableMembers {
         given(userContactRepository.findAllNotAssigned(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        persons = service.getAvailableContact(pagination, sorting);
+        contacts = service.getAvailableContact(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

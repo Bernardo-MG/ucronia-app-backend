@@ -86,8 +86,8 @@ public final class ContactDtoMapper {
         return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), membership, List.of());
     }
 
-    public static final ContactResponseDto toResponseDto(final Contact person) {
-        return new ContactResponseDto().content(ContactDtoMapper.toDto(person));
+    public static final ContactResponseDto toResponseDto(final Contact contact) {
+        return new ContactResponseDto().content(ContactDtoMapper.toDto(contact));
     }
 
     public static final ContactResponseDto toResponseDto(final Optional<Contact> person) {

@@ -71,22 +71,22 @@ public final class DefaultFictionBookService implements FictionBookService {
 
     private final FictionBookRepository  bookRepository;
 
-    private final Validator<FictionBook> createBookValidator;
+    private final ContactRepository      contactRepository;
 
-    private final ContactRepository      personRepository;
+    private final Validator<FictionBook> createBookValidator;
 
     private final PublisherRepository    publisherRepository;
 
     private final Validator<FictionBook> updateBookValidator;
 
     public DefaultFictionBookService(final FictionBookRepository bookRepo, final AuthorRepository authorRepo,
-            final PublisherRepository publisherRepo, final ContactRepository personRepo) {
+            final PublisherRepository publisherRepo, final ContactRepository contactRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
         authorRepository = Objects.requireNonNull(authorRepo);
         publisherRepository = Objects.requireNonNull(publisherRepo);
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
 
         createBookValidator = new FieldRuleValidator<>(new FictionBookTitleNotEmptyRule(),
             new FictionBookLanguageCodeValidRule(), new FictionBookIsbnValidRule(),
@@ -295,7 +295,7 @@ public final class DefaultFictionBookService implements FictionBookService {
             .map(Donation::donors)
             .orElse(List.of())
             .stream()
-            .filter(d -> !personRepository.exists(d.number()))
+            .filter(d -> !contactRepository.exists(d.number()))
             .findAny();
         if (invalidDonor.isPresent()) {
             log.error("Missing donor {}", invalidDonor.get()

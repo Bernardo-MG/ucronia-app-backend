@@ -75,7 +75,7 @@ public final class DefaultMyFeesService implements MyFeesService {
         final Authentication    authentication;
         final Page<Fee>         fees;
         final UserDetails       userDetails;
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         log.info("Getting all the fees for the user in session");
 
@@ -87,12 +87,12 @@ public final class DefaultMyFeesService implements MyFeesService {
             // TODO: maybe throw an exception
         } else {
             userDetails = (UserDetails) authentication.getPrincipal();
-            person = userContactRepository.findByUsername(userDetails.getUsername());
-            if (person.isEmpty()) {
+            contact = userContactRepository.findByUsername(userDetails.getUsername());
+            if (contact.isEmpty()) {
                 log.warn("User {} has no member assigned", userDetails.getUsername());
                 fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
             } else {
-                fees = feeRepository.findAllForContact(person.get()
+                fees = feeRepository.findAllForContact(contact.get()
                     .number(), pagination, sorting);
             }
         }

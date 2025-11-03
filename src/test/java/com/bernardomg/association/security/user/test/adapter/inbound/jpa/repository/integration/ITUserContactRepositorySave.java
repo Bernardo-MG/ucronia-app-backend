@@ -58,30 +58,30 @@ class ITUserContactRepositorySave {
     @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithContact
     void testSave_Existing_PersistedData() {
-        final Collection<UserContactEntity> persons;
+        final Collection<UserContactEntity> contacts;
 
         // WHEN
         repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        persons = userContactSpringRepository.findAll();
+        contacts = userContactSpringRepository.findAll();
         SoftAssertions.assertSoftly(softly -> {
-            final UserContactEntity person;
+            final UserContactEntity contact;
 
-            softly.assertThat(persons)
-                .as("persons")
+            softly.assertThat(contacts)
+                .as("contacts")
                 .hasSize(1);
 
-            person = persons.iterator()
+            contact = contacts.iterator()
                 .next();
-            softly.assertThat(person.getUserId())
+            softly.assertThat(contact.getUserId())
                 .as("user id")
                 .isNotNull();
-            softly.assertThat(person.getContact()
+            softly.assertThat(contact.getContact()
                 .getNumber())
-                .as("person number")
+                .as("contact number")
                 .isEqualTo(ContactConstants.NUMBER);
-            softly.assertThat(person.getUser()
+            softly.assertThat(contact.getUser()
                 .getUsername())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);
@@ -92,27 +92,27 @@ class ITUserContactRepositorySave {
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUserWithContact
     void testSave_Existing_ReturnedData() {
-        final Contact person;
+        final Contact contact;
 
         // WHEN
-        person = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        contact = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isEqualTo(Contacts.noMembership());
     }
 
     @Test
-    @DisplayName("When the person is missing, nothing is returned")
+    @DisplayName("When the contact is missing, nothing is returned")
     @ValidUser
     void testSave_MissingContact_ReturnedData() {
-        final Contact person;
+        final Contact contact;
 
         // WHEN
-        person = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        contact = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isNull();
     }
 
@@ -120,13 +120,13 @@ class ITUserContactRepositorySave {
     @DisplayName("When the user is missing, nothing is returned")
     @NoMembershipContact
     void testSave_MissingUser_ReturnedData() {
-        final Contact person;
+        final Contact contact;
 
         // WHEN
-        person = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        contact = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isNull();
     }
 
@@ -135,30 +135,30 @@ class ITUserContactRepositorySave {
     @ValidUser
     @NoMembershipContact
     void testSave_PersistedData() {
-        final Collection<UserContactEntity> persons;
+        final Collection<UserContactEntity> contacts;
 
         // WHEN
         repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        persons = userContactSpringRepository.findAll();
+        contacts = userContactSpringRepository.findAll();
         SoftAssertions.assertSoftly(softly -> {
-            final UserContactEntity person;
+            final UserContactEntity contact;
 
-            softly.assertThat(persons)
-                .as("persons")
+            softly.assertThat(contacts)
+                .as("contacts")
                 .hasSize(1);
 
-            person = persons.iterator()
+            contact = contacts.iterator()
                 .next();
-            softly.assertThat(person.getUserId())
+            softly.assertThat(contact.getUserId())
                 .as("user id")
                 .isNotNull();
-            softly.assertThat(person.getContact()
+            softly.assertThat(contact.getContact()
                 .getNumber())
-                .as("person number")
+                .as("contact number")
                 .isEqualTo(ContactConstants.NUMBER);
-            softly.assertThat(person.getUser()
+            softly.assertThat(contact.getUser()
                 .getUsername())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);
@@ -170,13 +170,13 @@ class ITUserContactRepositorySave {
     @ValidUser
     @NoMembershipContact
     void testSave_ReturnedData() {
-        final Contact person;
+        final Contact contact;
 
         // WHEN
-        person = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        contact = repository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .isEqualTo(Contacts.noMembership());
     }
 

@@ -65,7 +65,7 @@ class TestBookLendingServiceReturnBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private ContactRepository         personRepository;
+    private ContactRepository         contactRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;

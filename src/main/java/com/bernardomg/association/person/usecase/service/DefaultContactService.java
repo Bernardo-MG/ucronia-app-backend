@@ -63,83 +63,83 @@ public final class DefaultContactService implements ContactService {
      */
     private static final Logger      log = LoggerFactory.getLogger(DefaultContactService.class);
 
+    private final ContactRepository  contactRepository;
+
     private final Validator<Contact> createContactValidator;
 
     private final Validator<Contact> patchContactValidator;
 
-    private final ContactRepository  personRepository;
-
     private final Validator<Contact> updateContactValidator;
 
-    public DefaultContactService(final ContactRepository personRepo, final ContactMethodRepository contactMethodRepo) {
+    public DefaultContactService(final ContactRepository contactRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
         createContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new PersonContactMethodExistsRule(contactMethodRepo), new ContactIdentifierNotExistRule(personRepo));
+            new PersonContactMethodExistsRule(contactMethodRepo), new ContactIdentifierNotExistRule(contactRepo));
         updateContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
             new PersonContactMethodExistsRule(contactMethodRepo),
-            new ContactIdentifierNotExistForAnotherRule(personRepo));
+            new ContactIdentifierNotExistForAnotherRule(contactRepo));
         patchContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
             new PersonContactMethodExistsRule(contactMethodRepo),
-            new ContactIdentifierNotExistForAnotherRule(personRepo));
+            new ContactIdentifierNotExistForAnotherRule(contactRepo));
     }
 
     @Override
-    public final Contact create(final Contact person) {
+    public final Contact create(final Contact contact) {
         final Contact toCreate;
         final Long    number;
 
-        log.debug("Creating person {}", person);
+        log.debug("Creating contact {}", contact);
 
         // Set number
-        number = personRepository.findNextNumber();
+        number = contactRepository.findNextNumber();
 
-        toCreate = new Contact(person.identifier(), number, person.name(), person.birthDate(), person.membership(),
-            person.contacts());
+        toCreate = new Contact(contact.identifier(), number, contact.name(), contact.birthDate(), contact.membership(),
+            contact.contacts());
 
         createContactValidator.validate(toCreate);
 
-        return personRepository.save(toCreate);
+        return contactRepository.save(toCreate);
     }
 
     @Override
     public final Contact delete(final long number) {
         final Contact existing;
 
-        log.debug("Deleting person {}", number);
+        log.debug("Deleting contact {}", number);
 
-        existing = personRepository.findOne(number)
+        existing = contactRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing person {}", number);
+                log.error("Missing contact {}", number);
                 throw new MissingContactException(number);
             });
 
-        personRepository.delete(number);
+        contactRepository.delete(number);
 
         return existing;
     }
 
     @Override
     public final Page<Contact> getAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading persons with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+        log.debug("Reading contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        return personRepository.findAll(filter, pagination, sorting);
+        return contactRepository.findAll(filter, pagination, sorting);
     }
 
     @Override
     public final Optional<Contact> getOne(final long number) {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
-        log.debug("Reading person {}", number);
+        log.debug("Reading contact {}", number);
 
-        person = personRepository.findOne(number);
-        if (person.isEmpty()) {
-            log.error("Missing person {}", number);
+        contact = contactRepository.findOne(number);
+        if (contact.isEmpty()) {
+            log.error("Missing contact {}", number);
             throw new MissingContactException(number);
         }
 
-        return person;
+        return contact;
     }
 
     @Override
@@ -147,14 +147,14 @@ public final class DefaultContactService implements ContactService {
         final Contact existing;
         final Contact toSave;
 
-        log.debug("Patching member {} using data {}", person.number(), person);
+        log.debug("Patching contact {} using data {}", person.number(), person);
 
         // TODO: Identificator must be unique or empty
         // TODO: Apply the creation validations
 
-        existing = personRepository.findOne(person.number())
+        existing = contactRepository.findOne(person.number())
             .orElseThrow(() -> {
-                log.error("Missing person {}", person.number());
+                log.error("Missing contact {}", person.number());
                 throw new MissingContactException(person.number());
             });
 
@@ -162,24 +162,24 @@ public final class DefaultContactService implements ContactService {
 
         patchContactValidator.validate(toSave);
 
-        return personRepository.save(toSave);
+        return contactRepository.save(toSave);
     }
 
     @Override
     public final Contact update(final Contact person) {
-        log.debug("Updating person {} using data {}", person.number(), person);
+        log.debug("Updating contact {} using data {}", person.number(), person);
 
         // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
-        if (!personRepository.exists(person.number())) {
-            log.error("Missing person {}", person.number());
+        if (!contactRepository.exists(person.number())) {
+            log.error("Missing contact {}", person.number());
             throw new MissingContactException(person.number());
         }
 
         updateContactValidator.validate(person);
 
-        return personRepository.save(person);
+        return contactRepository.save(person);
     }
 
     private final Contact copy(final Contact existing, final Contact updated) {

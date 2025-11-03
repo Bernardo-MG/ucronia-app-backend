@@ -60,7 +60,7 @@ class ITUserContactRepositoryFindAllNotAssignedPagination extends AbstractPagina
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
 
@@ -69,10 +69,10 @@ class ITUserContactRepositoryFindAllNotAssignedPagination extends AbstractPagina
         sorting = Sorting.unsorted();
 
         // WHEN
-        persons = repository.findAllNotAssigned(pagination, sorting);
+        contacts = repository.findAllNotAssigned(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.noMembership());

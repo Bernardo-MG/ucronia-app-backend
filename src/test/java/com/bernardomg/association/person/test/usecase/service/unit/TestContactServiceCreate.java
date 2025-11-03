@@ -66,33 +66,33 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a person with an active membership, the person is persisted")
+    @DisplayName("With a contact with an active membership, the contact is persisted")
     void testCreate_ActiveMembership_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.membershipActive();
+        contact = Contacts.membershipActive();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.membershipActive());
     }
 
     @Test
-    @DisplayName("With a person with an empty name, an exception is thrown")
+    @DisplayName("With a contact with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;
-        final Contact          person;
+        final Contact          contact;
 
         // GIVEN
-        person = Contacts.emptyName();
+        contact = Contacts.emptyName();
 
         // WHEN
-        execution = () -> service.create(person);
+        execution = () -> service.create(contact);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -100,18 +100,18 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a person with an existing identifier, an exception is thrown")
+    @DisplayName("With a contact with an existing identifier, an exception is thrown")
     void testCreate_IdentifierExists() {
         final ThrowingCallable execution;
-        final Contact          person;
+        final Contact          contact;
 
         // GIVEN
-        person = Contacts.toCreate();
+        contact = Contacts.toCreate();
 
         given(contactRepository.existsByIdentifier(ContactConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(person);
+        execution = () -> service.create(contact);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -119,17 +119,17 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a person with an existing identifier, but the identifier is empty, no exception is thrown")
+    @DisplayName("With a contact with an existing identifier, but the identifier is empty, no exception is thrown")
     void testCreate_IdentifierExistsAndEmpty() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.toCreateNoIdentifier();
+        contact = Contacts.toCreateNoIdentifier();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.noIdentifier());
@@ -137,108 +137,108 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a person with an inactive membership, the person is persisted")
+    @DisplayName("With a contact with an inactive membership, the contact is persisted")
     void testCreate_InactiveMembership_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.membershipInactive();
+        contact = Contacts.membershipInactive();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.membershipInactive());
     }
 
     @Test
-    @DisplayName("With a person with no membership, the person is persisted")
+    @DisplayName("With a contact with no membership, the contact is persisted")
     void testCreate_NoMembership_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.noMembership();
+        contact = Contacts.noMembership();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.noMembership());
     }
 
     @Test
-    @DisplayName("With a person having padding whitespaces in first and last name, these whitespaces are removed and the person is persisted")
+    @DisplayName("With a contact having padding whitespaces in first and last name, these whitespaces are removed and the contact is persisted")
     void testCreate_Padded_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.padded();
+        contact = Contacts.padded();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.noMembership());
     }
 
     @Test
-    @DisplayName("With a valid person, the person is persisted")
+    @DisplayName("With a valid contact, the contact is persisted")
     void testCreate_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.toCreate();
+        contact = Contacts.toCreate();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.noMembership());
     }
 
     @Test
-    @DisplayName("With a valid person, the created person is returned")
+    @DisplayName("With a valid contact, the created contact is returned")
     void testCreate_ReturnedData() {
-        final Contact person;
+        final Contact contact;
         final Contact created;
 
         // GIVEN
-        person = Contacts.toCreate();
+        contact = Contacts.toCreate();
 
         given(contactRepository.save(Contacts.noMembership())).willReturn(Contacts.noMembership());
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
-        created = service.create(person);
+        created = service.create(contact);
 
         // THEN
         Assertions.assertThat(created)
-            .as("person")
+            .as("contact")
             .isEqualTo(Contacts.noMembership());
     }
 
     @Test
-    @DisplayName("With a person with a not existing contact method, an exception is thrown")
+    @DisplayName("With a contact with a not existing contact method, an exception is thrown")
     void testCreate_WithContact_NotExisting() {
-        final Contact          person;
+        final Contact          contact;
         final ThrowingCallable execution;
 
         // GIVEN
-        person = Contacts.withEmail();
+        contact = Contacts.withEmail();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.create(person);
+        execution = () -> service.create(contact);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -246,18 +246,18 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a person with a contact method, the person is persisted")
+    @DisplayName("With a contact with a contact method, the contact is persisted")
     void testCreate_WithContact_PersistedData() {
-        final Contact person;
+        final Contact contact;
 
         // GIVEN
-        person = Contacts.withEmail();
+        contact = Contacts.withEmail();
 
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.create(person);
+        service.create(contact);
 
         // THEN
         verify(contactRepository).save(Contacts.withEmail());

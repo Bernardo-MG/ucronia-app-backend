@@ -56,6 +56,9 @@ import com.bernardomg.event.emitter.EventEmitter;
 class TestFeeServiceGetForYear {
 
     @Mock
+    private ContactRepository         contactRepository;
+
+    @Mock
     private EventEmitter              eventEmitter;
 
     @Mock
@@ -63,9 +66,6 @@ class TestFeeServiceGetForYear {
 
     @Mock
     private MessageSource             messageSource;
-
-    @Mock
-    private ContactRepository         personRepository;
 
     @InjectMocks
     private DefaultFeeService         service;
@@ -107,7 +107,7 @@ class TestFeeServiceGetForYear {
 
         given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(personRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);

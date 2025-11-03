@@ -58,7 +58,7 @@ class TestFictionBookServiceDelete {
     private FictionBookRepository     bookRepository;
 
     @Mock
-    private ContactRepository         personRepository;
+    private ContactRepository         contactRepository;
 
     @Mock
     private PublisherRepository       publisherRepository;

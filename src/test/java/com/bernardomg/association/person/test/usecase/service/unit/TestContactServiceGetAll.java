@@ -73,7 +73,7 @@ class TestContactServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Page<Contact> existing;
         final Pagination    pagination;
         final Sorting       sorting;
@@ -88,20 +88,20 @@ class TestContactServiceGetAll {
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        persons = service.getAll(filter, pagination, sorting);
+        contacts = service.getAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("persons")
+            .as("contacts")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When getting all the persons, it returns all the persons")
+    @DisplayName("When getting all the contacts, it returns all the contacts")
     void testGetAll_ReturnsData() {
-        final Page<Contact> persons;
+        final Page<Contact> contacts;
         final Page<Contact> existing;
         final Pagination    pagination;
         final Sorting       sorting;
@@ -116,13 +116,13 @@ class TestContactServiceGetAll {
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        persons = service.getAll(filter, pagination, sorting);
+        contacts = service.getAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(persons)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("persons")
+            .as("contacts")
             .containsExactly(Contacts.noMembership());
     }
 

@@ -46,25 +46,25 @@ public final class ContactIdentifierNotExistForAnotherRule implements FieldRule<
      */
     private static final Logger     log = LoggerFactory.getLogger(ContactIdentifierNotExistForAnotherRule.class);
 
-    private final ContactRepository personRepository;
+    private final ContactRepository contactRepository;
 
-    public ContactIdentifierNotExistForAnotherRule(final ContactRepository personRepo) {
+    public ContactIdentifierNotExistForAnotherRule(final ContactRepository contactRepo) {
         super();
 
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Contact person) {
+    public final Optional<FieldFailure> check(final Contact contact) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(person.identifier())
-                || !personRepository.existsByIdentifierForAnother(person.number(), person.identifier())) {
+        if (StringUtils.isBlank(contact.identifier())
+                || !contactRepository.existsByIdentifierForAnother(contact.number(), contact.identifier())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {} for a person distinct of {}", person.identifier(), person.number());
-            fieldFailure = new FieldFailure("existing", "identifier", person.identifier());
+            log.error("Existing identifier {} for a contact distinct of {}", contact.identifier(), contact.number());
+            fieldFailure = new FieldFailure("existing", "identifier", contact.identifier());
             failure = Optional.of(fieldFailure);
         }
 

@@ -49,14 +49,14 @@ public final class ContactNameNotEmptyRule implements FieldRule<Contact> {
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Contact person) {
+    public final Optional<FieldFailure> check(final Contact contact) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(person.name()
+        if (StringUtils.isBlank(contact.name()
             .firstName())) {
             log.error("Empty name");
-            fieldFailure = new FieldFailure("empty", "name.firstName", person.name());
+            fieldFailure = new FieldFailure("empty", "name.firstName", contact.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

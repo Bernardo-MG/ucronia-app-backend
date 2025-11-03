@@ -52,15 +52,15 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
      */
     private static final Logger     log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
+    private final ContactRepository contactRepository;
+
     private final FeeRepository     feeRepository;
 
-    private final ContactRepository personRepository;
-
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ContactRepository personRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ContactRepository contactRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
     }
 
     @Override
@@ -71,7 +71,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         log.info("Registering fees for this month");
 
         // Find fees to extend into the current month
-        toRenew = personRepository.findAllToRenew();
+        toRenew = contactRepository.findAllToRenew();
         feesToCreate = toRenew.stream()
             // Prepare for the current month
             .map(this::toUnpaidThisMonth)
@@ -90,10 +90,10 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final Fee toUnpaidThisMonth(final Contact feeContact) {
-        final Fee.Member person;
+        final Fee.Member member;
 
-        person = new Fee.Member(feeContact.number(), feeContact.name());
-        return Fee.unpaid(YearMonth.now(), person);
+        member = new Fee.Member(feeContact.number(), feeContact.name());
+        return Fee.unpaid(YearMonth.now(), member);
     }
 
 }

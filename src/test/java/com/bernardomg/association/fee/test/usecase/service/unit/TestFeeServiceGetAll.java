@@ -57,6 +57,9 @@ import com.bernardomg.event.emitter.EventEmitter;
 class TestFeeServiceGetAll {
 
     @Mock
+    private ContactRepository         contactRepository;
+
+    @Mock
     private EventEmitter              eventEmitter;
 
     @Mock
@@ -64,9 +67,6 @@ class TestFeeServiceGetAll {
 
     @Mock
     private MessageSource             messageSource;
-
-    @Mock
-    private ContactRepository         personRepository;
 
     @InjectMocks
     private DefaultFeeService         service;

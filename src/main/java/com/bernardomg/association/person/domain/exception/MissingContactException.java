@@ -36,8 +36,8 @@ public final class MissingContactException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingContactException(final long person) {
-        super("person", person);
+    public MissingContactException(final long contact) {
+        super("contact", contact);
     }
 
 }

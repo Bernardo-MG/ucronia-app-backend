@@ -54,13 +54,13 @@ public final class UserContactNameNotEmptyRule implements FieldRule<UserContact>
     }
 
     @Override
-    public final Optional<FieldFailure> check(final UserContact member) {
+    public final Optional<FieldFailure> check(final UserContact contact) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (userContactRepository.existsByContactForAnotherUser(member.username(), member.number())) {
-            log.error("Contact {} already assigned to a user", member.number());
-            fieldFailure = new FieldFailure("existing", "person", member.number());
+        if (userContactRepository.existsByContactForAnotherUser(contact.username(), contact.number())) {
+            log.error("Contact {} already assigned to a user", contact.number());
+            fieldFailure = new FieldFailure("existing", "contact", contact.number());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -49,7 +49,7 @@ import com.bernardomg.association.person.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusActivate {
 
     @Mock
-    private ContactRepository          personRepository;
+    private ContactRepository          contactRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,7 +65,8 @@ class TestMemberStatusActivate {
         final Long      number;
 
         // GIVEN
-        given(personRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipInactive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(Contacts.membershipInactive()));
         date = YearMonth.now();
         number = ContactConstants.NUMBER;
 
@@ -73,7 +74,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(personRepository).save(Contacts.membershipActive());
+        verify(contactRepository).save(Contacts.membershipActive());
     }
 
     @Test
@@ -91,7 +92,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(personRepository, never()).save(any());
+        verify(contactRepository, never()).save(any());
     }
 
 }
