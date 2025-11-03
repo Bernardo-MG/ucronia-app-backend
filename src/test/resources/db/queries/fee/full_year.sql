@@ -12,7 +12,7 @@ INSERT INTO association.transactions (id, index, description, amount, date) VALU
    (11, 11, 'Transaction', 2, '2020-02-01'),
    (12, 12, 'Transaction', 2, '2020-02-01');
 
-INSERT INTO association.fees (id, person_id, date, paid, transaction_id) VALUES
+INSERT INTO association.fees (id, contact_id, date, paid, transaction_id) VALUES
    (1, 1, '2020-01-01', true, 1),
    (2, 1, '2020-02-01', true, 2),
    (3, 1, '2020-03-01', true, 3),

@@ -55,7 +55,7 @@ public class PersonContactMethodEntity implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "contact_id", nullable = false)
     private ContactEntity       person;
 
     @Override

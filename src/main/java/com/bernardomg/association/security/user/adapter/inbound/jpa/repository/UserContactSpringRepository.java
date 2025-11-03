@@ -40,7 +40,7 @@ public interface UserContactSpringRepository extends JpaRepository<UserContactEn
     public void deleteByUserId(final long id);
 
     @Query("""
-               SELECT CASE WHEN COUNT(um) > 0 THEN TRUE ELSE FALSE END AS exists
+               SELECT CASE WHEN COUNT(uc) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM UserContact uc
                  JOIN uc.contact c
                  JOIN uc.user u
@@ -59,10 +59,10 @@ public interface UserContactSpringRepository extends JpaRepository<UserContactEn
      * @return a page with the members not assigned to a user
      */
     @Query("""
-               SELECT p
-               FROM Person p
-                 LEFT JOIN UserContact uc ON p.number = uc.person.number
-               WHERE uc.person IS NULL
+               SELECT c
+               FROM Contact c
+                 LEFT JOIN UserContact uc ON c.number = uc.contact.number
+               WHERE uc.contact IS NULL
             """)
     public Page<ContactEntity> findAllNotAssigned(final Pageable page);
 

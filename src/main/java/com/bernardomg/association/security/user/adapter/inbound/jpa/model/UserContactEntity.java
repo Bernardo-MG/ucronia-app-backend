@@ -49,7 +49,7 @@ public class UserContactEntity implements Serializable {
     private static final long serialVersionUID = -3540074544521251838L;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private ContactEntity     contact;
 
     @OneToOne(cascade = CascadeType.ALL)

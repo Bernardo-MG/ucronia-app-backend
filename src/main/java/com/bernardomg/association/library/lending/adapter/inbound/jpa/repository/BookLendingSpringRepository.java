@@ -43,7 +43,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN Contact c ON p.id = l.personId
+                 INNER JOIN Contact c ON c.id = l.contactId
                WHERE b.number = :bookNumber
                  AND c.number = :contactNumber
                ORDER BY l.returnDate DESC
@@ -79,9 +79,9 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN Contact c ON p.id = l.personId
+                 INNER JOIN Contact c ON c.id = l.contactId
                WHERE b.number = :bookNumber
-                 AND p.number = :contactNumber
+                 AND c.number = :contactNumber
                  AND l.lendingDate = :lendingDate
                  AND l.returnDate IS NOT NULL
                ORDER BY l.returnDate DESC

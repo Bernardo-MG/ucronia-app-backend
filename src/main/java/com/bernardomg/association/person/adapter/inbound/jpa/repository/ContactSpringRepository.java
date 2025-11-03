@@ -49,14 +49,14 @@ public interface ContactSpringRepository
     public void deleteByNumber(@Param("number") final Long number);
 
     @Query("""
-            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Contact c
             WHERE c.identifier = :identifier
             """)
     public boolean existsByIdentifier(@Param("identifier") final String identifier);
 
     @Query("""
-            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Contact c
             WHERE c.number != :number
               AND c.identifier = :identifier
@@ -65,14 +65,14 @@ public interface ContactSpringRepository
             @Param("identifier") final String identifier);
 
     @Query("""
-            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Contact c
             WHERE c.number = :number
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
     @Query("""
-            SELECT p.id AS id
+            SELECT c.id AS id
             FROM Contact c
             WHERE c.member = true
               AND c.active = true
@@ -81,7 +81,7 @@ public interface ContactSpringRepository
     public Collection<Long> findAllActiveMemberIds();
 
     @Query("""
-            SELECT p
+            SELECT c
             FROM Contact c
             WHERE c.member = true
               AND c.active = true
@@ -93,7 +93,7 @@ public interface ContactSpringRepository
     public Collection<ContactEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     @Query("""
-            SELECT p.id AS id
+            SELECT c.id AS id
             FROM Contact c
             WHERE c.member = true
               AND c.active = false
@@ -102,17 +102,17 @@ public interface ContactSpringRepository
     public Collection<Long> findAllInactiveMemberIds();
 
     @Query("""
-            SELECT p
+            SELECT c
             FROM Contact c
             WHERE c.member = true
-              AND c.active != p.renewMembership
+              AND c.active != c.renewMembership
             """)
     public Collection<ContactEntity> findAllWithRenewalMismatch();
 
     public Optional<ContactEntity> findByNumber(final Long number);
 
     @Query("""
-            SELECT p
+            SELECT c
             FROM Contact c
             WHERE c.member = true
               AND c.number = :number
