@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.usecase.service;
+package com.bernardomg.association.member.usecase.service;
 
 import java.time.YearMonth;
 

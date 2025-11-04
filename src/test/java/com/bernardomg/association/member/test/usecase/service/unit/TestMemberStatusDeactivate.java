@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.test.usecase.service.unit;
+package com.bernardomg.association.member.test.usecase.service.unit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -42,11 +42,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
-import com.bernardomg.association.contact.usecase.service.DefaultMemberStatusService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member status service - activate")
-class TestMemberStatusActivate {
+@DisplayName("Member status service - deactivate")
+class TestMemberStatusDeactivate {
 
     @Mock
     private ContactRepository          contactRepository;
@@ -54,32 +54,31 @@ class TestMemberStatusActivate {
     @InjectMocks
     private DefaultMemberStatusService service;
 
-    public TestMemberStatusActivate() {
+    public TestMemberStatusDeactivate() {
         super();
     }
 
     @Test
-    @DisplayName("When activating for the current month, the member is activated")
-    void testActivate_CurrentMonth() {
+    @DisplayName("When activating for the current month, the member is deactivated")
+    void testDeactivate_CurrentMonth() {
         final YearMonth date;
         final Long      number;
 
         // GIVEN
-        given(contactRepository.findOne(ContactConstants.NUMBER))
-            .willReturn(Optional.of(Contacts.membershipInactive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
         date = YearMonth.now();
         number = ContactConstants.NUMBER;
 
         // WHEN
-        service.activate(date, number);
+        service.deactivate(date, number);
 
         // THEN
-        verify(contactRepository).save(Contacts.membershipActive());
+        verify(contactRepository).save(Contacts.membershipInactiveNoRenew());
     }
 
     @Test
-    @DisplayName("When activating for the previous month, the member is not activated")
-    void testActivate_PreviousMonth() {
+    @DisplayName("When activating for the previous month, the member is not deactivated")
+    void testDeactivate_PreviousMonth() {
         final YearMonth date;
         final Long      number;
 
@@ -89,7 +88,7 @@ class TestMemberStatusActivate {
         number = ContactConstants.NUMBER;
 
         // WHEN
-        service.activate(date, number);
+        service.deactivate(date, number);
 
         // THEN
         verify(contactRepository, never()).save(any());

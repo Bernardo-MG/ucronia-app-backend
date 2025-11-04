@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.adapter.inbound.event;
+package com.bernardomg.association.member.adapter.inbound.event;
 
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.contact.usecase.service.MemberStatusService;
+import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.schedule.event.MonthStartEvent;
 

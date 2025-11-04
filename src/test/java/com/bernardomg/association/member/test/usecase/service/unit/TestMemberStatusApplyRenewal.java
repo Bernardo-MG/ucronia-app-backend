@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.test.usecase.service.unit;
+package com.bernardomg.association.member.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -38,7 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
-import com.bernardomg.association.contact.usecase.service.DefaultMemberStatusService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member status service - apply renewal")
