@@ -35,13 +35,13 @@ components:
       type: string
       description: Status filter for contact queries.
       enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
-    ContactContact:
+    ContactChannel:
       type: object
-      required: [method, contact]
+      required: [method, detail]
       properties:
         method:
           $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
-        contact:
+        detail:
           type: string
           description: Contact detail.
     Membership:
@@ -69,10 +69,10 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
         membership:
           $ref: '#/components/schemas/Membership'
-        contacts:
+        contactChannels:
           type: array
           items:
-            $ref: '#/components/schemas/ContactContact'
+            $ref: '#/components/schemas/ContactChannel'
     ContactCreation:
       type: object
       required: [name]

@@ -112,7 +112,7 @@ databaseChangeLog:
                     references: association.contact_methods(id)
                     deleteCascade: true
               - column:
-                  name: code
+                  name: detail
                   type: varchar(50)
                   constraints:
                     nullable: false

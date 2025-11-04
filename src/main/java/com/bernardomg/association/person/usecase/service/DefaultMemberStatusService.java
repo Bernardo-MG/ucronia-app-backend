@@ -134,7 +134,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         membership = new Membership(true, true);
         return new Contact(original.identifier(), original.number(), original.name(), original.birthDate(),
-            Optional.of(membership), original.contacts());
+            Optional.of(membership), original.contactChannels());
     }
 
     private final Contact deactivated(final Contact original) {
@@ -142,7 +142,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         membership = new Membership(false, false);
         return new Contact(original.identifier(), original.number(), original.name(), original.birthDate(),
-            Optional.of(membership), original.contacts());
+            Optional.of(membership), original.contactChannels());
     }
 
 }

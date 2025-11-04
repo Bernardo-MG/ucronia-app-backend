@@ -28,14 +28,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.person.domain.model.Contact.Membership;
-import com.bernardomg.association.person.domain.model.Contact.PersonContact;
 import com.bernardomg.association.person.domain.model.ContactName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChangeDto;
-import com.bernardomg.ucronia.openapi.model.ContactContactDto;
+import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactCreationDto;
 import com.bernardomg.ucronia.openapi.model.ContactDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
@@ -120,7 +120,7 @@ public final class ContactDtoMapper {
     private static final ContactDto toDto(final Contact person) {
         ContactNameDto          name;
         MembershipDto           membership;
-        List<ContactContactDto> contacts;
+        List<ContactChannelDto> contactChannels;
 
         name = new ContactNameDto().firstName(person.name()
             .firstName())
@@ -139,7 +139,7 @@ public final class ContactDtoMapper {
         } else {
             membership = null;
         }
-        contacts = person.contacts()
+        contactChannels = person.contactChannels()
             .stream()
             .map(ContactDtoMapper::toDto)
             .toList();
@@ -149,10 +149,10 @@ public final class ContactDtoMapper {
             .name(name)
             .birthDate(person.birthDate())
             .membership(membership)
-            .contacts(contacts);
+            .contactChannels(contactChannels);
     }
 
-    private static final ContactContactDto toDto(final PersonContact contact) {
+    private static final ContactChannelDto toDto(final ContactChannel contact) {
         ContactMethodDto method;
 
         method = new ContactMethodDto().number(contact.method()
@@ -160,7 +160,7 @@ public final class ContactDtoMapper {
             .name(contact.method()
                 .name());
 
-        return new ContactContactDto().contact(contact.contact())
+        return new ContactChannelDto().detail(contact.detail())
             .method(method);
     }
 

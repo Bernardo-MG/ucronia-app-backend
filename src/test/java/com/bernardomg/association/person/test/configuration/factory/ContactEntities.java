@@ -3,8 +3,8 @@ package com.bernardomg.association.person.test.configuration.factory;
 
 import java.util.List;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
 
 public final class ContactEntities {
 
@@ -17,7 +17,7 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -30,7 +30,7 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -45,7 +45,7 @@ public final class ContactEntities {
         entity.setMember(true);
         entity.setActive(true);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -60,7 +60,7 @@ public final class ContactEntities {
         entity.setMember(true);
         entity.setActive(false);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -75,7 +75,7 @@ public final class ContactEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -89,7 +89,7 @@ public final class ContactEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -104,7 +104,7 @@ public final class ContactEntities {
         entity.setMember(false);
         entity.setActive(true);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
@@ -119,17 +119,17 @@ public final class ContactEntities {
         entity.setMember(false);
         entity.setActive(false);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of());
+        entity.setContactChannels(List.of());
         return entity;
     }
 
     public static final ContactEntity withEmail() {
-        final ContactEntity             entity;
+        final ContactEntity        entity;
         final ContactChannelEntity personContactMethodEntity;
 
         personContactMethodEntity = new ContactChannelEntity();
         personContactMethodEntity.setContactMethod(ContactMethodEntities.email());
-        personContactMethodEntity.setCode(ContactConstants.EMAIL);
+        personContactMethodEntity.setDetail(ContactConstants.EMAIL);
 
         entity = new ContactEntity();
         entity.setId(1L);
@@ -141,7 +141,7 @@ public final class ContactEntities {
         entity.setMember(true);
         entity.setActive(true);
         entity.setRenewMembership(true);
-        entity.setContacts(List.of(personContactMethodEntity));
+        entity.setContactChannels(List.of(personContactMethodEntity));
 
         personContactMethodEntity.setContact(entity);
 

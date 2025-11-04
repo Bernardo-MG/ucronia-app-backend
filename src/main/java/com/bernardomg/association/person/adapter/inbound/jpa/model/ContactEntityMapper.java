@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.person.domain.model.Contact.Membership;
-import com.bernardomg.association.person.domain.model.Contact.PersonContact;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.ContactName;
 
@@ -38,17 +38,17 @@ import com.bernardomg.association.person.domain.model.ContactName;
  */
 public final class ContactEntityMapper {
 
-    public static final PersonContact toDomain(final ContactChannelEntity entity) {
+    public static final ContactChannel toDomain(final ContactChannelEntity entity) {
         final ContactMethod method;
 
         method = toDomain(entity.getContactMethod());
-        return new PersonContact(method, entity.getCode());
+        return new ContactChannel(method, entity.getDetail());
     }
 
     public static final Contact toDomain(final ContactEntity entity) {
-        final ContactName               name;
-        final Optional<Membership>      membership;
-        final Collection<PersonContact> contacts;
+        final ContactName                name;
+        final Optional<Membership>       membership;
+        final Collection<ContactChannel> contacts;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
         if (!entity.getMember()) {
@@ -57,7 +57,7 @@ public final class ContactEntityMapper {
             membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
         }
 
-        contacts = entity.getContacts()
+        contacts = entity.getContactChannels()
             .stream()
             .map(ContactEntityMapper::toDomain)
             .toList();

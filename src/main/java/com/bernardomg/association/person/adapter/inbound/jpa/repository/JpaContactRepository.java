@@ -44,7 +44,7 @@ import com.bernardomg.association.person.adapter.inbound.jpa.specification.Conta
 import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.ContactFilter;
 import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.model.Contact.PersonContact;
+import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -299,16 +299,16 @@ public final class JpaContactRepository implements ContactRepository {
         entity.setActive(active);
         entity.setRenewMembership(renew);
 
-        contacts = data.contacts()
+        contacts = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c))
             .toList();
-        entity.setContacts(contacts);
+        entity.setContactChannels(contacts);
 
         return entity;
     }
 
-    private final ContactChannelEntity toEntity(final ContactEntity contact, final PersonContact data) {
+    private final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
@@ -323,7 +323,7 @@ public final class JpaContactRepository implements ContactRepository {
         entity = new ContactChannelEntity();
         entity.setContact(contact);
         entity.setContactMethod(contactMethod.get());
-        entity.setCode(data.contact());
+        entity.setDetail(data.detail());
 
         return entity;
     }

@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.model.Contact.PersonContact;
+import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.repository.ContactMethodRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -58,9 +58,9 @@ public final class ContactMethodExistsRule implements FieldRule<Contact> {
     @Override
     public final Optional<FieldFailure> check(final Contact contact) {
         // TODO: what about multiple failues?
-        return contact.contacts()
+        return contact.contactChannels()
             .stream()
-            .map(PersonContact::method)
+            .map(ContactChannel::method)
             .map(this::check)
             .filter(Optional::isPresent)
             .map(o -> o.orElse(null))

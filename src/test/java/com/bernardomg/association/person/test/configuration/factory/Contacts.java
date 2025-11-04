@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.person.domain.model.Contact.Membership;
-import com.bernardomg.association.person.domain.model.Contact.PersonContact;
 import com.bernardomg.association.person.domain.model.ContactMethod;
 import com.bernardomg.association.person.domain.model.ContactName;
 
@@ -167,15 +167,15 @@ public final class Contacts {
     }
 
     public static final Contact withEmail() {
-        final ContactName   name;
-        final Membership    membership;
-        final PersonContact personContact;
-        final ContactMethod contactMethod;
+        final ContactName    name;
+        final Membership     membership;
+        final ContactChannel personContact;
+        final ContactMethod  contactMethod;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         membership = new Membership(true, true);
         contactMethod = ContactMethods.email();
-        personContact = new PersonContact(contactMethod, ContactConstants.EMAIL);
+        personContact = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
             Optional.of(membership), List.of(personContact));
     }

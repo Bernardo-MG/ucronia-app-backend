@@ -55,8 +55,8 @@ public class ContactEntity implements Serializable {
     @Column(name = "birth_date")
     private Instant                          birthDate;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<ContactChannelEntity> contacts;
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<ContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", nullable = false)
     private String                           firstName;
@@ -91,10 +91,10 @@ public class ContactEntity implements Serializable {
         }
         final ContactEntity other = (ContactEntity) obj;
         return Objects.equals(active, other.active) && Objects.equals(birthDate, other.birthDate)
-                && Objects.equals(contacts, other.contacts) && Objects.equals(firstName, other.firstName)
-                && Objects.equals(id, other.id) && Objects.equals(identifier, other.identifier)
-                && Objects.equals(lastName, other.lastName) && Objects.equals(member, other.member)
-                && Objects.equals(number, other.number) && Objects.equals(renewMembership, other.renewMembership);
+                && Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
+                && Objects.equals(identifier, other.identifier) && Objects.equals(lastName, other.lastName)
+                && Objects.equals(member, other.member) && Objects.equals(number, other.number)
+                && Objects.equals(renewMembership, other.renewMembership);
     }
 
     public Boolean getActive() {
@@ -105,8 +105,8 @@ public class ContactEntity implements Serializable {
         return birthDate;
     }
 
-    public Collection<ContactChannelEntity> getContacts() {
-        return contacts;
+    public Collection<ContactChannelEntity> getContactChannels() {
+        return contactChannels;
     }
 
     public String getFirstName() {
@@ -139,8 +139,7 @@ public class ContactEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(active, birthDate, contacts, firstName, id, identifier, lastName, member, number,
-            renewMembership);
+        return Objects.hash(active, birthDate, firstName, id, identifier, lastName, member, number, renewMembership);
     }
 
     public void setActive(final Boolean active) {
@@ -151,8 +150,8 @@ public class ContactEntity implements Serializable {
         this.birthDate = birthDate;
     }
 
-    public void setContacts(final Collection<ContactChannelEntity> contacts) {
-        this.contacts = contacts;
+    public void setContactChannels(final Collection<ContactChannelEntity> contacts) {
+        contactChannels = contacts;
     }
 
     public void setFirstName(final String firstName) {

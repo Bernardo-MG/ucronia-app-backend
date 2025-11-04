@@ -45,9 +45,6 @@ public class ContactChannelEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = -3239435918896603554L;
 
-    @Column(name = "code", nullable = false)
-    private String              code;
-
     @Id
     @ManyToOne
     @JoinColumn(name = "contact_id", nullable = false)
@@ -58,6 +55,9 @@ public class ContactChannelEntity implements Serializable {
     @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
 
+    @Column(name = "detail", nullable = false)
+    private String              detail;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -67,12 +67,8 @@ public class ContactChannelEntity implements Serializable {
             return false;
         }
         final ContactChannelEntity other = (ContactChannelEntity) obj;
-        return Objects.equals(code, other.code) && Objects.equals(contact, other.contact)
+        return Objects.equals(detail, other.detail) && Objects.equals(contact, other.contact)
                 && Objects.equals(contactMethod, other.contactMethod);
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public ContactEntity getContact() {
@@ -83,13 +79,13 @@ public class ContactChannelEntity implements Serializable {
         return contactMethod;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(code, contact, contactMethod);
+    public String getDetail() {
+        return detail;
     }
 
-    public void setCode(final String code) {
-        this.code = code;
+    @Override
+    public int hashCode() {
+        return Objects.hash(detail, contact, contactMethod);
     }
 
     public void setContact(final ContactEntity contact) {
@@ -100,9 +96,14 @@ public class ContactChannelEntity implements Serializable {
         this.contactMethod = contactMethod;
     }
 
+    public void setDetail(final String code) {
+        detail = code;
+    }
+
     @Override
     public String toString() {
-        return "ContactChannelEntity [code=" + code + ", contact=" + contact + ", contactMethod=" + contactMethod + "]";
+        return "ContactChannelEntity [code=" + detail + ", contact=" + contact + ", contactMethod=" + contactMethod
+                + "]";
     }
 
 }

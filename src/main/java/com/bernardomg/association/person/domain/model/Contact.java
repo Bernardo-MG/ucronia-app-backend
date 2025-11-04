@@ -29,13 +29,13 @@ import java.util.Collection;
 import java.util.Optional;
 
 public record Contact(String identifier, Long number, ContactName name, Instant birthDate,
-        Optional<Membership> membership, Collection<PersonContact> contacts) {
+        Optional<Membership> membership, Collection<ContactChannel> contactChannels) {
 
     public record Membership(Boolean active, Boolean renew) {
 
     }
 
-    public record PersonContact(ContactMethod method, String contact) {
+    public record ContactChannel(ContactMethod method, String detail) {
 
     }
 

@@ -28,11 +28,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.model.Contact.PersonContact;
+import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactContactDto;
+import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
@@ -79,7 +79,7 @@ public final class UserContactDtoMapper {
     private static final ContactDto toDto(final Contact person) {
         ContactNameDto          name;
         MembershipDto           membership;
-        List<ContactContactDto> contacts;
+        List<ContactChannelDto> contacts;
 
         name = new ContactNameDto().firstName(person.name()
             .firstName())
@@ -98,7 +98,7 @@ public final class UserContactDtoMapper {
         } else {
             membership = null;
         }
-        contacts = person.contacts()
+        contacts = person.contactChannels()
             .stream()
             .map(UserContactDtoMapper::toDto)
             .toList();
@@ -107,17 +107,17 @@ public final class UserContactDtoMapper {
             .name(name)
             .birthDate(person.birthDate())
             .membership(membership)
-            .contacts(contacts);
+            .contactChannels(contacts);
     }
 
-    private static final ContactContactDto toDto(final PersonContact contact) {
+    private static final ContactChannelDto toDto(final ContactChannel contact) {
         ContactMethodDto method;
 
         method = new ContactMethodDto().number(contact.method()
             .number())
             .name(contact.method()
                 .name());
-        return new ContactContactDto().contact(contact.contact())
+        return new ContactChannelDto().detail(contact.detail())
             .method(method);
     }
 
