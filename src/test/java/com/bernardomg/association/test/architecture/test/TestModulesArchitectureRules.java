@@ -75,7 +75,7 @@ public class TestModulesArchitectureRules {
         .whereLayer("Association settings")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Association events")
-        .mayOnlyBeAccessedByLayers("Members", "Fees", "Persons")
+        .mayOnlyBeAccessedByLayers("Members", "Fees", "Contacts")
 
         // Library modules
         .whereLayer("Library authors")
