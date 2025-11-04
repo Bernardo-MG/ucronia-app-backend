@@ -40,7 +40,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Contact")
-@Table(schema = "association", name = "contacts")
+@Table(schema = "directory", name = "contacts")
 public class ContactEntity implements Serializable {
 
     /**

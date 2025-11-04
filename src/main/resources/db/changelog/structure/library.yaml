@@ -274,7 +274,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_donors_donor
-                    references: association.contacts(id)
+                    references: directory.contacts(id)
                     deleteCascade: true
         - addPrimaryKey:
             constraintName: book_donors_key
@@ -307,7 +307,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_lending_contact
-                    references: association.contacts(id)
+                    references: directory.contacts(id)
                     deleteCascade: true
               - column:
                   name: lending_date

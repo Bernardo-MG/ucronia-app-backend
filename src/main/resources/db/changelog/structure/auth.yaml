@@ -23,5 +23,5 @@ databaseChangeLog:
                     nullable: false
                     unique: true
                     foreignKeyName: fk_user_contacts_contact
-                    references: association.contacts(id)
+                    references: directory.contacts(id)
                     deleteCascade: true
