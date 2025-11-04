@@ -33,10 +33,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.repository.ContactRepository;
 
 /**
  * Default implementation of the fee maintenance service.

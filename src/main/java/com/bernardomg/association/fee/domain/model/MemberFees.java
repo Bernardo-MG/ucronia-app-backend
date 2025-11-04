@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.domain.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-import com.bernardomg.association.person.domain.model.ContactName;
+import com.bernardomg.association.contact.domain.model.ContactName;
 
 public record MemberFees(Member member, Collection<Fee> fees) {
 

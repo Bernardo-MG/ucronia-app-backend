@@ -37,6 +37,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.contact.adapter.outbound.cache.ContactsCaches;
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
@@ -47,7 +48,6 @@ import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.person.adapter.outbound.cache.ContactsCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;

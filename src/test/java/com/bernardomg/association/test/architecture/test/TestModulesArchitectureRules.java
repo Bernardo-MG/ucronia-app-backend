@@ -18,8 +18,8 @@ public class TestModulesArchitectureRules {
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
-        .layer("Persons")
-        .definedBy("com.bernardomg.association.person..")
+        .layer("Contacts")
+        .definedBy("com.bernardomg.association.contact..")
         .layer("Members")
         .definedBy("com.bernardomg.association.member..")
         .layer("Transactions")
@@ -61,7 +61,7 @@ public class TestModulesArchitectureRules {
         .layer("Library lending")
         .definedBy("com.bernardomg.association.library.lending..")
 
-        .whereLayer("Persons")
+        .whereLayer("Contacts")
         .mayOnlyBeAccessedByLayers("Members", "Users", "Account", "Fees", "Library books", "Library lending")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees", "Account")
@@ -82,9 +82,9 @@ public class TestModulesArchitectureRules {
         .whereLayer("Association settings")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Events")
-        .mayOnlyBeAccessedByLayers("Executable", "Association events", "Members", "Fees", "Persons", "Schedules")
+        .mayOnlyBeAccessedByLayers("Executable", "Association events", "Members", "Fees", "Contacts", "Schedules")
         .whereLayer("Association events")
-        .mayOnlyBeAccessedByLayers("Members", "Fees", "Persons", "Schedules")
+        .mayOnlyBeAccessedByLayers("Members", "Fees", "Contacts", "Schedules")
         .whereLayer("Schedules")
         .mayNotBeAccessedByAnyLayer()
 

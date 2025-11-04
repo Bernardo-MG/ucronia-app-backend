@@ -8,12 +8,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.person.domain.model.ContactName;
 
 @DisplayName("BookLending")
 public class TestBookLending {

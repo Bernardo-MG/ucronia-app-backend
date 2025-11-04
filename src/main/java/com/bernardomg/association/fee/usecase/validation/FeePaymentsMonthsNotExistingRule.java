@@ -32,10 +32,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 

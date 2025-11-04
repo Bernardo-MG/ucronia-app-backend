@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.person.domain.model.ContactName;
 
 /**
  * Author repository mapper.

@@ -3,10 +3,10 @@ package com.bernardomg.association.library.book.test.configuration.factory;
 
 import java.util.List;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorEntities;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherEntities;
-import com.bernardomg.association.person.test.configuration.factory.ContactEntities;
 
 public final class FictionBookEntities {
 

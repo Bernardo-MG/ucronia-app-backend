@@ -3,8 +3,8 @@ package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.util.List;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
-import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 
 public final class FeesPayments {
 

@@ -27,9 +27,9 @@ package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 import java.time.Instant;
 import java.util.Collection;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;

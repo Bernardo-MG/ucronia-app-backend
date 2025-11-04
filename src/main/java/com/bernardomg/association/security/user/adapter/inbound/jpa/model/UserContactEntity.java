@@ -26,7 +26,7 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 
 import jakarta.persistence.CascadeType;

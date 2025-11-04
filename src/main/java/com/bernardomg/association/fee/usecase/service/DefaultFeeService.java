@@ -44,6 +44,10 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
@@ -60,10 +64,6 @@ import com.bernardomg.association.fee.usecase.validation.FeePaymentsNoDuplicated
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.person.domain.exception.MissingContactException;
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.model.ContactName;
-import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;

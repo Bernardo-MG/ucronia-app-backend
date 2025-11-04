@@ -1,9 +1,9 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.person.domain.model.ContactName;
-import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 
 public final class Members {
 

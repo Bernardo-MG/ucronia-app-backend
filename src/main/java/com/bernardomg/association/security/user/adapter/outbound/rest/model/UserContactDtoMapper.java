@@ -27,8 +27,8 @@ package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;

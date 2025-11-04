@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.GameBookSpringRepository;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -40,7 +41,6 @@ import com.bernardomg.association.library.book.test.configuration.factory.GameBo
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

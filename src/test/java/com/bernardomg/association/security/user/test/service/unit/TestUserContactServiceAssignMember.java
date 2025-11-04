@@ -38,11 +38,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.domain.exception.MissingContactException;
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.repository.ContactRepository;
-import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.person.test.configuration.factory.Contacts;
+import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.association.security.user.test.configuration.factory.Users;

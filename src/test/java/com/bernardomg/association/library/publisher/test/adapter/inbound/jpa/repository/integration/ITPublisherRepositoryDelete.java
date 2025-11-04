@@ -29,12 +29,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

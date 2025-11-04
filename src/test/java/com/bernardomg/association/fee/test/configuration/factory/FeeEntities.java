@@ -4,8 +4,8 @@ package com.bernardomg.association.fee.test.configuration.factory;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.person.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
 

@@ -3,7 +3,7 @@ package com.bernardomg.association.security.user.test.configuration.factory;
 
 import java.util.List;
 
-import com.bernardomg.association.person.test.configuration.factory.ContactEntities;
+import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 

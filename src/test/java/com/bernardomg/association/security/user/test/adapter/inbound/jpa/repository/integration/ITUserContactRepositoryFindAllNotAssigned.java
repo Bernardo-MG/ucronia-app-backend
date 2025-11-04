@@ -30,10 +30,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipContact;
-import com.bernardomg.association.person.test.configuration.factory.Contacts;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithContact;

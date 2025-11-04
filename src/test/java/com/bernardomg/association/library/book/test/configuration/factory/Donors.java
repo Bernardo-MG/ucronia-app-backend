@@ -1,9 +1,9 @@
 
 package com.bernardomg.association.library.book.test.configuration.factory;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.person.domain.model.ContactName;
-import com.bernardomg.association.person.test.configuration.factory.ContactConstants;
 
 public final class Donors {
 

@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.security.account.domain.model;
 
-import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.security.account.domain.model.Account;
 
 /**

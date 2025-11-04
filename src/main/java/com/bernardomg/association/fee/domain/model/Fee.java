@@ -28,7 +28,7 @@ import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Optional;
 
-import com.bernardomg.association.person.domain.model.ContactName;
+import com.bernardomg.association.contact.domain.model.ContactName;
 
 public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transaction> transaction) {
 

@@ -32,12 +32,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.AccentActiveMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.MultipleMembershipActiveContact;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipContact;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActiveContact;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 

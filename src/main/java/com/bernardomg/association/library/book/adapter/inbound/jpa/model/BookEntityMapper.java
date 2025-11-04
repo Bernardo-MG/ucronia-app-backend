@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -34,8 +36,6 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.person.domain.model.ContactName;
 
 /**
  * Author repository mapper.

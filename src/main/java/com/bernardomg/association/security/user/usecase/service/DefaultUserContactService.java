@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.person.domain.exception.MissingContactException;
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.repository.ContactRepository;
+import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.security.user.domain.model.UserContact;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.association.security.user.usecase.validation.UserContactNameNotEmptyRule;

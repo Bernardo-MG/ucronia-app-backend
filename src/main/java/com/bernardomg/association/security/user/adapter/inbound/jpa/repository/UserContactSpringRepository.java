@@ -32,7 +32,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
 
 public interface UserContactSpringRepository extends JpaRepository<UserContactEntity, Long> {

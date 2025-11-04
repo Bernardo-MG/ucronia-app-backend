@@ -26,7 +26,7 @@ package com.bernardomg.association.security.user.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;

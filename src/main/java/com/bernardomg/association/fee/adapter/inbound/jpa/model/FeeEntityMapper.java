@@ -28,8 +28,8 @@ import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.person.domain.model.ContactName;
 
 /**
  * Fee repository mapper.

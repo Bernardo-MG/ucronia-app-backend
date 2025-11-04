@@ -33,6 +33,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Title;
@@ -49,10 +53,6 @@ import com.bernardomg.association.library.lending.usecase.validation.BookLending
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLastReturnRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLentRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedInFutureRule;
-import com.bernardomg.association.person.domain.exception.MissingContactException;
-import com.bernardomg.association.person.domain.model.Contact;
-import com.bernardomg.association.person.domain.model.ContactName;
-import com.bernardomg.association.person.domain.repository.ContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;

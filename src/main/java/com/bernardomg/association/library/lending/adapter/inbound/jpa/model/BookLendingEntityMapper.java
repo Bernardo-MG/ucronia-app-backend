@@ -24,13 +24,13 @@
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.person.domain.model.ContactName;
 
 /**
  * Author repository mapper.

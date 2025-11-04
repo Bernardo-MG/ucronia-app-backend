@@ -3,12 +3,12 @@ package com.bernardomg.association.library.book.test.configuration.factory;
 
 import java.util.List;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorEntities;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeEntities;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemEntities;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherEntities;
-import com.bernardomg.association.person.test.configuration.factory.ContactEntities;
 
 public final class GameBookEntities {
 

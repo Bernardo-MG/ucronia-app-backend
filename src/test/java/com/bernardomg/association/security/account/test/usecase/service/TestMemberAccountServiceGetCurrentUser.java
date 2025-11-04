@@ -36,7 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.person.test.configuration.factory.Contacts;
+import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.security.account.test.configuration.factory.BasicAccounts;
 import com.bernardomg.association.security.account.test.configuration.factory.ContactAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;

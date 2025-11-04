@@ -31,7 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserContactDtoMapper;
 import com.bernardomg.association.security.user.usecase.service.UserContactService;
 import com.bernardomg.data.domain.Page;

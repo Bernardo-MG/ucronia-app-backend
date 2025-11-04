@@ -33,10 +33,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntityMapper;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.person.domain.model.Contact;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.data.domain.Page;
