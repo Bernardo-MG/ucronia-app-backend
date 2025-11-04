@@ -216,7 +216,7 @@ class TestContactServiceUpdate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("notExisting", "contact", ContactMethodConstants.NUMBER));
+            new FieldFailure("notExisting", "contactMethod", ContactMethodConstants.NUMBER));
     }
 
     @Test

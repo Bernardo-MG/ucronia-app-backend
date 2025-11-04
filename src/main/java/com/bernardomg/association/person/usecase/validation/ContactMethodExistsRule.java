@@ -73,7 +73,7 @@ public final class ContactMethodExistsRule implements FieldRule<Contact> {
 
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Existing contact method name {}", contactMethod.name());
-            fieldFailure = new FieldFailure("notExisting", "contact", contactMethod.number());
+            fieldFailure = new FieldFailure("notExisting", "contactMethod", contactMethod.number());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

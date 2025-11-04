@@ -314,7 +314,7 @@ class ITContactRepositorySave {
     @Test
     @DisplayName("With a contact with a contact method, the contact is persisted")
     @EmailContactMethod
-    void testSave_WithContact_PersistedData() {
+    void testSave_WithContactChannel_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
 
