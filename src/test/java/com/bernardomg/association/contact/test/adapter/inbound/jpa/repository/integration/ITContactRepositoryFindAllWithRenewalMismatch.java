@@ -37,7 +37,7 @@ import com.bernardomg.association.contact.test.configuration.data.annotation.Mem
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveToRenewContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveToNotRenewContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveToRenewContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -50,7 +50,7 @@ class ITContactRepositoryFindAllWithRenewalMismatch {
 
     @Test
     @DisplayName("With no membership, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindAllWithRenewalMismatch_NoMembership() {
         final Collection<Contact> contacts;
 

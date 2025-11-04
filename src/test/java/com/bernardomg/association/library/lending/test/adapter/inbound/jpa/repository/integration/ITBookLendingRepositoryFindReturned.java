@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
@@ -55,7 +55,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a lent fiction book, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindReturned_FictionBook_Lent() {
@@ -72,7 +72,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a fiction book with no history, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     void testFindReturned_FictionBook_NoHistory() {
         final Optional<BookLending> lending;
@@ -103,7 +103,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindReturned_FictionBook_Returned() {
@@ -120,7 +120,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a returned fiction book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @ReturnedBookLendingHistory
@@ -138,7 +138,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a lent game book, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindReturned_GameBook_Lent() {
@@ -155,7 +155,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a game book with no history, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testFindReturned_GameBook_NoHistory() {
         final Optional<BookLending> lending;
@@ -186,7 +186,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindReturned_GameBook_Returned() {
@@ -203,7 +203,7 @@ class ITBookLendingRepositoryFindReturned {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory

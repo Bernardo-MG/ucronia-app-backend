@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
@@ -118,7 +118,7 @@ class ITUserContactRepositorySave {
 
     @Test
     @DisplayName("When the user is missing, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     void testSave_MissingUser_ReturnedData() {
         final Contact contact;
 
@@ -133,7 +133,7 @@ class ITUserContactRepositorySave {
     @Test
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
-    @NoMembershipContact
+    @ValidContact
     void testSave_PersistedData() {
         final Collection<UserContactEntity> contacts;
 
@@ -168,7 +168,7 @@ class ITUserContactRepositorySave {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
-    @NoMembershipContact
+    @ValidContact
     void testSave_ReturnedData() {
         final Contact contact;
 

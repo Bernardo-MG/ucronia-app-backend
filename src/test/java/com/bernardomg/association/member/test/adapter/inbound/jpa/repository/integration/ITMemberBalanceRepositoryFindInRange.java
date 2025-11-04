@@ -8,10 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberBalanceConstants;
 import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
 import com.bernardomg.data.domain.Sorting;
@@ -26,7 +26,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having only the end date")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_End() {
         final Sorting                        sorting;
@@ -51,7 +51,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Returns all when not applying range")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_NoRange() {
         final Sorting                        sorting;
@@ -100,7 +100,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having in a range")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_Range() {
         final Sorting                        sorting;
@@ -130,7 +130,7 @@ class ITMemberBalanceRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having only the start date")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_Start() {
         final Sorting                        sorting;

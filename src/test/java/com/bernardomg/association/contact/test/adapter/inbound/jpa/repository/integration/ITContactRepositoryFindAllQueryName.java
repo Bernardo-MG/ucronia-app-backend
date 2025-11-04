@@ -36,7 +36,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.data.domain.Page;
@@ -318,7 +318,7 @@ class ITContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a person without membership and matching first name, it is is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindAll_WithoutMembership_FirstName() {
         final Page<Contact> people;
         final Pagination    pagination;
@@ -342,7 +342,7 @@ class ITContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a person without membership and matching full name, it is is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindAll_WithoutMembership_FullName() {
         final Page<Contact> people;
         final Pagination    pagination;
@@ -366,7 +366,7 @@ class ITContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a person without membership and matching last name, it is is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindAll_WithoutMembership_LastName() {
         final Page<Contact> people;
         final Pagination    pagination;
@@ -390,7 +390,7 @@ class ITContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a person without membership and partial matching name, it is is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindAll_WithoutMembership_PartialName() {
         final Page<Contact> people;
         final Pagination    pagination;

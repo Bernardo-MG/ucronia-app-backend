@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateGameBook;
@@ -56,7 +56,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a game book and it has a donation without date, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @DonationNoDateGameBook
     void testFindOne_DonationNoDate() {
         final Optional<GameBook> book;
@@ -87,7 +87,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a full game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testFindOne_Full() {
         final Optional<GameBook> book;
@@ -103,7 +103,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindOne_FullLent() {
@@ -120,7 +120,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @LentBookLendingHistory
@@ -167,7 +167,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -184,7 +184,7 @@ class ITGameBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book with history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory

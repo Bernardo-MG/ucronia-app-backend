@@ -36,7 +36,7 @@ import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
@@ -51,7 +51,7 @@ class ITContactRepositoryFindOne {
 
     @Test
     @DisplayName("With a person, it is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindOne() {
         final Optional<Contact> contact;
 
@@ -121,7 +121,7 @@ class ITContactRepositoryFindOne {
 
     @Test
     @DisplayName("With a person having without membership, it is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindOne_WithoutMembership() {
         final Optional<Contact> contact;
 

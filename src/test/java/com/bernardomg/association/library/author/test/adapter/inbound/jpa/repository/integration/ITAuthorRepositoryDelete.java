@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
@@ -62,7 +62,7 @@ class ITAuthorRepositoryDelete {
 
     @Test
     @DisplayName("When the author is assigned to a book, it is deleted")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testDelete_InBook() {
         // WHEN

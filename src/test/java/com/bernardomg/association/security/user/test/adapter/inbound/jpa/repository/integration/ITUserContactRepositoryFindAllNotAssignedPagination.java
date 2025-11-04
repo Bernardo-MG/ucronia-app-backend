@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.data.domain.Page;
@@ -42,7 +42,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("UserContactRepository - find all not assigned - pagination")
-@NoMembershipContact
+@ValidContact
 class ITUserContactRepositoryFindAllNotAssignedPagination extends AbstractPaginationIT<Contact> {
 
     @Autowired

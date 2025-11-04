@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -44,7 +44,7 @@ class ITFictionBookRepositoryExists {
 
     @Test
     @DisplayName("When the fiction book exists, it exists")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     void testExists() {
         final boolean exists;

@@ -35,7 +35,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
@@ -122,7 +122,7 @@ class ITContactRepositorySave {
 
     @Test
     @DisplayName("When a contact exists, and an active membership is added, the contact is persisted")
-    @NoMembershipContact
+    @ValidContact
     void testSave_Existing_AddActiveMembership_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
@@ -145,7 +145,7 @@ class ITContactRepositorySave {
     @Test
     @DisplayName("When a contact exists and a contact is added, the contact is persisted")
     @EmailContactMethod
-    @NoMembershipContact
+    @ValidContact
     void testSave_Existing_AddContact_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
@@ -167,7 +167,7 @@ class ITContactRepositorySave {
 
     @Test
     @DisplayName("When a contact exists, and an inactive membership is added, the contact is persisted")
-    @NoMembershipContact
+    @ValidContact
     void testSave_Existing_AddInactiveMembership_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
@@ -189,7 +189,7 @@ class ITContactRepositorySave {
 
     @Test
     @DisplayName("When a contact exists, the contact is persisted")
-    @NoMembershipContact
+    @ValidContact
     void testSave_Existing_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
@@ -234,7 +234,7 @@ class ITContactRepositorySave {
 
     @Test
     @DisplayName("When a contact exists, the created contact is returned")
-    @NoMembershipContact
+    @ValidContact
     void testSave_Existing_ReturnedData() {
         final Contact contact;
         final Contact saved;

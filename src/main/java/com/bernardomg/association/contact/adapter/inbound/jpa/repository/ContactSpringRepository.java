@@ -27,8 +27,6 @@ package com.bernardomg.association.contact.adapter.inbound.jpa.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -80,14 +78,6 @@ public interface ContactSpringRepository
             """)
     public Collection<Long> findAllActiveMemberIds();
 
-    @Query("""
-            SELECT c
-            FROM Contact c
-            WHERE c.member = true
-              AND c.active = true
-            """)
-    public Page<ContactEntity> findAllActiveMembers(final Pageable pageable);
-
     public Collection<ContactEntity> findAllByMemberTrueAndRenewMembershipTrue();
 
     public Collection<ContactEntity> findAllByNumberIn(final Collection<Long> numbers);
@@ -110,14 +100,6 @@ public interface ContactSpringRepository
     public Collection<ContactEntity> findAllWithRenewalMismatch();
 
     public Optional<ContactEntity> findByNumber(final Long number);
-
-    @Query("""
-            SELECT c
-            FROM Contact c
-            WHERE c.member = true
-              AND c.number = :number
-            """)
-    public Optional<ContactEntity> findByNumberWithMembership(@Param("number") final Long number);
 
     @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
     public Long findNextNumber();

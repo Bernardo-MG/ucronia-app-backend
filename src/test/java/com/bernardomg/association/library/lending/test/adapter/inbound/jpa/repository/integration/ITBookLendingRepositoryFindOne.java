@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
@@ -57,7 +57,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindOne_FictionBook_Lent() {
@@ -74,7 +74,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @LentBookLendingHistory
@@ -92,7 +92,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a fiction book and it has no history, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     void testFindOne_FictionBook_NoHistory() {
         final Optional<BookLending> lending;
@@ -123,7 +123,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindOne_FictionBook_Returned() {
@@ -140,7 +140,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned fiction book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @ReturnedBookLendingHistory
@@ -158,7 +158,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindOne_GameBook_Lent() {
@@ -175,7 +175,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @LentBookLendingHistory
@@ -193,7 +193,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a game book and it has no history, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testFindOne_GameBook_NoHistory() {
         final Optional<BookLending> lending;
@@ -224,7 +224,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindOne_GameBook_Returned() {
@@ -241,7 +241,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory
@@ -259,7 +259,7 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindOne_NoBook() {
         final Optional<BookLending> lending;
 

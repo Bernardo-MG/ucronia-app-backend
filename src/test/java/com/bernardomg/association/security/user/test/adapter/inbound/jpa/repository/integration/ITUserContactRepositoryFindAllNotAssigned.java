@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
@@ -118,7 +118,7 @@ class ITUserContactRepositoryFindAllNotAssigned {
     @Test
     @DisplayName("When there an active member available, it is returned")
     @ValidUser
-    @NoMembershipContact
+    @ValidContact
     void testFindAllNotAssigned_NotAssigned() {
         final Page<Contact> contacts;
         final Pagination    pagination;

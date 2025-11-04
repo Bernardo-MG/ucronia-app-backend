@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
@@ -54,7 +54,7 @@ class ITGameBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testFindAll() {
         final Page<GameBook> books;
@@ -78,7 +78,7 @@ class ITGameBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -103,7 +103,7 @@ class ITGameBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @LentBookLendingHistory
@@ -151,7 +151,7 @@ class ITGameBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -176,7 +176,7 @@ class ITGameBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory

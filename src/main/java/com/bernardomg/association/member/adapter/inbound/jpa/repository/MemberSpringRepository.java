@@ -22,36 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.Member;
+import java.util.Optional;
 
-/**
- * Author repository mapper.
- */
-public final class MemberEntityMapper {
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-    @Deprecated
-    public static final Member toDomain(final ContactEntity entity) {
-        final ContactName name;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership flag
-        return new Member(entity.getNumber(), name);
-    }
+public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
-    public static final Member toDomain(final MemberEntity entity) {
-        final ContactName name;
+    @Query("""
+            SELECT m
+            FROM Member m
+            WHERE m.active = true
+            """)
+    public Page<MemberEntity> findAllActive(final Pageable pageable);
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership flag
-        return new Member(entity.getNumber(), name);
-    }
-
-    private MemberEntityMapper() {
-        super();
-    }
+    @Query("""
+            SELECT m
+            FROM Member m
+            WHERE m.number = :number
+            """)
+    public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
 }

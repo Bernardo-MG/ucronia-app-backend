@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
@@ -51,7 +51,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     void testFindAll() {
         final Iterable<FictionBook> books;
@@ -71,7 +71,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -92,7 +92,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @LentBookLendingHistory
@@ -132,7 +132,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -153,7 +153,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned fiction book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @ReturnedBookLendingHistory

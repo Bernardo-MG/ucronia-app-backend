@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.contact.test.configuration.data.annotation;
+package com.bernardomg.association.member.test.configuration.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/contact/no_membership.sql")
+@Sql("/db/queries/member/multiple_active.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface NoMembershipContact {
+public @interface MultipleActiveMember {
 
 }

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.GameBookSpringRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
@@ -65,7 +65,7 @@ class ITGameBookRepositoryDelete {
 
     @Test
     @DisplayName("Then the game book exists, it is deleted")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testDelete() {
         // WHEN
@@ -91,7 +91,7 @@ class ITGameBookRepositoryDelete {
 
     @Test
     @DisplayName("When the game book is deleted, the related entities are kept")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testDelete_Relationships() {
         // WHEN

@@ -31,12 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -49,7 +49,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With an active member, it is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindOne_Active() {
         final Optional<Member> memberOptional;
 
@@ -63,7 +63,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With an inactive member, it is returned")
-    @MembershipInactiveContact
+    @InactiveMember
     void testFindOne_Inactive() {
         final Optional<Member> memberOptional;
 
@@ -90,7 +90,7 @@ class ITMemberRepositoryFindOne {
 
     @Test
     @DisplayName("With a member with no membership, it returns nothing")
-    @NoMembershipContact
+    @ValidContact
     void testFindOne_NoMembership() {
         final Optional<Member> memberOptional;
 

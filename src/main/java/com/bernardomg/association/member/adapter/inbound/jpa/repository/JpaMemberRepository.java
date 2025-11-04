@@ -33,7 +33,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -49,14 +48,14 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger          log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ContactSpringRepository contactSpringRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    public JpaMemberRepository(final ContactSpringRepository contactSpringRepo) {
+    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
@@ -67,7 +66,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        read = contactSpringRepository.findAllActiveMembers(pageable)
+        read = memberSpringRepository.findAllActive(pageable)
             .map(MemberEntityMapper::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
@@ -81,7 +80,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding public member with number {}", number);
 
-        member = contactSpringRepository.findByNumberWithMembership(number)
+        member = memberSpringRepository.findByNumber(number)
             .map(MemberEntityMapper::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);

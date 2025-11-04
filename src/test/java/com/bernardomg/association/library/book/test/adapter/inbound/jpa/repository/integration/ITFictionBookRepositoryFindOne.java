@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.DonationNoDateFictionBook;
@@ -56,7 +56,7 @@ class ITFictionBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a fiction book and it has a donation without date, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @DonationNoDateFictionBook
     void testFindOne_DonationNoDate() {
         final Optional<FictionBook> book;
@@ -87,7 +87,7 @@ class ITFictionBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a full fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     void testFindOne_Full() {
         final Optional<FictionBook> book;
@@ -103,7 +103,7 @@ class ITFictionBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindOne_FullLent() {
@@ -120,7 +120,7 @@ class ITFictionBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @LentBookLendingHistory
@@ -167,7 +167,7 @@ class ITFictionBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -184,7 +184,7 @@ class ITFictionBookRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned fiction book with history, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @AlternativeContact
     @FullFictionBook
     @ReturnedBookLendingHistory

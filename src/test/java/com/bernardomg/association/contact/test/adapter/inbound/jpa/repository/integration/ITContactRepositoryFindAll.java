@@ -35,7 +35,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactFilters;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.data.domain.Page;
@@ -123,7 +123,7 @@ class ITContactRepositoryFindAll {
 
     @Test
     @DisplayName("With a person without membership, it is returned")
-    @NoMembershipContact
+    @ValidContact
     void testFindAll_WithoutMembership() {
         final Page<Contact> people;
         final Pagination    pagination;

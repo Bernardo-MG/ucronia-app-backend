@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -43,7 +43,7 @@ class ITContactRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With another user, it exists")
-    @NoMembershipContact
+    @ValidContact
     void testExists_AnotherUser() {
         final boolean exists;
 
@@ -59,7 +59,7 @@ class ITContactRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With an existing identifier, it exists")
-    @NoMembershipContact
+    @ValidContact
     void testExists_Existing() {
         final boolean exists;
 
@@ -88,7 +88,7 @@ class ITContactRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With a not existing identifier, it doesn't exist")
-    @NoMembershipContact
+    @ValidContact
     void testExists_NotExisting() {
         final boolean exists;
 

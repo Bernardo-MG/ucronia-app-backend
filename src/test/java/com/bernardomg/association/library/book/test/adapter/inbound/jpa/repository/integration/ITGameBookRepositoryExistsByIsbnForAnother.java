@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -44,7 +44,7 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
 
     @Test
     @DisplayName("When the game book exists and looking for another contact, it exists")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testExistsByIsbnForAnother() {
         final boolean exists;
@@ -74,7 +74,7 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
 
     @Test
     @DisplayName("When the game book exists and looking for the same contact, it doesn't exists")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     void testExistsByIsbnForAnother_SameNumber() {
         final boolean exists;

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoMembershipContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
@@ -57,7 +57,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindAll_FictionBook_Lent() {
@@ -103,7 +103,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned fiction book, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_FictionBook_Returned() {
@@ -127,7 +127,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindAll_GameBook_Lent() {
@@ -173,7 +173,7 @@ class ITBookLendingRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned game book, nothing is returned")
-    @NoMembershipContact
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_GameBook_Returned() {
