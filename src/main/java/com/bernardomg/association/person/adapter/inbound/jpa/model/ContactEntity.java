@@ -183,11 +183,4 @@ public class ContactEntity implements Serializable {
         this.renewMembership = renewMembership;
     }
 
-    @Override
-    public String toString() {
-        return "ContactEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id="
-                + id + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number="
-                + number + ", renewMembership=" + renewMembership + ", contacts=" + contacts + "]";
-    }
-
 }

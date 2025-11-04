@@ -67,8 +67,8 @@ public class ContactChannelEntity implements Serializable {
             return false;
         }
         final ContactChannelEntity other = (ContactChannelEntity) obj;
-        return Objects.equals(code, other.code) && Objects.equals(contactMethod, other.contactMethod)
-                && Objects.equals(contact, other.contact);
+        return Objects.equals(code, other.code) && Objects.equals(contact, other.contact)
+                && Objects.equals(contactMethod, other.contactMethod);
     }
 
     public String getCode() {
@@ -85,7 +85,7 @@ public class ContactChannelEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, contactMethod, contact);
+        return Objects.hash(code, contact, contactMethod);
     }
 
     public void setCode(final String code) {
@@ -102,6 +102,7 @@ public class ContactChannelEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactChannelEntity [contact=" + contact + "contactMethod=" + contactMethod + ", code=" + code + "]";
+        return "ContactChannelEntity [code=" + code + ", contact=" + contact + ", contactMethod=" + contactMethod + "]";
     }
+
 }
