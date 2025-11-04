@@ -348,7 +348,8 @@ class ITContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.contact",
+                "contactChannels.contactMethod")
             .containsExactly(ContactEntities.withEmail());
     }
 
