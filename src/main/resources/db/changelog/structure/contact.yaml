@@ -91,20 +91,16 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-  - changeSet:
-      id: contact_relationships
-      author: Bernardo
-      changes:
         - createTable:
             schemaName: association
-            tableName: contact_contact_methods
+            tableName: contact_channels
             columns:
               - column:
                   name: contact_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_contact_contact_methods_contact_method
+                    foreignKeyName: fk_contact_channels_contact_method
                     references: association.contacts(id)
                     deleteCascade: true
               - column:
@@ -112,18 +108,18 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_contact_contact_methods_contact
+                    foreignKeyName: fk_contact_channels_contact
                     references: association.contact_methods(id)
                     deleteCascade: true
               - column:
-                  name: contact
+                  name: code
                   type: varchar(50)
                   constraints:
                     nullable: false
         - addPrimaryKey:
-            constraintName: contact_contact_methods_key
+            constraintName: contact_channels_key
             schemaName: association
-            tableName: contact_contact_methods
+            tableName: contact_channels
             columnNames: 'contact_id, contact_method_id'
   - changeSet:
       id: fees

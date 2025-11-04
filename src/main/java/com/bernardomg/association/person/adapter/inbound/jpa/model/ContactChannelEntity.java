@@ -35,9 +35,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity
-@Table(schema = "association", name = "person_contact_methods")
-public class PersonContactMethodEntity implements Serializable {
+@Entity(name = "ContactChannel")
+@Table(schema = "association", name = "contact_channels")
+public class ContactChannelEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -45,18 +45,18 @@ public class PersonContactMethodEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = -3239435918896603554L;
 
-    @Column(name = "contact", nullable = false)
-    private String              contact;
+    @Column(name = "code", nullable = false)
+    private String              code;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "contact_id", nullable = false)
+    private ContactEntity       contact;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "contact_id", nullable = false)
-    private ContactEntity       person;
 
     @Override
     public boolean equals(final Object obj) {
@@ -66,12 +66,16 @@ public class PersonContactMethodEntity implements Serializable {
         if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
-        final PersonContactMethodEntity other = (PersonContactMethodEntity) obj;
-        return Objects.equals(contact, other.contact) && Objects.equals(contactMethod, other.contactMethod)
-                && Objects.equals(person, other.person);
+        final ContactChannelEntity other = (ContactChannelEntity) obj;
+        return Objects.equals(code, other.code) && Objects.equals(contactMethod, other.contactMethod)
+                && Objects.equals(contact, other.contact);
     }
 
-    public String getContact() {
+    public String getCode() {
+        return code;
+    }
+
+    public ContactEntity getContact() {
         return contact;
     }
 
@@ -79,16 +83,16 @@ public class PersonContactMethodEntity implements Serializable {
         return contactMethod;
     }
 
-    public ContactEntity getPerson() {
-        return person;
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(contact, contactMethod, person);
+        return Objects.hash(code, contactMethod, contact);
     }
 
-    public void setContact(final String contact) {
+    public void setCode(final String code) {
+        this.code = code;
+    }
+
+    public void setContact(final ContactEntity contact) {
         this.contact = contact;
     }
 
@@ -96,12 +100,8 @@ public class PersonContactMethodEntity implements Serializable {
         this.contactMethod = contactMethod;
     }
 
-    public void setPerson(final ContactEntity person) {
-        this.person = person;
-    }
-
     @Override
     public String toString() {
-        return "PersonContactMethodEntity [contactMethod=" + contactMethod + ", contact=" + contact + "]";
+        return "ContactChannelEntity [contact=" + contact + "contactMethod=" + contactMethod + ", code=" + code + "]";
     }
 }

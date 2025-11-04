@@ -36,10 +36,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactEntityMapper;
 import com.bernardomg.association.person.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonContactMethodEntity;
 import com.bernardomg.association.person.adapter.inbound.jpa.specification.ContactSpecifications;
 import com.bernardomg.association.person.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.person.domain.filter.ContactFilter;
@@ -266,11 +266,11 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     private final ContactEntity toEntity(final Contact data) {
-        final boolean                               member;
-        final boolean                               active;
-        final boolean                               renew;
-        final ContactEntity                         entity;
-        final Collection<PersonContactMethodEntity> contacts;
+        final boolean                          member;
+        final boolean                          active;
+        final boolean                          renew;
+        final ContactEntity                    entity;
+        final Collection<ContactChannelEntity> contacts;
 
         if (data.membership()
             .isPresent()) {
@@ -308,8 +308,8 @@ public final class JpaContactRepository implements ContactRepository {
         return entity;
     }
 
-    private final PersonContactMethodEntity toEntity(final ContactEntity contact, final PersonContact data) {
-        final PersonContactMethodEntity     entity;
+    private final ContactChannelEntity toEntity(final ContactEntity contact, final PersonContact data) {
+        final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
         contactMethod = contactMethodSpringRepository.findByNumber(data.method()
@@ -320,10 +320,10 @@ public final class JpaContactRepository implements ContactRepository {
                 .number());
         }
 
-        entity = new PersonContactMethodEntity();
-        entity.setPerson(contact);
+        entity = new ContactChannelEntity();
+        entity.setContact(contact);
         entity.setContactMethod(contactMethod.get());
-        entity.setContact(data.contact());
+        entity.setCode(data.contact());
 
         return entity;
     }

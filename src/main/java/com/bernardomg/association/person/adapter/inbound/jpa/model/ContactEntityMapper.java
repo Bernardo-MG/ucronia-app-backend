@@ -38,6 +38,13 @@ import com.bernardomg.association.person.domain.model.ContactName;
  */
 public final class ContactEntityMapper {
 
+    public static final PersonContact toDomain(final ContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new PersonContact(method, entity.getCode());
+    }
+
     public static final Contact toDomain(final ContactEntity entity) {
         final ContactName               name;
         final Optional<Membership>      membership;
@@ -61,13 +68,6 @@ public final class ContactEntityMapper {
 
     public static final ContactMethod toDomain(final ContactMethodEntity entity) {
         return new ContactMethod(entity.getNumber(), entity.getName());
-    }
-
-    public static final PersonContact toDomain(final PersonContactMethodEntity entity) {
-        final ContactMethod method;
-
-        method = toDomain(entity.getContactMethod());
-        return new PersonContact(method, entity.getContact());
     }
 
     private ContactEntityMapper() {

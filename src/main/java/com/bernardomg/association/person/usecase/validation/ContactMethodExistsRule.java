@@ -40,16 +40,16 @@ import com.bernardomg.validation.validator.FieldRule;
 /**
  * Checks the contact method exists.
  */
-public final class PersonContactMethodExistsRule implements FieldRule<Contact> {
+public final class ContactMethodExistsRule implements FieldRule<Contact> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(PersonContactMethodExistsRule.class);
+    private static final Logger           log = LoggerFactory.getLogger(ContactMethodExistsRule.class);
 
     private final ContactMethodRepository contactMethodRepository;
 
-    public PersonContactMethodExistsRule(final ContactMethodRepository contactMethodRepo) {
+    public ContactMethodExistsRule(final ContactMethodRepository contactMethodRepo) {
         super();
 
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);

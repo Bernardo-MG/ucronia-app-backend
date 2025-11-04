@@ -47,39 +47,39 @@ public class ContactEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long                     serialVersionUID = 1328776989450853491L;
+    private static final long                serialVersionUID = 1328776989450853491L;
 
     @Column(name = "active", nullable = false)
-    private Boolean                               active;
+    private Boolean                          active;
 
     @Column(name = "birth_date")
-    private Instant                               birthDate;
+    private Instant                          birthDate;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<PersonContactMethodEntity> contacts;
+    private Collection<ContactChannelEntity> contacts;
 
     @Column(name = "first_name", nullable = false)
-    private String                                firstName;
+    private String                           firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                                  id;
+    private Long                             id;
 
     @Column(name = "identifier")
-    private String                                identifier;
+    private String                           identifier;
 
     @Column(name = "last_name")
-    private String                                lastName;
+    private String                           lastName;
 
     @Column(name = "member", nullable = false)
-    private Boolean                               member;
+    private Boolean                          member;
 
     @Column(name = "number")
-    private Long                                  number;
+    private Long                             number;
 
     @Column(name = "renew_membership")
-    private Boolean                               renewMembership;
+    private Boolean                          renewMembership;
 
     @Override
     public boolean equals(final Object obj) {
@@ -105,7 +105,7 @@ public class ContactEntity implements Serializable {
         return birthDate;
     }
 
-    public Collection<PersonContactMethodEntity> getContacts() {
+    public Collection<ContactChannelEntity> getContacts() {
         return contacts;
     }
 
@@ -151,7 +151,7 @@ public class ContactEntity implements Serializable {
         this.birthDate = birthDate;
     }
 
-    public void setContacts(final Collection<PersonContactMethodEntity> contacts) {
+    public void setContacts(final Collection<ContactChannelEntity> contacts) {
         this.contacts = contacts;
     }
 
