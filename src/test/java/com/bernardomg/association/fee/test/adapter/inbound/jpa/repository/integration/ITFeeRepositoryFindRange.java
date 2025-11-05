@@ -32,13 +32,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeActiveMembershipContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -58,7 +58,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a full year, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindRange_FullYear() {
         final YearsRange range;
@@ -74,7 +74,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a full year and two members, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @AlternativeActiveMembershipContact
     @FeeFullYear
     @AlternativeFeeFullYear
@@ -92,7 +92,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee for the next year, nothing is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_NextYear_NotPaid() {
         final YearsRange range;
 
@@ -110,7 +110,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee for the next year, nothing is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_NextYear_Paid() {
         final YearsRange range;
 
@@ -142,7 +142,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With no fees, the range is empty")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_NoFees() {
         final YearsRange range;
 
@@ -157,7 +157,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_NotPaid() {
         final YearsRange range;
 
@@ -175,7 +175,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_Paid() {
         final YearsRange range;
 
@@ -193,7 +193,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_PreviousYear_NotPaid() {
         final YearsRange range;
 
@@ -211,7 +211,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_PreviousYear_Paid() {
         final YearsRange range;
 
@@ -229,7 +229,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years connected, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_TwoConnectedYears() {
         final YearsRange range;
 
@@ -248,7 +248,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years connected and not in order, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_TwoConnectedYears_NotInOrder() {
         final YearsRange range;
 
@@ -267,7 +267,7 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years with a gap, the year range is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindRange_TwoYearsWithGap() {
         final YearsRange range;
 

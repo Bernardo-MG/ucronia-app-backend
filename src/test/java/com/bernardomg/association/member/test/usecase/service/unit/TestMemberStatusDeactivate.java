@@ -39,9 +39,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +49,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusDeactivate {
 
     @Mock
-    private ContactRepository          contactRepository;
+    private MemberRepository           memberRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,7 +65,7 @@ class TestMemberStatusDeactivate {
         final Long      number;
 
         // GIVEN
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         date = YearMonth.now();
         number = ContactConstants.NUMBER;
 
@@ -73,7 +73,7 @@ class TestMemberStatusDeactivate {
         service.deactivate(date, number);
 
         // THEN
-        verify(contactRepository).save(Contacts.membershipInactiveNoRenew());
+        verify(memberRepository).save(Members.inactiveNoRenew());
     }
 
     @Test
@@ -91,7 +91,7 @@ class TestMemberStatusDeactivate {
         service.deactivate(date, number);
 
         // THEN
-        verify(contactRepository, never()).save(any());
+        verify(memberRepository, never()).save(any());
     }
 
 }

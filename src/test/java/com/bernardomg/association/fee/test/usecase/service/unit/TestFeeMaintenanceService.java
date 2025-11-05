@@ -13,23 +13,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
 public class TestFeeMaintenanceService {
 
     @Mock
-    private ContactRepository            contactRepository;
+    private FeeRepository                feeRepository;
 
     @Mock
-    private FeeRepository                feeRepository;
+    private MemberRepository             memberRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,7 +39,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(contactRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -54,7 +54,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(contactRepository.findAllToRenew()).willReturn(List.of(Contacts.membershipActive()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -69,7 +69,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
-        given(contactRepository.findAllToRenew()).willReturn(List.of());
+        given(memberRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
         service.registerMonthFees();

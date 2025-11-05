@@ -30,10 +30,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -45,16 +45,16 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
+    private static final Logger    log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
 
-    private final ContactRepository contactRepository;
+    private final FeeRepository    feeRepository;
 
-    private final FeeRepository     feeRepository;
+    private final MemberRepository memberRepository;
 
-    public FeeMonthNotExistingRule(final ContactRepository contactRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
         super();
 
-        contactRepository = Objects.requireNonNull(contactRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -63,14 +63,14 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final boolean                existing;
-        final Contact                contact;
+        final Member                 member;
 
-        contact = contactRepository.findOne(fee.member()
+        member = memberRepository.findOne(fee.member()
             .number())
             .get();
-        existing = feeRepository.exists(contact.number(), fee.month());
+        existing = feeRepository.exists(member.number(), fee.month());
         if (existing) {
-            log.error("Fee for month {} already exists for by {}", fee.month(), contact.number());
+            log.error("Fee for month {} already exists for by {}", fee.month(), member.number());
             // TODO: this is not a field in the model
             fieldFailure = new FieldFailure("existing", "month", fee.month());
             failure = Optional.of(fieldFailure);

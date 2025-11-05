@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeActiveMembershipContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.NoLastNameActiveMembershipContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -42,6 +41,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @AlternativeActiveMembershipContact
     @PaidFee
     @AlternativePaidFee
@@ -98,7 +98,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testFindOne_NotPaid() {
         final Optional<Fee> fee;
@@ -113,7 +113,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindOne_Paid() {
         final Optional<Fee> fee;
@@ -128,7 +128,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @AlternativeActiveMembershipContact
     @PaidFee
     @AlternativePaidFee

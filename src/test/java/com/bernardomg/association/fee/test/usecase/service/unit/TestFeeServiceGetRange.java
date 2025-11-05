@@ -35,11 +35,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.YearsRanges;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -49,13 +49,13 @@ import com.bernardomg.event.emitter.EventEmitter;
 class TestFeeServiceGetRange {
 
     @Mock
-    private ContactRepository         contactRepository;
-
-    @Mock
     private EventEmitter              eventEmitter;
 
     @Mock
     private FeeRepository             feeRepository;
+
+    @Mock
+    private MemberRepository          memberRepository;
 
     @Mock
     private MessageSource             messageSource;

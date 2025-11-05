@@ -24,82 +24,73 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
+import java.util.Collection;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find one")
-class ITMemberRepositoryFindOne {
+@DisplayName("MemberRepository - save")
+class ITMemberRepositorySaveAll {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberRepository       repository;
 
-    @Test
-    @DisplayName("With an active member, it is returned")
-    @ActiveMember
-    void testFindOne_Active() {
-        final Optional<Member> memberOptional;
+    @Autowired
+    private MemberSpringRepository springRepository;
 
-        // WHEN
-        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.active());
+    public ITMemberRepositorySaveAll() {
+        super();
     }
 
     @Test
-    @DisplayName("With an inactive member, it is returned")
-    @InactiveMember
-    void testFindOne_Inactive() {
-        final Optional<Member> memberOptional;
+    @DisplayName("With a valid member, the member is persisted")
+    void testSave_PersistedData() {
+        final Member                 person;
+        final Iterable<MemberEntity> entities;
+
+        // GIVEN
+        person = Members.active();
 
         // WHEN
-        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
+        repository.saveAll(List.of(person));
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.active());
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(MemberEntities.active());
     }
 
     @Test
-    @DisplayName("With no member, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<Member> memberOptional;
+    @DisplayName("With a valid member, the created member is returned")
+    void testSave_ReturnedData() {
+        final Member             person;
+        final Collection<Member> saved;
+
+        // GIVEN
+        person = Members.active();
 
         // WHEN
-        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
+        saved = repository.saveAll(List.of(person));
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member with no membership, it returns nothing")
-    @ValidContact
-    void testFindOne_NoMembership() {
-        final Optional<Member> memberOptional;
-
-        // WHEN
-        memberOptional = memberRepository.findOne(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(memberOptional)
-            .isEmpty();
+        Assertions.assertThat(saved)
+            .as("person")
+            .containsExactly(Members.active());
     }
 
 }

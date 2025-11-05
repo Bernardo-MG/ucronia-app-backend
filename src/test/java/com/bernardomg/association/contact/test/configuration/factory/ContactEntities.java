@@ -16,7 +16,6 @@ public final class ContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setRenewMembership(true);
         entity.setContactChannels(List.of());
         return entity;
     }
@@ -29,37 +28,6 @@ public final class ContactEntities {
         entity.setLastName("Last name");
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setRenewMembership(true);
-        entity.setContactChannels(List.of());
-        return entity;
-    }
-
-    public static final ContactEntity membershipActive() {
-        final ContactEntity entity = new ContactEntity();
-        entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
-        entity.setBirthDate(ContactConstants.BIRTH_DATE);
-        entity.setIdentifier("6789");
-        entity.setMember(true);
-        entity.setActive(true);
-        entity.setRenewMembership(true);
-        entity.setContactChannels(List.of());
-        return entity;
-    }
-
-    public static final ContactEntity membershipInactive() {
-        final ContactEntity entity = new ContactEntity();
-        entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
-        entity.setBirthDate(ContactConstants.BIRTH_DATE);
-        entity.setIdentifier("6789");
-        entity.setMember(true);
-        entity.setActive(false);
-        entity.setRenewMembership(true);
         entity.setContactChannels(List.of());
         return entity;
     }
@@ -72,9 +40,6 @@ public final class ContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("");
-        entity.setMember(false);
-        entity.setActive(false);
-        entity.setRenewMembership(true);
         entity.setContactChannels(List.of());
         return entity;
     }
@@ -86,39 +51,6 @@ public final class ContactEntities {
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setMember(false);
-        entity.setActive(false);
-        entity.setRenewMembership(true);
-        entity.setContactChannels(List.of());
-        return entity;
-    }
-
-    public static final ContactEntity noMembership() {
-        final ContactEntity entity = new ContactEntity();
-        entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
-        entity.setBirthDate(ContactConstants.BIRTH_DATE);
-        entity.setIdentifier("6789");
-        entity.setMember(false);
-        entity.setActive(true);
-        entity.setRenewMembership(true);
-        entity.setContactChannels(List.of());
-        return entity;
-    }
-
-    public static final ContactEntity noMembership(final int index) {
-        final ContactEntity entity = new ContactEntity();
-        entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName("Member " + index);
-        entity.setLastName("Last name " + index);
-        entity.setBirthDate(ContactConstants.BIRTH_DATE);
-        entity.setIdentifier("6789");
-        entity.setMember(false);
-        entity.setActive(false);
-        entity.setRenewMembership(true);
         entity.setContactChannels(List.of());
         return entity;
     }
@@ -138,9 +70,6 @@ public final class ContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setMember(true);
-        entity.setActive(true);
-        entity.setRenewMembership(true);
         entity.setContactChannels(List.of(personContactMethodEntity));
 
         personContactMethodEntity.setContact(entity);

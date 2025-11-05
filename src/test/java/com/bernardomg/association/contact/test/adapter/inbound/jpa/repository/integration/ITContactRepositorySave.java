@@ -34,7 +34,6 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.repository.Contact
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
@@ -53,93 +52,6 @@ class ITContactRepositorySave {
 
     public ITContactRepositorySave() {
         super();
-    }
-
-    @Test
-    @DisplayName("With a person with an active membership, the person is persisted")
-    void testSave_ActiveMembership_PersistedData() {
-        final Contact                 person;
-        final Iterable<ContactEntity> entities;
-
-        // GIVEN
-        person = Contacts.membershipInactive();
-
-        // WHEN
-        repository.save(person);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("When a contact exists with an active membership, and the membership is removed, the contact is persisted")
-    @MembershipActiveContact
-    void testSave_Existing_Active_RemoveMembership_PersistedData() {
-        final Contact                 contact;
-        final Iterable<ContactEntity> entities;
-
-        // GIVEN
-        contact = Contacts.noMembership();
-
-        // WHEN
-        repository.save(contact);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.contact")
-            .containsExactly(ContactEntities.noMembership());
-    }
-
-    @Test
-    @DisplayName("When a contact exists with an active membership, and an inactive membership is set, the contact is persisted")
-    @MembershipActiveContact
-    void testSave_Existing_Active_SetInactiveMembership_PersistedData() {
-        final Contact                 contact;
-        final Iterable<ContactEntity> entities;
-
-        // GIVEN
-        contact = Contacts.membershipInactive();
-
-        // WHEN
-        repository.save(contact);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.contact")
-            .containsExactly(ContactEntities.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("When a contact exists, and an active membership is added, the contact is persisted")
-    @ValidContact
-    void testSave_Existing_AddActiveMembership_PersistedData() {
-        final Contact                 contact;
-        final Iterable<ContactEntity> entities;
-
-        // GIVEN
-        contact = Contacts.membershipActive();
-
-        // WHEN
-        repository.save(contact);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.membershipActive());
     }
 
     @Test
@@ -166,28 +78,6 @@ class ITContactRepositorySave {
     }
 
     @Test
-    @DisplayName("When a contact exists, and an inactive membership is added, the contact is persisted")
-    @ValidContact
-    void testSave_Existing_AddInactiveMembership_PersistedData() {
-        final Contact                 contact;
-        final Iterable<ContactEntity> entities;
-
-        // GIVEN
-        contact = Contacts.membershipActive();
-
-        // WHEN
-        repository.save(contact);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.membershipActive());
-    }
-
-    @Test
     @DisplayName("When a contact exists, the contact is persisted")
     @ValidContact
     void testSave_Existing_PersistedData() {
@@ -206,7 +96,7 @@ class ITContactRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.noMembership());
+            .containsExactly(ContactEntities.minimal());
     }
 
     @Test
@@ -229,7 +119,7 @@ class ITContactRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.noMembership());
+            .containsExactly(ContactEntities.minimal());
     }
 
     @Test
@@ -252,27 +142,6 @@ class ITContactRepositorySave {
     }
 
     @Test
-    @DisplayName("With a contact with an inactive membership, the contact is persisted")
-    void testSave_InactiveMembership_PersistedData() {
-        final Contact                 contact;
-        final Iterable<ContactEntity> entities;
-
-        // GIVEN
-        contact = Contacts.membershipInactive();
-
-        // WHEN
-        repository.save(contact);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.membershipInactive());
-    }
-
-    @Test
     @DisplayName("With a valid contact, the contact is persisted")
     void testSave_PersistedData() {
         final Contact                 contact;
@@ -290,7 +159,7 @@ class ITContactRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.noMembership());
+            .containsExactly(ContactEntities.minimal());
     }
 
     @Test
@@ -314,7 +183,7 @@ class ITContactRepositorySave {
     @Test
     @DisplayName("With a contact with a contact method, the contact is returned")
     @EmailContactMethod
-    void testSave_WithContact_ReturnedData() {
+    void testSave_WithContactChannel_ReturnedData() {
         final Contact contact;
         final Contact saved;
 
@@ -333,7 +202,7 @@ class ITContactRepositorySave {
     @Test
     @DisplayName("With a contact with a contact method, the contact is persisted")
     @EmailContactMethod
-    void testSave_WithContactChannel_PersistedData() {
+    void testSave_WithContactChannelChannel_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
 

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -44,10 +45,42 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Page<MemberEntity> findAllActive(final Pageable pageable);
 
     @Query("""
+            SELECT m.id AS id
+            FROM Member m
+            WHERE m.active = true
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllActiveMemberIds();
+
+    public Collection<MemberEntity> findAllByRenewMembershipTrue();
+
+    @Query("""
+            SELECT m.id AS id
+            FROM Member m
+            WHERE m.active = false
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllInactiveMemberIds();
+
+    @Query("""
+            SELECT m
+            FROM Member m
+            WHERE m.active != m.renewMembership
+            """)
+    public Collection<MemberEntity> findAllWithRenewalMismatch();
+
+    @Query("""
             SELECT m
             FROM Member m
             WHERE m.number = :number
             """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+
+    @Query("""
+            SELECT m.active
+            FROM Member m
+            WHERE m.number = :number
+            """)
+    public Boolean isActive(@Param("number") final Long number);
 
 }

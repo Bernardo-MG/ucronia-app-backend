@@ -69,47 +69,11 @@ public interface ContactSpringRepository
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
-    @Query("""
-            SELECT c.id AS id
-            FROM Contact c
-            WHERE c.member = true
-              AND c.active = true
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllActiveMemberIds();
-
-    public Collection<ContactEntity> findAllByMemberTrueAndRenewMembershipTrue();
-
     public Collection<ContactEntity> findAllByNumberIn(final Collection<Long> numbers);
-
-    @Query("""
-            SELECT c.id AS id
-            FROM Contact c
-            WHERE c.member = true
-              AND c.active = false
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllInactiveMemberIds();
-
-    @Query("""
-            SELECT c
-            FROM Contact c
-            WHERE c.member = true
-              AND c.active != c.renewMembership
-            """)
-    public Collection<ContactEntity> findAllWithRenewalMismatch();
 
     public Optional<ContactEntity> findByNumber(final Long number);
 
     @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
     public Long findNextNumber();
-
-    @Query("""
-            SELECT c.active
-            FROM Contact c
-            WHERE c.member = true
-              AND c.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
 
 }

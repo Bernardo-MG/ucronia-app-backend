@@ -51,11 +51,7 @@ public final class ContactEntityMapper {
         final Collection<ContactChannel> contacts;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
-        if (!entity.getMember()) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(entity.getActive(), entity.getRenewMembership()));
-        }
+        membership = Optional.empty();
 
         contacts = entity.getContactChannels()
             .stream()

@@ -33,8 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MultipleMembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.NoLastNameActiveMembershipContact;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -45,6 +43,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -59,7 +59,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindAll_FullYear() {
         final Page<Fee>  fees;
@@ -91,7 +91,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With multiple fees it returns all the fees")
-    @MultipleMembershipInactiveContact
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Multiple() {
         final Page<Fee>  fees;
@@ -120,7 +120,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindAll_NoFee() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
@@ -173,7 +173,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Page<Fee>  fees;
@@ -200,7 +200,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a paid fee it returns all the fees")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindAll_Paid() {
         final Page<Fee>  fees;

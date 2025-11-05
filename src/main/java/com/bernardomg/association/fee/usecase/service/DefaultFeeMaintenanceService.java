@@ -33,10 +33,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 /**
  * Default implementation of the fee maintenance service.
@@ -50,28 +50,28 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
+    private static final Logger    log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
-    private final ContactRepository contactRepository;
+    private final FeeRepository    feeRepository;
 
-    private final FeeRepository     feeRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ContactRepository contactRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        contactRepository = Objects.requireNonNull(contactRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
     public final void registerMonthFees() {
-        final Collection<Fee>     feesToCreate;
-        final Collection<Contact> toRenew;
+        final Collection<Fee>    feesToCreate;
+        final Collection<Member> toRenew;
 
         log.info("Registering fees for this month");
 
         // Find fees to extend into the current month
-        toRenew = contactRepository.findAllToRenew();
+        toRenew = memberRepository.findAllToRenew();
         feesToCreate = toRenew.stream()
             // Prepare for the current month
             .map(this::toUnpaidThisMonth)
@@ -89,11 +89,11 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .number(), fee.month());
     }
 
-    private final Fee toUnpaidThisMonth(final Contact feeContact) {
-        final Fee.Member member;
+    private final Fee toUnpaidThisMonth(final Member member) {
+        final Fee.Member feeMember;
 
-        member = new Fee.Member(feeContact.number(), feeContact.name());
-        return Fee.unpaid(YearMonth.now(), member);
+        feeMember = new Fee.Member(member.number(), member.name());
+        return Fee.unpaid(YearMonth.now(), feeMember);
     }
 
 }

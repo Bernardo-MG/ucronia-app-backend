@@ -44,10 +44,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
@@ -63,7 +60,10 @@ import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExi
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNoDuplicatedMonthsRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -89,11 +89,11 @@ public final class DefaultFeeService implements FeeService {
      */
     private static final Logger             log = LoggerFactory.getLogger(DefaultFeeService.class);
 
-    private final ContactRepository         contactRepository;
-
     private final EventEmitter              eventEmitter;
 
     private final FeeRepository             feeRepository;
+
+    private final MemberRepository          memberRepository;
 
     private final MessageSource             messageSource;
 
@@ -107,13 +107,13 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<Fee>            validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final ContactRepository contactRepo,
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
             final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
             final AssociationSettingsSource configSource, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        contactRepository = Objects.requireNonNull(contactRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
         eventEmitter = Objects.requireNonNull(evntEmitter);
 
@@ -123,29 +123,29 @@ public final class DefaultFeeService implements FeeService {
         // TODO: Test validation
         validatorPay = new FieldRuleValidator<>(new FeePaymentsNoDuplicatedMonthsRule(),
             new FeePaymentsNotPaidInFutureRule(),
-            new FeePaymentsMonthsNotExistingRule(contactRepository, feeRepository));
+            new FeePaymentsMonthsNotExistingRule(memberRepository, feeRepository));
 
         // TODO: Test validation
-        validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(contactRepository, feeRepository));
+        validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberRepository, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
             new FeeTransactionNotChangedRule(feeRepository));
     }
 
     @Override
     public final Fee createUnpaidFee(final YearMonth feeDate, final Long contactNumber) {
-        final Fee     newFee;
-        final Fee     fee;
-        final Contact contact;
+        final Fee    newFee;
+        final Fee    fee;
+        final Member member;
 
         log.info("Creating unpaid fee for {} for month {}", contactNumber, feeDate);
 
-        contact = contactRepository.findOne(contactNumber)
+        member = memberRepository.findOne(contactNumber)
             .orElseThrow(() -> {
                 log.error("Missing contact {}", contactNumber);
-                throw new MissingContactException(contactNumber);
+                throw new MissingMemberException(contactNumber);
             });
 
-        newFee = toUnpaidFee(contact, feeDate);
+        newFee = toUnpaidFee(member, feeDate);
 
         validatorCreate.validate(newFee);
 
@@ -287,26 +287,26 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
         final Collection<Fee> feesToSave;
-        final Contact         contact;
+        final Member          member;
         final Collection<Fee> created;
         final Transaction     transaction;
 
         log.info("Paying fees for {} for months {}, paid in {}", feesPayments.member(), feesPayments.months(),
             feesPayments.paymentDate());
 
-        contact = contactRepository.findOne(feesPayments.member())
+        member = memberRepository.findOne(feesPayments.member())
             .orElseThrow(() -> {
                 log.error("Missing contact {}", feesPayments.member());
-                throw new MissingContactException(feesPayments.member());
+                throw new MissingMemberException(feesPayments.member());
             });
 
         validatorPay.validate(feesPayments);
 
-        transaction = savePaymentTransaction(contact, feesPayments.months(), feesPayments.paymentDate());
+        transaction = savePaymentTransaction(member, feesPayments.months(), feesPayments.paymentDate());
 
         feesToSave = feesPayments.months()
             .stream()
-            .map(month -> toPaidFee(contact, month, transaction))
+            .map(month -> toPaidFee(member, month, transaction))
             .toList();
 
         created = feeRepository.save(feesToSave);
@@ -328,7 +328,7 @@ public final class DefaultFeeService implements FeeService {
         final Transaction existingPayment;
         final Transaction updatedPayment;
         final Fee         updated;
-        final Contact     contact;
+        final Member      member;
         final Fee         toSave;
         final Transaction transaction;
 
@@ -345,12 +345,12 @@ public final class DefaultFeeService implements FeeService {
             });
 
         // TODO: check member
-        contact = contactRepository.findOne(fee.member()
+        member = memberRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
                 log.error("Missing contact {}", fee.member()
                     .number());
-                throw new MissingContactException(fee.member()
+                throw new MissingMemberException(fee.member()
                     .number());
             });
 
@@ -374,10 +374,10 @@ public final class DefaultFeeService implements FeeService {
 
         if (addedPayment(fee)) {
             // Added payment
-            transaction = savePaymentTransaction(contact, List.of(fee.month()), fee.transaction()
+            transaction = savePaymentTransaction(member, List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(contact, fee.month(), transaction);
+            toSave = toPaidFee(member, fee.month(), transaction);
             updated = feeRepository.save(toSave);
         } else {
             if (changedPayment(fee, existing)) {
@@ -441,7 +441,7 @@ public final class DefaultFeeService implements FeeService {
             .replaceAll("\\p{M}", "");
     }
 
-    private final Transaction savePaymentTransaction(final Contact contact, final Collection<YearMonth> feeMonths,
+    private final Transaction savePaymentTransaction(final Member member, final Collection<YearMonth> feeMonths,
             final Instant payDate) {
         final Transaction transaction;
         final Float       feeAmount;
@@ -454,7 +454,7 @@ public final class DefaultFeeService implements FeeService {
         // Calculate amount
         feeAmount = settingsSource.getFeeAmount() * feeMonths.size();
 
-        name = contact.name()
+        name = member.name()
             .fullName();
 
         dates = feeMonths.stream()
@@ -487,7 +487,7 @@ public final class DefaultFeeService implements FeeService {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> contactRepository.isActive(personNumber);
+            default -> memberRepository.isActive(personNumber);
         };
 
         member = new MemberFees.Member(personNumber, name, active);
@@ -498,19 +498,19 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final Contact contact, final YearMonth month, final Transaction transaction) {
+    private final Fee toPaidFee(final Member member, final YearMonth month, final Transaction transaction) {
         final Fee.Member      feeMember;
         final Fee.Transaction feeTransaction;
 
-        feeMember = new Fee.Member(contact.number(), contact.name());
+        feeMember = new Fee.Member(member.number(), member.name());
         feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
         return Fee.paid(month, feeMember, feeTransaction);
     }
 
-    private final Fee toUnpaidFee(final Contact contact, final YearMonth date) {
+    private final Fee toUnpaidFee(final Member member, final YearMonth date) {
         final Fee.Member feeMember;
 
-        feeMember = new Fee.Member(contact.number(), contact.name());
+        feeMember = new Fee.Member(member.number(), member.name());
         return Fee.unpaid(date, feeMember);
     }
 

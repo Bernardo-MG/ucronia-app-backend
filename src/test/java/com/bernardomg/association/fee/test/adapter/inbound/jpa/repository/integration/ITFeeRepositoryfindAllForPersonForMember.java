@@ -33,8 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.NoLastNameActiveMembershipContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -43,6 +41,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -57,7 +57,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindAllForContact_Active_FullYear() {
         final Page<Fee>  fees;
@@ -86,7 +86,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindAllForContact_Active_NoFee() {
         final Page<Fee>  fees;
         final Pagination pagination;
@@ -133,7 +133,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With a not paid fee, for an active member, it returns all the fees")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testFindAllForContact_Active_NotPaid() {
         final Page<Fee>  fees;
@@ -157,7 +157,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With a paid fee, for an active member, it returns all the fees")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindAllForContact_Active_Paid() {
         final Page<Fee>  fees;
@@ -181,7 +181,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With a wrong member it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindAllForContact_Active_WrongMember() {
         final Page<Fee>  fees;
@@ -205,7 +205,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With a not paid fee, for an inactive member, it returns all the fees")
-    @MembershipInactiveContact
+    @InactiveMember
     @NotPaidFee
     void testFindAllForContact_Inactive_NotPaid() {
         final Page<Fee>  fees;
@@ -229,7 +229,7 @@ class ITFeeRepositoryfindAllForContactForMember {
 
     @Test
     @DisplayName("With a paid fee, for an inactive member, it returns all the fees")
-    @MembershipInactiveContact
+    @InactiveMember
     @PaidFee
     void testFindAllForContact_Inactive_Paid() {
         final Page<Fee>  fees;

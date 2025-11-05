@@ -23,7 +23,7 @@ public final class GameBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(ContactEntities.noMembership()));
+        entity.setDonors(List.of(ContactEntities.minimal()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         entity.setBookType(BookTypeEntities.valid());
         entity.setGameSystem(GameSystemEntities.valid());
@@ -41,7 +41,7 @@ public final class GameBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(ContactEntities.noMembership()));
+        entity.setDonors(List.of(ContactEntities.minimal()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         entity.setBookType(BookTypeEntities.valid());
         entity.setGameSystem(GameSystemEntities.valid());

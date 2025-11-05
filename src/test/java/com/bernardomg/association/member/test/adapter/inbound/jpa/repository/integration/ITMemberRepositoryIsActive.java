@@ -22,29 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactRepository - is active")
-class ITContactRepositoryIsActive {
+@DisplayName("MemberRepository - is active")
+class ITMemberRepositoryIsActive {
 
     @Autowired
-    private ContactRepository repository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("When the member is active, is is indicated as so")
-    @MembershipActiveContact
+    @ActiveMember
     void testIsActive_Active() {
         final boolean active;
 
@@ -59,7 +60,7 @@ class ITContactRepositoryIsActive {
 
     @Test
     @DisplayName("When the member is inactive, is is indicated as so")
-    @MembershipInactiveContact
+    @InactiveMember
     void testIsActive_Inactive() {
         final boolean active;
 
@@ -75,6 +76,21 @@ class ITContactRepositoryIsActive {
     @Test
     @DisplayName("When the member doesn't exist, it is indicated as so")
     void testIsActive_NoData() {
+        final boolean active;
+
+        // WHEN
+        active = repository.isActive(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(active)
+            .as("active")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("When there is a contact which is not a member, it is indicated as so")
+    @ValidContact
+    void testIsActive_NoMember() {
         final boolean active;
 
         // WHEN

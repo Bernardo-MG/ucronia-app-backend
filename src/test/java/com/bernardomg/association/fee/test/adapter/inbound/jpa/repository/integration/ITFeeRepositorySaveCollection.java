@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
@@ -21,6 +20,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.configuration.data.annotation.FeeTransaction;
@@ -42,7 +42,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a not paid fee, it is persisted")
-    @MembershipActiveContact
+    @ActiveMember
     void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -84,7 +84,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is persisted")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSave_Paid_ChangeDate_PersistedData() {
@@ -113,7 +113,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is persisted in the transaction")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedTransaction() {
         final Fee                         fee;
@@ -142,7 +142,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is returned")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSave_Paid_ChangeDate_ReturnedData() {
@@ -170,7 +170,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is persisted")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -194,7 +194,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("Persists the fee to transaction relationship")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedRelationship() {
         final Fee               fee;
@@ -224,7 +224,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("Persists the transaction")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedTransaction() {
         final Iterable<TransactionEntity> transactions;

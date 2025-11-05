@@ -29,13 +29,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,7 +47,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an active member, it exists")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testExists_Active_NotPaid() {
         final boolean exists;
@@ -63,7 +63,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an active member, it exists")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testExists_Active_Paid() {
         final boolean exists;
@@ -79,7 +79,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an inactive member, it exists")
-    @MembershipInactiveContact
+    @InactiveMember
     @NotPaidFee
     void testExists_Inactive_NotPaid() {
         final boolean exists;
@@ -95,7 +95,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an inactive member, it exists")
-    @MembershipInactiveContact
+    @InactiveMember
     @PaidFee
     void testExists_Inactive_Paid() {
         final boolean exists;

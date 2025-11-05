@@ -33,8 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeActiveMembershipContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.NoLastNameActiveMembershipContact;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -46,6 +44,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.data.annotation.TwoFeeYearsConnected;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -59,7 +59,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a full year it returns all data")
-    @MembershipActiveContact
+    @ActiveMember
     @FeeFullYear
     void testFindAllInYear_Active_FullYear() {
         final Iterable<Fee> fees;
@@ -85,7 +85,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a full year it returns all the data")
-    @MembershipActiveContact
+    @ActiveMember
     @AlternativeActiveMembershipContact
     @FeeFullYear
     @AlternativeFeeFullYear
@@ -124,7 +124,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With no fees, it nothing")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindAllInYear_Active_NoFees() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
@@ -174,7 +174,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a not paid fee, it returns them")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testFindAllInYear_Active_NotPaid() {
         final Iterable<Fee> fees;
@@ -195,7 +195,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testFindAllInYear_Active_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
@@ -216,7 +216,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     @NotPaidFee
     void testFindAllInYear_Active_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
@@ -237,7 +237,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a paid fee in the current month, it returns them")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindAllInYear_Active_Paid() {
         final Iterable<Fee> fees;
@@ -258,7 +258,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a paid fee and searching for the next year, it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindAllInYear_Active_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
@@ -279,7 +279,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidFee
     void testFindAllInYear_Active_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
@@ -300,7 +300,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With both a paid and not paid fees, for an active member, it returns the calendar")
-    @MembershipActiveContact
+    @ActiveMember
     @PaidAndNotPaidFee
     void testFindAllInYear_Active_PaidAndNotPaid() {
         final Iterable<Fee> fees;
@@ -321,7 +321,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @MembershipActiveContact
+    @ActiveMember
     @TwoFeeYearsConnected
     void testFindAllInYear_Active_TwoConnectedYears_First() {
         final Iterable<Fee> fees;
@@ -344,7 +344,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @MembershipActiveContact
+    @ActiveMember
     @TwoFeeYearsConnected
     void testFindAllInYear_Active_TwoConnectedYears_Second() {
         final Iterable<Fee> fees;
@@ -368,7 +368,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a full year, for an inactive member, it returns all data")
-    @MembershipInactiveContact
+    @InactiveMember
     @FeeFullYear
     void testFindAllInYear_Inactive_FullYear() {
         final Iterable<Fee> fees;
@@ -394,7 +394,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With both a paid and not paid fees, for an inactive member, it returns the calendar")
-    @MembershipInactiveContact
+    @InactiveMember
     @PaidAndNotPaidFee
     void testFindAllInYear_Inactive_PaidAndNotPaid() {
         final Iterable<Fee> fees;

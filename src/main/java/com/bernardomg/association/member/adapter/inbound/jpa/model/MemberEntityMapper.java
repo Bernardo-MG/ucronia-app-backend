@@ -24,30 +24,39 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import java.util.Collection;
+
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.PublicMember;
 
 /**
  * Author repository mapper.
  */
 public final class MemberEntityMapper {
 
-    @Deprecated
-    public static final Member toDomain(final ContactEntity entity) {
-        final ContactName name;
+    public static final Member toDomain(final MemberEntity entity) {
+        final ContactName                name;
+        final Collection<ContactChannel> contacts;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership flag
-        return new Member(entity.getNumber(), name);
+        contacts = entity.getContactChannels()
+            .stream()
+            .map(ContactEntityMapper::toDomain)
+            .toList();
+
+        return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getActive(),
+            entity.getRenewMembership(), contacts);
     }
 
-    public static final Member toDomain(final MemberEntity entity) {
+    public static final PublicMember toPublicDomain(final MemberEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
         // TODO: check it has membership flag
-        return new Member(entity.getNumber(), name);
+        return new PublicMember(entity.getNumber(), name);
     }
 
     private MemberEntityMapper() {

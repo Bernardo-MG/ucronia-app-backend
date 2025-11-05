@@ -144,38 +144,6 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     @Override
-    public final Collection<Contact> findAllToRenew() {
-        final Collection<Contact> contacts;
-
-        log.debug("Finding all the members to renew");
-
-        contacts = contactSpringRepository.findAllByMemberTrueAndRenewMembershipTrue()
-            .stream()
-            .map(ContactEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all the members to renew: {}", contacts);
-
-        return contacts;
-    }
-
-    @Override
-    public final Collection<Contact> findAllWithRenewalMismatch() {
-        final Collection<Contact> contacts;
-
-        log.debug("Finding all the members with a renewal mismatch");
-
-        contacts = contactSpringRepository.findAllWithRenewalMismatch()
-            .stream()
-            .map(ContactEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all the members with a renewal mismatch: {}", contacts);
-
-        return contacts;
-    }
-
-    @Override
     public final long findNextNumber() {
         final long number;
 
@@ -200,19 +168,6 @@ public final class JpaContactRepository implements ContactRepository {
         log.debug("Found contact with number {}: {}", number, contact);
 
         return contact;
-    }
-
-    @Override
-    public final boolean isActive(final long number) {
-        final Boolean active;
-
-        log.trace("Checking if member {} is active", number);
-
-        active = contactSpringRepository.isActive(number);
-
-        log.trace("Member {} is active: {}", number, active);
-
-        return Boolean.TRUE.equals(active);
     }
 
     @Override
@@ -266,26 +221,8 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     private final ContactEntity toEntity(final Contact data) {
-        final boolean                          member;
-        final boolean                          active;
-        final boolean                          renew;
         final ContactEntity                    entity;
         final Collection<ContactChannelEntity> contacts;
-
-        if (data.membership()
-            .isPresent()) {
-            member = true;
-            active = data.membership()
-                .get()
-                .active();
-            renew = data.membership()
-                .get()
-                .renew();
-        } else {
-            member = false;
-            active = true;
-            renew = true;
-        }
 
         entity = new ContactEntity();
         entity.setNumber(data.number());
@@ -295,9 +232,6 @@ public final class JpaContactRepository implements ContactRepository {
             .lastName());
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
-        entity.setMember(member);
-        entity.setActive(active);
-        entity.setRenewMembership(renew);
 
         contacts = data.contactChannels()
             .stream()

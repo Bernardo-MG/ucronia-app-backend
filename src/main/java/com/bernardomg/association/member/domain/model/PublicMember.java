@@ -24,13 +24,8 @@
 
 package com.bernardomg.association.member.domain.model;
 
-import java.time.Instant;
-import java.util.Collection;
-
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
-public record Member(String identifier, Long number, ContactName name, Instant birthDate, Boolean active, Boolean renew,
-        Collection<ContactChannel> contactChannels) {
+public record PublicMember(Long number, ContactName name) {
 
 }

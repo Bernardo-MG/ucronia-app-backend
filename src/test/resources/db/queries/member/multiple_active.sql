@@ -4,9 +4,9 @@ INSERT INTO directory.contacts (id, number, first_name, last_name, identifier, b
    (3, 30, 'Contact 3', 'Last name 3', '12347', '1990-01-01 0:0:0', true, true),
    (4, 40, 'Contact 4', 'Last name 4', '12348', '1990-01-01 0:0:0', true, true),
    (5, 50, 'Contact 5', 'Last name 5', '12349', '1990-01-01 0:0:0', true, true);
-INSERT INTO directory.members (contact_id, active) VALUES
-   (1, true),
-   (2, true),
-   (3, true),
-   (4, true),
-   (5, true);
+INSERT INTO directory.members (contact_id, active, renew_membership) VALUES
+   (1, true, true),
+   (2, true, true),
+   (3, true, true),
+   (4, true, true),
+   (5, true, true);

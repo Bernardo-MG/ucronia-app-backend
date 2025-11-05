@@ -45,15 +45,9 @@ public interface ContactRepository {
 
     public Page<Contact> findAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Contact> findAllToRenew();
-
-    public Collection<Contact> findAllWithRenewalMismatch();
-
     public long findNextNumber();
 
     public Optional<Contact> findOne(final Long number);
-
-    public boolean isActive(final long number);
 
     public Contact save(final Contact contact);
 

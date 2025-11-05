@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -71,9 +71,9 @@ public class MemberController implements MemberApi {
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final Page<Member> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Page<PublicMember> members;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
@@ -86,7 +86,7 @@ public class MemberController implements MemberApi {
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
     public MemberResponseDto getMemberByNumber(final Long number) {
-        Optional<Member> member;
+        Optional<PublicMember> member;
 
         member = service.getOne(number);
 

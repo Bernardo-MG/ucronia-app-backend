@@ -46,30 +46,22 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM Fee f
-                 INNER JOIN Contact p ON p.id = f.contactId
-               WHERE p.number = :number
+                 INNER JOIN Member m ON m.id = f.contactId
+               WHERE m.number = :number
                  AND f.date = :date
             """)
-    public boolean existsByContactNumberAndDate(@Param("number") final Long number, @Param("date") final Instant date);
+    public boolean existsByMemberNumberAndDate(@Param("number") final Long number, @Param("date") final Instant date);
 
     @Query("""
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM Fee f
-                 INNER JOIN Contact p ON p.id = f.contactId
-               WHERE p.number = :number
+                 INNER JOIN Member m ON m.id = f.contactId
+               WHERE m.number = :number
                  AND f.date = :date
                  AND f.transaction IS NOT NULL
             """)
-    public boolean existsByContactNumberAndDateAndPaid(@Param("number") final Long number,
+    public boolean existsByMemberNumberAndDateAndPaid(@Param("number") final Long number,
             @Param("date") final Instant date);
-
-    @Query("""
-               SELECT f
-               FROM Fee f
-                  INNER JOIN Contact p ON p.id = f.contactId
-               WHERE p.number = :number
-            """)
-    public Page<FeeEntity> findAllByContactNumber(@Param("number") final Long number, final Pageable pageable);
 
     /**
      * Returns all the fees in the received date.
@@ -82,13 +74,21 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
 
     @Query("""
                SELECT f
-               FROM Contact p
-                 INNER JOIN Fee f ON p.id = f.contactId
+               FROM Fee f
+                  INNER JOIN Member m ON m.id = f.contactId
+               WHERE m.number = :number
+            """)
+    public Page<FeeEntity> findAllByMemberNumber(@Param("number") final Long number, final Pageable pageable);
+
+    @Query("""
+               SELECT f
+               FROM Member m
+                 INNER JOIN Fee f ON m.id = f.contactId
                  LEFT JOIN Transaction t ON f.transaction.id = t.id
-               WHERE p.number = :memberNumber
+               WHERE m.number = :memberNumber
                  AND f.date in :feeMonths
             """)
-    public Collection<FeeEntity> findAllFeesByContactNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
+    public Collection<FeeEntity> findAllFeesByMemberNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
             @Param("feeMonths") final Collection<Instant> feeMonths);
 
     /**
@@ -103,7 +103,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
                SELECT f
                FROM Fee f
-                  INNER JOIN Contact p ON p.id = f.contactId
+                  INNER JOIN Member m ON m.id = f.contactId
                WHERE EXTRACT(YEAR FROM f.date) = :year
             """)
     public Collection<FeeEntity> findAllForYear(@Param("year") int year, Sort sort);
@@ -122,19 +122,19 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
             SELECT f
             FROM Fee f
-               INNER JOIN Contact p ON p.id = f.contactId
+               INNER JOIN Member m ON m.id = f.contactId
             WHERE EXTRACT(YEAR FROM f.date) = :year
               AND f.contactId IN :ids
             """)
-    public Collection<FeeEntity> findAllForYearAndContactsIn(@Param("year") int year,
-            @Param("ids") Collection<Long> ids, Sort sort);
+    public Collection<FeeEntity> findAllForYearAndMembersIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
+            Sort sort);
 
     @Query("""
             SELECT f
             FROM Fee f
-               INNER JOIN Contact p ON p.id = f.contactId
+               INNER JOIN Member m ON m.id = f.contactId
             """)
-    public Page<FeeEntity> findAllWithContact(final Pageable pageable);
+    public Page<FeeEntity> findAllWithMember(final Pageable pageable);
 
     /**
      * Finds the fee for the contact in the date.

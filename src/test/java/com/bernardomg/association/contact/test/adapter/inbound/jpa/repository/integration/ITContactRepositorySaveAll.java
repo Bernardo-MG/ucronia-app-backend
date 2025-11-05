@@ -72,7 +72,7 @@ class ITContactRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.noMembership());
+            .containsExactly(ContactEntities.minimal());
     }
 
     @Test

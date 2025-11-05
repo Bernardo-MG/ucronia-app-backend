@@ -35,12 +35,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Contact")
 @Table(schema = "directory", name = "contacts")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class ContactEntity implements Serializable {
 
     /**
@@ -48,9 +51,6 @@ public class ContactEntity implements Serializable {
      */
     @Transient
     private static final long                serialVersionUID = 1328776989450853491L;
-
-    @Column(name = "active", nullable = false)
-    private Boolean                          active;
 
     @Column(name = "birth_date")
     private Instant                          birthDate;
@@ -72,14 +72,8 @@ public class ContactEntity implements Serializable {
     @Column(name = "last_name")
     private String                           lastName;
 
-    @Column(name = "member", nullable = false)
-    private Boolean                          member;
-
     @Column(name = "number")
     private Long                             number;
-
-    @Column(name = "renew_membership")
-    private Boolean                          renewMembership;
 
     @Override
     public boolean equals(final Object obj) {
@@ -90,15 +84,9 @@ public class ContactEntity implements Serializable {
             return false;
         }
         final ContactEntity other = (ContactEntity) obj;
-        return Objects.equals(active, other.active) && Objects.equals(birthDate, other.birthDate)
-                && Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
-                && Objects.equals(identifier, other.identifier) && Objects.equals(lastName, other.lastName)
-                && Objects.equals(member, other.member) && Objects.equals(number, other.number)
-                && Objects.equals(renewMembership, other.renewMembership);
-    }
-
-    public Boolean getActive() {
-        return active;
+        return Objects.equals(birthDate, other.birthDate) && Objects.equals(firstName, other.firstName)
+                && Objects.equals(id, other.id) && Objects.equals(identifier, other.identifier)
+                && Objects.equals(lastName, other.lastName) && Objects.equals(number, other.number);
     }
 
     public Instant getBirthDate() {
@@ -125,25 +113,13 @@ public class ContactEntity implements Serializable {
         return lastName;
     }
 
-    public Boolean getMember() {
-        return member;
-    }
-
     public Long getNumber() {
         return number;
     }
 
-    public Boolean getRenewMembership() {
-        return renewMembership;
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(active, birthDate, firstName, id, identifier, lastName, member, number, renewMembership);
-    }
-
-    public void setActive(final Boolean active) {
-        this.active = active;
+        return Objects.hash(birthDate, firstName, id, identifier, lastName, number);
     }
 
     public void setBirthDate(final Instant birthDate) {
@@ -170,23 +146,14 @@ public class ContactEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    public void setMember(final Boolean member) {
-        this.member = member;
-    }
-
     public void setNumber(final Long number) {
         this.number = number;
     }
 
-    public void setRenewMembership(final Boolean renewMembership) {
-        this.renewMembership = renewMembership;
-    }
-
     @Override
     public String toString() {
-        return "ContactEntity [active=" + active + ", birthDate=" + birthDate + ", firstName=" + firstName + ", id="
-                + id + ", identifier=" + identifier + ", lastName=" + lastName + ", member=" + member + ", number="
-                + number + ", renewMembership=" + renewMembership + "]";
+        return "ContactEntity [birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id + ", identifier="
+                + identifier + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

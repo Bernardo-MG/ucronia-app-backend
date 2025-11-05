@@ -37,7 +37,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -45,6 +44,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -56,13 +56,13 @@ import com.bernardomg.event.emitter.EventEmitter;
 class TestFeeServiceGetForYear {
 
     @Mock
-    private ContactRepository         contactRepository;
-
-    @Mock
     private EventEmitter              eventEmitter;
 
     @Mock
     private FeeRepository             feeRepository;
+
+    @Mock
+    private MemberRepository          memberRepository;
 
     @Mock
     private MessageSource             messageSource;
@@ -107,7 +107,7 @@ class TestFeeServiceGetForYear {
 
         given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(contactRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);

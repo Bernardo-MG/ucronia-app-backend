@@ -26,7 +26,7 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -40,12 +40,12 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberDtoMapper {
 
-    public static final MemberResponseDto toResponseDto(final Optional<Member> member) {
+    public static final MemberResponseDto toResponseDto(final Optional<PublicMember> member) {
         return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final MemberPageResponseDto toResponseDto(final Page<Member> page) {
+    public static final MemberPageResponseDto toResponseDto(final Page<PublicMember> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
@@ -67,19 +67,6 @@ public final class MemberDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final MemberDto toDto(final Member member) {
-        final ContactNameDto contactName;
-
-        contactName = new ContactNameDto().firstName(member.name()
-            .firstName())
-            .lastName(member.name()
-                .lastName())
-            .fullName(member.name()
-                .fullName());
-        return new MemberDto().number(member.number())
-            .name(contactName);
-    }
-
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -90,6 +77,19 @@ public final class MemberDtoMapper {
         }
         return new PropertyDto().name(property.name())
             .direction(direction);
+    }
+
+    private static final MemberDto toDto(final PublicMember member) {
+        final ContactNameDto contactName;
+
+        contactName = new ContactNameDto().firstName(member.name()
+            .firstName())
+            .lastName(member.name()
+                .lastName())
+            .fullName(member.name()
+                .fullName());
+        return new MemberDto().number(member.number())
+            .name(contactName);
     }
 
     private MemberDtoMapper() {

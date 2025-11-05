@@ -7,7 +7,7 @@
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit contacts to whom the Software is
+ * copies of the Software, and to permit members to whom the Software is
  * furnished to do so, subject to the following conditions:
  * <p>
  * The above copyright notice and this permission notice shall be included in
@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Collection;
 
@@ -31,96 +31,96 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveToNotRenewContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveToRenewContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveToNotRenewContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveToRenewContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToRenewMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToNotRenewMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToRenewMember;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactRepository - find all to renew")
-class ITContactRepositoryFindAllWithRenewalMismatch {
+@DisplayName("MemberRepository - find all to renew")
+class ITMemberRepositoryFindAllWithRenewalMismatch {
 
     @Autowired
-    private ContactRepository repository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("With no membership, nothing is returned")
     @ValidContact
     void testFindAllWithRenewalMismatch_NoMembership() {
-        final Collection<Contact> contacts;
+        final Collection<Member> members;
 
         // WHEN
-        contacts = repository.findAllWithRenewalMismatch();
+        members = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(contacts)
-            .as("contacts")
+        Assertions.assertThat(members)
+            .as("members")
             .isEmpty();
     }
 
     @Test
     @DisplayName("With an active membership to not renew, it is returned")
-    @MembershipActiveToNotRenewContact
+    @ActiveToNotRenewMember
     void testFindAllWithRenewalMismatch_ToNotRenewActive() {
-        final Collection<Contact> contacts;
+        final Collection<Member> members;
 
         // WHEN
-        contacts = repository.findAllWithRenewalMismatch();
+        members = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(contacts)
-            .as("contacts")
-            .containsExactly(Contacts.membershipActiveNoRenew());
+        Assertions.assertThat(members)
+            .as("members")
+            .containsExactly(Members.activeNoRenew());
     }
 
     @Test
     @DisplayName("With an inactive membership to not renew, nothing is returned")
-    @MembershipInactiveToNotRenewContact
+    @InactiveToNotRenewMember
     void testFindAllWithRenewalMismatch_ToNotRenewInactive() {
-        final Collection<Contact> contacts;
+        final Collection<Member> members;
 
         // WHEN
-        contacts = repository.findAllWithRenewalMismatch();
+        members = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(contacts)
-            .as("contacts")
+        Assertions.assertThat(members)
+            .as("members")
             .isEmpty();
     }
 
     @Test
     @DisplayName("With an active membership to renew, nothing is returned")
-    @MembershipActiveToRenewContact
+    @ActiveToRenewMember
     void testFindAllWithRenewalMismatch_ToRenewActive() {
-        final Collection<Contact> contacts;
+        final Collection<Member> members;
 
         // WHEN
-        contacts = repository.findAllWithRenewalMismatch();
+        members = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(contacts)
-            .as("contacts")
+        Assertions.assertThat(members)
+            .as("members")
             .isEmpty();
     }
 
     @Test
     @DisplayName("With an inactive membership to renew, it is returned")
-    @MembershipInactiveToRenewContact
+    @InactiveToRenewMember
     void testFindAllWithRenewalMismatch_ToRenewInactive() {
-        final Collection<Contact> contacts;
+        final Collection<Member> members;
 
         // WHEN
-        contacts = repository.findAllWithRenewalMismatch();
+        members = repository.findAllWithRenewalMismatch();
 
         // THEN
-        Assertions.assertThat(contacts)
-            .as("contacts")
-            .containsExactly(Contacts.membershipInactive());
+        Assertions.assertThat(members)
+            .as("members")
+            .containsExactly(Members.inactive());
     }
 
 }
