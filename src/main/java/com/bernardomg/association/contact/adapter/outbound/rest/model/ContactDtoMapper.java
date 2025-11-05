@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.Contact.Membership;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
@@ -42,7 +41,6 @@ import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
-import com.bernardomg.ucronia.openapi.model.MembershipDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -50,40 +48,25 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class ContactDtoMapper {
 
     public static final Contact toDomain(final ContactCreationDto creation) {
-        final ContactName          name;
-        final Optional<Membership> membership;
+        final ContactName name;
 
         name = new ContactName(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
-        if (creation.getMember() == null) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(true, true));
-        }
 
-        return new Contact("", -1L, name, null, membership, List.of());
+        return new Contact("", -1L, name, null, List.of());
     }
 
     public static final Contact toDomain(final long number, final ContactChangeDto change) {
-        final ContactName          name;
-        final Optional<Membership> membership;
+        final ContactName name;
 
         name = new ContactName(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
-        if (change.getMembership() == null) {
-            membership = Optional.empty();
-        } else {
-            membership = Optional.of(new Membership(change.getMembership()
-                .getActive(),
-                change.getMembership()
-                    .getRenew()));
-        }
 
-        return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), membership, List.of());
+        return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), List.of());
     }
 
     public static final ContactResponseDto toResponseDto(final Contact contact) {
@@ -119,7 +102,6 @@ public final class ContactDtoMapper {
 
     private static final ContactDto toDto(final Contact person) {
         ContactNameDto          name;
-        MembershipDto           membership;
         List<ContactChannelDto> contactChannels;
 
         name = new ContactNameDto().firstName(person.name()
@@ -128,17 +110,6 @@ public final class ContactDtoMapper {
                 .lastName())
             .fullName(person.name()
                 .fullName());
-        if (person.membership()
-            .isPresent()) {
-            membership = new MembershipDto().active(person.membership()
-                .get()
-                .active())
-                .renew(person.membership()
-                    .get()
-                    .renew());
-        } else {
-            membership = null;
-        }
         contactChannels = person.contactChannels()
             .stream()
             .map(ContactDtoMapper::toDto)
@@ -148,7 +119,6 @@ public final class ContactDtoMapper {
             .number(person.number())
             .name(name)
             .birthDate(person.birthDate())
-            .membership(membership)
             .contactChannels(contactChannels);
     }
 

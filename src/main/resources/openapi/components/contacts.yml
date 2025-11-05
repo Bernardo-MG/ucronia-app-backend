@@ -44,16 +44,6 @@ components:
         detail:
           type: string
           description: Contact detail.
-    Membership:
-      type: object
-      required: [active, renew]
-      properties:
-        active:
-          type: boolean
-          description: Whether the membership is active.
-        renew:
-          type: boolean
-          description: Whether the membership is eligible for renewal.
     Contact:
       type: object
       required: [number, name]
@@ -67,8 +57,6 @@ components:
           $ref: 'contacts.yml#/components/schemas/ContactName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
-        membership:
-          $ref: '#/components/schemas/Membership'
         contactChannels:
           type: array
           items:
@@ -79,8 +67,6 @@ components:
       properties:
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
-        member:
-          type: boolean
     ContactChange:
       type: object
       required: [identifier, name]
@@ -91,8 +77,6 @@ components:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
-        membership:
-          $ref: '#/components/schemas/Membership'
     ContactPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

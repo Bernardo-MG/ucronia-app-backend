@@ -38,7 +38,6 @@ import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
-import com.bernardomg.ucronia.openapi.model.MembershipDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -78,7 +77,6 @@ public final class UserContactDtoMapper {
 
     private static final ContactDto toDto(final Contact person) {
         ContactNameDto          name;
-        MembershipDto           membership;
         List<ContactChannelDto> contacts;
 
         name = new ContactNameDto().firstName(person.name()
@@ -87,17 +85,6 @@ public final class UserContactDtoMapper {
                 .lastName())
             .fullName(person.name()
                 .fullName());
-        if (person.membership()
-            .isPresent()) {
-            membership = new MembershipDto().active(person.membership()
-                .get()
-                .active())
-                .renew(person.membership()
-                    .get()
-                    .renew());
-        } else {
-            membership = null;
-        }
         contacts = person.contactChannels()
             .stream()
             .map(UserContactDtoMapper::toDto)
@@ -106,7 +93,6 @@ public final class UserContactDtoMapper {
             .number(person.number())
             .name(name)
             .birthDate(person.birthDate())
-            .membership(membership)
             .contactChannels(contacts);
     }
 

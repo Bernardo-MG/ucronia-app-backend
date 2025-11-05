@@ -93,7 +93,7 @@ public final class DefaultContactService implements ContactService {
         // Set number
         number = contactRepository.findNextNumber();
 
-        toCreate = new Contact(contact.identifier(), number, contact.name(), contact.birthDate(), contact.membership(),
+        toCreate = new Contact(contact.identifier(), number, contact.name(), contact.birthDate(),
             contact.contactChannels());
 
         createContactValidator.validate(toCreate);
@@ -201,8 +201,6 @@ public final class DefaultContactService implements ContactService {
                 .orElse(existing.number()),
             name, Optional.ofNullable(updated.birthDate())
                 .orElse(existing.birthDate()),
-            Optional.ofNullable(updated.membership())
-                .orElse(Optional.empty()),
             updated.contactChannels());
     }
 

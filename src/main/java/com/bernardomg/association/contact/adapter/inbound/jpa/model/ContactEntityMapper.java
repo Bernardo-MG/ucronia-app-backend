@@ -25,11 +25,9 @@
 package com.bernardomg.association.contact.adapter.inbound.jpa.model;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.Contact.Membership;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
@@ -47,19 +45,16 @@ public final class ContactEntityMapper {
 
     public static final Contact toDomain(final ContactEntity entity) {
         final ContactName                name;
-        final Optional<Membership>       membership;
         final Collection<ContactChannel> contacts;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
-        membership = Optional.empty();
 
         contacts = entity.getContactChannels()
             .stream()
             .map(ContactEntityMapper::toDomain)
             .toList();
 
-        return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), membership,
-            contacts);
+        return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts);
     }
 
     public static final ContactMethod toDomain(final ContactMethodEntity entity) {

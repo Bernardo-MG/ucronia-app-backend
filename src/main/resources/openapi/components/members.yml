@@ -6,6 +6,29 @@ components:
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        active:
+          type: boolean
+          description: Whether the membership is active.
+        renew:
+          type: boolean
+          description: Whether the membership is eligible for renewal.
+        contactChannels:
+          type: array
+          items:
+            $ref: './contacts.yml#/components/schemas/ContactChannel'
+    PublicMember:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: 'contacts.yml#/components/schemas/ContactName'
     MemberPageResponse:
