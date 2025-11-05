@@ -21,7 +21,7 @@ public final class FictionBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(ContactEntities.minimal()));
+        entity.setDonors(List.of(ContactEntities.valid()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         return entity;
     }
@@ -37,7 +37,7 @@ public final class FictionBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(ContactEntities.minimal()));
+        entity.setDonors(List.of(ContactEntities.valid()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         return entity;
     }

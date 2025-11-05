@@ -158,7 +158,7 @@ class TestContactServiceUpdate {
         service.update(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.noMembership());
+        verify(contactRepository).save(Contacts.valid());
     }
 
     @Test

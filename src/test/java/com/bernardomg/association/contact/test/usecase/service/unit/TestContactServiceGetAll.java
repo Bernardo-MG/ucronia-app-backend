@@ -112,7 +112,7 @@ class TestContactServiceGetAll {
         sorting = Sorting.unsorted();
         filter = ContactFilters.empty();
 
-        existing = new Page<>(List.of(Contacts.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -123,7 +123,7 @@ class TestContactServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("contacts")
-            .containsExactly(Contacts.noMembership());
+            .containsExactly(Contacts.valid());
     }
 
     @Test
@@ -139,7 +139,7 @@ class TestContactServiceGetAll {
         sorting = Sorting.asc("firstName");
         filter = ContactFilters.empty();
 
-        existing = new Page<>(List.of(Contacts.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -165,7 +165,7 @@ class TestContactServiceGetAll {
         sorting = Sorting.desc("firstName");
         filter = ContactFilters.empty();
 
-        existing = new Page<>(List.of(Contacts.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN

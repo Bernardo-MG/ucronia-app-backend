@@ -68,14 +68,14 @@ class TestContactServiceGetOne {
         final Optional<Contact> contact;
 
         // GIVEN
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         contact = service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(contact)
-            .contains(Contacts.noMembership());
+            .contains(Contacts.valid());
     }
 
     @Test

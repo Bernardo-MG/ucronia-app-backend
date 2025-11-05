@@ -12,8 +12,7 @@ public final class ContactAccounts {
     }
 
     public static final ContactAccount valid() {
-        return new ContactAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME,
-            Contacts.noMembership());
+        return new ContactAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, Contacts.valid());
     }
 
     private ContactAccounts() {

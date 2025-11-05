@@ -46,7 +46,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
@@ -55,6 +54,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
@@ -191,7 +191,7 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing contact, an exception is thrown")
+    @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExistingContact() {
         final ThrowingCallable execution;
 
@@ -204,7 +204,7 @@ class TestFeeServiceUpdate {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
     @Test

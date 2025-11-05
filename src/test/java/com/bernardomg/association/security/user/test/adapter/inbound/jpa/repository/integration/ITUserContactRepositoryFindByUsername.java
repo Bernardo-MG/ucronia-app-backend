@@ -57,7 +57,7 @@ class ITUserContactRepositoryFindByUsername {
 
         // THEN
         Assertions.assertThat(contact)
-            .contains(Contacts.noMembership());
+            .contains(Contacts.valid());
     }
 
     @Test

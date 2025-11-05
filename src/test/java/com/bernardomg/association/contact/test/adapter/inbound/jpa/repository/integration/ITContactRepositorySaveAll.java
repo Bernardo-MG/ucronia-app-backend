@@ -61,7 +61,7 @@ class ITContactRepositorySaveAll {
         final Iterable<ContactEntity> entities;
 
         // GIVEN
-        person = Contacts.noMembership();
+        person = Contacts.valid();
 
         // WHEN
         repository.saveAll(List.of(person));
@@ -72,7 +72,7 @@ class ITContactRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.minimal());
+            .containsExactly(ContactEntities.valid());
     }
 
     @Test
@@ -82,7 +82,7 @@ class ITContactRepositorySaveAll {
         final Collection<Contact> saved;
 
         // GIVEN
-        person = Contacts.noMembership();
+        person = Contacts.valid();
 
         // WHEN
         saved = repository.saveAll(List.of(person));
@@ -90,7 +90,7 @@ class ITContactRepositorySaveAll {
         // THEN
         Assertions.assertThat(saved)
             .as("person")
-            .containsExactly(Contacts.noMembership());
+            .containsExactly(Contacts.valid());
     }
 
 }

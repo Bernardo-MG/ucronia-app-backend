@@ -75,7 +75,7 @@ class TestUserContactServiceGetAvailableMembers {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(Contacts.noMembership()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(userContactRepository.findAllNotAssigned(pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -85,7 +85,7 @@ class TestUserContactServiceGetAvailableMembers {
         Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Contacts.noMembership());
+            .containsExactly(Contacts.valid());
     }
 
     @Test

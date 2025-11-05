@@ -75,7 +75,7 @@ class ITUserContactRepositoryFindAllNotAssignedPagination extends AbstractPagina
         Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Contacts.noMembership());
+            .containsExactly(Contacts.valid());
     }
 
     @Test

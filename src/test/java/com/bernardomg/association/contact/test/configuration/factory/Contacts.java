@@ -77,35 +77,6 @@ public final class Contacts {
             Optional.of(membership), List.of());
     }
 
-    public static final Contact membershipInactive() {
-        final ContactName name;
-        final Membership  membership;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        membership = new Membership(false, true);
-        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            Optional.of(membership), List.of());
-    }
-
-    public static final Contact membershipInactiveNew() {
-        final ContactName name;
-        final Membership  membership;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        membership = new Membership(false, false);
-        return new Contact("", ContactConstants.NUMBER, name, null, Optional.of(membership), List.of());
-    }
-
-    public static final Contact membershipInactiveNoRenew() {
-        final ContactName name;
-        final Membership  membership;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        membership = new Membership(false, false);
-        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            Optional.of(membership), List.of());
-    }
-
     public static final Contact nameChange() {
         final ContactName name;
 
@@ -126,21 +97,6 @@ public final class Contacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact("", ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, Optional.empty(), List.of());
-    }
-
-    public static final Contact noMembership() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            Optional.empty(), List.of());
-    }
-
-    public static final Contact noMembershipNew() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact("", ContactConstants.NUMBER, name, null, Optional.empty(), List.of());
     }
 
     public static final Contact padded() {
@@ -164,6 +120,21 @@ public final class Contacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact("", -1L, name, ContactConstants.BIRTH_DATE, Optional.empty(), List.of());
+    }
+
+    public static final Contact valid() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            Optional.empty(), List.of());
+    }
+
+    public static final Contact validNew() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Contact("", ContactConstants.NUMBER, name, null, Optional.empty(), List.of());
     }
 
     public static final Contact withEmail() {

@@ -34,8 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.WithContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
@@ -60,7 +58,7 @@ class ITContactRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(contact)
-            .contains(Contacts.noMembership());
+            .contains(Contacts.valid());
     }
 
     @Test
@@ -89,48 +87,6 @@ class ITContactRepositoryFindOne {
         // THEN
         Assertions.assertThat(contact)
             .contains(Contacts.withEmail());
-    }
-
-    @Test
-    @DisplayName("With a person having an active membership, it is returned")
-    @MembershipActiveContact
-    void testFindOne_WithMembership_Active() {
-        final Optional<Contact> contact;
-
-        // WHEN
-        contact = repository.findOne(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(contact)
-            .contains(Contacts.membershipActive());
-    }
-
-    @Test
-    @DisplayName("With a person having an inactive membership, it is returned")
-    @MembershipInactiveContact
-    void testFindOne_WithMembership_Inactive() {
-        final Optional<Contact> contact;
-
-        // WHEN
-        contact = repository.findOne(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(contact)
-            .contains(Contacts.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("With a person having without membership, it is returned")
-    @ValidContact
-    void testFindOne_WithoutMembership() {
-        final Optional<Contact> contact;
-
-        // WHEN
-        contact = repository.findOne(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(contact)
-            .contains(Contacts.noMembership());
     }
 
 }

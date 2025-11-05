@@ -137,40 +137,6 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a contact with an inactive membership, the contact is persisted")
-    void testCreate_InactiveMembership_PersistedData() {
-        final Contact contact;
-
-        // GIVEN
-        contact = Contacts.membershipInactive();
-
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
-        // WHEN
-        service.create(contact);
-
-        // THEN
-        verify(contactRepository).save(Contacts.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("With a contact with no membership, the contact is persisted")
-    void testCreate_NoMembership_PersistedData() {
-        final Contact contact;
-
-        // GIVEN
-        contact = Contacts.noMembership();
-
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
-        // WHEN
-        service.create(contact);
-
-        // THEN
-        verify(contactRepository).save(Contacts.noMembership());
-    }
-
-    @Test
     @DisplayName("With a contact having padding whitespaces in first and last name, these whitespaces are removed and the contact is persisted")
     void testCreate_Padded_PersistedData() {
         final Contact contact;
@@ -184,7 +150,7 @@ class TestContactServiceCreate {
         service.create(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.noMembership());
+        verify(contactRepository).save(Contacts.valid());
     }
 
     @Test
@@ -201,7 +167,7 @@ class TestContactServiceCreate {
         service.create(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.noMembership());
+        verify(contactRepository).save(Contacts.valid());
     }
 
     @Test
@@ -213,7 +179,7 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.toCreate();
 
-        given(contactRepository.save(Contacts.noMembership())).willReturn(Contacts.noMembership());
+        given(contactRepository.save(Contacts.valid())).willReturn(Contacts.valid());
         given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
@@ -222,12 +188,12 @@ class TestContactServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("contact")
-            .isEqualTo(Contacts.noMembership());
+            .isEqualTo(Contacts.valid());
     }
 
     @Test
     @DisplayName("With a contact with a not existing contact method, an exception is thrown")
-    void testCreate_WithContact_NotExisting() {
+    void testCreate_WithContactChannel_NotExisting() {
         final Contact          contact;
         final ThrowingCallable execution;
 
@@ -247,7 +213,7 @@ class TestContactServiceCreate {
 
     @Test
     @DisplayName("With a contact with a contact method, the contact is persisted")
-    void testCreate_WithContact_PersistedData() {
+    void testCreate_WithContactChannel_PersistedData() {
         final Contact contact;
 
         // GIVEN

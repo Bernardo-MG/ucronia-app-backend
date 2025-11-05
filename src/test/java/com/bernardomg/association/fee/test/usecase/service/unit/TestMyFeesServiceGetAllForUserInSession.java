@@ -92,8 +92,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userContactRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(Contacts.noMembership()));
+        given(userContactRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Contacts.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(feeRepository.findAllForContact(ContactConstants.NUMBER, pagination, sorting)).willReturn(existing);
@@ -155,8 +154,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userContactRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(Contacts.noMembership()));
+        given(userContactRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Contacts.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(feeRepository.findAllForContact(ContactConstants.NUMBER, pagination, sorting)).willReturn(existing);

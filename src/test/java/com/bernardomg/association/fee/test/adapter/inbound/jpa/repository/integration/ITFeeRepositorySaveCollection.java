@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -65,7 +64,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a not paid fee, it is returned")
-    @ValidContact
+    @ActiveMember
     void testSave_NotPaid_ReturnedData() {
         final Collection<Fee> created;
         final Fee             fee;
@@ -247,7 +246,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is returned")
-    @ValidContact
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_ReturnedData() {
         final Collection<Fee> fees;

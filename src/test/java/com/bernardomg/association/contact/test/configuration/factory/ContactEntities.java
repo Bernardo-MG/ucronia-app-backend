@@ -55,6 +55,18 @@ public final class ContactEntities {
         return entity;
     }
 
+    public static final ContactEntity valid() {
+        final ContactEntity entity = new ContactEntity();
+        entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier(ContactConstants.IDENTIFIER);
+        entity.setContactChannels(List.of());
+        return entity;
+    }
+
     public static final ContactEntity withEmail() {
         final ContactEntity        entity;
         final ContactChannelEntity personContactMethodEntity;

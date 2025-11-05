@@ -99,7 +99,7 @@ class ITUserContactRepositorySave {
 
         // THEN
         Assertions.assertThat(contact)
-            .isEqualTo(Contacts.noMembership());
+            .isEqualTo(Contacts.valid());
     }
 
     @Test
@@ -177,7 +177,7 @@ class ITUserContactRepositorySave {
 
         // THEN
         Assertions.assertThat(contact)
-            .isEqualTo(Contacts.noMembership());
+            .isEqualTo(Contacts.valid());
     }
 
 }

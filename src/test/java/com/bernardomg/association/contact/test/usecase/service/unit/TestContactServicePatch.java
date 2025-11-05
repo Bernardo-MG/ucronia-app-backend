@@ -128,44 +128,6 @@ class TestContactServicePatch {
     }
 
     @Test
-    @DisplayName("When disabling a contact, the change is persisted")
-    void testPatch_Inactive_PersistedData() {
-        final Contact contact;
-
-        // GIVEN
-        contact = Contacts.membershipInactive();
-
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
-
-        // WHEN
-        service.patch(contact);
-
-        // THEN
-        verify(contactRepository).save(Contacts.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("When disabling a contact, the change is returned")
-    void testPatch_Inactive_ReturnedData() {
-        final Contact contact;
-        final Contact updated;
-
-        // GIVEN
-        contact = Contacts.membershipInactive();
-
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
-        given(contactRepository.save(Contacts.membershipInactive())).willReturn(Contacts.membershipInactive());
-
-        // WHEN
-        updated = service.patch(contact);
-
-        // THEN
-        Assertions.assertThat(updated)
-            .as("contact")
-            .isEqualTo(Contacts.membershipInactive());
-    }
-
-    @Test
     @DisplayName("With a not existing contact, an exception is thrown")
     void testPatch_NotExisting_Exception() {
         final Contact          contact;
@@ -215,7 +177,7 @@ class TestContactServicePatch {
         service.patch(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.noMembership());
+        verify(contactRepository).save(Contacts.valid());
     }
 
     @Test

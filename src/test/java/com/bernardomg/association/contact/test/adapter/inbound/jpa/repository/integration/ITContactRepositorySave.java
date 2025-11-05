@@ -85,7 +85,7 @@ class ITContactRepositorySave {
         final Iterable<ContactEntity> entities;
 
         // GIVEN
-        contact = Contacts.noMembership();
+        contact = Contacts.valid();
 
         // WHEN
         repository.save(contact);
@@ -108,7 +108,7 @@ class ITContactRepositorySave {
         final Iterable<ContactEntity> entities;
 
         // GIVEN
-        contact = Contacts.noMembership();
+        contact = Contacts.valid();
 
         // WHEN
         repository.save(contact);
@@ -130,7 +130,7 @@ class ITContactRepositorySave {
         final Contact saved;
 
         // GIVEN
-        contact = Contacts.noMembership();
+        contact = Contacts.valid();
 
         // WHEN
         saved = repository.save(contact);
@@ -138,7 +138,7 @@ class ITContactRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact")
-            .isEqualTo(Contacts.noMembership());
+            .isEqualTo(Contacts.valid());
     }
 
     @Test
@@ -148,7 +148,7 @@ class ITContactRepositorySave {
         final Iterable<ContactEntity> entities;
 
         // GIVEN
-        contact = Contacts.noMembership();
+        contact = Contacts.valid();
 
         // WHEN
         repository.save(contact);
@@ -169,7 +169,7 @@ class ITContactRepositorySave {
         final Contact saved;
 
         // GIVEN
-        contact = Contacts.noMembership();
+        contact = Contacts.valid();
 
         // WHEN
         saved = repository.save(contact);
@@ -177,7 +177,7 @@ class ITContactRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact")
-            .isEqualTo(Contacts.noMembership());
+            .isEqualTo(Contacts.valid());
     }
 
     @Test

@@ -75,7 +75,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         given(userContactRepository.existsByContactForAnotherUser(UserConstants.USERNAME, ContactConstants.NUMBER))
             .willReturn(true);
@@ -95,7 +95,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         given(userContactRepository.existsByContactForAnotherUser(UserConstants.USERNAME, ContactConstants.NUMBER))
             .willReturn(true);
@@ -149,7 +149,7 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
@@ -165,16 +165,16 @@ class TestUserContactServiceAssignContact {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(userContactRepository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER))
-            .willReturn(Contacts.noMembership());
+            .willReturn(Contacts.valid());
 
         // WHEN
         contact = service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(contact)
-            .isEqualTo(Contacts.noMembership());
+            .isEqualTo(Contacts.valid());
     }
 
 }
