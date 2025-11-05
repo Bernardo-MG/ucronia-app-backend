@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -65,18 +64,6 @@ class ITContactRepositoryDelete {
     @Test
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_noData() {
-        // WHEN
-        repository.delete(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When deleting a person with a member, it is deleted")
-    @MembershipActiveContact
-    void testDelete_withMember() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
 

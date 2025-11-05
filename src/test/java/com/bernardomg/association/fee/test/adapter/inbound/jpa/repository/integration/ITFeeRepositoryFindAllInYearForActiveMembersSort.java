@@ -32,12 +32,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.AccentActiveMembershipContact;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -50,7 +50,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @AccentActiveMembershipContact
+    @MultipleActiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYearForActiveMembers_Accents_Name_Asc() {

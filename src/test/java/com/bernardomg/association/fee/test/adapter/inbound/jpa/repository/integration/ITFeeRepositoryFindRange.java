@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeActiveMembershipContact;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
@@ -39,6 +38,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -75,7 +75,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a full year and two members, the year range is returned")
     @ActiveMember
-    @AlternativeActiveMembershipContact
+    @AlternativeActiveMember
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindRange_FullYear_TwoMembers() {

@@ -34,8 +34,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.AccentActiveMembershipContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeActiveMembershipContact;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
@@ -43,6 +41,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -56,7 +56,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @AccentActiveMembershipContact
+    @MultipleActiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYear_Accents_Name_Asc() {
@@ -101,7 +101,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @ActiveMember
-    @AlternativeActiveMembershipContact
+    @AlternativeActiveMember
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Asc() {
@@ -140,7 +140,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     @ActiveMember
-    @AlternativeActiveMembershipContact
+    @AlternativeActiveMember
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Desc() {

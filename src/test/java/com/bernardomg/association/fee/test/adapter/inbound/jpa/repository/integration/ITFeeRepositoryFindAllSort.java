@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.AccentInactiveMembershipContact;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -46,6 +45,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMemberAccents;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -60,7 +60,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @AccentInactiveMembershipContact
+    @MultipleInactiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {

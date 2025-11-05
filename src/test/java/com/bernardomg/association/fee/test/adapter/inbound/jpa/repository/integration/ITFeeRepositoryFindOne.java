@@ -31,8 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeActiveMembershipContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.NoLastNameActiveMembershipContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -42,6 +40,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberNoLastName;
+import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,7 +54,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
     @ActiveMember
-    @AlternativeActiveMembershipContact
+    @AlternativeActiveMember
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Active_TwoMembers_Alternative() {
@@ -83,7 +83,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no last name, only the name is returned")
-    @NoLastNameActiveMembershipContact
+    @ActiveMemberNoLastName
     @PaidFee
     void testFindOne_NoLastName() {
         final Optional<Fee> fee;
@@ -129,7 +129,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
     @ActiveMember
-    @AlternativeActiveMembershipContact
+    @AlternativeActiveMember
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Paid_TwoMembers() {
