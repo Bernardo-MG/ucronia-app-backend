@@ -62,7 +62,7 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL_MEMBER, ContactConstants.FIRST_NAME);
+        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

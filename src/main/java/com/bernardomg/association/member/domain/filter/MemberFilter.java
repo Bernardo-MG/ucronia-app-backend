@@ -37,7 +37,7 @@ public record MemberFilter(MemberFilterStatus status, String name) {
     }
 
     public enum MemberFilterStatus {
-        ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER
+        ACTIVE, ALL, INACTIVE
     }
 
 }

@@ -37,8 +37,6 @@ public final class MemberSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    private static final String MEMBER_FIELD = "member";
-
     public static Optional<Specification<MemberEntity>> filter(final MemberFilter filter) {
         final Optional<Specification<MemberEntity>> nameSpec;
         final Optional<Specification<MemberEntity>> statusSpec;
@@ -54,8 +52,6 @@ public final class MemberSpecifications {
         statusSpec = switch (filter.status()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
-            case NO_MEMBER -> Optional.of(noMember());
-            case ALL_MEMBER -> Optional.of(member());
             default -> Optional.empty();
         };
 
@@ -74,7 +70,7 @@ public final class MemberSpecifications {
      * @return active specification
      */
     private static Specification<MemberEntity> active() {
-        return (root, query, cb) -> cb.and(cb.isTrue(root.get(MEMBER_FIELD)), cb.isTrue(root.get(ACTIVE_FIELD)));
+        return (root, query, cb) -> cb.isTrue(root.get(ACTIVE_FIELD));
     }
 
     /**
@@ -83,16 +79,7 @@ public final class MemberSpecifications {
      * @return inactive specification
      */
     private static Specification<MemberEntity> inactive() {
-        return (root, query, cb) -> cb.and(cb.isTrue(root.get(MEMBER_FIELD)), cb.isFalse(root.get(ACTIVE_FIELD)));
-    }
-
-    /**
-     * Member.
-     *
-     * @return member specification
-     */
-    private static Specification<MemberEntity> member() {
-        return (root, query, cb) -> cb.isTrue(root.get(MEMBER_FIELD));
+        return (root, query, cb) -> cb.isFalse(root.get(ACTIVE_FIELD));
     }
 
     /**
@@ -110,14 +97,6 @@ public final class MemberSpecifications {
                 likePattern.toLowerCase()));
     }
 
-    /**
-     * No member.
-     *
-     * @return no member specification
-     */
-    private static Specification<MemberEntity> noMember() {
-        return (root, query, cb) -> cb.isFalse(root.get(MEMBER_FIELD));
-    }
 
     private MemberSpecifications() {
         super();
