@@ -35,7 +35,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.WithContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.WithContactChannel;
 import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -102,7 +102,7 @@ class ITContactRepositorySave {
     @Test
     @DisplayName("When a contact exists and a contact is remove, the contact is persisted")
     @EmailContactMethod
-    @WithContact
+    @WithContactChannel
     void testSave_Existing_RemoveContact_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;

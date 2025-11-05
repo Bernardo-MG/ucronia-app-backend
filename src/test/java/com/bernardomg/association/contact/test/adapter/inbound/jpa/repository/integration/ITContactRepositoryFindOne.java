@@ -35,7 +35,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.WithContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.WithContactChannel;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -77,7 +77,7 @@ class ITContactRepositoryFindOne {
     @Test
     @DisplayName("With a person having a contact, it is returned")
     @EmailContactMethod
-    @WithContact
+    @WithContactChannel
     void testFindOne_WithContact() {
         final Optional<Contact> contact;
 

@@ -49,22 +49,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: ''
-              - column:
-                  name: member
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValue: false
-              - column:
-                  name: active
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValue: true
-              - column:
-                  name: renew_membership
-                  type: boolean
-                  defaultValue: true
         - addAutoIncrement:
             schemaName: directory
             tableName: contacts

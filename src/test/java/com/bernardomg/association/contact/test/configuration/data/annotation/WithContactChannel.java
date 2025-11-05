@@ -10,12 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Deprecated
-@Sql("/db/queries/contact/multiple_membership_inactive.sql")
+@Sql("/db/queries/contact/with_contact_channel.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface MultipleMembershipInactiveContact {
+public @interface WithContactChannel {
 
 }
