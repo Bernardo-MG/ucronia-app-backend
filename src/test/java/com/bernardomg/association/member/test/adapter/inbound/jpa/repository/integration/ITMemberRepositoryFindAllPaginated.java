@@ -30,73 +30,71 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
-import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - pagination")
-@MultipleActiveMember
-class ITMemberRepositoryFindAllPagination extends AbstractPaginationIT<PublicMember> {
+@DisplayName("ContactRepository - find all - paginated")
+class ITMemberRepositoryFindAllPaginated {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITMemberRepositoryFindAllPagination() {
-        super(5);
-    }
-
-    @Override
-    protected final Page<PublicMember> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(pagination, sorting);
-    }
-
     @Test
-    @DisplayName("With pagination for the first page, it returns the first page")
-    void testFindAll_Page1() {
-        final Page<PublicMember> members;
-        final Pagination         pagination;
-        final Sorting            sorting;
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindAll_NoData() {
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = MemberFilters.empty();
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(1));
+            .as("people")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With pagination for the second page, it returns the second page")
-    void testFindAll_Page2() {
-        final Page<PublicMember> members;
-        final Pagination         pagination;
-        final Sorting            sorting;
+    @DisplayName("When there is a person, it is returned")
+    @ActiveMember
+    void testFindAll_Single() {
+        final Page<Member> people;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
-        pagination = new Pagination(2, 1);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = MemberFilters.empty();
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        people = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(members)
+        Assertions.assertThat(people)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(2));
+            .as("people")
+            .containsExactly(Members.active());
     }
 
 }

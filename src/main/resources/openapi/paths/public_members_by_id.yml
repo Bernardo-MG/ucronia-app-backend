@@ -16,6 +16,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+            $ref: '../components/members.yml#/components/schemas/PublicMemberResponse'
     '404':
       description: Member not found.

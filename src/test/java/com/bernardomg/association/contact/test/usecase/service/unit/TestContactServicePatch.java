@@ -77,7 +77,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.nameChange();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(contactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
             .willReturn(true);
 
@@ -97,7 +97,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.noIdentifier();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         service.patch(contact);
@@ -117,7 +117,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.emptyName();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         execution = () -> service.patch(contact);
@@ -154,7 +154,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.nameChangePatch();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         service.patch(contact);
@@ -171,7 +171,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.padded();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         service.patch(contact);
@@ -188,7 +188,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.nameChange();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
         service.patch(contact);
@@ -206,7 +206,7 @@ class TestContactServicePatch {
         // GIVEN
         contact = Contacts.nameChange();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(contactRepository.save(Contacts.nameChange())).willReturn(Contacts.nameChange());
 
         // WHEN
@@ -220,14 +220,14 @@ class TestContactServicePatch {
 
     @Test
     @DisplayName("With a contact with a not existing contact method, an exception is thrown")
-    void testPatch_WithContact_NotExisting() {
+    void testPatch_WithContactChannel_NotExisting() {
         final Contact          contact;
         final ThrowingCallable execution;
 
         // GIVEN
         contact = Contacts.withEmail();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -240,13 +240,13 @@ class TestContactServicePatch {
 
     @Test
     @DisplayName("When patching a contact with a contact method, the change is persisted")
-    void testPatch_WithContact_PersistedData() {
+    void testPatch_WithContactChannel_PersistedData() {
         final Contact contact;
 
         // GIVEN
         contact = Contacts.withEmail();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.membershipActive()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN

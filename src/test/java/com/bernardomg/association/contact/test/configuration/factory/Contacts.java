@@ -18,49 +18,10 @@ public final class Contacts {
             ContactConstants.BIRTH_DATE, List.of());
     }
 
-    public static final Contact alternativeMembershipActive() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
-        return new Contact(ContactConstants.ALTERNATIVE_IDENTIFIER, ContactConstants.ALTERNATIVE_NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of());
-    }
-
-    public static final Contact alternativeMembershipInactive() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
-        return new Contact(ContactConstants.ALTERNATIVE_IDENTIFIER, ContactConstants.ALTERNATIVE_NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of());
-    }
-
     public static final Contact emptyName() {
         final ContactName name;
 
         name = new ContactName(" ", " ");
-        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of());
-    }
-
-    public static final Contact membershipActive() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of());
-    }
-
-    public static final Contact membershipActiveNew() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact("", ContactConstants.NUMBER, name, null, List.of());
-    }
-
-    public static final Contact membershipActiveNoRenew() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
             List.of());
     }

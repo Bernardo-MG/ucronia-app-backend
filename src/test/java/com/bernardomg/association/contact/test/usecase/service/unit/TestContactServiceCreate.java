@@ -66,23 +66,6 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a contact with an active membership, the contact is persisted")
-    void testCreate_ActiveMembership_PersistedData() {
-        final Contact contact;
-
-        // GIVEN
-        contact = Contacts.membershipActive();
-
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
-        // WHEN
-        service.create(contact);
-
-        // THEN
-        verify(contactRepository).save(Contacts.membershipActive());
-    }
-
-    @Test
     @DisplayName("With a contact with an empty name, an exception is thrown")
     void testCreate_EmptyName() {
         final ThrowingCallable execution;

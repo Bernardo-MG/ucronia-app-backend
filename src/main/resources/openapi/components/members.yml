@@ -31,6 +31,10 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: 'contacts.yml#/components/schemas/ContactName'
+    MemberStatus:
+      type: string
+      description: Status filter for contact queries.
+      enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
     MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
@@ -40,8 +44,17 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Member'
-    MemberResponse:
+    PublicMemberPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublicMember'
+    PublicMemberResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/Member'
+          $ref: '#/components/schemas/PublicMember'

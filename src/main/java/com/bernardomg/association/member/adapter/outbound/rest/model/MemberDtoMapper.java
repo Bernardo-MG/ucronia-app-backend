@@ -24,28 +24,57 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.MemberDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
+import com.bernardomg.ucronia.openapi.model.PublicMemberDto;
+import com.bernardomg.ucronia.openapi.model.PublicMemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.PublicMemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberDtoMapper {
 
-    public static final MemberResponseDto toResponseDto(final Optional<PublicMember> member) {
-        return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
+    public static final PublicMemberPageResponseDto toPublicResponseDto(final Page<PublicMember> page) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(MemberDtoMapper::toDto)
+            .toList());
+        return new PublicMemberPageResponseDto().content(page.content()
+            .stream()
+            .map(MemberDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
+    }
+
+    public static final PublicMemberResponseDto toResponseDto(final Optional<PublicMember> member) {
+        return new PublicMemberResponseDto().content(member.map(MemberDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final MemberPageResponseDto toResponseDto(final Page<PublicMember> page) {
+    public static final MemberPageResponseDto toResponseDto(final Page<Member> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
@@ -67,6 +96,42 @@ public final class MemberDtoMapper {
             .sort(sortingResponse);
     }
 
+    private static final ContactChannelDto toDto(final ContactChannel contact) {
+        ContactMethodDto method;
+
+        method = new ContactMethodDto().number(contact.method()
+            .number())
+            .name(contact.method()
+                .name());
+
+        return new ContactChannelDto().detail(contact.detail())
+            .method(method);
+    }
+
+    private static final MemberDto toDto(final Member member) {
+        ContactNameDto          name;
+        List<ContactChannelDto> contactChannels;
+
+        name = new ContactNameDto().firstName(member.name()
+            .firstName())
+            .lastName(member.name()
+                .lastName())
+            .fullName(member.name()
+                .fullName());
+        contactChannels = member.contactChannels()
+            .stream()
+            .map(MemberDtoMapper::toDto)
+            .toList();
+
+        return new MemberDto().identifier(member.identifier())
+            .number(member.number())
+            .name(name)
+            .birthDate(member.birthDate())
+            .contactChannels(contactChannels)
+            .active(member.active())
+            .renew(member.renew());
+    }
+
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -79,7 +144,7 @@ public final class MemberDtoMapper {
             .direction(direction);
     }
 
-    private static final MemberDto toDto(final PublicMember member) {
+    private static final PublicMemberDto toDto(final PublicMember member) {
         final ContactNameDto contactName;
 
         contactName = new ContactNameDto().firstName(member.name()
@@ -88,7 +153,7 @@ public final class MemberDtoMapper {
                 .lastName())
             .fullName(member.name()
                 .fullName());
-        return new MemberDto().number(member.number())
+        return new PublicMemberDto().number(member.number())
             .name(contactName);
     }
 

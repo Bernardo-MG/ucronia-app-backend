@@ -22,15 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.domain.filter;
+package com.bernardomg.association.member.domain.filter;
 
-public record ContactFilter(String name) {
+public record MemberFilter(MemberFilterStatus status, String name) {
 
-    public ContactFilter {
+    public MemberFilter {
         // TODO: reject nulls
+        if (status == null) {
+            status = MemberFilterStatus.ALL;
+        }
         if (name == null) {
             name = "";
         }
+    }
+
+    public enum MemberFilterStatus {
+        ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER
     }
 
 }

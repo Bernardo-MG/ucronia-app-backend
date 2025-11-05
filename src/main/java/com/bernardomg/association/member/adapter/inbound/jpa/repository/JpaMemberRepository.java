@@ -32,6 +32,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,8 @@ import com.bernardomg.association.contact.domain.exception.MissingContactMethodE
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -72,7 +75,30 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Page<PublicMember> findAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Member> read;
+        final Pageable                                     pageable;
+        final Optional<Specification<MemberEntity>>        spec;
+
+        log.debug("Finding all the contacts");
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        spec = MemberSpecifications.filter(filter);
+        if (spec.isEmpty()) {
+            read = memberSpringRepository.findAll(pageable)
+                .map(MemberEntityMapper::toDomain);
+        } else {
+            read = memberSpringRepository.findAll(spec.get(), pageable)
+                .map(MemberEntityMapper::toDomain);
+        }
+
+        log.debug("Found all the contacts: {}", read);
+
+        return SpringPagination.toPage(read);
+    }
+
+    @Override
+    public final Page<PublicMember> findAllPublic(final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<PublicMember> read;
         final Pageable                                           pageable;
 
@@ -176,7 +202,7 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Collection<Member> saveAll(final Collection<Member> members) {
+    public final Collection<Member> saveAll(final Collection<Member> members) {
         final List<MemberEntity> entities;
         final List<Member>       saved;
 

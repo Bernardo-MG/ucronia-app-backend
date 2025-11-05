@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -64,12 +65,19 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Page<PublicMember> getAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
+        log.debug("Reading members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+
+        return memberRepository.findAll(filter, pagination, sorting);
+    }
+
+    @Override
+    public final Page<PublicMember> getAllPublic(final Pagination pagination, final Sorting sorting) {
         final Page<PublicMember> members;
 
         log.debug("Getting all members");
 
-        members = memberRepository.findAll(pagination, sorting);
+        members = memberRepository.findAllPublic(pagination, sorting);
 
         log.debug("Got all members");
 

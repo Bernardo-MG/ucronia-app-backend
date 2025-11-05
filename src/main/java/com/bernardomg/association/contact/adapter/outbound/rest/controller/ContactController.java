@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.contact.adapter.outbound.cache.ContactsCaches;
 import com.bernardomg.association.contact.adapter.outbound.rest.model.ContactDtoMapper;
 import com.bernardomg.association.contact.domain.filter.ContactFilter;
-import com.bernardomg.association.contact.domain.filter.ContactFilter.ContactStatus;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.usecase.service.ContactService;
 import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
@@ -52,7 +51,6 @@ import com.bernardomg.ucronia.openapi.model.ContactChangeDto;
 import com.bernardomg.ucronia.openapi.model.ContactCreationDto;
 import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
-import com.bernardomg.ucronia.openapi.model.ContactStatusDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -117,21 +115,15 @@ public class ContactController implements ContactApi {
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
     @Cacheable(cacheNames = ContactsCaches.CONTACTS)
     public ContactPageResponseDto getAllContacts(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final ContactStatusDto status, @Valid final String name) {
+            @Valid final List<String> sort, @Valid final String name) {
         final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactStatus contactStatus;
         final ContactFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        if (status != null) {
-            contactStatus = ContactStatus.valueOf(status.name());
-        } else {
-            contactStatus = null;
-        }
-        filter = new ContactFilter(contactStatus, name);
+        filter = new ContactFilter(name);
         contacts = service.getAll(filter, pagination, sorting);
 
         return ContactDtoMapper.toResponseDto(contacts);

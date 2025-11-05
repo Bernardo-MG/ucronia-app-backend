@@ -32,6 +32,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberFilter.MemberFilterStatus;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.data.domain.Page;
@@ -42,7 +45,9 @@ import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberApi;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
+import com.bernardomg.ucronia.openapi.model.PublicMemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.PublicMemberResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -67,25 +72,47 @@ public class MemberController implements MemberApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort) {
+            @Valid final List<String> sort, @Valid final MemberStatusDto status, @Valid final String name) {
+        final Page<Member>       members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final Page<PublicMember> members;
+        final MemberFilterStatus contactStatus;
+        final MemberFilter       filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        members = service.getAll(pagination, sorting);
+        if (status != null) {
+            contactStatus = MemberFilterStatus.valueOf(status.name());
+        } else {
+            contactStatus = null;
+        }
+        filter = new MemberFilter(contactStatus, name);
+        members = service.getAll(filter, pagination, sorting);
 
         return MemberDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.MEMBERS)
+    public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final Page<PublicMember> members;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        members = service.getAllPublic(pagination, sorting);
+
+        return MemberDtoMapper.toPublicResponseDto(members);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
-    public MemberResponseDto getMemberByNumber(final Long number) {
+    public PublicMemberResponseDto getMemberByNumber(final Long number) {
         Optional<PublicMember> member;
 
         member = service.getOne(number);

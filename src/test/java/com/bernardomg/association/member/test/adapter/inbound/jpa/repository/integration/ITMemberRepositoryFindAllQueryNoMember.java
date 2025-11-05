@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -30,44 +30,43 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
-import com.bernardomg.association.contact.domain.filter.ContactFilter.ContactStatus;
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberFilter.MemberFilterStatus;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactRepository - find all - filter for not member")
-class ITContactRepositoryFindAllQueryNoMember {
+@DisplayName("MemberRepository - find all - filter for not member")
+class ITMemberRepositoryFindAllQueryNoMember {
 
     @Autowired
-    private ContactRepository repository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("With no person, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Contact> people;
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactStatus.NO_MEMBER, "");
+        filter = new MemberFilter(MemberFilterStatus.NO_MEMBER, "");
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -75,23 +74,23 @@ class ITContactRepositoryFindAllQueryNoMember {
 
     @Test
     @DisplayName("With a person having an active membership, nothing is returned")
-    @MembershipActiveContact
+    @ActiveMember
     void testFindAll_WithMembership_Active() {
-        final Page<Contact> people;
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactStatus.NO_MEMBER, "");
+        filter = new MemberFilter(MemberFilterStatus.NO_MEMBER, "");
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -99,23 +98,23 @@ class ITContactRepositoryFindAllQueryNoMember {
 
     @Test
     @DisplayName("With a person having an inactive membership, nothing is returned")
-    @MembershipInactiveContact
+    @InactiveMember
     void testFindAll_WithMembership_Inactive() {
-        final Page<Contact> people;
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactStatus.NO_MEMBER, "");
+        filter = new MemberFilter(MemberFilterStatus.NO_MEMBER, "");
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -125,24 +124,24 @@ class ITContactRepositoryFindAllQueryNoMember {
     @DisplayName("With a person without membership, it is returned")
     @ValidContact
     void testFindAll_WithoutMembership() {
-        final Page<Contact> people;
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactStatus.NO_MEMBER, "");
+        filter = new MemberFilter(MemberFilterStatus.NO_MEMBER, "");
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Contacts.valid());
+            .isEmpty();
     }
 
 }

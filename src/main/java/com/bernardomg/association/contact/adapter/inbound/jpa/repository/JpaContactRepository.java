@@ -200,7 +200,7 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     @Override
-    public Collection<Contact> saveAll(final Collection<Contact> contacts) {
+    public final Collection<Contact> saveAll(final Collection<Contact> contacts) {
         final List<ContactEntity> entities;
         final List<Contact>       saved;
 

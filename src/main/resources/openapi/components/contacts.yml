@@ -31,10 +31,6 @@ components:
         lastName:
           type: string
           example: 'Smith'
-    ContactStatus:
-      type: string
-      description: Status filter for contact queries.
-      enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
     ContactChannel:
       type: object
       required: [method, detail]

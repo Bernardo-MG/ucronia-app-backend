@@ -33,8 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.domain.filter.ContactFilter;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipActiveContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.MembershipInactiveContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactFilters;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
@@ -49,6 +47,30 @@ class ITContactRepositoryFindAll {
 
     @Autowired
     private ContactRepository repository;
+
+    @Test
+    @DisplayName("With a person without membership, it is returned")
+    @ValidContact
+    void testFindAll() {
+        final Page<Contact> people;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final ContactFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = ContactFilters.empty();
+
+        // WHEN
+        people = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Contacts.valid());
+    }
 
     @Test
     @DisplayName("With no person, nothing is returned")
@@ -71,76 +93,6 @@ class ITContactRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a person having an active membership, it is returned")
-    @MembershipActiveContact
-    void testFindAll_WithMembership_Active() {
-        final Page<Contact> people;
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
-
-        // WHEN
-        people = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(people)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Contacts.membershipActive());
-    }
-
-    @Test
-    @DisplayName("With a person having an inactive membership, it is returned")
-    @MembershipInactiveContact
-    void testFindAll_WithMembership_Inactive() {
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
-
-        repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        // Assertions.assertThat(people)
-        // .extracting(Page::content)
-        // .asInstanceOf(InstanceOfAssertFactories.LIST)
-        // .containsExactly(Contacts.membershipInactive());
-    }
-
-    @Test
-    @DisplayName("With a person without membership, it is returned")
-    @ValidContact
-    void testFindAll_WithoutMembership() {
-        final Page<Contact> people;
-        final Pagination    pagination;
-        final Sorting       sorting;
-        final ContactFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
-
-        // WHEN
-        people = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(people)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Contacts.valid());
     }
 
 }
