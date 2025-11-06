@@ -27,32 +27,19 @@ package com.bernardomg.association.contact.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 
 public interface ContactMethodSpringRepository extends JpaRepository<ContactMethodEntity, Long> {
 
-    @Modifying
-    @Query("""
-            DELETE
-            FROM ContactMethod m
-            WHERE m.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
+    public void deleteByNumber(final Long number);
 
     public boolean existsByName(final String name);
 
     public boolean existsByNameAndNumberNot(final String name, final long number);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM ContactMethod m
-            WHERE m.number = :number
-            """)
-    public boolean existsByNumber(@Param("number") final Long number);
+    public boolean existsByNumber(final Long number);
 
     public Optional<ContactMethodEntity> findByNumber(final Long number);
 

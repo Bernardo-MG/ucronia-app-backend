@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -38,20 +37,9 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntit
 public interface ContactSpringRepository
         extends JpaRepository<ContactEntity, Long>, JpaSpecificationExecutor<ContactEntity> {
 
-    @Modifying
-    @Query("""
-            DELETE
-            FROM Contact c
-            WHERE c.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
+    public void deleteByNumber(final Long number);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM Contact c
-            WHERE c.identifier = :identifier
-            """)
-    public boolean existsByIdentifier(@Param("identifier") final String identifier);
+    public boolean existsByIdentifier(final String identifier);
 
     @Query("""
             SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
@@ -62,12 +50,7 @@ public interface ContactSpringRepository
     public boolean existsByIdentifierForAnother(@Param("number") final Long number,
             @Param("identifier") final String identifier);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM Contact c
-            WHERE c.number = :number
-            """)
-    public boolean existsByNumber(@Param("number") final Long number);
+    public boolean existsByNumber(final Long number);
 
     public Collection<ContactEntity> findAllByNumberIn(final Collection<Long> numbers);
 
