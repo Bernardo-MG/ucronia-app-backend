@@ -32,18 +32,6 @@ public final class ContactEntities {
         return entity;
     }
 
-    public static final ContactEntity minimal() {
-        final ContactEntity entity = new ContactEntity();
-        entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
-        entity.setBirthDate(ContactConstants.BIRTH_DATE);
-        entity.setIdentifier("");
-        entity.setContactChannels(List.of());
-        return entity;
-    }
-
     public static final ContactEntity missingLastName() {
         final ContactEntity entity = new ContactEntity();
         entity.setId(1L);

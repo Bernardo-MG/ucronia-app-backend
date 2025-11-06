@@ -15,7 +15,7 @@ public final class UserContactEntities {
         final UserContactEntity entity;
 
         entity = new UserContactEntity();
-        entity.setContact(ContactEntities.minimal());
+        entity.setContact(ContactEntities.valid());
         entity.setUser(enabledUser());
 
         return entity;

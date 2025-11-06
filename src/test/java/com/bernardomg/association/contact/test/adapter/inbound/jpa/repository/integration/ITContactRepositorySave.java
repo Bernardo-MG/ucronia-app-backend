@@ -96,7 +96,7 @@ class ITContactRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.minimal());
+            .containsExactly(ContactEntities.valid());
     }
 
     @Test
@@ -119,7 +119,7 @@ class ITContactRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.minimal());
+            .containsExactly(ContactEntities.valid());
     }
 
     @Test
@@ -159,7 +159,7 @@ class ITContactRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ContactEntities.minimal());
+            .containsExactly(ContactEntities.valid());
     }
 
     @Test
