@@ -40,20 +40,20 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get all")
-class TestMemberServiceGetAllPublic {
+class TestPublicMemberServiceGetAll {
 
     @Mock
-    private MemberRepository     memberRepository;
+    private MemberRepository           memberRepository;
 
     @InjectMocks
-    private DefaultMemberService service;
+    private DefaultPublicMemberService service;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")
@@ -71,7 +71,7 @@ class TestMemberServiceGetAllPublic {
         given(memberRepository.findAllPublic(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        members = service.getAllPublic(pagination, sorting);
+        members = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -97,7 +97,7 @@ class TestMemberServiceGetAllPublic {
         given(memberRepository.findAllPublic(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        members = service.getAllPublic(pagination, sorting);
+        members = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

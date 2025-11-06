@@ -43,19 +43,19 @@ import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Public member service - get one")
-class TestMemberServiceGetOne {
+class TestPublicMemberServiceGetOne {
 
     @Mock
-    private MemberRepository     memberRepository;
+    private MemberRepository           memberRepository;
 
     @InjectMocks
-    private DefaultMemberService service;
+    private DefaultPublicMemberService service;
 
-    public TestMemberServiceGetOne() {
+    public TestPublicMemberServiceGetOne() {
         super();
     }
 

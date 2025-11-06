@@ -1,7 +1,7 @@
 get:
   summary: Get a specific member by number.
   operationId: getMemberByNumber
-  tags: [Member]
+  tags: [PublicMember]
   parameters:
     - name: number
       in: path

@@ -25,14 +25,16 @@
 package com.bernardomg.association.member.usecase.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -46,26 +48,54 @@ import com.bernardomg.data.domain.Sorting;
  */
 @Service
 @Transactional
-public final class DefaultMemberService implements MemberService {
+public final class DefaultPublicMemberService implements PublicMemberService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(DefaultMemberService.class);
+    private static final Logger    log = LoggerFactory.getLogger(DefaultPublicMemberService.class);
 
     private final MemberRepository memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo) {
+    public DefaultPublicMemberService(final MemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
-    public final Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+    public final Page<PublicMember> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<PublicMember> members;
 
-        return memberRepository.findAll(filter, pagination, sorting);
+        log.debug("Getting all members");
+
+        members = memberRepository.findAllPublic(pagination, sorting);
+
+        log.debug("Got all members");
+
+        return members;
+
+    }
+
+    @Override
+    public final Optional<PublicMember> getOne(final long number) {
+        final Optional<Member> member;
+
+        log.debug("Reading member {}", number);
+
+        member = memberRepository.findOne(number);
+        if (member.isEmpty()) {
+            log.error("Missing member {}", number);
+            throw new MissingMemberException(number);
+        }
+
+        log.debug("Read member {}: {}", number, member);
+
+        return member.map(this::toPublic);
+    }
+
+    private final PublicMember toPublic(final Member member) {
+        return new PublicMember(member.number(), member.name());
     }
 
 }
