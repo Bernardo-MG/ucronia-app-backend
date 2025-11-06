@@ -71,23 +71,39 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if fee {} exists", number);
+        log.debug("Checking if contact method {} exists", number);
 
         exists = contactMethodSpringRepository.existsByNumber(number);
 
-        log.debug("Fee {} exists: {}", number, exists);
+        log.debug("Contact method {} exists: {}", number, exists);
 
         return exists;
     }
 
     @Override
     public final boolean existsByName(final String name) {
-        return contactMethodSpringRepository.existsByName(name);
+        final boolean exists;
+        
+        log.debug("Checking if contact method exists by name {}", name);
+        
+        exists = contactMethodSpringRepository.existsByName(name);
+
+        log.debug("Contact method exists by name {}: {}", name, exists);
+
+        return exists;
     }
 
     @Override
     public final boolean existsByNameForAnother(final long number, final String name) {
-        return contactMethodSpringRepository.existsByNameAndNumberNot(name, number);
+        final boolean exists;
+        
+        log.debug("Checking if contact method exists by name {} for a contact method distinct of {}", name,number);
+        
+        exists = contactMethodSpringRepository.existsByNameAndNumberNot(name, number);
+
+        log.debug("Contact method exists by name {} for a contact method distinct of {}: {}", name,number, exists);
+
+        return exists;
     }
 
     @Override
@@ -140,7 +156,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
         final ContactMethodEntity           created;
         final ContactMethod                 saved;
 
-        log.debug("Saving contact {}", contact);
+        log.debug("Saving contact method {}", contact);
 
         entity = ContactMethodEntityMapper.toEntity(contact);
 
@@ -149,6 +165,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
             entity.setId(existing.get()
                 .getId());
         }
+        // TODO: if we got a number, and it doesn't exist, then we have a problem
 
         created = contactMethodSpringRepository.save(entity);
 
@@ -157,7 +174,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
             .map(ContactMethodEntityMapper::toDomain)
             .get();
 
-        log.debug("Saved contact {}", saved);
+        log.debug("Saved contact method {}", saved);
 
         return saved;
     }
