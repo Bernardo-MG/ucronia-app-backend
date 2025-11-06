@@ -80,6 +80,13 @@ permissions:
       - view
   - resource: member
     actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: public_member
+    actions:
       - read
       - view
   - resource: contact

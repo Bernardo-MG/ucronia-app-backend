@@ -83,7 +83,7 @@ public class ContactController implements ContactApi {
                     // Fee caches
                     FeeCaches.MEMBER_FEES,
                     // Member caches
-                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactResponseDto createContact(@Valid final ContactCreationDto personCreationDto) {
         final Contact member;
         final Contact created;
@@ -102,7 +102,7 @@ public class ContactController implements ContactApi {
             // Fee caches
             FeeCaches.MEMBER_FEES,
             // Member caches
-            MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+            MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactResponseDto deleteContact(final Long number) {
         final Contact contact;
 
@@ -149,7 +149,7 @@ public class ContactController implements ContactApi {
                     // Fee caches
                     FeeCaches.MEMBER_FEES,
                     // Member caches
-                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact member;
         final Contact updated;
@@ -169,7 +169,7 @@ public class ContactController implements ContactApi {
                     // Fee caches
                     FeeCaches.MEMBER_FEES,
                     // Member caches
-                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact member;
         final Contact updated;

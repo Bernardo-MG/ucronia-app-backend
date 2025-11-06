@@ -72,6 +72,8 @@ public class MemberController implements MemberApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final MemberStatusDto status, @Valid final String name) {
         final Page<Member>       members;
@@ -94,8 +96,8 @@ public class MemberController implements MemberApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBERS)
+    @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBERS)
     public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Pagination         pagination;
@@ -110,8 +112,8 @@ public class MemberController implements MemberApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBER)
+    @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBER)
     public PublicMemberResponseDto getMemberByNumber(final Long number) {
         Optional<PublicMember> member;
 

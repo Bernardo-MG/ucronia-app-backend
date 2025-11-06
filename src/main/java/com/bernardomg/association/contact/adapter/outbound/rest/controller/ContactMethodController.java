@@ -83,7 +83,7 @@ public class ContactMethodController implements ContactMethodApi {
                     // Fee caches
                     FeeCaches.MEMBER_FEES,
                     // Member caches
-                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactMethodResponseDto
             createContactMethod(@Valid final ContactMethodCreationDto contactMethodCreationDto) {
         final ContactMethod member;
@@ -103,7 +103,7 @@ public class ContactMethodController implements ContactMethodApi {
             // Fee caches
             FeeCaches.MEMBER_FEES,
             // Member caches
-            MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+            MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactMethodResponseDto deleteContactMethod(final Long number) {
         final ContactMethod contactMethod;
 
@@ -148,7 +148,7 @@ public class ContactMethodController implements ContactMethodApi {
                     // Fee caches
                     FeeCaches.MEMBER_FEES,
                     // Member caches
-                    MembersCaches.MEMBER, MembersCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
     public ContactMethodResponseDto updateContactMethod(final Long number,
             @Valid final ContactMethodChangeDto contactMethodChangeDto) {
         final ContactMethod contactMethod;

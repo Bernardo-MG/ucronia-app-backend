@@ -101,7 +101,7 @@ public class FeeController implements FeeApi {
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
                     TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
                     // Member caches
-                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+                    MembersCaches.MONTHLY_BALANCE, MembersCaches.PUBLIC_MEMBERS, MembersCaches.PUBLIC_MEMBER,
                     // Contact caches
                     ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
@@ -120,7 +120,7 @@ public class FeeController implements FeeApi {
             // Funds caches
             MembersCaches.MONTHLY_BALANCE,
             // Member caches
-            MembersCaches.MEMBERS, MembersCaches.MEMBER,
+            MembersCaches.PUBLIC_MEMBERS, MembersCaches.PUBLIC_MEMBER,
             // Contact caches
             ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
@@ -197,7 +197,7 @@ public class FeeController implements FeeApi {
             TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
             TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
             // Member caches
-            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+            MembersCaches.MONTHLY_BALANCE, MembersCaches.PUBLIC_MEMBERS, MembersCaches.PUBLIC_MEMBER,
             // Contact caches
             ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
@@ -222,7 +222,7 @@ public class FeeController implements FeeApi {
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
                     TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
                     // Member caches
-                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
+                    MembersCaches.MONTHLY_BALANCE, MembersCaches.PUBLIC_MEMBERS, MembersCaches.PUBLIC_MEMBER,
                     // Contact caches
                     ContactsCaches.CONTACT, ContactsCaches.CONTACTS }, allEntries = true) })
     public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
