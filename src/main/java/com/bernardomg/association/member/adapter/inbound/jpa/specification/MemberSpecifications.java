@@ -97,7 +97,6 @@ public final class MemberSpecifications {
                 likePattern.toLowerCase()));
     }
 
-
     private MemberSpecifications() {
         super();
     }
