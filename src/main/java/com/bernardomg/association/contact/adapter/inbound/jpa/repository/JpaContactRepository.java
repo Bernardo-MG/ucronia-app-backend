@@ -45,6 +45,7 @@ import com.bernardomg.association.contact.domain.exception.MissingContactMethodE
 import com.bernardomg.association.contact.domain.filter.ContactFilter;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -172,14 +173,28 @@ public final class JpaContactRepository implements ContactRepository {
 
     @Override
     public final Contact save(final Contact contact) {
-        final Optional<ContactEntity> existing;
-        final ContactEntity           entity;
-        final ContactEntity           created;
-        final Contact                 saved;
+        final Optional<ContactEntity>   existing;
+        final ContactEntity             entity;
+        final ContactEntity             created;
+        final Contact                   saved;
+        final List<Long>                contactMethodNumbers;
+        final List<ContactMethodEntity> contactMethods;
 
         log.debug("Saving contact {}", contact);
 
-        entity = toEntity(contact);
+        contactMethodNumbers = contact.contactChannels()
+            .stream()
+            .map(ContactChannel::method)
+            .map(ContactMethod::number)
+            .toList();
+        // TODO: exception for missing contact methods
+        // TODO: read a single time
+        contactMethods = contactMethodNumbers.stream()
+            .map(contactMethodSpringRepository::findByNumber)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+        entity = toEntity(contact, contactMethods);
 
         existing = contactSpringRepository.findByNumber(contact.number());
         if (existing.isPresent()) {
@@ -201,13 +216,29 @@ public final class JpaContactRepository implements ContactRepository {
 
     @Override
     public final Collection<Contact> saveAll(final Collection<Contact> contacts) {
-        final List<ContactEntity> entities;
-        final List<Contact>       saved;
+        final List<ContactEntity>       entities;
+        final List<Contact>             saved;
+        final List<Long>                contactMethodNumbers;
+        final List<ContactMethodEntity> contactMethods;
 
         log.debug("Saving contacts {}", contacts);
 
+        contactMethodNumbers = contacts.stream()
+            .map(Contact::contactChannels)
+            .flatMap(Collection::stream)
+            .map(ContactChannel::method)
+            .map(ContactMethod::number)
+            .toList();
+        // TODO: exception for missing contact methods
+        // TODO: read a single time
+        contactMethods = contactMethodNumbers.stream()
+            .map(contactMethodSpringRepository::findByNumber)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+
         entities = contacts.stream()
-            .map(this::toEntity)
+            .map(c -> toEntity(c, contactMethods))
             .toList();
 
         saved = contactSpringRepository.saveAll(entities)
@@ -220,7 +251,7 @@ public final class JpaContactRepository implements ContactRepository {
         return saved;
     }
 
-    private final ContactEntity toEntity(final Contact data) {
+    private final ContactEntity toEntity(final Contact data, final Collection<ContactMethodEntity> contactMethods) {
         final ContactEntity                    entity;
         final Collection<ContactChannelEntity> contacts;
 
@@ -235,20 +266,25 @@ public final class JpaContactRepository implements ContactRepository {
 
         contacts = data.contactChannels()
             .stream()
-            .map(c -> toEntity(entity, c))
+            .map(c -> toEntity(entity, c, contactMethods))
             .toList();
         entity.setContactChannels(contacts);
 
         return entity;
     }
 
-    private final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data) {
+    private final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+            final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
-        contactMethod = contactMethodSpringRepository.findByNumber(data.method()
-            .number());
+        contactMethod = concatMethods.stream()
+            .filter(m -> m.getNumber()
+                .equals(data.method()
+                    .number()))
+            .findFirst();
 
+        // TODO: do this outside
         if (contactMethod.isEmpty()) {
             throw new MissingContactMethodException(data.method()
                 .number());
