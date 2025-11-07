@@ -150,17 +150,17 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     }
 
     @Override
-    public final ContactMethod save(final ContactMethod contact) {
+    public final ContactMethod save(final ContactMethod contactMethod) {
         final Optional<ContactMethodEntity> existing;
         final ContactMethodEntity           entity;
         final ContactMethodEntity           created;
         final ContactMethod                 saved;
 
-        log.debug("Saving contact method {}", contact);
+        log.debug("Saving contact method {}", contactMethod);
 
-        entity = ContactMethodEntityMapper.toEntity(contact);
+        entity = ContactMethodEntityMapper.toEntity(contactMethod);
 
-        existing = contactMethodSpringRepository.findByNumber(contact.number());
+        existing = contactMethodSpringRepository.findByNumber(contactMethod.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
