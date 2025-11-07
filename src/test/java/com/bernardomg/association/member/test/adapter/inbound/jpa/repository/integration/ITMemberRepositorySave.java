@@ -54,16 +54,16 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a person with an active membership, the person is persisted")
+    @DisplayName("With a contact with an active membership, the contact is persisted")
     void testSave_ActiveMembership_PersistedData() {
-        final Member                 person;
+        final Member                 contact;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        person = Members.inactive();
+        contact = Members.inactive();
 
         // WHEN
-        repository.save(person);
+        repository.save(contact);
 
         // THEN
         entities = springRepository.findAll();

@@ -69,7 +69,7 @@ class TestUserContactServiceAssignContact {
     private UserRepository            userRepository;
 
     @Test
-    @DisplayName("When the person has already been assigned, it throws an exception")
+    @DisplayName("When the contact has already been assigned, it throws an exception")
     void testAssignContact_ExistingContact() {
         final ThrowingCallable execution;
 
@@ -89,7 +89,7 @@ class TestUserContactServiceAssignContact {
     }
 
     @Test
-    @DisplayName("When the user already has a person, it throws an exception")
+    @DisplayName("When the user already has a contact, it throws an exception")
     void testAssignContact_ExistingUser() {
         final ThrowingCallable execution;
 
@@ -109,7 +109,7 @@ class TestUserContactServiceAssignContact {
     }
 
     @Test
-    @DisplayName("With no person, it throws an exception")
+    @DisplayName("With no contact, it throws an exception")
     void testAssignContact_NoContact() {
         final ThrowingCallable execution;
 

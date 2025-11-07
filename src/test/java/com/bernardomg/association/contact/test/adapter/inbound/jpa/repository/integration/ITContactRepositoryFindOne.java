@@ -48,7 +48,7 @@ class ITContactRepositoryFindOne {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With a person, it is returned")
+    @DisplayName("With a contact, it is returned")
     @ValidContact
     void testFindOne() {
         final Optional<Contact> contact;
@@ -62,7 +62,7 @@ class ITContactRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("With no contact, nothing is returned")
     void testFindOne_NoData() {
         final Optional<Contact> contact;
 
@@ -75,7 +75,7 @@ class ITContactRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a person having a contact, it is returned")
+    @DisplayName("With a contact having a contact, it is returned")
     @EmailContactMethod
     @WithContactChannel
     void testFindOne_WithContact() {

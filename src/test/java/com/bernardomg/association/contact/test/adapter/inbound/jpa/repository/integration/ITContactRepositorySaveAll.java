@@ -56,16 +56,16 @@ class ITContactRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("With a valid person, the person is persisted")
+    @DisplayName("With a valid contact, the contact is persisted")
     void testSave_PersistedData() {
-        final Contact                 person;
+        final Contact                 contact;
         final Iterable<ContactEntity> entities;
 
         // GIVEN
-        person = Contacts.valid();
+        contact = Contacts.valid();
 
         // WHEN
-        repository.saveAll(List.of(person));
+        repository.saveAll(List.of(contact));
 
         // THEN
         entities = springRepository.findAll();
@@ -77,20 +77,20 @@ class ITContactRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("With a valid person, the created person is returned")
+    @DisplayName("With a valid contact, the created contact is returned")
     void testSave_ReturnedData() {
-        final Contact             person;
+        final Contact             contact;
         final Collection<Contact> saved;
 
         // GIVEN
-        person = Contacts.valid();
+        contact = Contacts.valid();
 
         // WHEN
-        saved = repository.saveAll(List.of(person));
+        saved = repository.saveAll(List.of(contact));
 
         // THEN
         Assertions.assertThat(saved)
-            .as("person")
+            .as("contact")
             .containsExactly(Contacts.valid());
     }
 

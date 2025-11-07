@@ -57,7 +57,7 @@ class ITContactRepositoryExistsByIdentifier {
     }
 
     @Test
-    @DisplayName("With no person, nothing exists")
+    @DisplayName("With no contact, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 

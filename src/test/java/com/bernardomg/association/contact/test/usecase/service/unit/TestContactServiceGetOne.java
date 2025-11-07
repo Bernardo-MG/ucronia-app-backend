@@ -79,7 +79,7 @@ class TestContactServiceGetOne {
     }
 
     @Test
-    @DisplayName("When the person doesn't exist an exception is thrown")
+    @DisplayName("When the contact doesn't exist an exception is thrown")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 

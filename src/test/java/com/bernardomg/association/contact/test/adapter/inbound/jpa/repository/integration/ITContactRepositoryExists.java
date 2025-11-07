@@ -42,7 +42,7 @@ class ITContactRepositoryExists {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With an existing person, it exists")
+    @DisplayName("With an existing contact, it exists")
     @ValidContact
     void testExists() {
         final boolean exists;
@@ -57,7 +57,7 @@ class ITContactRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no person, nothing exists")
+    @DisplayName("With no contact, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 

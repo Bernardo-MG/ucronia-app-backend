@@ -73,7 +73,7 @@ class ITContactRepositoryFindAllPaginated {
     }
 
     @Test
-    @DisplayName("When there is a person, it is returned")
+    @DisplayName("When there is a contact, it is returned")
     @ValidContact
     void testFindAll_Single() {
         final Page<Contact> people;

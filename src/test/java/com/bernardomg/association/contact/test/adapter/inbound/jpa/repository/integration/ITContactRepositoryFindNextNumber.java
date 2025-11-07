@@ -42,7 +42,7 @@ class ITContactRepositoryFindNextNumber {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With an existing person, it returns the next number")
+    @DisplayName("With an existing contact, it returns the next number")
     @ValidContact
     void testFindNextNumber() {
         final long number;
@@ -57,7 +57,7 @@ class ITContactRepositoryFindNextNumber {
     }
 
     @Test
-    @DisplayName("With no person, it returns the initial number")
+    @DisplayName("With no contact, it returns the initial number")
     void testFindNextNumber_NoData() {
         final long number;
 

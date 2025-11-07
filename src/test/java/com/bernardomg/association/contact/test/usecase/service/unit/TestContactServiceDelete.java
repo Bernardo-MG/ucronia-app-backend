@@ -76,7 +76,7 @@ class TestContactServiceDelete {
     }
 
     @Test
-    @DisplayName("When the person doesn't exist an exception is thrown")
+    @DisplayName("When the contact doesn't exist an exception is thrown")
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 

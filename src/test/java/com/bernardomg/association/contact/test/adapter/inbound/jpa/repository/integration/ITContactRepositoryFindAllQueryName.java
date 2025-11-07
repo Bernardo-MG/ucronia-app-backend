@@ -49,7 +49,7 @@ class ITContactRepositoryFindAllQueryName {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With a person without membership and matching first name, it is is returned")
+    @DisplayName("With a contact without membership and matching first name, it is is returned")
     @ValidContact
     void testFindAll_FirstName() {
         final Page<Contact> people;
@@ -73,7 +73,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a person without membership and matching full name, it is is returned")
+    @DisplayName("With a contact without membership and matching full name, it is is returned")
     @ValidContact
     void testFindAll_FullName() {
         final Page<Contact> people;
@@ -97,7 +97,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a person without membership and matching last name, it is is returned")
+    @DisplayName("With a contact without membership and matching last name, it is is returned")
     @ValidContact
     void testFindAll_LastName() {
         final Page<Contact> people;
@@ -121,7 +121,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("With no contact, nothing is returned")
     void testFindAll_NoData() {
         final Page<Contact> people;
         final Pagination    pagination;
@@ -144,7 +144,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a person without membership and partial matching name, it is is returned")
+    @DisplayName("With a contact without membership and partial matching name, it is is returned")
     @ValidContact
     void testFindAll_PartialName() {
         final Page<Contact> people;
@@ -168,7 +168,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a person without membership and wrong name, nothing is returned")
+    @DisplayName("With a contact without membership and wrong name, nothing is returned")
     @ValidContact
     void testFindAll_WrongName() {
         final Page<Contact> people;

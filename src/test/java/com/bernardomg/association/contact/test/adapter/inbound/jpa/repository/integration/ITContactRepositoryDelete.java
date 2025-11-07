@@ -50,7 +50,7 @@ class ITContactRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a person, it is deleted")
+    @DisplayName("When deleting a contact, it is deleted")
     @ValidContact
     void testDelete() {
         // WHEN

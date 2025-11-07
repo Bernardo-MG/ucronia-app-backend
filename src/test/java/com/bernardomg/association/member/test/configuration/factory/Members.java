@@ -76,14 +76,14 @@ public final class Members {
 
     public static final Member withEmail() {
         final ContactName    name;
-        final ContactChannel personContact;
+        final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        personContact = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Member(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, true,
-            true, List.of(personContact));
+            true, List.of(contactChannel));
     }
 
 }

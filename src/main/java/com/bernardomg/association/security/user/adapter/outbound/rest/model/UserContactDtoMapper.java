@@ -48,8 +48,8 @@ public final class UserContactDtoMapper {
         return new ContactResponseDto().content(UserContactDtoMapper.toDto(contact));
     }
 
-    public static final ContactResponseDto toResponseDto(final Optional<Contact> person) {
-        return new ContactResponseDto().content(person.map(UserContactDtoMapper::toDto)
+    public static final ContactResponseDto toResponseDto(final Optional<Contact> contact) {
+        return new ContactResponseDto().content(contact.map(UserContactDtoMapper::toDto)
             .orElse(null));
     }
 
@@ -75,24 +75,24 @@ public final class UserContactDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final ContactDto toDto(final Contact person) {
+    private static final ContactDto toDto(final Contact contact) {
         ContactNameDto          name;
         List<ContactChannelDto> contacts;
 
-        name = new ContactNameDto().firstName(person.name()
+        name = new ContactNameDto().firstName(contact.name()
             .firstName())
-            .lastName(person.name()
+            .lastName(contact.name()
                 .lastName())
-            .fullName(person.name()
+            .fullName(contact.name()
                 .fullName());
-        contacts = person.contactChannels()
+        contacts = contact.contactChannels()
             .stream()
             .map(UserContactDtoMapper::toDto)
             .toList();
-        return new ContactDto().identifier(person.identifier())
-            .number(person.number())
+        return new ContactDto().identifier(contact.identifier())
+            .number(contact.number())
             .name(name)
-            .birthDate(person.birthDate())
+            .birthDate(contact.birthDate())
             .contactChannels(contacts);
     }
 

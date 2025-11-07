@@ -73,7 +73,7 @@ class ITMemberRepositoryFindAllPaginated {
     }
 
     @Test
-    @DisplayName("When there is a person, it is returned")
+    @DisplayName("When there is a contact, it is returned")
     @ActiveMember
     void testFindAll_Single() {
         final Page<Member> people;

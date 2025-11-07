@@ -87,14 +87,14 @@ public final class Contacts {
 
     public static final Contact withEmail() {
         final ContactName    name;
-        final ContactChannel personContact;
+        final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        personContact = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(personContact));
+            List.of(contactChannel));
     }
 
 }

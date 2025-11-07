@@ -40,11 +40,11 @@ public final class MemberEntities {
 
     public static final MemberEntity withEmail() {
         final MemberEntity         entity;
-        final ContactChannelEntity personContactMethodEntity;
+        final ContactChannelEntity contactContactMethodEntity;
 
-        personContactMethodEntity = new ContactChannelEntity();
-        personContactMethodEntity.setContactMethod(ContactMethodEntities.email());
-        personContactMethodEntity.setDetail(ContactConstants.EMAIL);
+        contactContactMethodEntity = new ContactChannelEntity();
+        contactContactMethodEntity.setContactMethod(ContactMethodEntities.email());
+        contactContactMethodEntity.setDetail(ContactConstants.EMAIL);
 
         entity = new MemberEntity();
         entity.setId(1L);
@@ -55,9 +55,9 @@ public final class MemberEntities {
         entity.setIdentifier("6789");
         entity.setActive(true);
         entity.setRenewMembership(true);
-        entity.setContactChannels(List.of(personContactMethodEntity));
+        entity.setContactChannels(List.of(contactContactMethodEntity));
 
-        personContactMethodEntity.setContact(entity);
+        contactContactMethodEntity.setContact(entity);
 
         return entity;
     }

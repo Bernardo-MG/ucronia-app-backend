@@ -78,11 +78,11 @@ public class ContactController implements ContactApi {
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
                     ContactsCaches.CONTACTS }, allEntries = true) })
-    public ContactResponseDto createContact(@Valid final ContactCreationDto personCreationDto) {
+    public ContactResponseDto createContact(@Valid final ContactCreationDto contactCreationDto) {
         final Contact member;
         final Contact created;
 
-        member = ContactDtoMapper.toDomain(personCreationDto);
+        member = ContactDtoMapper.toDomain(contactCreationDto);
         created = service.create(member);
 
         return ContactDtoMapper.toResponseDto(created);

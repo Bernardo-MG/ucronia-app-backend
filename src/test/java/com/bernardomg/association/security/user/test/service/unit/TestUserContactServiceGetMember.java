@@ -47,7 +47,7 @@ import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserContactService - get person")
+@DisplayName("UserContactService - get contact")
 class TestUserContactServiceGetContact {
 
     @Mock
@@ -63,24 +63,24 @@ class TestUserContactServiceGetContact {
     private UserRepository            userRepository;
 
     @Test
-    @DisplayName("With a person assigned to the user, it returns the user")
+    @DisplayName("With a contact assigned to the user, it returns the user")
     void testGetContact() {
-        final Optional<Contact> person;
+        final Optional<Contact> contact;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
         given(userContactRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
-        person = service.getContact(UserConstants.USERNAME);
+        contact = service.getContact(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(person)
+        Assertions.assertThat(contact)
             .contains(Contacts.valid());
     }
 
     @Test
-    @DisplayName("With no person, it throws an exception")
+    @DisplayName("With no contact, it throws an exception")
     void testGetContact_NoContact() {
         final ThrowingCallable execution;
 

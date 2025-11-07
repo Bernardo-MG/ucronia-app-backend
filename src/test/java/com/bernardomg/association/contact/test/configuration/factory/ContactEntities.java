@@ -57,11 +57,11 @@ public final class ContactEntities {
 
     public static final ContactEntity withEmail() {
         final ContactEntity        entity;
-        final ContactChannelEntity personContactMethodEntity;
+        final ContactChannelEntity contactChannelEntity;
 
-        personContactMethodEntity = new ContactChannelEntity();
-        personContactMethodEntity.setContactMethod(ContactMethodEntities.email());
-        personContactMethodEntity.setDetail(ContactConstants.EMAIL);
+        contactChannelEntity = new ContactChannelEntity();
+        contactChannelEntity.setContactMethod(ContactMethodEntities.email());
+        contactChannelEntity.setDetail(ContactConstants.EMAIL);
 
         entity = new ContactEntity();
         entity.setId(1L);
@@ -70,9 +70,9 @@ public final class ContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of(personContactMethodEntity));
+        entity.setContactChannels(List.of(contactChannelEntity));
 
-        personContactMethodEntity.setContact(entity);
+        contactChannelEntity.setContact(entity);
 
         return entity;
     }

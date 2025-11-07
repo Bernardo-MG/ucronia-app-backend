@@ -37,7 +37,7 @@ import com.bernardomg.association.security.user.test.configuration.factory.UserC
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserContactRepository - exists by person for another user")
+@DisplayName("UserContactRepository - exists by contact for another user")
 class ITUserContactRepositoryExistsByMemberForAnotherUser {
 
     @Autowired

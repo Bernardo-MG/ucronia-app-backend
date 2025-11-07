@@ -49,7 +49,7 @@ class ITContactRepositoryFindAll {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With a person without membership, it is returned")
+    @DisplayName("With a contact without membership, it is returned")
     @ValidContact
     void testFindAll() {
         final Page<Contact> people;
@@ -73,7 +73,7 @@ class ITContactRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("With no contact, nothing is returned")
     void testFindAll_NoData() {
         final Page<Contact> people;
         final Pagination    pagination;

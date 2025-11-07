@@ -48,7 +48,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User person service - get person")
+@DisplayName("User contact service - get available contact")
 class TestUserContactServiceGetAvailableMembers {
 
     @Mock
@@ -64,7 +64,7 @@ class TestUserContactServiceGetAvailableMembers {
     private UserRepository            userRepository;
 
     @Test
-    @DisplayName("When there are not assigned persons, these are returned")
+    @DisplayName("When there are not assigned contacts, these are returned")
     void testGetContact() {
         final Page<Contact> contacts;
         final Page<Contact> existing;
@@ -89,7 +89,7 @@ class TestUserContactServiceGetAvailableMembers {
     }
 
     @Test
-    @DisplayName("When there are no not assigned persons, nothing is returned")
+    @DisplayName("When there are no not assigned contacts, nothing is returned")
     void testGetContact_NoContact() {
         final Page<Contact> contacts;
         final Page<Contact> existing;

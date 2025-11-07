@@ -141,22 +141,22 @@ public final class DefaultContactService implements ContactService {
     }
 
     @Override
-    public final Contact patch(final Contact person) {
+    public final Contact patch(final Contact contact) {
         final Contact existing;
         final Contact toSave;
 
-        log.debug("Patching contact {} using data {}", person.number(), person);
+        log.debug("Patching contact {} using data {}", contact.number(), contact);
 
         // TODO: Identificator must be unique or empty
         // TODO: Apply the creation validations
 
-        existing = contactRepository.findOne(person.number())
+        existing = contactRepository.findOne(contact.number())
             .orElseThrow(() -> {
-                log.error("Missing contact {}", person.number());
-                throw new MissingContactException(person.number());
+                log.error("Missing contact {}", contact.number());
+                throw new MissingContactException(contact.number());
             });
 
-        toSave = copy(existing, person);
+        toSave = copy(existing, contact);
 
         patchContactValidator.validate(toSave);
 
@@ -164,20 +164,20 @@ public final class DefaultContactService implements ContactService {
     }
 
     @Override
-    public final Contact update(final Contact person) {
-        log.debug("Updating contact {} using data {}", person.number(), person);
+    public final Contact update(final Contact contact) {
+        log.debug("Updating contact {} using data {}", contact.number(), contact);
 
         // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
-        if (!contactRepository.exists(person.number())) {
-            log.error("Missing contact {}", person.number());
-            throw new MissingContactException(person.number());
+        if (!contactRepository.exists(contact.number())) {
+            log.error("Missing contact {}", contact.number());
+            throw new MissingContactException(contact.number());
         }
 
-        updateContactValidator.validate(person);
+        updateContactValidator.validate(contact);
 
-        return contactRepository.save(person);
+        return contactRepository.save(contact);
     }
 
     private final Contact copy(final Contact existing, final Contact updated) {

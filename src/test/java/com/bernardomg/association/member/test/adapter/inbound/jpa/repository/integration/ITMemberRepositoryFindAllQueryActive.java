@@ -51,7 +51,7 @@ class ITMemberRepositoryFindAllQueryActive {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With no person, nothing is returned")
+    @DisplayName("With no contact, nothing is returned")
     void testFindAll_NoData() {
         final Page<Member> people;
         final Pagination   pagination;
@@ -74,7 +74,7 @@ class ITMemberRepositoryFindAllQueryActive {
     }
 
     @Test
-    @DisplayName("With a person having an active membership, it is returned")
+    @DisplayName("With a contact having an active membership, it is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active() {
         final Page<Member> people;
@@ -98,7 +98,7 @@ class ITMemberRepositoryFindAllQueryActive {
     }
 
     @Test
-    @DisplayName("With a person having an inactive membership, nothing is returned")
+    @DisplayName("With a contact having an inactive membership, nothing is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive() {
         final Page<Member> people;
@@ -122,7 +122,7 @@ class ITMemberRepositoryFindAllQueryActive {
     }
 
     @Test
-    @DisplayName("With a person without membership, nothing is returned")
+    @DisplayName("With a contact without membership, nothing is returned")
     @ValidContact
     void testFindAll_WithoutMembership() {
         final Page<Member> people;

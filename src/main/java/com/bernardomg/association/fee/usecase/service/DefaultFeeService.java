@@ -478,7 +478,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long personNumber, final ContactName name, final MemberStatus status,
+    private final MemberFees toFeeYear(final Long contactNumber, final ContactName name, final MemberStatus status,
             final Collection<MemberFees.Fee> fees) {
         final boolean           active;
         final MemberFees.Member member;
@@ -487,10 +487,10 @@ public final class DefaultFeeService implements FeeService {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> memberRepository.isActive(personNumber);
+            default -> memberRepository.isActive(contactNumber);
         };
 
-        member = new MemberFees.Member(personNumber, name, active);
+        member = new MemberFees.Member(contactNumber, name, active);
         return new MemberFees(member, fees);
     }
 
