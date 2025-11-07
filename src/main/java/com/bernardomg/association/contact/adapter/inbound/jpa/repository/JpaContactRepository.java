@@ -36,12 +36,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntityMapper;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.specification.ContactSpecifications;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.filter.ContactFilter;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
@@ -194,7 +192,7 @@ public final class JpaContactRepository implements ContactRepository {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .toList();
-        entity = toEntity(contact, contactMethods);
+        entity = ContactEntityMapper.toEntity(contact, contactMethods);
 
         existing = contactSpringRepository.findByNumber(contact.number());
         if (existing.isPresent()) {
@@ -238,7 +236,7 @@ public final class JpaContactRepository implements ContactRepository {
             .toList();
 
         entities = contacts.stream()
-            .map(c -> toEntity(c, contactMethods))
+            .map(c -> ContactEntityMapper.toEntity(c, contactMethods))
             .toList();
 
         saved = contactSpringRepository.saveAll(entities)
@@ -249,53 +247,6 @@ public final class JpaContactRepository implements ContactRepository {
         log.debug("Saved contacts {}", saved);
 
         return saved;
-    }
-
-    private final ContactEntity toEntity(final Contact data, final Collection<ContactMethodEntity> contactMethods) {
-        final ContactEntity                    entity;
-        final Collection<ContactChannelEntity> contacts;
-
-        entity = new ContactEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-
-        contacts = data.contactChannels()
-            .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
-            .toList();
-        entity.setContactChannels(contacts);
-
-        return entity;
-    }
-
-    private final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
-            final Collection<ContactMethodEntity> concatMethods) {
-        final ContactChannelEntity          entity;
-        final Optional<ContactMethodEntity> contactMethod;
-
-        contactMethod = concatMethods.stream()
-            .filter(m -> m.getNumber()
-                .equals(data.method()
-                    .number()))
-            .findFirst();
-
-        // TODO: do this outside
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.method()
-                .number());
-        }
-
-        entity = new ContactChannelEntity();
-        entity.setContact(contact);
-        entity.setContactMethod(contactMethod.get());
-        entity.setDetail(data.detail());
-
-        return entity;
     }
 
 }

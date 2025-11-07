@@ -25,7 +25,9 @@
 package com.bernardomg.association.contact.adapter.inbound.jpa.model;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
@@ -59,6 +61,54 @@ public final class ContactEntityMapper {
 
     public static final ContactMethod toDomain(final ContactMethodEntity entity) {
         return new ContactMethod(entity.getNumber(), entity.getName());
+    }
+
+    public static final ContactEntity toEntity(final Contact data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final ContactEntity                    entity;
+        final Collection<ContactChannelEntity> contacts;
+
+        entity = new ContactEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier(data.identifier());
+        entity.setBirthDate(data.birthDate());
+
+        contacts = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(entity, c, contactMethods))
+            .toList();
+        entity.setContactChannels(contacts);
+
+        return entity;
+    }
+
+    private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+            final Collection<ContactMethodEntity> concatMethods) {
+        final ContactChannelEntity          entity;
+        final Optional<ContactMethodEntity> contactMethod;
+
+        contactMethod = concatMethods.stream()
+            .filter(m -> m.getNumber()
+                .equals(data.method()
+                    .number()))
+            .findFirst();
+
+        // TODO: do this outside
+        if (contactMethod.isEmpty()) {
+            throw new MissingContactMethodException(data.method()
+                .number());
+        }
+
+        entity = new ContactChannelEntity();
+        entity.setContact(contact);
+        entity.setContactMethod(contactMethod.get());
+        entity.setDetail(data.detail());
+
+        return entity;
     }
 
     private ContactEntityMapper() {
