@@ -105,7 +105,7 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
         contactMethod = contactMethodRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing ContactMethod {}", number);
+                log.error("Missing contact method {}", number);
                 throw new MissingContactMethodException(number);
             });
 
@@ -137,7 +137,7 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
         contactMethod = contactMethodRepository.findOne(number);
         if (contactMethod.isEmpty()) {
-            log.error("Missing ContactMethod {}", number);
+            log.error("Missing contact method {}", number);
             throw new MissingContactMethodException(number);
         }
 
@@ -153,7 +153,7 @@ public final class DefaultContactMethodService implements ContactMethodService {
         log.debug("Updating contact method {} using data {}", contactMethod.number(), contactMethod);
 
         if (!contactMethodRepository.exists(contactMethod.number())) {
-            log.error("Missing ContactMethod {}", contactMethod.number());
+            log.error("Missing contact method {}", contactMethod.number());
             throw new MissingContactMethodException(contactMethod.number());
         }
 
