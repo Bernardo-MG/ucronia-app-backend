@@ -35,6 +35,13 @@ public interface UserContactService {
 
     public Contact assignContact(final String username, final long memberId);
 
+    /**
+     * TODO: remove
+     * @param pagination
+     * @param sorting
+     * @return
+     */
+    @Deprecated
     public Page<Contact> getAvailableContact(final Pagination pagination, final Sorting sorting);
 
     public Optional<Contact> getContact(final String username);
