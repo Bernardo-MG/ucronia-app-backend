@@ -78,9 +78,10 @@ public final class DefaultContactMethodService implements ContactMethodService {
     @Override
     public final ContactMethod create(final ContactMethod contactMethod) {
         final ContactMethod toCreate;
+        final ContactMethod created;
         final Long          number;
 
-        log.debug("Creating ContactMethod {}", contactMethod);
+        log.debug("Creating contact method {}", contactMethod);
 
         // Set number
         number = contactMethodRepository.findNextNumber();
@@ -89,14 +90,18 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
         createContactMethodValidator.validate(toCreate);
 
-        return contactMethodRepository.save(toCreate);
+        created = contactMethodRepository.save(toCreate);
+
+        log.debug("Created contact method {}", created);
+
+        return created;
     }
 
     @Override
     public final ContactMethod delete(final long number) {
         final ContactMethod contactMethod;
 
-        log.debug("Deleting ContactMethod {}", number);
+        log.debug("Deleting contact method {}", number);
 
         contactMethod = contactMethodRepository.findOne(number)
             .orElseThrow(() -> {
@@ -106,21 +111,29 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
         contactMethodRepository.delete(number);
 
+        log.debug("Deleted contact method {}", number);
+
         return contactMethod;
     }
 
     @Override
     public final Page<ContactMethod> getAll(final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading ContactMethods with pagination {} and sorting {}", pagination, sorting);
+        final Page<ContactMethod> read;
 
-        return contactMethodRepository.findAll(pagination, sorting);
+        log.debug("Reading contact methods with pagination {} and sorting {}", pagination, sorting);
+
+        read = contactMethodRepository.findAll(pagination, sorting);
+
+        log.debug("Read contact methods with pagination {} and sorting {}: {}", pagination, sorting, read);
+
+        return read;
     }
 
     @Override
     public final Optional<ContactMethod> getOne(final long number) {
         final Optional<ContactMethod> contactMethod;
 
-        log.debug("Reading ContactMethod {}", number);
+        log.debug("Reading contact method {}", number);
 
         contactMethod = contactMethodRepository.findOne(number);
         if (contactMethod.isEmpty()) {
@@ -128,12 +141,16 @@ public final class DefaultContactMethodService implements ContactMethodService {
             throw new MissingContactMethodException(number);
         }
 
+        log.debug("Read contact method {}", contactMethod);
+
         return contactMethod;
     }
 
     @Override
     public final ContactMethod update(final ContactMethod contactMethod) {
-        log.debug("Updating ContactMethod {} using data {}", contactMethod.number(), contactMethod);
+        final ContactMethod updated;
+
+        log.debug("Updating contact method {} using data {}", contactMethod.number(), contactMethod);
 
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Missing ContactMethod {}", contactMethod.number());
@@ -142,7 +159,11 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
         updateContactMethodValidator.validate(contactMethod);
 
-        return contactMethodRepository.save(contactMethod);
+        updated = contactMethodRepository.save(contactMethod);
+
+        log.debug("Updated contact method {}: {}", contactMethod.number(), updated);
+
+        return updated;
     }
 
 }

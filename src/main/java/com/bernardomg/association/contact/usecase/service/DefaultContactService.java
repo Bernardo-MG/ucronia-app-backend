@@ -86,6 +86,7 @@ public final class DefaultContactService implements ContactService {
     @Override
     public final Contact create(final Contact contact) {
         final Contact toCreate;
+        final Contact created;
         final Long    number;
 
         log.debug("Creating contact {}", contact);
@@ -98,7 +99,11 @@ public final class DefaultContactService implements ContactService {
 
         createContactValidator.validate(toCreate);
 
-        return contactRepository.save(toCreate);
+        created = contactRepository.save(toCreate);
+
+        log.debug("Created contact {}", created);
+
+        return created;
     }
 
     @Override
@@ -115,14 +120,22 @@ public final class DefaultContactService implements ContactService {
 
         contactRepository.delete(number);
 
+        log.debug("Deleted contact {}", number);
+
         return existing;
     }
 
     @Override
     public final Page<Contact> getAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting) {
+        final Page<Contact> read;
+
         log.debug("Reading contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        return contactRepository.findAll(filter, pagination, sorting);
+        read = contactRepository.findAll(filter, pagination, sorting);
+
+        log.debug("Read contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+
+        return read;
     }
 
     @Override
@@ -137,6 +150,8 @@ public final class DefaultContactService implements ContactService {
             throw new MissingContactException(number);
         }
 
+        log.debug("Read contact {}", contact);
+
         return contact;
     }
 
@@ -144,6 +159,7 @@ public final class DefaultContactService implements ContactService {
     public final Contact patch(final Contact contact) {
         final Contact existing;
         final Contact toSave;
+        final Contact saved;
 
         log.debug("Patching contact {} using data {}", contact.number(), contact);
 
@@ -160,11 +176,17 @@ public final class DefaultContactService implements ContactService {
 
         patchContactValidator.validate(toSave);
 
-        return contactRepository.save(toSave);
+        saved = contactRepository.save(toSave);
+
+        log.debug("Patched contact {}: {}", contact.number(), saved);
+
+        return saved;
     }
 
     @Override
     public final Contact update(final Contact contact) {
+        final Contact saved;
+
         log.debug("Updating contact {} using data {}", contact.number(), contact);
 
         // TODO: Identificator must be unique or empty
@@ -177,7 +199,11 @@ public final class DefaultContactService implements ContactService {
 
         updateContactValidator.validate(contact);
 
-        return contactRepository.save(contact);
+        saved = contactRepository.save(contact);
+
+        log.debug("Updated contact {}: {}", contact.number(), saved);
+
+        return saved;
     }
 
     private final Contact copy(final Contact existing, final Contact updated) {
