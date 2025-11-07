@@ -52,7 +52,7 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 class TestUserContactServiceGetAvailableMembers {
 
     @Mock
-    private ContactRepository         personRepository;
+    private ContactRepository         contactRepository;
 
     @InjectMocks
     private DefaultUserContactService service;
