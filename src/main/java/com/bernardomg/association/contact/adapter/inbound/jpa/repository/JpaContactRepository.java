@@ -186,12 +186,7 @@ public final class JpaContactRepository implements ContactRepository {
             .map(ContactMethod::number)
             .toList();
         // TODO: exception for missing contact methods
-        // TODO: read a single time
-        contactMethods = contactMethodNumbers.stream()
-            .map(contactMethodSpringRepository::findByNumber)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
+        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = ContactEntityMapper.toEntity(contact, contactMethods);
 
         existing = contactSpringRepository.findByNumber(contact.number());
@@ -228,12 +223,7 @@ public final class JpaContactRepository implements ContactRepository {
             .map(ContactMethod::number)
             .toList();
         // TODO: exception for missing contact methods
-        // TODO: read a single time
-        contactMethods = contactMethodNumbers.stream()
-            .map(contactMethodSpringRepository::findByNumber)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
+        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
 
         entities = contacts.stream()
             .map(c -> ContactEntityMapper.toEntity(c, contactMethods))

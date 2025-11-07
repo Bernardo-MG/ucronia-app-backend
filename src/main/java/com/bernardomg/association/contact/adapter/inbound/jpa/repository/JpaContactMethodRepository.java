@@ -83,9 +83,9 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     @Override
     public final boolean existsByName(final String name) {
         final boolean exists;
-        
+
         log.debug("Checking if contact method exists by name {}", name);
-        
+
         exists = contactMethodSpringRepository.existsByName(name);
 
         log.debug("Contact method exists by name {}: {}", name, exists);
@@ -96,12 +96,12 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     @Override
     public final boolean existsByNameForAnother(final long number, final String name) {
         final boolean exists;
-        
-        log.debug("Checking if contact method exists by name {} for a contact method distinct of {}", name,number);
-        
+
+        log.debug("Checking if contact method exists by name {} for a contact method distinct of {}", name, number);
+
         exists = contactMethodSpringRepository.existsByNameAndNumberNot(name, number);
 
-        log.debug("Contact method exists by name {} for a contact method distinct of {}: {}", name,number, exists);
+        log.debug("Contact method exists by name {} for a contact method distinct of {}: {}", name, number, exists);
 
         return exists;
     }

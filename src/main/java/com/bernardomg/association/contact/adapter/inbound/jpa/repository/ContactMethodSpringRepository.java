@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.contact.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,6 +42,8 @@ public interface ContactMethodSpringRepository extends JpaRepository<ContactMeth
     public boolean existsByNameAndNumberNot(final String name, final long number);
 
     public boolean existsByNumber(final Long number);
+
+    public List<ContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     public Optional<ContactMethodEntity> findByNumber(final Long number);
 
