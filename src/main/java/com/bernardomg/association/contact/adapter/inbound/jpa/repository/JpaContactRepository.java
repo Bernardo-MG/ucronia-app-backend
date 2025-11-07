@@ -181,7 +181,7 @@ public final class JpaContactRepository implements ContactRepository {
 
         contactMethodNumbers = contact.contactChannels()
             .stream()
-            .map(ContactChannel::method)
+            .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
         // TODO: exception for missing contact methods
@@ -213,7 +213,7 @@ public final class JpaContactRepository implements ContactRepository {
         contactMethodNumbers = contacts.stream()
             .map(Contact::contactChannels)
             .flatMap(Collection::stream)
-            .map(ContactChannel::method)
+            .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
         // TODO: exception for missing contact methods

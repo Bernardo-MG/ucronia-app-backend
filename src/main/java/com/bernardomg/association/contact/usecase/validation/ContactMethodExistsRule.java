@@ -60,7 +60,7 @@ public final class ContactMethodExistsRule implements FieldRule<Contact> {
         // TODO: what about multiple failues?
         return contact.contactChannels()
             .stream()
-            .map(ContactChannel::method)
+            .map(ContactChannel::contactMethod)
             .map(this::check)
             .filter(Optional::isPresent)
             .map(o -> o.orElse(null))

@@ -93,13 +93,13 @@ public final class ContactEntityMapper {
 
         contactMethod = concatMethods.stream()
             .filter(m -> m.getNumber()
-                .equals(data.method()
+                .equals(data.contactMethod()
                     .number()))
             .findFirst();
 
         // TODO: do this outside
         if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.method()
+            throw new MissingContactMethodException(data.contactMethod()
                 .number());
         }
 

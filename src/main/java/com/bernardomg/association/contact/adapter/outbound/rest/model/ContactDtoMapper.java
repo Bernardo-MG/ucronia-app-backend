@@ -125,9 +125,9 @@ public final class ContactDtoMapper {
     private static final ContactChannelDto toDto(final ContactChannel contact) {
         ContactMethodDto method;
 
-        method = new ContactMethodDto().number(contact.method()
+        method = new ContactMethodDto().number(contact.contactMethod()
             .number())
-            .name(contact.method()
+            .name(contact.contactMethod()
                 .name());
 
         return new ContactChannelDto().detail(contact.detail())

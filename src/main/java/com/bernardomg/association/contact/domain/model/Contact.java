@@ -30,7 +30,7 @@ import java.util.Collection;
 public record Contact(String identifier, Long number, ContactName name, Instant birthDate,
         Collection<ContactChannel> contactChannels) {
 
-    public record ContactChannel(ContactMethod method, String detail) {
+    public record ContactChannel(ContactMethod contactMethod, String detail) {
 
     }
 

@@ -255,11 +255,11 @@ public final class JpaMemberRepository implements MemberRepository {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
-        contactMethod = contactMethodSpringRepository.findByNumber(data.method()
+        contactMethod = contactMethodSpringRepository.findByNumber(data.contactMethod()
             .number());
 
         if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.method()
+            throw new MissingContactMethodException(data.contactMethod()
                 .number());
         }
 
