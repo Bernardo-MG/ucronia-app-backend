@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact JPA model.
+ * Contact REST model.
  */
 
-package com.bernardomg.association.contact.adapter.inbound.jpa.model;
+package com.bernardomg.association.contact.adapter.outbound.rest.model;

@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact JPA model.
+ * Contact repository.
  */
 
-package com.bernardomg.association.contact.adapter.inbound.jpa.model;
+package com.bernardomg.association.contact.domain.repository;
