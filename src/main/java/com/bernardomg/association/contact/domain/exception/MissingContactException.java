@@ -27,7 +27,7 @@ package com.bernardomg.association.contact.domain.exception;
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing person exception.
+ * Missing contact exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
