@@ -52,6 +52,7 @@ class ITContactRepositorySaveAll {
 
     public ITContactRepositorySaveAll() {
         super();
+        // TODO: test that it updates entities
     }
 
     @Test

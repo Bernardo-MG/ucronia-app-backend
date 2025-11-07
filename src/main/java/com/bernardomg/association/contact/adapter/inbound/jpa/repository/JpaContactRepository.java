@@ -173,8 +173,7 @@ public final class JpaContactRepository implements ContactRepository {
     public final Contact save(final Contact contact) {
         final Optional<ContactEntity>   existing;
         final ContactEntity             entity;
-        final ContactEntity             created;
-        final Contact                   saved;
+        final Contact                   created;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -195,16 +194,11 @@ public final class JpaContactRepository implements ContactRepository {
                 .getId());
         }
 
-        created = contactSpringRepository.save(entity);
+        created = ContactEntityMapper.toDomain(contactSpringRepository.save(entity));
 
-        // TODO: Why not returning the saved one?
-        saved = contactSpringRepository.findByNumber(created.getNumber())
-            .map(ContactEntityMapper::toDomain)
-            .get();
+        log.debug("Saved contact {}", created);
 
-        log.debug("Saved contact {}", saved);
-
-        return saved;
+        return created;
     }
 
     @Override
