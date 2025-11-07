@@ -37,8 +37,6 @@ import com.bernardomg.association.contact.adapter.outbound.cache.ContactMethodCa
 import com.bernardomg.association.contact.adapter.outbound.rest.model.ContactMethodDtoMapper;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.usecase.service.ContactMethodService;
-import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -79,11 +77,7 @@ public class ContactMethodController implements ContactMethodApi {
     @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // ContactMethod caches
-                    ContactMethodCaches.CONTACT_METHODS,
-                    // Fee caches
-                    FeeCaches.MEMBER_FEES,
-                    // Member caches
-                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+                    ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto
             createContactMethod(@Valid final ContactMethodCreationDto contactMethodCreationDto) {
         final ContactMethod member;
@@ -99,11 +93,7 @@ public class ContactMethodController implements ContactMethodApi {
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { ContactMethodCaches.CONTACT_METHOD }), @CacheEvict(cacheNames = {
             // ContactMethod caches
-            ContactMethodCaches.CONTACT_METHODS,
-            // Fee caches
-            FeeCaches.MEMBER_FEES,
-            // Member caches
-            MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+            ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto deleteContactMethod(final Long number) {
         final ContactMethod contactMethod;
 
@@ -144,11 +134,7 @@ public class ContactMethodController implements ContactMethodApi {
     @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // ContactMethod caches
-                    ContactMethodCaches.CONTACT_METHODS,
-                    // Fee caches
-                    FeeCaches.MEMBER_FEES,
-                    // Member caches
-                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+                    ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto updateContactMethod(final Long number,
             @Valid final ContactMethodChangeDto contactMethodChangeDto) {
         final ContactMethod contactMethod;

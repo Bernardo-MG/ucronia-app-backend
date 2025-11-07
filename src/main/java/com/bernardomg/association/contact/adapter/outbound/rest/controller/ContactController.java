@@ -38,8 +38,6 @@ import com.bernardomg.association.contact.adapter.outbound.rest.model.ContactDto
 import com.bernardomg.association.contact.domain.filter.ContactFilter;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.usecase.service.ContactService;
-import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -79,11 +77,7 @@ public class ContactController implements ContactApi {
     @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
-                    ContactsCaches.CONTACTS,
-                    // Fee caches
-                    FeeCaches.MEMBER_FEES,
-                    // Member caches
-                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+                    ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto createContact(@Valid final ContactCreationDto personCreationDto) {
         final Contact member;
         final Contact created;
@@ -98,11 +92,7 @@ public class ContactController implements ContactApi {
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { ContactsCaches.CONTACT }), @CacheEvict(cacheNames = {
             // Contact caches
-            ContactsCaches.CONTACTS,
-            // Fee caches
-            FeeCaches.MEMBER_FEES,
-            // Member caches
-            MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+            ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto deleteContact(final Long number) {
         final Contact contact;
 
@@ -145,11 +135,7 @@ public class ContactController implements ContactApi {
     @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
-                    ContactsCaches.CONTACTS,
-                    // Fee caches
-                    FeeCaches.MEMBER_FEES,
-                    // Member caches
-                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+                    ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact member;
         final Contact updated;
@@ -165,11 +151,7 @@ public class ContactController implements ContactApi {
     @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Contact caches
-                    ContactsCaches.CONTACTS,
-                    // Fee caches
-                    FeeCaches.MEMBER_FEES,
-                    // Member caches
-                    MembersCaches.PUBLIC_MEMBER, MembersCaches.PUBLIC_MEMBERS }, allEntries = true) })
+                    ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact member;
         final Contact updated;
