@@ -47,12 +47,12 @@ public final class ActivateMemberOnFeePaidEventListener implements EventListener
      */
     private static final Logger       log = LoggerFactory.getLogger(ActivateMemberOnFeePaidEventListener.class);
 
-    private final MemberStatusService service;
+    private final MemberStatusService memberStatusService;
 
-    public ActivateMemberOnFeePaidEventListener(final MemberStatusService serv) {
+    public ActivateMemberOnFeePaidEventListener(final MemberStatusService MemberStatusServ) {
         super();
 
-        service = Objects.requireNonNull(serv);
+        memberStatusService = Objects.requireNonNull(MemberStatusServ);
     }
 
     @Override
@@ -64,7 +64,8 @@ public final class ActivateMemberOnFeePaidEventListener implements EventListener
     public final void handle(final FeePaidEvent event) {
         log.debug("Handling fee paid event at {} for contact with number {}", event.getDate(),
             event.getContactNumber());
-        service.activate(event.getDate(), event.getContactNumber());
+        memberStatusService.activate(event.getDate(), event.getContactNumber());
+        log.debug("Handled fee paid event at {} for contact with number {}", event.getDate(), event.getContactNumber());
     }
 
 }

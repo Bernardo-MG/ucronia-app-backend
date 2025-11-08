@@ -47,12 +47,12 @@ public final class DeactivateMemberOnFeeDeletedEventListener implements EventLis
      */
     private static final Logger       log = LoggerFactory.getLogger(DeactivateMemberOnFeeDeletedEventListener.class);
 
-    private final MemberStatusService service;
+    private final MemberStatusService memberStatusService;
 
-    public DeactivateMemberOnFeeDeletedEventListener(final MemberStatusService serv) {
+    public DeactivateMemberOnFeeDeletedEventListener(final MemberStatusService memberStatusServ) {
         super();
 
-        service = Objects.requireNonNull(serv);
+        memberStatusService = Objects.requireNonNull(memberStatusServ);
     }
 
     @Override
@@ -64,7 +64,9 @@ public final class DeactivateMemberOnFeeDeletedEventListener implements EventLis
     public final void handle(final FeeDeletedEvent event) {
         log.debug("Handling fee deleted event at {} for contact with number {}", event.getDate(),
             event.getContactNumber());
-        service.deactivate(event.getDate(), event.getContactNumber());
+        memberStatusService.deactivate(event.getDate(), event.getContactNumber());
+        log.debug("Handled fee deleted event at {} for contact with number {}", event.getDate(),
+            event.getContactNumber());
     }
 
 }

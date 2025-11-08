@@ -47,12 +47,12 @@ public final class ApplyRenewalOnMonthStartEventListener implements EventListene
      */
     private static final Logger       log = LoggerFactory.getLogger(ApplyRenewalOnMonthStartEventListener.class);
 
-    private final MemberStatusService service;
+    private final MemberStatusService memberStatusService;
 
-    public ApplyRenewalOnMonthStartEventListener(final MemberStatusService serv) {
+    public ApplyRenewalOnMonthStartEventListener(final MemberStatusService memberStatusServ) {
         super();
 
-        service = Objects.requireNonNull(serv);
+        memberStatusService = Objects.requireNonNull(memberStatusServ);
     }
 
     @Override
@@ -62,9 +62,9 @@ public final class ApplyRenewalOnMonthStartEventListener implements EventListene
 
     @Override
     public final void handle(final MonthStartEvent event) {
-        log.debug("Activating members renewing at the start of {}", event.getMonth());
-        service.applyRenewal();
-        log.debug("Activated members renewing at the start of {}", event.getMonth());
+        log.debug("Handling month start at {} for applying renewal", event.getMonth());
+        memberStatusService.applyRenewal();
+        log.debug("Handled month start at {} for applying renewal", event.getMonth());
     }
 
 }
