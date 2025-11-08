@@ -102,7 +102,7 @@ public class ContactChannelEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactChannelEntity [code=" + detail + ", contact=" + contact + ", contactMethod=" + contactMethod
+        return "ContactChannelEntity [contact=" + contact + ", contactMethod=" + contactMethod + ", detail=" + detail
                 + "]";
     }
 
