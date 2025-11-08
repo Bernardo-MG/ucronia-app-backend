@@ -59,7 +59,7 @@ class ITMemberRepositoryFindAllToRenew {
 
         // THEN
         Assertions.assertThat(members)
-            .as("contacts")
+            .as("members")
             .isEmpty();
     }
 
@@ -74,7 +74,7 @@ class ITMemberRepositoryFindAllToRenew {
 
         // THEN
         Assertions.assertThat(members)
-            .as("contacts")
+            .as("members")
             .isEmpty();
     }
 
@@ -89,7 +89,7 @@ class ITMemberRepositoryFindAllToRenew {
 
         // THEN
         Assertions.assertThat(members)
-            .as("contacts")
+            .as("members")
             .isEmpty();
     }
 
@@ -104,7 +104,7 @@ class ITMemberRepositoryFindAllToRenew {
 
         // THEN
         Assertions.assertThat(members)
-            .as("contacts")
+            .as("members")
             .containsExactly(Members.active());
     }
 
@@ -119,7 +119,7 @@ class ITMemberRepositoryFindAllToRenew {
 
         // THEN
         Assertions.assertThat(members)
-            .as("contacts")
+            .as("members")
             .containsExactly(Members.inactive());
     }
 

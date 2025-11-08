@@ -57,14 +57,14 @@ class ITMemberRepositorySaveAll {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final Member                 contact;
+        final Member                 member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        contact = Members.active();
+        member = Members.active();
 
         // WHEN
-        repository.saveAll(List.of(contact));
+        repository.saveAll(List.of(member));
 
         // THEN
         entities = springRepository.findAll();
@@ -78,18 +78,18 @@ class ITMemberRepositorySaveAll {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testSave_ReturnedData() {
-        final Member             contact;
+        final Member             member;
         final Collection<Member> saved;
 
         // GIVEN
-        contact = Members.active();
+        member = Members.active();
 
         // WHEN
-        saved = repository.saveAll(List.of(contact));
+        saved = repository.saveAll(List.of(member));
 
         // THEN
         Assertions.assertThat(saved)
-            .as("contact")
+            .as("member")
             .containsExactly(Members.active());
     }
 

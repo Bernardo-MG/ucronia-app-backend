@@ -52,7 +52,7 @@ class ITMemberRepositoryFindAllQueryName {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With no contact, nothing is returned")
+    @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -75,7 +75,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an active membership and matching first name, it is returned")
+    @DisplayName("With a member having an active membership and matching first name, it is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active_FirstName() {
         final Page<Member> members;
@@ -99,7 +99,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an active membership and matching full name, it is returned")
+    @DisplayName("With a member having an active membership and matching full name, it is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active_FullName() {
         final Page<Member> members;
@@ -123,7 +123,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an active membership and matching last name, it is returned")
+    @DisplayName("With a member having an active membership and matching last name, it is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active_LastName() {
         final Page<Member> members;
@@ -147,7 +147,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an active membership and partial matching name, it is returned")
+    @DisplayName("With a member having an active membership and partial matching name, it is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active_PartialName() {
         final Page<Member> members;
@@ -172,7 +172,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an active membership and wrong name, nothing is returned")
+    @DisplayName("With a member having an active membership and wrong name, nothing is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active_WrongName() {
         final Page<Member> members;
@@ -196,7 +196,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an inactive membership and matching first name, it is is returned")
+    @DisplayName("With a member having an inactive membership and matching first name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_FirstName() {
         final Pagination   pagination;
@@ -218,7 +218,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an inactive membership and matching full name, it is is returned")
+    @DisplayName("With a member having an inactive membership and matching full name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_FullName() {
         final Pagination   pagination;
@@ -240,7 +240,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an inactive membership and matching last name, it is is returned")
+    @DisplayName("With a member having an inactive membership and matching last name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_LastName() {
         final Pagination   pagination;
@@ -262,7 +262,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an inactive membership and partial matching name, it is is returned")
+    @DisplayName("With a member having an inactive membership and partial matching name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_PartialName() {
         final Pagination   pagination;
@@ -285,7 +285,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact having an inactive membership and wrong name, nothing is returned")
+    @DisplayName("With a member having an inactive membership and wrong name, nothing is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_WrongName() {
         final Page<Member> members;
@@ -309,7 +309,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and matching first name, it is is returned")
+    @DisplayName("With a member without membership and matching first name, it is is returned")
     @ValidContact
     void testFindAll_WithoutMembership_FirstName() {
         final Page<Member> members;
@@ -333,7 +333,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and matching full name, it is is returned")
+    @DisplayName("With a member without membership and matching full name, it is is returned")
     @ValidContact
     void testFindAll_WithoutMembership_FullName() {
         final Page<Member> members;
@@ -357,7 +357,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and matching last name, it is is returned")
+    @DisplayName("With a member without membership and matching last name, it is is returned")
     @ValidContact
     void testFindAll_WithoutMembership_LastName() {
         final Page<Member> members;
@@ -381,7 +381,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and partial matching name, it is is returned")
+    @DisplayName("With a member without membership and partial matching name, it is is returned")
     @ValidContact
     void testFindAll_WithoutMembership_PartialName() {
         final Page<Member> members;
@@ -406,7 +406,7 @@ class ITMemberRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and wrong name, nothing is returned")
+    @DisplayName("With a member without membership and wrong name, nothing is returned")
     @InactiveMember
     void testFindAll_WithoutMembership_WrongName() {
         final Page<Member> members;

@@ -56,22 +56,23 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void activate(final YearMonth date, final Long contactNumber) {
+    public final void activate(final YearMonth date, final Long memberNumber) {
         final Optional<Member> member;
         final Member           activated;
 
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Activating membership for {}", contactNumber);
-            member = memberRepository.findOne(contactNumber);
+            log.debug("Activating membership for {}", memberNumber);
+            member = memberRepository.findOne(memberNumber);
 
             if (member.isEmpty()) {
-                log.warn("Missing contact {}", contactNumber);
+                log.warn("Missing member {}", memberNumber);
+                // TODO: no exception?
             } else {
                 activated = activated(member.get());
                 memberRepository.save(activated);
 
-                log.debug("Activated membership for {}", contactNumber);
+                log.debug("Activated membership for {}", memberNumber);
             }
         }
     }
@@ -103,23 +104,24 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void deactivate(final YearMonth date, final Long contactNumber) {
+    public final void deactivate(final YearMonth date, final Long memberNumber) {
         final Optional<Member> member;
         final Member           deactivated;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Deactivating member {}", contactNumber);
-            member = memberRepository.findOne(contactNumber);
+            log.debug("Deactivating member {}", memberNumber);
+            member = memberRepository.findOne(memberNumber);
 
             if (member.isEmpty()) {
-                log.warn("Missing contact {}", contactNumber);
+                log.warn("Missing member {}", memberNumber);
+                // TODO: no exception?
             } else {
                 deactivated = deactivated(member.get());
                 memberRepository.save(deactivated);
 
-                log.debug("Deactivated membership for {}", contactNumber);
+                log.debug("Deactivated membership for {}", memberNumber);
             }
         }
     }

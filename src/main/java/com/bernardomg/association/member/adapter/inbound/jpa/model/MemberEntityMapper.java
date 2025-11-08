@@ -43,23 +43,23 @@ public final class MemberEntityMapper {
 
     public static final Member toDomain(final MemberEntity entity) {
         final ContactName                name;
-        final Collection<ContactChannel> contacts;
+        final Collection<ContactChannel> members;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
-        contacts = entity.getContactChannels()
+        members = entity.getContactChannels()
             .stream()
             .map(ContactEntityMapper::toDomain)
             .toList();
 
         return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getActive(),
-            entity.getRenewMembership(), contacts);
+            entity.getRenewMembership(), members);
     }
 
     public static final MemberEntity toEntity(final Member data, final Collection<ContactMethodEntity> contactMethods) {
         final boolean                          active;
         final boolean                          renew;
         final MemberEntity                     entity;
-        final Collection<ContactChannelEntity> contacts;
+        final Collection<ContactChannelEntity> members;
 
         active = data.active();
         renew = data.renew();
@@ -75,11 +75,11 @@ public final class MemberEntityMapper {
         entity.setActive(active);
         entity.setRenewMembership(renew);
 
-        contacts = data.contactChannels()
+        members = data.contactChannels()
             .stream()
             .map(m -> MemberEntityMapper.toEntity(entity, m, contactMethods))
             .toList();
-        entity.setContactChannels(contacts);
+        entity.setContactChannels(members);
 
         return entity;
     }

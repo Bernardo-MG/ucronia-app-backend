@@ -88,7 +88,7 @@ class ITMemberRepositoryIsActive {
     }
 
     @Test
-    @DisplayName("When there is a contact which is not a member, it is indicated as so")
+    @DisplayName("When there is a member which is not a member, it is indicated as so")
     @ValidContact
     void testIsActive_NoMember() {
         final boolean active;

@@ -28,10 +28,10 @@ import java.time.YearMonth;
 
 public interface MemberStatusService {
 
-    public void activate(final YearMonth date, final Long contactNumber);
+    public void activate(final YearMonth date, final Long memberNumber);
 
     public void applyRenewal();
 
-    public void deactivate(final YearMonth date, final Long contactNumber);
+    public void deactivate(final YearMonth date, final Long memberNumber);
 
 }

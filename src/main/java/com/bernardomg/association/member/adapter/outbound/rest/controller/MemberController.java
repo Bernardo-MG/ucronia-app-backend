@@ -75,17 +75,17 @@ public class MemberController implements MemberApi {
         final Page<Member>       members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilterStatus contactStatus;
+        final MemberFilterStatus memberStatus;
         final MemberFilter       filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
         if (status != null) {
-            contactStatus = MemberFilterStatus.valueOf(status.name());
+            memberStatus = MemberFilterStatus.valueOf(status.name());
         } else {
-            contactStatus = null;
+            memberStatus = null;
         }
-        filter = new MemberFilter(contactStatus, name);
+        filter = new MemberFilter(memberStatus, name);
         members = service.getAll(filter, pagination, sorting);
 
         return MemberDtoMapper.toResponseDto(members);
