@@ -34,7 +34,6 @@ import com.bernardomg.association.contact.domain.exception.MissingContactMethodE
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.PublicMember;
 
 /**
  * Member entity mapper.
@@ -82,14 +81,6 @@ public final class MemberEntityMapper {
         entity.setContactChannels(members);
 
         return entity;
-    }
-
-    public static final PublicMember toPublicDomain(final MemberEntity entity) {
-        final ContactName name;
-
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership flag
-        return new PublicMember(entity.getNumber(), name);
     }
 
     private static final ContactChannelEntity toEntity(final MemberEntity member, final ContactChannel data,

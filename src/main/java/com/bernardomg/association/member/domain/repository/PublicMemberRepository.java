@@ -24,29 +24,17 @@
 
 package com.bernardomg.association.member.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-public interface MemberRepository {
+public interface PublicMemberRepository {
 
-    public Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting);
+    public Page<PublicMember> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Collection<Member> findAllToRenew();
-
-    public Collection<Member> findAllWithRenewalMismatch();
-
-    public Optional<Member> findOne(final Long number);
-
-    public boolean isActive(final long number);
-
-    public Member save(final Member member);
-
-    public Collection<Member> saveAll(final Collection<Member> member);
+    public Optional<PublicMember> findOne(final Long number);
 
 }

@@ -33,55 +33,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberRepository - find one")
-class ITMemberRepositoryFindOne {
+class ITPublicMemberRepositoryFindOne {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private PublicMemberRepository repository;
 
     @Test
     @DisplayName("With an active member, it is returned")
     @ActiveMember
     void testFindOne_Active() {
-        final Optional<Member> member;
+        final Optional<PublicMember> member;
 
         // WHEN
-        member = memberRepository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(Members.active());
+            .contains(PublicMembers.valid());
     }
 
     @Test
     @DisplayName("With an inactive member, it is returned")
     @InactiveMember
     void testFindOne_Inactive() {
-        final Optional<Member> member;
+        final Optional<PublicMember> member;
 
         // WHEN
-        member = memberRepository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(Members.inactive());
+            .contains(PublicMembers.valid());
     }
 
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Member> member;
+        final Optional<PublicMember> member;
 
         // WHEN
-        member = memberRepository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -92,10 +92,10 @@ class ITMemberRepositoryFindOne {
     @DisplayName("With a member with no membership, it returns nothing")
     @ValidContact
     void testFindOne_NoMembership() {
-        final Optional<Member> member;
+        final Optional<PublicMember> member;
 
         // WHEN
-        member = memberRepository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)

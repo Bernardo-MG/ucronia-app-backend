@@ -22,72 +22,68 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntityMapper;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 
-/**
- * Default implementation of the member service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Service
+@Repository
 @Transactional
-public final class DefaultPublicMemberService implements PublicMemberService {
+public final class JpaPublicMemberRepository implements PublicMemberRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(DefaultPublicMemberService.class);
+    private static final Logger          log = LoggerFactory.getLogger(JpaPublicMemberRepository.class);
 
-    private final PublicMemberRepository publicMemberRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    public DefaultPublicMemberService(final PublicMemberRepository publicMemberRepo) {
+    public JpaPublicMemberRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        publicMemberRepository = Objects.requireNonNull(publicMemberRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
-    public final Page<PublicMember> getAll(final Pagination pagination, final Sorting sorting) {
-        final Page<PublicMember> members;
+    public final Page<PublicMember> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<PublicMember> read;
+        final Pageable                                           pageable;
 
-        log.debug("Reading public members with pagination {} and sorting {}", pagination, sorting);
+        log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
-        members = publicMemberRepository.findAll(pagination, sorting);
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        read = memberSpringRepository.findAllActive(pageable)
+            .map(PublicMemberEntityMapper::toDomain);
 
-        log.debug("Read public members with pagination {} and sorting {}: {}", pagination, sorting, members);
+        log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
-        return members;
+        return SpringPagination.toPage(read);
     }
 
     @Override
-    public final Optional<PublicMember> getOne(final long number) {
+    public final Optional<PublicMember> findOne(final Long number) {
         final Optional<PublicMember> member;
 
-        log.debug("Reading member {}", number);
+        log.trace("Finding public member with number {}", number);
 
-        member = publicMemberRepository.findOne(number);
-        if (member.isEmpty()) {
-            log.error("Missing member {}", number);
-            throw new MissingMemberException(number);
-        }
+        member = memberSpringRepository.findByNumber(number)
+            .map(PublicMemberEntityMapper::toDomain);
 
-        log.debug("Read member {}: {}", number, member);
+        log.trace("Found public member with number {}: {}", number, member);
 
         return member;
     }

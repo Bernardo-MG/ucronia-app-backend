@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.data.domain.Page;
@@ -43,18 +43,18 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 @IntegrationTest
 @DisplayName("MemberRepository - find all public - pagination")
 @MultipleActiveMember
-class ITMemberRepositoryFindAllPublicPaginated extends AbstractPaginationIT<PublicMember> {
+class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<PublicMember> {
 
     @Autowired
-    private MemberRepository repository;
+    private PublicMemberRepository repository;
 
-    public ITMemberRepositoryFindAllPublicPaginated() {
+    public ITPublicMemberRepositoryFindAllPaginated() {
         super(5);
     }
 
     @Override
     protected final Page<PublicMember> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAllPublic(pagination, sorting);
+        return repository.findAll(pagination, sorting);
     }
 
     @Test
@@ -69,7 +69,7 @@ class ITMemberRepositoryFindAllPublicPaginated extends AbstractPaginationIT<Publ
         sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAllPublic(pagination, sorting);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -90,7 +90,7 @@ class ITMemberRepositoryFindAllPublicPaginated extends AbstractPaginationIT<Publ
         sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAllPublic(pagination, sorting);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

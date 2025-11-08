@@ -45,7 +45,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityM
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -93,22 +92,6 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
             read);
-
-        return SpringPagination.toPage(read);
-    }
-
-    @Override
-    public final Page<PublicMember> findAllPublic(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<PublicMember> read;
-        final Pageable                                           pageable;
-
-        log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
-
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        read = memberSpringRepository.findAllActive(pageable)
-            .map(MemberEntityMapper::toPublicDomain);
-
-        log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
         return SpringPagination.toPage(read);
     }

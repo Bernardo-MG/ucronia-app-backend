@@ -24,18 +24,17 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -43,105 +42,105 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - sort")
-@MultipleActiveMember
-@MultipleFees
-class ITMemberRepositoryFindAllSort {
+@DisplayName("MemberRepository - find all public")
+class ITPublicMemberRepositoryFindAll {
 
     @Autowired
-    private MemberRepository repository;
+    private PublicMemberRepository repository;
 
-    public ITMemberRepositoryFindAllSort() {
+    public ITPublicMemberRepositoryFindAll() {
         super();
     }
 
     @Test
-    @DisplayName("With ascending order by first name it returns the ordered data")
-    void testFindAll_FirstName_Asc() {
+    @DisplayName("With an active member, it returns the member")
+    @ActiveMember
+    void testFindActive_Active() {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         // WHEN
-        // FIXME: names should be sorted ignoring case
-        members = repository.findAllPublic(pagination, sorting);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
-                PublicMembers.forNumber(4), PublicMembers.forNumber(5));
+            .as("members")
+            .containsExactly(PublicMembers.valid());
     }
 
     @Test
-    @DisplayName("With descending order by first name it returns the ordered data")
-    void testFindAll_FirstName_Desc() {
+    @DisplayName("With an inactive member, it returns nothing")
+    @InactiveMember
+    void testFindActive_Inactive() {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
+        sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAllPublic(pagination, sorting);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
-                PublicMembers.forNumber(2), PublicMembers.forNumber(1));
+            .as("members")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With ascending order by last name it returns the ordered data")
-    void testFindAll_LastName_Asc() {
+    @DisplayName("With no data, it returns nothing")
+    void testFindActive_NoData() {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAllPublic(pagination, sorting);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
-                PublicMembers.forNumber(4), PublicMembers.forNumber(5));
+            .as("members")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With descending order by last name it returns the ordered data")
-    void testFindAll_LastName_Desc() {
+    @DisplayName("With a member with no membership, it returns nothing")
+    @ValidContact
+    void testFindActive_NoMembership() {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
+        sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAllPublic(pagination, sorting);
+        members = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
-                PublicMembers.forNumber(2), PublicMembers.forNumber(1));
+            .as("members")
+            .isEmpty();
     }
 
 }

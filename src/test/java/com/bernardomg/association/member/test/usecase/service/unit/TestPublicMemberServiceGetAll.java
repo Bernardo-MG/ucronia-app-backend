@@ -38,7 +38,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.data.domain.Page;
@@ -50,7 +50,7 @@ import com.bernardomg.data.domain.Sorting;
 class TestPublicMemberServiceGetAll {
 
     @Mock
-    private MemberRepository           memberRepository;
+    private PublicMemberRepository     publicMemberRepository;
 
     @InjectMocks
     private DefaultPublicMemberService service;
@@ -68,7 +68,7 @@ class TestPublicMemberServiceGetAll {
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAllPublic(pagination, sorting)).willReturn(existing);
+        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(pagination, sorting);
@@ -94,7 +94,7 @@ class TestPublicMemberServiceGetAll {
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(PublicMembers.valid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAllPublic(pagination, sorting)).willReturn(existing);
+        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(pagination, sorting);
