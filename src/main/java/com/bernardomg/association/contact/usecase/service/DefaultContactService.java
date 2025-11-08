@@ -133,7 +133,7 @@ public final class DefaultContactService implements ContactService {
 
         read = contactRepository.findAll(filter, pagination, sorting);
 
-        log.debug("Read contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+        log.debug("Read contacts with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
 
         return read;
     }
