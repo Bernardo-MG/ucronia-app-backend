@@ -23,7 +23,7 @@
  */
 
 /**
- * Member specifications.
+ * Member JPA specifications.
  */
 
 package com.bernardomg.association.member.adapter.inbound.jpa.specification;

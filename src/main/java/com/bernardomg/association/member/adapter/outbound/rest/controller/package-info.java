@@ -23,7 +23,7 @@
  */
 
 /**
- * Association member controllers.
+ * Member REST controllers.
  */
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;

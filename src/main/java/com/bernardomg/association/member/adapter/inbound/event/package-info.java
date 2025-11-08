@@ -23,7 +23,7 @@
  */
 
 /**
- * Member exceptions.
+ * Member event adapters.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.member.adapter.inbound.event;

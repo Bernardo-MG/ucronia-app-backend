@@ -23,7 +23,7 @@
  */
 
 /**
- * Member exceptions.
+ * Member REST model.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.member.adapter.outbound.rest.model;

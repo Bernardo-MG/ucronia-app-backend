@@ -23,7 +23,7 @@
  */
 
 /**
- * Member exceptions.
+ * Member filters.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.member.domain.filter;
