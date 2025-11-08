@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.contact.adapter.outbound.cache.ContactsCaches;
 import com.bernardomg.association.contact.adapter.outbound.rest.model.ContactDtoMapper;
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.usecase.service.ContactService;
 import com.bernardomg.data.domain.Page;
@@ -109,11 +109,11 @@ public class ContactController implements ContactApi {
         final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        filter = new ContactFilter(name);
+        filter = new ContactQuery(name);
         contacts = service.getAll(filter, pagination, sorting);
 
         return ContactDtoMapper.toResponseDto(contacts);

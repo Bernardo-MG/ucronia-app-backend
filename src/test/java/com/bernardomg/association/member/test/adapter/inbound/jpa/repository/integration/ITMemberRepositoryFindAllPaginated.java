@@ -30,11 +30,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
+import com.bernardomg.association.member.test.configuration.factory.MemberQueries;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -54,12 +54,12 @@ class ITMemberRepositoryFindAllPaginated {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.empty();
+        filter = MemberQueries.empty();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -79,12 +79,12 @@ class ITMemberRepositoryFindAllPaginated {
         final Page<Member> people;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.empty();
+        filter = MemberQueries.empty();
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);

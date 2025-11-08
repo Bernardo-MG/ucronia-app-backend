@@ -22,10 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.domain.filter;
 
-import java.time.Instant;
+public record MemberQuery(MemberFilterStatus status, String name) {
 
-public final record MemberBalanceQuery(Instant from, Instant to) {
+    public MemberQuery {
+        // TODO: reject nulls
+        if (status == null) {
+            status = MemberFilterStatus.ALL;
+        }
+        if (name == null) {
+            name = "";
+        }
+    }
+
+    public enum MemberFilterStatus {
+        ACTIVE, ALL, INACTIVE
+    }
 
 }

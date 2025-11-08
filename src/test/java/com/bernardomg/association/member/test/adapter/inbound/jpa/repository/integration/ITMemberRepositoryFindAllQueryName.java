@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.filter.MemberFilter.MemberFilterStatus;
+import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -57,12 +57,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -81,12 +81,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -105,12 +105,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -129,12 +129,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -153,12 +153,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL,
+        filter = new MemberQuery(MemberFilterStatus.ALL,
             ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
         // WHEN
@@ -178,12 +178,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -199,14 +199,14 @@ class ITMemberRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and matching first name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_FirstName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final MemberQuery filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
         repository.findAll(filter, pagination, sorting);
 
@@ -221,14 +221,14 @@ class ITMemberRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and matching full name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_FullName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final MemberQuery filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
 
         repository.findAll(filter, pagination, sorting);
 
@@ -243,14 +243,14 @@ class ITMemberRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and matching last name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_LastName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final MemberQuery filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
 
         repository.findAll(filter, pagination, sorting);
 
@@ -265,14 +265,14 @@ class ITMemberRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and partial matching name, it is is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive_PartialName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final MemberQuery filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL,
+        filter = new MemberQuery(MemberFilterStatus.ALL,
             ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
         repository.findAll(filter, pagination, sorting);
@@ -291,12 +291,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -315,12 +315,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -339,12 +339,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -363,12 +363,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -387,12 +387,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL,
+        filter = new MemberQuery(MemberFilterStatus.ALL,
             ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
         // WHEN
@@ -412,12 +412,12 @@ class ITMemberRepositoryFindAllQueryName {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

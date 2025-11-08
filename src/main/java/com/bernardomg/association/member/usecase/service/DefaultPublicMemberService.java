@@ -67,11 +67,11 @@ public final class DefaultPublicMemberService implements PublicMemberService {
     public final Page<PublicMember> getAll(final Pagination pagination, final Sorting sorting) {
         final Page<PublicMember> members;
 
-        log.debug("Getting all members");
+        log.debug("Reading public members with pagination {} and sorting {}", pagination, sorting);
 
         members = memberRepository.findAllPublic(pagination, sorting);
 
-        log.debug("Got all members");
+        log.debug("Read public members with pagination {} and sorting {}: {}", pagination, sorting, members);
 
         return members;
 

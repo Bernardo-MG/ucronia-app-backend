@@ -40,7 +40,7 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntit
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntityMapper;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.specification.ContactSpecifications;
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
@@ -120,7 +120,7 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     @Override
-    public final Page<Contact> findAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting) {
+    public final Page<Contact> findAll(final ContactQuery filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Contact> read;
         final Pageable                                      pageable;
         final Optional<Specification<ContactEntity>>        spec;

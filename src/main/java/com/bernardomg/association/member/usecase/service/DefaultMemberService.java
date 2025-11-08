@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
@@ -62,10 +62,16 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+    public final Page<Member> getAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting) {
+        final Page<Member> read;
 
-        return memberRepository.findAll(filter, pagination, sorting);
+        log.debug("Reading members with query {}, pagination {} and sorting {}", filter, pagination, sorting);
+
+        read = memberRepository.findAll(filter, pagination, sorting);
+
+        log.debug("Read members with query {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
+
+        return read;
     }
 
 }

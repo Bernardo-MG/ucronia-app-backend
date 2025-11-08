@@ -26,7 +26,7 @@ package com.bernardomg.association.contact.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -60,7 +60,7 @@ public interface ContactService {
     /**
      * Returns all the contacts matching the query. If the sample fields are empty, then all the contacts are returned.
      *
-     * @param filter
+     * @param query
      *            filter to apply
      * @param pagination
      *            pagination to apply
@@ -68,7 +68,7 @@ public interface ContactService {
      *            sorting to apply
      * @return all the contacts matching the sample
      */
-    public Page<Contact> getAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<Contact> getAll(final ContactQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the contact for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

@@ -17,11 +17,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
+import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberBalanceConstants;
-import com.bernardomg.association.member.test.configuration.factory.MemberBalanceQueryRequests;
+import com.bernardomg.association.member.test.configuration.factory.MemberBalanceQueries;
 import com.bernardomg.association.member.test.configuration.factory.MonthlyMemberBalances;
 import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
 
@@ -50,7 +50,7 @@ class TestMemberBalanceServiceGetMonthlyBalance {
                     .toInstant()),
             any())).willReturn(List.of(MonthlyMemberBalances.currentMonth()));
 
-        query = MemberBalanceQueryRequests.previousAndThis();
+        query = MemberBalanceQueries.previousAndThis();
 
         // WHEN
         balances = service.getMonthlyBalance(query);
@@ -67,7 +67,7 @@ class TestMemberBalanceServiceGetMonthlyBalance {
         final MemberBalanceQuery query;
 
         // GIVEN
-        query = MemberBalanceQueryRequests.aroundCurrent();
+        query = MemberBalanceQueries.aroundCurrent();
 
         // WHEN
         service.getMonthlyBalance(query);
@@ -98,7 +98,7 @@ class TestMemberBalanceServiceGetMonthlyBalance {
                     .toInstant()),
             any())).willReturn(List.of());
 
-        query = MemberBalanceQueryRequests.previousAndThis();
+        query = MemberBalanceQueries.previousAndThis();
 
         // WHEN
         balances = service.getMonthlyBalance(query);

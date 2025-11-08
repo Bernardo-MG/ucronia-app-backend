@@ -27,7 +27,7 @@ package com.bernardomg.association.contact.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -43,7 +43,7 @@ public interface ContactRepository {
 
     public boolean existsByIdentifierForAnother(final long number, final String identifier);
 
-    public Page<Contact> findAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<Contact> findAll(final ContactQuery filter, final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();
 

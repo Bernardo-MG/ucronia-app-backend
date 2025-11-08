@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
@@ -55,12 +55,12 @@ class ITContactRepositoryFindAllQueryName {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactConstants.FIRST_NAME);
+        filter = new ContactQuery(ContactConstants.FIRST_NAME);
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -79,12 +79,12 @@ class ITContactRepositoryFindAllQueryName {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactConstants.FULL_NAME);
+        filter = new ContactQuery(ContactConstants.FULL_NAME);
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -103,12 +103,12 @@ class ITContactRepositoryFindAllQueryName {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactConstants.LAST_NAME);
+        filter = new ContactQuery(ContactConstants.LAST_NAME);
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -126,12 +126,12 @@ class ITContactRepositoryFindAllQueryName {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactConstants.FIRST_NAME);
+        filter = new ContactQuery(ContactConstants.FIRST_NAME);
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -150,12 +150,12 @@ class ITContactRepositoryFindAllQueryName {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
+        filter = new ContactQuery(ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -174,12 +174,12 @@ class ITContactRepositoryFindAllQueryName {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ContactFilter(ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new ContactQuery(ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);

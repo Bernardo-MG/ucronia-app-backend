@@ -3,9 +3,9 @@ package com.bernardomg.association.member.test.configuration.factory;
 
 import java.time.ZoneOffset;
 
-import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
+import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
 
-public final class MemberBalanceQueryRequests {
+public final class MemberBalanceQueries {
 
     public static final MemberBalanceQuery aroundCurrent() {
         return new MemberBalanceQuery(MemberBalanceConstants.PREVIOUS_MONTH.atDay(1)
@@ -47,7 +47,7 @@ public final class MemberBalanceQueryRequests {
                 .toInstant());
     }
 
-    private MemberBalanceQueryRequests() {
+    private MemberBalanceQueries() {
         super();
     }
 

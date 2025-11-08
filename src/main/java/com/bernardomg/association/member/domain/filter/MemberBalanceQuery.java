@@ -24,20 +24,8 @@
 
 package com.bernardomg.association.member.domain.filter;
 
-public record MemberFilter(MemberFilterStatus status, String name) {
+import java.time.Instant;
 
-    public MemberFilter {
-        // TODO: reject nulls
-        if (status == null) {
-            status = MemberFilterStatus.ALL;
-        }
-        if (name == null) {
-            name = "";
-        }
-    }
-
-    public enum MemberFilterStatus {
-        ACTIVE, ALL, INACTIVE
-    }
+public final record MemberBalanceQuery(Instant from, Instant to) {
 
 }

@@ -26,7 +26,7 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Collection;
 
-import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
+import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 
 /**

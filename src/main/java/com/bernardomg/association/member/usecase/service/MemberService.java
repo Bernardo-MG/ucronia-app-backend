@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -41,7 +41,7 @@ public interface MemberService {
     /**
      * Returns all the members matching the filter.
      *
-     * @param filter
+     * @param query
      *            filter to apply
      * @param pagination
      *            pagination to apply
@@ -49,6 +49,6 @@ public interface MemberService {
      *            sorting to apply
      * @return all the members matching the sample
      */
-    public Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<Member> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting);
 
 }

@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
+import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.data.domain.Sorting;
@@ -71,7 +71,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
         final Sorting                          sorting;
         final Collection<MonthlyMemberBalance> balance;
 
-        log.debug("Reading monthly balance with query {}", query);
+        log.debug("Reading monthly member balance with query {}", query);
 
         // Up to this month
         now = YearMonth.now()
@@ -89,7 +89,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
         balance = memberBalanceRepository.findInRange(query.from(), end, sorting);
 
-        log.debug("Read monthly balance with query {}: {}", query, balance);
+        log.debug("Read monthly member balance with query {}: {}", query, balance);
 
         return balance;
     }

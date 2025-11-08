@@ -43,7 +43,7 @@ import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -74,7 +74,7 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
+    public final Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
         final Optional<Specification<MemberEntity>>        spec;

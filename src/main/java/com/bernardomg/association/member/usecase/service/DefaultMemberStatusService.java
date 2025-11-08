@@ -62,7 +62,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         if (YearMonth.now()
             .equals(date)) {
-            log.debug("Activating membership for {}", memberNumber);
+            log.debug("Activating member {}", memberNumber);
             member = memberRepository.findOne(memberNumber);
 
             if (member.isEmpty()) {
@@ -72,7 +72,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
                 activated = activated(member.get());
                 memberRepository.save(activated);
 
-                log.debug("Activated membership for {}", memberNumber);
+                log.debug("Activated member {}", memberNumber);
             }
         }
     }
@@ -101,6 +101,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
         toSave = Stream.concat(toActivate.stream(), toDeactivate.stream())
             .toList();
         memberRepository.saveAll(toSave);
+
+        log.debug("Applied membership renewals to {}", toSave);
     }
 
     @Override
@@ -121,7 +123,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
                 deactivated = deactivated(member.get());
                 memberRepository.save(deactivated);
 
-                log.debug("Deactivated membership for {}", memberNumber);
+                log.debug("Deactivated member {}", memberNumber);
             }
         }
     }

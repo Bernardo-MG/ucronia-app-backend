@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.contact.domain.filter;
 
-public record ContactFilter(String name) {
+public record ContactQuery(String name) {
 
-    public ContactFilter {
+    public ContactQuery {
         // TODO: reject nulls
         if (name == null) {
             name = "";

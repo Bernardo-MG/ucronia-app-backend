@@ -41,11 +41,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.factory.ContactFilters;
+import com.bernardomg.association.contact.test.configuration.factory.ContactQueries;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.contact.usecase.service.DefaultContactService;
 import com.bernardomg.data.domain.Page;
@@ -77,12 +77,12 @@ class TestContactServiceGetAll {
         final Page<Contact> existing;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
+        filter = ContactQueries.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -105,12 +105,12 @@ class TestContactServiceGetAll {
         final Page<Contact> existing;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
+        filter = ContactQueries.empty();
 
         existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -131,13 +131,13 @@ class TestContactServiceGetAll {
     void testGetAll_Sort_Paged_Asc_FirstName() {
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
         final Page<Contact> existing;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
-        filter = ContactFilters.empty();
+        filter = ContactQueries.empty();
 
         existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -158,12 +158,12 @@ class TestContactServiceGetAll {
         final Pagination    pagination;
         final Sorting       sorting;
         final Page<Contact> existing;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
-        filter = ContactFilters.empty();
+        filter = ContactQueries.empty();
 
         existing = new Page<>(List.of(Contacts.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(contactRepository.findAll(filter, pagination, sorting)).willReturn(existing);

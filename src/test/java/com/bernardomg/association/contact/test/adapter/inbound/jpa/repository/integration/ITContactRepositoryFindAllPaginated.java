@@ -30,11 +30,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactFilters;
+import com.bernardomg.association.contact.test.configuration.factory.ContactQueries;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -54,12 +54,12 @@ class ITContactRepositoryFindAllPaginated {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
+        filter = ContactQueries.empty();
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);
@@ -79,12 +79,12 @@ class ITContactRepositoryFindAllPaginated {
         final Page<Contact> people;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ContactFilter filter;
+        final ContactQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = ContactFilters.empty();
+        filter = ContactQueries.empty();
 
         // WHEN
         people = repository.findAll(filter, pagination, sorting);

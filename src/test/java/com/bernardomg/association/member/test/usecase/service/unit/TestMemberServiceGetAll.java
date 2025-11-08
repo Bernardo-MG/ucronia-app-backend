@@ -42,10 +42,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
+import com.bernardomg.association.member.test.configuration.factory.MemberQueries;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.data.domain.Page;
@@ -77,12 +77,12 @@ class TestMemberServiceGetAll {
         final Page<Member> existing;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.empty();
+        filter = MemberQueries.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -105,12 +105,12 @@ class TestMemberServiceGetAll {
         final Page<Member> existing;
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.empty();
+        filter = MemberQueries.empty();
 
         existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -131,13 +131,13 @@ class TestMemberServiceGetAll {
     void testGetAll_Sort_Paged_Asc_FirstName() {
         final Pagination   pagination;
         final Sorting      sorting;
-        final MemberFilter filter;
+        final MemberQuery  filter;
         final Page<Member> existing;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
-        filter = MemberFilters.empty();
+        filter = MemberQueries.empty();
 
         existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -158,12 +158,12 @@ class TestMemberServiceGetAll {
         final Pagination   pagination;
         final Sorting      sorting;
         final Page<Member> existing;
-        final MemberFilter filter;
+        final MemberQuery  filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
-        filter = MemberFilters.empty();
+        filter = MemberQueries.empty();
 
         existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);

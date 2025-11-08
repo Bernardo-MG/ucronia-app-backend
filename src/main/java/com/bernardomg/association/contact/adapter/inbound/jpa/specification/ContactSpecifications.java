@@ -29,11 +29,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 
 public final class ContactSpecifications {
 
-    public static Optional<Specification<ContactEntity>> filter(final ContactFilter filter) {
+    public static Optional<Specification<ContactEntity>> filter(final ContactQuery filter) {
         final Optional<Specification<ContactEntity>> nameSpec;
 
         if (filter.name()

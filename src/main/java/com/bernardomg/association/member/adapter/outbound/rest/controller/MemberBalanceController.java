@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberBalanceDtoMapper;
-import com.bernardomg.association.member.domain.model.MemberBalanceQuery;
+import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;

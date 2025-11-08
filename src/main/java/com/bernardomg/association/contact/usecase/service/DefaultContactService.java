@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.filter.ContactFilter;
+import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
@@ -126,14 +126,14 @@ public final class DefaultContactService implements ContactService {
     }
 
     @Override
-    public final Page<Contact> getAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting) {
+    public final Page<Contact> getAll(final ContactQuery query, final Pagination pagination, final Sorting sorting) {
         final Page<Contact> read;
 
-        log.debug("Reading contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+        log.debug("Reading contacts with query {}, pagination {} and sorting {}", query, pagination, sorting);
 
-        read = contactRepository.findAll(filter, pagination, sorting);
+        read = contactRepository.findAll(query, pagination, sorting);
 
-        log.debug("Read contacts with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
+        log.debug("Read contacts with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, read);
 
         return read;
     }
