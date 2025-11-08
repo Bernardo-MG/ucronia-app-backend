@@ -288,7 +288,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a member with a member method, the member is returned")
+    @DisplayName("With a member with a contact channel, the member is returned")
     @EmailContactMethod
     void testSave_WithMember_ReturnedData() {
         final Member member;
@@ -307,9 +307,9 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a member with a member method, the member is persisted")
+    @DisplayName("With a member with a contact channel, the member is persisted")
     @EmailContactMethod
-    void testSave_WithMemberChannel_PersistedData() {
+    void testSave_WithContactChannel_PersistedData() {
         final Member                 member;
         final Iterable<MemberEntity> entities;
 
