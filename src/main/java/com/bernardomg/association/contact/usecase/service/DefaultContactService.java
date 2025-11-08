@@ -49,7 +49,7 @@ import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 /**
- * Default implementation of the person service.
+ * Default implementation of the contact service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

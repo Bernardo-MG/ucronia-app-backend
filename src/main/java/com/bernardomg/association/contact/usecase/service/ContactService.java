@@ -41,24 +41,24 @@ import com.bernardomg.data.domain.Sorting;
 public interface ContactService {
 
     /**
-     * Persists the received person.
+     * Persists the received contact.
      *
      * @param contact
      *            contact to persist
-     * @return the persisted person
+     * @return the persisted contact
      */
     public Contact create(final Contact contact);
 
     /**
-     * Deletes the person with the received id.
+     * Deletes the contact with the received id.
      *
      * @param number
-     *            number of the person to delete
+     *            number of the contact to delete
      */
     public Contact delete(final long number);
 
     /**
-     * Returns all the persons matching the query. If the sample fields are empty, then all the persons are returned.
+     * Returns all the contacts matching the query. If the sample fields are empty, then all the contacts are returned.
      *
      * @param filter
      *            filter to apply
@@ -66,34 +66,34 @@ public interface ContactService {
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the persons matching the sample
+     * @return all the contacts matching the sample
      */
     public Page<Contact> getAll(final ContactFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
-     * Returns the person for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the contact for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
      * @param number
-     *            number of the person to acquire
-     * @return an {@code Optional} with the person, if it exists, of an empty {@code Optional} otherwise
+     *            number of the contact to acquire
+     * @return an {@code Optional} with the contact, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Contact> getOne(final long number);
 
     /**
-     * Patches the person for the received id with the received data.
+     * Patches the contact for the received id with the received data.
      *
      * @param contact
      *            new data for the contact
-     * @return the updated person
+     * @return the updated contact
      */
     public Contact patch(final Contact contact);
 
     /**
-     * Updates the person for the received id with the received data.
+     * Updates the contact for the received id with the received data.
      *
      * @param contact
      *            new data for the contact
-     * @return the updated person
+     * @return the updated contact
      */
     public Contact update(final Contact contact);
 
