@@ -34,7 +34,7 @@ import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
 /**
- * Author repository mapper.
+ * Contact entity mapper.
  */
 public final class ContactEntityMapper {
 

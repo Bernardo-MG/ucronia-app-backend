@@ -33,7 +33,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.PublicMember;
 
 /**
- * Author repository mapper.
+ * Member entity mapper.
  */
 public final class MemberEntityMapper {
 

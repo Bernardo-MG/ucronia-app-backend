@@ -27,7 +27,7 @@ package com.bernardomg.association.contact.adapter.inbound.jpa.model;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 
 /**
- * Author repository mapper.
+ * Contact method entity mapper.
  */
 public final class ContactMethodEntityMapper {
 

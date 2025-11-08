@@ -53,12 +53,12 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
      */
     private static final Logger                        log = LoggerFactory.getLogger(JpaMemberBalanceRepository.class);
 
-    private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository;
+    private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceSpringRepository;
 
-    public JpaMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepo) {
+    public JpaMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceSpringRepo) {
         super();
 
-        monthlyMemberBalanceRepository = Objects.requireNonNull(monthlyMemberBalanceRepo);
+        monthlyMemberBalanceSpringRepository = Objects.requireNonNull(monthlyMemberBalanceSpringRepo);
     }
 
     @Override
@@ -77,9 +77,9 @@ public final class JpaMemberBalanceRepository implements MemberBalanceRepository
 
         sort = SpringSorting.toSort(sorting);
         if (spec.isPresent()) {
-            balances = monthlyMemberBalanceRepository.findAll(spec.get(), sort);
+            balances = monthlyMemberBalanceSpringRepository.findAll(spec.get(), sort);
         } else {
-            balances = monthlyMemberBalanceRepository.findAll(sort);
+            balances = monthlyMemberBalanceSpringRepository.findAll(sort);
         }
 
         monthlyBalances = balances.stream()

@@ -31,7 +31,7 @@ import java.time.ZoneOffset;
 import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
 
 /**
- * Author repository mapper.
+ * Monthly member balance entity mapper.
  */
 public final class MonthlyMemberBalanceEntityMapper {
 

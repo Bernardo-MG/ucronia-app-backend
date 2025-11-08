@@ -80,7 +80,7 @@ public final class JpaMemberRepository implements MemberRepository {
         final Pageable                                     pageable;
         final Optional<Specification<MemberEntity>>        spec;
 
-        log.debug("Finding all the contacts");
+        log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = MemberSpecifications.filter(filter);
@@ -92,7 +92,7 @@ public final class JpaMemberRepository implements MemberRepository {
                 .map(MemberEntityMapper::toDomain);
         }
 
-        log.debug("Found all the contacts: {}", read);
+        log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
 
         return SpringPagination.toPage(read);
     }
@@ -149,12 +149,12 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Optional<Member> findOne(final Long number) {
         final Optional<Member> member;
 
-        log.trace("Finding public member with number {}", number);
+        log.trace("Finding member with number {}", number);
 
         member = memberSpringRepository.findByNumber(number)
             .map(MemberEntityMapper::toDomain);
 
-        log.trace("Found public member with number {}: {}", number, member);
+        log.trace("Found member with number {}: {}", number, member);
 
         return member;
     }

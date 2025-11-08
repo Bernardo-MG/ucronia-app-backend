@@ -125,7 +125,7 @@ public final class JpaContactRepository implements ContactRepository {
         final Pageable                                      pageable;
         final Optional<Specification<ContactEntity>>        spec;
 
-        log.debug("Finding all the contacts");
+        log.debug("Finding all the contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = ContactSpecifications.filter(filter);
@@ -137,7 +137,8 @@ public final class JpaContactRepository implements ContactRepository {
                 .map(ContactEntityMapper::toDomain);
         }
 
-        log.debug("Found all the contacts: {}", read);
+        log.debug("Found all the contacts with filter {}, pagination {} and sorting {}: {}", filter, pagination,
+            sorting, read);
 
         return SpringPagination.toPage(read);
     }
