@@ -36,11 +36,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
@@ -92,7 +91,8 @@ public final class JpaMemberRepository implements MemberRepository {
                 .map(MemberEntityMapper::toDomain);
         }
 
-        log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
+        log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
+            read);
 
         return SpringPagination.toPage(read);
     }
@@ -174,14 +174,22 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Member save(final Member member) {
-        final Optional<MemberEntity> existing;
-        final MemberEntity           entity;
-        final MemberEntity           created;
-        final Member                 saved;
+        final Optional<MemberEntity>    existing;
+        final MemberEntity              entity;
+        final Member                    created;
+        final List<Long>                contactMethodNumbers;
+        final List<ContactMethodEntity> contactMethods;
 
         log.debug("Saving member {}", member);
 
-        entity = toEntity(member);
+        contactMethodNumbers = member.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        // TODO: exception for missing contact methods
+        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        entity = MemberEntityMapper.toEntity(member, contactMethods);
 
         existing = memberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
@@ -189,27 +197,32 @@ public final class JpaMemberRepository implements MemberRepository {
                 .getId());
         }
 
-        created = memberSpringRepository.save(entity);
+        created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
 
-        // TODO: Why not returning the saved one?
-        saved = memberSpringRepository.findByNumber(created.getNumber())
-            .map(MemberEntityMapper::toDomain)
-            .get();
+        log.debug("Saved member {}", created);
 
-        log.debug("Saved member {}", saved);
-
-        return saved;
+        return created;
     }
 
     @Override
     public final Collection<Member> saveAll(final Collection<Member> members) {
-        final List<MemberEntity> entities;
-        final List<Member>       saved;
+        final List<MemberEntity>        entities;
+        final List<Member>              saved;
+        final List<Long>                contactMethodNumbers;
+        final List<ContactMethodEntity> contactMethods;
 
         log.debug("Saving members {}", members);
 
+        contactMethodNumbers = members.stream()
+            .map(Member::contactChannels)
+            .flatMap(Collection::stream)
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        // TODO: exception for missing contact methods
+        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entities = members.stream()
-            .map(this::toEntity)
+            .map(m -> MemberEntityMapper.toEntity(m, contactMethods))
             .toList();
 
         saved = memberSpringRepository.saveAll(entities)
@@ -220,55 +233,6 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Saved members {}", saved);
 
         return saved;
-    }
-
-    private final MemberEntity toEntity(final Member data) {
-        final boolean                          active;
-        final boolean                          renew;
-        final MemberEntity                     entity;
-        final Collection<ContactChannelEntity> contacts;
-
-        active = data.active();
-        renew = data.renew();
-
-        entity = new MemberEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setActive(active);
-        entity.setRenewMembership(renew);
-
-        contacts = data.contactChannels()
-            .stream()
-            .map(c -> toEntity(entity, c))
-            .toList();
-        entity.setContactChannels(contacts);
-
-        return entity;
-    }
-
-    private final ContactChannelEntity toEntity(final MemberEntity member, final ContactChannel data) {
-        final ContactChannelEntity          entity;
-        final Optional<ContactMethodEntity> contactMethod;
-
-        contactMethod = contactMethodSpringRepository.findByNumber(data.contactMethod()
-            .number());
-
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.contactMethod()
-                .number());
-        }
-
-        entity = new ContactChannelEntity();
-        entity.setContact(member);
-        entity.setContactMethod(contactMethod.get());
-        entity.setDetail(data.detail());
-
-        return entity;
     }
 
 }

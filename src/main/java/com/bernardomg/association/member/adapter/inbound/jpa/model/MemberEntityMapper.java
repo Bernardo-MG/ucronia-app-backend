@@ -25,8 +25,12 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
@@ -51,12 +55,66 @@ public final class MemberEntityMapper {
             entity.getRenewMembership(), contacts);
     }
 
+    public static final MemberEntity toEntity(final Member data, final Collection<ContactMethodEntity> contactMethods) {
+        final boolean                          active;
+        final boolean                          renew;
+        final MemberEntity                     entity;
+        final Collection<ContactChannelEntity> contacts;
+
+        active = data.active();
+        renew = data.renew();
+
+        entity = new MemberEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier(data.identifier());
+        entity.setBirthDate(data.birthDate());
+        entity.setActive(active);
+        entity.setRenewMembership(renew);
+
+        contacts = data.contactChannels()
+            .stream()
+            .map(m -> MemberEntityMapper.toEntity(entity, m, contactMethods))
+            .toList();
+        entity.setContactChannels(contacts);
+
+        return entity;
+    }
+
     public static final PublicMember toPublicDomain(final MemberEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
         // TODO: check it has membership flag
         return new PublicMember(entity.getNumber(), name);
+    }
+
+    private static final ContactChannelEntity toEntity(final MemberEntity member, final ContactChannel data,
+            final Collection<ContactMethodEntity> concatMethods) {
+        final ContactChannelEntity          entity;
+        final Optional<ContactMethodEntity> contactMethod;
+
+        contactMethod = concatMethods.stream()
+            .filter(m -> m.getNumber()
+                .equals(data.contactMethod()
+                    .number()))
+            .findFirst();
+
+        // TODO: do this outside
+        if (contactMethod.isEmpty()) {
+            throw new MissingContactMethodException(data.contactMethod()
+                .number());
+        }
+
+        entity = new ContactChannelEntity();
+        entity.setContact(member);
+        entity.setContactMethod(contactMethod.get());
+        entity.setDetail(data.detail());
+
+        return entity;
     }
 
     private MemberEntityMapper() {
