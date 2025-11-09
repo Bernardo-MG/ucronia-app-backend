@@ -288,25 +288,6 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a member with a contact channel, the member is returned")
-    @EmailContactMethod
-    void testSave_WithMember_ReturnedData() {
-        final Member member;
-        final Member saved;
-
-        // GIVEN
-        member = Members.withEmail();
-
-        // WHEN
-        saved = repository.save(member);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("member")
-            .isEqualTo(Members.withEmail());
-    }
-
-    @Test
     @DisplayName("With a member with a contact channel, the member is persisted")
     @EmailContactMethod
     void testSave_WithContactChannel_PersistedData() {
@@ -324,9 +305,28 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.member",
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.contact",
                 "contactChannels.contactMethod")
             .containsExactly(MemberEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a member with a contact channel, the member is returned")
+    @EmailContactMethod
+    void testSave_WithMember_ReturnedData() {
+        final Member member;
+        final Member saved;
+
+        // GIVEN
+        member = Members.withEmail();
+
+        // WHEN
+        saved = repository.save(member);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("member")
+            .isEqualTo(Members.withEmail());
     }
 
 }

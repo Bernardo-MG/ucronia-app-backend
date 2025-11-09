@@ -152,7 +152,8 @@ public class ContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactEntity [birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id + ", identifier="
+        return "ContactEntity [birthDate=" + birthDate + ", contactChannels=" + contactChannels.stream()
+            .map(ContactChannelEntity::getDetail) + ", firstName=" + firstName + ", id=" + id + ", identifier="
                 + identifier + ", lastName=" + lastName + ", number=" + number + "]";
     }
 

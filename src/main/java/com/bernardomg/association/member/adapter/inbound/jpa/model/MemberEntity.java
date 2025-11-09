@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 
 import jakarta.persistence.Column;
@@ -40,6 +41,15 @@ public class MemberEntity extends ContactEntity {
 
     public void setRenewMembership(final Boolean renewMembership) {
         this.renewMembership = renewMembership;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberEntity [active=" + active + ", renewMembership=" + renewMembership + ", birthDate="
+                + getBirthDate() + ", contactChannels=" + getContactChannels().stream()
+                    .map(ContactChannelEntity::getDetail)
+                + ", firstName=" + getFirstName() + ", id=" + getId() + ", identifier=" + getIdentifier()
+                + ", lastName=" + getLastName() + ", number=" + getNumber() + "]";
     }
 
 }
