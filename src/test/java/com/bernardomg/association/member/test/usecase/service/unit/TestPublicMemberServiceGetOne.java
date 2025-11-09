@@ -40,8 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 
@@ -50,7 +49,7 @@ import com.bernardomg.association.member.usecase.service.DefaultPublicMemberServ
 class TestPublicMemberServiceGetOne {
 
     @Mock
-    private MemberRepository           memberRepository;
+    private PublicMemberRepository     publicMemberRepository;
 
     @InjectMocks
     private DefaultPublicMemberService service;
@@ -65,7 +64,7 @@ class TestPublicMemberServiceGetOne {
         final Optional<PublicMember> member;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(publicMemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
 
         // WHEN
         member = service.getOne(ContactConstants.NUMBER);
@@ -81,7 +80,7 @@ class TestPublicMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(publicMemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(ContactConstants.NUMBER);
