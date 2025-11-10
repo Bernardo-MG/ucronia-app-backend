@@ -33,14 +33,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.usecase.validation.ContactIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.contact.usecase.validation.ContactIdentifierNotExistRule;
-import com.bernardomg.association.contact.usecase.validation.ContactMethodExistsRule;
 import com.bernardomg.association.contact.usecase.validation.ContactNameNotEmptyRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -61,26 +63,29 @@ public final class DefaultContactService implements ContactService {
     /**
      * Logger for the class.
      */
-    private static final Logger      log = LoggerFactory.getLogger(DefaultContactService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultContactService.class);
 
-    private final ContactRepository  contactRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
-    private final Validator<Contact> createContactValidator;
+    private final ContactRepository       contactRepository;
 
-    private final Validator<Contact> patchContactValidator;
+    private final Validator<Contact>      createContactValidator;
 
-    private final Validator<Contact> updateContactValidator;
+    private final Validator<Contact>      patchContactValidator;
+
+    private final Validator<Contact>      updateContactValidator;
 
     public DefaultContactService(final ContactRepository contactRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         contactRepository = Objects.requireNonNull(contactRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
         createContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new ContactMethodExistsRule(contactMethodRepo), new ContactIdentifierNotExistRule(contactRepo));
+            new ContactIdentifierNotExistRule(contactRepo));
         updateContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new ContactMethodExistsRule(contactMethodRepo), new ContactIdentifierNotExistForAnotherRule(contactRepo));
+            new ContactIdentifierNotExistForAnotherRule(contactRepo));
         patchContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new ContactMethodExistsRule(contactMethodRepo), new ContactIdentifierNotExistForAnotherRule(contactRepo));
+            new ContactIdentifierNotExistForAnotherRule(contactRepo));
     }
 
     @Override
@@ -90,6 +95,12 @@ public final class DefaultContactService implements ContactService {
         final Long    number;
 
         log.debug("Creating contact {}", contact);
+
+        // TODO: maybe send an exception with all
+        contact.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
 
         // Set number
         number = contactRepository.findNextNumber();
@@ -172,6 +183,12 @@ public final class DefaultContactService implements ContactService {
                 throw new MissingContactException(contact.number());
             });
 
+        // TODO: maybe send an exception with all
+        contact.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         toSave = copy(existing, contact);
 
         patchContactValidator.validate(toSave);
@@ -197,6 +214,12 @@ public final class DefaultContactService implements ContactService {
             throw new MissingContactException(contact.number());
         }
 
+        // TODO: maybe send an exception with all
+        contact.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         updateContactValidator.validate(contact);
 
         saved = contactRepository.save(contact);
@@ -204,6 +227,13 @@ public final class DefaultContactService implements ContactService {
         log.debug("Updated contact {}: {}", contact.number(), saved);
 
         return saved;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     private final Contact copy(final Contact existing, final Contact updated) {

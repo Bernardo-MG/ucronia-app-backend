@@ -31,12 +31,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
+import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistRule;
+import com.bernardomg.association.member.usecase.validation.MemberNameNotEmptyRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the member service.
@@ -51,14 +59,50 @@ public final class DefaultMemberService implements MemberService {
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(DefaultMemberService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberService.class);
 
-    private final MemberRepository memberRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo) {
+    private final Validator<Member>       createMemberValidator;
+
+    private final MemberRepository        memberRepository;
+
+    public DefaultMemberService(final MemberRepository memberRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
+        createMemberValidator = new FieldRuleValidator<>(new MemberNameNotEmptyRule(),
+            new MemberIdentifierNotExistRule(memberRepo));
+    }
+
+    @Override
+    public final Member create(final Member member) {
+        final Member toCreate;
+        final Member created;
+        final Long   number;
+
+        log.debug("Creating contact {}", member);
+
+        // TODO: maybe send an exception with all
+        member.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
+        // Set number
+        number = memberRepository.findNextNumber();
+
+        toCreate = new Member(member.identifier(), number, member.name(), member.birthDate(), member.active(),
+            member.renew(), member.contactChannels());
+
+        createMemberValidator.validate(toCreate);
+
+        created = memberRepository.save(toCreate);
+
+        log.debug("Created contact {}", created);
+
+        return created;
     }
 
     @Override
@@ -72,6 +116,13 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Read members with query {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
 
         return read;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
 }

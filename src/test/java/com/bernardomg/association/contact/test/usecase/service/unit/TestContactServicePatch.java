@@ -40,6 +40,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
@@ -220,7 +221,7 @@ class TestContactServicePatch {
 
     @Test
     @DisplayName("With a contact with a not existing contact method, an exception is thrown")
-    void testPatch_WithContactChannel_NotExisting() {
+    void testPatch_WithContactChannel_NotExistingContactMethod() {
         final Contact          contact;
         final ThrowingCallable execution;
 
@@ -234,8 +235,8 @@ class TestContactServicePatch {
         execution = () -> service.patch(contact);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("notExisting", "contactMethod", ContactMethodConstants.NUMBER));
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingContactMethodException.class);
     }
 
     @Test

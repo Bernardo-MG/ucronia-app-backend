@@ -39,6 +39,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 public interface MemberSpringRepository
         extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
 
+    public boolean existsByIdentifier(final String identifier);
+
     @Query("""
             SELECT m
             FROM Member m
@@ -77,6 +79,9 @@ public interface MemberSpringRepository
             WHERE m.number = :number
             """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+
+    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    public Long findNextNumber();
 
     @Query("""
             SELECT m.active

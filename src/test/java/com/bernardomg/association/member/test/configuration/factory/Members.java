@@ -74,6 +74,35 @@ public final class Members {
             false, false, List.of());
     }
 
+    public static final Member noIdentifier() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member("", ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, true, true, List.of());
+    }
+
+    public static final Member padded() {
+        final ContactName name;
+
+        name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
+        return new Member(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, true,
+            true, List.of());
+    }
+
+    public static final Member toCreate() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member(ContactConstants.IDENTIFIER, -1L, name, ContactConstants.BIRTH_DATE, true, true, List.of());
+    }
+
+    public static final Member toCreateNoIdentifier() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member("", -1L, name, ContactConstants.BIRTH_DATE, true, true, List.of());
+    }
+
     public static final Member withEmail() {
         final ContactName    name;
         final ContactChannel contactChannel;

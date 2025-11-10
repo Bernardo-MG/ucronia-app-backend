@@ -37,6 +37,7 @@ import com.bernardomg.validation.validator.FieldRule;
 /**
  * Checks the person has a name.
  */
+@Deprecated
 public final class ContactNameNotEmptyRule implements FieldRule<Contact> {
 
     /**

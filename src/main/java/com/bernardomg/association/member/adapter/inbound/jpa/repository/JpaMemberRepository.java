@@ -73,6 +73,19 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if contact identifier {} exists", identifier);
+
+        exists = memberSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Contact identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
@@ -126,6 +139,19 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Found all the members with a renewal mismatch: {}", members);
 
         return members;
+    }
+
+    @Override
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the contacts");
+
+        number = memberSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the contacts: {}", number);
+
+        return number;
     }
 
     @Override

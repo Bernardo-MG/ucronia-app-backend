@@ -22,35 +22,48 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.usecase.validation;
 
-import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.validator.FieldRule;
 
-public interface MemberRepository {
+/**
+ * Checks the person has a name.
+ */
+@Deprecated
+public final class MemberNameNotEmptyRule implements FieldRule<Member> {
 
-    public boolean existsByIdentifier(final String identifier);
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(MemberNameNotEmptyRule.class);
 
-    public Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting);
+    public MemberNameNotEmptyRule() {
+        super();
+    }
 
-    public Collection<Member> findAllToRenew();
+    @Override
+    public final Optional<FieldFailure> check(final Member member) {
+        final Optional<FieldFailure> failure;
+        final FieldFailure           fieldFailure;
 
-    public Collection<Member> findAllWithRenewalMismatch();
+        if (StringUtils.isBlank(member.name()
+            .firstName())) {
+            log.error("Empty name");
+            fieldFailure = new FieldFailure("empty", "name.firstName", member.name());
+            failure = Optional.of(fieldFailure);
+        } else {
+            failure = Optional.empty();
+        }
 
-    public long findNextNumber();
-
-    public Optional<Member> findOne(final Long number);
-
-    public boolean isActive(final long number);
-
-    public Member save(final Member member);
-
-    public Collection<Member> saveAll(final Collection<Member> member);
+        return failure;
+    }
 
 }

@@ -22,61 +22,49 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.usecase.validation;
+package com.bernardomg.association.member.usecase.validation;
 
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
-import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the contact method exists.
+ * Checks the person has a name.
  */
-public final class ContactMethodExistsRule implements FieldRule<Contact> {
+public final class MemberIdentifierNotExistRule implements FieldRule<Member> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(ContactMethodExistsRule.class);
+    private static final Logger    log = LoggerFactory.getLogger(MemberIdentifierNotExistRule.class);
 
-    private final ContactMethodRepository contactMethodRepository;
+    private final MemberRepository memberRepository;
 
-    public ContactMethodExistsRule(final ContactMethodRepository contactMethodRepo) {
+    public MemberIdentifierNotExistRule(final MemberRepository memberRepo) {
         super();
 
-        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Contact contact) {
-        // TODO: what about multiple failues?
-        return contact.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(this::check)
-            .filter(Optional::isPresent)
-            .map(o -> o.orElse(null))
-            .findFirst();
-    }
-
-    private final Optional<FieldFailure> check(final ContactMethod contactMethod) {
+    public final Optional<FieldFailure> check(final Member member) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (!contactMethodRepository.exists(contactMethod.number())) {
-            log.error("Existing contact method name {}", contactMethod.name());
-            fieldFailure = new FieldFailure("notExisting", "contactMethod", contactMethod.number());
-            failure = Optional.of(fieldFailure);
-        } else {
+        if (StringUtils.isBlank(member.identifier()) || !memberRepository.existsByIdentifier(member.identifier())) {
             failure = Optional.empty();
+        } else {
+            log.error("Existing identifier {}", member.identifier());
+            fieldFailure = new FieldFailure("existing", "identifier", member.identifier());
+            failure = Optional.of(fieldFailure);
         }
 
         return failure;
