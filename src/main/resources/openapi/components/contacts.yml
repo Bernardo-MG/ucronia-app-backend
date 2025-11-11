@@ -65,7 +65,6 @@ components:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
     ContactChange:
       type: object
-      required: [identifier, name]
       properties:
         identifier:
           type: string

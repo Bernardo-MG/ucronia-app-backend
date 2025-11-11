@@ -30,8 +30,8 @@ import java.util.Optional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.cache.PublicMembersCaches;
+import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.data.domain.Page;
@@ -68,7 +68,7 @@ public class PublicMemberController implements PublicMemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBERS)
+    @Cacheable(cacheNames = PublicMembersCaches.PUBLIC_MEMBERS)
     public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Pagination         pagination;
@@ -79,18 +79,18 @@ public class PublicMemberController implements PublicMemberApi {
         sorting = WebSorting.toSorting(sort);
         members = service.getAll(pagination, sorting);
 
-        return MemberDtoMapper.toPublicResponseDto(members);
+        return PublicMemberDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBER)
+    @Cacheable(cacheNames = PublicMembersCaches.PUBLIC_MEMBER)
     public PublicMemberResponseDto getMemberByNumber(final Long number) {
         Optional<PublicMember> member;
 
         member = service.getOne(number);
 
-        return MemberDtoMapper.toResponseDto(member);
+        return PublicMemberDtoMapper.toResponseDto(member);
     }
 
 }

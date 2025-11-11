@@ -25,8 +25,12 @@
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
@@ -42,7 +46,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberApi;
+import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
 
 import jakarta.validation.Valid;
@@ -68,6 +75,35 @@ public class MemberController implements MemberApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Contact caches
+                    MembersCaches.MEMBERS }, allEntries = true) })
+    public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
+        final Member member;
+        final Member created;
+
+        member = MemberDtoMapper.toDomain(memberCreationDto);
+        created = service.create(member);
+
+        return MemberDtoMapper.toResponseDto(created);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }), @CacheEvict(cacheNames = {
+            // Contact caches
+            MembersCaches.MEMBERS }, allEntries = true) })
+    public MemberResponseDto deleteMember(final Long number) {
+        final Member member;
+
+        member = service.delete(number);
+
+        return MemberDtoMapper.toResponseDto(member);
+    }
+
+    @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
@@ -89,6 +125,49 @@ public class MemberController implements MemberApi {
         members = service.getAll(filter, pagination, sorting);
 
         return MemberDtoMapper.toResponseDto(members);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembersCaches.MEMBER)
+    public MemberResponseDto getMemberByNumber(final Long number) {
+        Optional<Member> member;
+
+        member = service.getOne(number);
+
+        return MemberDtoMapper.toResponseDto(member);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Contact caches
+                    MembersCaches.MEMBERS }, allEntries = true) })
+    public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
+        final Member member;
+        final Member updated;
+
+        member = MemberDtoMapper.toDomain(number, memberChangeDto);
+        updated = service.patch(member);
+
+        return MemberDtoMapper.toResponseDto(updated);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Contact caches
+                    MembersCaches.MEMBERS }, allEntries = true) })
+    public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
+        final Member member;
+        final Member updated;
+
+        member = MemberDtoMapper.toDomain(number, memberChangeDto);
+        updated = service.update(member);
+
+        return MemberDtoMapper.toResponseDto(updated);
     }
 
 }

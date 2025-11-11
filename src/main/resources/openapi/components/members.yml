@@ -35,6 +35,27 @@ components:
       type: string
       description: Status filter for contact queries.
       enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
+    MemberCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+    MemberChange:
+      type: object
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        active:
+          type: boolean
+          description: Whether the membership is active.
+        renew:
+          type: boolean
+          description: Whether the membership is eligible for renewal.
     MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
@@ -44,6 +65,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Member'
+    MemberResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Member'
     PublicMemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

@@ -79,11 +79,11 @@ public class ContactController implements ContactApi {
                     // Contact caches
                     ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto createContact(@Valid final ContactCreationDto contactCreationDto) {
-        final Contact member;
+        final Contact contact;
         final Contact created;
 
-        member = ContactDtoMapper.toDomain(contactCreationDto);
-        created = service.create(member);
+        contact = ContactDtoMapper.toDomain(contactCreationDto);
+        created = service.create(contact);
 
         return ContactDtoMapper.toResponseDto(created);
     }
@@ -137,11 +137,11 @@ public class ContactController implements ContactApi {
                     // Contact caches
                     ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
-        final Contact member;
+        final Contact contact;
         final Contact updated;
 
-        member = ContactDtoMapper.toDomain(number, contactChangeDto);
-        updated = service.patch(member);
+        contact = ContactDtoMapper.toDomain(number, contactChangeDto);
+        updated = service.patch(contact);
 
         return ContactDtoMapper.toResponseDto(updated);
     }
@@ -153,11 +153,11 @@ public class ContactController implements ContactApi {
                     // Contact caches
                     ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
-        final Contact member;
+        final Contact contact;
         final Contact updated;
 
-        member = ContactDtoMapper.toDomain(number, contactChangeDto);
-        updated = service.update(member);
+        contact = ContactDtoMapper.toDomain(number, contactChangeDto);
+        updated = service.update(contact);
 
         return ContactDtoMapper.toResponseDto(updated);
     }

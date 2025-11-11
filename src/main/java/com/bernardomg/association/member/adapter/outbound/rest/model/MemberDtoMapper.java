@@ -28,49 +28,54 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.PublicMemberDto;
-import com.bernardomg.ucronia.openapi.model.PublicMemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PublicMemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberDtoMapper {
 
-    public static final PublicMemberPageResponseDto toPublicResponseDto(final Page<PublicMember> page) {
-        final SortingDto sortingResponse;
+    public static final Member toDomain(final long number, final MemberChangeDto change) {
+        final ContactName name;
 
-        sortingResponse = new SortingDto().properties(page.sort()
-            .properties()
-            .stream()
-            .map(MemberDtoMapper::toDto)
-            .toList());
-        return new PublicMemberPageResponseDto().content(page.content()
-            .stream()
-            .map(MemberDtoMapper::toDto)
-            .toList())
-            .size(page.size())
-            .page(page.page())
-            .totalElements(page.totalElements())
-            .totalPages(page.totalPages())
-            .elementsInPage(page.elementsInPage())
-            .first(page.first())
-            .last(page.last())
-            .sort(sortingResponse);
+        name = new ContactName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+
+        return new Member(change.getIdentifier(), number, name, change.getBirthDate(), change.getActive(),
+            change.getRenew(), List.of());
     }
 
-    public static final PublicMemberResponseDto toResponseDto(final Optional<PublicMember> member) {
-        return new PublicMemberResponseDto().content(member.map(MemberDtoMapper::toDto)
+    public static final Member toDomain(final MemberCreationDto creation) {
+        final ContactName name;
+
+        name = new ContactName(creation.getName()
+            .getFirstName(),
+            creation.getName()
+                .getLastName());
+
+        return new Member("", -1L, name, null, true, true, List.of());
+    }
+
+    public static final MemberResponseDto toResponseDto(final Member member) {
+        return new MemberResponseDto().content(MemberDtoMapper.toDto(member));
+    }
+
+    public static final MemberResponseDto toResponseDto(final Optional<Member> member) {
+        return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
             .orElse(null));
     }
 
@@ -142,19 +147,6 @@ public final class MemberDtoMapper {
         }
         return new PropertyDto().name(property.name())
             .direction(direction);
-    }
-
-    private static final PublicMemberDto toDto(final PublicMember member) {
-        final ContactNameDto contactName;
-
-        contactName = new ContactNameDto().firstName(member.name()
-            .firstName())
-            .lastName(member.name()
-                .lastName())
-            .fullName(member.name()
-                .fullName());
-        return new PublicMemberDto().number(member.number())
-            .name(contactName);
     }
 
     private MemberDtoMapper() {
