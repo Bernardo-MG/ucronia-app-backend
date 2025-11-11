@@ -37,8 +37,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
@@ -63,23 +63,6 @@ class TestContactServiceCreate {
 
     public TestContactServiceCreate() {
         super();
-    }
-
-    @Test
-    @DisplayName("With a contact with an empty name, an exception is thrown")
-    void testCreate_EmptyName() {
-        final ThrowingCallable execution;
-        final Contact          contact;
-
-        // GIVEN
-        contact = Contacts.emptyName();
-
-        // WHEN
-        execution = () -> service.create(contact);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("empty", "name.firstName", new ContactName("", "")));
     }
 
     @Test
@@ -183,15 +166,14 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.withEmail();
 
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.create(contact);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("notExisting", "contactMethod", ContactMethodConstants.NUMBER));
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingContactMethodException.class);
     }
 
     @Test

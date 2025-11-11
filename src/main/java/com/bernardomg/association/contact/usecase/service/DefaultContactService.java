@@ -43,7 +43,6 @@ import com.bernardomg.association.contact.domain.repository.ContactMethodReposit
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.usecase.validation.ContactIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.contact.usecase.validation.ContactIdentifierNotExistRule;
-import com.bernardomg.association.contact.usecase.validation.ContactNameNotEmptyRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -80,12 +79,9 @@ public final class DefaultContactService implements ContactService {
 
         contactRepository = Objects.requireNonNull(contactRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        createContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new ContactIdentifierNotExistRule(contactRepo));
-        updateContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new ContactIdentifierNotExistForAnotherRule(contactRepo));
-        patchContactValidator = new FieldRuleValidator<>(new ContactNameNotEmptyRule(),
-            new ContactIdentifierNotExistForAnotherRule(contactRepo));
+        createContactValidator = new FieldRuleValidator<>(new ContactIdentifierNotExistRule(contactRepo));
+        updateContactValidator = new FieldRuleValidator<>(new ContactIdentifierNotExistForAnotherRule(contactRepo));
+        patchContactValidator = new FieldRuleValidator<>(new ContactIdentifierNotExistForAnotherRule(contactRepo));
     }
 
     @Override

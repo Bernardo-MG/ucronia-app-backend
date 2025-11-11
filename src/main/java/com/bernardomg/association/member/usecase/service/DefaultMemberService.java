@@ -39,7 +39,6 @@ import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistRule;
-import com.bernardomg.association.member.usecase.validation.MemberNameNotEmptyRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -72,8 +71,7 @@ public final class DefaultMemberService implements MemberService {
 
         memberRepository = Objects.requireNonNull(memberRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        createMemberValidator = new FieldRuleValidator<>(new MemberNameNotEmptyRule(),
-            new MemberIdentifierNotExistRule(memberRepo));
+        createMemberValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistRule(memberRepo));
     }
 
     @Override

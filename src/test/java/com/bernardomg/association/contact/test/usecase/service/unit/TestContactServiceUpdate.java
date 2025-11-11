@@ -40,7 +40,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.contact.domain.exception.MissingContactException;
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
@@ -105,25 +104,6 @@ class TestContactServiceUpdate {
         verify(contactRepository).save(Contacts.noIdentifier());
         verify(contactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
             ContactConstants.IDENTIFIER);
-    }
-
-    @Test
-    @DisplayName("With a contact with an empty name, an exception is thrown")
-    void testUpdate_EmptyName() {
-        final ThrowingCallable execution;
-        final Contact          contact;
-
-        // GIVEN
-        contact = Contacts.emptyName();
-
-        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.update(contact);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("empty", "name.firstName", new ContactName("", "")));
     }
 
     @Test
