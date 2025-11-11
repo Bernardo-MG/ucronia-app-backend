@@ -22,41 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+/**
+ * Member validators.
+ */
 
-import java.util.Collection;
-import java.util.Optional;
-
-import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-
-public interface MemberRepository {
-
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public boolean existsByIdentifier(final String identifier);
-
-    public boolean existsByIdentifierForAnother(final long number, final String identifier);
-
-    public Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting);
-
-    public Collection<Member> findAllToRenew();
-
-    public Collection<Member> findAllWithRenewalMismatch();
-
-    public long findNextNumber();
-
-    public Optional<Member> findOne(final Long number);
-
-    public boolean isActive(final long number);
-
-    public Member save(final Member member);
-
-    public Collection<Member> saveAll(final Collection<Member> member);
-
-}
+package com.bernardomg.association.member.usecase.validation;

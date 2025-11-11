@@ -39,7 +39,20 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 public interface MemberSpringRepository
         extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
 
+    public void deleteByNumber(final Long number);
+
     public boolean existsByIdentifier(final String identifier);
+
+    @Query("""
+            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM Member m
+            WHERE m.number != :number
+              AND m.identifier = :identifier
+            """)
+    public boolean existsByIdentifierForAnother(@Param("number") final Long number,
+            @Param("identifier") final String identifier);
+
+    public boolean existsByNumber(final Long number);
 
     @Query("""
             SELECT m

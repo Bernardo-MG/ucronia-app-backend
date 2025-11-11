@@ -74,6 +74,21 @@ public final class Members {
             false, false, List.of());
     }
 
+    public static final Member nameChange() {
+        final ContactName name;
+
+        name = new ContactName("Contact 123", "Last name");
+        return new Member(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, true,
+            true, List.of());
+    }
+
+    public static final Member nameChangePatch() {
+        final ContactName name;
+
+        name = new ContactName("Contact 123", "Last name");
+        return new Member(null, ContactConstants.NUMBER, name, null, true, true, List.of());
+    }
+
     public static final Member noIdentifier() {
         final ContactName name;
 

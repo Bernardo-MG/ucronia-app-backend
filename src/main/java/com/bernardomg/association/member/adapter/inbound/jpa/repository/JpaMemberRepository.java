@@ -73,6 +73,28 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final void delete(final long number) {
+        log.debug("Deleting member {}", number);
+
+        memberSpringRepository.deleteByNumber(number);
+
+        log.debug("Deleted member {}", number);
+    }
+
+    @Override
+    public final boolean exists(final long number) {
+        final boolean exists;
+
+        log.debug("Checking if member {} exists", number);
+
+        exists = memberSpringRepository.existsByNumber(number);
+
+        log.debug("Member {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final boolean existsByIdentifier(final String identifier) {
         final boolean exists;
 
@@ -81,6 +103,19 @@ public final class JpaMemberRepository implements MemberRepository {
         exists = memberSpringRepository.existsByIdentifier(identifier);
 
         log.debug("Contact identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a member distinct from {}", identifier, number);
+
+        exists = memberSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a member distinct from {}: {}", identifier, number, exists);
 
         return exists;
     }
