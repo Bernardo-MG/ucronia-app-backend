@@ -1,6 +1,6 @@
 components:
   schemas:
-    MonthlyMemberBalance:
+    MembershipMonthlyEvolution:
       type: object
       required: [date, total]
       properties:
@@ -9,11 +9,11 @@ components:
         total:
           type: integer
           format: int64
-          description: Total member balance for the month.
-    MonthlyMemberBalancesResponse:
+          description: Total members in the month.
+    MembershipMonthlyEvolutionResponse:
       type: object
       properties:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/MonthlyMemberBalance'
+            $ref: '#/components/schemas/MembershipMonthlyEvolution'

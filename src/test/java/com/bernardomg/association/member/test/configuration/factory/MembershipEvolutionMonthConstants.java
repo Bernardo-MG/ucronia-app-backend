@@ -4,7 +4,7 @@ package com.bernardomg.association.member.test.configuration.factory;
 import java.time.Month;
 import java.time.YearMonth;
 
-public final class MemberBalanceConstants {
+public final class MembershipEvolutionMonthConstants {
 
     public static final YearMonth CURRENT_MONTH   = YearMonth.now();
 
@@ -19,7 +19,7 @@ public final class MemberBalanceConstants {
     public static final YearMonth TWO_MONTHS_BACK = YearMonth.now()
         .minusMonths(2);
 
-    private MemberBalanceConstants() {
+    private MembershipEvolutionMonthConstants() {
         super();
     }
 

@@ -22,10 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.filter;
+package com.bernardomg.association.member.usecase.service;
 
-import java.time.Instant;
+import java.util.Collection;
 
-public final record MemberBalanceQuery(Instant from, Instant to) {
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
+
+/**
+ * Membership evolution service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface MembershipEvolutionService {
+
+    /**
+     * Returns the monthly membership evolution.
+     *
+     * @param query
+     *            query to filter evolution
+     * @return the monthly membership evolution
+     */
+    public Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionQuery query);
 
 }

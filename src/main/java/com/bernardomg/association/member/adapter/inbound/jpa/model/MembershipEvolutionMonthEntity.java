@@ -34,9 +34,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "MonthlyMemberBalance")
-@Table(schema = "directory", name = "member_monthly_balances")
-public class MonthlyMemberBalanceEntity implements Serializable {
+@Entity(name = "MembershipEvolutionMonth")
+@Table(schema = "directory", name = "monthly_membership_evolution")
+public class MembershipEvolutionMonthEntity implements Serializable {
 
     @Transient
     private static final long serialVersionUID = 4603617058960663867L;
@@ -56,7 +56,7 @@ public class MonthlyMemberBalanceEntity implements Serializable {
         if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
-        final MonthlyMemberBalanceEntity other = (MonthlyMemberBalanceEntity) obj;
+        final MembershipEvolutionMonthEntity other = (MembershipEvolutionMonthEntity) obj;
         return Objects.equals(month, other.month) && Objects.equals(total, other.total);
     }
 
@@ -83,7 +83,7 @@ public class MonthlyMemberBalanceEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MonthlyMemberBalanceEntity [month=" + month + ", total=" + total + "]";
+        return "MembershipEvolutionMonthEntity [month=" + month + ", total=" + total + "]";
     }
 
 }

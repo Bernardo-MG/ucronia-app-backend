@@ -22,30 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
+import java.time.Instant;
 
-import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.ucronia.openapi.model.MonthlyMemberBalanceDto;
-import com.bernardomg.ucronia.openapi.model.MonthlyMemberBalancesResponseDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public final class MemberBalanceDtoMapper {
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
 
-    public static final MonthlyMemberBalancesResponseDto
-            toResponseDto(final Collection<MonthlyMemberBalance> balances) {
-        return new MonthlyMemberBalancesResponseDto().content(balances.stream()
-            .map(MemberBalanceDtoMapper::toDto)
-            .toList());
-    }
-
-    private static final MonthlyMemberBalanceDto toDto(final MonthlyMemberBalance balance) {
-        return new MonthlyMemberBalanceDto().month(balance.month())
-            .total(balance.total());
-    }
-
-    private MemberBalanceDtoMapper() {
-        super();
-    }
+public interface MembershipEvolutionSpringRepository extends JpaRepository<MembershipEvolutionMonthEntity, Instant>,
+        JpaSpecificationExecutor<MembershipEvolutionMonthEntity> {
 
 }

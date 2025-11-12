@@ -37,8 +37,8 @@ paths:
     $ref: paths/public_members.yml
   /member/public/{number}:
     $ref: paths/public_members_by_id.yml
-  /member/monthly:
-    $ref: paths/members_monthly_balance.yml
+  /member/evolution:
+    $ref: paths/membership_monthly_evolution.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

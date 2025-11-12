@@ -36,59 +36,60 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.specification.MonthlyMemberBalanceSpecifications;
-import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.specification.MembershipEvolutionSpecifications;
+import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
+import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringSorting;
 
 @Repository
 @Transactional
-public final class JpaMemberBalanceRepository implements MemberBalanceRepository {
+public final class JpaMembershipEvolutionRepository implements MembershipEvolutionRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger                        log = LoggerFactory.getLogger(JpaMemberBalanceRepository.class);
+    private static final Logger                       log = LoggerFactory
+        .getLogger(JpaMembershipEvolutionRepository.class);
 
-    private final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceSpringRepository;
+    private final MembershipEvolutionSpringRepository membershipEvolutionSpringRepository;
 
-    public JpaMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceSpringRepo) {
+    public JpaMembershipEvolutionRepository(final MembershipEvolutionSpringRepository membershipEvolutionSpringRepo) {
         super();
 
-        monthlyMemberBalanceSpringRepository = Objects.requireNonNull(monthlyMemberBalanceSpringRepo);
+        membershipEvolutionSpringRepository = Objects.requireNonNull(membershipEvolutionSpringRepo);
     }
 
     @Override
-    public final Collection<MonthlyMemberBalance> findInRange(final Instant from, final Instant to,
+    public final Collection<MembershipEvolutionMonth> findInRange(final Instant from, final Instant to,
             final Sorting sorting) {
-        final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
-        final Collection<MonthlyMemberBalanceEntity>              balances;
-        final Collection<MonthlyMemberBalance>                    monthlyBalances;
-        final Sort                                                sort;
+        final Optional<Specification<MembershipEvolutionMonthEntity>> spec;
+        final Collection<MembershipEvolutionMonthEntity>              evolutionEntities;
+        final Collection<MembershipEvolutionMonth>                    evolution;
+        final Sort                                                    sort;
 
         // TODO: the dates are optional
 
-        log.debug("Finding balance in from {} to {} sorting by {}", from, to, sorting);
+        log.debug("Finding membership evolution from {} to {} sorting by {}", from, to, sorting);
 
-        spec = MonthlyMemberBalanceSpecifications.inRange(from, to);
+        spec = MembershipEvolutionSpecifications.inRange(from, to);
 
         sort = SpringSorting.toSort(sorting);
         if (spec.isPresent()) {
-            balances = monthlyMemberBalanceSpringRepository.findAll(spec.get(), sort);
+            evolutionEntities = membershipEvolutionSpringRepository.findAll(spec.get(), sort);
         } else {
-            balances = monthlyMemberBalanceSpringRepository.findAll(sort);
+            evolutionEntities = membershipEvolutionSpringRepository.findAll(sort);
         }
 
-        monthlyBalances = balances.stream()
-            .map(MonthlyMemberBalanceEntityMapper::toDomain)
+        evolution = evolutionEntities.stream()
+            .map(MembershipEvolutionMonthEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found balance from {} to {}: {}", from, to, monthlyBalances);
+        log.debug("Found membership evolution from {} to {}: {}", from, to, evolution);
 
-        return monthlyBalances;
+        return evolution;
     }
 
 }

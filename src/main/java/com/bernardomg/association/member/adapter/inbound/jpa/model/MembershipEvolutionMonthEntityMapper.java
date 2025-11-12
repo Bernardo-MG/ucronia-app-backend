@@ -22,16 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
+/**
+ * Monthly membership evolution entity mapper.
+ */
+public final class MembershipEvolutionMonthEntityMapper {
 
-public interface MonthlyMemberBalanceSpringRepository extends JpaRepository<MonthlyMemberBalanceEntity, Instant>,
-        JpaSpecificationExecutor<MonthlyMemberBalanceEntity> {
+    public static final MembershipEvolutionMonth toDomain(final MembershipEvolutionMonthEntity entity) {
+        final YearMonth month;
+        final LocalDate monthParsed;
+
+        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
+        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
+        return new MembershipEvolutionMonth(month, entity.getTotal());
+    }
+
+    private MembershipEvolutionMonthEntityMapper() {
+        super();
+    }
 
 }

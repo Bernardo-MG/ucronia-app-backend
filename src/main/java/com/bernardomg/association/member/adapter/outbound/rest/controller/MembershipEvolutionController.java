@@ -31,32 +31,32 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberBalanceDtoMapper;
-import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
-import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.usecase.service.MemberBalanceService;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MembershipMonthlyEvolutionDtoMapper;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
+import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MemberBalanceApi;
-import com.bernardomg.ucronia.openapi.model.MonthlyMemberBalancesResponseDto;
+import com.bernardomg.ucronia.openapi.api.MembershipEvolutionApi;
+import com.bernardomg.ucronia.openapi.model.MembershipMonthlyEvolutionResponseDto;
 
 import jakarta.validation.Valid;
 
 /**
- * Member balance REST controller.
+ * Membership evolution REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-public class MemberBalanceController implements MemberBalanceApi {
+public class MembershipEvolutionController implements MembershipEvolutionApi {
 
     /**
-     * Member balance service.
+     * Membership evolution service.
      */
-    private final MemberBalanceService service;
+    private final MembershipEvolutionService service;
 
-    public MemberBalanceController(final MemberBalanceService service) {
+    public MembershipEvolutionController(final MembershipEvolutionService service) {
         super();
 
         this.service = service;
@@ -64,16 +64,16 @@ public class MemberBalanceController implements MemberBalanceApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
-    public MonthlyMemberBalancesResponseDto getMonthlyMemberBalance(@Valid final Instant from, @Valid final Instant to,
-            @Valid final Long memberNumber) {
-        final Collection<MonthlyMemberBalance> balances;
-        final MemberBalanceQuery               query;
+    @Cacheable(cacheNames = MembersCaches.MONTHLY_EVOLUTION)
+    public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final Instant from,
+            @Valid final Instant to, @Valid final Long memberNumber) {
+        final Collection<MembershipEvolutionMonth> evolution;
+        final MembershipEvolutionQuery             query;
 
-        query = new MemberBalanceQuery(from, to);
-        balances = service.getMonthlyBalance(query);
+        query = new MembershipEvolutionQuery(from, to);
+        evolution = service.getMonthlyEvolution(query);
 
-        return MemberBalanceDtoMapper.toResponseDto(balances);
+        return MembershipMonthlyEvolutionDtoMapper.toResponseDto(evolution);
     }
 
 }

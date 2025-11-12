@@ -1,7 +1,7 @@
 get:
-  summary: Get the monthly member balance.
-  operationId: getMonthlyMemberBalance
-  tags: [MemberBalance]
+  summary: Get the membership monthly evolution.
+  operationId: getMembershipMonthlyEvolution
+  tags: [MembershipEvolution]
   parameters:
     - name: from
       in: query
@@ -27,4 +27,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/members_balance.yml#/components/schemas/MonthlyMemberBalancesResponse'
+            $ref: '../components/membership_evolution.yml#/components/schemas/MembershipMonthlyEvolutionResponse'

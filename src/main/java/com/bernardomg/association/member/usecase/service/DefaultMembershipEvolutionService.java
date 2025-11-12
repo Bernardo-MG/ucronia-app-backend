@@ -36,42 +36,42 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.filter.MemberBalanceQuery;
-import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
+import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Default implementation of the member balance service.
+ * Default implementation of the membership evolution service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Service
 @Transactional
-public final class DefaultMemberBalanceService implements MemberBalanceService {
+public final class DefaultMembershipEvolutionService implements MembershipEvolutionService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberBalanceService.class);
+    private static final Logger                 log = LoggerFactory.getLogger(DefaultMembershipEvolutionService.class);
 
-    private final MemberBalanceRepository memberBalanceRepository;
+    private final MembershipEvolutionRepository membershipEvolutionRepository;
 
-    public DefaultMemberBalanceService(final MemberBalanceRepository memberBalanceRepo) {
+    public DefaultMembershipEvolutionService(final MembershipEvolutionRepository membershipEvolutionRepo) {
         super();
 
-        memberBalanceRepository = Objects.requireNonNull(memberBalanceRepo);
+        membershipEvolutionRepository = Objects.requireNonNull(membershipEvolutionRepo);
     }
 
     @Override
-    public final Collection<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery query) {
-        final Instant                          now;
-        final Instant                          end;
-        final Sorting                          sorting;
-        final Collection<MonthlyMemberBalance> balance;
+    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionQuery query) {
+        final Instant                              now;
+        final Instant                              end;
+        final Sorting                              sorting;
+        final Collection<MembershipEvolutionMonth> evolution;
 
-        log.debug("Reading monthly member balance with query {}", query);
+        log.debug("Reading monthly membership evolution with query {}", query);
 
         // Up to this month
         now = YearMonth.now()
@@ -87,11 +87,11 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        balance = memberBalanceRepository.findInRange(query.from(), end, sorting);
+        evolution = membershipEvolutionRepository.findInRange(query.from(), end, sorting);
 
-        log.debug("Read monthly member balance with query {}: {}", query, balance);
+        log.debug("Read monthly membership evolution with query {}: {}", query, evolution);
 
-        return balance;
+        return evolution;
     }
 
 }

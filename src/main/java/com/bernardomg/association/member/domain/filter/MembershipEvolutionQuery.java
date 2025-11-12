@@ -22,16 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.domain.filter;
 
 import java.time.Instant;
-import java.util.Collection;
 
-import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
-import com.bernardomg.data.domain.Sorting;
-
-public interface MemberBalanceRepository {
-
-    public Collection<MonthlyMemberBalance> findInRange(final Instant from, final Instant to, final Sorting sorting);
+public final record MembershipEvolutionQuery(Instant from, Instant to) {
 
 }

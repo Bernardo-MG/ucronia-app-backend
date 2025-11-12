@@ -22,29 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
+import java.util.Collection;
 
-import com.bernardomg.association.member.domain.model.MonthlyMemberBalance;
+import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
+import com.bernardomg.ucronia.openapi.model.MembershipMonthlyEvolutionDto;
+import com.bernardomg.ucronia.openapi.model.MembershipMonthlyEvolutionResponseDto;
 
-/**
- * Monthly member balance entity mapper.
- */
-public final class MonthlyMemberBalanceEntityMapper {
+public final class MembershipMonthlyEvolutionDtoMapper {
 
-    public static final MonthlyMemberBalance toDomain(final MonthlyMemberBalanceEntity entity) {
-        final YearMonth month;
-        final LocalDate monthParsed;
-
-        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
-        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
-        return new MonthlyMemberBalance(month, entity.getTotal());
+    public static final MembershipMonthlyEvolutionResponseDto
+            toResponseDto(final Collection<MembershipEvolutionMonth> evolution) {
+        return new MembershipMonthlyEvolutionResponseDto().content(evolution.stream()
+            .map(MembershipMonthlyEvolutionDtoMapper::toDto)
+            .toList());
     }
 
-    private MonthlyMemberBalanceEntityMapper() {
+    private static final MembershipMonthlyEvolutionDto toDto(final MembershipEvolutionMonth evolutionMonth) {
+        return new MembershipMonthlyEvolutionDto().month(evolutionMonth.month())
+            .total(evolutionMonth.total());
+    }
+
+    private MembershipMonthlyEvolutionDtoMapper() {
         super();
     }
 

@@ -29,20 +29,23 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMemberBalanceEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
 
-public final class MonthlyMemberBalanceSpecifications {
+public final class MembershipEvolutionSpecifications {
 
-    public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final Instant from, final Instant to) {
-        final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
+    private static final String MONTH_FIELD = "month";
+
+    public static Optional<Specification<MembershipEvolutionMonthEntity>> inRange(final Instant from,
+            final Instant to) {
+        final Optional<Specification<MembershipEvolutionMonthEntity>> spec;
 
         // TODO: use optionals, not nulls
         if ((from != null) && (to != null)) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(from, to));
+            spec = Optional.of(MembershipEvolutionSpecifications.betweenIncluding(from, to));
         } else if (from != null) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrAfter(from));
+            spec = Optional.of(MembershipEvolutionSpecifications.onOrAfter(from));
         } else if (to != null) {
-            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrBefore(to));
+            spec = Optional.of(MembershipEvolutionSpecifications.onOrBefore(to));
         } else {
             spec = Optional.empty();
         }
@@ -50,19 +53,20 @@ public final class MonthlyMemberBalanceSpecifications {
         return spec;
     }
 
-    private static Specification<MonthlyMemberBalanceEntity> betweenIncluding(final Instant start, final Instant end) {
-        return (root, query, cb) -> cb.between(root.get("month"), start, end);
+    private static Specification<MembershipEvolutionMonthEntity> betweenIncluding(final Instant start,
+            final Instant end) {
+        return (root, query, cb) -> cb.between(root.get(MONTH_FIELD), start, end);
     }
 
-    private static Specification<MonthlyMemberBalanceEntity> onOrAfter(final Instant date) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date);
+    private static Specification<MembershipEvolutionMonthEntity> onOrAfter(final Instant date) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(MONTH_FIELD), date);
     }
 
-    private static Specification<MonthlyMemberBalanceEntity> onOrBefore(final Instant date) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date);
+    private static Specification<MembershipEvolutionMonthEntity> onOrBefore(final Instant date) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(MONTH_FIELD), date);
     }
 
-    private MonthlyMemberBalanceSpecifications() {
+    private MembershipEvolutionSpecifications() {
         super();
     }
 
