@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
@@ -47,7 +47,7 @@ public final class MemberEntityMapper {
         name = new ContactName(entity.getFirstName(), entity.getLastName());
         members = entity.getContactChannels()
             .stream()
-            .map(ContactEntityMapper::toDomain)
+            .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
         return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getActive(),

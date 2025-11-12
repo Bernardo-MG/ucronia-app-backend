@@ -30,20 +30,12 @@ import java.util.Optional;
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
 /**
  * Contact entity mapper.
  */
 public final class ContactEntityMapper {
-
-    public static final ContactChannel toDomain(final ContactChannelEntity entity) {
-        final ContactMethod method;
-
-        method = toDomain(entity.getContactMethod());
-        return new ContactChannel(method, entity.getDetail());
-    }
 
     public static final Contact toDomain(final ContactEntity entity) {
         final ContactName                name;
@@ -53,14 +45,10 @@ public final class ContactEntityMapper {
 
         contacts = entity.getContactChannels()
             .stream()
-            .map(ContactEntityMapper::toDomain)
+            .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
         return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts);
-    }
-
-    public static final ContactMethod toDomain(final ContactMethodEntity entity) {
-        return new ContactMethod(entity.getNumber(), entity.getName());
     }
 
     public static final ContactEntity toEntity(final Contact data,
