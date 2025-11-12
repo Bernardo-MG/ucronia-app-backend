@@ -60,24 +60,6 @@ class TestContactMethodServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a contact method with an empty name, an exception is thrown")
-    void testUpdate_EmptyName() {
-        final ThrowingCallable execution;
-        final ContactMethod    contactMethod;
-
-        // GIVEN
-        contactMethod = ContactMethods.emptyName();
-
-        given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        execution = () -> service.update(contactMethod);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
-    }
-
-    @Test
     @DisplayName("With a contact method with an existing name, an exception is thrown")
     void testUpdate_ExistingName() {
         final ThrowingCallable execution;
