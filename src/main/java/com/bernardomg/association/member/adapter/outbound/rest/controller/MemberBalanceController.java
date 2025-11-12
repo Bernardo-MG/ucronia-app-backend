@@ -60,6 +60,7 @@ public class MemberBalanceController implements MemberBalanceApi {
 
     public MemberBalanceController(final MemberBalanceService service) {
         super();
+
         this.service = service;
     }
 

@@ -63,6 +63,7 @@ public class PublicMemberController implements PublicMemberApi {
 
     public PublicMemberController(final PublicMemberService service) {
         super();
+
         this.service = service;
     }
 

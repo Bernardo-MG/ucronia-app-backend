@@ -69,6 +69,7 @@ public class ContactController implements ContactApi {
 
     public ContactController(final ContactService service) {
         super();
+
         this.service = service;
     }
 

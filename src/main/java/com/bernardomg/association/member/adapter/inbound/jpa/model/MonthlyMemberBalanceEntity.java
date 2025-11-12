@@ -26,6 +26,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,12 +48,29 @@ public class MonthlyMemberBalanceEntity implements Serializable {
     @Column(name = "total", nullable = false)
     private Long              total;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final MonthlyMemberBalanceEntity other = (MonthlyMemberBalanceEntity) obj;
+        return Objects.equals(month, other.month) && Objects.equals(total, other.total);
+    }
+
     public Instant getMonth() {
         return month;
     }
 
     public Long getTotal() {
         return total;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(month, total);
     }
 
     public void setMonth(final Instant month) {

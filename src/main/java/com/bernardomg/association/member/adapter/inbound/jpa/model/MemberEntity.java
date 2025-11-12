@@ -1,7 +1,8 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
+import java.util.Objects;
+
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 
 import jakarta.persistence.Column;
@@ -27,12 +28,31 @@ public class MemberEntity extends ContactEntity {
     @Column(name = "renew_membership")
     private Boolean           renewMembership;
 
+    @Override
+    public boolean equals(final Object obj) {
+        // Basic checks
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final MemberEntity other = (MemberEntity) obj;
+        return Objects.equals(active, other.active) && Objects.equals(renewMembership, other.renewMembership);
+    }
+
     public Boolean getActive() {
         return active;
     }
 
     public Boolean getRenewMembership() {
         return renewMembership;
+    }
+
+    @Override
+    public int hashCode() {
+        // Combine superclass and subclass fields
+        return Objects.hash(super.hashCode(), active, renewMembership);
     }
 
     public void setActive(final Boolean active) {
@@ -45,11 +65,9 @@ public class MemberEntity extends ContactEntity {
 
     @Override
     public String toString() {
-        return "MemberEntity [active=" + active + ", renewMembership=" + renewMembership + ", birthDate="
-                + getBirthDate() + ", contactChannels=" + getContactChannels().stream()
-                    .map(ContactChannelEntity::getDetail)
-                + ", firstName=" + getFirstName() + ", id=" + getId() + ", identifier=" + getIdentifier()
-                + ", lastName=" + getLastName() + ", number=" + getNumber() + "]";
+        return "MemberEntity [" + "id=" + getId() + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
+                + ", identifier=" + getIdentifier() + ", number=" + getNumber() + ", birthDate=" + getBirthDate()
+                + ", active=" + active + ", renewMembership=" + renewMembership + "]";
     }
 
 }

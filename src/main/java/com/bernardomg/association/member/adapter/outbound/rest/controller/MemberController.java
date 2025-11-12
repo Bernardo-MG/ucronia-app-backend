@@ -71,6 +71,7 @@ public class MemberController implements MemberApi {
 
     public MemberController(final MemberService service) {
         super();
+
         this.service = service;
     }
 

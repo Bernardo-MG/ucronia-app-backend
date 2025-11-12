@@ -84,9 +84,10 @@ public class ContactEntity implements Serializable {
             return false;
         }
         final ContactEntity other = (ContactEntity) obj;
-        return Objects.equals(birthDate, other.birthDate) && Objects.equals(firstName, other.firstName)
-                && Objects.equals(id, other.id) && Objects.equals(identifier, other.identifier)
-                && Objects.equals(lastName, other.lastName) && Objects.equals(number, other.number);
+        return Objects.equals(birthDate, other.birthDate) && Objects.equals(contactChannels, other.contactChannels)
+                && Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
+                && Objects.equals(identifier, other.identifier) && Objects.equals(lastName, other.lastName)
+                && Objects.equals(number, other.number);
     }
 
     public Instant getBirthDate() {
@@ -119,7 +120,7 @@ public class ContactEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(birthDate, firstName, id, identifier, lastName, number);
+        return Objects.hash(birthDate, contactChannels, firstName, id, identifier, lastName, number);
     }
 
     public void setBirthDate(final Instant birthDate) {
@@ -152,9 +153,9 @@ public class ContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactEntity [birthDate=" + birthDate + ", contactChannels=" + contactChannels.stream()
-            .map(ContactChannelEntity::getDetail) + ", firstName=" + firstName + ", id=" + id + ", identifier="
-                + identifier + ", lastName=" + lastName + ", number=" + number + "]";
+        return "ContactEntity [birthDate=" + birthDate + ", contactChannels=" + contactChannels + ", firstName="
+                + firstName + ", id=" + id + ", identifier=" + identifier + ", lastName=" + lastName + ", number="
+                + number + "]";
     }
 
 }
