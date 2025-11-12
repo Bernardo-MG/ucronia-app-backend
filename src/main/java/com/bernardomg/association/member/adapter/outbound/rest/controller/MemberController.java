@@ -78,7 +78,7 @@ public class MemberController implements MemberApi {
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
-                    // Contact caches
+                    // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
         final Member member;
@@ -93,7 +93,7 @@ public class MemberController implements MemberApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }), @CacheEvict(cacheNames = {
-            // Contact caches
+            // Member caches
             MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto deleteMember(final Long number) {
         final Member member;
@@ -142,7 +142,7 @@ public class MemberController implements MemberApi {
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
-                    // Contact caches
+                    // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
         final Member member;
@@ -158,7 +158,7 @@ public class MemberController implements MemberApi {
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
-                    // Contact caches
+                    // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
         final Member member;
