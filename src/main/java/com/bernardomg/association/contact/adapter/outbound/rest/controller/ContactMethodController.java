@@ -76,7 +76,7 @@ public class ContactMethodController implements ContactMethodApi {
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
-                    // ContactMethod caches
+                    // Contact method caches
                     ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto
             createContactMethod(@Valid final ContactMethodCreationDto contactMethodCreationDto) {
@@ -92,7 +92,7 @@ public class ContactMethodController implements ContactMethodApi {
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { ContactMethodCaches.CONTACT_METHOD }), @CacheEvict(cacheNames = {
-            // ContactMethod caches
+            // Contact method caches
             ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto deleteContactMethod(final Long number) {
         final ContactMethod contactMethod;
@@ -133,7 +133,7 @@ public class ContactMethodController implements ContactMethodApi {
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
-                    // ContactMethod caches
+                    // Contact method caches
                     ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto updateContactMethod(final Long number,
             @Valid final ContactMethodChangeDto contactMethodChangeDto) {

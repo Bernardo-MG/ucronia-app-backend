@@ -90,7 +90,7 @@ public final class DefaultMemberService implements MemberService {
         final Member created;
         final Long   number;
 
-        log.debug("Creating contact {}", member);
+        log.debug("Creating member {}", member);
 
         // TODO: maybe send an exception with all
         member.contactChannels()
@@ -108,7 +108,7 @@ public final class DefaultMemberService implements MemberService {
 
         created = memberRepository.save(toCreate);
 
-        log.debug("Created contact {}", created);
+        log.debug("Created member {}", created);
 
         return created;
     }
@@ -117,7 +117,7 @@ public final class DefaultMemberService implements MemberService {
     public final Member delete(final long number) {
         final Member existing;
 
-        log.debug("Deleting contact {}", number);
+        log.debug("Deleting member {}", number);
 
         existing = memberRepository.findOne(number)
             .orElseThrow(() -> {
@@ -127,7 +127,7 @@ public final class DefaultMemberService implements MemberService {
 
         memberRepository.delete(number);
 
-        log.debug("Deleted contact {}", number);
+        log.debug("Deleted member {}", number);
 
         return existing;
     }

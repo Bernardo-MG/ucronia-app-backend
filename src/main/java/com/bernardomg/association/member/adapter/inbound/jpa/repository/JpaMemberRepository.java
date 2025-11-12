@@ -98,11 +98,11 @@ public final class JpaMemberRepository implements MemberRepository {
     public final boolean existsByIdentifier(final String identifier) {
         final boolean exists;
 
-        log.debug("Checking if contact identifier {} exists", identifier);
+        log.debug("Checking if member identifier {} exists", identifier);
 
         exists = memberSpringRepository.existsByIdentifier(identifier);
 
-        log.debug("Contact identifier {} exists: {}", identifier, exists);
+        log.debug("Member identifier {} exists: {}", identifier, exists);
 
         return exists;
     }
@@ -129,7 +129,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = MemberSpecifications.filter(filter);
+        spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = memberSpringRepository.findAll(pageable)
                 .map(MemberEntityMapper::toDomain);
@@ -180,11 +180,11 @@ public final class JpaMemberRepository implements MemberRepository {
     public final long findNextNumber() {
         final long number;
 
-        log.debug("Finding next number for the contacts");
+        log.debug("Finding next number for the members");
 
         number = memberSpringRepository.findNextNumber();
 
-        log.debug("Found next number for the contacts: {}", number);
+        log.debug("Found next number for the members: {}", number);
 
         return number;
     }
@@ -231,7 +231,6 @@ public final class JpaMemberRepository implements MemberRepository {
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        // TODO: exception for missing contact methods
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = MemberEntityMapper.toEntity(member, contactMethods);
 
@@ -263,7 +262,6 @@ public final class JpaMemberRepository implements MemberRepository {
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        // TODO: exception for missing contact methods
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entities = members.stream()
             .map(m -> MemberEntityMapper.toEntity(m, contactMethods))

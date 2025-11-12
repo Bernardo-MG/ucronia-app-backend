@@ -26,6 +26,9 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.time.YearMonth;
 
+/**
+ * Member status service.
+ */
 public interface MemberStatusService {
 
     public void activate(final YearMonth date, final Long memberNumber);

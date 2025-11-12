@@ -45,7 +45,7 @@ import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 /**
- * Default implementation of the ContactMethod service.
+ * Default implementation of the contact method service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

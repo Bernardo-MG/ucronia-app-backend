@@ -44,8 +44,6 @@ import jakarta.validation.Valid;
 
 /**
  * Member balance REST controller.
- * <p>
- * TODO: the route should show this is the balance
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

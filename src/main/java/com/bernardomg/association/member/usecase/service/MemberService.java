@@ -33,7 +33,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Reduced member service. Reduces only non sensible information.
+ * Member service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

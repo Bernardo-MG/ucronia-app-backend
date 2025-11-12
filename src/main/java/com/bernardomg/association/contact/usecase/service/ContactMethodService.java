@@ -32,7 +32,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Contact method service. Supports all the CRUD operations.
+ * Contact method service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

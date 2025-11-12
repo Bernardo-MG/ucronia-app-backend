@@ -33,10 +33,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MonthlyMember
 
 public final class MonthlyMemberBalanceSpecifications {
 
-    public static Specification<MonthlyMemberBalanceEntity> betweenIncluding(final Instant start, final Instant end) {
-        return (root, query, cb) -> cb.between(root.get("month"), start, end);
-    }
-
     public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final Instant from, final Instant to) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
 
@@ -54,11 +50,15 @@ public final class MonthlyMemberBalanceSpecifications {
         return spec;
     }
 
-    public static Specification<MonthlyMemberBalanceEntity> onOrAfter(final Instant date) {
+    private static Specification<MonthlyMemberBalanceEntity> betweenIncluding(final Instant start, final Instant end) {
+        return (root, query, cb) -> cb.between(root.get("month"), start, end);
+    }
+
+    private static Specification<MonthlyMemberBalanceEntity> onOrAfter(final Instant date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date);
     }
 
-    public static Specification<MonthlyMemberBalanceEntity> onOrBefore(final Instant date) {
+    private static Specification<MonthlyMemberBalanceEntity> onOrBefore(final Instant date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date);
     }
 

@@ -128,7 +128,7 @@ public final class JpaContactRepository implements ContactRepository {
         log.debug("Finding all the contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = ContactSpecifications.filter(filter);
+        spec = ContactSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = contactSpringRepository.findAll(pageable)
                 .map(ContactEntityMapper::toDomain);
@@ -185,7 +185,6 @@ public final class JpaContactRepository implements ContactRepository {
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        // TODO: exception for missing contact methods
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = ContactEntityMapper.toEntity(contact, contactMethods);
 
@@ -217,7 +216,6 @@ public final class JpaContactRepository implements ContactRepository {
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        // TODO: exception for missing contact methods
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
 
         entities = contacts.stream()

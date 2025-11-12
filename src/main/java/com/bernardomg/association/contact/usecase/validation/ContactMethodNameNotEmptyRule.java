@@ -37,6 +37,7 @@ import com.bernardomg.validation.validator.FieldRule;
 /**
  * Checks the contact method has a name.
  */
+@Deprecated
 public final class ContactMethodNameNotEmptyRule implements FieldRule<ContactMethod> {
 
     /**

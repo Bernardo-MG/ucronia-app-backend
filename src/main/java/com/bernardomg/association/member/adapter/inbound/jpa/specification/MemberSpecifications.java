@@ -37,19 +37,19 @@ public final class MemberSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    public static Optional<Specification<MemberEntity>> filter(final MemberQuery filter) {
+    public static Optional<Specification<MemberEntity>> query(final MemberQuery query) {
         final Optional<Specification<MemberEntity>> nameSpec;
         final Optional<Specification<MemberEntity>> statusSpec;
         final Specification<MemberEntity>           spec;
 
-        if (filter.name()
+        if (query.name()
             .isBlank()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(filter.name()));
+            nameSpec = Optional.of(name(query.name()));
         }
 
-        statusSpec = switch (filter.status()) {
+        statusSpec = switch (query.status()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
             default -> Optional.empty();

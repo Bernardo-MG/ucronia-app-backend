@@ -25,22 +25,27 @@
 package com.bernardomg.association.contact.adapter.inbound.jpa.specification;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.domain.filter.ContactQuery;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
 public final class ContactSpecifications {
 
-    public static Optional<Specification<ContactEntity>> filter(final ContactQuery filter) {
+    public static Optional<Specification<ContactEntity>> query(final ContactQuery query) {
         final Optional<Specification<ContactEntity>> nameSpec;
 
-        if (filter.name()
+        if (query.name()
             .isBlank()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(filter.name()));
+            nameSpec = Optional.of(name(query.name()));
         }
 
         return nameSpec;
@@ -54,11 +59,19 @@ public final class ContactSpecifications {
      * @return name specification
      */
     private static Specification<ContactEntity> name(final String pattern) {
-        final String likePattern = "%" + pattern + "%";
-        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
-            cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
-            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))),
-                likePattern.toLowerCase()));
+        final String                                                      likePattern;
+        final BiFunction<Root<ContactEntity>, CriteriaBuilder, Predicate> likeFirstName;
+        final BiFunction<Root<ContactEntity>, CriteriaBuilder, Predicate> likeLastName;
+        final BiFunction<Root<ContactEntity>, CriteriaBuilder, Predicate> likeFullName;
+
+        likePattern = "%" + pattern.toLowerCase() + "%";
+        likeFirstName = (root, cb) -> cb.like(cb.lower(root.get("firstName")), likePattern);
+        likeLastName = (root, cb) -> cb.like(cb.lower(root.get("lastName")), likePattern);
+        likeFullName = (root, cb) -> cb
+            .like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern);
+
+        return (root, query, cb) -> cb.or(likeFirstName.apply(root, cb), likeLastName.apply(root, cb),
+            likeFullName.apply(root, cb));
     }
 
     private ContactSpecifications() {

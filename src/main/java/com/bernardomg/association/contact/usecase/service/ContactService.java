@@ -33,7 +33,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Contact service. Supports all the CRUD operations.
+ * Contact service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -58,10 +58,10 @@ public interface ContactService {
     public Contact delete(final long number);
 
     /**
-     * Returns all the contacts matching the query. If the sample fields are empty, then all the contacts are returned.
+     * Returns all the contacts matching the query. If the query fields are empty, then all the contacts are returned.
      *
      * @param query
-     *            filter to apply
+     *            query to search for
      * @param pagination
      *            pagination to apply
      * @param sorting
