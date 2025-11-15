@@ -23,7 +23,7 @@ components:
           type: array
           items:
             $ref: './contacts.yml#/components/schemas/ContactChannel'
-    PublicMember:
+    Member:
       type: object
       required: [number, name]
       properties:
@@ -70,7 +70,7 @@ components:
       properties:
         content:
           $ref: '#/components/schemas/MemberContact'
-    PublicMemberPageResponse:
+    MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
         - type: object
@@ -78,9 +78,9 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/PublicMember'
-    PublicMemberResponse:
+                $ref: '#/components/schemas/Member'
+    MemberResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/PublicMember'
+          $ref: '#/components/schemas/Member'

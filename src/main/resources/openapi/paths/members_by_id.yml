@@ -1,7 +1,7 @@
 get:
   summary: Get a specific member by number.
   operationId: getMemberByNumber
-  tags: [PublicMember]
+  tags: [Member]
   parameters:
     - name: number
       in: path
@@ -16,6 +16,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/PublicMemberResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberResponse'
     '404':
       description: Member not found.

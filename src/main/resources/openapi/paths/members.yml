@@ -1,7 +1,7 @@
 get:
   summary: Get all public members.
-  operationId: getAllPublicMembers
-  tags: [PublicMember]
+  operationId: getAllMembers
+  tags: [Member]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
@@ -12,4 +12,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/PublicMemberPageResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberPageResponse'

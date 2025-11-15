@@ -30,8 +30,8 @@ import java.util.Optional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.cache.PublicMembersCaches;
-import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.data.domain.Page;
@@ -40,9 +40,9 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.PublicMemberApi;
-import com.bernardomg.ucronia.openapi.model.PublicMemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PublicMemberResponseDto;
+import com.bernardomg.ucronia.openapi.api.MemberApi;
+import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -54,14 +54,14 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-public class PublicMemberController implements PublicMemberApi {
+public class MemberController implements MemberApi {
 
     /**
      * Public member service.
      */
     private final MemberService service;
 
-    public PublicMemberController(final MemberService service) {
+    public MemberController(final MemberService service) {
         super();
 
         this.service = service;
@@ -69,9 +69,9 @@ public class PublicMemberController implements PublicMemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = PublicMembersCaches.PUBLIC_MEMBERS)
-    public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBERS)
+    public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort) {
         final Pagination   pagination;
         final Sorting      sorting;
         final Page<Member> members;
@@ -80,18 +80,18 @@ public class PublicMemberController implements PublicMemberApi {
         sorting = WebSorting.toSorting(sort);
         members = service.getAll(pagination, sorting);
 
-        return PublicMemberDtoMapper.toResponseDto(members);
+        return MemberDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = PublicMembersCaches.PUBLIC_MEMBER)
-    public PublicMemberResponseDto getMemberByNumber(final Long number) {
+    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBER)
+    public MemberResponseDto getMemberByNumber(final Long number) {
         Optional<Member> member;
 
         member = service.getOne(number);
 
-        return PublicMemberDtoMapper.toResponseDto(member);
+        return MemberDtoMapper.toResponseDto(member);
     }
 
 }

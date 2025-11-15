@@ -31,31 +31,31 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.MemberDto;
+import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.PublicMemberDto;
-import com.bernardomg.ucronia.openapi.model.PublicMemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PublicMemberResponseDto;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
-public final class PublicMemberDtoMapper {
+public final class MemberDtoMapper {
 
-    public static final PublicMemberResponseDto toResponseDto(final Optional<Member> member) {
-        return new PublicMemberResponseDto().content(member.map(PublicMemberDtoMapper::toDto)
+    public static final MemberResponseDto toResponseDto(final Optional<Member> member) {
+        return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final PublicMemberPageResponseDto toResponseDto(final Page<Member> page) {
+    public static final MemberPageResponseDto toResponseDto(final Page<Member> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
-            .map(PublicMemberDtoMapper::toDto)
+            .map(MemberDtoMapper::toDto)
             .toList());
-        return new PublicMemberPageResponseDto().content(page.content()
+        return new MemberPageResponseDto().content(page.content()
             .stream()
-            .map(PublicMemberDtoMapper::toDto)
+            .map(MemberDtoMapper::toDto)
             .toList())
             .size(page.size())
             .page(page.page())
@@ -67,7 +67,7 @@ public final class PublicMemberDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final PublicMemberDto toDto(final Member member) {
+    private static final MemberDto toDto(final Member member) {
         final ContactNameDto contactName;
 
         contactName = new ContactNameDto().firstName(member.name()
@@ -76,7 +76,7 @@ public final class PublicMemberDtoMapper {
                 .lastName())
             .fullName(member.name()
                 .fullName());
-        return new PublicMemberDto().number(member.number())
+        return new MemberDto().number(member.number())
             .name(contactName);
     }
 
@@ -92,7 +92,7 @@ public final class PublicMemberDtoMapper {
             .direction(direction);
     }
 
-    private PublicMemberDtoMapper() {
+    private MemberDtoMapper() {
         super();
     }
 
