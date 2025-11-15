@@ -42,6 +42,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
@@ -59,6 +60,9 @@ class TestMemberContactServiceGetAll {
 
     @Mock
     private ContactMethodRepository     contactMethodRepository;
+
+    @Mock
+    private ContactRepository           contactRepository;
 
     @Mock
     private MemberContactRepository     memberContactRepository;
