@@ -37,6 +37,7 @@ import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.MemberContact;
@@ -66,6 +67,8 @@ public final class DefaultMemberContactService implements MemberContactService {
 
     private final ContactMethodRepository  contactMethodRepository;
 
+    private final ContactRepository        contactRepository;
+
     private final Validator<MemberContact> createMemberValidator;
 
     private final MemberContactRepository  memberContactRepository;
@@ -74,17 +77,18 @@ public final class DefaultMemberContactService implements MemberContactService {
 
     private final Validator<MemberContact> updateMemberValidator;
 
-    public DefaultMemberContactService(final MemberContactRepository memberContactRepo,
-            final ContactMethodRepository contactMethodRepo) {
+    public DefaultMemberContactService(final ContactRepository contactRepo,
+            final MemberContactRepository memberContactRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
+        contactRepository = Objects.requireNonNull(contactRepo);
         memberContactRepository = Objects.requireNonNull(memberContactRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        createMemberValidator = new FieldRuleValidator<>(new MemberContactIdentifierNotExistRule(memberContactRepo));
+        createMemberValidator = new FieldRuleValidator<>(new MemberContactIdentifierNotExistRule(contactRepository));
         updateMemberValidator = new FieldRuleValidator<>(
-            new MemberContactIdentifierNotExistForAnotherRule(memberContactRepo));
+            new MemberContactIdentifierNotExistForAnotherRule(contactRepository));
         patchMemberValidator = new FieldRuleValidator<>(
-            new MemberContactIdentifierNotExistForAnotherRule(memberContactRepo));
+            new MemberContactIdentifierNotExistForAnotherRule(contactRepository));
     }
 
     @Override
@@ -128,7 +132,7 @@ public final class DefaultMemberContactService implements MemberContactService {
                 throw new MissingMemberException(number);
             });
 
-        memberContactRepository.delete(number);
+        contactRepository.delete(number);
 
         log.debug("Deleted member {}", number);
 
@@ -209,7 +213,7 @@ public final class DefaultMemberContactService implements MemberContactService {
         // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
-        if (!memberContactRepository.exists(member.number())) {
+        if (!contactRepository.exists(member.number())) {
             log.error("Missing member {}", member.number());
             throw new MissingMemberException(member.number());
         }

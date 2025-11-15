@@ -39,6 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.member.domain.model.MemberContact;
@@ -54,6 +55,9 @@ class TestMemberContactServiceCreate {
 
     @Mock
     private ContactMethodRepository     contactMethodRepository;
+
+    @Mock
+    private ContactRepository           contactRepository;
 
     @Mock
     private MemberContactRepository     memberContactRepository;
@@ -74,7 +78,7 @@ class TestMemberContactServiceCreate {
         // GIVEN
         member = MemberContacts.toCreate();
 
-        given(memberContactRepository.existsByIdentifier(ContactConstants.IDENTIFIER)).willReturn(true);
+        given(contactRepository.existsByIdentifier(ContactConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(member);
@@ -99,7 +103,7 @@ class TestMemberContactServiceCreate {
 
         // THEN
         verify(memberContactRepository).save(MemberContacts.noIdentifier());
-        verify(memberContactRepository, Mockito.never()).existsByIdentifier(ContactConstants.IDENTIFIER);
+        verify(contactRepository, Mockito.never()).existsByIdentifier(ContactConstants.IDENTIFIER);
     }
 
     @Test

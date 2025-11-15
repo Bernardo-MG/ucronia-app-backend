@@ -31,8 +31,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.member.domain.model.MemberContact;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -44,15 +44,14 @@ public final class MemberContactIdentifierNotExistForAnotherRule implements Fiel
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory
-        .getLogger(MemberContactIdentifierNotExistForAnotherRule.class);
+    private static final Logger     log = LoggerFactory.getLogger(MemberContactIdentifierNotExistForAnotherRule.class);
 
-    private final MemberContactRepository memberContactRepository;
+    private final ContactRepository contactRepository;
 
-    public MemberContactIdentifierNotExistForAnotherRule(final MemberContactRepository memberContactRepo) {
+    public MemberContactIdentifierNotExistForAnotherRule(final ContactRepository contactRepo) {
         super();
 
-        memberContactRepository = Objects.requireNonNull(memberContactRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
     }
 
     @Override
@@ -61,7 +60,7 @@ public final class MemberContactIdentifierNotExistForAnotherRule implements Fiel
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(member.identifier())
-                || !memberContactRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
+                || !contactRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
             failure = Optional.empty();
         } else {
             log.error("Existing identifier {} for a member distinct of {}", member.identifier(), member.number());

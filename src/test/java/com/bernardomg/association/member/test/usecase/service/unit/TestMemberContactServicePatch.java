@@ -41,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -57,6 +58,9 @@ class TestMemberContactServicePatch {
 
     @Mock
     private ContactMethodRepository     contactMethodRepository;
+
+    @Mock
+    private ContactRepository           contactRepository;
 
     @Mock
     private MemberContactRepository     memberContactRepository;
@@ -79,9 +83,8 @@ class TestMemberContactServicePatch {
 
         given(memberContactRepository.findOne(ContactConstants.NUMBER))
             .willReturn(Optional.of(MemberContacts.active()));
-        given(
-            memberContactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
-                .willReturn(true);
+        given(contactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
+            .willReturn(true);
 
         // WHEN
         execution = () -> service.patch(member);
@@ -107,7 +110,7 @@ class TestMemberContactServicePatch {
 
         // THEN
         verify(memberContactRepository).save(MemberContacts.noIdentifier());
-        verify(memberContactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
+        verify(contactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
             ContactConstants.IDENTIFIER);
     }
 

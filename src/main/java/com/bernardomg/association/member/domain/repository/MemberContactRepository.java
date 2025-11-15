@@ -35,14 +35,6 @@ import com.bernardomg.data.domain.Sorting;
 
 public interface MemberContactRepository {
 
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public boolean existsByIdentifier(final String identifier);
-
-    public boolean existsByIdentifierForAnother(final long number, final String identifier);
-
     public Page<MemberContact> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting);
 
     public Collection<MemberContact> findAllToRenew();

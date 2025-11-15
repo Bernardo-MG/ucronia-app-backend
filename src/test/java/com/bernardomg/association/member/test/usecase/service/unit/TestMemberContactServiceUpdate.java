@@ -39,6 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -52,6 +53,9 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberContactService - update")
 class TestMemberContactServiceUpdate {
+
+    @Mock
+    private ContactRepository           contactRepository;
 
     @Mock
     private MemberContactRepository     memberContactRepository;
@@ -75,10 +79,9 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.nameChange();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
-        given(
-            memberContactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
-                .willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
+            .willReturn(true);
 
         // WHEN
         execution = () -> service.update(member);
@@ -96,14 +99,14 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.noIdentifier();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
 
         // THEN
         verify(memberContactRepository).save(MemberContacts.noIdentifier());
-        verify(memberContactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
+        verify(contactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
             ContactConstants.IDENTIFIER);
     }
 
@@ -116,7 +119,7 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.nameChange();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(member);
@@ -134,7 +137,7 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.padded();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -151,7 +154,7 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.nameChange();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -169,7 +172,7 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.nameChange();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(memberContactRepository.save(MemberContacts.nameChange())).willReturn(MemberContacts.nameChange());
 
         // WHEN
@@ -190,7 +193,7 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.withEmail();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(memberMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -209,7 +212,7 @@ class TestMemberContactServiceUpdate {
         // GIVEN
         member = MemberContacts.withEmail();
 
-        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(contactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(memberMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
