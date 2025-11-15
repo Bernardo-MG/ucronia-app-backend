@@ -1,0 +1,96 @@
+get:
+  summary: Get a specific member contact by number.
+  operationId: getMemberContactByNumber
+  tags: [MemberContact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member contact number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Requested member contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
+    '404':
+      description: Member contact not found.
+put:
+  summary: Update a member contact.
+  operationId: updateMemberContact
+  tags: [MemberContact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member contact number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/MemberContactChange'
+  responses:
+    '200':
+      description: Updated member contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
+    '404':
+      description: Member contact not found.
+patch:
+  summary: Partially update a member contact.
+  operationId: patchMemberContact
+  tags: [MemberContact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member contact number.
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/MemberContactChange'
+  responses:
+    '200':
+      description: Patched member contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
+    '404':
+      description: Member contact not found.
+delete:
+  summary: Delete a member contact.
+  operationId: deleteMemberContact
+  tags: [MemberContact]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member contact number.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Member contact deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
+    '404':
+      description: Member not found.

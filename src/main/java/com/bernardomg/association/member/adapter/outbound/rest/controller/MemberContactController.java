@@ -34,7 +34,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberContactDtoMapper;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
 import com.bernardomg.association.member.domain.model.MemberContact;
@@ -45,11 +45,11 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MemberApi;
-import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
-import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
-import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.api.MemberContactApi;
+import com.bernardomg.ucronia.openapi.model.MemberContactChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactCreationDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
 
 import jakarta.validation.Valid;
@@ -62,14 +62,14 @@ import jakarta.validation.constraints.Min;
  *
  */
 @RestController
-public class MemberController implements MemberApi {
+public class MemberContactController implements MemberContactApi {
 
     /**
      * Member service.
      */
     private final MemberContactService service;
 
-    public MemberController(final MemberContactService service) {
+    public MemberContactController(final MemberContactService service) {
         super();
 
         this.service = service;
@@ -81,14 +81,14 @@ public class MemberController implements MemberApi {
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
-    public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
+    public MemberContactResponseDto createMemberContact(@Valid final MemberContactCreationDto memberCreationDto) {
         final MemberContact member;
         final MemberContact created;
 
-        member = MemberDtoMapper.toDomain(memberCreationDto);
+        member = MemberContactDtoMapper.toDomain(memberCreationDto);
         created = service.create(member);
 
-        return MemberDtoMapper.toResponseDto(created);
+        return MemberContactDtoMapper.toResponseDto(created);
     }
 
     @Override
@@ -96,19 +96,20 @@ public class MemberController implements MemberApi {
     @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }), @CacheEvict(cacheNames = {
             // Member caches
             MembersCaches.MEMBERS }, allEntries = true) })
-    public MemberResponseDto deleteMember(final Long number) {
+    public MemberContactResponseDto deleteMemberContact(final Long number) {
         final MemberContact member;
 
         member = service.delete(number);
 
-        return MemberDtoMapper.toResponseDto(member);
+        return MemberContactDtoMapper.toResponseDto(member);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
-    public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final MemberStatusDto status, @Valid final String name) {
+    public MemberContactPageResponseDto getAllMemberContacts(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final MemberStatusDto status,
+            @Valid final String name) {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -125,18 +126,18 @@ public class MemberController implements MemberApi {
         filter = new MemberQuery(memberStatus, name);
         members = service.getAll(filter, pagination, sorting);
 
-        return MemberDtoMapper.toResponseDto(members);
+        return MemberContactDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
-    public MemberResponseDto getMemberByNumber(final Long number) {
+    public MemberContactResponseDto getMemberContactByNumber(final Long number) {
         Optional<MemberContact> member;
 
         member = service.getOne(number);
 
-        return MemberDtoMapper.toResponseDto(member);
+        return MemberContactDtoMapper.toResponseDto(member);
     }
 
     @Override
@@ -145,14 +146,15 @@ public class MemberController implements MemberApi {
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
-    public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
+    public MemberContactResponseDto patchMemberContact(final Long number,
+            @Valid final MemberContactChangeDto memberChangeDto) {
         final MemberContact member;
         final MemberContact updated;
 
-        member = MemberDtoMapper.toDomain(number, memberChangeDto);
+        member = MemberContactDtoMapper.toDomain(number, memberChangeDto);
         updated = service.patch(member);
 
-        return MemberDtoMapper.toResponseDto(updated);
+        return MemberContactDtoMapper.toResponseDto(updated);
     }
 
     @Override
@@ -161,14 +163,15 @@ public class MemberController implements MemberApi {
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
-    public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
+    public MemberContactResponseDto updateMemberContact(final Long number,
+            @Valid final MemberContactChangeDto memberChangeDto) {
         final MemberContact member;
         final MemberContact updated;
 
-        member = MemberDtoMapper.toDomain(number, memberChangeDto);
+        member = MemberContactDtoMapper.toDomain(number, memberChangeDto);
         updated = service.update(member);
 
-        return MemberDtoMapper.toResponseDto(updated);
+        return MemberContactDtoMapper.toResponseDto(updated);
     }
 
 }

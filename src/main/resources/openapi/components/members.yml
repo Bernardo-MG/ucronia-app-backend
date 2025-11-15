@@ -1,6 +1,6 @@
 components:
   schemas:
-    Member:
+    MemberContact:
       type: object
       required: [number, name]
       properties:
@@ -35,13 +35,13 @@ components:
       type: string
       description: Status filter for contact queries.
       enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
-    MemberCreation:
+    MemberContactCreation:
       type: object
       required: [name]
       properties:
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
-    MemberChange:
+    MemberContactChange:
       type: object
       properties:
         identifier:
@@ -56,7 +56,7 @@ components:
         renew:
           type: boolean
           description: Whether the membership is eligible for renewal.
-    MemberPageResponse:
+    MemberContactPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
         - type: object
@@ -64,12 +64,12 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/Member'
-    MemberResponse:
+                $ref: '#/components/schemas/MemberContact'
+    MemberContactResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/Member'
+          $ref: '#/components/schemas/MemberContact'
     PublicMemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

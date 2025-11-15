@@ -36,18 +36,18 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
-import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
-import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
-import com.bernardomg.ucronia.openapi.model.MemberDto;
-import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactCreationDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
-public final class MemberDtoMapper {
+public final class MemberContactDtoMapper {
 
-    public static final MemberContact toDomain(final long number, final MemberChangeDto change) {
+    public static final MemberContact toDomain(final long number, final MemberContactChangeDto change) {
         final ContactName name;
 
         name = new ContactName(change.getName()
@@ -59,7 +59,7 @@ public final class MemberDtoMapper {
             change.getRenew(), List.of());
     }
 
-    public static final MemberContact toDomain(final MemberCreationDto creation) {
+    public static final MemberContact toDomain(final MemberContactCreationDto creation) {
         final ContactName name;
 
         name = new ContactName(creation.getName()
@@ -70,26 +70,26 @@ public final class MemberDtoMapper {
         return new MemberContact("", -1L, name, null, true, true, List.of());
     }
 
-    public static final MemberResponseDto toResponseDto(final MemberContact member) {
-        return new MemberResponseDto().content(MemberDtoMapper.toDto(member));
+    public static final MemberContactResponseDto toResponseDto(final MemberContact member) {
+        return new MemberContactResponseDto().content(MemberContactDtoMapper.toDto(member));
     }
 
-    public static final MemberResponseDto toResponseDto(final Optional<MemberContact> member) {
-        return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
+    public static final MemberContactResponseDto toResponseDto(final Optional<MemberContact> member) {
+        return new MemberContactResponseDto().content(member.map(MemberContactDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final MemberPageResponseDto toResponseDto(final Page<MemberContact> page) {
+    public static final MemberContactPageResponseDto toResponseDto(final Page<MemberContact> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
-            .map(MemberDtoMapper::toDto)
+            .map(MemberContactDtoMapper::toDto)
             .toList());
-        return new MemberPageResponseDto().content(page.content()
+        return new MemberContactPageResponseDto().content(page.content()
             .stream()
-            .map(MemberDtoMapper::toDto)
+            .map(MemberContactDtoMapper::toDto)
             .toList())
             .size(page.size())
             .page(page.page())
@@ -113,7 +113,7 @@ public final class MemberDtoMapper {
             .method(method);
     }
 
-    private static final MemberDto toDto(final MemberContact member) {
+    private static final MemberContactDto toDto(final MemberContact member) {
         ContactNameDto          name;
         List<ContactChannelDto> contactChannels;
 
@@ -125,10 +125,10 @@ public final class MemberDtoMapper {
                 .fullName());
         contactChannels = member.contactChannels()
             .stream()
-            .map(MemberDtoMapper::toDto)
+            .map(MemberContactDtoMapper::toDto)
             .toList();
 
-        return new MemberDto().identifier(member.identifier())
+        return new MemberContactDto().identifier(member.identifier())
             .number(member.number())
             .name(name)
             .birthDate(member.birthDate())
@@ -149,7 +149,7 @@ public final class MemberDtoMapper {
             .direction(direction);
     }
 
-    private MemberDtoMapper() {
+    private MemberContactDtoMapper() {
         super();
     }
 

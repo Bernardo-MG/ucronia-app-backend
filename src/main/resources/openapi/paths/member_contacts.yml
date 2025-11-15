@@ -1,24 +1,24 @@
 post:
-  summary: Create a new member.
-  operationId: createMember
-  tags: [Member]
+  summary: Create a new member contact.
+  operationId: createMemberContact
+  tags: [MemberContact]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../components/members.yml#/components/schemas/MemberCreation'
+          $ref: '../components/members.yml#/components/schemas/MemberContactCreation'
   responses:
     '201':
-      description: Member created.
+      description: Member contact created.
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
 get:
-  summary: Get all members.
-  operationId: getAllMembers
-  tags: [Member]
+  summary: Get all member contacts.
+  operationId: getAllMemberContacts
+  tags: [MemberContact]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
@@ -37,8 +37,8 @@ get:
         type: string
   responses:
     '200':
-      description: Members page.
+      description: Member contactss page.
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/MemberPageResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberContactPageResponse'
