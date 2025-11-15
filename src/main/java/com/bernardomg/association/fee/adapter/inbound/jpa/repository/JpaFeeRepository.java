@@ -64,17 +64,19 @@ public final class JpaFeeRepository implements FeeRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log               = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger                 log               = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private static final Collection<String>   PERSON_PROPERTIES = List.of("firstName", "lastName", "member", "number");
+    private static final Collection<String>     PERSON_PROPERTIES = List.of("firstName", "lastName", "member",
+        "number");
 
-    private final FeeSpringRepository         feeSpringRepository;
+    private final FeeSpringRepository           feeSpringRepository;
 
-    private final MemberContactSpringRepository      memberSpringRepository;
+    private final MemberContactSpringRepository memberSpringRepository;
 
-    private final TransactionSpringRepository transactionSpringRepository;
+    private final TransactionSpringRepository   transactionSpringRepository;
 
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final MemberContactSpringRepository memberSpringRepo,
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
+            final MemberContactSpringRepository memberSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
@@ -86,7 +88,7 @@ public final class JpaFeeRepository implements FeeRepository {
     @Override
     public final void delete(final Long number, final YearMonth date) {
         final Optional<MemberContactEntity> member;
-        final Instant                dateParsed;
+        final Instant                       dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
@@ -393,11 +395,11 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final Optional<MemberContactEntity>      member;
-        final Optional<TransactionEntity> transaction;
-        final boolean                     paid;
-        final FeeEntity                   entity;
-        final Instant                     date;
+        final Optional<MemberContactEntity> member;
+        final Optional<TransactionEntity>   transaction;
+        final boolean                       paid;
+        final FeeEntity                     entity;
+        final Instant                       date;
 
         // TODO: move to mapper
 

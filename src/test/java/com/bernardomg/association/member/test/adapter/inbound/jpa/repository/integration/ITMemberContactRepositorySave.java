@@ -44,10 +44,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberContactRepositorySave {
 
     @Autowired
-    private MemberContactRepository repository;
+    private MemberContactRepository       repository;
 
     @Autowired
-    private MemberContactSpringRepository  springRepository;
+    private MemberContactSpringRepository springRepository;
 
     public ITMemberContactRepositorySave() {
         super();
@@ -56,7 +56,7 @@ class ITMemberContactRepositorySave {
     @Test
     @DisplayName("With a member with an active membership, the member is persisted")
     void testSave_ActiveMembership_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -78,7 +78,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("When a member exists with an active membership, and an inactive membership is set, the member is persisted")
     @ActiveMember
     void testSave_Existing_Active_SetInactiveMembership_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -100,7 +100,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("When a member exists, and an active membership is added, the member is persisted")
     @ActiveMember
     void testSave_Existing_AddActiveMembership_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -122,7 +122,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("When a member exists, and an inactive membership is added, the member is persisted")
     @ActiveMember
     void testSave_Existing_AddInactiveMembership_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -145,7 +145,7 @@ class ITMemberContactRepositorySave {
     @EmailContactMethod
     @ActiveMember
     void testSave_Existing_AddMember_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -167,7 +167,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("When a member exists, the member is persisted")
     @ActiveMember
     void testSave_Existing_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -190,7 +190,7 @@ class ITMemberContactRepositorySave {
     @EmailContactMethod
     @ActiveMember
     void testSave_Existing_RemoveMember_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -230,7 +230,7 @@ class ITMemberContactRepositorySave {
     @Test
     @DisplayName("With a member with an inactive membership, the member is persisted")
     void testSave_InactiveMembership_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -251,7 +251,7 @@ class ITMemberContactRepositorySave {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN
@@ -291,7 +291,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("With a member with a contact channel, the member is persisted")
     @EmailContactMethod
     void testSave_WithContactChannel_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN

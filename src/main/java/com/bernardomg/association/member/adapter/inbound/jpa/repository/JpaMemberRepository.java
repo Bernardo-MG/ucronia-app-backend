@@ -34,8 +34,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntityMapper;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -43,31 +43,31 @@ import com.bernardomg.data.springframework.SpringPagination;
 
 @Repository
 @Transactional
-public final class JpaPublicMemberRepository implements PublicMemberRepository {
+public final class JpaMemberRepository implements MemberRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaPublicMemberRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final MemberContactSpringRepository memberSpringRepository;
+    private final MemberContactSpringRepository memberContactSpringRepository;
 
-    public JpaPublicMemberRepository(final MemberContactSpringRepository memberSpringRepo) {
+    public JpaMemberRepository(final MemberContactSpringRepository memberContactSpringRepo) {
         super();
 
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        memberContactSpringRepository = Objects.requireNonNull(memberContactSpringRepo);
     }
 
     @Override
-    public final Page<PublicMember> findAll(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<PublicMember> read;
-        final Pageable                                           pageable;
+    public final Page<Member> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Member> read;
+        final Pageable                                     pageable;
 
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         // TODO: use a specific repository for members
-        read = memberSpringRepository.findAllActive(pageable)
+        read = memberContactSpringRepository.findAllActive(pageable)
             .map(PublicMemberEntityMapper::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
@@ -76,13 +76,13 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     }
 
     @Override
-    public final Optional<PublicMember> findOne(final Long number) {
-        final Optional<PublicMember> member;
+    public final Optional<Member> findOne(final Long number) {
+        final Optional<Member> member;
 
         log.trace("Finding public member with number {}", number);
 
         // TODO: use a specific repository for members
-        member = memberSpringRepository.findByNumber(number)
+        member = memberContactSpringRepository.findByNumber(number)
             .map(PublicMemberEntityMapper::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);

@@ -62,13 +62,13 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final MemberContactSpringRepository memberSpringRepository;
+    private final MemberContactSpringRepository memberContactSpringRepository;
 
-    public JpaMemberContactRepository(final MemberContactSpringRepository memberSpringRepo,
+    public JpaMemberContactRepository(final MemberContactSpringRepository memberContactSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        memberContactSpringRepository = Objects.requireNonNull(memberContactSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
 
@@ -84,10 +84,10 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = memberSpringRepository.findAll(pageable)
+            read = memberContactSpringRepository.findAll(pageable)
                 .map(MemberContactEntityMapper::toDomain);
         } else {
-            read = memberSpringRepository.findAll(spec.get(), pageable)
+            read = memberContactSpringRepository.findAll(spec.get(), pageable)
                 .map(MemberContactEntityMapper::toDomain);
         }
 
@@ -103,7 +103,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         log.debug("Finding all the members to renew");
 
-        members = memberSpringRepository.findAllByRenewMembershipTrue()
+        members = memberContactSpringRepository.findAllByRenewMembershipTrue()
             .stream()
             .map(MemberContactEntityMapper::toDomain)
             .toList();
@@ -119,7 +119,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         log.debug("Finding all the members with a renewal mismatch");
 
-        members = memberSpringRepository.findAllWithRenewalMismatch()
+        members = memberContactSpringRepository.findAllWithRenewalMismatch()
             .stream()
             .map(MemberContactEntityMapper::toDomain)
             .toList();
@@ -135,7 +135,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         log.trace("Finding member with number {}", number);
 
-        member = memberSpringRepository.findByNumber(number)
+        member = memberContactSpringRepository.findByNumber(number)
             .map(MemberContactEntityMapper::toDomain);
 
         log.trace("Found member with number {}: {}", number, member);
@@ -149,7 +149,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         log.trace("Checking if member {} is active", number);
 
-        active = memberSpringRepository.isActive(number);
+        active = memberContactSpringRepository.isActive(number);
 
         log.trace("Member {} is active: {}", number, active);
 
@@ -174,13 +174,13 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = MemberContactEntityMapper.toEntity(member, contactMethods);
 
-        existing = memberSpringRepository.findByNumber(member.number());
+        existing = memberContactSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = MemberContactEntityMapper.toDomain(memberSpringRepository.save(entity));
+        created = MemberContactEntityMapper.toDomain(memberContactSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
 
@@ -207,7 +207,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             .map(m -> MemberContactEntityMapper.toEntity(m, contactMethods))
             .toList();
 
-        saved = memberSpringRepository.saveAll(entities)
+        saved = memberContactSpringRepository.saveAll(entities)
             .stream()
             .map(MemberContactEntityMapper::toDomain)
             .toList();

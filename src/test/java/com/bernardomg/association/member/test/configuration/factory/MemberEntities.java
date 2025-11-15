@@ -39,7 +39,7 @@ public final class MemberEntities {
     }
 
     public static final MemberContactEntity withEmail() {
-        final MemberContactEntity         entity;
+        final MemberContactEntity  entity;
         final ContactChannelEntity contactContactMethodEntity;
 
         contactContactMethodEntity = new ContactChannelEntity();

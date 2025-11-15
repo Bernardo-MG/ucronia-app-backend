@@ -58,7 +58,7 @@ public final class MemberContactEntityMapper {
             final Collection<ContactMethodEntity> contactMethods) {
         final boolean                          active;
         final boolean                          renew;
-        final MemberContactEntity                     entity;
+        final MemberContactEntity              entity;
         final Collection<ContactChannelEntity> members;
 
         active = data.active();

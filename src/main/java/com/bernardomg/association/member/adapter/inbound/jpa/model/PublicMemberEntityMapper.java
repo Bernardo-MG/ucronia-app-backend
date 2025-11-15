@@ -25,19 +25,19 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.model.Member;
 
 /**
  * Member entity mapper.
  */
 public final class PublicMemberEntityMapper {
 
-    public static final PublicMember toDomain(final MemberContactEntity entity) {
+    public static final Member toDomain(final MemberContactEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
         // TODO: check it has membership flag
-        return new PublicMember(entity.getNumber(), name);
+        return new Member(entity.getNumber(), name);
     }
 
     private PublicMemberEntityMapper() {

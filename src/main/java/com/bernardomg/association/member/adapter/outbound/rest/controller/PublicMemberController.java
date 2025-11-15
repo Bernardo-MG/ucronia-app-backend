@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.PublicMembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.usecase.service.PublicMemberService;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -59,9 +59,9 @@ public class PublicMemberController implements PublicMemberApi {
     /**
      * Public member service.
      */
-    private final PublicMemberService service;
+    private final MemberService service;
 
-    public PublicMemberController(final PublicMemberService service) {
+    public PublicMemberController(final MemberService service) {
         super();
 
         this.service = service;
@@ -72,9 +72,9 @@ public class PublicMemberController implements PublicMemberApi {
     @Cacheable(cacheNames = PublicMembersCaches.PUBLIC_MEMBERS)
     public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final Page<PublicMember> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final Page<Member> members;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
@@ -87,7 +87,7 @@ public class PublicMemberController implements PublicMemberApi {
     @RequireResourceAuthorization(resource = "PUBLIC_MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = PublicMembersCaches.PUBLIC_MEMBER)
     public PublicMemberResponseDto getMemberByNumber(final Long number) {
-        Optional<PublicMember> member;
+        Optional<Member> member;
 
         member = service.getOne(number);
 

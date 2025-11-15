@@ -45,10 +45,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberContactRepositorySaveAll {
 
     @Autowired
-    private MemberContactRepository repository;
+    private MemberContactRepository       repository;
 
     @Autowired
-    private MemberContactSpringRepository  springRepository;
+    private MemberContactSpringRepository springRepository;
 
     public ITMemberContactRepositorySaveAll() {
         super();
@@ -57,7 +57,7 @@ class ITMemberContactRepositorySaveAll {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final MemberContact          member;
+        final MemberContact                 member;
         final Iterable<MemberContactEntity> entities;
 
         // GIVEN

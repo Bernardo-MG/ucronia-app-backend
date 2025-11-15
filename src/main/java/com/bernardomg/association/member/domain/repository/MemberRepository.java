@@ -22,10 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.domain.repository;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
+import java.util.Optional;
 
-public record PublicMember(Long number, ContactName name) {
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.data.domain.Page;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+
+public interface MemberRepository {
+
+    public Page<Member> findAll(final Pagination pagination, final Sorting sorting);
+
+    public Optional<Member> findOne(final Long number);
 
 }

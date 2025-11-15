@@ -39,39 +39,39 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
-import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Public member service - get one")
-class TestPublicMemberServiceGetOne {
+@DisplayName("DefaultMemberService - get one")
+class TestMemberServiceGetOne {
 
     @Mock
-    private PublicMemberRepository     publicMemberRepository;
+    private MemberRepository     memberRepository;
 
     @InjectMocks
-    private DefaultPublicMemberService service;
+    private DefaultMemberService service;
 
-    public TestPublicMemberServiceGetOne() {
+    public TestMemberServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<PublicMember> member;
+        final Optional<Member> member;
 
         // GIVEN
-        given(publicMemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
+        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
 
         // WHEN
         member = service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(PublicMembers.valid());
+            .contains(Members.valid());
     }
 
     @Test
@@ -80,7 +80,7 @@ class TestPublicMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publicMemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(ContactConstants.NUMBER);

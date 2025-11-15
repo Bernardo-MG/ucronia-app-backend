@@ -22,19 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-public interface PublicMemberRepository {
+/**
+ * Member service. Without sensitive information.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface MemberService {
 
-    public Page<PublicMember> findAll(final Pagination pagination, final Sorting sorting);
+    /**
+     * Returns all the public members.
+     *
+     * @param pagination
+     *            pagination to apply
+     * @param sorting
+     *            sorting to apply
+     * @return all the members matching the sample
+     */
+    public Page<Member> getAll(final Pagination pagination, final Sorting sorting);
 
-    public Optional<PublicMember> findOne(final Long number);
+    /**
+     * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     *
+     * @param number
+     *            number of the member to acquire
+     * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
+     */
+    public Optional<Member> getOne(final long number);
 
 }
