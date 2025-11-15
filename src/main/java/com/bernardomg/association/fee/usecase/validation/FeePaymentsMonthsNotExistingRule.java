@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -48,16 +48,17 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
+    private static final Logger           log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
 
-    private final FeeRepository    feeRepository;
+    private final FeeRepository           feeRepository;
 
-    private final MemberRepository memberRepository;
+    private final MemberContactRepository memberContactRepository;
 
-    public FeePaymentsMonthsNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
+    public FeePaymentsMonthsNotExistingRule(final MemberContactRepository memberContactRepo,
+            final FeeRepository feeRepo) {
         super();
 
-        memberRepository = Objects.requireNonNull(memberRepo);
+        memberContactRepository = Objects.requireNonNull(memberContactRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -66,9 +67,9 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final List<YearMonth>        existing;
-        final Member                 member;
+        final MemberContact          member;
 
-        member = memberRepository.findOne(payments.member())
+        member = memberContactRepository.findOne(payments.member())
             .get();
         // TODO: use a single query
         existing = payments.months()

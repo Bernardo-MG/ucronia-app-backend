@@ -34,34 +34,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
-import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - save")
-class ITMemberRepositorySaveAll {
+@DisplayName("MemberContactRepository - save")
+class ITMemberContactRepositorySaveAll {
 
     @Autowired
-    private MemberRepository       repository;
+    private MemberContactRepository repository;
 
     @Autowired
-    private MemberSpringRepository springRepository;
+    private MemberSpringRepository  springRepository;
 
-    public ITMemberRepositorySaveAll() {
+    public ITMemberContactRepositorySaveAll() {
         super();
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -78,11 +78,11 @@ class ITMemberRepositorySaveAll {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testSave_ReturnedData() {
-        final Member             member;
-        final Collection<Member> saved;
+        final MemberContact             member;
+        final Collection<MemberContact> saved;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         saved = repository.saveAll(List.of(member));
@@ -90,7 +90,7 @@ class ITMemberRepositorySaveAll {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .containsExactly(Members.active());
+            .containsExactly(MemberContacts.active());
     }
 
 }

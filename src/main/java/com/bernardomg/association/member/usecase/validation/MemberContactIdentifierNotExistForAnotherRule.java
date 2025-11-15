@@ -31,36 +31,37 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
  * Checks the person has a name.
  */
-public final class MemberIdentifierNotExistForAnotherRule implements FieldRule<Member> {
+public final class MemberContactIdentifierNotExistForAnotherRule implements FieldRule<MemberContact> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(MemberIdentifierNotExistForAnotherRule.class);
+    private static final Logger           log = LoggerFactory
+        .getLogger(MemberContactIdentifierNotExistForAnotherRule.class);
 
-    private final MemberRepository memberRepository;
+    private final MemberContactRepository memberContactRepository;
 
-    public MemberIdentifierNotExistForAnotherRule(final MemberRepository memberRepo) {
+    public MemberContactIdentifierNotExistForAnotherRule(final MemberContactRepository memberContactRepo) {
         super();
 
-        memberRepository = Objects.requireNonNull(memberRepo);
+        memberContactRepository = Objects.requireNonNull(memberContactRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Member member) {
+    public final Optional<FieldFailure> check(final MemberContact member) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(member.identifier())
-                || !memberRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
+                || !memberContactRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
             failure = Optional.empty();
         } else {
             log.error("Existing identifier {} for a member distinct of {}", member.identifier(), member.number());

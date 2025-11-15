@@ -29,77 +29,47 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - is active")
-class ITMemberRepositoryIsActive {
+@DisplayName("MemberContactRepository - delete")
+class ITMemberContactRepositoryDelete {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
+
+    @Autowired
+    private MemberSpringRepository  springRepository;
+
+    public ITMemberContactRepositoryDelete() {
+        super();
+    }
 
     @Test
-    @DisplayName("When the member is active, is is indicated as so")
+    @DisplayName("When deleting a contact, it is deleted")
     @ActiveMember
-    void testIsActive_Active() {
-        final boolean active;
-
+    void testDelete() {
         // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
+        repository.delete(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(active)
-            .as("active")
-            .isTrue();
+        Assertions.assertThat(springRepository.count())
+            .isZero();
     }
 
     @Test
-    @DisplayName("When the member is inactive, is is indicated as so")
-    @InactiveMember
-    void testIsActive_Inactive() {
-        final boolean active;
-
+    @DisplayName("When there is no data, nothing is deleted")
+    void testDelete_noData() {
         // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
+        repository.delete(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(active)
-            .as("active")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("When the member doesn't exist, it is indicated as so")
-    void testIsActive_NoData() {
-        final boolean active;
-
-        // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(active)
-            .as("active")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("When there is a member which is not a member, it is indicated as so")
-    @ValidContact
-    void testIsActive_NoMember() {
-        final boolean active;
-
-        // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(active)
-            .as("active")
-            .isFalse();
+        Assertions.assertThat(springRepository.count())
+            .isZero();
     }
 
 }

@@ -41,7 +41,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all public - pagination")
+@DisplayName("PublicMemberRepository - find all public - pagination")
 @MultipleActiveMember
 class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<PublicMember> {
 

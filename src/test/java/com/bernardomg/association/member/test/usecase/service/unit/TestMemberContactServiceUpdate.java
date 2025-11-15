@@ -42,27 +42,27 @@ import com.bernardomg.association.contact.domain.repository.ContactMethodReposit
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - update")
-class TestMemberServiceUpdate {
+@DisplayName("DefaultMemberContactService - update")
+class TestMemberContactServiceUpdate {
 
     @Mock
-    private ContactMethodRepository memberMethodRepository;
+    private MemberContactRepository     memberContactRepository;
 
     @Mock
-    private MemberRepository        memberRepository;
+    private ContactMethodRepository     memberMethodRepository;
 
     @InjectMocks
-    private DefaultMemberService    service;
+    private DefaultMemberContactService service;
 
-    public TestMemberServiceUpdate() {
+    public TestMemberContactServiceUpdate() {
         super();
     }
 
@@ -70,14 +70,15 @@ class TestMemberServiceUpdate {
     @DisplayName("With a member with an existing identifier, an exception is thrown")
     void testCreate_IdentifierExists() {
         final ThrowingCallable execution;
-        final Member           member;
+        final MemberContact    member;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
-        given(memberRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
-            .willReturn(true);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(
+            memberContactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
+                .willReturn(true);
 
         // WHEN
         execution = () -> service.update(member);
@@ -90,32 +91,32 @@ class TestMemberServiceUpdate {
     @Test
     @DisplayName("With a member with an existing identifier, but the identifier is empty, no exception is thrown")
     void testCreate_IdentifierExistsAndEmpty() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.noIdentifier();
+        member = MemberContacts.noIdentifier();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
 
         // THEN
-        verify(memberRepository).save(Members.noIdentifier());
-        verify(memberRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
+        verify(memberContactRepository).save(MemberContacts.noIdentifier());
+        verify(memberContactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
             ContactConstants.IDENTIFIER);
     }
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final Member           member;
+        final MemberContact    member;
         final ThrowingCallable execution;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(member);
@@ -128,48 +129,48 @@ class TestMemberServiceUpdate {
     @Test
     @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.padded();
+        member = MemberContacts.padded();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
 
         // THEN
-        verify(memberRepository).save(Members.active());
+        verify(memberContactRepository).save(MemberContacts.active());
     }
 
     @Test
     @DisplayName("When updating a member, the change is persisted")
     void testUpdate_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
 
         // THEN
-        verify(memberRepository).save(Members.nameChange());
+        verify(memberContactRepository).save(MemberContacts.nameChange());
     }
 
     @Test
     @DisplayName("When updating an active member, the change is returned")
     void testUpdate_ReturnedData() {
-        final Member member;
-        final Member updated;
+        final MemberContact member;
+        final MemberContact updated;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
-        given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.save(MemberContacts.nameChange())).willReturn(MemberContacts.nameChange());
 
         // WHEN
         updated = service.update(member);
@@ -177,19 +178,19 @@ class TestMemberServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("member")
-            .isEqualTo(Members.nameChange());
+            .isEqualTo(MemberContacts.nameChange());
     }
 
     @Test
     @DisplayName("With a member with a not existing member method, an exception is thrown")
     void testUpdate_WithMember_NotExistingContactMethod() {
-        final Member           member;
+        final MemberContact    member;
         final ThrowingCallable execution;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(memberMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -203,19 +204,19 @@ class TestMemberServiceUpdate {
     @Test
     @DisplayName("When updating a member with a member method, the change is persisted")
     void testUpdate_WithMember_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(memberMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
 
         // THEN
-        verify(memberRepository).save(Members.withEmail());
+        verify(memberContactRepository).save(MemberContacts.withEmail());
     }
 
 }

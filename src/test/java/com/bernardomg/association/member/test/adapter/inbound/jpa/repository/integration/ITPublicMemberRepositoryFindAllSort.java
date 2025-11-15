@@ -43,7 +43,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - sort")
+@DisplayName("PublicMemberRepository - find all - sort")
 @MultipleActiveMember
 @MultipleFees
 class ITPublicMemberRepositoryFindAllSort {

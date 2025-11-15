@@ -39,10 +39,10 @@ import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistForAnotherRule;
-import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistRule;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.usecase.validation.MemberContactIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.member.usecase.validation.MemberContactIdentifierNotExistRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -50,45 +50,48 @@ import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 /**
- * Default implementation of the member service.
+ * Default implementation of the member contact service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Service
 @Transactional
-public final class DefaultMemberService implements MemberService {
+public final class DefaultMemberContactService implements MemberContactService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberService.class);
+    private static final Logger            log = LoggerFactory.getLogger(DefaultMemberContactService.class);
 
-    private final ContactMethodRepository contactMethodRepository;
+    private final ContactMethodRepository  contactMethodRepository;
 
-    private final Validator<Member>       createMemberValidator;
+    private final Validator<MemberContact> createMemberValidator;
 
-    private final MemberRepository        memberRepository;
+    private final MemberContactRepository  memberContactRepository;
 
-    private final Validator<Member>       patchMemberValidator;
+    private final Validator<MemberContact> patchMemberValidator;
 
-    private final Validator<Member>       updateMemberValidator;
+    private final Validator<MemberContact> updateMemberValidator;
 
-    public DefaultMemberService(final MemberRepository memberRepo, final ContactMethodRepository contactMethodRepo) {
+    public DefaultMemberContactService(final MemberContactRepository memberContactRepo,
+            final ContactMethodRepository contactMethodRepo) {
         super();
 
-        memberRepository = Objects.requireNonNull(memberRepo);
+        memberContactRepository = Objects.requireNonNull(memberContactRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        createMemberValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistRule(memberRepo));
-        updateMemberValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistForAnotherRule(memberRepo));
-        patchMemberValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistForAnotherRule(memberRepo));
+        createMemberValidator = new FieldRuleValidator<>(new MemberContactIdentifierNotExistRule(memberContactRepo));
+        updateMemberValidator = new FieldRuleValidator<>(
+            new MemberContactIdentifierNotExistForAnotherRule(memberContactRepo));
+        patchMemberValidator = new FieldRuleValidator<>(
+            new MemberContactIdentifierNotExistForAnotherRule(memberContactRepo));
     }
 
     @Override
-    public final Member create(final Member member) {
-        final Member toCreate;
-        final Member created;
-        final Long   number;
+    public final MemberContact create(final MemberContact member) {
+        final MemberContact toCreate;
+        final MemberContact created;
+        final Long          number;
 
         log.debug("Creating member {}", member);
 
@@ -99,14 +102,14 @@ public final class DefaultMemberService implements MemberService {
             .forEach(this::checkContactMethodExists);
 
         // Set number
-        number = memberRepository.findNextNumber();
+        number = memberContactRepository.findNextNumber();
 
-        toCreate = new Member(member.identifier(), number, member.name(), member.birthDate(), member.active(),
+        toCreate = new MemberContact(member.identifier(), number, member.name(), member.birthDate(), member.active(),
             member.renew(), member.contactChannels());
 
         createMemberValidator.validate(toCreate);
 
-        created = memberRepository.save(toCreate);
+        created = memberContactRepository.save(toCreate);
 
         log.debug("Created member {}", created);
 
@@ -114,18 +117,18 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member delete(final long number) {
-        final Member existing;
+    public final MemberContact delete(final long number) {
+        final MemberContact existing;
 
         log.debug("Deleting member {}", number);
 
-        existing = memberRepository.findOne(number)
+        existing = memberContactRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing member {}", number);
                 throw new MissingMemberException(number);
             });
 
-        memberRepository.delete(number);
+        memberContactRepository.delete(number);
 
         log.debug("Deleted member {}", number);
 
@@ -133,12 +136,13 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Page<Member> getAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting) {
-        final Page<Member> read;
+    public final Page<MemberContact> getAll(final MemberQuery filter, final Pagination pagination,
+            final Sorting sorting) {
+        final Page<MemberContact> read;
 
         log.debug("Reading members with query {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        read = memberRepository.findAll(filter, pagination, sorting);
+        read = memberContactRepository.findAll(filter, pagination, sorting);
 
         log.debug("Read members with query {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
 
@@ -146,12 +150,12 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Optional<Member> getOne(final long number) {
-        final Optional<Member> member;
+    public final Optional<MemberContact> getOne(final long number) {
+        final Optional<MemberContact> member;
 
         log.debug("Reading member {}", number);
 
-        member = memberRepository.findOne(number);
+        member = memberContactRepository.findOne(number);
         if (member.isEmpty()) {
             log.error("Missing member {}", number);
             throw new MissingMemberException(number);
@@ -163,17 +167,17 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member patch(final Member member) {
-        final Member existing;
-        final Member toSave;
-        final Member saved;
+    public final MemberContact patch(final MemberContact member) {
+        final MemberContact existing;
+        final MemberContact toSave;
+        final MemberContact saved;
 
         log.debug("Patching member {} using data {}", member.number(), member);
 
         // TODO: Identificator must be unique or empty
         // TODO: Apply the creation validations
 
-        existing = memberRepository.findOne(member.number())
+        existing = memberContactRepository.findOne(member.number())
             .orElseThrow(() -> {
                 log.error("Missing member {}", member.number());
                 throw new MissingMemberException(member.number());
@@ -189,7 +193,7 @@ public final class DefaultMemberService implements MemberService {
 
         patchMemberValidator.validate(toSave);
 
-        saved = memberRepository.save(toSave);
+        saved = memberContactRepository.save(toSave);
 
         log.debug("Patched member {}: {}", member.number(), saved);
 
@@ -197,15 +201,15 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member update(final Member member) {
-        final Member saved;
+    public final MemberContact update(final MemberContact member) {
+        final MemberContact saved;
 
         log.debug("Updating member {} using data {}", member.number(), member);
 
         // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
-        if (!memberRepository.exists(member.number())) {
+        if (!memberContactRepository.exists(member.number())) {
             log.error("Missing member {}", member.number());
             throw new MissingMemberException(member.number());
         }
@@ -218,7 +222,7 @@ public final class DefaultMemberService implements MemberService {
 
         updateMemberValidator.validate(member);
 
-        saved = memberRepository.save(member);
+        saved = memberContactRepository.save(member);
 
         log.debug("Updated member {}: {}", member.number(), saved);
 
@@ -232,7 +236,7 @@ public final class DefaultMemberService implements MemberService {
         }
     }
 
-    private final Member copy(final Member existing, final Member updated) {
+    private final MemberContact copy(final MemberContact existing, final MemberContact updated) {
         final ContactName name;
 
         if (updated.name() == null) {
@@ -247,7 +251,7 @@ public final class DefaultMemberService implements MemberService {
                     .orElse(existing.name()
                         .lastName()));
         }
-        return new Member(Optional.ofNullable(updated.identifier())
+        return new MemberContact(Optional.ofNullable(updated.identifier())
             .orElse(existing.identifier()),
             Optional.ofNullable(updated.number())
                 .orElse(existing.number()),

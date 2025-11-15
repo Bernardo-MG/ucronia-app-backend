@@ -44,27 +44,27 @@ import com.bernardomg.association.contact.domain.repository.ContactMethodReposit
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - patch")
-class TestMemberServicePatch {
+@DisplayName("DefaultMemberContactService - patch")
+class TestMemberContactServicePatch {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
-    private MemberRepository        memberRepository;
+    private MemberContactRepository     memberContactRepository;
 
     @InjectMocks
-    private DefaultMemberService    service;
+    private DefaultMemberContactService service;
 
-    public TestMemberServicePatch() {
+    public TestMemberContactServicePatch() {
         super();
     }
 
@@ -72,14 +72,16 @@ class TestMemberServicePatch {
     @DisplayName("With a member with an existing identifier, an exception is thrown")
     void testCreate_IdentifierExists() {
         final ThrowingCallable execution;
-        final Member           member;
+        final MemberContact    member;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
-            .willReturn(true);
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
+        given(
+            memberContactRepository.existsByIdentifierForAnother(ContactConstants.NUMBER, ContactConstants.IDENTIFIER))
+                .willReturn(true);
 
         // WHEN
         execution = () -> service.patch(member);
@@ -92,32 +94,33 @@ class TestMemberServicePatch {
     @Test
     @DisplayName("With a member with an existing identifier, but the identifier is empty, no exception is thrown")
     void testCreate_IdentifierExistsAndEmpty() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.noIdentifier();
+        member = MemberContacts.noIdentifier();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
 
         // WHEN
         service.patch(member);
 
         // THEN
-        verify(memberRepository).save(Members.noIdentifier());
-        verify(memberRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
+        verify(memberContactRepository).save(MemberContacts.noIdentifier());
+        verify(memberContactRepository, Mockito.never()).existsByIdentifierForAnother(ContactConstants.NUMBER,
             ContactConstants.IDENTIFIER);
     }
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
     void testPatch_NotExisting_Exception() {
-        final Member           member;
+        final MemberContact    member;
         final ThrowingCallable execution;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberContactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(member);
@@ -130,65 +133,69 @@ class TestMemberServicePatch {
     @Test
     @DisplayName("When patching the name, the change is persisted")
     void testPatch_OnlyName_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.nameChangePatch();
+        member = MemberContacts.nameChangePatch();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
 
         // WHEN
         service.patch(member);
 
         // THEN
-        verify(memberRepository).save(Members.nameChange());
+        verify(memberContactRepository).save(MemberContacts.nameChange());
     }
 
     @Test
     @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed")
     void testPatch_Padded_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.padded();
+        member = MemberContacts.padded();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
 
         // WHEN
         service.patch(member);
 
         // THEN
-        verify(memberRepository).save(Members.active());
+        verify(memberContactRepository).save(MemberContacts.active());
     }
 
     @Test
     @DisplayName("When updating a member, the change is persisted")
     void testPatch_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
 
         // WHEN
         service.patch(member);
 
         // THEN
-        verify(memberRepository).save(Members.nameChange());
+        verify(memberContactRepository).save(MemberContacts.nameChange());
     }
 
     @Test
     @DisplayName("When updating a member, the change is returned")
     void testPatch_ReturnedData() {
-        final Member member;
-        final Member updated;
+        final MemberContact member;
+        final MemberContact updated;
 
         // GIVEN
-        member = Members.nameChange();
+        member = MemberContacts.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
+        given(memberContactRepository.save(MemberContacts.nameChange())).willReturn(MemberContacts.nameChange());
 
         // WHEN
         updated = service.patch(member);
@@ -196,19 +203,20 @@ class TestMemberServicePatch {
         // THEN
         Assertions.assertThat(updated)
             .as("member")
-            .isEqualTo(Members.nameChange());
+            .isEqualTo(MemberContacts.nameChange());
     }
 
     @Test
     @DisplayName("With a member with a not existing member method, an exception is thrown")
     void testPatch_WithMemberChannel_NotExistingContactMethod() {
-        final Member           member;
+        final MemberContact    member;
         final ThrowingCallable execution;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -222,19 +230,20 @@ class TestMemberServicePatch {
     @Test
     @DisplayName("When patching a member with a member method, the change is persisted")
     void testPatch_WithMemberChannel_PersistedData() {
-        final Member member;
+        final MemberContact member;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
 
         // THEN
-        verify(memberRepository).save(Members.withEmail());
+        verify(memberContactRepository).save(MemberContacts.withEmail());
     }
 
 }

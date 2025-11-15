@@ -31,11 +31,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.MemberQueries;
-import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -43,18 +43,18 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("ContactRepository - find all - paginated")
-class ITMemberRepositoryFindAllPaginated {
+class ITMemberContactRepositoryFindAllPaginated {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -76,10 +76,10 @@ class ITMemberRepositoryFindAllPaginated {
     @DisplayName("When there is a member, it is returned")
     @ActiveMember
     void testFindAll_Single() {
-        final Page<Member> people;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> people;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -94,7 +94,7 @@ class ITMemberRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("people")
-            .containsExactly(Members.active());
+            .containsExactly(MemberContacts.active());
     }
 
 }

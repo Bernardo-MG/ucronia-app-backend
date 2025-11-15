@@ -30,25 +30,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - exists")
-class ITMemberRepositoryExists {
+@DisplayName("MemberContactRepository - exists by identifier")
+class ITMemberContactRepositoryExistsByIdentifier {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With an existing member, it exists")
+    @DisplayName("With an existing identifier, it exists")
     @ActiveMember
-    void testExists() {
+    void testExists_Existing() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.existsByIdentifier(ContactConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -57,12 +57,27 @@ class ITMemberRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no member, nothing exists")
+    @DisplayName("With no contact, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.existsByIdentifier(ContactConstants.IDENTIFIER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With a not existing identifier, it doesn't exist")
+    @ActiveMember
+    void testExists_NotExisting() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsByIdentifier("abc");
 
         // THEN
         Assertions.assertThat(exists)

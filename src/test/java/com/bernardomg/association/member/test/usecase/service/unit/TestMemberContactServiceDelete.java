@@ -25,6 +25,7 @@
 package com.bernardomg.association.member.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
@@ -40,54 +41,51 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - get one")
-class TestMemberServiceGetOne {
+@DisplayName("DefaultMemberContactService - delete")
+class TestMemberContactServiceDelete {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
-    private MemberRepository        memberRepository;
+    private MemberContactRepository     memberContactRepository;
 
     @InjectMocks
-    private DefaultMemberService    service;
+    private DefaultMemberContactService service;
 
-    public TestMemberServiceGetOne() {
+    public TestMemberContactServiceDelete() {
         super();
     }
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testGetOne() {
-        final Optional<Member> member;
-
+    @DisplayName("When deleting the repository is called")
+    void testDelete_CallsRepository() {
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
 
         // WHEN
-        member = service.getOne(ContactConstants.NUMBER);
+        service.delete(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(member)
-            .contains(Members.active());
+        verify(memberContactRepository).delete(ContactConstants.NUMBER);
     }
 
     @Test
-    @DisplayName("When the member doesn't exist an exception is thrown")
-    void testGetOne_NotExisting() {
+    @DisplayName("When the contact doesn't exist an exception is thrown")
+    void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberContactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ContactConstants.NUMBER);
+        execution = () -> service.delete(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

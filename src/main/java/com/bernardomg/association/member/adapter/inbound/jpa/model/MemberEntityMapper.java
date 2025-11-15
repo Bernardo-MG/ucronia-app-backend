@@ -33,14 +33,14 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberContact;
 
 /**
  * Member entity mapper.
  */
 public final class MemberEntityMapper {
 
-    public static final Member toDomain(final MemberEntity entity) {
+    public static final MemberContact toDomain(final MemberEntity entity) {
         final ContactName                name;
         final Collection<ContactChannel> members;
 
@@ -50,11 +50,12 @@ public final class MemberEntityMapper {
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), entity.getActive(),
-            entity.getRenewMembership(), members);
+        return new MemberContact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
+            entity.getActive(), entity.getRenewMembership(), members);
     }
 
-    public static final MemberEntity toEntity(final Member data, final Collection<ContactMethodEntity> contactMethods) {
+    public static final MemberEntity toEntity(final MemberContact data,
+            final Collection<ContactMethodEntity> contactMethods) {
         final boolean                          active;
         final boolean                          renew;
         final MemberEntity                     entity;

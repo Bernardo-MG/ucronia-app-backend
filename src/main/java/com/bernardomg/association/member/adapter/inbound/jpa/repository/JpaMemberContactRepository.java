@@ -44,8 +44,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -53,18 +53,18 @@ import com.bernardomg.data.springframework.SpringPagination;
 
 @Repository
 @Transactional
-public final class JpaMemberRepository implements MemberRepository {
+public final class JpaMemberContactRepository implements MemberContactRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberContactRepository.class);
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
     private final MemberSpringRepository        memberSpringRepository;
 
-    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo,
+    public JpaMemberContactRepository(final MemberSpringRepository memberSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
@@ -121,10 +121,11 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Member> read;
-        final Pageable                                     pageable;
-        final Optional<Specification<MemberEntity>>        spec;
+    public final Page<MemberContact> findAll(final MemberQuery filter, final Pagination pagination,
+            final Sorting sorting) {
+        final org.springframework.data.domain.Page<MemberContact> read;
+        final Pageable                                            pageable;
+        final Optional<Specification<MemberEntity>>               spec;
 
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
@@ -145,8 +146,8 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Collection<Member> findAllToRenew() {
-        final Collection<Member> members;
+    public final Collection<MemberContact> findAllToRenew() {
+        final Collection<MemberContact> members;
 
         log.debug("Finding all the members to renew");
 
@@ -161,8 +162,8 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Collection<Member> findAllWithRenewalMismatch() {
-        final Collection<Member> members;
+    public final Collection<MemberContact> findAllWithRenewalMismatch() {
+        final Collection<MemberContact> members;
 
         log.debug("Finding all the members with a renewal mismatch");
 
@@ -190,8 +191,8 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Optional<Member> findOne(final Long number) {
-        final Optional<Member> member;
+    public final Optional<MemberContact> findOne(final Long number) {
+        final Optional<MemberContact> member;
 
         log.trace("Finding member with number {}", number);
 
@@ -217,10 +218,10 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Member save(final Member member) {
+    public final MemberContact save(final MemberContact member) {
         final Optional<MemberEntity>    existing;
         final MemberEntity              entity;
-        final Member                    created;
+        final MemberContact             created;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -248,16 +249,16 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Collection<Member> saveAll(final Collection<Member> members) {
+    public final Collection<MemberContact> saveAll(final Collection<MemberContact> members) {
         final List<MemberEntity>        entities;
-        final List<Member>              saved;
+        final List<MemberContact>       saved;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
         log.debug("Saving members {}", members);
 
         contactMethodNumbers = members.stream()
-            .map(Member::contactChannels)
+            .map(MemberContact::contactChannels)
             .flatMap(Collection::stream)
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)

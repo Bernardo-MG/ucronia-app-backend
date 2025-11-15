@@ -30,46 +30,44 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - delete")
-class ITMemberRepositoryDelete {
+@DisplayName("MemberContactRepository - find next number")
+class ITMemberContactRepositoryFindNextNumber {
 
     @Autowired
-    private MemberRepository       repository;
-
-    @Autowired
-    private MemberSpringRepository springRepository;
-
-    public ITMemberRepositoryDelete() {
-        super();
-    }
+    private MemberContactRepository repository;
 
     @Test
-    @DisplayName("When deleting a contact, it is deleted")
+    @DisplayName("With an existing member, it returns the next number")
     @ActiveMember
-    void testDelete() {
+    void testFindNextNumber() {
+        final long number;
+
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        number = repository.findNextNumber();
 
         // THEN
-        Assertions.assertThat(springRepository.count())
-            .isZero();
+        Assertions.assertThat(number)
+            .as("number")
+            .isEqualTo(ContactConstants.NUMBER + 1);
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is deleted")
-    void testDelete_noData() {
+    @DisplayName("With no member, it returns the initial number")
+    void testFindNextNumber_NoData() {
+        final long number;
+
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        number = repository.findNextNumber();
 
         // THEN
-        Assertions.assertThat(springRepository.count())
-            .isZero();
+        Assertions.assertThat(number)
+            .as("number")
+            .isEqualTo(1);
     }
 
 }

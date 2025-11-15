@@ -27,38 +27,38 @@ package com.bernardomg.association.member.usecase.service;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Member service.
+ * Member contact service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface MemberService {
+public interface MemberContactService {
 
     /**
-     * Persists the received member.
+     * Persists the received member contact.
      *
      * @param member
-     *            member to persist
+     *            member contact to persist
      * @return the persisted member
      */
-    public Member create(final Member member);
+    public MemberContact create(final MemberContact member);
 
     /**
-     * Deletes the member with the received id.
+     * Deletes the member contact with the received id.
      *
      * @param number
-     *            number of the member to delete
+     *            number of the member contact to delete
      */
-    public Member delete(final long number);
+    public MemberContact delete(final long number);
 
     /**
-     * Returns all the members matching the filter.
+     * Returns all the member contacts matching the filter.
      *
      * @param query
      *            filter to apply
@@ -66,35 +66,35 @@ public interface MemberService {
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the members matching the sample
+     * @return all the member contacts matching the sample
      */
-    public Page<Member> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<MemberContact> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
-     * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the member contact for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
      * @param number
-     *            number of the member to acquire
-     * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
+     *            number of the member contact to acquire
+     * @return an {@code Optional} with the member contact, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Member> getOne(final long number);
+    public Optional<MemberContact> getOne(final long number);
 
     /**
-     * Patches the member for the received id with the received data.
+     * Patches the member contact for the received id with the received data.
      *
      * @param member
-     *            new data for the member
-     * @return the updated member
+     *            new data for the member contact
+     * @return the updated member contact
      */
-    public Member patch(final Member member);
+    public MemberContact patch(final MemberContact member);
 
     /**
-     * Updates the member for the received id with the received data.
+     * Updates the member contact for the received id with the received data.
      *
      * @param member
-     *            new data for the member
-     * @return the updated member
+     *            new data for the member contact
+     * @return the updated member contact
      */
-    public Member update(final Member member);
+    public MemberContact update(final MemberContact member);
 
 }

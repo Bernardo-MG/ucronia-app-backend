@@ -43,41 +43,41 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.MemberQueries;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.domain.Sorting.Property;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member service - get all")
-class TestMemberServiceGetAll {
+@DisplayName("DefaultMemberContactService - get all")
+class TestMemberContactServiceGetAll {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
-    private MemberRepository        memberRepository;
+    private MemberContactRepository     memberContactRepository;
 
     @InjectMocks
-    private DefaultMemberService    service;
+    private DefaultMemberContactService service;
 
-    public TestMemberServiceGetAll() {
+    public TestMemberContactServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Page<Member> members;
-        final Page<Member> existing;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> members;
+        final Page<MemberContact> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -85,7 +85,7 @@ class TestMemberServiceGetAll {
         filter = MemberQueries.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
+        given(memberContactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(filter, pagination, sorting);
@@ -101,19 +101,19 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When getting all the members, it returns all the members")
     void testGetAll_ReturnsData() {
-        final Page<Member> members;
-        final Page<Member> existing;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> members;
+        final Page<MemberContact> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = MemberQueries.empty();
 
-        existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(MemberContacts.active()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(memberContactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(filter, pagination, sorting);
@@ -123,30 +123,30 @@ class TestMemberServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(Members.active());
+            .containsExactly(MemberContacts.active());
     }
 
     @Test
     @DisplayName("When sorting ascending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Asc_FirstName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
-        final Page<Member> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
+        final Page<MemberContact> existing;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.asc("firstName");
         filter = MemberQueries.empty();
 
-        existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(MemberContacts.active()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(memberContactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         service.getAll(filter, pagination, sorting);
 
         // THEN
-        verify(memberRepository).findAll(eq(filter), eq(pagination), assertArg(s -> assertThat(s).as("sort")
+        verify(memberContactRepository).findAll(eq(filter), eq(pagination), assertArg(s -> assertThat(s).as("sort")
             .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Property.asc("firstName"))));
@@ -155,24 +155,24 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When sorting descending by first name, and applying pagination, it is corrected to the valid fields")
     void testGetAll_Sort_Paged_Desc_FirstName() {
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final Page<Member> existing;
-        final MemberQuery  filter;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final Page<MemberContact> existing;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.desc("firstName");
         filter = MemberQueries.empty();
 
-        existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(MemberContacts.active()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(memberContactRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
         service.getAll(filter, pagination, sorting);
 
         // THEN
-        verify(memberRepository).findAll(eq(filter), eq(pagination), assertArg(s -> assertThat(s).as("sort")
+        verify(memberContactRepository).findAll(eq(filter), eq(pagination), assertArg(s -> assertThat(s).as("sort")
             .extracting(Sorting::properties)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Property.desc("firstName"))));

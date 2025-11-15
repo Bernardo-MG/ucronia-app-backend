@@ -37,8 +37,8 @@ import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.usecase.service.MemberContactService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -67,9 +67,9 @@ public class MemberController implements MemberApi {
     /**
      * Member service.
      */
-    private final MemberService service;
+    private final MemberContactService service;
 
-    public MemberController(final MemberService service) {
+    public MemberController(final MemberContactService service) {
         super();
 
         this.service = service;
@@ -82,8 +82,8 @@ public class MemberController implements MemberApi {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
-        final Member member;
-        final Member created;
+        final MemberContact member;
+        final MemberContact created;
 
         member = MemberDtoMapper.toDomain(memberCreationDto);
         created = service.create(member);
@@ -97,7 +97,7 @@ public class MemberController implements MemberApi {
             // Member caches
             MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto deleteMember(final Long number) {
-        final Member member;
+        final MemberContact member;
 
         member = service.delete(number);
 
@@ -109,11 +109,11 @@ public class MemberController implements MemberApi {
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final MemberStatusDto status, @Valid final String name) {
-        final Page<Member>       members;
-        final Pagination         pagination;
-        final Sorting            sorting;
-        final MemberFilterStatus memberStatus;
-        final MemberQuery        filter;
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberFilterStatus  memberStatus;
+        final MemberQuery         filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
@@ -132,7 +132,7 @@ public class MemberController implements MemberApi {
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBER)
     public MemberResponseDto getMemberByNumber(final Long number) {
-        Optional<Member> member;
+        Optional<MemberContact> member;
 
         member = service.getOne(number);
 
@@ -146,8 +146,8 @@ public class MemberController implements MemberApi {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
-        final Member member;
-        final Member updated;
+        final MemberContact member;
+        final MemberContact updated;
 
         member = MemberDtoMapper.toDomain(number, memberChangeDto);
         updated = service.patch(member);
@@ -162,8 +162,8 @@ public class MemberController implements MemberApi {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
-        final Member member;
-        final Member updated;
+        final MemberContact member;
+        final MemberContact updated;
 
         member = MemberDtoMapper.toDomain(number, memberChangeDto);
         updated = service.update(member);

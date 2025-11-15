@@ -23,7 +23,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMembershipEvolutionRepositoryFindInRange {
 
     @Autowired
-    private MembershipEvolutionRepository membershipEvolutionRepository;
+    private MembershipEvolutionRepository repository;
 
     @Test
     @DisplayName("Can filter having only the end date")
@@ -37,12 +37,10 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = membershipEvolutionRepository.findInRange(null,
-            MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant(),
-            sorting);
+        evolution = repository.findInRange(null, MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -65,7 +63,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = membershipEvolutionRepository.findInRange(null, null, sorting);
+        evolution = repository.findInRange(null, null, sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -95,7 +93,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = membershipEvolutionRepository.findInRange(null, null, sorting);
+        evolution = repository.findInRange(null, null, sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -115,11 +113,10 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = membershipEvolutionRepository.findInRange(
-            MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant(),
+        evolution = repository.findInRange(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(),
             MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)
                 .atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
@@ -147,11 +144,10 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = membershipEvolutionRepository
-            .findInRange(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant(), null, sorting);
+        evolution = repository.findInRange(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), null, sorting);
 
         // THEN
         Assertions.assertThat(evolution)

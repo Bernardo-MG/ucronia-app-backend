@@ -42,7 +42,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all public")
+@DisplayName("PublicMemberRepository - find all public")
 class ITPublicMemberRepositoryFindAll {
 
     @Autowired

@@ -29,59 +29,76 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - exists by identifier")
-class ITMemberRepositoryExistsByIdentifier {
+@DisplayName("MemberContactRepository - is active")
+class ITMemberContactRepositoryIsActive {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With an existing identifier, it exists")
+    @DisplayName("When the member is active, is is indicated as so")
     @ActiveMember
-    void testExists_Existing() {
-        final boolean exists;
+    void testIsActive_Active() {
+        final boolean active;
 
         // WHEN
-        exists = repository.existsByIdentifier(ContactConstants.IDENTIFIER);
+        active = repository.isActive(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(active)
+            .as("active")
             .isTrue();
     }
 
     @Test
-    @DisplayName("With no contact, nothing exists")
-    void testExists_NoData() {
-        final boolean exists;
+    @DisplayName("When the member is inactive, is is indicated as so")
+    @InactiveMember
+    void testIsActive_Inactive() {
+        final boolean active;
 
         // WHEN
-        exists = repository.existsByIdentifier(ContactConstants.IDENTIFIER);
+        active = repository.isActive(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(active)
+            .as("active")
             .isFalse();
     }
 
     @Test
-    @DisplayName("With a not existing identifier, it doesn't exist")
-    @ActiveMember
-    void testExists_NotExisting() {
-        final boolean exists;
+    @DisplayName("When the member doesn't exist, it is indicated as so")
+    void testIsActive_NoData() {
+        final boolean active;
 
         // WHEN
-        exists = repository.existsByIdentifier("abc");
+        active = repository.isActive(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
+        Assertions.assertThat(active)
+            .as("active")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("When there is a member which is not a member, it is indicated as so")
+    @ValidContact
+    void testIsActive_NoMember() {
+        final boolean active;
+
+        // WHEN
+        active = repository.isActive(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(active)
+            .as("active")
             .isFalse();
     }
 

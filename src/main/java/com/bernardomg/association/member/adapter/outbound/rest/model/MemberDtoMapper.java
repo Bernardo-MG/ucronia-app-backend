@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -47,7 +47,7 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberDtoMapper {
 
-    public static final Member toDomain(final long number, final MemberChangeDto change) {
+    public static final MemberContact toDomain(final long number, final MemberChangeDto change) {
         final ContactName name;
 
         name = new ContactName(change.getName()
@@ -55,11 +55,11 @@ public final class MemberDtoMapper {
             change.getName()
                 .getLastName());
 
-        return new Member(change.getIdentifier(), number, name, change.getBirthDate(), change.getActive(),
+        return new MemberContact(change.getIdentifier(), number, name, change.getBirthDate(), change.getActive(),
             change.getRenew(), List.of());
     }
 
-    public static final Member toDomain(final MemberCreationDto creation) {
+    public static final MemberContact toDomain(final MemberCreationDto creation) {
         final ContactName name;
 
         name = new ContactName(creation.getName()
@@ -67,19 +67,19 @@ public final class MemberDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Member("", -1L, name, null, true, true, List.of());
+        return new MemberContact("", -1L, name, null, true, true, List.of());
     }
 
-    public static final MemberResponseDto toResponseDto(final Member member) {
+    public static final MemberResponseDto toResponseDto(final MemberContact member) {
         return new MemberResponseDto().content(MemberDtoMapper.toDto(member));
     }
 
-    public static final MemberResponseDto toResponseDto(final Optional<Member> member) {
+    public static final MemberResponseDto toResponseDto(final Optional<MemberContact> member) {
         return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final MemberPageResponseDto toResponseDto(final Page<Member> page) {
+    public static final MemberPageResponseDto toResponseDto(final Page<MemberContact> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
@@ -113,7 +113,7 @@ public final class MemberDtoMapper {
             .method(method);
     }
 
-    private static final MemberDto toDto(final Member member) {
+    private static final MemberDto toDto(final MemberContact member) {
         ContactNameDto          name;
         List<ContactChannelDto> contactChannels;
 

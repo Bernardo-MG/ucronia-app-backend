@@ -32,27 +32,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToRenewMember;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all to renew")
-class ITMemberRepositoryFindAllToRenew {
+@DisplayName("MemberContactRepository - find all to renew")
+class ITMemberContactRepositoryFindAllToRenew {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
     @DisplayName("With no membership, nothing is returned")
     @ValidContact
     void testFindAllToRenew_NoMembership() {
-        final Collection<Member> members;
+        final Collection<MemberContact> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -67,7 +67,7 @@ class ITMemberRepositoryFindAllToRenew {
     @DisplayName("With an active membership to not renew, nothing is returned")
     @ActiveToNotRenewMember
     void testFindAllToRenew_ToNotRenewActive() {
-        final Collection<Member> members;
+        final Collection<MemberContact> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -82,7 +82,7 @@ class ITMemberRepositoryFindAllToRenew {
     @DisplayName("With an inactive membership to not renew, nothing is returned")
     @InactiveToNotRenewMember
     void testFindAllToRenew_ToNotRenewInactive() {
-        final Collection<Member> members;
+        final Collection<MemberContact> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -97,7 +97,7 @@ class ITMemberRepositoryFindAllToRenew {
     @DisplayName("With an active membership to renew, it is returned")
     @ActiveToRenewMember
     void testFindAllToRenew_ToRenewActive() {
-        final Collection<Member> members;
+        final Collection<MemberContact> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -105,14 +105,14 @@ class ITMemberRepositoryFindAllToRenew {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.active());
+            .containsExactly(MemberContacts.active());
     }
 
     @Test
     @DisplayName("With an inactive membership to renew, it is returned")
     @InactiveToRenewMember
     void testFindAllToRenew_ToRenewInactive() {
-        final Collection<Member> members;
+        final Collection<MemberContact> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -120,7 +120,7 @@ class ITMemberRepositoryFindAllToRenew {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.inactive());
+            .containsExactly(MemberContacts.inactive());
     }
 
 }

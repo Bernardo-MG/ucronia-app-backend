@@ -55,11 +55,11 @@ public final class MemberAccountService implements AccountService {
 
     private final AccountService        wrapped;
 
-    public MemberAccountService(final AccountService wrppd, final UserContactRepository userMemberRepo) {
+    public MemberAccountService(final AccountService wrppd, final UserContactRepository userContactRepo) {
         super();
 
         wrapped = Objects.requireNonNull(wrppd);
-        userContactRepository = Objects.requireNonNull(userMemberRepo);
+        userContactRepository = Objects.requireNonNull(userContactRepo);
     }
 
     @Override

@@ -45,8 +45,8 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -64,7 +64,7 @@ class TestFeeServiceCreateUnpaidFee {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private MemberContactRepository   memberContactRepository;
 
     @Mock
     private MessageSource             messageSource;
@@ -84,7 +84,8 @@ class TestFeeServiceCreateUnpaidFee {
         final Fee fee;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
@@ -104,7 +105,8 @@ class TestFeeServiceCreateUnpaidFee {
         final FieldFailure     failure;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER))
+            .willReturn(Optional.of(MemberContacts.active()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -122,7 +124,7 @@ class TestFeeServiceCreateUnpaidFee {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberContactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.createUnpaidFee(FeeConstants.DATE, ContactConstants.NUMBER);

@@ -30,44 +30,44 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find next number")
-class ITMemberRepositoryFindNextNumber {
+@DisplayName("MemberContactRepository - exists")
+class ITMemberContactRepositoryExists {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With an existing member, it returns the next number")
+    @DisplayName("With an existing member, it exists")
     @ActiveMember
-    void testFindNextNumber() {
-        final long number;
+    void testExists() {
+        final boolean exists;
 
         // WHEN
-        number = repository.findNextNumber();
+        exists = repository.exists(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(ContactConstants.NUMBER + 1);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("With no member, it returns the initial number")
-    void testFindNextNumber_NoData() {
-        final long number;
+    @DisplayName("With no member, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
 
         // WHEN
-        number = repository.findNextNumber();
+        exists = repository.exists(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(number)
-            .as("number")
-            .isEqualTo(1);
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

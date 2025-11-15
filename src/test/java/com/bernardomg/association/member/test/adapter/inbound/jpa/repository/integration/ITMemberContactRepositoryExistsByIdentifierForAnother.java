@@ -30,16 +30,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - exists by identifier for another")
-class ITMemberRepositoryExistsByIdentifierForAnother {
+@DisplayName("MemberContactRepository - exists by identifier for another")
+class ITMemberContactRepositoryExistsByIdentifierForAnother {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
     @DisplayName("With another user, it exists")

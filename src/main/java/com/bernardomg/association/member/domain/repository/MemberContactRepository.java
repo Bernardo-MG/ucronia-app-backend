@@ -28,12 +28,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-public interface MemberRepository {
+public interface MemberContactRepository {
 
     public void delete(final long number);
 
@@ -43,20 +43,20 @@ public interface MemberRepository {
 
     public boolean existsByIdentifierForAnother(final long number, final String identifier);
 
-    public Page<Member> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting);
+    public Page<MemberContact> findAll(final MemberQuery filter, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Member> findAllToRenew();
+    public Collection<MemberContact> findAllToRenew();
 
-    public Collection<Member> findAllWithRenewalMismatch();
+    public Collection<MemberContact> findAllWithRenewalMismatch();
 
     public long findNextNumber();
 
-    public Optional<Member> findOne(final Long number);
+    public Optional<MemberContact> findOne(final Long number);
 
     public boolean isActive(final long number);
 
-    public Member save(final Member member);
+    public MemberContact save(final MemberContact member);
 
-    public Collection<Member> saveAll(final Collection<Member> member);
+    public Collection<MemberContact> saveAll(final Collection<MemberContact> member);
 
 }

@@ -32,35 +32,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
-import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - save")
-class ITMemberRepositorySave {
+@DisplayName("MemberContactRepository - save")
+class ITMemberContactRepositorySave {
 
     @Autowired
-    private MemberRepository       repository;
+    private MemberContactRepository repository;
 
     @Autowired
-    private MemberSpringRepository springRepository;
+    private MemberSpringRepository  springRepository;
 
-    public ITMemberRepositorySave() {
+    public ITMemberContactRepositorySave() {
         super();
     }
 
     @Test
     @DisplayName("With a member with an active membership, the member is persisted")
     void testSave_ActiveMembership_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.inactive();
+        member = MemberContacts.inactive();
 
         // WHEN
         repository.save(member);
@@ -78,11 +78,11 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists with an active membership, and an inactive membership is set, the member is persisted")
     @ActiveMember
     void testSave_Existing_Active_SetInactiveMembership_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.inactive();
+        member = MemberContacts.inactive();
 
         // WHEN
         repository.save(member);
@@ -100,11 +100,11 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists, and an active membership is added, the member is persisted")
     @ActiveMember
     void testSave_Existing_AddActiveMembership_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         repository.save(member);
@@ -122,11 +122,11 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists, and an inactive membership is added, the member is persisted")
     @ActiveMember
     void testSave_Existing_AddInactiveMembership_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         repository.save(member);
@@ -145,11 +145,11 @@ class ITMemberRepositorySave {
     @EmailContactMethod
     @ActiveMember
     void testSave_Existing_AddMember_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
         // WHEN
         repository.save(member);
@@ -167,11 +167,11 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists, the member is persisted")
     @ActiveMember
     void testSave_Existing_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         repository.save(member);
@@ -190,11 +190,11 @@ class ITMemberRepositorySave {
     @EmailContactMethod
     @ActiveMember
     void testSave_Existing_RemoveMember_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         repository.save(member);
@@ -212,11 +212,11 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists, the created member is returned")
     @ActiveMember
     void testSave_Existing_ReturnedData() {
-        final Member member;
-        final Member saved;
+        final MemberContact member;
+        final MemberContact saved;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         saved = repository.save(member);
@@ -224,17 +224,17 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(Members.active());
+            .isEqualTo(MemberContacts.active());
     }
 
     @Test
     @DisplayName("With a member with an inactive membership, the member is persisted")
     void testSave_InactiveMembership_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.inactive();
+        member = MemberContacts.inactive();
 
         // WHEN
         repository.save(member);
@@ -251,11 +251,11 @@ class ITMemberRepositorySave {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         repository.save(member);
@@ -272,11 +272,11 @@ class ITMemberRepositorySave {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testSave_ReturnedData() {
-        final Member member;
-        final Member saved;
+        final MemberContact member;
+        final MemberContact saved;
 
         // GIVEN
-        member = Members.active();
+        member = MemberContacts.active();
 
         // WHEN
         saved = repository.save(member);
@@ -284,18 +284,18 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(Members.active());
+            .isEqualTo(MemberContacts.active());
     }
 
     @Test
     @DisplayName("With a member with a contact channel, the member is persisted")
     @EmailContactMethod
     void testSave_WithContactChannel_PersistedData() {
-        final Member                 member;
+        final MemberContact          member;
         final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
         // WHEN
         repository.save(member);
@@ -314,11 +314,11 @@ class ITMemberRepositorySave {
     @DisplayName("With a member with a contact channel, the member is returned")
     @EmailContactMethod
     void testSave_WithMember_ReturnedData() {
-        final Member member;
-        final Member saved;
+        final MemberContact member;
+        final MemberContact saved;
 
         // GIVEN
-        member = Members.withEmail();
+        member = MemberContacts.withEmail();
 
         // WHEN
         saved = repository.save(member);
@@ -326,7 +326,7 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(Members.withEmail());
+            .isEqualTo(MemberContacts.withEmail());
     }
 
 }

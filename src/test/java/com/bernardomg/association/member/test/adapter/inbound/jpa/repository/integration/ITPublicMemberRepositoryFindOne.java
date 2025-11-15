@@ -41,7 +41,7 @@ import com.bernardomg.association.member.test.configuration.factory.PublicMember
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find one")
+@DisplayName("PublicMemberRepository - find one")
 class ITPublicMemberRepositoryFindOne {
 
     @Autowired

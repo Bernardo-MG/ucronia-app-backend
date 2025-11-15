@@ -36,8 +36,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +45,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusApplyRenewal {
 
     @Mock
-    private MemberRepository           memberRepository;
+    private MemberContactRepository    memberContactRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -58,40 +58,41 @@ class TestMemberStatusApplyRenewal {
     @DisplayName("When applying renewal to an active membership, the member is deactivated")
     void testApplyRenewal_Active() {
         // GIVEN
-        given(memberRepository.findAllWithRenewalMismatch()).willReturn(List.of(Members.active()));
+        given(memberContactRepository.findAllWithRenewalMismatch()).willReturn(List.of(MemberContacts.active()));
 
         // WHEN
         service.applyRenewal();
 
         // THEN
-        verify(memberRepository).saveAll(List.of(Members.inactiveNoRenew()));
+        verify(memberContactRepository).saveAll(List.of(MemberContacts.inactiveNoRenew()));
     }
 
     @Test
     @DisplayName("When applying renewal to an inactive membership and an active membership, both are updated")
     void testApplyRenewal_ActiveAndInactive() {
         // GIVEN
-        given(memberRepository.findAllWithRenewalMismatch())
-            .willReturn(List.of(Members.active(), Members.alternativeInactive()));
+        given(memberContactRepository.findAllWithRenewalMismatch())
+            .willReturn(List.of(MemberContacts.active(), MemberContacts.alternativeInactive()));
 
         // WHEN
         service.applyRenewal();
 
         // THEN
-        verify(memberRepository).saveAll(List.of(Members.alternativeActive(), Members.inactiveNoRenew()));
+        verify(memberContactRepository)
+            .saveAll(List.of(MemberContacts.alternativeActive(), MemberContacts.inactiveNoRenew()));
     }
 
     @Test
     @DisplayName("When applying renewal to an inactive membership, the member is activated")
     void testApplyRenewal_Inactive() {
         // GIVEN
-        given(memberRepository.findAllWithRenewalMismatch()).willReturn(List.of(Members.inactive()));
+        given(memberContactRepository.findAllWithRenewalMismatch()).willReturn(List.of(MemberContacts.inactive()));
 
         // WHEN
         service.applyRenewal();
 
         // THEN
-        verify(memberRepository).saveAll(List.of(Members.active()));
+        verify(memberContactRepository).saveAll(List.of(MemberContacts.active()));
     }
 
 }

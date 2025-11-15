@@ -33,30 +33,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all - filter for active")
-class ITMemberRepositoryFindAllQueryActive {
+@DisplayName("MemberContactRepository - find all - filter for active")
+class ITMemberContactRepositoryFindAllQueryActive {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberContactRepository repository;
 
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Member> people;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> people;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -77,10 +77,10 @@ class ITMemberRepositoryFindAllQueryActive {
     @DisplayName("With a member having an active membership, it is returned")
     @ActiveMember
     void testFindAll_WithMembership_Active() {
-        final Page<Member> people;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> people;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -94,17 +94,17 @@ class ITMemberRepositoryFindAllQueryActive {
         Assertions.assertThat(people)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.active());
+            .containsExactly(MemberContacts.active());
     }
 
     @Test
     @DisplayName("With a member having an inactive membership, nothing is returned")
     @InactiveMember
     void testFindAll_WithMembership_Inactive() {
-        final Page<Member> people;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> people;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -125,10 +125,10 @@ class ITMemberRepositoryFindAllQueryActive {
     @DisplayName("With a member without membership, nothing is returned")
     @ValidContact
     void testFindAll_WithoutMembership() {
-        final Page<Member> people;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberQuery  filter;
+        final Page<MemberContact> people;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);

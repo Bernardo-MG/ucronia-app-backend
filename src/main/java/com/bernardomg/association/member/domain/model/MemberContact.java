@@ -30,7 +30,7 @@ import java.util.Collection;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
-public record Member(String identifier, Long number, ContactName name, Instant birthDate, Boolean active, Boolean renew,
-        Collection<ContactChannel> contactChannels) {
+public record MemberContact(String identifier, Long number, ContactName name, Instant birthDate, Boolean active,
+        Boolean renew, Collection<ContactChannel> contactChannels) {
 
 }
