@@ -96,7 +96,7 @@ class TestMemberContactServiceCreate {
         // GIVEN
         member = MemberContacts.toCreateNoIdentifier();
 
-        given(memberContactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
         service.create(member);
@@ -114,7 +114,7 @@ class TestMemberContactServiceCreate {
         // GIVEN
         member = MemberContacts.padded();
 
-        given(memberContactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
         service.create(member);
@@ -131,7 +131,7 @@ class TestMemberContactServiceCreate {
         // GIVEN
         member = MemberContacts.toCreate();
 
-        given(memberContactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
         service.create(member);
@@ -150,7 +150,7 @@ class TestMemberContactServiceCreate {
         member = MemberContacts.toCreate();
 
         given(memberContactRepository.save(MemberContacts.active())).willReturn(MemberContacts.active());
-        given(memberContactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
 
         // WHEN
         created = service.create(member);
@@ -188,7 +188,7 @@ class TestMemberContactServiceCreate {
         // GIVEN
         member = MemberContacts.withEmail();
 
-        given(memberContactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN

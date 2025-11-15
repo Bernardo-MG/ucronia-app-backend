@@ -106,7 +106,7 @@ public final class DefaultMemberContactService implements MemberContactService {
             .forEach(this::checkContactMethodExists);
 
         // Set number
-        number = memberContactRepository.findNextNumber();
+        number = contactRepository.findNextNumber();
 
         toCreate = new MemberContact(member.identifier(), number, member.name(), member.birthDate(), member.active(),
             member.renew(), member.contactChannels());
