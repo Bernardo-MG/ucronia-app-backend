@@ -32,7 +32,7 @@ import com.bernardomg.association.member.domain.model.PublicMember;
  */
 public final class PublicMemberEntityMapper {
 
-    public static final PublicMember toDomain(final MemberEntity entity) {
+    public static final PublicMember toDomain(final MemberContactEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());

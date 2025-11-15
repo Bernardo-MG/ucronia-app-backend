@@ -40,8 +40,8 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.model.MemberContact;
@@ -62,9 +62,9 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final MemberSpringRepository        memberSpringRepository;
+    private final MemberContactSpringRepository memberSpringRepository;
 
-    public JpaMemberContactRepository(final MemberSpringRepository memberSpringRepo,
+    public JpaMemberContactRepository(final MemberContactSpringRepository memberSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
@@ -77,7 +77,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             final Sorting sorting) {
         final org.springframework.data.domain.Page<MemberContact> read;
         final Pageable                                            pageable;
-        final Optional<Specification<MemberEntity>>               spec;
+        final Optional<Specification<MemberContactEntity>>        spec;
 
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
@@ -85,10 +85,10 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = memberSpringRepository.findAll(pageable)
-                .map(MemberEntityMapper::toDomain);
+                .map(MemberContactEntityMapper::toDomain);
         } else {
             read = memberSpringRepository.findAll(spec.get(), pageable)
-                .map(MemberEntityMapper::toDomain);
+                .map(MemberContactEntityMapper::toDomain);
         }
 
         log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
@@ -105,7 +105,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         members = memberSpringRepository.findAllByRenewMembershipTrue()
             .stream()
-            .map(MemberEntityMapper::toDomain)
+            .map(MemberContactEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the members to renew: {}", members);
@@ -121,7 +121,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         members = memberSpringRepository.findAllWithRenewalMismatch()
             .stream()
-            .map(MemberEntityMapper::toDomain)
+            .map(MemberContactEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the members with a renewal mismatch: {}", members);
@@ -149,7 +149,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         log.trace("Finding member with number {}", number);
 
         member = memberSpringRepository.findByNumber(number)
-            .map(MemberEntityMapper::toDomain);
+            .map(MemberContactEntityMapper::toDomain);
 
         log.trace("Found member with number {}: {}", number, member);
 
@@ -171,11 +171,11 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     @Override
     public final MemberContact save(final MemberContact member) {
-        final Optional<MemberEntity>    existing;
-        final MemberEntity              entity;
-        final MemberContact             created;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
+        final Optional<MemberContactEntity> existing;
+        final MemberContactEntity           entity;
+        final MemberContact                 created;
+        final List<Long>                    contactMethodNumbers;
+        final List<ContactMethodEntity>     contactMethods;
 
         log.debug("Saving member {}", member);
 
@@ -185,7 +185,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             .map(ContactMethod::number)
             .toList();
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        entity = MemberEntityMapper.toEntity(member, contactMethods);
+        entity = MemberContactEntityMapper.toEntity(member, contactMethods);
 
         existing = memberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
@@ -193,7 +193,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
                 .getId());
         }
 
-        created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
+        created = MemberContactEntityMapper.toDomain(memberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
 
@@ -202,7 +202,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     @Override
     public final Collection<MemberContact> saveAll(final Collection<MemberContact> members) {
-        final List<MemberEntity>        entities;
+        final List<MemberContactEntity> entities;
         final List<MemberContact>       saved;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
@@ -217,12 +217,12 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             .toList();
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entities = members.stream()
-            .map(m -> MemberEntityMapper.toEntity(m, contactMethods))
+            .map(m -> MemberContactEntityMapper.toEntity(m, contactMethods))
             .toList();
 
         saved = memberSpringRepository.saveAll(entities)
             .stream()
-            .map(MemberEntityMapper::toDomain)
+            .map(MemberContactEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved members {}", saved);

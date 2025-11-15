@@ -38,9 +38,9 @@ import com.bernardomg.association.member.domain.model.MemberContact;
 /**
  * Member entity mapper.
  */
-public final class MemberEntityMapper {
+public final class MemberContactEntityMapper {
 
-    public static final MemberContact toDomain(final MemberEntity entity) {
+    public static final MemberContact toDomain(final MemberContactEntity entity) {
         final ContactName                name;
         final Collection<ContactChannel> members;
 
@@ -54,17 +54,17 @@ public final class MemberEntityMapper {
             entity.getActive(), entity.getRenewMembership(), members);
     }
 
-    public static final MemberEntity toEntity(final MemberContact data,
+    public static final MemberContactEntity toEntity(final MemberContact data,
             final Collection<ContactMethodEntity> contactMethods) {
         final boolean                          active;
         final boolean                          renew;
-        final MemberEntity                     entity;
+        final MemberContactEntity                     entity;
         final Collection<ContactChannelEntity> members;
 
         active = data.active();
         renew = data.renew();
 
-        entity = new MemberEntity();
+        entity = new MemberContactEntity();
         entity.setNumber(data.number());
         entity.setFirstName(data.name()
             .firstName());
@@ -77,14 +77,14 @@ public final class MemberEntityMapper {
 
         members = data.contactChannels()
             .stream()
-            .map(m -> MemberEntityMapper.toEntity(entity, m, contactMethods))
+            .map(m -> MemberContactEntityMapper.toEntity(entity, m, contactMethods))
             .toList();
         entity.setContactChannels(members);
 
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final MemberEntity member, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final MemberContactEntity member, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
@@ -109,7 +109,7 @@ public final class MemberEntityMapper {
         return entity;
     }
 
-    private MemberEntityMapper() {
+    private MemberContactEntityMapper() {
         super();
     }
 

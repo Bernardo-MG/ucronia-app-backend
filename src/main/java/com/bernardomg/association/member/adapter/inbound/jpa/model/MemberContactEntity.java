@@ -11,10 +11,10 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Member")
+@Entity(name = "MemberContact")
 @Table(schema = "directory", name = "members")
 @PrimaryKeyJoinColumn(name = "contact_id")
-public class MemberEntity extends ContactEntity {
+public class MemberContactEntity extends ContactEntity {
 
     /**
      *
@@ -37,7 +37,7 @@ public class MemberEntity extends ContactEntity {
         if (!super.equals(obj) || (getClass() != obj.getClass())) {
             return false;
         }
-        final MemberEntity other = (MemberEntity) obj;
+        final MemberContactEntity other = (MemberContactEntity) obj;
         return Objects.equals(active, other.active) && Objects.equals(renewMembership, other.renewMembership);
     }
 

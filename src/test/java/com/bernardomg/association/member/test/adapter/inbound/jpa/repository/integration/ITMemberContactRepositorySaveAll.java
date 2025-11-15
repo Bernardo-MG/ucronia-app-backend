@@ -32,8 +32,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
@@ -48,7 +48,7 @@ class ITMemberContactRepositorySaveAll {
     private MemberContactRepository repository;
 
     @Autowired
-    private MemberSpringRepository  springRepository;
+    private MemberContactSpringRepository  springRepository;
 
     public ITMemberContactRepositorySaveAll() {
         super();
@@ -58,7 +58,7 @@ class ITMemberContactRepositorySaveAll {
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
         final MemberContact          member;
-        final Iterable<MemberEntity> entities;
+        final Iterable<MemberContactEntity> entities;
 
         // GIVEN
         member = MemberContacts.active();

@@ -6,12 +6,12 @@ import java.util.List;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodEntities;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
 
 public final class MemberEntities {
 
-    public static final MemberEntity active() {
-        final MemberEntity entity = new MemberEntity();
+    public static final MemberContactEntity active() {
+        final MemberContactEntity entity = new MemberContactEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
@@ -24,8 +24,8 @@ public final class MemberEntities {
         return entity;
     }
 
-    public static final MemberEntity inactive() {
-        final MemberEntity entity = new MemberEntity();
+    public static final MemberContactEntity inactive() {
+        final MemberContactEntity entity = new MemberContactEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
@@ -38,15 +38,15 @@ public final class MemberEntities {
         return entity;
     }
 
-    public static final MemberEntity withEmail() {
-        final MemberEntity         entity;
+    public static final MemberContactEntity withEmail() {
+        final MemberContactEntity         entity;
         final ContactChannelEntity contactContactMethodEntity;
 
         contactContactMethodEntity = new ContactChannelEntity();
         contactContactMethodEntity.setContactMethod(ContactMethodEntities.email());
         contactContactMethodEntity.setDetail(ContactConstants.EMAIL);
 
-        entity = new MemberEntity();
+        entity = new MemberContactEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);

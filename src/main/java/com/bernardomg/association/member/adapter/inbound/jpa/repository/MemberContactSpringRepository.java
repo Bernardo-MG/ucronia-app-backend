@@ -34,46 +34,31 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
 
-public interface MemberSpringRepository
-        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
-
-    public void deleteByNumber(final Long number);
-
-    public boolean existsByIdentifier(final String identifier);
-
-    @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM Member m
-            WHERE m.number != :number
-              AND m.identifier = :identifier
-            """)
-    public boolean existsByIdentifierForAnother(@Param("number") final Long number,
-            @Param("identifier") final String identifier);
-
-    public boolean existsByNumber(final Long number);
+public interface MemberContactSpringRepository
+        extends JpaRepository<MemberContactEntity, Long>, JpaSpecificationExecutor<MemberContactEntity> {
 
     @Query("""
             SELECT m
-            FROM Member m
+            FROM MemberContact m
             WHERE m.active = true
             """)
-    public Page<MemberEntity> findAllActive(final Pageable pageable);
+    public Page<MemberContactEntity> findAllActive(final Pageable pageable);
 
     @Query("""
             SELECT m.id AS id
-            FROM Member m
+            FROM MemberContact m
             WHERE m.active = true
             ORDER BY id ASC
             """)
     public Collection<Long> findAllActiveMemberIds();
 
-    public Collection<MemberEntity> findAllByRenewMembershipTrue();
+    public Collection<MemberContactEntity> findAllByRenewMembershipTrue();
 
     @Query("""
             SELECT m.id AS id
-            FROM Member m
+            FROM MemberContact m
             WHERE m.active = false
             ORDER BY id ASC
             """)
@@ -81,24 +66,24 @@ public interface MemberSpringRepository
 
     @Query("""
             SELECT m
-            FROM Member m
+            FROM MemberContact m
             WHERE m.active != m.renewMembership
             """)
-    public Collection<MemberEntity> findAllWithRenewalMismatch();
+    public Collection<MemberContactEntity> findAllWithRenewalMismatch();
 
     @Query("""
             SELECT m
-            FROM Member m
+            FROM MemberContact m
             WHERE m.number = :number
             """)
-    public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+    public Optional<MemberContactEntity> findByNumber(@Param("number") final Long number);
 
     @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
     public Long findNextNumber();
 
     @Query("""
             SELECT m.active
-            FROM Member m
+            FROM MemberContact m
             WHERE m.number = :number
             """)
     public Boolean isActive(@Param("number") final Long number);

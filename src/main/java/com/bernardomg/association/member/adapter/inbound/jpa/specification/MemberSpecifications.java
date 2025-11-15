@@ -30,17 +30,17 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 
 public final class MemberSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    public static Optional<Specification<MemberEntity>> query(final MemberQuery query) {
-        final Optional<Specification<MemberEntity>> nameSpec;
-        final Optional<Specification<MemberEntity>> statusSpec;
-        final Specification<MemberEntity>           spec;
+    public static Optional<Specification<MemberContactEntity>> query(final MemberQuery query) {
+        final Optional<Specification<MemberContactEntity>> nameSpec;
+        final Optional<Specification<MemberContactEntity>> statusSpec;
+        final Specification<MemberContactEntity>           spec;
 
         if (query.name()
             .isBlank()) {
@@ -59,7 +59,7 @@ public final class MemberSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<MemberEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<MemberContactEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
@@ -69,7 +69,7 @@ public final class MemberSpecifications {
      *
      * @return active specification
      */
-    private static Specification<MemberEntity> active() {
+    private static Specification<MemberContactEntity> active() {
         return (root, query, cb) -> cb.isTrue(root.get(ACTIVE_FIELD));
     }
 
@@ -78,7 +78,7 @@ public final class MemberSpecifications {
      *
      * @return inactive specification
      */
-    private static Specification<MemberEntity> inactive() {
+    private static Specification<MemberContactEntity> inactive() {
         return (root, query, cb) -> cb.isFalse(root.get(ACTIVE_FIELD));
     }
 
@@ -89,7 +89,7 @@ public final class MemberSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<MemberEntity> name(final String pattern) {
+    private static Specification<MemberContactEntity> name(final String pattern) {
         final String likePattern = "%" + pattern + "%";
         return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
             cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),

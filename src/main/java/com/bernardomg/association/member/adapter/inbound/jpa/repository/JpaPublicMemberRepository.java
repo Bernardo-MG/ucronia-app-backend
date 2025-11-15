@@ -48,11 +48,11 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(JpaPublicMemberRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaPublicMemberRepository.class);
 
-    private final MemberSpringRepository memberSpringRepository;
+    private final MemberContactSpringRepository memberSpringRepository;
 
-    public JpaPublicMemberRepository(final MemberSpringRepository memberSpringRepo) {
+    public JpaPublicMemberRepository(final MemberContactSpringRepository memberSpringRepo) {
         super();
 
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
@@ -66,6 +66,7 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
         log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
+        // TODO: use a specific repository for members
         read = memberSpringRepository.findAllActive(pageable)
             .map(PublicMemberEntityMapper::toDomain);
 
@@ -80,6 +81,7 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
 
         log.trace("Finding public member with number {}", number);
 
+        // TODO: use a specific repository for members
         member = memberSpringRepository.findByNumber(number)
             .map(PublicMemberEntityMapper::toDomain);
 
