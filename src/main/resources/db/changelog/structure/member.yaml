@@ -17,12 +17,6 @@ databaseChangeLog:
                     references: directory.contacts(id)
                     deleteCascade: true
               - column:
-                  name: member
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValue: false
-              - column:
                   name: active
                   type: boolean
                   constraints:
