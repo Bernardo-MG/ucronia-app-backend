@@ -52,32 +52,9 @@ class ITMemberContactRepositoryFindAllQueryName {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With no member, nothing is returned")
-    void testFindAll_NoData() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberQuery         filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
     @DisplayName("With a member having an active membership and matching first name, it is returned")
     @ActiveMember
-    void testFindAll_WithMembership_Active_FirstName() {
+    void testFindAll_Active_FirstName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -101,7 +78,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With a member having an active membership and matching full name, it is returned")
     @ActiveMember
-    void testFindAll_WithMembership_Active_FullName() {
+    void testFindAll_Active_FullName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -125,7 +102,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With a member having an active membership and matching last name, it is returned")
     @ActiveMember
-    void testFindAll_WithMembership_Active_LastName() {
+    void testFindAll_Active_LastName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -149,7 +126,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With a member having an active membership and partial matching name, it is returned")
     @ActiveMember
-    void testFindAll_WithMembership_Active_PartialName() {
+    void testFindAll_Active_PartialName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -174,7 +151,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With a member having an active membership and wrong name, nothing is returned")
     @ActiveMember
-    void testFindAll_WithMembership_Active_WrongName() {
+    void testFindAll_Active_WrongName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -198,76 +175,80 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With a member having an inactive membership and matching first name, it is is returned")
     @InactiveMember
-    void testFindAll_WithMembership_Inactive_FirstName() {
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final MemberQuery filter;
+    void testFindAll_Inactive_FirstName() {
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
-        repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        // Assertions.assertThat(members)
-        // .extracting(Page::content)
-        // .asInstanceOf(InstanceOfAssertFactories.LIST)
-        // .containsExactly(Members.membershipInactive());
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberContacts.inactive());
     }
 
     @Test
     @DisplayName("With a member having an inactive membership and matching full name, it is is returned")
     @InactiveMember
-    void testFindAll_WithMembership_Inactive_FullName() {
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final MemberQuery filter;
+    void testFindAll_Inactive_FullName() {
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
 
-        repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        // Assertions.assertThat(members)
-        // .extracting(Page::content)
-        // .asInstanceOf(InstanceOfAssertFactories.LIST)
-        // .containsExactly(Members.membershipInactive());
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberContacts.inactive());
     }
 
     @Test
     @DisplayName("With a member having an inactive membership and matching last name, it is is returned")
     @InactiveMember
-    void testFindAll_WithMembership_Inactive_LastName() {
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final MemberQuery filter;
+    void testFindAll_Inactive_LastName() {
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
 
-        repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        // Assertions.assertThat(members)
-        // .extracting(Page::content)
-        // .asInstanceOf(InstanceOfAssertFactories.LIST)
-        // .containsExactly(Members.membershipInactive());
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberContacts.inactive());
     }
 
     @Test
     @DisplayName("With a member having an inactive membership and partial matching name, it is is returned")
     @InactiveMember
-    void testFindAll_WithMembership_Inactive_PartialName() {
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final MemberQuery filter;
+    void testFindAll_Inactive_PartialName() {
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -275,19 +256,19 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberQuery(MemberFilterStatus.ALL,
             ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
-        repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        // Assertions.assertThat(members)
-        // .extracting(Page::content)
-        // .asInstanceOf(InstanceOfAssertFactories.LIST)
-        // .containsExactly(Members.membershipInactive());
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberContacts.inactive());
     }
 
     @Test
     @DisplayName("With a member having an inactive membership and wrong name, nothing is returned")
     @InactiveMember
-    void testFindAll_WithMembership_Inactive_WrongName() {
+    void testFindAll_Inactive_WrongName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -297,6 +278,29 @@ class ITMemberContactRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no member, nothing is returned")
+    void testFindAll_NoData() {
+        final Page<MemberContact> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -321,103 +325,6 @@ class ITMemberContactRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FIRST_NAME);
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member without membership and matching full name, it is is returned")
-    @ValidContact
-    void testFindAll_WithoutMembership_FullName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberQuery         filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.FULL_NAME);
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member without membership and matching last name, it is is returned")
-    @ValidContact
-    void testFindAll_WithoutMembership_LastName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberQuery         filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.LAST_NAME);
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member without membership and partial matching name, it is is returned")
-    @ValidContact
-    void testFindAll_WithoutMembership_PartialName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberQuery         filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.ALL,
-            ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member without membership and wrong name, nothing is returned")
-    @InactiveMember
-    void testFindAll_WithoutMembership_WrongName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberQuery         filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

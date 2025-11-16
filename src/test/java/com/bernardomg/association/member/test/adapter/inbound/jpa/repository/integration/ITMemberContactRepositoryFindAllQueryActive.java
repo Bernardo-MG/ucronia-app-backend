@@ -51,32 +51,9 @@ class ITMemberContactRepositoryFindAllQueryActive {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With no member, nothing is returned")
-    void testFindAll_NoData() {
-        final Page<MemberContact> people;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberQuery         filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.ACTIVE, "");
-
-        // WHEN
-        people = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(people)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
     @DisplayName("With a member having an active membership, it is returned")
     @ActiveMember
-    void testFindAll_WithMembership_Active() {
+    void testFindAll_Active() {
         final Page<MemberContact> people;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -100,7 +77,30 @@ class ITMemberContactRepositoryFindAllQueryActive {
     @Test
     @DisplayName("With a member having an inactive membership, nothing is returned")
     @InactiveMember
-    void testFindAll_WithMembership_Inactive() {
+    void testFindAll_Inactive() {
+        final Page<MemberContact> people;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberQuery         filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberQuery(MemberFilterStatus.ACTIVE, "");
+
+        // WHEN
+        people = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(people)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no member, nothing is returned")
+    void testFindAll_NoData() {
         final Page<MemberContact> people;
         final Pagination          pagination;
         final Sorting             sorting;

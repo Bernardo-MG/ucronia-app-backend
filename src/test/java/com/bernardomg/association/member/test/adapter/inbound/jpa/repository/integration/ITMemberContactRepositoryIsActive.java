@@ -90,7 +90,7 @@ class ITMemberContactRepositoryIsActive {
     @Test
     @DisplayName("When there is a member which is not a member, it is indicated as so")
     @ValidContact
-    void testIsActive_NoMember() {
+    void testIsActive_NoMembership() {
         final boolean active;
 
         // WHEN
