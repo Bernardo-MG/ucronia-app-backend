@@ -8,7 +8,7 @@ databaseChangeLog:
             tableName: members
             columns:
               - column:
-                  name: id
+                  name: contact_id
                   type: bigint
                   constraints:
                     primaryKey: true
