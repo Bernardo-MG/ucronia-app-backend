@@ -11,6 +11,7 @@ databaseChangeLog:
                   name: contact_id
                   type: bigint
                   constraints:
+                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_member_contact
                     references: directory.contacts(id)
@@ -30,14 +31,9 @@ databaseChangeLog:
               - column:
                   name: renew_membership
                   type: boolean
+                  constraints:
+                    nullable: false
                   defaultValue: true
-        - addAutoIncrement:
-            schemaName: directory
-            tableName: contacts
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
   - changeSet:
       id: member_views
       author: Bernardo
