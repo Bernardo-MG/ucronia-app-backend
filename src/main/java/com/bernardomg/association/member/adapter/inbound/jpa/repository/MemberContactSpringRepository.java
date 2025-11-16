@@ -27,8 +27,6 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -38,13 +36,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContact
 
 public interface MemberContactSpringRepository
         extends JpaRepository<MemberContactEntity, Long>, JpaSpecificationExecutor<MemberContactEntity> {
-
-    @Query("""
-            SELECT m
-            FROM MemberContact m
-            WHERE m.active = true
-            """)
-    public Page<MemberContactEntity> findAllActive(final Pageable pageable);
 
     @Query("""
             SELECT m.id AS id

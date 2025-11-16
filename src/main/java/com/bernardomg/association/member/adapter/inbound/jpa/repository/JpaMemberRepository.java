@@ -33,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
@@ -48,14 +48,14 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger          log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final MemberContactSpringRepository memberContactSpringRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    public JpaMemberRepository(final MemberContactSpringRepository memberContactSpringRepo) {
+    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        memberContactSpringRepository = Objects.requireNonNull(memberContactSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
@@ -67,8 +67,8 @@ public final class JpaMemberRepository implements MemberRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         // TODO: use a specific repository for members
-        read = memberContactSpringRepository.findAllActive(pageable)
-            .map(PublicMemberEntityMapper::toDomain);
+        read = memberSpringRepository.findAllActive(pageable)
+            .map(MemberEntityMapper::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
@@ -82,8 +82,8 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding public member with number {}", number);
 
         // TODO: use a specific repository for members
-        member = memberContactSpringRepository.findByNumber(number)
-            .map(PublicMemberEntityMapper::toDomain);
+        member = memberSpringRepository.findByNumber(number)
+            .map(MemberEntityMapper::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);
 

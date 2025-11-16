@@ -13,7 +13,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "MemberContact")
 @Table(schema = "directory", name = "members")
-@PrimaryKeyJoinColumn(name = "contact_id")
+@PrimaryKeyJoinColumn(name = "id")
 public class MemberContactEntity extends ContactEntity {
 
     /**

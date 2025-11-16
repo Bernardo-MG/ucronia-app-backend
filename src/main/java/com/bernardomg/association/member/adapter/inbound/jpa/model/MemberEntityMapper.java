@@ -30,9 +30,9 @@ import com.bernardomg.association.member.domain.model.Member;
 /**
  * Member entity mapper.
  */
-public final class PublicMemberEntityMapper {
+public final class MemberEntityMapper {
 
-    public static final Member toDomain(final MemberContactEntity entity) {
+    public static final Member toDomain(final MemberEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
@@ -40,7 +40,7 @@ public final class PublicMemberEntityMapper {
         return new Member(entity.getNumber(), name);
     }
 
-    private PublicMemberEntityMapper() {
+    private MemberEntityMapper() {
         super();
     }
 
