@@ -15,10 +15,10 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
         active:
           type: boolean
-          description: Whether the membership is active.
+          description: Whether the member is active.
         renew:
           type: boolean
-          description: Whether the membership is eligible for renewal.
+          description: Whether the member is eligible for renewal.
         contactChannels:
           type: array
           items:
@@ -37,10 +37,13 @@ components:
       enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
     MemberContactCreation:
       type: object
-      required: [name]
+      required: [name, active]
       properties:
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        active:
+          type: boolean
+          description: Whether the member is active.
     MemberContactChange:
       type: object
       properties:
@@ -52,10 +55,10 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
         active:
           type: boolean
-          description: Whether the membership is active.
+          description: Whether the member is active.
         renew:
           type: boolean
-          description: Whether the membership is eligible for renewal.
+          description: Whether the member is eligible for renewal.
     MemberContactPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
