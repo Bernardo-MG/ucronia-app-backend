@@ -67,7 +67,8 @@ public final class MemberContactDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new MemberContact("", -1L, name, null, creation.getActive(), creation.getActive(), List.of());
+        return new MemberContact(creation.getIdentifier(), -1L, name, null, creation.getActive(), creation.getActive(),
+            List.of());
     }
 
     public static final MemberContactResponseDto toResponseDto(final MemberContact member) {

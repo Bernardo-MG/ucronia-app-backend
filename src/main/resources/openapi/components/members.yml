@@ -39,6 +39,9 @@ components:
       type: object
       required: [name, active]
       properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
         active:

@@ -55,7 +55,7 @@ public final class ContactDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Contact("", -1L, name, null, List.of());
+        return new Contact(creation.getIdentifier(), -1L, name, null, List.of());
     }
 
     public static final Contact toDomain(final long number, final ContactChangeDto change) {
