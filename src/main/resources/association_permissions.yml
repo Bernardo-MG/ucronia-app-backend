@@ -78,14 +78,14 @@ permissions:
   - resource: library
     actions:
       - view
-  - resource: member
+  - resource: member_contact
     actions:
       - create
       - read
       - update
       - delete
       - view
-  - resource: public_member
+  - resource: member
     actions:
       - read
       - view

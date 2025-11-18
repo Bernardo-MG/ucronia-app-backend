@@ -76,7 +76,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = MemberContactsCaches.MEMBER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
@@ -92,7 +92,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { MemberContactsCaches.MEMBER }), @CacheEvict(cacheNames = {
             // Member caches
             MemberContactsCaches.MEMBERS }, allEntries = true) })
@@ -105,7 +105,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
     @Cacheable(cacheNames = MemberContactsCaches.MEMBERS)
     public MemberContactPageResponseDto getAllMemberContacts(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final MemberStatusDto status,
@@ -130,7 +130,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
     @Cacheable(cacheNames = MemberContactsCaches.MEMBER)
     public MemberContactResponseDto getMemberContactByNumber(final Long number) {
         Optional<MemberContact> member;
@@ -141,7 +141,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MemberContactsCaches.MEMBER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
@@ -158,7 +158,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MemberContactsCaches.MEMBER, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
