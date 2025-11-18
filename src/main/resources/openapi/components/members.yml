@@ -37,6 +37,15 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+    MemberChange:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Whether the member is active.
+        renew:
+          type: boolean
+          description: Whether the member is eligible for renewal.
     MemberStatus:
       type: string
       description: Status filter for contact queries.
