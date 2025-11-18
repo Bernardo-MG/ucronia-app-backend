@@ -33,7 +33,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.cache.MemberContactsCaches;
+import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberContactDtoMapper;
 import com.bernardomg.association.member.domain.filter.MemberQuery;
 import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
@@ -77,10 +77,10 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MemberContactsCaches.MEMBER, key = "#result.content.number") },
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
-                    MemberContactsCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
     public MemberContactResponseDto createMemberContact(@Valid final MemberContactCreationDto memberCreationDto) {
         final MemberContact member;
         final MemberContact created;
@@ -93,9 +93,9 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { MemberContactsCaches.MEMBER }), @CacheEvict(cacheNames = {
+    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER_CONTACT }), @CacheEvict(cacheNames = {
             // Member caches
-            MemberContactsCaches.MEMBERS }, allEntries = true) })
+            MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
     public MemberContactResponseDto deleteMemberContact(final Long number) {
         final MemberContact member;
 
@@ -106,7 +106,7 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
-    @Cacheable(cacheNames = MemberContactsCaches.MEMBERS)
+    @Cacheable(cacheNames = MembersCaches.MEMBER_CONTACTS)
     public MemberContactPageResponseDto getAllMemberContacts(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final MemberStatusDto status,
             @Valid final String name) {
@@ -131,7 +131,7 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
-    @Cacheable(cacheNames = MemberContactsCaches.MEMBER)
+    @Cacheable(cacheNames = MembersCaches.MEMBER_CONTACT)
     public MemberContactResponseDto getMemberContactByNumber(final Long number) {
         Optional<MemberContact> member;
 
@@ -142,10 +142,10 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MemberContactsCaches.MEMBER, key = "#result.content.number") },
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
-                    MemberContactsCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
     public MemberContactResponseDto patchMemberContact(final Long number,
             @Valid final MemberContactChangeDto memberChangeDto) {
         final MemberContact member;
@@ -159,10 +159,10 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MemberContactsCaches.MEMBER, key = "#result.content.number") },
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
             evict = { @CacheEvict(cacheNames = {
                     // Member caches
-                    MemberContactsCaches.MEMBERS }, allEntries = true) })
+                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
     public MemberContactResponseDto updateMemberContact(final Long number,
             @Valid final MemberContactChangeDto memberChangeDto) {
         final MemberContact member;

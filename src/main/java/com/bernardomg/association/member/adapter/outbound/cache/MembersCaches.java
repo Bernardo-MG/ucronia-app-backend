@@ -26,9 +26,15 @@ package com.bernardomg.association.member.adapter.outbound.cache;
 
 public final class MembersCaches {
 
-    public static final String PUBLIC_MEMBER  = "public_member";
+    public static final String MEMBER            = "member";
 
-    public static final String PUBLIC_MEMBERS = "public_members";
+    public static final String MEMBER_CONTACT    = "member_contact";
+
+    public static final String MEMBER_CONTACTS   = "member_contacts";
+
+    public static final String MEMBERS           = "members";
+
+    public static final String MONTHLY_EVOLUTION = "membership_monthly_evolution";
 
     private MembersCaches() {
         super();

@@ -27,7 +27,10 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
@@ -43,6 +46,7 @@ import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberApi;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberStatusChangeDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -69,7 +73,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBERS)
+    @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort) {
         final Pagination   pagination;
@@ -85,13 +89,24 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.PUBLIC_MEMBER)
+    @Cacheable(cacheNames = MembersCaches.MEMBER)
     public MemberResponseDto getMemberByNumber(final Long number) {
         Optional<Member> member;
 
         member = service.getOne(number);
 
         return MemberDtoMapper.toResponseDto(member);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Member caches
+                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
+    public MemberResponseDto updateMemberStatus(@Valid final MemberStatusChangeDto memberStatusChangeDto) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
