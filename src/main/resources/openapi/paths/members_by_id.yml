@@ -8,8 +8,7 @@ get:
       required: true
       description: Member number.
       schema:
-        type: integer
-        format: int64
+        $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
     '200':
       description: Requested member.
@@ -29,8 +28,7 @@ patch:
       required: true
       description: Member number.
       schema:
-        type: integer
-        format: int64
+        $ref: '../common/ids.yml#/components/schemas/Id'
   requestBody:
     required: true
     content:

@@ -14,8 +14,7 @@ post:
       required: true
       description: Member number to assign.
       schema:
-        type: integer
-        format: int64
+        $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
     '200':
       description: Assigned contact.
