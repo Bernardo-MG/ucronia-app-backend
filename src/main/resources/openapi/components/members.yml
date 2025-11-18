@@ -31,10 +31,16 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: 'contacts.yml#/components/schemas/ContactName'
+        active:
+          type: boolean
+          description: Whether the member is active.
+        renew:
+          type: boolean
+          description: Whether the member is eligible for renewal.
     MemberStatus:
       type: string
       description: Status filter for contact queries.
-      enum: [ACTIVE, ALL, ALL_MEMBER, INACTIVE, NO_MEMBER]
+      enum: [ACTIVE, INACTIVE, ALL]
     MemberContactCreation:
       type: object
       required: [name, active]
