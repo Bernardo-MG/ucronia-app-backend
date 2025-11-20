@@ -25,9 +25,19 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
+
+    @Query("""
+            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM Member m
+              JOIN m.contact c
+            WHERE c.number = :number
+            """)
+    public boolean existsByNumber(@Param("number") final Long number);
 
 }

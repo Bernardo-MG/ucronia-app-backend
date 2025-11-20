@@ -70,6 +70,19 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final boolean exists(final long number) {
+        final boolean exists;
+
+        log.debug("Checking if member {} exists", number);
+
+        exists = memberSpringRepository.existsByNumber(number);
+
+        log.debug("Member {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Page<Member> findAll(final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;

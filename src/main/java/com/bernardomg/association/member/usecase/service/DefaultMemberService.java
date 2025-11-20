@@ -118,6 +118,27 @@ public final class DefaultMemberService implements MemberService {
         return saved;
     }
 
+    @Override
+    public final Member update(final Member member) {
+        final Member saved;
+
+        log.debug("Updating member {} using data {}", member.number(), member);
+
+        // TODO: Identificator must be unique or empty
+        // TODO: The membership maybe can't be removed
+
+        if (!memberRepository.exists(member.number())) {
+            log.error("Missing member {}", member.number());
+            throw new MissingMemberException(member.number());
+        }
+
+        saved = memberRepository.save(member);
+
+        log.debug("Updated member {}: {}", member.number(), saved);
+
+        return saved;
+    }
+
     private final Member copy(final Member existing, final Member updated) {
         final ContactName name;
 

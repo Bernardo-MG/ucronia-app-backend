@@ -27,8 +27,6 @@ package com.bernardomg.association.member.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -46,8 +44,8 @@ import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultMemberService - patch")
-class TestMemberServicePatch {
+@DisplayName("DefaultMemberService - update")
+class TestMemberServiceUpdate {
 
     @Mock
     private MemberRepository     memberRepository;
@@ -55,23 +53,23 @@ class TestMemberServicePatch {
     @InjectMocks
     private DefaultMemberService service;
 
-    public TestMemberServicePatch() {
+    public TestMemberServiceUpdate() {
         super();
     }
 
     @Test
     @DisplayName("With a not existing member, an exception is thrown")
-    void testPatch_NotExisting_Exception() {
+    void testUpdate_NotExisting_Exception() {
         final Member           member;
         final ThrowingCallable execution;
 
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.patch(member);
+        execution = () -> service.update(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -79,34 +77,17 @@ class TestMemberServicePatch {
     }
 
     @Test
-    @DisplayName("When patching the name, the change is persisted")
-    void testPatch_OnlyName_PersistedData() {
-        final Member member;
-
-        // GIVEN
-        member = Members.nameChangePatch();
-
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-
-        // WHEN
-        service.patch(member);
-
-        // THEN
-        verify(memberRepository).save(Members.nameChange());
-    }
-
-    @Test
     @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed")
-    void testPatch_Padded_PersistedData() {
+    void testUpdate_Padded_PersistedData() {
         final Member member;
 
         // GIVEN
         member = Members.padded();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.patch(member);
+        service.update(member);
 
         // THEN
         verify(memberRepository).save(Members.active());
@@ -114,16 +95,17 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("When updating a member, the change is persisted")
-    void testPatch_PersistedData() {
+    void testUpdate_PersistedData() {
         final Member member;
 
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
-        service.patch(member);
+        service.update(member);
 
         // THEN
         verify(memberRepository).save(Members.nameChange());
@@ -131,18 +113,18 @@ class TestMemberServicePatch {
 
     @Test
     @DisplayName("When updating a member, the change is returned")
-    void testPatch_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final Member member;
         final Member updated;
 
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
-        updated = service.patch(member);
+        updated = service.update(member);
 
         // THEN
         Assertions.assertThat(updated)
