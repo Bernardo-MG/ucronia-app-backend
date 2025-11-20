@@ -37,4 +37,6 @@ public interface MemberRepository {
 
     public Optional<Member> findOne(final Long number);
 
+    public Member save(final Member member);
+
 }

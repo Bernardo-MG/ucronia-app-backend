@@ -64,14 +64,14 @@ class TestMemberServiceGetOne {
         final Optional<Member> member;
 
         // GIVEN
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
+        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         member = service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(Members.valid());
+            .contains(Members.active());
     }
 
     @Test

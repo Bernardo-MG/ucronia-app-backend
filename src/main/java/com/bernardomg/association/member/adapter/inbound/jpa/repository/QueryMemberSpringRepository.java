@@ -22,8 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-public enum MemberStatus {
-    ACTIVE, ALL, INACTIVE
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+
+public interface QueryMemberSpringRepository extends JpaRepository<QueryMemberEntity, Long> {
+
+    @Query("""
+            SELECT m
+            FROM QueryMember m
+            WHERE m.active = true
+            """)
+    public Page<QueryMemberEntity> findAllActive(final Pageable pageable);
+
+    @Query("""
+            SELECT m
+            FROM QueryMember m
+            WHERE m.number = :number
+            """)
+    public Optional<QueryMemberEntity> findByNumber(@Param("number") final Long number);
+
 }

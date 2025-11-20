@@ -33,7 +33,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
@@ -48,14 +52,21 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final MemberSpringRepository memberSpringRepository;
+    private final ContactSpringRepository     contactSpringRepository;
 
-    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo) {
+    private final MemberSpringRepository      memberSpringRepository;
+
+    private final QueryMemberSpringRepository queryMemberSpringRepository;
+
+    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo,
+            final QueryMemberSpringRepository queryMemberSpringRepo, final ContactSpringRepository contactSpringRepo) {
         super();
 
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
     @Override
@@ -67,8 +78,8 @@ public final class JpaMemberRepository implements MemberRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         // TODO: use a specific repository for members
-        read = memberSpringRepository.findAllActive(pageable)
-            .map(MemberEntityMapper::toDomain);
+        read = queryMemberSpringRepository.findAllActive(pageable)
+            .map(QueryMemberEntityMapper::toDomain);
 
         log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
@@ -82,12 +93,45 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Finding public member with number {}", number);
 
         // TODO: use a specific repository for members
-        member = memberSpringRepository.findByNumber(number)
-            .map(MemberEntityMapper::toDomain);
+        member = queryMemberSpringRepository.findByNumber(number)
+            .map(QueryMemberEntityMapper::toDomain);
 
         log.trace("Found public member with number {}: {}", number, member);
 
         return member;
+    }
+
+    @Override
+    public final Member save(final Member member) {
+        final Optional<ContactEntity> existingContact;
+        final MemberEntity            entity;
+        final ContactEntity           contactEntity;
+        final Member                  created;
+        final ContactEntity           createdContact;
+
+        log.debug("Saving member {}", member);
+
+        entity = MemberEntityMapper.toEntity(member);
+        existingContact = contactSpringRepository.findByNumber(member.number());
+        if (existingContact.isPresent()) {
+            contactEntity = existingContact.get();
+            contactEntity.setFirstName(member.name()
+                .firstName());
+            contactEntity.setLastName(member.name()
+                .lastName());
+        } else {
+            contactEntity = MemberEntityMapper.toContactEntity(member);
+        }
+
+        createdContact = contactSpringRepository.save(contactEntity);
+
+        entity.setId(createdContact.getId());
+        entity.setContact(createdContact);
+        created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
+
+        log.debug("Saved member {}", created);
+
+        return created;
     }
 
 }

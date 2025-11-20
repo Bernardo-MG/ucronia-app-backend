@@ -170,7 +170,6 @@ public final class DefaultContactService implements ContactService {
 
         log.debug("Patching contact {} using data {}", contact.number(), contact);
 
-        // TODO: Identificator must be unique or empty
         // TODO: Apply the creation validations
 
         existing = contactRepository.findOne(contact.number())

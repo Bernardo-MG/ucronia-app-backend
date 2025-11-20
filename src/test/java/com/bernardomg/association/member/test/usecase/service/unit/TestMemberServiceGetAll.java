@@ -93,7 +93,7 @@ class TestMemberServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(Members.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -104,7 +104,7 @@ class TestMemberServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(Members.valid());
+            .containsExactly(Members.active());
     }
 
 }

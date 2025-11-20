@@ -22,8 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-public enum MemberStatus {
-    ACTIVE, ALL, INACTIVE
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.member.domain.model.Member;
+
+/**
+ * Query member entity mapper.
+ */
+public final class QueryMemberEntityMapper {
+
+    public static final Member toDomain(final QueryMemberEntity entity) {
+        final ContactName name;
+
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenewMembership());
+    }
+
+    public static final QueryMemberEntity toEntity(final Member data) {
+        final QueryMemberEntity entity;
+
+        entity = new QueryMemberEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setActive(data.active());
+        entity.setRenewMembership(data.renewMembership());
+
+        return entity;
+    }
+
+    private QueryMemberEntityMapper() {
+        super();
+    }
+
 }

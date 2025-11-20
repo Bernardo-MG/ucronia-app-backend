@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -90,6 +91,54 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Read member {}: {}", number, member);
 
         return member;
+    }
+
+    @Override
+    public final Member patch(final Member member) {
+        final Member existing;
+        final Member toSave;
+        final Member saved;
+
+        log.debug("Patching member {} using data {}", member.number(), member);
+
+        // TODO: Apply the creation validations
+
+        existing = memberRepository.findOne(member.number())
+            .orElseThrow(() -> {
+                log.error("Missing member {}", member.number());
+                throw new MissingMemberException(member.number());
+            });
+
+        toSave = copy(existing, member);
+
+        saved = memberRepository.save(toSave);
+
+        log.debug("Patched member {}: {}", member.number(), saved);
+
+        return saved;
+    }
+
+    private final Member copy(final Member existing, final Member updated) {
+        final ContactName name;
+
+        if (updated.name() == null) {
+            name = existing.name();
+        } else {
+            name = new ContactName(Optional.ofNullable(updated.name()
+                .firstName())
+                .orElse(existing.name()
+                    .firstName()),
+                Optional.ofNullable(updated.name()
+                    .lastName())
+                    .orElse(existing.name()
+                        .lastName()));
+        }
+        return new Member(Optional.ofNullable(updated.number())
+            .orElse(existing.number()), name,
+            Optional.ofNullable(updated.active())
+                .orElse(existing.active()),
+            Optional.ofNullable(updated.renewMembership())
+                .orElse(existing.renewMembership()));
     }
 
 }

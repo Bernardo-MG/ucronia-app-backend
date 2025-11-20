@@ -4,18 +4,19 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.SecondaryTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Member")
 @Table(schema = "directory", name = "members")
-@SecondaryTable(schema = "directory", name = "contacts",
-        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "contact_id"))
 public class MemberEntity implements Serializable {
 
     /**
@@ -24,21 +25,19 @@ public class MemberEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 8139806507534262996L;
 
-    @Column(name = "active", table = "members", nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean           active;
 
-    @Column(name = "first_name", table = "contacts", nullable = false)
-    private String            firstName;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_id")
+    private ContactEntity     contact;
 
     @Id
-    @Column(name = "contact_id", table = "members", nullable = false, unique = true)
+    @Column(name = "contact_id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "last_name", table = "contacts")
-    private String            lastName;
-
-    @Column(name = "number", table = "contacts")
-    private Long              number;
+    @Column(name = "renew_membership", nullable = false)
+    private Boolean           renewMembership;
 
     @Override
     public boolean equals(final Object obj) {
@@ -49,59 +48,51 @@ public class MemberEntity implements Serializable {
             return false;
         }
         final MemberEntity other = (MemberEntity) obj;
-        return Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
-                && Objects.equals(lastName, other.lastName) && Objects.equals(number, other.number);
+        return Objects.equals(active, other.active) && Objects.equals(contact, other.contact)
+                && Objects.equals(id, other.id) && Objects.equals(renewMembership, other.renewMembership);
     }
 
     public Boolean getActive() {
         return active;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public ContactEntity getContact() {
+        return contact;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Long getNumber() {
-        return number;
+    public Boolean getRenewMembership() {
+        return renewMembership;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, id, lastName, number);
+        return Objects.hash(active, contact, id, renewMembership);
     }
 
     public void setActive(final Boolean active) {
         this.active = active;
     }
 
-    public void setFirstName(final String firstName) {
-        this.firstName = firstName;
+    public void setContact(final ContactEntity contact) {
+        this.contact = contact;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setLastName(final String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setNumber(final Long number) {
-        this.number = number;
+    public void setRenewMembership(final Boolean renewMembership) {
+        this.renewMembership = renewMembership;
     }
 
     @Override
     public String toString() {
-        return "MemberEntity [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", number=" + number
-                + "]";
+        return "MemberEntity [active=" + active + ", contact=" + contact + ", id=" + id + ", renewMembership="
+                + renewMembership + "]";
     }
 
 }

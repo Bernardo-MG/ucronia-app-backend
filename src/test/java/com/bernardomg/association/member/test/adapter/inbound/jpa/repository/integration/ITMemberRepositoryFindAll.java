@@ -72,7 +72,7 @@ class ITMemberRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(Members.valid());
+            .containsExactly(Members.active());
     }
 
     @Test

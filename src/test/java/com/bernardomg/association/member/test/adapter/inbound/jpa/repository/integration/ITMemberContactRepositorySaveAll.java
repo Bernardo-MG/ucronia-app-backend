@@ -36,8 +36,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContact
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContactEntities;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
-import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -72,7 +72,7 @@ class ITMemberContactRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(MemberContactEntities.active());
     }
 
     @Test
