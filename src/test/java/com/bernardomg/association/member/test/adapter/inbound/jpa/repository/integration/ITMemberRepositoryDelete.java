@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.contact.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,34 +30,75 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ContactRepository - delete")
-class ITContactRepositoryDelete {
+@DisplayName("MemberRepository - delete")
+class ITMemberRepositoryDelete {
 
     @Autowired
-    private ContactRepository       repository;
+    private ContactSpringRepository contactSpringRepository;
 
     @Autowired
-    private ContactSpringRepository springRepository;
+    private MemberRepository        repository;
 
-    public ITContactRepositoryDelete() {
+    @Autowired
+    private MemberSpringRepository  springRepository;
+
+    public ITMemberRepositoryDelete() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting a contact, it is deleted")
-    @ValidContact
-    void testDelete() {
+    @DisplayName("When deleting an active member, it is deleted")
+    @ActiveMember
+    void testDelete_Active() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting an active member, the contact is deleted")
+    @ActiveMember
+    void testDelete_Active_Contact() {
+        // WHEN
+        repository.delete(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(contactSpringRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting an inactive member, it is deleted")
+    @InactiveMember
+    void testDelete_Inactive() {
+        // WHEN
+        repository.delete(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting an inactive member, the contact is deleted")
+    @InactiveMember
+    void testDelete_Inactive_Contact() {
+        // WHEN
+        repository.delete(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(contactSpringRepository.count())
             .isZero();
     }
 

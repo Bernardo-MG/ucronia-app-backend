@@ -33,6 +33,8 @@ import com.bernardomg.data.domain.Sorting;
 
 public interface MemberRepository {
 
+    public void delete(final long number);
+
     public boolean exists(final long number);
 
     public Page<Member> findAll(final Pagination pagination, final Sorting sorting);

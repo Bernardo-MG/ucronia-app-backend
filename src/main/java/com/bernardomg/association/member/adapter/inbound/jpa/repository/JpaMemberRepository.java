@@ -70,6 +70,17 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final void delete(final long number) {
+        log.debug("Deleting member {}", number);
+
+        // TODO: delete on cascade from the contact
+        memberSpringRepository.deleteByNumber(number);
+        contactSpringRepository.deleteByNumber(number);
+
+        log.debug("Deleted member {}", number);
+    }
+
+    @Override
     public final boolean exists(final long number) {
         final boolean exists;
 

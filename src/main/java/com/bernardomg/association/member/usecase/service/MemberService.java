@@ -40,6 +40,14 @@ import com.bernardomg.data.domain.Sorting;
 public interface MemberService {
 
     /**
+     * Deletes the member with the received id.
+     *
+     * @param number
+     *            number of the member to delete
+     */
+    public Member delete(final long number);
+
+    /**
      * Returns all the public members.
      *
      * @param pagination

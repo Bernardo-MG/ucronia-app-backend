@@ -25,12 +25,21 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
+
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Member m
+            WHERE m.contact.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
 
     @Query("""
             SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists

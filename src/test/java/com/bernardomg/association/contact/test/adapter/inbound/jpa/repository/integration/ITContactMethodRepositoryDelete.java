@@ -63,7 +63,7 @@ class ITContactMethodRepositoryDelete {
 
     @Test
     @DisplayName("When there is no data, nothing is deleted")
-    void testDelete_noData() {
+    void testDelete_NoData() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
 

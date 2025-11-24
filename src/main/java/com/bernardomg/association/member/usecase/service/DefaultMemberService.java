@@ -64,6 +64,25 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    public final Member delete(final long number) {
+        final Member existing;
+
+        log.debug("Deleting member {}", number);
+
+        existing = memberRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing member {}", number);
+                throw new MissingMemberException(number);
+            });
+
+        memberRepository.delete(number);
+
+        log.debug("Deleted member {}", number);
+
+        return existing;
+    }
+
+    @Override
     public final Page<Member> getAll(final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
 
