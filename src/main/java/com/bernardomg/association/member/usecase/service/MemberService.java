@@ -40,6 +40,15 @@ import com.bernardomg.data.domain.Sorting;
 public interface MemberService {
 
     /**
+     * Persists the received member.
+     *
+     * @param member
+     *            member to persist
+     * @return the persisted member
+     */
+    public Member create(final Member member);
+
+    /**
      * Deletes the member with the received id.
      *
      * @param number

@@ -64,6 +64,26 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    public final Member create(final Member member) {
+        final Member toCreate;
+        final Member created;
+        final Long   number;
+
+        log.debug("Creating member {}", member);
+
+        // Set number
+        number = memberRepository.findNextNumber();
+
+        toCreate = new Member(number, member.name(), member.active(), member.renewMembership());
+
+        created = memberRepository.save(toCreate);
+
+        log.debug("Created member {}", created);
+
+        return created;
+    }
+
+    @Override
     public final Member delete(final long number) {
         final Member existing;
 

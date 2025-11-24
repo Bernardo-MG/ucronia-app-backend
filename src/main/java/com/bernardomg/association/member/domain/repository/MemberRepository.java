@@ -39,6 +39,8 @@ public interface MemberRepository {
 
     public Page<Member> findAll(final Pagination pagination, final Sorting sorting);
 
+    public long findNextNumber();
+
     public Optional<Member> findOne(final Long number);
 
     public Member save(final Member member);

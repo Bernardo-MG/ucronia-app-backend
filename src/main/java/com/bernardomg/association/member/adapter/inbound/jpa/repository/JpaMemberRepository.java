@@ -111,6 +111,19 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final long findNextNumber() {
+        final long number;
+
+        log.debug("Finding next number for the members");
+
+        number = contactSpringRepository.findNextNumber();
+
+        log.debug("Found next number for the members: {}", number);
+
+        return number;
+    }
+
+    @Override
     public final Optional<Member> findOne(final Long number) {
         final Optional<Member> member;
 
