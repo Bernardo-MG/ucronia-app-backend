@@ -70,3 +70,23 @@ patch:
             $ref: '../components/members.yml#/components/schemas/MemberResponse'
     '404':
       description: Member not found.
+delete:
+  summary: Delete a member.
+  operationId: deleteMember
+  tags: [Member]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Member deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+    '404':
+      description: Member not found.

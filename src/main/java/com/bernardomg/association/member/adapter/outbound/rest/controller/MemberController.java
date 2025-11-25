@@ -89,6 +89,19 @@ public class MemberController implements MemberApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }), @CacheEvict(cacheNames = {
+            // mEMBER caches
+            MembersCaches.MEMBERS }, allEntries = true) })
+    public MemberResponseDto deleteMember(final Long number) {
+        final Member contact;
+
+        contact = service.delete(number);
+
+        return MemberDtoMapper.toResponseDto(contact);
+    }
+
+    @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
