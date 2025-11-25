@@ -87,7 +87,10 @@ permissions:
       - view
   - resource: member
     actions:
+      - create
       - read
+      - update
+      - delete
       - view
   - resource: contact
     actions:
