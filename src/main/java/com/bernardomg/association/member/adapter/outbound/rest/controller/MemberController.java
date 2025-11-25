@@ -73,9 +73,19 @@ public class MemberController implements MemberApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Member caches
+                    MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
-        // TODO Auto-generated method stub
-        return null;
+        final Member member;
+        final Member created;
+
+        member = MemberDtoMapper.toDomain(memberCreationDto);
+        created = service.create(member);
+
+        return MemberDtoMapper.toResponseDto(created);
     }
 
     @Override
@@ -112,14 +122,29 @@ public class MemberController implements MemberApi {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
-        // TODO Auto-generated method stub
-        return null;
+        final Member member;
+        final Member updated;
+
+        member = MemberDtoMapper.toDomain(number, memberChangeDto);
+        updated = service.patch(member);
+
+        return MemberDtoMapper.toResponseDto(updated);
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Member caches
+                    MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
-        // TODO Auto-generated method stub
-        return null;
+        final Member member;
+        final Member updated;
+
+        member = MemberDtoMapper.toDomain(number, memberChangeDto);
+        updated = service.update(member);
+
+        return MemberDtoMapper.toResponseDto(updated);
     }
 
 }
