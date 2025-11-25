@@ -18,6 +18,32 @@ get:
             $ref: '../components/members.yml#/components/schemas/MemberResponse'
     '404':
       description: Member not found.
+put:
+  summary: Update a member.
+  operationId: updateMember
+  tags: [Member]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/MemberChange'
+  responses:
+    '200':
+      description: Updated contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+    '404':
+      description: Contact not found.
 patch:
   summary: Partially update a member.
   operationId: patchMember

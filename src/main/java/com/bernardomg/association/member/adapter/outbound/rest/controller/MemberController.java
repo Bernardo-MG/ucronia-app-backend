@@ -45,6 +45,7 @@ import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberApi;
 import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 
@@ -69,6 +70,12 @@ public class MemberController implements MemberApi {
         super();
 
         this.service = service;
+    }
+
+    @Override
+    public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
@@ -105,6 +112,12 @@ public class MemberController implements MemberApi {
                     // Member caches
                     MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
         // TODO Auto-generated method stub
         return null;
     }

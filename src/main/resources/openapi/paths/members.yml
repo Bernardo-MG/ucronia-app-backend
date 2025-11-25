@@ -1,3 +1,20 @@
+post:
+  summary: Create a new member.
+  operationId: createMember
+  tags: [Member]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/MemberCreation'
+  responses:
+    '201':
+      description: Contact created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberResponse'
 get:
   summary: Get all public members.
   operationId: getAllMembers

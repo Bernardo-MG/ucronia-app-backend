@@ -37,6 +37,18 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+    MemberCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        active:
+          type: boolean
+          description: Whether the member is active.
+        renew:
+          type: boolean
+          description: Whether the member is eligible for renewal.
     MemberChange:
       type: object
       properties:
