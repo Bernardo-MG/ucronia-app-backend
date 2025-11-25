@@ -53,7 +53,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 
 /**
- * Public member REST controller.
+ * Member REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -62,7 +62,7 @@ import jakarta.validation.constraints.Min;
 public class MemberController implements MemberApi {
 
     /**
-     * Public member service.
+     * Member service.
      */
     private final MemberService service;
 

@@ -98,14 +98,14 @@ public final class JpaMemberRepository implements MemberRepository {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
 
-        log.trace("Finding all the public members with pagination {} and sorting {}", pagination, sorting);
+        log.trace("Finding all the members with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         // TODO: use a specific repository for members
         read = queryMemberSpringRepository.findAllActive(pageable)
             .map(QueryMemberEntityMapper::toDomain);
 
-        log.trace("Found all the public members with pagination {} and sorting {}: {}", pagination, sorting, read);
+        log.trace("Found all the members with pagination {} and sorting {}: {}", pagination, sorting, read);
 
         return SpringPagination.toPage(read);
     }
@@ -127,13 +127,13 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Optional<Member> findOne(final Long number) {
         final Optional<Member> member;
 
-        log.trace("Finding public member with number {}", number);
+        log.trace("Finding member with number {}", number);
 
         // TODO: use a specific repository for members
         member = queryMemberSpringRepository.findByNumber(number)
             .map(QueryMemberEntityMapper::toDomain);
 
-        log.trace("Found public member with number {}: {}", number, member);
+        log.trace("Found member with number {}: {}", number, member);
 
         return member;
     }
