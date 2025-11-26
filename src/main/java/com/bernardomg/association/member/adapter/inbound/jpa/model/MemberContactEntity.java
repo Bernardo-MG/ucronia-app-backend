@@ -26,7 +26,7 @@ public class MemberContactEntity extends ContactEntity {
     private Boolean           active;
 
     @Column(name = "renew_membership")
-    private Boolean           renewMembership;
+    private Boolean           renew;
 
     @Override
     public boolean equals(final Object obj) {
@@ -38,36 +38,36 @@ public class MemberContactEntity extends ContactEntity {
             return false;
         }
         final MemberContactEntity other = (MemberContactEntity) obj;
-        return Objects.equals(active, other.active) && Objects.equals(renewMembership, other.renewMembership);
+        return Objects.equals(active, other.active) && Objects.equals(renew, other.renew);
     }
 
     public Boolean getActive() {
         return active;
     }
 
-    public Boolean getRenewMembership() {
-        return renewMembership;
+    public Boolean getRenew() {
+        return renew;
     }
 
     @Override
     public int hashCode() {
         // Combine superclass and subclass fields
-        return Objects.hash(super.hashCode(), active, renewMembership);
+        return Objects.hash(super.hashCode(), active, renew);
     }
 
     public void setActive(final Boolean active) {
         this.active = active;
     }
 
-    public void setRenewMembership(final Boolean renewMembership) {
-        this.renewMembership = renewMembership;
+    public void setRenew(final Boolean renew) {
+        this.renew = renew;
     }
 
     @Override
     public String toString() {
         return "MemberEntity [" + "id=" + getId() + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
                 + ", identifier=" + getIdentifier() + ", number=" + getNumber() + ", birthDate=" + getBirthDate()
-                + ", active=" + active + ", renewMembership=" + renewMembership + "]";
+                + ", active=" + active + ", renew=" + renew + "]";
     }
 
 }

@@ -41,7 +41,7 @@ public class QueryMemberEntity implements Serializable {
     private Long              number;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean           renewMembership;
+    private Boolean           renew;
 
     @Override
     public boolean equals(final Object obj) {
@@ -54,7 +54,7 @@ public class QueryMemberEntity implements Serializable {
         final QueryMemberEntity other = (QueryMemberEntity) obj;
         return Objects.equals(active, other.active) && Objects.equals(firstName, other.firstName)
                 && Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
-                && Objects.equals(number, other.number) && Objects.equals(renewMembership, other.renewMembership);
+                && Objects.equals(number, other.number) && Objects.equals(renew, other.renew);
     }
 
     public Boolean getActive() {
@@ -77,13 +77,13 @@ public class QueryMemberEntity implements Serializable {
         return number;
     }
 
-    public Boolean getRenewMembership() {
-        return renewMembership;
+    public Boolean getRenew() {
+        return renew;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(active, firstName, id, lastName, number, renewMembership);
+        return Objects.hash(active, firstName, id, lastName, number, renew);
     }
 
     public void setActive(final Boolean active) {
@@ -106,13 +106,13 @@ public class QueryMemberEntity implements Serializable {
         this.number = number;
     }
 
-    public void setRenewMembership(final Boolean renewMembership) {
-        this.renewMembership = renewMembership;
+    public void setRenew(final Boolean renew) {
+        this.renew = renew;
     }
 
     @Override
     public String toString() {
-        return "MemberEntity [active=" + active + ", renewMembership=" + renewMembership + ", firstName=" + firstName
+        return "MemberEntity [active=" + active + ", renew=" + renew + ", firstName=" + firstName
                 + ", id=" + id + ", lastName=" + lastName + ", number=" + number + "]";
     }
 

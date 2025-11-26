@@ -55,7 +55,7 @@ public final class MemberEntityMapper {
             entity.getContact()
                 .getLastName());
         return new Member(entity.getContact()
-            .getNumber(), name, entity.getActive(), entity.getRenewMembership());
+            .getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
     public static final MemberEntity toEntity(final Member data) {
@@ -67,7 +67,7 @@ public final class MemberEntityMapper {
         entity = new MemberEntity();
         entity.setContact(contact);
         entity.setActive(data.active());
-        entity.setRenewMembership(data.renewMembership());
+        entity.setRenew(data.renew());
 
         return entity;
     }

@@ -19,7 +19,7 @@ public final class MemberContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setActive(true);
-        entity.setRenewMembership(true);
+        entity.setRenew(true);
         entity.setContactChannels(List.of());
         return entity;
     }
@@ -33,7 +33,7 @@ public final class MemberContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setActive(false);
-        entity.setRenewMembership(true);
+        entity.setRenew(true);
         entity.setContactChannels(List.of());
         return entity;
     }
@@ -54,7 +54,7 @@ public final class MemberContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setActive(true);
-        entity.setRenewMembership(true);
+        entity.setRenew(true);
         entity.setContactChannels(List.of(contactContactMethodEntity));
 
         contactContactMethodEntity.setContact(entity);

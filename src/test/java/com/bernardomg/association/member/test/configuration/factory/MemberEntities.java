@@ -13,7 +13,7 @@ public final class MemberEntities {
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(true);
-        entity.setRenewMembership(true);
+        entity.setRenew(true);
         return entity;
     }
 
@@ -24,7 +24,7 @@ public final class MemberEntities {
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(false);
-        entity.setRenewMembership(true);
+        entity.setRenew(true);
         return entity;
     }
 

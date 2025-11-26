@@ -37,7 +37,7 @@ public class MemberEntity implements Serializable {
     private Long              id;
 
     @Column(name = "renew_membership", nullable = false)
-    private Boolean           renewMembership;
+    private Boolean           renew;
 
     @Override
     public boolean equals(final Object obj) {
@@ -49,7 +49,7 @@ public class MemberEntity implements Serializable {
         }
         final MemberEntity other = (MemberEntity) obj;
         return Objects.equals(active, other.active) && Objects.equals(contact, other.contact)
-                && Objects.equals(id, other.id) && Objects.equals(renewMembership, other.renewMembership);
+                && Objects.equals(id, other.id) && Objects.equals(renew, other.renew);
     }
 
     public Boolean getActive() {
@@ -64,13 +64,13 @@ public class MemberEntity implements Serializable {
         return id;
     }
 
-    public Boolean getRenewMembership() {
-        return renewMembership;
+    public Boolean getRenew() {
+        return renew;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(active, contact, id, renewMembership);
+        return Objects.hash(active, contact, id, renew);
     }
 
     public void setActive(final Boolean active) {
@@ -85,14 +85,14 @@ public class MemberEntity implements Serializable {
         this.id = id;
     }
 
-    public void setRenewMembership(final Boolean renewMembership) {
-        this.renewMembership = renewMembership;
+    public void setRenew(final Boolean renew) {
+        this.renew = renew;
     }
 
     @Override
     public String toString() {
-        return "MemberEntity [active=" + active + ", contact=" + contact + ", id=" + id + ", renewMembership="
-                + renewMembership + "]";
+        return "MemberEntity [active=" + active + ", contact=" + contact + ", id=" + id + ", renew="
+                + renew + "]";
     }
 
 }

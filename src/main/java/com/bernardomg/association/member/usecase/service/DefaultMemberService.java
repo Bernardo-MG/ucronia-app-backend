@@ -74,7 +74,7 @@ public final class DefaultMemberService implements MemberService {
         // Set number
         number = memberRepository.findNextNumber();
 
-        toCreate = new Member(number, member.name(), member.active(), member.renewMembership());
+        toCreate = new Member(number, member.name(), member.active(), member.renew());
 
         created = memberRepository.save(toCreate);
 
@@ -197,8 +197,8 @@ public final class DefaultMemberService implements MemberService {
             .orElse(existing.number()), name,
             Optional.ofNullable(updated.active())
                 .orElse(existing.active()),
-            Optional.ofNullable(updated.renewMembership())
-                .orElse(existing.renewMembership()));
+            Optional.ofNullable(updated.renew())
+                .orElse(existing.renew()));
     }
 
 }

@@ -103,7 +103,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         log.debug("Finding all the members to renew");
 
-        members = memberContactSpringRepository.findAllByRenewMembershipTrue()
+        members = memberContactSpringRepository.findAllByRenewTrue()
             .stream()
             .map(MemberContactEntityMapper::toDomain)
             .toList();

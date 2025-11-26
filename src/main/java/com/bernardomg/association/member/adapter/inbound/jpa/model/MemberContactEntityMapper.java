@@ -51,7 +51,7 @@ public final class MemberContactEntityMapper {
             .toList();
 
         return new MemberContact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            entity.getActive(), entity.getRenewMembership(), members);
+            entity.getActive(), entity.getRenew(), members);
     }
 
     public static final MemberContactEntity toEntity(final MemberContact data,
@@ -73,7 +73,7 @@ public final class MemberContactEntityMapper {
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
         entity.setActive(active);
-        entity.setRenewMembership(renew);
+        entity.setRenew(renew);
 
         members = data.contactChannels()
             .stream()

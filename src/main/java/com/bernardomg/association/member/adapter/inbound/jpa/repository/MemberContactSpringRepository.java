@@ -45,7 +45,7 @@ public interface MemberContactSpringRepository
             """)
     public Collection<Long> findAllActiveMemberIds();
 
-    public Collection<MemberContactEntity> findAllByRenewMembershipTrue();
+    public Collection<MemberContactEntity> findAllByRenewTrue();
 
     @Query("""
             SELECT m.id AS id
@@ -58,7 +58,7 @@ public interface MemberContactSpringRepository
     @Query("""
             SELECT m
             FROM MemberContact m
-            WHERE m.active != m.renewMembership
+            WHERE m.active != m.renew
             """)
     public Collection<MemberContactEntity> findAllWithRenewalMismatch();
 

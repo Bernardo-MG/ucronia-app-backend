@@ -36,7 +36,7 @@ public final class QueryMemberEntityMapper {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenewMembership());
+        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
     public static final QueryMemberEntity toEntity(final Member data) {
@@ -49,7 +49,7 @@ public final class QueryMemberEntityMapper {
         entity.setLastName(data.name()
             .lastName());
         entity.setActive(data.active());
-        entity.setRenewMembership(data.renewMembership());
+        entity.setRenew(data.renew());
 
         return entity;
     }
