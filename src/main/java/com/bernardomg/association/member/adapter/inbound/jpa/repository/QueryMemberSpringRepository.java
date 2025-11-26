@@ -30,7 +30,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
@@ -43,11 +42,6 @@ public interface QueryMemberSpringRepository extends JpaRepository<QueryMemberEn
             """)
     public Page<QueryMemberEntity> findAllActive(final Pageable pageable);
 
-    @Query("""
-            SELECT m
-            FROM QueryMember m
-            WHERE m.number = :number
-            """)
-    public Optional<QueryMemberEntity> findByNumber(@Param("number") final Long number);
+    public Optional<QueryMemberEntity> findByNumber(final Long number);
 
 }
