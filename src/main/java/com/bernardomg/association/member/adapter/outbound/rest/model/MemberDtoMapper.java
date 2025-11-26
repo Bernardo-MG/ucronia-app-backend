@@ -99,7 +99,9 @@ public final class MemberDtoMapper {
             .fullName(member.name()
                 .fullName());
         return new MemberDto().number(member.number())
-            .name(contactName);
+            .name(contactName)
+            .active(member.active())
+            .renew(member.renew());
     }
 
     private static final PropertyDto toDto(final Property property) {
