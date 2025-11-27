@@ -44,7 +44,7 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class MemberDtoMapper {
 
     public static final Member toDomain(final long number, final MemberChangeDto change) {
-        return new Member(number, null, change.getActive(), change.getActive());
+        return new Member(number, null, change.getActive(), change.getRenew());
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
