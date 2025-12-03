@@ -29,10 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,7 +44,7 @@ class ITFictionBookRepositoryExists {
 
     @Test
     @DisplayName("When the fiction book exists, it exists")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     void testExists() {
         final boolean exists;

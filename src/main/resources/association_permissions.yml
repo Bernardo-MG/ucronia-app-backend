@@ -78,11 +78,21 @@ permissions:
   - resource: library
     actions:
       - view
+  - resource: member_contact
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: member
     actions:
+      - create
       - read
+      - update
+      - delete
       - view
-  - resource: person
+  - resource: contact
     actions:
       - create
       - read

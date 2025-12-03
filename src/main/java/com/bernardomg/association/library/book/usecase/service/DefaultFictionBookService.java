@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.library.author.domain.exception.MissingAuthorException;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
@@ -51,7 +52,6 @@ import com.bernardomg.association.library.book.usecase.validation.FictionBookTit
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -71,22 +71,22 @@ public final class DefaultFictionBookService implements FictionBookService {
 
     private final FictionBookRepository  bookRepository;
 
-    private final Validator<FictionBook> createBookValidator;
+    private final ContactRepository      contactRepository;
 
-    private final PersonRepository       personRepository;
+    private final Validator<FictionBook> createBookValidator;
 
     private final PublisherRepository    publisherRepository;
 
     private final Validator<FictionBook> updateBookValidator;
 
     public DefaultFictionBookService(final FictionBookRepository bookRepo, final AuthorRepository authorRepo,
-            final PublisherRepository publisherRepo, final PersonRepository personRepo) {
+            final PublisherRepository publisherRepo, final ContactRepository contactRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
         authorRepository = Objects.requireNonNull(authorRepo);
         publisherRepository = Objects.requireNonNull(publisherRepo);
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
 
         createBookValidator = new FieldRuleValidator<>(new FictionBookTitleNotEmptyRule(),
             new FictionBookLanguageCodeValidRule(), new FictionBookIsbnValidRule(),
@@ -295,7 +295,7 @@ public final class DefaultFictionBookService implements FictionBookService {
             .map(Donation::donors)
             .orElse(List.of())
             .stream()
-            .filter(d -> !personRepository.exists(d.number()))
+            .filter(d -> !contactRepository.exists(d.number()))
             .findAny();
         if (invalidDonor.isPresent()) {
             log.error("Missing donor {}", invalidDonor.get()

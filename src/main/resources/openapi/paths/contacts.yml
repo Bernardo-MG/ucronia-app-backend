@@ -1,0 +1,38 @@
+post:
+  summary: Create a new contact.
+  operationId: createContact
+  tags: [Contact]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/contacts.yml#/components/schemas/ContactCreation'
+  responses:
+    '201':
+      description: Contact created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+get:
+  summary: Get all contacts.
+  operationId: getAllContacts
+  tags: [Contact]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+    - name: name
+      in: query
+      required: false
+      description: Filter by name substring.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Contacts page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactPageResponse'

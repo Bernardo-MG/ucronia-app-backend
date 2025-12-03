@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 import jakarta.persistence.Column;
@@ -50,6 +50,13 @@ public class FeeEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @OneToOne
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    private ContactEntity     contact;
+
+    @Column(name = "contact_id", insertable = false, updatable = false)
+    private Long              contactId;
+
     // TODO: should be called month
     @Column(name = "date", nullable = false)
     private Instant           date;
@@ -63,15 +70,16 @@ public class FeeEntity implements Serializable {
     private Boolean           paid;
 
     @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private PersonEntity      person;
-
-    @Column(name = "person_id", insertable = false, updatable = false)
-    private Long              personId;
-
-    @OneToOne
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private TransactionEntity transaction;
+
+    public ContactEntity getContact() {
+        return contact;
+    }
+
+    public Long getContactId() {
+        return contactId;
+    }
 
     public Instant getDate() {
         return date;
@@ -85,16 +93,16 @@ public class FeeEntity implements Serializable {
         return paid;
     }
 
-    public PersonEntity getPerson() {
-        return person;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
     public TransactionEntity getTransaction() {
         return transaction;
+    }
+
+    public void setContact(final ContactEntity contact) {
+        this.contact = contact;
+    }
+
+    public void setContactId(final Long contactId) {
+        this.contactId = contactId;
     }
 
     public void setDate(final Instant date) {
@@ -109,22 +117,14 @@ public class FeeEntity implements Serializable {
         this.paid = paid;
     }
 
-    public void setPerson(final PersonEntity person) {
-        this.person = person;
-    }
-
-    public void setPersonId(final Long personId) {
-        this.personId = personId;
-    }
-
     public void setTransaction(final TransactionEntity transaction) {
         this.transaction = transaction;
     }
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", person=" + person + ", personId="
-                + personId + ", transaction=" + transaction + "]";
+        return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", contact=" + contact + ", contactId="
+                + contactId + ", transaction=" + transaction + "]";
     }
 
 }

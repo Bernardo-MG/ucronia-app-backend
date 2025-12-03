@@ -43,13 +43,13 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN Person p ON p.id = l.personId
+                 INNER JOIN Contact c ON c.id = l.contactId
                WHERE b.number = :bookNumber
-                 AND p.number = :personNumber
+                 AND c.number = :contactNumber
                ORDER BY l.returnDate DESC
             """)
     public List<BookLendingEntity> find(@Param("bookNumber") final long bookNumber,
-            @Param("personNumber") final long personNumber, final Pageable pageable);
+            @Param("contactNumber") final long contactNumber, final Pageable pageable);
 
     public Collection<BookLendingEntity> findAllByBookId(Long id);
 
@@ -79,15 +79,15 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN Person p ON p.id = l.personId
+                 INNER JOIN Contact c ON c.id = l.contactId
                WHERE b.number = :bookNumber
-                 AND p.number = :personNumber
+                 AND c.number = :contactNumber
                  AND l.lendingDate = :lendingDate
                  AND l.returnDate IS NOT NULL
                ORDER BY l.returnDate DESC
             """)
     public List<BookLendingEntity> findAllReturned(@Param("bookNumber") final long bookNumber,
-            @Param("personNumber") final long personNumber, @Param("lendingDate") final Instant lendingDate,
+            @Param("contactNumber") final long contactNumber, @Param("lendingDate") final Instant lendingDate,
             final Pageable pageable);
 
     @Query("""

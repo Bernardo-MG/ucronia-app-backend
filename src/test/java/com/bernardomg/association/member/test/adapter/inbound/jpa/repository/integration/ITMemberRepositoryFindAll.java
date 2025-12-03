@@ -30,19 +30,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all")
+@DisplayName("MemberRepository - find all public")
 class ITMemberRepositoryFindAll {
 
     @Autowired
@@ -54,7 +54,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member, it returns the member")
-    @MembershipActivePerson
+    @ActiveMember
     void testFindActive_Active() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -72,12 +72,12 @@ class ITMemberRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(Members.valid());
+            .containsExactly(Members.active());
     }
 
     @Test
     @DisplayName("With an inactive member, it returns nothing")
-    @MembershipInactivePerson
+    @InactiveMember
     void testFindActive_Inactive() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -122,7 +122,7 @@ class ITMemberRepositoryFindAll {
 
     @Test
     @DisplayName("With a member with no membership, it returns nothing")
-    @NoMembershipPerson
+    @ValidContact
     void testFindActive_NoMembership() {
         final Page<Member> members;
         final Pagination   pagination;

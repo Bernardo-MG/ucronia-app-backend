@@ -19,8 +19,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.configuration.data.annotation.FeeTransaction;
@@ -42,7 +41,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a not paid fee, it is persisted")
-    @MembershipActivePerson
+    @ActiveMember
     void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -58,13 +57,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(FeeEntities.notPaid());
     }
 
     @Test
     @DisplayName("When a not paid fee, it is returned")
-    @NoMembershipPerson
+    @ActiveMember
     void testSave_NotPaid_ReturnedData() {
         final Collection<Fee> created;
         final Fee             fee;
@@ -83,7 +83,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is persisted")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSave_Paid_ChangeDate_PersistedData() {
@@ -105,13 +105,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
     @Test
     @DisplayName("When changing a fee date, it is persisted in the transaction")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedTransaction() {
         final Fee                         fee;
@@ -140,7 +141,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is returned")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSave_Paid_ChangeDate_ReturnedData() {
@@ -161,13 +162,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(created)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(Fees.paidAtDate(date));
     }
 
     @Test
     @DisplayName("When a paid fee, it is persisted")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -184,13 +186,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "person.id", "personId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contactId",
+                "transaction.id")
             .containsExactly(FeeEntities.paid());
     }
 
     @Test
     @DisplayName("Persists the fee to transaction relationship")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedRelationship() {
         final Fee               fee;
@@ -220,7 +223,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("Persists the transaction")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedTransaction() {
         final Iterable<TransactionEntity> transactions;
@@ -243,7 +246,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is returned")
-    @NoMembershipPerson
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_ReturnedData() {
         final Collection<Fee> fees;

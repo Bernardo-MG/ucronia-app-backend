@@ -58,11 +58,11 @@ import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 public final class FeeDtoMapper {
 
-    public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long personNumber) {
-        final Fee.Member                person;
+    public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long contactNumber) {
+        final Fee.Member                member;
         final Optional<Fee.Transaction> transaction;
 
-        person = new Fee.Member(personNumber, null);
+        member = new Fee.Member(contactNumber, null);
         if ((change.getTransaction()
             .getIndex() == null)
                 && ((change.getTransaction()
@@ -75,7 +75,7 @@ public final class FeeDtoMapper {
                     .getIndex()));
         }
 
-        return new Fee(month, false, person, transaction);
+        return new Fee(month, false, member, transaction);
     }
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {

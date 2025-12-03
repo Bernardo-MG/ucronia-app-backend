@@ -45,3 +45,62 @@ components:
         lastName:
           type: string
           example: 'Smith'
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          description: Contact detail.
+    Contact:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactChannel'
+    ContactCreation:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+    ContactChange:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+    ContactPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Contact'
+    ContactResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Contact'

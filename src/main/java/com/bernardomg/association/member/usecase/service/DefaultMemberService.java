@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -63,17 +64,55 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    public final Member create(final Member member) {
+        final Member toCreate;
+        final Member created;
+        final Long   number;
+
+        log.debug("Creating member {}", member);
+
+        // Set number
+        number = memberRepository.findNextNumber();
+
+        toCreate = new Member(number, member.name(), member.active(), member.renew());
+
+        created = memberRepository.save(toCreate);
+
+        log.debug("Created member {}", created);
+
+        return created;
+    }
+
+    @Override
+    public final Member delete(final long number) {
+        final Member existing;
+
+        log.debug("Deleting member {}", number);
+
+        existing = memberRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing member {}", number);
+                throw new MissingMemberException(number);
+            });
+
+        memberRepository.delete(number);
+
+        log.debug("Deleted member {}", number);
+
+        return existing;
+    }
+
+    @Override
     public final Page<Member> getAll(final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
 
-        log.debug("Getting all members");
+        log.debug("Reading members with pagination {} and sorting {}", pagination, sorting);
 
         members = memberRepository.findAll(pagination, sorting);
 
-        log.debug("Got all members");
+        log.debug("Read members with pagination {} and sorting {}: {}", pagination, sorting, members);
 
         return members;
-
     }
 
     @Override
@@ -91,6 +130,75 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Read member {}: {}", number, member);
 
         return member;
+    }
+
+    @Override
+    public final Member patch(final Member member) {
+        final Member existing;
+        final Member toSave;
+        final Member saved;
+
+        log.debug("Patching member {} using data {}", member.number(), member);
+
+        // TODO: Apply the creation validations
+
+        existing = memberRepository.findOne(member.number())
+            .orElseThrow(() -> {
+                log.error("Missing member {}", member.number());
+                throw new MissingMemberException(member.number());
+            });
+
+        toSave = copy(existing, member);
+
+        saved = memberRepository.save(toSave);
+
+        log.debug("Patched member {}: {}", member.number(), saved);
+
+        return saved;
+    }
+
+    @Override
+    public final Member update(final Member member) {
+        final Member saved;
+
+        log.debug("Updating member {} using data {}", member.number(), member);
+
+        // TODO: Identificator must be unique or empty
+        // TODO: The membership maybe can't be removed
+
+        if (!memberRepository.exists(member.number())) {
+            log.error("Missing member {}", member.number());
+            throw new MissingMemberException(member.number());
+        }
+
+        saved = memberRepository.save(member);
+
+        log.debug("Updated member {}: {}", member.number(), saved);
+
+        return saved;
+    }
+
+    private final Member copy(final Member existing, final Member updated) {
+        final ContactName name;
+
+        if (updated.name() == null) {
+            name = existing.name();
+        } else {
+            name = new ContactName(Optional.ofNullable(updated.name()
+                .firstName())
+                .orElse(existing.name()
+                    .firstName()),
+                Optional.ofNullable(updated.name()
+                    .lastName())
+                    .orElse(existing.name()
+                        .lastName()));
+        }
+        return new Member(Optional.ofNullable(updated.number())
+            .orElse(existing.number()), name,
+            Optional.ofNullable(updated.active())
+                .orElse(existing.active()),
+            Optional.ofNullable(updated.renew())
+                .orElse(existing.renew()));
     }
 
 }

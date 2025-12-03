@@ -29,6 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
@@ -37,8 +39,6 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -51,7 +51,7 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a game book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     void testFindAll() {
         final Iterable<GameBook> books;
@@ -71,7 +71,7 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -92,8 +92,8 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidContact
+    @AlternativeContact
     @FullGameBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -132,7 +132,7 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -153,8 +153,8 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidContact
+    @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {

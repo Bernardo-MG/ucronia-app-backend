@@ -30,13 +30,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITFeeRepositoryDelete {
     @DisplayName("When there is no data, nothing is removed")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(PersonConstants.NUMBER, FeeConstants.DATE);
+        repository.delete(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(feeSpringRepository.count())
@@ -63,11 +63,11 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a not paid entity is deleted, it is removed")
-    @MembershipActivePerson
+    @ActiveMember
     @NotPaidFee
     void testDelete_NotPaid() {
         // WHEN
-        repository.delete(PersonConstants.NUMBER, FeeConstants.DATE);
+        repository.delete(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(feeSpringRepository.count())
@@ -77,12 +77,12 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a paid entity is deleted, it is removed")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     @Disabled("Handle relationships")
     void testDelete_Paid() {
         // WHEN
-        repository.delete(PersonConstants.NUMBER, FeeConstants.DATE);
+        repository.delete(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(feeSpringRepository.count())

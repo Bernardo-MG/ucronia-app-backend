@@ -27,8 +27,8 @@ package com.bernardomg.association.library.lending.domain.model;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.book.domain.model.Title;
-import com.bernardomg.association.person.domain.model.PersonName;
 
 public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Instant returnDate) {
 
@@ -45,7 +45,7 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
 
     }
 
-    public record Borrower(long number, PersonName name) {
+    public record Borrower(long number, ContactName name) {
 
     }
 

@@ -42,6 +42,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -50,10 +54,6 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.test.configuration.factory.Persons;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -68,7 +68,7 @@ class TestBookLendingServiceLendBook {
     private BookRepository            bookRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private ContactRepository         contactRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;
@@ -80,11 +80,11 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER)).willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -92,18 +92,18 @@ class TestBookLendingServiceLendBook {
     }
 
     @Test
-    @DisplayName("When lending a book which is already lent for another person, an exception is thrown")
+    @DisplayName("When lending a book which is already lent for another contact, an exception is thrown")
     void testLendBook_AlreadyLentForAnother_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER))
-            .willReturn(Optional.of(BookLendings.lentAlternativePerson()));
+            .willReturn(Optional.of(BookLendings.lentAlternativeContact()));
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
@@ -123,12 +123,12 @@ class TestBookLendingServiceLendBook {
             .toInstant();
 
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+        execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, date);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "lendingDate", date));
@@ -147,10 +147,10 @@ class TestBookLendingServiceLendBook {
             .toInstant();
 
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, date);
+        execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, date);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "lendingDate", date));
@@ -165,7 +165,7 @@ class TestBookLendingServiceLendBook {
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -179,14 +179,14 @@ class TestBookLendingServiceLendBook {
 
         // GIVEN
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        execution = () -> service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
+            .isInstanceOf(MissingContactException.class);
     }
 
     @Test
@@ -194,14 +194,14 @@ class TestBookLendingServiceLendBook {
     void testLendBook_OnLastReturn() {
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookLendingRepository.findReturned(BookConstants.NUMBER))
             .willReturn(Optional.of(BookLendings.returned()));
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.RETURNED_DATE);
+        service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.RETURNED_DATE);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.lentAtReturn());
@@ -212,12 +212,12 @@ class TestBookLendingServiceLendBook {
     void testLendBook_PersistedData() {
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.lent());
@@ -229,13 +229,13 @@ class TestBookLendingServiceLendBook {
         final BookLending lending;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookLendingRepository.save(BookLendings.lent())).willReturn(BookLendings.lent());
 
         // WHEN
-        lending = service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -248,12 +248,12 @@ class TestBookLendingServiceLendBook {
     void testLendBook_Today() {
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.noMembership()));
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
 
         // WHEN
-        service.lendBook(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE_TODAY);
+        service.lendBook(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE_TODAY);
 
         // THEN
         verify(bookLendingRepository).save(BookLendings.lentToday());

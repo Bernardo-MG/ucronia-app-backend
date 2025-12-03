@@ -37,15 +37,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Sorting;
@@ -62,10 +62,10 @@ class TestFeeServiceGetForYear {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MessageSource             messageSource;
+    private MemberContactRepository   memberContactRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private MessageSource             messageSource;
 
     @InjectMocks
     private DefaultFeeService         service;
@@ -107,7 +107,7 @@ class TestFeeServiceGetForYear {
 
         given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(personRepository.isActive(PersonConstants.NUMBER)).willReturn(true);
+        given(memberContactRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);

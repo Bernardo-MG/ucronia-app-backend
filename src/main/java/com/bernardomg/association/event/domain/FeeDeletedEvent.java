@@ -36,15 +36,15 @@ public final class FeeDeletedEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7044023838333219109L;
 
-    private final YearMonth   date;
+    private final Long        contactNumber;
 
-    private final Long        personNumber;
+    private final YearMonth   date;
 
     public FeeDeletedEvent(final Object source, final YearMonth d, final Long number) {
         super(source);
 
         date = Objects.requireNonNull(d);
-        personNumber = Objects.requireNonNull(number);
+        contactNumber = Objects.requireNonNull(number);
     }
 
     @Override
@@ -56,25 +56,26 @@ public final class FeeDeletedEvent extends AbstractEvent {
             return false;
         }
         return Objects.equals(getSource(), other.getSource()) && Objects.equals(date, other.date)
-                && Objects.equals(personNumber, other.personNumber);
+                && Objects.equals(contactNumber, other.contactNumber);
+    }
+
+    public final Long getContactNumber() {
+        return contactNumber;
     }
 
     public final YearMonth getDate() {
         return date;
     }
 
-    public final Long getPersonNumber() {
-        return personNumber;
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), date, personNumber);
+        return Objects.hash(super.hashCode(), date, contactNumber);
     }
 
     @Override
     public String toString() {
-        return "FeeDeletedEvent{" + "source=" + getSource() + ", date=" + date + ", personNumber=" + personNumber + '}';
+        return "FeeDeletedEvent{" + "source=" + getSource() + ", date=" + date + ", personNumber=" + contactNumber
+                + '}';
     }
 
 }

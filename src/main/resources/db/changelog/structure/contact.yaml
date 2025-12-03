@@ -1,0 +1,117 @@
+databaseChangeLog:
+  - changeSet:
+      id: contact_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_contact_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: contact
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: directory
+            tableName: contacts
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+              - column:
+                  name: birth_date
+                  type: datetime
+              - column:
+                  name: identifier
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+        - addAutoIncrement:
+            schemaName: directory
+            tableName: contacts
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: directory
+            tableName: contact_methods
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: directory
+            tableName: contact_methods
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: directory
+            tableName: contact_channels
+            columns:
+              - column:
+                  name: contact_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_contact_channels_contact_method
+                    references: directory.contacts(id)
+                    deleteCascade: true
+              - column:
+                  name: contact_method_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_contact_channels_contact
+                    references: directory.contact_methods(id)
+                    deleteCascade: true
+              - column:
+                  name: detail
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: contact_channels_key
+            schemaName: directory
+            tableName: contact_channels
+            columnNames: 'contact_id, contact_method_id'

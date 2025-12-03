@@ -47,8 +47,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.data.domain.Page;
@@ -64,38 +64,41 @@ public final class JpaFeeRepository implements FeeRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log               = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger                 log               = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private static final Collection<String>   PERSON_PROPERTIES = List.of("firstName", "lastName", "member", "number");
+    private static final Collection<String>     PERSON_PROPERTIES = List.of("firstName", "lastName", "member",
+        "number");
 
-    private final FeeSpringRepository         feeSpringRepository;
+    private final FeeSpringRepository           feeSpringRepository;
 
-    private final PersonSpringRepository      personSpringRepository;
+    private final MemberContactSpringRepository memberSpringRepository;
 
-    private final TransactionSpringRepository transactionSpringRepository;
+    private final TransactionSpringRepository   transactionSpringRepository;
 
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final PersonSpringRepository personSpringRepo,
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
+            final MemberContactSpringRepository memberSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = feeSpringRepo;
-        personSpringRepository = personSpringRepo;
+        memberSpringRepository = memberSpringRepo;
         transactionSpringRepository = transactionSpringRepo;
     }
 
     @Override
     public final void delete(final Long number, final YearMonth date) {
-        final Optional<PersonEntity> person;
-        final Instant                dateParsed;
+        final Optional<MemberContactEntity> member;
+        final Instant                       dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
-        person = personSpringRepository.findByNumber(number);
-        if (person.isPresent()) {
+        // TODO: only members
+        member = memberSpringRepository.findByNumber(number);
+        if (member.isPresent()) {
             dateParsed = date.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
-            feeSpringRepository.deleteByPersonIdAndDate(person.get()
+            feeSpringRepository.deleteByContactIdAndDate(member.get()
                 .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
@@ -115,7 +118,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        exists = feeSpringRepository.existsByPersonNumberAndDate(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndDate(number, dateParsed);
 
         log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -132,7 +135,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        exists = feeSpringRepository.existsByPersonNumberAndDateAndPaid(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndDateAndPaid(number, dateParsed);
 
         log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -157,7 +160,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .map(this::correct)
                 .toList());
             pageable = SpringPagination.toPageable(pagination, correctedSorting);
-            found = feeSpringRepository.findAllWithPerson(pageable)
+            found = feeSpringRepository.findAllWithMember(pageable)
                 .map(FeeEntityMapper::toDomain);
         } else {
             pageable = SpringPagination.toPageable(pagination, sorting);
@@ -171,22 +174,22 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Page<Fee> findAllForPerson(final Long number, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAllForContact(final Long number, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
         final Sorting                                   correctedSorting;
 
-        log.debug("Finding all fees for person {} with pagination {} and sorting {}", number, pagination, sorting);
+        log.debug("Finding all fees for contact {} with pagination {} and sorting {}", number, pagination, sorting);
 
         correctedSorting = new Sorting(sorting.properties()
             .stream()
             .map(this::correct)
             .toList());
         pageable = SpringPagination.toPageable(pagination, correctedSorting);
-        found = feeSpringRepository.findAllByPersonNumber(number, pageable)
+        found = feeSpringRepository.findAllByMemberNumber(number, pageable)
             .map(FeeEntityMapper::toDomain);
 
-        log.debug("Found all fees for person {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+        log.debug("Found all fees for contact {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
         return SpringPagination.toPage(found);
@@ -244,7 +247,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding all fees for active members in year {}", year);
 
-        foundIds = personSpringRepository.findAllActiveMemberIds();
+        foundIds = memberSpringRepository.findAllActiveMemberIds();
 
         log.debug("Active members: {}", foundIds);
 
@@ -253,7 +256,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(this::correct)
             .toList());
         sort = SpringSorting.toSort(correctedSorting);
-        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
+        found = feeSpringRepository.findAllForYearAndMembersIn(year.getValue(), foundIds, sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
@@ -272,7 +275,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Finding all fees for inactive members in year {}", year);
 
-        foundIds = personSpringRepository.findAllInactiveMemberIds();
+        foundIds = memberSpringRepository.findAllInactiveMemberIds();
 
         log.debug("Inactive members: {}", foundIds);
 
@@ -281,7 +284,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .map(this::correct)
             .toList());
         sort = SpringSorting.toSort(correctedSorting);
-        found = feeSpringRepository.findAllForYearAndPersonsIn(year.getValue(), foundIds, sort)
+        found = feeSpringRepository.findAllForYearAndMembersIn(year.getValue(), foundIds, sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
@@ -301,7 +304,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        found = feeSpringRepository.findByPersonNumberAndDate(number, dateParsed)
+        found = feeSpringRepository.findByContactNumberAndDate(number, dateParsed)
             .map(FeeEntityMapper::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
@@ -369,7 +372,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Sorting.Property corrected;
 
         if (PERSON_PROPERTIES.contains(property.name())) {
-            corrected = new Sorting.Property("p." + property.name(), property.direction());
+            corrected = new Sorting.Property("m." + property.name(), property.direction());
         } else {
             corrected = property;
         }
@@ -382,7 +385,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeEntity> read;
 
         // TODO: optimize to use a single query
-        read = feeSpringRepository.findByPersonIdAndDate(fee.getPerson()
+        read = feeSpringRepository.findByContactIdAndDate(fee.getContact()
             .getId(), fee.getDate());
         if (read.isPresent()) {
             id = read.get()
@@ -392,18 +395,18 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final Optional<PersonEntity>      person;
-        final Optional<TransactionEntity> transaction;
-        final boolean                     paid;
-        final FeeEntity                   entity;
-        final Instant                     date;
+        final Optional<MemberContactEntity> member;
+        final Optional<TransactionEntity>   transaction;
+        final boolean                       paid;
+        final FeeEntity                     entity;
+        final Instant                       date;
 
         // TODO: move to mapper
 
-        person = personSpringRepository.findByNumber(fee.member()
+        member = memberSpringRepository.findByNumber(fee.member()
             .number());
-        if (!person.isPresent()) {
-            log.warn("Person with number {} not found", fee.member()
+        if (!member.isPresent()) {
+            log.warn("Contact with number {} not found", fee.member()
                 .number());
         }
         if (fee.transaction()
@@ -428,7 +431,7 @@ public final class JpaFeeRepository implements FeeRepository {
         }
 
         entity = new FeeEntity();
-        entity.setPerson(person.orElse(null));
+        entity.setContact(member.orElse(null));
         date = fee.month()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)

@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
@@ -40,7 +41,6 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.domain.model.PersonName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -110,7 +110,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new PersonName("", "")))
+                    .map(d -> new Donor(d.getNumber(), new ContactName("", "")))
                     .toList();
             }
             if (fictionBookUpdateDto.getDonation()
@@ -206,7 +206,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new PersonName("", "")))
+                    .map(d -> new Donor(d.getNumber(), new ContactName("", "")))
                     .toList();
             }
             if (gameBookUpdateDto.getDonation()

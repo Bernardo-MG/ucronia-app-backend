@@ -29,6 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
@@ -37,8 +39,6 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -51,7 +51,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     void testFindAll() {
         final Iterable<FictionBook> books;
@@ -71,7 +71,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -92,8 +92,8 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidContact
+    @AlternativeContact
     @FullFictionBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -132,7 +132,7 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -153,8 +153,8 @@ class ITFictionBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned fiction book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidContact
+    @AlternativeContact
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {

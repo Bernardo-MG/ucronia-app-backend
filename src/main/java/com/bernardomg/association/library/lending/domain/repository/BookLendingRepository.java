@@ -38,7 +38,7 @@ public interface BookLendingRepository {
 
     public Optional<BookLending> findLent(final long bookNumber);
 
-    public Optional<BookLending> findOne(final long bookNumber, final long personNumber);
+    public Optional<BookLending> findOne(final long bookNumber, final long contactNumber);
 
     public Optional<BookLending> findReturned(final long bookNumber);
 

@@ -24,21 +24,52 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.domain.model.PersonName;
 
 /**
- * Author repository mapper.
+ * Query member entity mapper.
  */
 public final class MemberEntityMapper {
 
-    public static final Member toDomain(final PersonEntity entity) {
-        final PersonName name;
+    public static final ContactEntity toContactEntity(final Member data) {
+        final ContactEntity entity;
 
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        // TODO: check it has membership flag
-        return new Member(entity.getNumber(), name);
+        entity = new ContactEntity();
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier("");
+
+        return entity;
+    }
+
+    public static final Member toDomain(final MemberEntity entity) {
+        final ContactName name;
+
+        name = new ContactName(entity.getContact()
+            .getFirstName(),
+            entity.getContact()
+                .getLastName());
+        return new Member(entity.getContact()
+            .getNumber(), name, entity.getActive(), entity.getRenew());
+    }
+
+    public static final MemberEntity toEntity(final Member data) {
+        final MemberEntity  entity;
+        final ContactEntity contact;
+
+        contact = toContactEntity(data);
+
+        entity = new MemberEntity();
+        entity.setContact(contact);
+        entity.setActive(data.active());
+        entity.setRenew(data.renew());
+
+        return entity;
     }
 
     private MemberEntityMapper() {

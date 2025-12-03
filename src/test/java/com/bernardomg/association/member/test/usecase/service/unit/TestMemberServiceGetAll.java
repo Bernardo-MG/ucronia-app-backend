@@ -46,11 +46,11 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Public member service - get all")
+@DisplayName("DefaultMemberService - get all")
 class TestMemberServiceGetAll {
 
     @Mock
-    private MemberRepository     publicMemberRepository;
+    private MemberRepository     memberRepository;
 
     @InjectMocks
     private DefaultMemberService service;
@@ -68,7 +68,7 @@ class TestMemberServiceGetAll {
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(memberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(pagination, sorting);
@@ -93,8 +93,8 @@ class TestMemberServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(Members.valid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(publicMemberRepository.findAll(pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(memberRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         members = service.getAll(pagination, sorting);
@@ -104,7 +104,7 @@ class TestMemberServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(Members.valid());
+            .containsExactly(Members.active());
     }
 
 }

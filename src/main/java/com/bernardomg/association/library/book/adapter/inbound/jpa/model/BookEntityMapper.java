@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -34,8 +36,6 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.domain.model.PersonName;
 
 /**
  * Author repository mapper.
@@ -50,25 +50,25 @@ public final class BookEntityMapper {
         return new BookType(entity.getNumber(), entity.getName());
     }
 
-    public static final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getNumber(), entity.getName());
+    public static final Borrower toDomain(final ContactEntity entity) {
+        final ContactName name;
+
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        return new Borrower(entity.getNumber(), name);
     }
 
-    public static final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
-
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
+    public static final GameSystem toDomain(final GameSystemEntity entity) {
+        return new GameSystem(entity.getNumber(), entity.getName());
     }
 
     public static final Publisher toDomain(final PublisherEntity entity) {
         return new Publisher(entity.getNumber(), entity.getName());
     }
 
-    public static final Donor toDonorDomain(final PersonEntity entity) {
-        final PersonName name;
+    public static final Donor toDonorDomain(final ContactEntity entity) {
+        final ContactName name;
 
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
         return new Donor(entity.getNumber(), name);
     }
 

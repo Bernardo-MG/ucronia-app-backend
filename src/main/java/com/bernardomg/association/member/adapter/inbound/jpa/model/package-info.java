@@ -23,7 +23,7 @@
  */
 
 /**
- * Association member persistence model.
+ * Member JPA model.
  */
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;

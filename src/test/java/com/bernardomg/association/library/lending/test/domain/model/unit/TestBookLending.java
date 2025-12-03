@@ -8,12 +8,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.person.domain.model.PersonName;
 
 @DisplayName("BookLending")
 public class TestBookLending {
@@ -29,7 +29,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        borrower = new Borrower(0, new PersonName("", ""));
+        borrower = new Borrower(0, new ContactName("", ""));
         lending = new BookLending(book, borrower, Instant.now()
             .minus(1L, ChronoUnit.DAYS));
 
@@ -49,7 +49,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        borrower = new Borrower(0, new PersonName("", ""));
+        borrower = new Borrower(0, new ContactName("", ""));
         lending = new BookLending(book, borrower, Instant.now());
 
         // WHEN + THEN
@@ -68,7 +68,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        borrower = new Borrower(0, new PersonName("", ""));
+        borrower = new Borrower(0, new ContactName("", ""));
         lending = new BookLending(book, borrower, Instant.now(), Instant.now());
 
         // WHEN + THEN
@@ -87,7 +87,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        borrower = new Borrower(0, new PersonName("", ""));
+        borrower = new Borrower(0, new ContactName("", ""));
         lending = new BookLending(book, borrower, Instant.now()
             .minus(1L, ChronoUnit.DAYS),
             Instant.now()

@@ -37,19 +37,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Public member service - get one")
+@DisplayName("DefaultMemberService - get one")
 class TestMemberServiceGetOne {
 
     @Mock
-    private MemberRepository     publicMemberRepository;
+    private MemberRepository     memberRepository;
 
     @InjectMocks
     private DefaultMemberService service;
@@ -61,17 +61,17 @@ class TestMemberServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<Member> memberOptional;
+        final Optional<Member> member;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
+        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        memberOptional = service.getOne(PersonConstants.NUMBER);
+        member = service.getOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.valid());
+        Assertions.assertThat(member)
+            .contains(Members.active());
     }
 
     @Test
@@ -80,10 +80,10 @@ class TestMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(PersonConstants.NUMBER);
+        execution = () -> service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

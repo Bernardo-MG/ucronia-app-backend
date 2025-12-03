@@ -1,0 +1,28 @@
+post:
+  summary: Assign a member to a user.
+  operationId: assignContactToUser
+  tags: [UserContact]
+  parameters:
+    - name: username
+      in: path
+      required: true
+      description: Username of the user to assign the member.
+      schema:
+        type: string
+    - name: memberNumber
+      in: path
+      required: true
+      description: Member number to assign.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Assigned contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+    '403':
+      description: Forbidden – insufficient permissions.
+    '404':
+      description: User or member not found.

@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: member
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: directory
+            tableName: members
+            columns:
+              - column:
+                  name: contact_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_member_contact
+                    references: directory.contacts(id)
+                    deleteCascade: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: true
+              - column:
+                  name: renew_membership
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: true
+  - changeSet:
+      id: member_views
+      author: Bernardo
+      changes:
+        -  createView:
+            remarks: Monthly member balance
+            selectQuery: SELECT month, total FROM (SELECT DATE_TRUNC('month', date) AS month, COUNT(date) AS total FROM association.fees GROUP BY month) AS subquery
+            schemaName: directory
+            viewName: monthly_membership_evolution

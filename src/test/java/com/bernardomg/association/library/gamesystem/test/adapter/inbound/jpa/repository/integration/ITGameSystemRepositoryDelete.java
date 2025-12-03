@@ -29,12 +29,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITGameSystemRepositoryDelete {
 
     @Test
     @DisplayName("When the game system is assigned to a book, it is deleted")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     void testDelete_InBook() {
         // WHEN

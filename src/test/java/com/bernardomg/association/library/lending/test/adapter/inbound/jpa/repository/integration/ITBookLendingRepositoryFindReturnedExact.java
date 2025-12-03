@@ -31,6 +31,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
@@ -42,13 +45,10 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("BookLendingRepository - find returned for person at date")
+@DisplayName("BookLendingRepository - find returned for contact at date")
 class ITBookLendingRepositoryFindReturnedExact {
 
     @Autowired
@@ -56,14 +56,14 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a lent fiction book, nothing is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     @LentBookLending
     void testFindReturned_FictionBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -73,13 +73,13 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a fiction book and it has no history, nothing is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     void testFindReturned_FictionBook_NoHistory() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -94,7 +94,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -104,14 +104,14 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullFictionBook
     @ReturnedBookLending
     void testFindReturned_FictionBook_Returned() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -121,15 +121,15 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidContact
+    @AlternativeContact
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindReturned_FictionBook_Returned_History() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -139,14 +139,14 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a lent game book, nothing is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     @LentBookLending
     void testFindReturned_GameBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -156,13 +156,13 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a game book and it has no history, nothing is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     void testFindReturned_GameBook_NoHistory() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -177,7 +177,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -187,14 +187,14 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipPerson
+    @ValidContact
     @FullGameBook
     @ReturnedBookLending
     void testFindReturned_GameBook_Returned() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -204,15 +204,15 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidContact
+    @AlternativeContact
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindReturned_GameBook_Returned_History() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -222,12 +222,12 @@ class ITBookLendingRepositoryFindReturnedExact {
 
     @Test
     @DisplayName("With no book, nothing is returned")
-    @NoMembershipPerson
+    @ValidContact
     void testFindReturned_NoBook() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, PersonConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, ContactConstants.NUMBER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)

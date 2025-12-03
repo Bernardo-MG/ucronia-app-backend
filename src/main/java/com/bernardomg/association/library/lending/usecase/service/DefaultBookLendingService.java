@@ -33,6 +33,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.domain.exception.MissingContactException;
+import com.bernardomg.association.contact.domain.model.Contact;
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Title;
@@ -49,10 +53,6 @@ import com.bernardomg.association.library.lending.usecase.validation.BookLending
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLastReturnRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLentRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedInFutureRule;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -72,19 +72,19 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookRepository         bookRepository;
 
-    private final Validator<BookLending> lendBookValidator;
+    private final ContactRepository      contactRepository;
 
-    private final PersonRepository       personRepository;
+    private final Validator<BookLending> lendBookValidator;
 
     private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final PersonRepository personRepo) {
+            final ContactRepository contactRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
-        personRepository = Objects.requireNonNull(personRepo);
+        contactRepository = Objects.requireNonNull(contactRepo);
 
         lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
             new BookLendingNotLentBeforeLastReturnRule(bookLendingRepo), new BookLendingNotLentInFutureRule());
@@ -125,11 +125,11 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
         book = readBook.get();
 
-        borrower = personRepository.findOne(borrowerNumber)
+        borrower = contactRepository.findOne(borrowerNumber)
             .map(this::toBorrower)
             .orElseThrow(() -> {
-                log.debug("Missing person {}", borrowerNumber);
-                throw new MissingPersonException(borrowerNumber);
+                log.debug("Missing contact {}", borrowerNumber);
+                throw new MissingContactException(borrowerNumber);
             });
 
         title = book.title();
@@ -171,14 +171,14 @@ public final class DefaultBookLendingService implements BookLendingService {
         return returned;
     }
 
-    private final Borrower toBorrower(final Person person) {
-        final PersonName name;
+    private final Borrower toBorrower(final Contact contact) {
+        final ContactName name;
 
-        name = new PersonName(person.name()
+        name = new ContactName(contact.name()
             .firstName(),
-            person.name()
+            contact.name()
                 .lastName());
-        return new Borrower(person.number(), name);
+        return new Borrower(contact.number(), name);
     }
 
 }

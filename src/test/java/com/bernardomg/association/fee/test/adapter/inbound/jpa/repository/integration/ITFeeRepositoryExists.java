@@ -29,13 +29,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,13 +47,13 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an active member, it exists")
-    @MembershipActivePerson
+    @ActiveMember
     @NotPaidFee
     void testExists_Active_NotPaid() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -63,13 +63,13 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an active member, it exists")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testExists_Active_Paid() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -79,13 +79,13 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an inactive member, it exists")
-    @MembershipInactivePerson
+    @InactiveMember
     @NotPaidFee
     void testExists_Inactive_NotPaid() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -95,13 +95,13 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an inactive member, it exists")
-    @MembershipInactivePerson
+    @InactiveMember
     @PaidFee
     void testExists_Inactive_Paid() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -115,7 +115,7 @@ class ITFeeRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(PersonConstants.NUMBER, FeeConstants.DATE);
+        exists = repository.exists(ContactConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
