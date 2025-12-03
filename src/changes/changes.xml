@@ -432,10 +432,12 @@
             Email language correction.
          </action>
       </release>
-      <release version="0.6.2" date="2025-10-31" description="fixes">
+      <release version="0.6.2" date="2025-10-31" description="Fixes">
          <action dev="bmg" type="fix">
             Several fixes.
          </action>
+      </release>
+      <release version="1.0.0" date="2025-10-31" description="">
       </release>
    </body>
 </document>
