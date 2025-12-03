@@ -112,8 +112,8 @@ public class QueryMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MemberEntity [active=" + active + ", renew=" + renew + ", firstName=" + firstName
-                + ", id=" + id + ", lastName=" + lastName + ", number=" + number + "]";
+        return "MemberEntity [active=" + active + ", renew=" + renew + ", firstName=" + firstName + ", id=" + id
+                + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

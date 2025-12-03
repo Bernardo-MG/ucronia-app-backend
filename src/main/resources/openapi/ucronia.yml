@@ -11,8 +11,6 @@ paths:
     $ref: paths/user_contact.yml
   /security/user/{username}/contact/{memberNumber}:
     $ref: paths/user_contact_by_id.yml
-  /security/user/{username}/contact/available:
-    $ref: paths/user_contact_available.yml
   /settings:
     $ref: paths/settings.yml
   /settings/{code}:

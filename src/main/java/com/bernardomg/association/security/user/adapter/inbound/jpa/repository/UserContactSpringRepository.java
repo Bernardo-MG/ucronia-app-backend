@@ -26,13 +26,10 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
 
 public interface UserContactSpringRepository extends JpaRepository<UserContactEntity, Long> {
@@ -50,21 +47,6 @@ public interface UserContactSpringRepository extends JpaRepository<UserContactEn
             @Param("number") final long number);
 
     public boolean existsByUserId(final long id);
-
-    /**
-     * Returns all the members not assigned to a user, in a paginated form.
-     *
-     * @param page
-     *            pagination to apply
-     * @return a page with the members not assigned to a user
-     */
-    @Query("""
-               SELECT c
-               FROM Contact c
-                 LEFT JOIN UserContact uc ON c.number = uc.contact.number
-               WHERE uc.contact IS NULL
-            """)
-    public Page<ContactEntity> findAllNotAssigned(final Pageable page);
 
     public Optional<UserContactEntity> findByUserId(final long id);
 

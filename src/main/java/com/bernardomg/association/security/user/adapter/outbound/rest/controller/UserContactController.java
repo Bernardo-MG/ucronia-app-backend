@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.MediaType;
@@ -34,18 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserContactDtoMapper;
 import com.bernardomg.association.security.user.usecase.service.UserContactService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.UserContactApi;
-import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 
 /**
  * User member REST controller.
@@ -84,21 +75,6 @@ public class UserContactController implements UserContactApi {
         contact = service.getContact(username);
 
         return UserContactDtoMapper.toResponseDto(contact);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
-    public ContactPageResponseDto getAvailableContacts(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        Page<Contact>    contacts;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        pagination = new Pagination(page, size);
-        sorting = WebSorting.toSorting(sort);
-        contacts = service.getAvailableContact(pagination, sorting);
-
-        return UserContactDtoMapper.toResponseDto(contacts);
     }
 
     @Override

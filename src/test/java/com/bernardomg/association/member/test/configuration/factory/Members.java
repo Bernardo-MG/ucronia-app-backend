@@ -7,13 +7,6 @@ import com.bernardomg.association.member.domain.model.Member;
 
 public final class Members {
 
-    public static final Member toCreate() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Member(-1L, name, true, true);
-    }
-
     public static final Member active() {
         final ContactName name;
 
@@ -54,6 +47,13 @@ public final class Members {
 
         name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
         return new Member(ContactConstants.NUMBER, name, true, true);
+    }
+
+    public static final Member toCreate() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member(-1L, name, true, true);
     }
 
 }

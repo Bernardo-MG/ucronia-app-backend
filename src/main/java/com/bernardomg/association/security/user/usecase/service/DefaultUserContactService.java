@@ -38,9 +38,6 @@ import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.security.user.domain.model.UserContact;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
 import com.bernardomg.association.security.user.usecase.validation.UserContactNameNotEmptyRule;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -101,19 +98,6 @@ public final class DefaultUserContactService implements UserContactService {
         userContactRepository.assignContact(readUser.username(), readContact.number());
 
         return readContact;
-    }
-
-    @Override
-    public final Page<Contact> getAvailableContact(final Pagination pagination, final Sorting sorting) {
-        final Page<Contact> contacts;
-
-        log.trace("Reading all available contacts for pagination {} and sorting {}", pagination, sorting);
-
-        contacts = userContactRepository.findAllNotAssigned(pagination, sorting);
-
-        log.trace("Read all available contacts for pagination {} and sorting {}: {}", pagination, sorting, contacts);
-
-        return contacts;
     }
 
     @Override

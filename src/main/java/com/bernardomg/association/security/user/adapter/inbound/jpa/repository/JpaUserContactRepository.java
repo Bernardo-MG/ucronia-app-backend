@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,10 +38,6 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.repository.Contact
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserContactEntity;
 import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
@@ -112,22 +107,6 @@ public final class JpaUserContactRepository implements UserContactRepository {
         log.trace("Username {} exists for a user with a number distinct from {}: {}", username, number, exists);
 
         return exists;
-    }
-
-    @Override
-    public final Page<Contact> findAllNotAssigned(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Contact> read;
-        final Pageable                                      pageable;
-
-        log.trace("Finding all the people with pagination {} and sorting {}", pagination, sorting);
-
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        read = userContactSpringRepository.findAllNotAssigned(pageable)
-            .map(ContactEntityMapper::toDomain);
-
-        log.trace("Found all the people: {}", read);
-
-        return SpringPagination.toPage(read);
     }
 
     @Override

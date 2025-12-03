@@ -27,24 +27,12 @@ package com.bernardomg.association.security.user.domain.repository;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
 
 public interface UserContactRepository {
 
     public Contact assignContact(final String username, final long number);
 
     public boolean existsByContactForAnotherUser(final String username, final long number);
-
-    /**
-     * TODO: remove
-     *
-     * @param pagination
-     * @param sorting
-     * @return
-     */
-    public Page<Contact> findAllNotAssigned(final Pagination pagination, final Sorting sorting);
 
     public Optional<Contact> findByUsername(final String username);
 

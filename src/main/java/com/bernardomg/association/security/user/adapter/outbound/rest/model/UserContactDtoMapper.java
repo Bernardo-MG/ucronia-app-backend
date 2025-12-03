@@ -29,18 +29,11 @@ import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
-import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class UserContactDtoMapper {
 
@@ -51,28 +44,6 @@ public final class UserContactDtoMapper {
     public static final ContactResponseDto toResponseDto(final Optional<Contact> contact) {
         return new ContactResponseDto().content(contact.map(UserContactDtoMapper::toDto)
             .orElse(null));
-    }
-
-    public static final ContactPageResponseDto toResponseDto(final Page<Contact> page) {
-        final SortingDto sortingResponse;
-
-        sortingResponse = new SortingDto().properties(page.sort()
-            .properties()
-            .stream()
-            .map(UserContactDtoMapper::toDto)
-            .toList());
-        return new ContactPageResponseDto().content(page.content()
-            .stream()
-            .map(UserContactDtoMapper::toDto)
-            .toList())
-            .size(page.size())
-            .page(page.page())
-            .totalElements(page.totalElements())
-            .totalPages(page.totalPages())
-            .elementsInPage(page.elementsInPage())
-            .first(page.first())
-            .last(page.last())
-            .sort(sortingResponse);
     }
 
     private static final ContactDto toDto(final Contact contact) {
@@ -105,18 +76,6 @@ public final class UserContactDtoMapper {
                 .name());
         return new ContactChannelDto().detail(contact.detail())
             .method(method);
-    }
-
-    private static final PropertyDto toDto(final Property property) {
-        final DirectionEnum direction;
-
-        if (property.direction() == Direction.ASC) {
-            direction = DirectionEnum.ASC;
-        } else {
-            direction = DirectionEnum.DESC;
-        }
-        return new PropertyDto().name(property.name())
-            .direction(direction);
     }
 
     private UserContactDtoMapper() {
