@@ -22,7 +22,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/contact_methods.yml#/components/parameters/sortParam'
+    - $ref: '../components/contact_methods.yml#/components/parameters/contactMethodsSortParam'
   responses:
     '200':
       description: Contact methods page.

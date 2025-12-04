@@ -3,7 +3,7 @@ get:
   operationId: getTransactionCalendar
   tags: [TransactionCalendar]
   parameters:
-    - $ref: '../components/transactions.yml#/components/parameters/sortParam'
+    - $ref: '../components/transactions.yml#/components/parameters/transactionsSortParam'
     - name: from
       description: Starting date to query for.
       in: query

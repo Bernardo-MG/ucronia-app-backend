@@ -5,7 +5,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/fees.yml#/components/parameters/sortParam'
+    - $ref: '../components/fees.yml#/components/parameters/feesSortParam'
   responses:
     '200':
       description: Paginated list of user fees

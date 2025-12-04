@@ -3,7 +3,7 @@ get:
   operationId: getMemberFees
   tags: [Fee]
   parameters:
-    - $ref: '../components/fees_calendar.yml#/components/parameters/sortParam'
+    - $ref: '../components/fees_calendar.yml#/components/parameters/feesCalendarSortParam'
     - name: year
       in: path
       required: true

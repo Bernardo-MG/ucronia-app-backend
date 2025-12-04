@@ -22,7 +22,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/contacts.yml#/components/parameters/sortParam'
+    - $ref: '../components/contacts.yml#/components/parameters/contactsSortParam'
     - name: status
       in: query
       required: false
