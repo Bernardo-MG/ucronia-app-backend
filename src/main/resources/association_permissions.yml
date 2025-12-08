@@ -102,9 +102,6 @@ permissions:
   - resource: security
     actions:
       - view
-  - resource: activity_calendar
-    actions:
-      - view
   - resource: association_settings
     actions:
       - create
