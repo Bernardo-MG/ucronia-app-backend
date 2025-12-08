@@ -39,6 +39,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -94,18 +95,26 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Page<Member> findAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<Member> findAll(final MemberStatus status, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
 
-        log.trace("Finding all the members with pagination {} and sorting {}", pagination, sorting);
+        log.trace("Finding all the members with status {} pagination {} and sorting {}", status, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        // TODO: use a specific repository for members
-        read = queryMemberSpringRepository.findAllActive(pageable)
-            .map(QueryMemberEntityMapper::toDomain);
+        if (status == MemberStatus.ACTIVE) {
+            read = queryMemberSpringRepository.findAllActive(pageable)
+                .map(QueryMemberEntityMapper::toDomain);
+        } else if (status == MemberStatus.INACTIVE) {
+            read = queryMemberSpringRepository.findAllInactive(pageable)
+                .map(QueryMemberEntityMapper::toDomain);
+        } else {
+            read = queryMemberSpringRepository.findAll(pageable)
+                .map(QueryMemberEntityMapper::toDomain);
+        }
 
-        log.trace("Found all the members with pagination {} and sorting {}: {}", pagination, sorting, read);
+        log.trace("Found all the members with status {} pagination {} and sorting {}: {}", status, pagination, sorting,
+            read);
 
         return SpringPagination.toPage(read);
     }
@@ -129,7 +138,6 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding member with number {}", number);
 
-        // TODO: use a specific repository for members
         member = queryMemberSpringRepository.findByNumber(number)
             .map(QueryMemberEntityMapper::toDomain);
 

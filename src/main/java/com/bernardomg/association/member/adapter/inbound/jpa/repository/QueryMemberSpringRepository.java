@@ -42,6 +42,13 @@ public interface QueryMemberSpringRepository extends JpaRepository<QueryMemberEn
             """)
     public Page<QueryMemberEntity> findAllActive(final Pageable pageable);
 
+    @Query("""
+            SELECT m
+            FROM QueryMember m
+            WHERE m.active = false
+            """)
+    public Page<QueryMemberEntity> findAllInactive(final Pageable pageable);
+
     public Optional<QueryMemberEntity> findByNumber(final Long number);
 
 }

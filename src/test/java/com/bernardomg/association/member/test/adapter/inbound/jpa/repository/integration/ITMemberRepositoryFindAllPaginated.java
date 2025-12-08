@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -54,7 +55,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
 
     @Override
     protected final Page<Member> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(pagination, sorting);
+        return repository.findAll(MemberStatus.ALL, pagination, sorting);
     }
 
     @Test
@@ -69,7 +70,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(MemberStatus.ALL, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -90,7 +91,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         sorting = Sorting.unsorted();
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(MemberStatus.ALL, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

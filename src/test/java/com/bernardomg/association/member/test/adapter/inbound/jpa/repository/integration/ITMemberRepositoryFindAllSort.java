@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -61,14 +62,16 @@ class ITMemberRepositoryFindAllSort {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberStatus status;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        status = MemberStatus.ALL;
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(status, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -84,13 +87,15 @@ class ITMemberRepositoryFindAllSort {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberStatus status;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
+        status = MemberStatus.ALL;
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(status, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -106,13 +111,15 @@ class ITMemberRepositoryFindAllSort {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberStatus status;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
+        status = MemberStatus.ALL;
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(status, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -128,13 +135,15 @@ class ITMemberRepositoryFindAllSort {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberStatus status;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
+        status = MemberStatus.ALL;
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(status, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
