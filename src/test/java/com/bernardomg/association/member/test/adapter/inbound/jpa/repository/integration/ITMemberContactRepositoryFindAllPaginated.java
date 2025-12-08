@@ -68,7 +68,7 @@ class ITMemberContactRepositoryFindAllPaginated {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .isEmpty();
     }
 
@@ -76,7 +76,7 @@ class ITMemberContactRepositoryFindAllPaginated {
     @DisplayName("When there is a member, it is returned")
     @ActiveMember
     void testFindAll_Single() {
-        final Page<MemberContact> people;
+        final Page<MemberContact> contacts;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -87,13 +87,13 @@ class ITMemberContactRepositoryFindAllPaginated {
         filter = MemberQueries.empty();
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .containsExactly(MemberContacts.active());
     }
 

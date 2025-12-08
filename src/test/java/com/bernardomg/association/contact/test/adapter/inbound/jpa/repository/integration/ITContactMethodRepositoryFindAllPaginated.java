@@ -49,7 +49,7 @@ class ITContactMethodRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Page<ContactMethod> people;
+        final Page<ContactMethod> contactMethods;
         final Pagination          pagination;
         final Sorting             sorting;
         // GIVEN
@@ -57,13 +57,13 @@ class ITContactMethodRepositoryFindAllPaginated {
         sorting = Sorting.unsorted();
 
         // WHEN
-        people = repository.findAll(pagination, sorting);
+        contactMethods = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contactMethods)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .isEmpty();
     }
 
@@ -85,7 +85,7 @@ class ITContactMethodRepositoryFindAllPaginated {
         Assertions.assertThat(contactMethods)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .containsExactly(ContactMethods.email());
     }
 

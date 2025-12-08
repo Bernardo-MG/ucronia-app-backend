@@ -52,7 +52,7 @@ class ITContactRepositoryFindAllQueryName {
     @DisplayName("With a contact without membership and matching first name, it is is returned")
     @ValidContact
     void testFindAll_FirstName() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -63,10 +63,10 @@ class ITContactRepositoryFindAllQueryName {
         filter = new ContactQuery(ContactConstants.FIRST_NAME);
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.valid());
@@ -76,7 +76,7 @@ class ITContactRepositoryFindAllQueryName {
     @DisplayName("With a contact without membership and matching full name, it is is returned")
     @ValidContact
     void testFindAll_FullName() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -87,10 +87,10 @@ class ITContactRepositoryFindAllQueryName {
         filter = new ContactQuery(ContactConstants.FULL_NAME);
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.valid());
@@ -100,7 +100,7 @@ class ITContactRepositoryFindAllQueryName {
     @DisplayName("With a contact without membership and matching last name, it is is returned")
     @ValidContact
     void testFindAll_LastName() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -111,10 +111,10 @@ class ITContactRepositoryFindAllQueryName {
         filter = new ContactQuery(ContactConstants.LAST_NAME);
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.valid());
@@ -123,7 +123,7 @@ class ITContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With no contact, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -134,10 +134,10 @@ class ITContactRepositoryFindAllQueryName {
         filter = new ContactQuery(ContactConstants.FIRST_NAME);
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -147,7 +147,7 @@ class ITContactRepositoryFindAllQueryName {
     @DisplayName("With a contact without membership and partial matching name, it is is returned")
     @ValidContact
     void testFindAll_PartialName() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -158,10 +158,10 @@ class ITContactRepositoryFindAllQueryName {
         filter = new ContactQuery(ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.valid());
@@ -171,7 +171,7 @@ class ITContactRepositoryFindAllQueryName {
     @DisplayName("With a contact without membership and wrong name, nothing is returned")
     @ValidContact
     void testFindAll_WrongName() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -182,10 +182,10 @@ class ITContactRepositoryFindAllQueryName {
         filter = new ContactQuery(ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
