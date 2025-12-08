@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -54,7 +54,7 @@ class ITMemberContactRepositoryFindAllPaginated {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -79,7 +79,7 @@ class ITMemberContactRepositoryFindAllPaginated {
         final Page<MemberContact> people;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);

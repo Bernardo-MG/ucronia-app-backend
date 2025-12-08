@@ -30,26 +30,26 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 
-public final class MemberSpecifications {
+public final class QueryMemberSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    public static Optional<Specification<MemberContactEntity>> query(final MemberQuery query) {
-        final Optional<Specification<MemberContactEntity>> nameSpec;
-        final Optional<Specification<MemberContactEntity>> statusSpec;
-        final Specification<MemberContactEntity>           spec;
+    public static Optional<Specification<QueryMemberEntity>> query(final MemberFilter filter) {
+        final Optional<Specification<QueryMemberEntity>> nameSpec;
+        final Optional<Specification<QueryMemberEntity>> statusSpec;
+        final Specification<QueryMemberEntity>           spec;
 
-        if (query.name()
+        if (filter.name()
             .isBlank()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(query.name()));
+            nameSpec = Optional.of(name(filter.name()));
         }
 
-        statusSpec = switch (query.status()) {
+        statusSpec = switch (filter.status()) {
             case ACTIVE -> Optional.of(active());
             case INACTIVE -> Optional.of(inactive());
             default -> Optional.empty();
@@ -59,7 +59,7 @@ public final class MemberSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<MemberContactEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<QueryMemberEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
@@ -69,7 +69,7 @@ public final class MemberSpecifications {
      *
      * @return active specification
      */
-    private static Specification<MemberContactEntity> active() {
+    private static Specification<QueryMemberEntity> active() {
         return (root, query, cb) -> cb.isTrue(root.get(ACTIVE_FIELD));
     }
 
@@ -78,7 +78,7 @@ public final class MemberSpecifications {
      *
      * @return inactive specification
      */
-    private static Specification<MemberContactEntity> inactive() {
+    private static Specification<QueryMemberEntity> inactive() {
         return (root, query, cb) -> cb.isFalse(root.get(ACTIVE_FIELD));
     }
 
@@ -89,7 +89,7 @@ public final class MemberSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<MemberContactEntity> name(final String pattern) {
+    private static Specification<QueryMemberEntity> name(final String pattern) {
         final String likePattern = "%" + pattern + "%";
         return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
             cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
@@ -97,7 +97,7 @@ public final class MemberSpecifications {
                 likePattern.toLowerCase()));
     }
 
-    private MemberSpecifications() {
+    private QueryMemberSpecifications() {
         super();
     }
 

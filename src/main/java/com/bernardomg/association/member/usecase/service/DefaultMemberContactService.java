@@ -39,7 +39,7 @@ import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.usecase.validation.MemberContactIdentifierNotExistForAnotherRule;
@@ -140,7 +140,7 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final Page<MemberContact> getAll(final MemberQuery filter, final Pagination pagination,
+    public final Page<MemberContact> getAll(final MemberFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final Page<MemberContact> read;
 

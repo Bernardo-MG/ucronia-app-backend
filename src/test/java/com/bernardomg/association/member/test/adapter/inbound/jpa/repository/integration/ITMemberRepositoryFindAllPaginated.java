@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -55,7 +56,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
 
     @Override
     protected final Page<Member> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(MemberStatus.ALL, pagination, sorting);
+        return repository.findAll(new MemberFilter(MemberStatus.ALL, ""), pagination, sorting);
     }
 
     @Test
@@ -64,13 +65,15 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        members = repository.findAll(MemberStatus.ALL, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -85,13 +88,15 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        members = repository.findAll(MemberStatus.ALL, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

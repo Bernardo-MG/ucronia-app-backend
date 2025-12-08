@@ -42,8 +42,8 @@ import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberContactSpecifications;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.data.domain.Page;
@@ -73,7 +73,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
     }
 
     @Override
-    public final Page<MemberContact> findAll(final MemberQuery filter, final Pagination pagination,
+    public final Page<MemberContact> findAll(final MemberFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final org.springframework.data.domain.Page<MemberContact> read;
         final Pageable                                            pageable;
@@ -82,7 +82,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = MemberSpecifications.query(filter);
+        spec = MemberContactSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = memberContactSpringRepository.findAll(pageable)
                 .map(MemberContactEntityMapper::toDomain);

@@ -29,6 +29,12 @@ get:
       description: Filter by member status.
       schema:
         $ref: '../components/members.yml#/components/schemas/MemberStatus'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
   responses:
     '200':
       description: Members page.

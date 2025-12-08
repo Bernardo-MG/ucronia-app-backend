@@ -26,7 +26,7 @@ get:
     - name: name
       in: query
       required: false
-      description: Filter by name substring.
+      description: Substring to filter name by.
       schema:
         type: string
   responses:

@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.usecase.service.MemberService;
@@ -109,24 +110,25 @@ public class MemberController implements MemberApi {
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
-            @Valid final MemberStatusDto status) {
+            @Valid final MemberStatusDto status, @Valid final String name) {
         final Pagination   pagination;
         final Sorting      sorting;
         final Page<Member> members;
         final MemberStatus memberStatus;
-
-        // TODO: require contacts permission or filter only by active
-        if ((status == null) || (status == MemberStatusDto.ACTIVE)) {
-            memberStatus = MemberStatus.ACTIVE;
-        } else if (status == MemberStatusDto.INACTIVE) {
-            memberStatus = MemberStatus.INACTIVE;
-        } else {
-            memberStatus = MemberStatus.ALL;
-        }
+        final MemberFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        members = service.getAll(memberStatus, pagination, sorting);
+
+        // TODO: require contacts permission or filter only by active
+        if (status != null) {
+            memberStatus = MemberStatus.valueOf(status.name());
+        } else {
+            memberStatus = null;
+        }
+        filter = new MemberFilter(memberStatus, name);
+
+        members = service.getAll(filter, pagination, sorting);
 
         return MemberDtoMapper.toResponseDto(members);
     }

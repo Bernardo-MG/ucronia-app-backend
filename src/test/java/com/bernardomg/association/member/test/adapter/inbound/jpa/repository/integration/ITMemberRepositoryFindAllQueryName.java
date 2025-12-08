@@ -33,9 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
@@ -45,20 +45,20 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberContactRepository - find all - filter by name")
-class ITMemberContactRepositoryFindAllQueryName {
+@DisplayName("MemberRepository - find all - filter by name")
+class ITMemberRepositoryFindAllQueryName {
 
     @Autowired
-    private MemberContactRepository repository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("With a member having an active membership and matching first name, it is returned")
     @ActiveMember
     void testFindAll_Active_FirstName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -79,10 +79,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an active membership and matching full name, it is returned")
     @ActiveMember
     void testFindAll_Active_FullName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -103,10 +103,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an active membership and matching last name, it is returned")
     @ActiveMember
     void testFindAll_Active_LastName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -127,10 +127,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an active membership and partial matching name, it is returned")
     @ActiveMember
     void testFindAll_Active_PartialName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -152,10 +152,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an active membership and wrong name, nothing is returned")
     @ActiveMember
     void testFindAll_Active_WrongName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -176,10 +176,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and matching first name, it is is returned")
     @InactiveMember
     void testFindAll_Inactive_FirstName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -199,10 +199,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and matching full name, it is is returned")
     @InactiveMember
     void testFindAll_Inactive_FullName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -222,10 +222,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and matching last name, it is is returned")
     @InactiveMember
     void testFindAll_Inactive_LastName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -245,10 +245,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and partial matching name, it is is returned")
     @InactiveMember
     void testFindAll_Inactive_PartialName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -269,10 +269,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member having an inactive membership and wrong name, nothing is returned")
     @InactiveMember
     void testFindAll_Inactive_WrongName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -292,10 +292,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -316,10 +316,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member without membership and matching first name, it is is returned")
     @ValidContact
     void testFindAll_WithoutMembership_FirstName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);

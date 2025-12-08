@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberContactDtoMapper;
-import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.usecase.service.MemberContactService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -113,17 +113,19 @@ public class MemberContactController implements MemberContactApi {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilterStatus  memberStatus;
-        final MemberQuery         filter;
+        final MemberStatus        memberStatus;
+        final MemberFilter        filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
+
         if (status != null) {
-            memberStatus = MemberFilterStatus.valueOf(status.name());
+            memberStatus = MemberStatus.valueOf(status.name());
         } else {
             memberStatus = null;
         }
-        filter = new MemberQuery(memberStatus, name);
+        filter = new MemberFilter(memberStatus, name);
+
         members = service.getAll(filter, pagination, sorting);
 
         return MemberContactDtoMapper.toResponseDto(members);

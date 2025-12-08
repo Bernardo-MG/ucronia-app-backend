@@ -24,20 +24,18 @@
 
 package com.bernardomg.association.member.domain.filter;
 
-public record MemberQuery(MemberFilterStatus status, String name) {
+import com.bernardomg.association.member.domain.model.MemberStatus;
 
-    public MemberQuery {
+public record MemberFilter(MemberStatus status, String name) {
+
+    public MemberFilter {
         // TODO: reject nulls
         if (status == null) {
-            status = MemberFilterStatus.ALL;
+            status = MemberStatus.ALL;
         }
         if (name == null) {
             name = "";
         }
-    }
-
-    public enum MemberFilterStatus {
-        ACTIVE, ALL, INACTIVE
     }
 
 }

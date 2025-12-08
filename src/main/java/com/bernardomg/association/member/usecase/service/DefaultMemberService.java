@@ -34,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -104,14 +104,15 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Page<Member> getAll(final MemberStatus status, final Pagination pagination, final Sorting sorting) {
+    public final Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
         final Page<Member> members;
 
-        log.debug("Reading members with pagination {} and sorting {}", pagination, sorting);
+        log.debug("Reading members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        members = memberRepository.findAll(status, pagination, sorting);
+        members = memberRepository.findAll(filter, pagination, sorting);
 
-        log.debug("Read members with pagination {} and sorting {}: {}", pagination, sorting, members);
+        log.debug("Read members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
+            members);
 
         return members;
     }
