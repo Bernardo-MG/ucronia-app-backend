@@ -35,7 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -48,9 +50,11 @@ import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
 import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * Member REST controller.
@@ -105,14 +109,26 @@ public class MemberController implements MemberApi {
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort) {
+            @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
+            @Valid final MemberStatusDto status, @Valid final String name) {
         final Pagination   pagination;
         final Sorting      sorting;
         final Page<Member> members;
+        final MemberStatus memberStatus;
+        final MemberFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        members = service.getAll(pagination, sorting);
+
+        // TODO: require contacts permission or filter only by active
+        if (status != null) {
+            memberStatus = MemberStatus.valueOf(status.name());
+        } else {
+            memberStatus = null;
+        }
+        filter = new MemberFilter(memberStatus, name);
+
+        members = service.getAll(filter, pagination, sorting);
 
         return MemberDtoMapper.toResponseDto(members);
     }

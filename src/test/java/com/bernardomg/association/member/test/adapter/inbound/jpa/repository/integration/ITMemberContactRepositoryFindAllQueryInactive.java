@@ -31,9 +31,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.member.domain.filter.MemberQuery;
-import com.bernardomg.association.member.domain.filter.MemberQuery.MemberFilterStatus;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -57,12 +57,12 @@ class ITMemberContactRepositoryFindAllQueryInactive {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.INACTIVE, "");
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -81,12 +81,12 @@ class ITMemberContactRepositoryFindAllQueryInactive {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.INACTIVE, "");
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -104,12 +104,12 @@ class ITMemberContactRepositoryFindAllQueryInactive {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.INACTIVE, "");
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -128,12 +128,12 @@ class ITMemberContactRepositoryFindAllQueryInactive {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberQuery(MemberFilterStatus.INACTIVE, "");
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

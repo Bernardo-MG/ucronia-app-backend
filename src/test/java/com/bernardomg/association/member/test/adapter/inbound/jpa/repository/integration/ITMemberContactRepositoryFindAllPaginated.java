@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -54,7 +54,7 @@ class ITMemberContactRepositoryFindAllPaginated {
         final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -68,7 +68,7 @@ class ITMemberContactRepositoryFindAllPaginated {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .isEmpty();
     }
 
@@ -76,10 +76,10 @@ class ITMemberContactRepositoryFindAllPaginated {
     @DisplayName("When there is a member, it is returned")
     @ActiveMember
     void testFindAll_Single() {
-        final Page<MemberContact> people;
+        final Page<MemberContact> contacts;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -87,13 +87,13 @@ class ITMemberContactRepositoryFindAllPaginated {
         filter = MemberQueries.empty();
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .containsExactly(MemberContacts.active());
     }
 

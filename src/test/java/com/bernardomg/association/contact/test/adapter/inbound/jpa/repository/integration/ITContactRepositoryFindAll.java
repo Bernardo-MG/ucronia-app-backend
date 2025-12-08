@@ -52,7 +52,7 @@ class ITContactRepositoryFindAll {
     @DisplayName("With a contact without membership, it is returned")
     @ValidContact
     void testFindAll() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -63,10 +63,10 @@ class ITContactRepositoryFindAll {
         filter = ContactQueries.empty();
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Contacts.valid());
@@ -75,7 +75,7 @@ class ITContactRepositoryFindAll {
     @Test
     @DisplayName("With no contact, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -86,10 +86,10 @@ class ITContactRepositoryFindAll {
         filter = ContactQueries.empty();
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

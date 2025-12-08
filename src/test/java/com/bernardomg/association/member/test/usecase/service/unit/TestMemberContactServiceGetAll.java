@@ -43,7 +43,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
@@ -81,7 +81,7 @@ class TestMemberContactServiceGetAll {
         final Page<MemberContact> existing;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -109,7 +109,7 @@ class TestMemberContactServiceGetAll {
         final Page<MemberContact> existing;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -135,7 +135,7 @@ class TestMemberContactServiceGetAll {
     void testGetAll_Sort_Paged_Asc_FirstName() {
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
         final Page<MemberContact> existing;
 
         // GIVEN
@@ -162,7 +162,7 @@ class TestMemberContactServiceGetAll {
         final Pagination          pagination;
         final Sorting             sorting;
         final Page<MemberContact> existing;
-        final MemberQuery         filter;
+        final MemberFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);

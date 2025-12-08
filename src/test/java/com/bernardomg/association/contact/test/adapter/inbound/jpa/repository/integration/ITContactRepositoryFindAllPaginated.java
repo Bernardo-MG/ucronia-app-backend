@@ -51,7 +51,7 @@ class ITContactRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -62,13 +62,13 @@ class ITContactRepositoryFindAllPaginated {
         filter = ContactQueries.empty();
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .isEmpty();
     }
 
@@ -76,7 +76,7 @@ class ITContactRepositoryFindAllPaginated {
     @DisplayName("When there is a contact, it is returned")
     @ValidContact
     void testFindAll_Single() {
-        final Page<Contact> people;
+        final Page<Contact> contacts;
         final Pagination    pagination;
         final Sorting       sorting;
         final ContactQuery  filter;
@@ -87,13 +87,13 @@ class ITContactRepositoryFindAllPaginated {
         filter = ContactQueries.empty();
 
         // WHEN
-        people = repository.findAll(filter, pagination, sorting);
+        contacts = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(people)
+        Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("people")
+            .as("contacts")
             .containsExactly(Contacts.valid());
     }
 

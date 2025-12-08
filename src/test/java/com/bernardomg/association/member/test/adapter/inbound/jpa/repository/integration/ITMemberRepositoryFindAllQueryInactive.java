@@ -31,7 +31,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -42,104 +44,104 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all public")
-class ITMemberRepositoryFindAll {
+@DisplayName("MemberRepository - find all - filter for inactive")
+class ITMemberRepositoryFindAllQueryInactive {
 
     @Autowired
     private MemberRepository repository;
 
-    public ITMemberRepositoryFindAll() {
-        super();
-    }
-
     @Test
-    @DisplayName("With an active member, it returns the member")
+    @DisplayName("With a member having an active membership, nothing is returned")
     @ActiveMember
-    void testFindActive_Active() {
+    void testFindAll_Active() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("members")
-            .containsExactly(Members.active());
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With an inactive member, it returns nothing")
+    @DisplayName("With a member having an inactive membership, it is returned")
     @InactiveMember
-    void testFindActive_Inactive() {
+    void testFindAll_Inactive() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("members")
-            .isEmpty();
+            .containsExactly(Members.inactive());
     }
 
     @Test
-    @DisplayName("With no data, it returns nothing")
-    void testFindActive_NoData() {
+    @DisplayName("With no member, nothing is returned")
+    void testFindAll_NoData() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("members")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a member with no membership, it returns nothing")
+    @DisplayName("With a member without membership, nothing is returned")
     @ValidContact
-    void testFindActive_NoMembership() {
+    void testFindAll_WithoutMembership() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
+        pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
-        members = repository.findAll(pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("members")
             .isEmpty();
     }
 

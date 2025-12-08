@@ -26,7 +26,7 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.MemberQuery;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -60,7 +60,7 @@ public interface MemberContactService {
     /**
      * Returns all the member contacts matching the filter.
      *
-     * @param query
+     * @param filter
      *            filter to apply
      * @param pagination
      *            pagination to apply
@@ -68,7 +68,7 @@ public interface MemberContactService {
      *            sorting to apply
      * @return all the member contacts matching the sample
      */
-    public Page<MemberContact> getAll(final MemberQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<MemberContact> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the member contact for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

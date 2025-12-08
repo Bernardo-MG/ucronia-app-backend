@@ -37,7 +37,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
@@ -62,16 +64,18 @@ class TestMemberServiceGetAll {
         final Page<Member> existing;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        members = service.getAll(pagination, sorting);
+        members = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)
@@ -88,16 +92,18 @@ class TestMemberServiceGetAll {
         final Page<Member> existing;
         final Pagination   pagination;
         final Sorting      sorting;
+        final MemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(memberRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        members = service.getAll(pagination, sorting);
+        members = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(members)

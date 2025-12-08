@@ -26,6 +26,7 @@ package com.bernardomg.association.member.domain.repository;
 
 import java.util.Optional;
 
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -37,7 +38,7 @@ public interface MemberRepository {
 
     public boolean exists(final long number);
 
-    public Page<Member> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
     public long findNextNumber();
 

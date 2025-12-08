@@ -26,21 +26,13 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
-public interface QueryMemberSpringRepository extends JpaRepository<QueryMemberEntity, Long> {
-
-    @Query("""
-            SELECT m
-            FROM QueryMember m
-            WHERE m.active = true
-            """)
-    public Page<QueryMemberEntity> findAllActive(final Pageable pageable);
+public interface QueryMemberSpringRepository
+        extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
 
     public Optional<QueryMemberEntity> findByNumber(final Long number);
 
