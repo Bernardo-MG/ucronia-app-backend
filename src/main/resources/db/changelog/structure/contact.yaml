@@ -45,8 +45,6 @@ databaseChangeLog:
                   name: identifier
                   type: varchar(15)
                   defaultValue: ''
-                  constraints:
-                    unique: true
         - addAutoIncrement:
             schemaName: directory
             tableName: contacts
