@@ -239,7 +239,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        status = MemberStatus.ACTIVE;
+        status = MemberStatus.INACTIVE;
 
         // WHEN
         members = repository.findAll(status, pagination, sorting);
