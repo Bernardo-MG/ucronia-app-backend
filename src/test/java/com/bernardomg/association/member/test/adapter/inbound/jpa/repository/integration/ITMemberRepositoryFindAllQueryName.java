@@ -38,7 +38,7 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -72,7 +72,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
+            .containsExactly(Members.active());
     }
 
     @Test
@@ -96,7 +96,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
+            .containsExactly(Members.active());
     }
 
     @Test
@@ -120,7 +120,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
+            .containsExactly(Members.active());
     }
 
     @Test
@@ -145,7 +145,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
+            .containsExactly(Members.active());
     }
 
     @Test
@@ -192,7 +192,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
@@ -215,7 +215,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
@@ -238,7 +238,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
@@ -262,7 +262,7 @@ class ITMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
