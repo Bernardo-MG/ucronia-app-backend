@@ -8,10 +8,9 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntit
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -29,12 +28,12 @@ public class MemberContactEntity implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean           active;
 
+    @MapsId
     @OneToOne(optional = false)
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     private ContactEntity     contact;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
@@ -46,7 +45,7 @@ public class MemberContactEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final ContactEntity other)) {
+        if (!(obj instanceof final MemberContactEntity other)) {
             return false;
         }
         return Objects.equals(id, other.getId());
@@ -91,7 +90,7 @@ public class MemberContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MemberContactEntity [id=" + id + ", contactId=" + (contact != null ? contact.getId() : null)
+        return "MemberContactEntity [id=" + id + ", contact=" + contact
                 + ", active=" + active + ", renew=" + renew + "]";
     }
 

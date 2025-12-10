@@ -168,7 +168,8 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                WHERE c.number = :number
                  AND f.date = :date
             """)
-    public Optional<FeeEntity> findByMemberNumberAndDate(@Param("number") final Long number, @Param("date") final Instant date);
+    public Optional<FeeEntity> findByMemberNumberAndDate(@Param("number") final Long number,
+            @Param("date") final Instant date);
 
     /**
      * Returns all the years based on the existing fees.

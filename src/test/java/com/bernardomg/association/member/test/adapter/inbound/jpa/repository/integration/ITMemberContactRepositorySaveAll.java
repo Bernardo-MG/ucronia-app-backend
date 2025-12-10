@@ -41,7 +41,7 @@ import com.bernardomg.association.member.test.configuration.factory.MemberContac
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberContactRepository - save")
+@DisplayName("MemberContactRepository - save all")
 class ITMemberContactRepositorySaveAll {
 
     @Autowired
@@ -71,7 +71,7 @@ class ITMemberContactRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
             .containsExactly(MemberContactEntities.active());
     }
 

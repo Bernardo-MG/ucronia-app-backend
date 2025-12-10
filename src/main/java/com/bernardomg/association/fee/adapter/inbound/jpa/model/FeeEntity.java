@@ -59,7 +59,7 @@ public class FeeEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private MemberContactEntity member;
 

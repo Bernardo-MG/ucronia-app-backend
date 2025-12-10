@@ -36,8 +36,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
@@ -62,12 +64,16 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
+    private final ContactSpringRepository       contactSpringRepository;
+
     private final MemberContactSpringRepository memberContactSpringRepository;
 
-    public JpaMemberContactRepository(final MemberContactSpringRepository memberContactSpringRepo,
+    public JpaMemberContactRepository(final ContactSpringRepository contactSpringRepo,
+            final MemberContactSpringRepository memberContactSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
+        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
         memberContactSpringRepository = Objects.requireNonNull(memberContactSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
@@ -163,6 +169,8 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         final MemberContact                 created;
         final List<Long>                    contactMethodNumbers;
         final List<ContactMethodEntity>     contactMethods;
+        final ContactEntity                 contactEntity;
+        final ContactEntity                 createdContactEntity;
 
         log.debug("Saving member {}", member);
 
@@ -178,6 +186,12 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.getContact().setId(existing.get().getContact()
+                .getId());
+        } else {
+            contactEntity = entity.getContact();
+            createdContactEntity = contactSpringRepository.saveAndFlush(contactEntity);
+            entity.setContact(createdContactEntity);
         }
 
         created = MemberContactEntityMapper.toDomain(memberContactSpringRepository.save(entity));
@@ -207,6 +221,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             .map(m -> MemberContactEntityMapper.toEntity(m, contactMethods))
             .toList();
 
+        contactSpringRepository.saveAll(null);
         saved = memberContactSpringRepository.saveAll(entities)
             .stream()
             .map(MemberContactEntityMapper::toDomain)

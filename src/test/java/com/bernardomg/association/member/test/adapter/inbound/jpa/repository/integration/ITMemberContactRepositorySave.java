@@ -70,7 +70,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contact.number")
             .containsExactly(MemberContactEntities.inactive());
     }
 
@@ -92,7 +92,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.member")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number", "membership.member")
             .containsExactly(MemberContactEntities.inactive());
     }
 
@@ -114,7 +114,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
             .containsExactly(MemberContactEntities.active());
     }
 
@@ -136,7 +136,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
             .containsExactly(MemberContactEntities.active());
     }
 
@@ -159,7 +159,8 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contact.number", "contact.contactChannels.contact",
+                "contact.contactChannels.contactMethod")
             .containsExactly(MemberContactEntities.withEmail());
     }
 
@@ -181,7 +182,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
             .containsExactly(MemberContactEntities.active());
     }
 
@@ -204,7 +205,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
             .containsExactly(MemberContactEntities.active());
     }
 
@@ -244,7 +245,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contact.number")
             .containsExactly(MemberContactEntities.inactive());
     }
 
@@ -265,7 +266,7 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contact.number")
             .containsExactly(MemberContactEntities.active());
     }
 
@@ -305,8 +306,8 @@ class ITMemberContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.contact",
-                "contactChannels.contactMethod")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.id", "contact.number", "contact.contactChannels.contact",
+                "contact.contactChannels.contactMethod")
             .containsExactly(MemberContactEntities.withEmail());
     }
 
