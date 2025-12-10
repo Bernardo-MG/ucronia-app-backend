@@ -11,6 +11,7 @@ public final class MemberEntities {
 
         entity = new MemberEntity();
         entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(true);
@@ -23,6 +24,7 @@ public final class MemberEntities {
 
         entity = new MemberEntity();
         entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.ALTERNATIVE_FIRST_NAME);
         entity.setLastName(ContactConstants.ALTERNATIVE_LAST_NAME);
         entity.setActive(true);
@@ -35,6 +37,7 @@ public final class MemberEntities {
 
         entity = new MemberEntity();
         entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(false);
