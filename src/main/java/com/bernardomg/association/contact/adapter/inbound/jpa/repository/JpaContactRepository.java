@@ -193,6 +193,7 @@ public final class JpaContactRepository implements ContactRepository {
             entity.setId(existing.get()
                 .getId());
         }
+        // TODO: Assign number here
 
         created = ContactEntityMapper.toDomain(contactSpringRepository.save(entity));
 

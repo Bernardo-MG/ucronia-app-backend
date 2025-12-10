@@ -36,7 +36,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
@@ -192,33 +191,21 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Member save(final Member member) {
-        final Optional<ContactEntity> existingContact;
-        final MemberEntity            entity;
-        final ContactEntity           contactEntity;
-        final Member                  created;
-        final ContactEntity           createdContact;
+        final Optional<MemberEntity> existing;
+        final MemberEntity           entity;
+        final Member                 created;
 
         log.debug("Saving member {}", member);
 
         entity = MemberEntityMapper.toEntity(member);
-        existingContact = contactSpringRepository.findByNumber(member.number());
-        if (existingContact.isPresent()) {
-            contactEntity = existingContact.get();
-            contactEntity.setFirstName(member.name()
-                .firstName());
-            contactEntity.setLastName(member.name()
-                .lastName());
-        } else {
-            contactEntity = MemberEntityMapper.toContactEntity(member);
+
+        existing = memberSpringRepository.findByNumber(member.number());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
         }
+        // TODO: Assign number here
 
-        createdContact = contactSpringRepository.save(contactEntity);
-
-        entity.setId(createdContact.getId());
-        entity.setFirstName(member.name()
-            .firstName());
-        entity.setLastName(member.name()
-            .lastName());
         created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
@@ -237,7 +224,6 @@ public final class JpaMemberRepository implements MemberRepository {
             .map(MemberEntityMapper::toEntity)
             .toList();
 
-        contactSpringRepository.saveAll(null);
         saved = memberSpringRepository.saveAll(entities)
             .stream()
             .map(MemberEntityMapper::toDomain)
