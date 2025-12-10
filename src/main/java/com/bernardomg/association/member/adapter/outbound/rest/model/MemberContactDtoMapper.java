@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
@@ -36,8 +35,6 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
-import com.bernardomg.ucronia.openapi.model.MemberContactChangeDto;
-import com.bernardomg.ucronia.openapi.model.MemberContactCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberContactDto;
 import com.bernardomg.ucronia.openapi.model.MemberContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberContactResponseDto;
@@ -46,34 +43,6 @@ import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberContactDtoMapper {
-
-    public static final MemberContact toDomain(final long number, final MemberContactChangeDto change) {
-        final ContactName name;
-
-        name = new ContactName(change.getName()
-            .getFirstName(),
-            change.getName()
-                .getLastName());
-
-        return new MemberContact(change.getIdentifier(), number, name, change.getBirthDate(), change.getActive(),
-            change.getRenew(), List.of());
-    }
-
-    public static final MemberContact toDomain(final MemberContactCreationDto creation) {
-        final ContactName name;
-
-        name = new ContactName(creation.getName()
-            .getFirstName(),
-            creation.getName()
-                .getLastName());
-
-        return new MemberContact(creation.getIdentifier(), -1L, name, null, creation.getActive(), creation.getActive(),
-            List.of());
-    }
-
-    public static final MemberContactResponseDto toResponseDto(final MemberContact member) {
-        return new MemberContactResponseDto().content(MemberContactDtoMapper.toDto(member));
-    }
 
     public static final MemberContactResponseDto toResponseDto(final Optional<MemberContact> member) {
         return new MemberContactResponseDto().content(member.map(MemberContactDtoMapper::toDto)

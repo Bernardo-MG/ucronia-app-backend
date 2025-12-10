@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.model.MemberContact;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 @Service
 @Transactional
@@ -45,32 +45,32 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberStatusService.class);
+    private static final Logger    log = LoggerFactory.getLogger(DefaultMemberStatusService.class);
 
-    private final MemberContactRepository memberContactRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultMemberStatusService(final MemberContactRepository memberContactRepo) {
+    public DefaultMemberStatusService(final MemberRepository memberRepo) {
         super();
 
-        memberContactRepository = Objects.requireNonNull(memberContactRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
     public final void activate(final YearMonth date, final Long memberNumber) {
-        final Optional<MemberContact> member;
-        final MemberContact           activated;
+        final Optional<Member> member;
+        final Member           activated;
 
         if (YearMonth.now()
             .equals(date)) {
             log.debug("Activating member {}", memberNumber);
-            member = memberContactRepository.findOne(memberNumber);
+            member = memberRepository.findOne(memberNumber);
 
             if (member.isEmpty()) {
                 log.warn("Missing member {}", memberNumber);
                 // TODO: no exception?
             } else {
                 activated = activated(member.get());
-                memberContactRepository.save(activated);
+                memberRepository.save(activated);
 
                 log.debug("Activated member {}", memberNumber);
             }
@@ -79,14 +79,14 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     @Override
     public final void applyRenewal() {
-        final Collection<MemberContact> members;
-        final Collection<MemberContact> toActivate;
-        final Collection<MemberContact> toDeactivate;
-        final Collection<MemberContact> toSave;
+        final Collection<Member> members;
+        final Collection<Member> toActivate;
+        final Collection<Member> toDeactivate;
+        final Collection<Member> toSave;
 
         log.debug("Applying membership renewals");
 
-        members = memberContactRepository.findAllWithRenewalMismatch();
+        members = memberRepository.findAllWithRenewalMismatch();
 
         toActivate = members.stream()
             .filter(p -> !p.active())
@@ -94,48 +94,46 @@ public final class DefaultMemberStatusService implements MemberStatusService {
             .toList();
 
         toDeactivate = members.stream()
-            .filter(MemberContact::active)
+            .filter(Member::active)
             .map(this::deactivated)
             .toList();
 
         toSave = Stream.concat(toActivate.stream(), toDeactivate.stream())
             .toList();
-        memberContactRepository.saveAll(toSave);
+        memberRepository.saveAll(toSave);
 
         log.debug("Applied membership renewals to {}", toSave);
     }
 
     @Override
     public final void deactivate(final YearMonth date, final Long memberNumber) {
-        final Optional<MemberContact> member;
-        final MemberContact           deactivated;
+        final Optional<Member> member;
+        final Member           deactivated;
 
         // If deleting at the current month, the user is set to inactive
         if (YearMonth.now()
             .equals(date)) {
             log.debug("Deactivating member {}", memberNumber);
-            member = memberContactRepository.findOne(memberNumber);
+            member = memberRepository.findOne(memberNumber);
 
             if (member.isEmpty()) {
                 log.warn("Missing member {}", memberNumber);
                 // TODO: no exception?
             } else {
                 deactivated = deactivated(member.get());
-                memberContactRepository.save(deactivated);
+                memberRepository.save(deactivated);
 
                 log.debug("Deactivated member {}", memberNumber);
             }
         }
     }
 
-    private final MemberContact activated(final MemberContact original) {
-        return new MemberContact(original.identifier(), original.number(), original.name(), original.birthDate(), true,
-            true, original.contactChannels());
+    private final Member activated(final Member original) {
+        return new Member(original.number(), original.name(), true, true);
     }
 
-    private final MemberContact deactivated(final MemberContact original) {
-        return new MemberContact(original.identifier(), original.number(), original.name(), original.birthDate(), false,
-            false, original.contactChannels());
+    private final Member deactivated(final Member original) {
+        return new Member(original.number(), original.name(), false, false);
     }
 
 }

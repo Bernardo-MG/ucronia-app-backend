@@ -30,7 +30,7 @@ paths:
   /contact/member:
     $ref: paths/member_contacts.yml
   /member/member/{number}:
-    $ref: paths/members_contacts_by_id.yml
+    $ref: paths/member_contacts_by_id.yml
   /member:
     $ref: paths/members.yml
   /member/{number}:

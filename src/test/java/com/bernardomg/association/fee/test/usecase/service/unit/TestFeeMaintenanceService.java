@@ -18,8 +18,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
@@ -29,7 +29,7 @@ public class TestFeeMaintenanceService {
     private FeeRepository                feeRepository;
 
     @Mock
-    private MemberContactRepository      memberContactRepository;
+    private MemberRepository             memberRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,7 +39,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(memberContactRepository.findAllToRenew()).willReturn(List.of(MemberContacts.active()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -54,7 +54,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(memberContactRepository.findAllToRenew()).willReturn(List.of(MemberContacts.active()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
         given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -69,7 +69,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
-        given(memberContactRepository.findAllToRenew()).willReturn(List.of());
+        given(memberRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
         service.registerMonthFees();

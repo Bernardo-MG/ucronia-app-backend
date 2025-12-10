@@ -85,7 +85,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
 
     @Query("""
                SELECT f
-               FROM MemberContact m
+               FROM Member m
                  INNER JOIN m.contact c
                  INNER JOIN Fee f ON m.id = f.memberId
                  LEFT JOIN Transaction t ON f.transaction.id = t.id

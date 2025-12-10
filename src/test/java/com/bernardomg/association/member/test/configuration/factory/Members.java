@@ -14,6 +14,27 @@ public final class Members {
         return new Member(ContactConstants.NUMBER, name, true, true);
     }
 
+    public static final Member activeNoRenew() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member(ContactConstants.NUMBER, name, true, false);
+    }
+
+    public static final Member alternativeActive() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
+        return new Member(ContactConstants.ALTERNATIVE_NUMBER, name, true, true);
+    }
+
+    public static final Member alternativeInactive() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
+        return new Member(ContactConstants.ALTERNATIVE_NUMBER, name, false, true);
+    }
+
     public static final Member forNumber(final long number) {
         final ContactName name;
 
@@ -26,6 +47,13 @@ public final class Members {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Member(ContactConstants.NUMBER, name, false, true);
+    }
+
+    public static final Member inactiveNoRenew() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member(ContactConstants.NUMBER, name, false, false);
     }
 
     public static final Member nameChange() {

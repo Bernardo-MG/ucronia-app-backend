@@ -32,36 +32,36 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactSpringRepository;
-import com.bernardomg.association.member.domain.model.MemberContact;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContactEntities;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberContactRepository - save all")
-class ITMemberContactRepositorySaveAll {
+@DisplayName("MemberRepository - save all")
+class ITMemberRepositorySaveAll {
 
     @Autowired
-    private MemberContactRepository       repository;
+    private MemberRepository       repository;
 
     @Autowired
-    private MemberContactSpringRepository springRepository;
+    private MemberSpringRepository springRepository;
 
-    public ITMemberContactRepositorySaveAll() {
+    public ITMemberRepositorySaveAll() {
         super();
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final MemberContact                 member;
-        final Iterable<MemberContactEntity> entities;
+        final Member                 member;
+        final Iterable<MemberEntity> entities;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = Members.active();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -72,17 +72,17 @@ class ITMemberContactRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
-            .containsExactly(MemberContactEntities.active());
+            .containsExactly(MemberEntities.active());
     }
 
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testSave_ReturnedData() {
-        final MemberContact             member;
-        final Collection<MemberContact> saved;
+        final Member             member;
+        final Collection<Member> saved;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = Members.active();
 
         // WHEN
         saved = repository.saveAll(List.of(member));
@@ -90,7 +90,7 @@ class ITMemberContactRepositorySaveAll {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .containsExactly(MemberContacts.active());
+            .containsExactly(Members.active());
     }
 
 }

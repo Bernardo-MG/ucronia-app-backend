@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 import jakarta.persistence.Column;
@@ -48,30 +48,30 @@ public class FeeEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long   serialVersionUID = 1328776989450853491L;
+    private static final long serialVersionUID = 1328776989450853491L;
 
     // TODO: should be called month
     @Column(name = "date", nullable = false)
-    private Instant             date;
+    private Instant           date;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                id;
+    private Long              id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private MemberContactEntity member;
+    private MemberEntity      member;
 
     @Column(name = "member_id", insertable = false, updatable = false)
-    private Long                memberId;
+    private Long              memberId;
 
     @Column(name = "paid")
-    private Boolean             paid;
+    private Boolean           paid;
 
     @OneToOne
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
-    private TransactionEntity   transaction;
+    private TransactionEntity transaction;
 
     public Instant getDate() {
         return date;
@@ -81,7 +81,7 @@ public class FeeEntity implements Serializable {
         return id;
     }
 
-    public MemberContactEntity getMember() {
+    public MemberEntity getMember() {
         return member;
     }
 
@@ -105,7 +105,7 @@ public class FeeEntity implements Serializable {
         this.id = id;
     }
 
-    public void setMember(final MemberContactEntity member) {
+    public void setMember(final MemberEntity member) {
         this.member = member;
     }
 

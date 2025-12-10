@@ -27,10 +27,7 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
@@ -46,8 +43,6 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberContactApi;
-import com.bernardomg.ucronia.openapi.model.MemberContactChangeDto;
-import com.bernardomg.ucronia.openapi.model.MemberContactCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberContactResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
@@ -73,35 +68,6 @@ public class MemberContactController implements MemberContactApi {
         super();
 
         this.service = service;
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Member caches
-                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
-    public MemberContactResponseDto createMemberContact(@Valid final MemberContactCreationDto memberCreationDto) {
-        final MemberContact member;
-        final MemberContact created;
-
-        member = MemberContactDtoMapper.toDomain(memberCreationDto);
-        created = service.create(member);
-
-        return MemberContactDtoMapper.toResponseDto(created);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER_CONTACT }), @CacheEvict(cacheNames = {
-            // Member caches
-            MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
-    public MemberContactResponseDto deleteMemberContact(final Long number) {
-        final MemberContact member;
-
-        member = service.delete(number);
-
-        return MemberContactDtoMapper.toResponseDto(member);
     }
 
     @Override
@@ -140,40 +106,6 @@ public class MemberContactController implements MemberContactApi {
         member = service.getOne(number);
 
         return MemberContactDtoMapper.toResponseDto(member);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Member caches
-                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
-    public MemberContactResponseDto patchMemberContact(final Long number,
-            @Valid final MemberContactChangeDto memberChangeDto) {
-        final MemberContact member;
-        final MemberContact updated;
-
-        member = MemberContactDtoMapper.toDomain(number, memberChangeDto);
-        updated = service.patch(member);
-
-        return MemberContactDtoMapper.toResponseDto(updated);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Member caches
-                    MembersCaches.MEMBER_CONTACTS }, allEntries = true) })
-    public MemberContactResponseDto updateMemberContact(final Long number,
-            @Valid final MemberContactChangeDto memberChangeDto) {
-        final MemberContact member;
-        final MemberContact updated;
-
-        member = MemberContactDtoMapper.toDomain(number, memberChangeDto);
-        updated = service.update(member);
-
-        return MemberContactDtoMapper.toResponseDto(updated);
     }
 
 }

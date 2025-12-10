@@ -31,17 +31,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberContactRepository - is active")
-class ITMemberContactRepositoryIsActive {
+@DisplayName("MemberRepository - is active")
+class ITMemberRepositoryIsActive {
 
     @Autowired
-    private MemberContactRepository repository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("When the member is active, is is indicated as so")

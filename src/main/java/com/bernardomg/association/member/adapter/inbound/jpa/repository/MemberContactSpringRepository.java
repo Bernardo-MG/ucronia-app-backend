@@ -24,61 +24,16 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
 
 public interface MemberContactSpringRepository
         extends JpaRepository<MemberContactEntity, Long>, JpaSpecificationExecutor<MemberContactEntity> {
 
-    @Query("""
-            SELECT m.id AS id
-            FROM MemberContact m
-            WHERE m.active = true
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllActiveMemberIds();
-
-    public Collection<MemberContactEntity> findAllByRenewTrue();
-
-    @Query("""
-            SELECT m.id AS id
-            FROM MemberContact m
-            WHERE m.active = false
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllInactiveMemberIds();
-
-    @Query("""
-            SELECT m
-            FROM MemberContact m
-            WHERE m.active != m.renew
-            """)
-    public Collection<MemberContactEntity> findAllWithRenewalMismatch();
-
-    @Query("""
-            SELECT m
-            FROM MemberContact m
-              INNER JOIN m.contact c
-            WHERE c.number = :number
-            """)
-    public Optional<MemberContactEntity> findByNumber(@Param("number") final Long number);
-
-    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
-    public Long findNextNumber();
-
-    @Query("""
-            SELECT m.active
-            FROM MemberContact m
-              INNER JOIN m.contact c
-            WHERE c.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
+    public Optional<MemberContactEntity> findByNumber(final Long number);
 
 }

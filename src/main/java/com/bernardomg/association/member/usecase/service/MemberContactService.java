@@ -41,23 +41,6 @@ import com.bernardomg.data.domain.Sorting;
 public interface MemberContactService {
 
     /**
-     * Persists the received member contact.
-     *
-     * @param member
-     *            member contact to persist
-     * @return the persisted member
-     */
-    public MemberContact create(final MemberContact member);
-
-    /**
-     * Deletes the member contact with the received id.
-     *
-     * @param number
-     *            number of the member contact to delete
-     */
-    public MemberContact delete(final long number);
-
-    /**
      * Returns all the member contacts matching the filter.
      *
      * @param filter
@@ -78,23 +61,5 @@ public interface MemberContactService {
      * @return an {@code Optional} with the member contact, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<MemberContact> getOne(final long number);
-
-    /**
-     * Patches the member contact for the received id with the received data.
-     *
-     * @param member
-     *            new data for the member contact
-     * @return the updated member contact
-     */
-    public MemberContact patch(final MemberContact member);
-
-    /**
-     * Updates the member contact for the received id with the received data.
-     *
-     * @param member
-     *            new data for the member contact
-     * @return the updated member contact
-     */
-    public MemberContact update(final MemberContact member);
 
 }

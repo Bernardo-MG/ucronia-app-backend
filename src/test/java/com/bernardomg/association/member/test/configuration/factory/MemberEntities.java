@@ -1,28 +1,39 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public final class MemberEntities {
 
-    public static final QueryMemberEntity active() {
-        final QueryMemberEntity entity = new QueryMemberEntity();
+    public static final MemberEntity active() {
+        final MemberEntity entity;
+
+        entity = new MemberEntity();
         entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setContact(ContactEntities.valid());
         entity.setActive(true);
         entity.setRenew(true);
         return entity;
     }
 
-    public static final QueryMemberEntity inactive() {
-        final QueryMemberEntity entity = new QueryMemberEntity();
+    public static final MemberEntity alternative() {
+        final MemberEntity entity;
+
+        entity = new MemberEntity();
         entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setContact(ContactEntities.alternative());
+        entity.setActive(true);
+        entity.setRenew(true);
+        return entity;
+    }
+
+    public static final MemberEntity inactive() {
+        final MemberEntity entity;
+
+        entity = new MemberEntity();
+        entity.setId(1L);
+        entity.setContact(ContactEntities.valid());
         entity.setActive(false);
         entity.setRenew(true);
         return entity;

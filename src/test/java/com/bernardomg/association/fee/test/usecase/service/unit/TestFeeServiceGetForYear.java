@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -62,7 +62,7 @@ class TestFeeServiceGetForYear {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MemberContactRepository   memberContactRepository;
+    private MemberRepository          memberRepository;
 
     @Mock
     private MessageSource             messageSource;
@@ -107,7 +107,7 @@ class TestFeeServiceGetForYear {
 
         given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(memberContactRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(ContactConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);

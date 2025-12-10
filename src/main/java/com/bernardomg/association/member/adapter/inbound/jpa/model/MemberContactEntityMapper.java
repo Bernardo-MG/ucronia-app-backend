@@ -24,104 +24,32 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.Member;
 
 /**
- * Member entity mapper.
+ * Query member entity mapper.
  */
 public final class MemberContactEntityMapper {
 
-    public static final MemberContact toDomain(final MemberContactEntity entity) {
-        final ContactName                name;
-        final Collection<ContactChannel> members;
+    public static final Member toDomain(final MemberContactEntity entity) {
+        final ContactName name;
 
-        name = new ContactName(entity.getContact()
-            .getFirstName(),
-            entity.getContact()
-                .getLastName());
-        members = entity.getContact()
-            .getContactChannels()
-            .stream()
-            .map(ContactChannelEntityMapper::toDomain)
-            .toList();
-
-        return new MemberContact(entity.getContact()
-            .getIdentifier(),
-            entity.getContact()
-                .getNumber(),
-            name, entity.getContact()
-                .getBirthDate(),
-            entity.getActive(), entity.getRenew(), members);
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
-    public static final MemberContactEntity toEntity(final MemberContact data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final boolean                          active;
-        final boolean                          renew;
-        final MemberContactEntity              entity;
-        final Collection<ContactChannelEntity> members;
-
-        active = data.active();
-        renew = data.renew();
+    public static final MemberContactEntity toEntity(final Member data) {
+        final MemberContactEntity entity;
 
         entity = new MemberContactEntity();
-        entity.setContact(new ContactEntity());
-        entity.getContact()
-            .setNumber(data.number());
-        entity.getContact()
-            .setFirstName(data.name()
-                .firstName());
-        entity.getContact()
-            .setLastName(data.name()
-                .lastName());
-        entity.getContact()
-            .setIdentifier(data.identifier());
-        entity.getContact()
-            .setBirthDate(data.birthDate());
-        entity.setActive(active);
-        entity.setRenew(renew);
-
-        members = data.contactChannels()
-            .stream()
-            .map(m -> MemberContactEntityMapper.toEntity(entity, m, contactMethods))
-            .toList();
-        entity.getContact()
-            .setContactChannels(members);
-
-        return entity;
-    }
-
-    private static final ContactChannelEntity toEntity(final MemberContactEntity member, final ContactChannel data,
-            final Collection<ContactMethodEntity> concatMethods) {
-        final ContactChannelEntity          entity;
-        final Optional<ContactMethodEntity> contactMethod;
-
-        contactMethod = concatMethods.stream()
-            .filter(m -> m.getNumber()
-                .equals(data.contactMethod()
-                    .number()))
-            .findFirst();
-
-        // TODO: do this outside
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.contactMethod()
-                .number());
-        }
-
-        entity = new ContactChannelEntity();
-        entity.setContact(member.getContact());
-        entity.setContactMethod(contactMethod.get());
-        entity.setDetail(data.detail());
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setActive(data.active());
+        entity.setRenew(data.renew());
 
         return entity;
     }

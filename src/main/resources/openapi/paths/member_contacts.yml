@@ -1,20 +1,3 @@
-post:
-  summary: Create a new member contact.
-  operationId: createMemberContact
-  tags: [MemberContact]
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '../components/members.yml#/components/schemas/MemberContactCreation'
-  responses:
-    '201':
-      description: Member contact created.
-      content:
-        application/json:
-          schema:
-            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
 get:
   summary: Get all member contacts.
   operationId: getAllMemberContacts

@@ -47,8 +47,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.data.domain.Page;
@@ -61,22 +61,20 @@ import com.bernardomg.data.springframework.SpringSorting;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
-    private static final Collection<String>     CONTACT_PROPERTIES = List.of("firstName", "lastName", "member",
-        "number");
+    private static final Collection<String>   CONTACT_PROPERTIES = List.of("firstName", "lastName", "member", "number");
 
     /**
      * Logger for the class.
      */
-    private static final Logger                 log                = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger               log                = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private final FeeSpringRepository           feeSpringRepository;
+    private final FeeSpringRepository         feeSpringRepository;
 
-    private final MemberContactSpringRepository memberSpringRepository;
+    private final MemberSpringRepository      memberSpringRepository;
 
-    private final TransactionSpringRepository   transactionSpringRepository;
+    private final TransactionSpringRepository transactionSpringRepository;
 
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
-            final MemberContactSpringRepository memberSpringRepo,
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final MemberSpringRepository memberSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
@@ -87,8 +85,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final void delete(final Long number, final YearMonth date) {
-        final Optional<MemberContactEntity> member;
-        final Instant                       dateParsed;
+        final Optional<MemberEntity> member;
+        final Instant                dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
@@ -395,11 +393,11 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final Optional<MemberContactEntity> member;
-        final Optional<TransactionEntity>   transaction;
-        final boolean                       paid;
-        final FeeEntity                     entity;
-        final Instant                       date;
+        final Optional<MemberEntity>      member;
+        final Optional<TransactionEntity> transaction;
+        final boolean                     paid;
+        final FeeEntity                   entity;
+        final Instant                     date;
 
         // TODO: move to mapper
 

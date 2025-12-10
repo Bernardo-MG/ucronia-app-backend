@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.member.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
@@ -37,16 +36,6 @@ public interface MemberContactRepository {
 
     public Page<MemberContact> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
-    public Collection<MemberContact> findAllToRenew();
-
-    public Collection<MemberContact> findAllWithRenewalMismatch();
-
     public Optional<MemberContact> findOne(final Long number);
-
-    public boolean isActive(final long number);
-
-    public MemberContact save(final MemberContact member);
-
-    public Collection<MemberContact> saveAll(final Collection<MemberContact> member);
 
 }
