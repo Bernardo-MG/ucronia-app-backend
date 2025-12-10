@@ -61,13 +61,13 @@ import com.bernardomg.data.springframework.SpringSorting;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
+    private static final Collection<String>     CONTACT_PROPERTIES = List.of("firstName", "lastName", "member",
+        "number");
+
     /**
      * Logger for the class.
      */
-    private static final Logger                 log               = LoggerFactory.getLogger(JpaFeeRepository.class);
-
-    private static final Collection<String>     PERSON_PROPERTIES = List.of("firstName", "lastName", "member",
-        "number");
+    private static final Logger                 log                = LoggerFactory.getLogger(JpaFeeRepository.class);
 
     private final FeeSpringRepository           feeSpringRepository;
 
@@ -148,7 +148,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
         final Sorting                                   correctedSorting;
-        // TODO: Test reading with no first or last name
+        // TODO: Test reading with no last name
 
         log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
@@ -371,8 +371,8 @@ public final class JpaFeeRepository implements FeeRepository {
     private final Sorting.Property correct(final Sorting.Property property) {
         final Sorting.Property corrected;
 
-        if (PERSON_PROPERTIES.contains(property.name())) {
-            corrected = new Sorting.Property("m." + property.name(), property.direction());
+        if (CONTACT_PROPERTIES.contains(property.name())) {
+            corrected = new Sorting.Property("m.contact." + property.name(), property.direction());
         } else {
             corrected = property;
         }
