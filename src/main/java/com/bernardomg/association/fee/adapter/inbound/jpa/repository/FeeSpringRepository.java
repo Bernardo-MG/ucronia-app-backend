@@ -47,8 +47,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM Fee f
                  INNER JOIN f.member m
-                 INNER JOIN m.contact c
-               WHERE c.number = :number
+               WHERE m.number = :number
                  AND f.date = :date
             """)
     public boolean existsByMemberNumberAndDate(@Param("number") final Long number, @Param("date") final Instant date);
@@ -57,8 +56,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM Fee f
                  INNER JOIN f.member m
-                 INNER JOIN m.contact c
-               WHERE c.number = :number
+               WHERE m.number = :number
                  AND f.date = :date
                  AND f.transaction IS NOT NULL
             """)
@@ -78,18 +76,16 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT f
                FROM Fee f
                  INNER JOIN f.member m
-                 INNER JOIN m.contact c
-               WHERE c.number = :number
+               WHERE m.number = :number
             """)
     public Page<FeeEntity> findAllByMemberNumber(@Param("number") final Long number, final Pageable pageable);
 
     @Query("""
                SELECT f
                FROM Member m
-                 INNER JOIN m.contact c
                  INNER JOIN Fee f ON m.id = f.memberId
                  LEFT JOIN Transaction t ON f.transaction.id = t.id
-               WHERE c.number = :memberNumber
+               WHERE m.number = :memberNumber
                  AND f.date in :feeMonths
             """)
     public Collection<FeeEntity> findAllFeesByMemberNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
@@ -164,8 +160,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT f
                FROM Fee f
                  INNER JOIN f.member m
-                 INNER JOIN m.contact c
-               WHERE c.number = :number
+               WHERE m.number = :number
                  AND f.date = :date
             """)
     public Optional<FeeEntity> findByMemberNumberAndDate(@Param("number") final Long number,

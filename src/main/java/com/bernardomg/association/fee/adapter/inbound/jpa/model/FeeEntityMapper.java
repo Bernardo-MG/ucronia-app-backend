@@ -43,13 +43,10 @@ public final class FeeEntityMapper {
         final YearMonth                 date;
 
         name = new ContactName(entity.getMember()
-            .getContact()
             .getFirstName(),
             entity.getMember()
-                .getContact()
                 .getLastName());
         member = new Fee.Member(entity.getMember()
-            .getContact()
             .getNumber(), name);
 
         if (entity.getPaid()) {

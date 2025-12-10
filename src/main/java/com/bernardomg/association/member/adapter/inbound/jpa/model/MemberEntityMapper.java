@@ -50,22 +50,19 @@ public final class MemberEntityMapper {
     public static final Member toDomain(final MemberEntity entity) {
         final ContactName name;
 
-        name = new ContactName(entity.getContact()
-            .getFirstName(),
-            entity.getContact()
-                .getLastName());
-        return new Member(entity.getContact()
-            .getNumber(), name, entity.getActive(), entity.getRenew());
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
     public static final MemberEntity toEntity(final Member data) {
-        final MemberEntity  entity;
-        final ContactEntity contact;
-
-        contact = toContactEntity(data);
+        final MemberEntity entity;
+        toContactEntity(data);
 
         entity = new MemberEntity();
-        entity.setContact(contact);
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
         entity.setActive(data.active());
         entity.setRenew(data.renew());
 

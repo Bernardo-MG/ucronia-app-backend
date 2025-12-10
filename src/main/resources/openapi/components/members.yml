@@ -14,29 +14,6 @@ components:
           pattern: '^(firstName|lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
-    MemberContact:
-      type: object
-      required: [number, name]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        identifier:
-          type: string
-          description: Unique identifier of the contact.
-        name:
-          $ref: 'contacts.yml#/components/schemas/ContactName'
-        birthDate:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        active:
-          type: boolean
-          description: Whether the member is active.
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
-        contactChannels:
-          type: array
-          items:
-            $ref: './contacts.yml#/components/schemas/ContactChannel'
     Member:
       type: object
       required: [number, name]
@@ -76,20 +53,6 @@ components:
       type: string
       description: Status filter for contact queries.
       enum: [ACTIVE, INACTIVE, ALL]
-    MemberContactPageResponse:
-      allOf:
-        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
-        - type: object
-          properties:
-            content:
-              type: array
-              items:
-                $ref: '#/components/schemas/MemberContact'
-    MemberContactResponse:
-      type: object
-      properties:
-        content:
-          $ref: '#/components/schemas/MemberContact'
     MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

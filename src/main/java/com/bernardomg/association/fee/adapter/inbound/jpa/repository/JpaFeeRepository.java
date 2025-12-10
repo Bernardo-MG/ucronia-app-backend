@@ -370,7 +370,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Sorting.Property corrected;
 
         if (CONTACT_PROPERTIES.contains(property.name())) {
-            corrected = new Sorting.Property("m.contact." + property.name(), property.direction());
+            corrected = new Sorting.Property("m." + property.name(), property.direction());
         } else {
             corrected = property;
         }

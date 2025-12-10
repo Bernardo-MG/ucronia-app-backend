@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public final class MemberEntities {
@@ -11,7 +11,8 @@ public final class MemberEntities {
 
         entity = new MemberEntity();
         entity.setId(1L);
-        entity.setContact(ContactEntities.valid());
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
         return entity;
@@ -22,7 +23,8 @@ public final class MemberEntities {
 
         entity = new MemberEntity();
         entity.setId(1L);
-        entity.setContact(ContactEntities.alternative());
+        entity.setFirstName(ContactConstants.ALTERNATIVE_FIRST_NAME);
+        entity.setLastName(ContactConstants.ALTERNATIVE_LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
         return entity;
@@ -33,7 +35,8 @@ public final class MemberEntities {
 
         entity = new MemberEntity();
         entity.setId(1L);
-        entity.setContact(ContactEntities.valid());
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(false);
         entity.setRenew(true);
         return entity;

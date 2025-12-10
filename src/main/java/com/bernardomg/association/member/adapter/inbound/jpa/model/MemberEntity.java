@@ -4,19 +4,18 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Member")
 @Table(schema = "directory", name = "members")
+@SecondaryTable(schema = "directory", name = "contacts",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class MemberEntity implements Serializable {
 
     /**
@@ -25,18 +24,23 @@ public class MemberEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 8139806507534262996L;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", table = "members", nullable = false)
     private Boolean           active;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private ContactEntity     contact;
+    @Column(name = "first_name", table = "contacts", nullable = false)
+    private String            firstName;
 
     @Id
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "renew_membership", nullable = false)
+    @Column(name = "last_name", table = "contacts")
+    private String            lastName;
+
+    @Column(name = "number", table = "contacts")
+    private Long              number;
+
+    @Column(name = "renew_membership", table = "members", nullable = false)
     private Boolean           renew;
 
     @Override
@@ -54,12 +58,20 @@ public class MemberEntity implements Serializable {
         return active;
     }
 
-    public ContactEntity getContact() {
-        return contact;
+    public String getFirstName() {
+        return firstName;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Long getNumber() {
+        return number;
     }
 
     public Boolean getRenew() {
@@ -75,12 +87,20 @@ public class MemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setContact(final ContactEntity contact) {
-        this.contact = contact;
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
     }
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
     }
 
     public void setRenew(final Boolean renew) {
@@ -89,7 +109,8 @@ public class MemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MemberEntity [active=" + active + ", contact=" + contact + ", id=" + id + ", renew=" + renew + "]";
+        return "MemberEntity [active=" + active + ", renew=" + renew + ", firstName=" + firstName + ", id=" + id
+                + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

@@ -28,27 +28,28 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
-public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
+public interface MemberSpringRepository
+        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
 
     @Modifying
     @Query("""
             DELETE
             FROM Member m
-            WHERE m.contact.number = :number
+            WHERE m.number = :number
             """)
     public void deleteByNumber(@Param("number") final Long number);
 
     @Query("""
-            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Member m
-              JOIN m.contact c
-            WHERE c.number = :number
+            WHERE m.number = :number
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
@@ -77,19 +78,12 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
             """)
     public Collection<MemberEntity> findAllWithRenewalMismatch();
 
-    @Query("""
-            SELECT m
-            FROM Member m
-              INNER JOIN m.contact c
-            WHERE c.number = :number
-            """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
     @Query("""
             SELECT m.active
             FROM Member m
-              INNER JOIN m.contact c
-            WHERE c.number = :number
+            WHERE m.number = :number
             """)
     public Boolean isActive(@Param("number") final Long number);
 

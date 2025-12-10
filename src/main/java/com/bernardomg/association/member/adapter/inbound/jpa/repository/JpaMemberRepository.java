@@ -38,11 +38,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.specification.QueryMemberSpecifications;
+import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -58,21 +56,17 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger           log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ContactSpringRepository       contactSpringRepository;
+    private final ContactSpringRepository contactSpringRepository;
 
-    private final MemberSpringRepository        memberSpringRepository;
-
-    private final MemberContactSpringRepository queryMemberSpringRepository;
+    private final MemberSpringRepository  memberSpringRepository;
 
     public JpaMemberRepository(final MemberSpringRepository memberSpringRepo,
-            final MemberContactSpringRepository queryMemberSpringRepo,
             final ContactSpringRepository contactSpringRepo) {
         super();
 
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
-        queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
         contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
@@ -104,18 +98,18 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
-        final Optional<Specification<MemberContactEntity>> spec;
+        final Optional<Specification<MemberEntity>>        spec;
 
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = QueryMemberSpecifications.query(filter);
+        spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = queryMemberSpringRepository.findAll(pageable)
-                .map(MemberContactEntityMapper::toDomain);
+            read = memberSpringRepository.findAll(pageable)
+                .map(MemberEntityMapper::toDomain);
         } else {
-            read = queryMemberSpringRepository.findAll(spec.get(), pageable)
-                .map(MemberContactEntityMapper::toDomain);
+            read = memberSpringRepository.findAll(spec.get(), pageable)
+                .map(MemberEntityMapper::toDomain);
         }
 
         log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
@@ -175,8 +169,8 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding member with number {}", number);
 
-        member = queryMemberSpringRepository.findByNumber(number)
-            .map(MemberContactEntityMapper::toDomain);
+        member = memberSpringRepository.findByNumber(number)
+            .map(MemberEntityMapper::toDomain);
 
         log.trace("Found member with number {}: {}", number, member);
 
@@ -221,7 +215,10 @@ public final class JpaMemberRepository implements MemberRepository {
         createdContact = contactSpringRepository.save(contactEntity);
 
         entity.setId(createdContact.getId());
-        entity.setContact(createdContact);
+        entity.setFirstName(member.name()
+            .firstName());
+        entity.setLastName(member.name()
+            .lastName());
         created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
