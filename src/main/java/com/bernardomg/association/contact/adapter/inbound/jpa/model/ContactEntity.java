@@ -35,15 +35,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Contact")
 @Table(schema = "directory", name = "contacts")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class ContactEntity implements Serializable {
 
     /**
@@ -80,14 +77,10 @@ public class ContactEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final ContactEntity other)) {
             return false;
         }
-        final ContactEntity other = (ContactEntity) obj;
-        return Objects.equals(birthDate, other.birthDate) && Objects.equals(contactChannels, other.contactChannels)
-                && Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
-                && Objects.equals(identifier, other.identifier) && Objects.equals(lastName, other.lastName)
-                && Objects.equals(number, other.number);
+        return Objects.equals(id, other.id);
     }
 
     public Instant getBirthDate() {
@@ -120,7 +113,7 @@ public class ContactEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(birthDate, contactChannels, firstName, id, identifier, lastName, number);
+        return Objects.hash(id);
     }
 
     public void setBirthDate(final Instant birthDate) {

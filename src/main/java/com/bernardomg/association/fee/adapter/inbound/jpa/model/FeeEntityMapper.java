@@ -42,11 +42,14 @@ public final class FeeEntityMapper {
         final ContactName               name;
         final YearMonth                 date;
 
-        name = new ContactName(entity.getContact()
+        name = new ContactName(entity.getMember()
+            .getContact()
             .getFirstName(),
-            entity.getContact()
+            entity.getMember()
+                .getContact()
                 .getLastName());
-        member = new Fee.Member(entity.getContact()
+        member = new Fee.Member(entity.getMember()
+            .getContact()
             .getNumber(), name);
 
         if (entity.getPaid()) {

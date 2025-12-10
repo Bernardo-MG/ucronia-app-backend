@@ -65,7 +65,8 @@ public interface MemberContactSpringRepository
     @Query("""
             SELECT m
             FROM MemberContact m
-            WHERE m.number = :number
+              INNER JOIN m.contact c
+            WHERE c.number = :number
             """)
     public Optional<MemberContactEntity> findByNumber(@Param("number") final Long number);
 
@@ -75,7 +76,8 @@ public interface MemberContactSpringRepository
     @Query("""
             SELECT m.active
             FROM MemberContact m
-            WHERE m.number = :number
+              INNER JOIN m.contact c
+            WHERE c.number = :number
             """)
     public Boolean isActive(@Param("number") final Long number);
 

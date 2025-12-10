@@ -1,20 +1,24 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "MemberContact")
 @Table(schema = "directory", name = "members")
-@PrimaryKeyJoinColumn(name = "contact_id", referencedColumnName = "id")
-public class MemberContactEntity extends ContactEntity {
+public class MemberContactEntity implements Serializable {
 
     /**
      *
@@ -25,24 +29,39 @@ public class MemberContactEntity extends ContactEntity {
     @Column(name = "active", nullable = false)
     private Boolean           active;
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    private ContactEntity     contact;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long              id;
+
     @Column(name = "renew_membership")
     private Boolean           renew;
 
     @Override
     public boolean equals(final Object obj) {
-        // Basic checks
         if (this == obj) {
             return true;
         }
-        if (!super.equals(obj) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final ContactEntity other)) {
             return false;
         }
-        final MemberContactEntity other = (MemberContactEntity) obj;
-        return Objects.equals(active, other.active) && Objects.equals(renew, other.renew);
+        return Objects.equals(id, other.getId());
     }
 
     public Boolean getActive() {
         return active;
+    }
+
+    public ContactEntity getContact() {
+        return contact;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Boolean getRenew() {
@@ -51,12 +70,19 @@ public class MemberContactEntity extends ContactEntity {
 
     @Override
     public int hashCode() {
-        // Combine superclass and subclass fields
-        return Objects.hash(super.hashCode(), active, renew);
+        return Objects.hash(id);
     }
 
     public void setActive(final Boolean active) {
         this.active = active;
+    }
+
+    public void setContact(final ContactEntity contact) {
+        this.contact = contact;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public void setRenew(final Boolean renew) {
@@ -65,8 +91,7 @@ public class MemberContactEntity extends ContactEntity {
 
     @Override
     public String toString() {
-        return "MemberEntity [" + "id=" + getId() + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
-                + ", identifier=" + getIdentifier() + ", number=" + getNumber() + ", birthDate=" + getBirthDate()
+        return "MemberContactEntity [id=" + id + ", contactId=" + (contact != null ? contact.getId() : null)
                 + ", active=" + active + ", renew=" + renew + "]";
     }
 

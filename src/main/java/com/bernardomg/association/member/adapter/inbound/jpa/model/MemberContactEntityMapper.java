@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
@@ -44,13 +45,22 @@ public final class MemberContactEntityMapper {
         final ContactName                name;
         final Collection<ContactChannel> members;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
-        members = entity.getContactChannels()
+        name = new ContactName(entity.getContact()
+            .getFirstName(),
+            entity.getContact()
+                .getLastName());
+        members = entity.getContact()
+            .getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new MemberContact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
+        return new MemberContact(entity.getContact()
+            .getIdentifier(),
+            entity.getContact()
+                .getNumber(),
+            name, entity.getContact()
+                .getBirthDate(),
             entity.getActive(), entity.getRenew(), members);
     }
 
@@ -65,13 +75,19 @@ public final class MemberContactEntityMapper {
         renew = data.renew();
 
         entity = new MemberContactEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
+        entity.setContact(new ContactEntity());
+        entity.getContact()
+            .setNumber(data.number());
+        entity.getContact()
+            .setFirstName(data.name()
+                .firstName());
+        entity.getContact()
+            .setLastName(data.name()
+                .lastName());
+        entity.getContact()
+            .setIdentifier(data.identifier());
+        entity.getContact()
+            .setBirthDate(data.birthDate());
         entity.setActive(active);
         entity.setRenew(renew);
 
@@ -79,7 +95,8 @@ public final class MemberContactEntityMapper {
             .stream()
             .map(m -> MemberContactEntityMapper.toEntity(entity, m, contactMethods))
             .toList();
-        entity.setContactChannels(members);
+        entity.getContact()
+            .setContactChannels(members);
 
         return entity;
     }
@@ -102,7 +119,7 @@ public final class MemberContactEntityMapper {
         }
 
         entity = new ContactChannelEntity();
-        entity.setContact(member);
+        entity.setContact(member.getContact());
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

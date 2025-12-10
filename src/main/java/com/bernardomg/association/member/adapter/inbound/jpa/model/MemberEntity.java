@@ -29,11 +29,11 @@ public class MemberEntity implements Serializable {
     private Boolean           active;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id")
+    @JoinColumn(name = "id")
     private ContactEntity     contact;
 
     @Id
-    @Column(name = "contact_id", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
     @Column(name = "renew_membership", nullable = false)
@@ -44,12 +44,10 @@ public class MemberEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final MemberEntity other)) {
             return false;
         }
-        final MemberEntity other = (MemberEntity) obj;
-        return Objects.equals(active, other.active) && Objects.equals(contact, other.contact)
-                && Objects.equals(id, other.id) && Objects.equals(renew, other.renew);
+        return Objects.equals(id, other.id);
     }
 
     public Boolean getActive() {
@@ -70,7 +68,7 @@ public class MemberEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(active, contact, id, renew);
+        return Objects.hash(id);
     }
 
     public void setActive(final Boolean active) {

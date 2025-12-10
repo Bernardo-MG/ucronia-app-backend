@@ -15,7 +15,7 @@ import jakarta.persistence.Transient;
 @Entity(name = "QueryMember")
 @Table(schema = "directory", name = "members")
 @SecondaryTable(schema = "directory", name = "contacts",
-        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "contact_id"))
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class QueryMemberEntity implements Serializable {
 
     /**
@@ -31,7 +31,7 @@ public class QueryMemberEntity implements Serializable {
     private String            firstName;
 
     @Id
-    @Column(name = "contact_id", table = "members", nullable = false, unique = true)
+    @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
     @Column(name = "last_name", table = "contacts")
@@ -48,13 +48,10 @@ public class QueryMemberEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final QueryMemberEntity other)) {
             return false;
         }
-        final QueryMemberEntity other = (QueryMemberEntity) obj;
-        return Objects.equals(active, other.active) && Objects.equals(firstName, other.firstName)
-                && Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
-                && Objects.equals(number, other.number) && Objects.equals(renew, other.renew);
+        return Objects.equals(id, other.id);
     }
 
     public Boolean getActive() {
@@ -83,7 +80,7 @@ public class QueryMemberEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(active, firstName, id, lastName, number, renew);
+        return Objects.hash(id);
     }
 
     public void setActive(final Boolean active) {

@@ -98,7 +98,7 @@ public final class JpaFeeRepository implements FeeRepository {
             dateParsed = date.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
-            feeSpringRepository.deleteByContactIdAndDate(member.get()
+            feeSpringRepository.deleteByMemberIdAndDate(member.get()
                 .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
@@ -304,7 +304,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        found = feeSpringRepository.findByContactNumberAndDate(number, dateParsed)
+        found = feeSpringRepository.findByMemberNumberAndDate(number, dateParsed)
             .map(FeeEntityMapper::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
@@ -385,7 +385,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeEntity> read;
 
         // TODO: optimize to use a single query
-        read = feeSpringRepository.findByContactIdAndDate(fee.getContact()
+        read = feeSpringRepository.findByMemberIdAndDate(fee.getMember()
             .getId(), fee.getDate());
         if (read.isPresent()) {
             id = read.get()
@@ -431,7 +431,7 @@ public final class JpaFeeRepository implements FeeRepository {
         }
 
         entity = new FeeEntity();
-        entity.setContact(member.orElse(null));
+        entity.setMember(member.orElse(null));
         date = fee.month()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)

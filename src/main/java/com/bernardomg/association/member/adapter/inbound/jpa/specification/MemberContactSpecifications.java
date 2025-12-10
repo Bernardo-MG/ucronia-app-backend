@@ -91,9 +91,9 @@ public final class MemberContactSpecifications {
      */
     private static Specification<MemberContactEntity> name(final String pattern) {
         final String likePattern = "%" + pattern + "%";
-        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
-            cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
-            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))),
+        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("contact").get("firstName")), likePattern.toLowerCase()),
+            cb.like(cb.lower(root.get("contact").get("lastName")), likePattern.toLowerCase()),
+            cb.like(cb.lower(cb.concat(root.get("contact").get("firstName"), cb.concat(" ", root.get("contact").get("lastName")))),
                 likePattern.toLowerCase()));
     }
 
