@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.MemberContact;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -45,13 +45,13 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
+    private static final Logger    log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
 
-    private final FeeRepository           feeRepository;
+    private final FeeRepository    feeRepository;
 
-    private final MemberContactRepository memberContactRepository;
+    private final MemberRepository memberContactRepository;
 
-    public FeeMonthNotExistingRule(final MemberContactRepository memberContactRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final MemberRepository memberContactRepo, final FeeRepository feeRepo) {
         super();
 
         memberContactRepository = Objects.requireNonNull(memberContactRepo);
@@ -63,7 +63,7 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final boolean                existing;
-        final MemberContact          member;
+        final Member                 member;
 
         member = memberContactRepository.findOne(fee.member()
             .number())

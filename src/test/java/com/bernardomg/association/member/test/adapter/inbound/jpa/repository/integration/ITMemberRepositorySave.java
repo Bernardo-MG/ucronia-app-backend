@@ -89,7 +89,7 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(Members.active());
+            .isEqualTo(Members.created());
     }
 
     @Test

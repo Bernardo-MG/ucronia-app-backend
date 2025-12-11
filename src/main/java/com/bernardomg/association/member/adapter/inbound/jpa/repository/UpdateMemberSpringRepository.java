@@ -22,8 +22,24 @@
  * SOFTWARE.
  */
 
-/**
- * Member validators.
- */
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-package com.bernardomg.association.member.usecase.validation;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
+
+public interface UpdateMemberSpringRepository extends JpaRepository<UpdateMemberEntity, Long> {
+
+    @Query("""
+            SELECT m
+            FROM UpdateMember m
+              JOIN m.contact c
+            WHERE c.number = :number
+            """)
+    public Optional<UpdateMemberEntity> findByNumber(@Param("number") final Long number);
+
+}

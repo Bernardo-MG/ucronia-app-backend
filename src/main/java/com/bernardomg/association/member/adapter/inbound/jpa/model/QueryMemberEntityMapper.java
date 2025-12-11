@@ -43,7 +43,6 @@ public final class QueryMemberEntityMapper {
         final QueryMemberEntity entity;
 
         entity = new QueryMemberEntity();
-        entity.setNumber(data.number());
         entity.setFirstName(data.name()
             .firstName());
         entity.setLastName(data.name()

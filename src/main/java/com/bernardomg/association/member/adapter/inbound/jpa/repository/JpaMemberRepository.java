@@ -24,8 +24,11 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +37,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.specification.QueryMemberSpecifications;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -56,20 +58,22 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger                log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ContactSpringRepository     contactSpringRepository;
+    private final ContactSpringRepository      contactSpringRepository;
 
-    private final MemberSpringRepository      memberSpringRepository;
+    private final QueryMemberSpringRepository  queryMemberSpringRepository;
 
-    private final QueryMemberSpringRepository queryMemberSpringRepository;
+    private final UpdateMemberSpringRepository updateMemberSpringRepository;
 
-    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo,
-            final QueryMemberSpringRepository queryMemberSpringRepo, final ContactSpringRepository contactSpringRepo) {
+    public JpaMemberRepository(final QueryMemberSpringRepository queryMemberSpringRepo,
+            final UpdateMemberSpringRepository updateMemberSpringRepo,
+            final ContactSpringRepository contactSpringRepo) {
         super();
 
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
         queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
+        updateMemberSpringRepository = Objects.requireNonNull(updateMemberSpringRepo);
+        // TODO: remove contact repository
         contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
@@ -78,7 +82,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Deleting member {}", number);
 
         // TODO: delete on cascade from the contact
-        memberSpringRepository.deleteByNumber(number);
+        queryMemberSpringRepository.deleteByNumber(number);
         contactSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted member {}", number);
@@ -90,7 +94,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Checking if member {} exists", number);
 
-        exists = memberSpringRepository.existsByNumber(number);
+        exists = queryMemberSpringRepository.existsByNumber(number);
 
         log.debug("Member {} exists: {}", number, exists);
 
@@ -106,7 +110,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = QueryMemberSpecifications.query(filter);
+        spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = queryMemberSpringRepository.findAll(pageable)
                 .map(QueryMemberEntityMapper::toDomain);
@@ -122,16 +126,35 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
+    public final Collection<Member> findAllToRenew() {
+        final Collection<Member> members;
 
-        log.debug("Finding next number for the members");
+        log.debug("Finding all the members to renew");
 
-        number = contactSpringRepository.findNextNumber();
+        members = queryMemberSpringRepository.findAllByRenewTrue()
+            .stream()
+            .map(QueryMemberEntityMapper::toDomain)
+            .toList();
 
-        log.debug("Found next number for the members: {}", number);
+        log.debug("Found all the members to renew: {}", members);
 
-        return number;
+        return members;
+    }
+
+    @Override
+    public final Collection<Member> findAllWithRenewalMismatch() {
+        final Collection<Member> members;
+
+        log.debug("Finding all the members with a renewal mismatch");
+
+        members = queryMemberSpringRepository.findAllWithRenewalMismatch()
+            .stream()
+            .map(QueryMemberEntityMapper::toDomain)
+            .toList();
+
+        log.debug("Found all the members with a renewal mismatch: {}", members);
+
+        return members;
     }
 
     @Override
@@ -149,36 +172,81 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
+    public final boolean isActive(final long number) {
+        final Boolean active;
+
+        log.trace("Checking if member {} is active", number);
+
+        active = queryMemberSpringRepository.isActive(number);
+
+        log.trace("Member {} is active: {}", number, active);
+
+        return Boolean.TRUE.equals(active);
+    }
+
+    @Override
     public final Member save(final Member member) {
-        final Optional<ContactEntity> existingContact;
-        final MemberEntity            entity;
-        final ContactEntity           contactEntity;
-        final Member                  created;
-        final ContactEntity           createdContact;
+        final Optional<UpdateMemberEntity> existing;
+        final UpdateMemberEntity           entity;
+        final Member                       created;
+        final Long                         number;
 
         log.debug("Saving member {}", member);
 
-        entity = MemberEntityMapper.toEntity(member);
-        existingContact = contactSpringRepository.findByNumber(member.number());
-        if (existingContact.isPresent()) {
-            contactEntity = existingContact.get();
-            contactEntity.setFirstName(member.name()
-                .firstName());
-            contactEntity.setLastName(member.name()
-                .lastName());
+        existing = updateMemberSpringRepository.findByNumber(member.number());
+        if (existing.isPresent()) {
+            entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
         } else {
-            contactEntity = MemberEntityMapper.toContactEntity(member);
+            entity = UpdateMemberEntityMapper.toEntity(member);
+            number = queryMemberSpringRepository.findNextNumber();
+            entity.getContact()
+                .setNumber(number);
         }
 
-        createdContact = contactSpringRepository.save(contactEntity);
-
-        entity.setId(createdContact.getId());
-        entity.setContact(createdContact);
-        created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
+        created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
 
         return created;
+    }
+
+    @Override
+    public final Collection<Member> saveAll(final Collection<Member> members) {
+        final List<UpdateMemberEntity> entities;
+        final List<Member>             saved;
+        final AtomicLong               number;
+
+        log.debug("Saving members {}", members);
+
+        number = new AtomicLong(queryMemberSpringRepository.findNextNumber());
+        entities = members.stream()
+            .map(m -> convert(m, number))
+            .toList();
+
+        saved = updateMemberSpringRepository.saveAll(entities)
+            .stream()
+            .map(UpdateMemberEntityMapper::toDomain)
+            .toList();
+
+        log.debug("Saved members {}", saved);
+
+        return saved;
+    }
+
+    private final UpdateMemberEntity convert(final Member member, final AtomicLong number) {
+        final Optional<UpdateMemberEntity> existing;
+        final UpdateMemberEntity           entity;
+
+        existing = updateMemberSpringRepository.findByNumber(member.number());
+        if (existing.isPresent()) {
+            entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
+        } else {
+            entity = UpdateMemberEntityMapper.toEntity(member);
+            entity.getContact()
+                .setNumber(number.getAndIncrement());
+        }
+
+        return entity;
     }
 
 }

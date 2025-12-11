@@ -72,7 +72,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: contact_id
+                  name: member_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -110,7 +110,7 @@ databaseChangeLog:
             constraintName: fees_unique_date
             schemaName: association
             tableName: fees
-            columnNames: 'contact_id, date'
+            columnNames: 'member_id, date'
       modifySql:
         - append:
             dbms: mysql

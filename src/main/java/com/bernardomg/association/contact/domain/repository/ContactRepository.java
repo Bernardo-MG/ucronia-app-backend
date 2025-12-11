@@ -45,8 +45,6 @@ public interface ContactRepository {
 
     public Page<Contact> findAll(final ContactQuery filter, final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<Contact> findOne(final Long number);
 
     public Contact save(final Contact contact);

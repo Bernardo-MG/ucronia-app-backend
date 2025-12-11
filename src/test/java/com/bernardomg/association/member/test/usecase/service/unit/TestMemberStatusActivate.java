@@ -40,8 +40,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +49,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusActivate {
 
     @Mock
-    private MemberContactRepository    memberContactRepository;
+    private MemberRepository           memberContactRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,8 +65,7 @@ class TestMemberStatusActivate {
         final Long      number;
 
         // GIVEN
-        given(memberContactRepository.findOne(ContactConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.inactive()));
+        given(memberContactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
         date = YearMonth.now();
         number = ContactConstants.NUMBER;
 
@@ -74,7 +73,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(memberContactRepository).save(MemberContacts.active());
+        verify(memberContactRepository).save(Members.active());
     }
 
     @Test

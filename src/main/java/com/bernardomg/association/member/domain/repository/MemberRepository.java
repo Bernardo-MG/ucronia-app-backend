@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.domain.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
@@ -40,10 +41,16 @@ public interface MemberRepository {
 
     public Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
+    public Collection<Member> findAllToRenew();
+
+    public Collection<Member> findAllWithRenewalMismatch();
 
     public Optional<Member> findOne(final Long number);
 
+    public boolean isActive(final long number);
+
     public Member save(final Member member);
+
+    public Collection<Member> saveAll(final Collection<Member> members);
 
 }

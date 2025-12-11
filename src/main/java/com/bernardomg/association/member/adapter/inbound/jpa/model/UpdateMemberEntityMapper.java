@@ -29,25 +29,11 @@ import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
 
 /**
- * Query member entity mapper.
+ * Update member entity mapper.
  */
-public final class MemberEntityMapper {
+public final class UpdateMemberEntityMapper {
 
-    public static final ContactEntity toContactEntity(final Member data) {
-        final ContactEntity entity;
-
-        entity = new ContactEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier("");
-
-        return entity;
-    }
-
-    public static final Member toDomain(final MemberEntity entity) {
+    public static final Member toDomain(final UpdateMemberEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getContact()
@@ -58,13 +44,18 @@ public final class MemberEntityMapper {
             .getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
-    public static final MemberEntity toEntity(final Member data) {
-        final MemberEntity  entity;
-        final ContactEntity contact;
+    public static final UpdateMemberEntity toEntity(final Member data) {
+        final UpdateMemberEntity entity;
+        final ContactEntity      contact;
 
-        contact = toContactEntity(data);
+        contact = new ContactEntity();
+        contact.setNumber(data.number());
+        contact.setFirstName(data.name()
+            .firstName());
+        contact.setLastName(data.name()
+            .lastName());
 
-        entity = new MemberEntity();
+        entity = new UpdateMemberEntity();
         entity.setContact(contact);
         entity.setActive(data.active());
         entity.setRenew(data.renew());
@@ -72,7 +63,21 @@ public final class MemberEntityMapper {
         return entity;
     }
 
-    private MemberEntityMapper() {
+    public static final UpdateMemberEntity toEntity(final UpdateMemberEntity entity, final Member data) {
+
+        entity.getContact()
+            .setFirstName(data.name()
+                .firstName());
+        entity.getContact()
+            .setLastName(data.name()
+                .lastName());
+        entity.setActive(data.active());
+        entity.setRenew(data.renew());
+
+        return entity;
+    }
+
+    private UpdateMemberEntityMapper() {
         super();
     }
 

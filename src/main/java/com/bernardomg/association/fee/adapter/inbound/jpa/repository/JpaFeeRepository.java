@@ -47,8 +47,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.data.domain.Page;
@@ -61,22 +61,20 @@ import com.bernardomg.data.springframework.SpringSorting;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
+    private static final Collection<String>   CONTACT_PROPERTIES = List.of("firstName", "lastName", "member", "number");
+
     /**
      * Logger for the class.
      */
-    private static final Logger                 log               = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger               log                = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private static final Collection<String>     PERSON_PROPERTIES = List.of("firstName", "lastName", "member",
-        "number");
+    private final FeeSpringRepository         feeSpringRepository;
 
-    private final FeeSpringRepository           feeSpringRepository;
+    private final QueryMemberSpringRepository memberSpringRepository;
 
-    private final MemberContactSpringRepository memberSpringRepository;
+    private final TransactionSpringRepository transactionSpringRepository;
 
-    private final TransactionSpringRepository   transactionSpringRepository;
-
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
-            final MemberContactSpringRepository memberSpringRepo,
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final QueryMemberSpringRepository memberSpringRepo,
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
@@ -87,8 +85,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final void delete(final Long number, final YearMonth date) {
-        final Optional<MemberContactEntity> member;
-        final Instant                       dateParsed;
+        final Optional<QueryMemberEntity> member;
+        final Instant                     dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
@@ -98,7 +96,7 @@ public final class JpaFeeRepository implements FeeRepository {
             dateParsed = date.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
-            feeSpringRepository.deleteByContactIdAndDate(member.get()
+            feeSpringRepository.deleteByMemberIdAndDate(member.get()
                 .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
@@ -148,7 +146,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
         final Sorting                                   correctedSorting;
-        // TODO: Test reading with no first or last name
+        // TODO: Test reading with no last name
 
         log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
@@ -304,7 +302,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        found = feeSpringRepository.findByContactNumberAndDate(number, dateParsed)
+        found = feeSpringRepository.findByMemberNumberAndDate(number, dateParsed)
             .map(FeeEntityMapper::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
@@ -371,7 +369,7 @@ public final class JpaFeeRepository implements FeeRepository {
     private final Sorting.Property correct(final Sorting.Property property) {
         final Sorting.Property corrected;
 
-        if (PERSON_PROPERTIES.contains(property.name())) {
+        if (CONTACT_PROPERTIES.contains(property.name())) {
             corrected = new Sorting.Property("m." + property.name(), property.direction());
         } else {
             corrected = property;
@@ -385,7 +383,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeEntity> read;
 
         // TODO: optimize to use a single query
-        read = feeSpringRepository.findByContactIdAndDate(fee.getContact()
+        read = feeSpringRepository.findByMemberIdAndDate(fee.getMember()
             .getId(), fee.getDate());
         if (read.isPresent()) {
             id = read.get()
@@ -395,11 +393,11 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final Optional<MemberContactEntity> member;
-        final Optional<TransactionEntity>   transaction;
-        final boolean                       paid;
-        final FeeEntity                     entity;
-        final Instant                       date;
+        final Optional<QueryMemberEntity> member;
+        final Optional<TransactionEntity> transaction;
+        final boolean                     paid;
+        final FeeEntity                   entity;
+        final Instant                     date;
 
         // TODO: move to mapper
 
@@ -431,7 +429,7 @@ public final class JpaFeeRepository implements FeeRepository {
         }
 
         entity = new FeeEntity();
-        entity.setContact(member.orElse(null));
+        entity.setMember(member.orElse(null));
         date = fee.month()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)

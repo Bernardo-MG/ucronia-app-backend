@@ -39,7 +39,7 @@ import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.YearsRanges;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -55,7 +55,7 @@ class TestFeeServiceGetRange {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MemberContactRepository   memberContactRepository;
+    private MemberRepository          memberRepository;
 
     @Mock
     private MessageSource             messageSource;

@@ -35,7 +35,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -63,13 +62,11 @@ class TestMemberServiceCreate {
         // GIVEN
         member = Members.padded();
 
-        given(memberRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
         // WHEN
         service.create(member);
 
         // THEN
-        verify(memberRepository).save(Members.active());
+        verify(memberRepository).save(Members.toCreate());
     }
 
     @Test
@@ -80,13 +77,11 @@ class TestMemberServiceCreate {
         // GIVEN
         member = Members.toCreate();
 
-        given(memberRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
         // WHEN
         service.create(member);
 
         // THEN
-        verify(memberRepository).save(Members.active());
+        verify(memberRepository).save(Members.toCreate());
     }
 
     @Test
@@ -98,8 +93,7 @@ class TestMemberServiceCreate {
         // GIVEN
         member = Members.toCreate();
 
-        given(memberRepository.save(Members.active())).willReturn(Members.active());
-        given(memberRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(memberRepository.save(member)).willReturn(Members.active());
 
         // WHEN
         created = service.create(member);

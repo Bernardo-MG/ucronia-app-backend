@@ -177,7 +177,7 @@ class ITContactRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact")
-            .isEqualTo(Contacts.valid());
+            .isEqualTo(Contacts.created());
     }
 
     @Test
@@ -196,7 +196,7 @@ class ITContactRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact")
-            .isEqualTo(Contacts.withEmail());
+            .isEqualTo(Contacts.createdWithEmail());
     }
 
     @Test

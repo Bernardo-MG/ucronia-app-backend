@@ -88,7 +88,6 @@ public final class DefaultContactService implements ContactService {
     public final Contact create(final Contact contact) {
         final Contact toCreate;
         final Contact created;
-        final Long    number;
 
         log.debug("Creating contact {}", contact);
 
@@ -98,10 +97,7 @@ public final class DefaultContactService implements ContactService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        // Set number
-        number = contactRepository.findNextNumber();
-
-        toCreate = new Contact(contact.identifier(), number, contact.name(), contact.birthDate(),
+        toCreate = new Contact(contact.identifier(), 0L, contact.name(), contact.birthDate(),
             contact.contactChannels());
 
         createContactValidator.validate(toCreate);

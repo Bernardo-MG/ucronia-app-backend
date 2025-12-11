@@ -9,15 +9,18 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntit
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Member")
+@Entity(name = "UpdateMember")
 @Table(schema = "directory", name = "members")
-public class MemberEntity implements Serializable {
+public class UpdateMemberEntity implements Serializable {
 
     /**
      *
@@ -29,11 +32,13 @@ public class MemberEntity implements Serializable {
     private Boolean           active;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id")
+    @MapsId
+    @JoinColumn(name = "id")
     private ContactEntity     contact;
 
     @Id
-    @Column(name = "contact_id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
     @Column(name = "renew_membership", nullable = false)
@@ -44,12 +49,10 @@ public class MemberEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final UpdateMemberEntity other)) {
             return false;
         }
-        final MemberEntity other = (MemberEntity) obj;
-        return Objects.equals(active, other.active) && Objects.equals(contact, other.contact)
-                && Objects.equals(id, other.id) && Objects.equals(renew, other.renew);
+        return Objects.equals(id, other.id);
     }
 
     public Boolean getActive() {
@@ -70,7 +73,7 @@ public class MemberEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(active, contact, id, renew);
+        return Objects.hash(id);
     }
 
     public void setActive(final Boolean active) {

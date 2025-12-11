@@ -91,7 +91,7 @@ class ITContactRepositorySaveAll {
         // THEN
         Assertions.assertThat(saved)
             .as("contact")
-            .containsExactly(Contacts.valid());
+            .containsExactly(Contacts.created());
     }
 
 }
