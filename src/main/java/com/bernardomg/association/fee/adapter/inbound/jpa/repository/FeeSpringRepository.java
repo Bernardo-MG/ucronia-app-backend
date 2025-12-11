@@ -150,7 +150,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     /**
      * Finds the fee for the member in the date.
      *
-     * @param memberNumber
+     * @param number
      *            member to filter by
      * @param date
      *            date to filter by
