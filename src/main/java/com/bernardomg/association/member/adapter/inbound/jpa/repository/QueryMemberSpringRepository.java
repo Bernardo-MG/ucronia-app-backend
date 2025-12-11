@@ -33,10 +33,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
-public interface MemberSpringRepository
-        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
+public interface QueryMemberSpringRepository
+        extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
 
     @Modifying
     @Query("""
@@ -61,7 +61,7 @@ public interface MemberSpringRepository
             """)
     public Collection<Long> findAllActiveMemberIds();
 
-    public Collection<MemberEntity> findAllByRenewTrue();
+    public Collection<QueryMemberEntity> findAllByRenewTrue();
 
     @Query("""
             SELECT m.id AS id
@@ -76,9 +76,9 @@ public interface MemberSpringRepository
             FROM Member m
             WHERE m.active != m.renew
             """)
-    public Collection<MemberEntity> findAllWithRenewalMismatch();
+    public Collection<QueryMemberEntity> findAllWithRenewalMismatch();
 
-    public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+    public Optional<QueryMemberEntity> findByNumber(final Long number);
 
     @Query("""
             SELECT m.active

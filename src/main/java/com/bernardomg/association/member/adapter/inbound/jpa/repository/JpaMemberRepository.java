@@ -37,8 +37,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
@@ -55,17 +57,22 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger                log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ContactSpringRepository contactSpringRepository;
+    private final ContactSpringRepository      contactSpringRepository;
 
-    private final MemberSpringRepository  memberSpringRepository;
+    private final QueryMemberSpringRepository  queryMemberSpringRepository;
 
-    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo,
+    private final UpdateMemberSpringRepository updateMemberSpringRepository;
+
+    public JpaMemberRepository(final QueryMemberSpringRepository queryMemberSpringRepo,
+            final UpdateMemberSpringRepository updateMemberSpringRepo,
             final ContactSpringRepository contactSpringRepo) {
         super();
 
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
+        updateMemberSpringRepository = Objects.requireNonNull(updateMemberSpringRepo);
+        // TODO: remove contact repository
         contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
     }
 
@@ -74,7 +81,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Deleting member {}", number);
 
         // TODO: delete on cascade from the contact
-        memberSpringRepository.deleteByNumber(number);
+        queryMemberSpringRepository.deleteByNumber(number);
         contactSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted member {}", number);
@@ -86,7 +93,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Checking if member {} exists", number);
 
-        exists = memberSpringRepository.existsByNumber(number);
+        exists = queryMemberSpringRepository.existsByNumber(number);
 
         log.debug("Member {} exists: {}", number, exists);
 
@@ -97,18 +104,18 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
-        final Optional<Specification<MemberEntity>>        spec;
+        final Optional<Specification<QueryMemberEntity>>   spec;
 
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = memberSpringRepository.findAll(pageable)
-                .map(MemberEntityMapper::toDomain);
+            read = queryMemberSpringRepository.findAll(pageable)
+                .map(QueryMemberEntityMapper::toDomain);
         } else {
-            read = memberSpringRepository.findAll(spec.get(), pageable)
-                .map(MemberEntityMapper::toDomain);
+            read = queryMemberSpringRepository.findAll(spec.get(), pageable)
+                .map(QueryMemberEntityMapper::toDomain);
         }
 
         log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
@@ -123,9 +130,9 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Finding all the members to renew");
 
-        members = memberSpringRepository.findAllByRenewTrue()
+        members = queryMemberSpringRepository.findAllByRenewTrue()
             .stream()
-            .map(MemberEntityMapper::toDomain)
+            .map(QueryMemberEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the members to renew: {}", members);
@@ -139,9 +146,9 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Finding all the members with a renewal mismatch");
 
-        members = memberSpringRepository.findAllWithRenewalMismatch()
+        members = queryMemberSpringRepository.findAllWithRenewalMismatch()
             .stream()
-            .map(MemberEntityMapper::toDomain)
+            .map(QueryMemberEntityMapper::toDomain)
             .toList();
 
         log.debug("Found all the members with a renewal mismatch: {}", members);
@@ -168,8 +175,8 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding member with number {}", number);
 
-        member = memberSpringRepository.findByNumber(number)
-            .map(MemberEntityMapper::toDomain);
+        member = queryMemberSpringRepository.findByNumber(number)
+            .map(QueryMemberEntityMapper::toDomain);
 
         log.trace("Found member with number {}: {}", number, member);
 
@@ -182,7 +189,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Checking if member {} is active", number);
 
-        active = memberSpringRepository.isActive(number);
+        active = queryMemberSpringRepository.isActive(number);
 
         log.trace("Member {} is active: {}", number, active);
 
@@ -191,22 +198,30 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Member save(final Member member) {
-        final Optional<MemberEntity> existing;
-        final MemberEntity           entity;
-        final Member                 created;
+        final Optional<UpdateMemberEntity> existing;
+        final UpdateMemberEntity           entity;
+        final Member                       created;
 
         log.debug("Saving member {}", member);
 
-        entity = MemberEntityMapper.toEntity(member);
-
-        existing = memberSpringRepository.findByNumber(member.number());
+        existing = updateMemberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
+            // TODO: do in the mapper
+            entity = existing.get();
+            entity.getContact()
+                .setFirstName(member.name()
+                    .firstName());
+            entity.getContact()
+                .setLastName(member.name()
+                    .lastName());
+            entity.setActive(member.active());
+            entity.setRenew(member.renew());
+        } else {
+            entity = UpdateMemberEntityMapper.toEntity(member);
         }
         // TODO: Assign number here
 
-        created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
+        created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
 
@@ -215,18 +230,18 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Collection<Member> saveAll(final Collection<Member> members) {
-        final List<MemberEntity> entities;
-        final List<Member>       saved;
+        final List<QueryMemberEntity> entities;
+        final List<Member>            saved;
 
         log.debug("Saving members {}", members);
 
         entities = members.stream()
-            .map(MemberEntityMapper::toEntity)
+            .map(QueryMemberEntityMapper::toEntity)
             .toList();
 
-        saved = memberSpringRepository.saveAll(entities)
+        saved = queryMemberSpringRepository.saveAll(entities)
             .stream()
-            .map(MemberEntityMapper::toDomain)
+            .map(QueryMemberEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved members {}", saved);

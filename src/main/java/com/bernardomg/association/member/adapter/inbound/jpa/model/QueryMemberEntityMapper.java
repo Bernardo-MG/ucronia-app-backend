@@ -24,41 +24,25 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
 
 /**
  * Query member entity mapper.
  */
-public final class MemberEntityMapper {
+public final class QueryMemberEntityMapper {
 
-    public static final ContactEntity toContactEntity(final Member data) {
-        final ContactEntity entity;
-
-        entity = new ContactEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier("");
-
-        return entity;
-    }
-
-    public static final Member toDomain(final MemberEntity entity) {
+    public static final Member toDomain(final QueryMemberEntity entity) {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
         return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
-    public static final MemberEntity toEntity(final Member data) {
-        final MemberEntity entity;
-        toContactEntity(data);
+    public static final QueryMemberEntity toEntity(final Member data) {
+        final QueryMemberEntity entity;
 
-        entity = new MemberEntity();
+        entity = new QueryMemberEntity();
         entity.setFirstName(data.name()
             .firstName());
         entity.setLastName(data.name()
@@ -69,7 +53,7 @@ public final class MemberEntityMapper {
         return entity;
     }
 
-    private MemberEntityMapper() {
+    private QueryMemberEntityMapper() {
         super();
     }
 

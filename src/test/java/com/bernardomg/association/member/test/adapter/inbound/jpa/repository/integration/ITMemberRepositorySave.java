@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -44,10 +44,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositorySave {
 
     @Autowired
-    private MemberRepository       repository;
+    private MemberRepository            repository;
 
     @Autowired
-    private MemberSpringRepository springRepository;
+    private QueryMemberSpringRepository springRepository;
 
     public ITMemberRepositorySave() {
         super();
@@ -56,8 +56,8 @@ class ITMemberRepositorySave {
     @Test
     @DisplayName("With an active member, the member is persisted")
     void testSave_Active_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.active();
@@ -96,8 +96,8 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists with an active membership, and an inactive membership is set, the member is persisted")
     @ActiveMember
     void testSave_Existing_Active_SetInactive_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.inactive();
@@ -118,8 +118,8 @@ class ITMemberRepositorySave {
     @DisplayName("When an active member exists, and an active membership is added, the member is persisted")
     @ActiveMember
     void testSave_Existing_ActiveMembershipToActive_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.active();
@@ -140,8 +140,8 @@ class ITMemberRepositorySave {
     @DisplayName("When an active member exists, and an inactive membership is added, the member is persisted")
     @ActiveMember
     void testSave_Existing_ActiveToInactive_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.inactive();
@@ -162,8 +162,8 @@ class ITMemberRepositorySave {
     @DisplayName("When a member exists, the member is persisted")
     @ActiveMember
     void testSave_Existing_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.active();
@@ -185,8 +185,8 @@ class ITMemberRepositorySave {
     @EmailContactMethod
     @ActiveMember
     void testSave_Existing_RemoveMember_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.active();
@@ -225,8 +225,8 @@ class ITMemberRepositorySave {
     @Test
     @DisplayName("With an inactive member, the member is persisted")
     void testSave_Inactive_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.inactive();

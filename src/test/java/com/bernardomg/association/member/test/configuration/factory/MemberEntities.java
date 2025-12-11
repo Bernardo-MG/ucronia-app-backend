@@ -2,14 +2,14 @@
 package com.bernardomg.association.member.test.configuration.factory;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
 public final class MemberEntities {
 
-    public static final MemberEntity active() {
-        final MemberEntity entity;
+    public static final QueryMemberEntity active() {
+        final QueryMemberEntity entity;
 
-        entity = new MemberEntity();
+        entity = new QueryMemberEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
@@ -19,10 +19,10 @@ public final class MemberEntities {
         return entity;
     }
 
-    public static final MemberEntity alternative() {
-        final MemberEntity entity;
+    public static final QueryMemberEntity alternative() {
+        final QueryMemberEntity entity;
 
-        entity = new MemberEntity();
+        entity = new QueryMemberEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.ALTERNATIVE_FIRST_NAME);
@@ -32,10 +32,10 @@ public final class MemberEntities {
         return entity;
     }
 
-    public static final MemberEntity inactive() {
-        final MemberEntity entity;
+    public static final QueryMemberEntity inactive() {
+        final QueryMemberEntity entity;
 
-        entity = new MemberEntity();
+        entity = new QueryMemberEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);

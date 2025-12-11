@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 import jakarta.persistence.Column;
@@ -61,7 +61,7 @@ public class FeeEntity implements Serializable {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private MemberEntity      member;
+    private QueryMemberEntity member;
 
     @Column(name = "member_id", insertable = false, updatable = false)
     private Long              memberId;
@@ -81,7 +81,7 @@ public class FeeEntity implements Serializable {
         return id;
     }
 
-    public MemberEntity getMember() {
+    public QueryMemberEntity getMember() {
         return member;
     }
 
@@ -105,7 +105,7 @@ public class FeeEntity implements Serializable {
         this.id = id;
     }
 
-    public void setMember(final MemberEntity member) {
+    public void setMember(final QueryMemberEntity member) {
         this.member = member;
     }
 

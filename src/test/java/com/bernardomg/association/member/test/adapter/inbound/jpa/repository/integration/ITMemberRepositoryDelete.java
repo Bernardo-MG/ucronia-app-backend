@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -42,13 +42,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositoryDelete {
 
     @Autowired
-    private ContactSpringRepository contactSpringRepository;
+    private ContactSpringRepository     contactSpringRepository;
 
     @Autowired
-    private MemberRepository        repository;
+    private MemberRepository            repository;
 
     @Autowired
-    private MemberSpringRepository  springRepository;
+    private QueryMemberSpringRepository springRepository;
 
     public ITMemberRepositoryDelete() {
         super();

@@ -32,8 +32,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
@@ -45,10 +45,10 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositorySaveAll {
 
     @Autowired
-    private MemberRepository       repository;
+    private MemberRepository            repository;
 
     @Autowired
-    private MemberSpringRepository springRepository;
+    private QueryMemberSpringRepository springRepository;
 
     public ITMemberRepositorySaveAll() {
         super();
@@ -57,8 +57,8 @@ class ITMemberRepositorySaveAll {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
-        final Member                 member;
-        final Iterable<MemberEntity> entities;
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
 
         // GIVEN
         member = Members.active();
