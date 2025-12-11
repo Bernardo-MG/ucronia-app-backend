@@ -18,6 +18,24 @@ public final class Contacts {
             ContactConstants.BIRTH_DATE, List.of());
     }
 
+    public static final Contact created() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Contact(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of());
+    }
+
+    public static final Contact createdWithEmail() {
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new Contact(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel));
+    }
+
     public static final Contact emptyName() {
         final ContactName name;
 
@@ -60,14 +78,25 @@ public final class Contacts {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact(ContactConstants.IDENTIFIER, -1L, name, ContactConstants.BIRTH_DATE, List.of());
+        return new Contact(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of());
     }
 
     public static final Contact toCreateNoIdentifier() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact("", -1L, name, ContactConstants.BIRTH_DATE, List.of());
+        return new Contact("", 0L, name, ContactConstants.BIRTH_DATE, List.of());
+    }
+
+    public static final Contact toCreateWithEmail() {
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new Contact(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel));
     }
 
     public static final Contact valid() {

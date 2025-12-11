@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,19 +145,6 @@ public final class JpaContactRepository implements ContactRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the contacts");
-
-        number = contactSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the contacts: {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<Contact> findOne(final Long number) {
         final Optional<Contact> contact;
 
@@ -177,6 +165,7 @@ public final class JpaContactRepository implements ContactRepository {
         final Contact                   created;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
+        final Long                      number;
 
         log.debug("Saving contact {}", contact);
 
@@ -192,8 +181,10 @@ public final class JpaContactRepository implements ContactRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = contactSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
-        // TODO: Assign number here
 
         created = ContactEntityMapper.toDomain(contactSpringRepository.save(entity));
 
@@ -208,6 +199,7 @@ public final class JpaContactRepository implements ContactRepository {
         final List<Contact>             saved;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
+        final AtomicLong                number;
 
         log.debug("Saving contacts {}", contacts);
 
@@ -219,8 +211,9 @@ public final class JpaContactRepository implements ContactRepository {
             .toList();
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
 
+        number = new AtomicLong(contactSpringRepository.findNextNumber());
         entities = contacts.stream()
-            .map(c -> ContactEntityMapper.toEntity(c, contactMethods))
+            .map(m -> convert(m, contactMethods, number))
             .toList();
 
         saved = contactSpringRepository.saveAll(entities)
@@ -231,6 +224,22 @@ public final class JpaContactRepository implements ContactRepository {
         log.debug("Saved contacts {}", saved);
 
         return saved;
+    }
+
+    private final ContactEntity convert(final Contact contact, final List<ContactMethodEntity> contactMethods,
+            final AtomicLong number) {
+        final Optional<ContactEntity> existing;
+        final ContactEntity           entity;
+
+        existing = contactSpringRepository.findByNumber(contact.number());
+        if (existing.isPresent()) {
+            entity = ContactEntityMapper.toEntity(contact, contactMethods, existing.get());
+        } else {
+            entity = ContactEntityMapper.toEntity(contact, contactMethods);
+            entity.setNumber(number.getAndIncrement());
+        }
+
+        return entity;
     }
 
 }

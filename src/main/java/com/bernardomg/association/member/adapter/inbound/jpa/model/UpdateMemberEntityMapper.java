@@ -62,7 +62,8 @@ public final class UpdateMemberEntityMapper {
 
         return entity;
     }
-    public static final UpdateMemberEntity copy(final UpdateMemberEntity entity, final Member data) {
+
+    public static final UpdateMemberEntity toEntity(final UpdateMemberEntity entity, final Member data) {
 
         entity.getContact()
             .setFirstName(data.name()

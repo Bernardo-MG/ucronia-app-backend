@@ -74,6 +74,27 @@ public final class ContactEntityMapper {
         return entity;
     }
 
+    public static final ContactEntity toEntity(final Contact data, final Collection<ContactMethodEntity> contactMethods,
+            final ContactEntity entity) {
+        final Collection<ContactChannelEntity> contacts;
+
+        entity.setNumber(data.number());
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setIdentifier(data.identifier());
+        entity.setBirthDate(data.birthDate());
+
+        contacts = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(entity, c, contactMethods))
+            .toList();
+        entity.setContactChannels(contacts);
+
+        return entity;
+    }
+
     private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;

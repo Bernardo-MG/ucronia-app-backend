@@ -72,7 +72,7 @@ class ITMemberRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(MemberEntities.created());
     }
 
     @Test
@@ -90,7 +90,7 @@ class ITMemberRepositorySaveAll {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .containsExactly(Members.active());
+            .containsExactly(Members.created());
     }
 
 }

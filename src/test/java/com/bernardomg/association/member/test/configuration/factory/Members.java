@@ -35,6 +35,13 @@ public final class Members {
         return new Member(ContactConstants.ALTERNATIVE_NUMBER, name, false, true);
     }
 
+    public static final Member created() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Member(1L, name, true, true);
+    }
+
     public static final Member forNumber(final long number) {
         final ContactName name;
 
@@ -81,7 +88,7 @@ public final class Members {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Member(-1L, name, true, true);
+        return new Member(0L, name, true, true);
     }
 
 }

@@ -68,14 +68,11 @@ public final class DefaultMemberService implements MemberService {
     public final Member create(final Member member) {
         final Member toCreate;
         final Member created;
-        final Long   number;
 
         log.debug("Creating member {}", member);
 
         // Set number
-        number = memberRepository.findNextNumber();
-
-        toCreate = new Member(number, member.name(), member.active(), member.renew());
+        toCreate = new Member(0L, member.name(), member.active(), member.renew());
 
         created = memberRepository.save(toCreate);
 

@@ -80,6 +80,9 @@ public interface QueryMemberSpringRepository
 
     public Optional<QueryMemberEntity> findByNumber(final Long number);
 
+    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    public Long findNextNumber();
+
     @Query("""
             SELECT m.active
             FROM Member m

@@ -45,8 +45,6 @@ public interface MemberRepository {
 
     public Collection<Member> findAllWithRenewalMismatch();
 
-    public long findNextNumber();
-
     public Optional<Member> findOne(final Long number);
 
     public boolean isActive(final long number);

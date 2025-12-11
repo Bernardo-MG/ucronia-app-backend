@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,19 +158,6 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the members");
-
-        number = contactSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the members: {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<Member> findOne(final Long number) {
         final Optional<Member> member;
 
@@ -201,16 +189,19 @@ public final class JpaMemberRepository implements MemberRepository {
         final Optional<UpdateMemberEntity> existing;
         final UpdateMemberEntity           entity;
         final Member                       created;
+        final Long                         number;
 
         log.debug("Saving member {}", member);
 
         existing = updateMemberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
-            entity = UpdateMemberEntityMapper.copy(existing.get(), member);
+            entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
         } else {
             entity = UpdateMemberEntityMapper.toEntity(member);
+            number = queryMemberSpringRepository.findNextNumber();
+            entity.getContact()
+                .setNumber(number);
         }
-        // TODO: Assign number here
 
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
@@ -223,11 +214,13 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Collection<Member> saveAll(final Collection<Member> members) {
         final List<UpdateMemberEntity> entities;
         final List<Member>             saved;
+        final AtomicLong               number;
 
         log.debug("Saving members {}", members);
 
+        number = new AtomicLong(queryMemberSpringRepository.findNextNumber());
         entities = members.stream()
-            .map(this::convert)
+            .map(m -> convert(m, number))
             .toList();
 
         saved = updateMemberSpringRepository.saveAll(entities)
@@ -240,17 +233,18 @@ public final class JpaMemberRepository implements MemberRepository {
         return saved;
     }
 
-    private final UpdateMemberEntity convert(final Member member) {
+    private final UpdateMemberEntity convert(final Member member, final AtomicLong number) {
         final Optional<UpdateMemberEntity> existing;
         final UpdateMemberEntity           entity;
 
         existing = updateMemberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
-            entity = UpdateMemberEntityMapper.copy(existing.get(), member);
+            entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
         } else {
             entity = UpdateMemberEntityMapper.toEntity(member);
+            entity.getContact()
+                .setNumber(number.getAndIncrement());
         }
-        // TODO: Assign number here
 
         return entity;
     }

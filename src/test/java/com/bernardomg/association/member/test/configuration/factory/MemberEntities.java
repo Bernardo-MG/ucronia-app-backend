@@ -32,6 +32,19 @@ public final class MemberEntities {
         return entity;
     }
 
+    public static final QueryMemberEntity created() {
+        final QueryMemberEntity entity;
+
+        entity = new QueryMemberEntity();
+        entity.setId(1L);
+        entity.setNumber(1L);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setActive(true);
+        entity.setRenew(true);
+        return entity;
+    }
+
     public static final QueryMemberEntity inactive() {
         final QueryMemberEntity entity;
 

@@ -20,6 +20,28 @@ public final class ContactEntities {
         return entity;
     }
 
+    public static final ContactEntity createdWithEmail() {
+        final ContactEntity        entity;
+        final ContactChannelEntity contactChannelEntity;
+
+        contactChannelEntity = new ContactChannelEntity();
+        contactChannelEntity.setContactMethod(ContactMethodEntities.email());
+        contactChannelEntity.setDetail(ContactConstants.EMAIL);
+
+        entity = new ContactEntity();
+        entity.setId(1L);
+        entity.setNumber(1L);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of(contactChannelEntity));
+
+        contactChannelEntity.setContact(entity);
+
+        return entity;
+    }
+
     public static final ContactEntity firstNameChange() {
         final ContactEntity entity = new ContactEntity();
         entity.setId(1L);

@@ -92,13 +92,11 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.toCreateNoIdentifier();
 
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
         // WHEN
         service.create(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.noIdentifier());
+        verify(contactRepository).save(Contacts.toCreateNoIdentifier());
         verify(contactRepository, Mockito.never()).existsByIdentifier(ContactConstants.IDENTIFIER);
     }
 
@@ -110,13 +108,11 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.padded();
 
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
         // WHEN
         service.create(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.valid());
+        verify(contactRepository).save(Contacts.toCreate());
     }
 
     @Test
@@ -127,13 +123,11 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.toCreate();
 
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
-
         // WHEN
         service.create(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.valid());
+        verify(contactRepository).save(Contacts.toCreate());
     }
 
     @Test
@@ -145,8 +139,7 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.toCreate();
 
-        given(contactRepository.save(Contacts.valid())).willReturn(Contacts.valid());
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
+        given(contactRepository.save(Contacts.toCreate())).willReturn(Contacts.valid());
 
         // WHEN
         created = service.create(contact);
@@ -184,14 +177,13 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.withEmail();
 
-        given(contactRepository.findNextNumber()).willReturn(ContactConstants.NUMBER);
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.create(contact);
 
         // THEN
-        verify(contactRepository).save(Contacts.withEmail());
+        verify(contactRepository).save(Contacts.toCreateWithEmail());
     }
 
 }
