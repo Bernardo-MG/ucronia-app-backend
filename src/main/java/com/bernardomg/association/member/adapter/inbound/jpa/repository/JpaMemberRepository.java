@@ -206,16 +206,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         existing = updateMemberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
-            // TODO: do in the mapper
-            entity = existing.get();
-            entity.getContact()
-                .setFirstName(member.name()
-                    .firstName());
-            entity.getContact()
-                .setLastName(member.name()
-                    .lastName());
-            entity.setActive(member.active());
-            entity.setRenew(member.renew());
+            entity = UpdateMemberEntityMapper.copy(existing.get(), member);
         } else {
             entity = UpdateMemberEntityMapper.toEntity(member);
         }
@@ -230,23 +221,38 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Collection<Member> saveAll(final Collection<Member> members) {
-        final List<QueryMemberEntity> entities;
-        final List<Member>            saved;
+        final List<UpdateMemberEntity> entities;
+        final List<Member>             saved;
 
         log.debug("Saving members {}", members);
 
         entities = members.stream()
-            .map(QueryMemberEntityMapper::toEntity)
+            .map(this::convert)
             .toList();
 
-        saved = queryMemberSpringRepository.saveAll(entities)
+        saved = updateMemberSpringRepository.saveAll(entities)
             .stream()
-            .map(QueryMemberEntityMapper::toDomain)
+            .map(UpdateMemberEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved members {}", saved);
 
         return saved;
+    }
+
+    private final UpdateMemberEntity convert(final Member member) {
+        final Optional<UpdateMemberEntity> existing;
+        final UpdateMemberEntity           entity;
+
+        existing = updateMemberSpringRepository.findByNumber(member.number());
+        if (existing.isPresent()) {
+            entity = UpdateMemberEntityMapper.copy(existing.get(), member);
+        } else {
+            entity = UpdateMemberEntityMapper.toEntity(member);
+        }
+        // TODO: Assign number here
+
+        return entity;
     }
 
 }

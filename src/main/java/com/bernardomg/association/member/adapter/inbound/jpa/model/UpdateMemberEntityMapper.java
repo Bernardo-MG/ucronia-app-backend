@@ -62,6 +62,19 @@ public final class UpdateMemberEntityMapper {
 
         return entity;
     }
+    public static final UpdateMemberEntity copy(final UpdateMemberEntity entity, final Member data) {
+
+        entity.getContact()
+            .setFirstName(data.name()
+                .firstName());
+        entity.getContact()
+            .setLastName(data.name()
+                .lastName());
+        entity.setActive(data.active());
+        entity.setRenew(data.renew());
+
+        return entity;
+    }
 
     private UpdateMemberEntityMapper() {
         super();
