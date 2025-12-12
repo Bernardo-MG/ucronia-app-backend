@@ -27,13 +27,8 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
@@ -78,10 +73,6 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER_CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Member caches
-                    MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto createMember(@Valid final MemberCreationDto memberCreationDto) {
         final Member member;
         final Member created;
@@ -94,9 +85,6 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { MembersCaches.MEMBER }), @CacheEvict(cacheNames = {
-            // mEMBER caches
-            MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto deleteMember(final Long number) {
         final Member contact;
 
@@ -107,7 +95,6 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBERS)
     public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
             @Valid final MemberStatusDto status, @Valid final String name) {
@@ -135,7 +122,6 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MEMBER)
     public MemberResponseDto getMemberByNumber(final Long number) {
         Optional<Member> member;
 
@@ -146,10 +132,6 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Member caches
-                    MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto patchMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
         final Member member;
         final Member updated;
@@ -162,10 +144,6 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembersCaches.MEMBER, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Member caches
-                    MembersCaches.MEMBERS }, allEntries = true) })
     public MemberResponseDto updateMember(final Long number, @Valid final MemberChangeDto memberChangeDto) {
         final Member member;
         final Member updated;

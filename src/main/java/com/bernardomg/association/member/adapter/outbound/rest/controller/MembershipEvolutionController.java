@@ -27,10 +27,8 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 import java.time.Instant;
 import java.util.Collection;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MembershipMonthlyEvolutionDtoMapper;
 import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
@@ -64,7 +62,6 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembersCaches.MONTHLY_EVOLUTION)
     public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final Instant from,
             @Valid final Instant to, @Valid final Long memberNumber) {
         final Collection<MembershipEvolutionMonth> evolution;

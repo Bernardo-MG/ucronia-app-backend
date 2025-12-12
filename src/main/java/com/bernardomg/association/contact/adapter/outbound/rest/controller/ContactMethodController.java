@@ -27,13 +27,8 @@ package com.bernardomg.association.contact.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.contact.adapter.outbound.cache.ContactMethodCaches;
 import com.bernardomg.association.contact.adapter.outbound.rest.model.ContactMethodDtoMapper;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.usecase.service.ContactMethodService;
@@ -74,10 +69,6 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Contact method caches
-                    ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto
             createContactMethod(@Valid final ContactMethodCreationDto contactMethodCreationDto) {
         final ContactMethod member;
@@ -91,9 +82,6 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { ContactMethodCaches.CONTACT_METHOD }), @CacheEvict(cacheNames = {
-            // Contact method caches
-            ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto deleteContactMethod(final Long number) {
         final ContactMethod contactMethod;
 
@@ -104,7 +92,6 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.READ)
-    @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHODS)
     public ContactMethodPageResponseDto getAllContactMethods(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Page<ContactMethod> contactMethods;
@@ -120,7 +107,6 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.READ)
-    @Cacheable(cacheNames = ContactMethodCaches.CONTACT_METHOD)
     public ContactMethodResponseDto getContactMethodByNumber(final Long number) {
         Optional<ContactMethod> contactMethod;
 
@@ -131,10 +117,6 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ContactMethodCaches.CONTACT_METHOD, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Contact method caches
-                    ContactMethodCaches.CONTACT_METHODS }, allEntries = true) })
     public ContactMethodResponseDto updateContactMethod(final Long number,
             @Valid final ContactMethodChangeDto contactMethodChangeDto) {
         final ContactMethod contactMethod;

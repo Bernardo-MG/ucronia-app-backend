@@ -27,13 +27,8 @@ package com.bernardomg.association.contact.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.contact.adapter.outbound.cache.ContactsCaches;
 import com.bernardomg.association.contact.adapter.outbound.rest.model.ContactDtoMapper;
 import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
@@ -75,10 +70,6 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Contact caches
-                    ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto createContact(@Valid final ContactCreationDto contactCreationDto) {
         final Contact contact;
         final Contact created;
@@ -91,9 +82,6 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { ContactsCaches.CONTACT }), @CacheEvict(cacheNames = {
-            // Contact caches
-            ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto deleteContact(final Long number) {
         final Contact contact;
 
@@ -104,7 +92,6 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
-    @Cacheable(cacheNames = ContactsCaches.CONTACTS)
     public ContactPageResponseDto getAllContacts(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final String name) {
         final Page<Contact> contacts;
@@ -122,7 +109,6 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
-    @Cacheable(cacheNames = ContactsCaches.CONTACT)
     public ContactResponseDto getContactByNumber(final Long number) {
         Optional<Contact> contact;
 
@@ -133,10 +119,6 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Contact caches
-                    ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto patchContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact contact;
         final Contact updated;
@@ -149,10 +131,6 @@ public class ContactController implements ContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = ContactsCaches.CONTACT, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Contact caches
-                    ContactsCaches.CONTACTS }, allEntries = true) })
     public ContactResponseDto updateContact(final Long number, @Valid final ContactChangeDto contactChangeDto) {
         final Contact contact;
         final Contact updated;
