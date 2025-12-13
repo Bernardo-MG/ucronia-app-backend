@@ -24,6 +24,10 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: identifier
+                  type: varchar(15)
+                  defaultValue: ''
+              - column:
                   name: number
                   type: bigint
                   constraints:
@@ -42,8 +46,8 @@ databaseChangeLog:
                   name: birth_date
                   type: datetime
               - column:
-                  name: identifier
-                  type: varchar(15)
+                  name: comments
+                  type: varchar(250)
                   defaultValue: ''
         - addAutoIncrement:
             schemaName: directory

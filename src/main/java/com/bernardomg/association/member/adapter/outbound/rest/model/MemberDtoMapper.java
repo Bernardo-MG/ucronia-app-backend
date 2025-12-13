@@ -44,7 +44,7 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class MemberDtoMapper {
 
     public static final Member toDomain(final long number, final MemberChangeDto change) {
-        return new Member(number, null, change.getActive(), change.getRenew());
+        return new Member(number, null, change.getActive(), change.getRenew(), change.getComments());
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
@@ -55,7 +55,7 @@ public final class MemberDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Member(-1L, name, creation.getActive(), creation.getActive());
+        return new Member(-1L, name, creation.getActive(), creation.getActive(), "");
     }
 
     public static final MemberResponseDto toResponseDto(final Member member) {
@@ -101,7 +101,8 @@ public final class MemberDtoMapper {
         return new MemberDto().number(member.number())
             .name(contactName)
             .active(member.active())
-            .renew(member.renew());
+            .renew(member.renew())
+            .comments(member.comments());
     }
 
     private static final PropertyDto toDto(final Property property) {

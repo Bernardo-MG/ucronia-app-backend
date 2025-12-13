@@ -52,6 +52,9 @@ public class ContactEntity implements Serializable {
     @Column(name = "birth_date")
     private Instant                          birthDate;
 
+    @Column(name = "comments")
+    private String                           comments;
+
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<ContactChannelEntity> contactChannels;
 
@@ -87,6 +90,10 @@ public class ContactEntity implements Serializable {
         return birthDate;
     }
 
+    public String getComments() {
+        return comments;
+    }
+
     public Collection<ContactChannelEntity> getContactChannels() {
         return contactChannels;
     }
@@ -120,6 +127,10 @@ public class ContactEntity implements Serializable {
         this.birthDate = birthDate;
     }
 
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
+
     public void setContactChannels(final Collection<ContactChannelEntity> contacts) {
         contactChannels = contacts;
     }
@@ -148,7 +159,7 @@ public class ContactEntity implements Serializable {
     public String toString() {
         return "ContactEntity [birthDate=" + birthDate + ", contactChannels=" + contactChannels + ", firstName="
                 + firstName + ", id=" + id + ", identifier=" + identifier + ", lastName=" + lastName + ", number="
-                + number + "]";
+                + number + ", comments=" + comments + "]";
     }
 
 }

@@ -71,6 +71,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContactChannel'
+        comments:
+          type: string
+          description: Comments about the contact.
     ContactCreation:
       type: object
       required: [name]
@@ -90,6 +93,8 @@ components:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
+        comments:
+          type: string
     ContactPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

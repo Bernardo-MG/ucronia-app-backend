@@ -48,7 +48,8 @@ public final class ContactEntityMapper {
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts);
+        return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts,
+            entity.getComments());
     }
 
     public static final ContactEntity toEntity(final Contact data,
@@ -64,6 +65,7 @@ public final class ContactEntityMapper {
             .lastName());
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
+        entity.setComments(data.comments());
 
         contacts = data.contactChannels()
             .stream()
@@ -85,6 +87,7 @@ public final class ContactEntityMapper {
             .lastName());
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
+        entity.setComments(data.comments());
 
         contacts = data.contactChannels()
             .stream()

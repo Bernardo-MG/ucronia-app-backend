@@ -97,8 +97,8 @@ public final class DefaultContactService implements ContactService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        toCreate = new Contact(contact.identifier(), 0L, contact.name(), contact.birthDate(),
-            contact.contactChannels());
+        toCreate = new Contact(contact.identifier(), 0L, contact.name(), contact.birthDate(), contact.contactChannels(),
+            contact.comments());
 
         createContactValidator.validate(toCreate);
 
@@ -248,7 +248,8 @@ public final class DefaultContactService implements ContactService {
                 .orElse(existing.number()),
             name, Optional.ofNullable(updated.birthDate())
                 .orElse(existing.birthDate()),
-            updated.contactChannels());
+            updated.contactChannels(), Optional.ofNullable(updated.comments())
+                .orElse(existing.comments()));
     }
 
 }

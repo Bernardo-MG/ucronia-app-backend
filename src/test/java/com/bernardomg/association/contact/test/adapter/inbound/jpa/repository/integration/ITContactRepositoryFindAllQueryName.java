@@ -49,7 +49,7 @@ class ITContactRepositoryFindAllQueryName {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With a contact without membership and matching first name, it is is returned")
+    @DisplayName("With a valid contact and matching first name, it is is returned")
     @ValidContact
     void testFindAll_FirstName() {
         final Page<Contact> contacts;
@@ -73,7 +73,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and matching full name, it is is returned")
+    @DisplayName("With a valid contact and matching full name, it is is returned")
     @ValidContact
     void testFindAll_FullName() {
         final Page<Contact> contacts;
@@ -97,7 +97,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and matching last name, it is is returned")
+    @DisplayName("With a valid contact and matching last name, it is is returned")
     @ValidContact
     void testFindAll_LastName() {
         final Page<Contact> contacts;
@@ -144,7 +144,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and partial matching name, it is is returned")
+    @DisplayName("With a valid contact and partial matching name, it is is returned")
     @ValidContact
     void testFindAll_PartialName() {
         final Page<Contact> contacts;
@@ -168,7 +168,7 @@ class ITContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a contact without membership and wrong name, nothing is returned")
+    @DisplayName("With a valid contact and wrong name, nothing is returned")
     @ValidContact
     void testFindAll_WrongName() {
         final Page<Contact> contacts;

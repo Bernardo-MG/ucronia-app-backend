@@ -101,7 +101,7 @@ class TestContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a contact having padding whitespaces in first and last name, these whitespaces are removed and the contact is persisted")
+    @DisplayName("With a contact having padding whitespaces in the texts, these whitespaces are removed and the contact is persisted")
     void testCreate_Padded_PersistedData() {
         final Contact contact;
 
@@ -139,7 +139,7 @@ class TestContactServiceCreate {
         // GIVEN
         contact = Contacts.toCreate();
 
-        given(contactRepository.save(Contacts.toCreate())).willReturn(Contacts.valid());
+        given(contactRepository.save(Contacts.toCreate())).willReturn(Contacts.created());
 
         // WHEN
         created = service.create(contact);
@@ -147,7 +147,7 @@ class TestContactServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("contact")
-            .isEqualTo(Contacts.valid());
+            .isEqualTo(Contacts.created());
     }
 
     @Test

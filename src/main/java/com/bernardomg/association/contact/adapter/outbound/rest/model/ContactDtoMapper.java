@@ -55,7 +55,7 @@ public final class ContactDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Contact(creation.getIdentifier(), -1L, name, null, List.of());
+        return new Contact(creation.getIdentifier(), -1L, name, null, List.of(), "");
     }
 
     public static final Contact toDomain(final long number, final ContactChangeDto change) {
@@ -66,7 +66,8 @@ public final class ContactDtoMapper {
             change.getName()
                 .getLastName());
 
-        return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), List.of());
+        return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), List.of(),
+            change.getComments());
     }
 
     public static final ContactResponseDto toResponseDto(final Contact contact) {
@@ -119,7 +120,8 @@ public final class ContactDtoMapper {
             .number(contact.number())
             .name(name)
             .birthDate(contact.birthDate())
-            .contactChannels(contactChannels);
+            .contactChannels(contactChannels)
+            .comments(contact.comments());
     }
 
     private static final ContactChannelDto toDto(final ContactChannel contact) {

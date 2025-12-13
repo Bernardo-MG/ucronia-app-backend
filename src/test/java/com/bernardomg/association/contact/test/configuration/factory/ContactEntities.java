@@ -9,7 +9,9 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntit
 public final class ContactEntities {
 
     public static final ContactEntity alternative() {
-        final ContactEntity entity = new ContactEntity();
+        final ContactEntity entity;
+
+        entity = new ContactEntity();
         entity.setId(2L);
         entity.setNumber(ContactConstants.ALTERNATIVE_NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
@@ -17,6 +19,8 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
+        entity.setComments(ContactConstants.COMMENTS);
+
         return entity;
     }
 
@@ -36,6 +40,7 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
+        entity.setComments(ContactConstants.COMMENTS);
 
         contactChannelEntity.setContact(entity);
 
@@ -43,7 +48,9 @@ public final class ContactEntities {
     }
 
     public static final ContactEntity firstNameChange() {
-        final ContactEntity entity = new ContactEntity();
+        final ContactEntity entity;
+
+        entity = new ContactEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName("Contact 123");
@@ -51,22 +58,30 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
+        entity.setComments(ContactConstants.COMMENTS);
+
         return entity;
     }
 
     public static final ContactEntity missingLastName() {
-        final ContactEntity entity = new ContactEntity();
+        final ContactEntity entity;
+
+        entity = new ContactEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
+        entity.setComments(ContactConstants.COMMENTS);
+
         return entity;
     }
 
     public static final ContactEntity valid() {
-        final ContactEntity entity = new ContactEntity();
+        final ContactEntity entity;
+
+        entity = new ContactEntity();
         entity.setId(1L);
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
@@ -74,6 +89,8 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier(ContactConstants.IDENTIFIER);
         entity.setContactChannels(List.of());
+        entity.setComments(ContactConstants.COMMENTS);
+
         return entity;
     }
 
@@ -93,6 +110,7 @@ public final class ContactEntities {
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
+        entity.setComments(ContactConstants.COMMENTS);
 
         contactChannelEntity.setContact(entity);
 

@@ -27,8 +27,20 @@ package com.bernardomg.association.contact.domain.model;
 import java.time.Instant;
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
+
 public record Contact(String identifier, Long number, ContactName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels) {
+        Collection<ContactChannel> contactChannels, String comments) {
+
+    public Contact(final String identifier, final Long number, final ContactName name, final Instant birthDate,
+            final Collection<ContactChannel> contactChannels, final String comments) {
+        this.identifier = identifier;
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.contactChannels = contactChannels;
+        this.comments = StringUtils.trim(comments);
+    }
 
     public record ContactChannel(ContactMethod contactMethod, String detail) {
 

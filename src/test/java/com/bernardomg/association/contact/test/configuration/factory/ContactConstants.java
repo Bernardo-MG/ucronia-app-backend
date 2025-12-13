@@ -22,6 +22,8 @@ public final class ContactConstants {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
+    public static final String  COMMENTS               = "Comments";
+
     public static final String  EMAIL                  = "email@somewhere.com";
 
     public static final String  FIRST_NAME             = "Contact 1";

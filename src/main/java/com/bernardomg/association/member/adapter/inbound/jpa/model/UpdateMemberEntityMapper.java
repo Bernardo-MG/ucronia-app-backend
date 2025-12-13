@@ -41,7 +41,9 @@ public final class UpdateMemberEntityMapper {
             entity.getContact()
                 .getLastName());
         return new Member(entity.getContact()
-            .getNumber(), name, entity.getActive(), entity.getRenew());
+            .getNumber(), name, entity.getActive(), entity.getRenew(),
+            entity.getContact()
+                .getComments());
     }
 
     public static final UpdateMemberEntity toEntity(final Member data) {
@@ -54,6 +56,7 @@ public final class UpdateMemberEntityMapper {
             .firstName());
         contact.setLastName(data.name()
             .lastName());
+        contact.setComments(data.comments());
 
         entity = new UpdateMemberEntity();
         entity.setContact(contact);
@@ -71,6 +74,8 @@ public final class UpdateMemberEntityMapper {
         entity.getContact()
             .setLastName(data.name()
                 .lastName());
+        entity.getContact()
+            .setComments(data.comments());
         entity.setActive(data.active());
         entity.setRenew(data.renew());
 

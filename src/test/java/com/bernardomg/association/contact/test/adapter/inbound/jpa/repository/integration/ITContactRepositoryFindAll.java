@@ -49,7 +49,7 @@ class ITContactRepositoryFindAll {
     private ContactRepository repository;
 
     @Test
-    @DisplayName("With a contact without membership, it is returned")
+    @DisplayName("With a valid contact, it is returned")
     @ValidContact
     void testFindAll() {
         final Page<Contact> contacts;

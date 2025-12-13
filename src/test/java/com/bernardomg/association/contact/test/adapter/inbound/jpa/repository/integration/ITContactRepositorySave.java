@@ -169,7 +169,7 @@ class ITContactRepositorySave {
         final Contact saved;
 
         // GIVEN
-        contact = Contacts.valid();
+        contact = Contacts.toCreate();
 
         // WHEN
         saved = repository.save(contact);
