@@ -55,7 +55,7 @@ public final class MemberDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Member(-1L, name, creation.getActive(), creation.getActive(), "");
+        return new Member(-1L, name, true, true, "");
     }
 
     public static final MemberResponseDto toResponseDto(final Member member) {

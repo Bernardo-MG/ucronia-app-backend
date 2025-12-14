@@ -19,14 +19,10 @@ databaseChangeLog:
               - column:
                   name: active
                   type: boolean
-                  constraints:
-                    nullable: false
                   defaultValue: true
               - column:
                   name: renew_membership
                   type: boolean
-                  constraints:
-                    nullable: false
                   defaultValue: true
   - changeSet:
       id: member_views
