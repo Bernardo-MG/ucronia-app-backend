@@ -90,6 +90,12 @@ databaseChangeLog:
             tableName: contact_channels
             columns:
               - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
                   name: contact_id
                   type: bigint
                   constraints:
@@ -110,8 +116,10 @@ databaseChangeLog:
                   type: varchar(50)
                   constraints:
                     nullable: false
-        - addPrimaryKey:
-            constraintName: contact_channels_key
+        - addAutoIncrement:
             schemaName: directory
             tableName: contact_channels
-            columnNames: 'contact_id, contact_method_id'
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
