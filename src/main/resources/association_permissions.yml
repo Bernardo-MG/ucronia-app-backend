@@ -92,6 +92,12 @@ permissions:
       - update
       - delete
       - view
+  - resource: contact_method
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: security
     actions:
       - view
