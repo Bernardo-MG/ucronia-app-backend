@@ -61,11 +61,10 @@ public class ContactMethodEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final ContactMethodEntity other)) {
             return false;
         }
-        final ContactMethodEntity other = (ContactMethodEntity) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(number, other.number);
+        return Objects.equals(id, other.id);
     }
 
     public Long getId() {
@@ -82,7 +81,7 @@ public class ContactMethodEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, number);
+        return Objects.hash(id);
     }
 
     public void setId(final Long id) {
