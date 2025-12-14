@@ -13,4 +13,8 @@ public final class ContactMethods {
         return new ContactMethod(ContactMethodConstants.NUMBER, "");
     }
 
+    public static final ContactMethod phone() {
+        return new ContactMethod(ContactMethodConstants.ALTERNATIVE_NUMBER, ContactMethodConstants.PHONE);
+    }
+
 }
