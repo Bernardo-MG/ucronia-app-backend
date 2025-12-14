@@ -54,6 +54,15 @@ components:
         detail:
           type: string
           description: Contact detail.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          description: Contact detail.
     Contact:
       type: object
       required: [number, name]
@@ -93,6 +102,10 @@ components:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
         comments:
           type: string
     ContactPageResponse:

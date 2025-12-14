@@ -24,11 +24,13 @@
 
 package com.bernardomg.association.contact.adapter.outbound.rest.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
@@ -41,6 +43,7 @@ import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.ContactPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactResponseDto;
+import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -59,14 +62,19 @@ public final class ContactDtoMapper {
     }
 
     public static final Contact toDomain(final long number, final ContactChangeDto change) {
-        final ContactName name;
+        final ContactName                name;
+        final Collection<ContactChannel> contactChannels;
 
         name = new ContactName(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(ContactDtoMapper::toDomain)
+            .toList();
 
-        return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), List.of(),
+        return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
             change.getComments());
     }
 
@@ -99,6 +107,13 @@ public final class ContactDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sortingResponse);
+    }
+
+    private static final ContactChannel toDomain(final EditionContactChannelDto dto) {
+        final ContactMethod contactMethod;
+
+        contactMethod = new ContactMethod(dto.getMethod(), "");
+        return new ContactChannel(contactMethod, dto.getDetail());
     }
 
     private static final ContactDto toDto(final Contact contact) {
