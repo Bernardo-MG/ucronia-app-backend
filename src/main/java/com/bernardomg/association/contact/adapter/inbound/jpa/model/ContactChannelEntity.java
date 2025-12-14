@@ -66,7 +66,8 @@ public class ContactChannelEntity implements Serializable {
         if (!(obj instanceof final ContactChannelEntity other)) {
             return false;
         }
-        return Objects.equals(contact.getId(), other.contact.getId());
+        return Objects.equals(contact.getId(), other.contact.getId())
+                && Objects.equals(contactMethod.getId(), other.contactMethod.getId());
     }
 
     public ContactEntity getContact() {
@@ -83,7 +84,7 @@ public class ContactChannelEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(contact.getId());
+        return Objects.hash(contact.getId(), contactMethod.getId());
     }
 
     public void setContact(final ContactEntity contact) {
