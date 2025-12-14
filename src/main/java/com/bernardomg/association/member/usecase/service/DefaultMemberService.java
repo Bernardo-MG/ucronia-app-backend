@@ -72,7 +72,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Creating member {}", member);
 
         // Set number
-        toCreate = new Member(0L, member.name(), member.active(), member.renew(), member.comments());
+        toCreate = new Member(0L, member.name(), member.active(), member.renew());
 
         created = memberRepository.save(toCreate);
 
@@ -197,9 +197,7 @@ public final class DefaultMemberService implements MemberService {
             Optional.ofNullable(updated.active())
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
-                .orElse(existing.renew()),
-            Optional.ofNullable(updated.comments())
-                .orElse(existing.comments()));
+                .orElse(existing.renew()));
     }
 
 }

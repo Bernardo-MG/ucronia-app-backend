@@ -27,9 +27,6 @@ public class QueryMemberEntity implements Serializable {
     @Column(name = "active", table = "members", nullable = false)
     private Boolean           active;
 
-    @Column(name = "comments", table = "contacts")
-    private String            comments;
-
     @Column(name = "first_name", table = "contacts", nullable = false)
     private String            firstName;
 
@@ -61,10 +58,6 @@ public class QueryMemberEntity implements Serializable {
         return active;
     }
 
-    public String getComments() {
-        return comments;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -94,10 +87,6 @@ public class QueryMemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setComments(final String comments) {
-        this.comments = comments;
-    }
-
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
@@ -121,7 +110,7 @@ public class QueryMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "QueryMemberEntity [active=" + active + ", renew=" + renew + ", firstName=" + firstName + ", id=" + id
-                + ", lastName=" + lastName + ", number=" + number + ", comments=" + comments + "]";
+                + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

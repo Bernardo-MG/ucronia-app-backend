@@ -28,9 +28,6 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
-        comments:
-          type: string
-          description: Comments about the member.
     MemberCreation:
       type: object
       required: [name]
@@ -46,8 +43,6 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
-        comments:
-          type: string
     MemberStatus:
       type: string
       description: Status filter for contact queries.

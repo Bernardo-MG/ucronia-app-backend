@@ -16,7 +16,6 @@ public final class MemberEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }
@@ -31,7 +30,6 @@ public final class MemberEntities {
         entity.setLastName(ContactConstants.ALTERNATIVE_LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }
@@ -46,7 +44,6 @@ public final class MemberEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }
@@ -61,7 +58,6 @@ public final class MemberEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setActive(false);
         entity.setRenew(true);
-        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }

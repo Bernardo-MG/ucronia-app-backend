@@ -26,6 +26,6 @@ package com.bernardomg.association.member.domain.model;
 
 import com.bernardomg.association.contact.domain.model.ContactName;
 
-public record Member(Long number, ContactName name, Boolean active, Boolean renew, String comments) {
+public record Member(Long number, ContactName name, Boolean active, Boolean renew) {
 
 }

@@ -36,7 +36,7 @@ public final class QueryMemberEntityMapper {
         final ContactName name;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew(), entity.getComments());
+        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
     public static final QueryMemberEntity toEntity(final Member data) {
