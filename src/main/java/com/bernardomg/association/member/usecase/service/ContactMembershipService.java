@@ -22,43 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.controller;
+package com.bernardomg.association.member.usecase.service;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.usecase.service.ContactMembershipService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ContactMembershipApi;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 
 /**
- * Member REST controller.
+ * Contact membership service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class ContactMembershipController implements ContactMembershipApi {
+public interface ContactMembershipService {
 
-    private final ContactMembershipService service;
-
-    public ContactMembershipController(final ContactMembershipService service) {
-        super();
-
-        this.service = service;
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
-    public MemberResponseDto addMembership(final Long number) {
-        final Member created;
-
-        created = service.convertToMember(number);
-
-        return MemberDtoMapper.toResponseDto(created);
-    }
+    /**
+     * Converts a contact into a member.
+     *
+     * @param number
+     *            number of the contact to convert into a member
+     * @return the created member
+     */
+    public Member convertToMember(final long number);
 
 }

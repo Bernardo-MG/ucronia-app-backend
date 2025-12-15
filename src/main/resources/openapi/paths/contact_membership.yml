@@ -15,6 +15,6 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberResponse'
     '404':
       description: Contact not found.

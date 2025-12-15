@@ -71,7 +71,6 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Creating member {}", member);
 
-        // Set number
         toCreate = new Member(0L, member.name(), member.active(), member.renew());
 
         created = memberRepository.save(toCreate);
@@ -139,8 +138,6 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Patching member {} using data {}", member.number(), member);
 
-        // TODO: Apply the creation validations
-
         existing = memberRepository.findOne(member.number())
             .orElseThrow(() -> {
                 log.error("Missing member {}", member.number());
@@ -161,9 +158,6 @@ public final class DefaultMemberService implements MemberService {
         final Member saved;
 
         log.debug("Updating member {} using data {}", member.number(), member);
-
-        // TODO: Identificator must be unique or empty
-        // TODO: The membership maybe can't be removed
 
         if (!memberRepository.exists(member.number())) {
             log.error("Missing member {}", member.number());
