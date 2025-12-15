@@ -34,6 +34,7 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.repository.Contact
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.contact.test.configuration.data.annotation.PhoneContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.WithContactChannel;
 import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
@@ -73,7 +74,7 @@ class ITContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id")
             .containsExactly(ContactEntities.withEmail());
     }
 
@@ -181,7 +182,30 @@ class ITContactRepositorySave {
     }
 
     @Test
-    @DisplayName("With a contact with a contact method, the contact is returned")
+    @DisplayName("With a contact with a contact channel, the contact is persisted")
+    @EmailContactMethod
+    void testSave_WithContactChannel_PersistedData() {
+        final Contact                 contact;
+        final Iterable<ContactEntity> entities;
+
+        // GIVEN
+        contact = Contacts.withEmail();
+
+        // WHEN
+        repository.save(contact);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contact", "contactChannels.contactMethod")
+            .containsExactly(ContactEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a contact with a contact channel, the contact is returned")
     @EmailContactMethod
     void testSave_WithContactChannel_ReturnedData() {
         final Contact contact;
@@ -200,14 +224,15 @@ class ITContactRepositorySave {
     }
 
     @Test
-    @DisplayName("With a contact with a contact method, the contact is persisted")
+    @DisplayName("With a contact with two contact channels for different methods, the contact is persisted")
     @EmailContactMethod
-    void testSave_WithContactChannelChannel_PersistedData() {
+    @PhoneContactMethod
+    void testSave_WithTwoContactChannel_DifferentMethod_PersistedData() {
         final Contact                 contact;
         final Iterable<ContactEntity> entities;
 
         // GIVEN
-        contact = Contacts.withEmail();
+        contact = Contacts.withEmailAndPhone();
 
         // WHEN
         repository.save(contact);
@@ -217,9 +242,32 @@ class ITContactRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.contact",
-                "contactChannels.contactMethod")
-            .containsExactly(ContactEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contact", "contactChannels.contactMethod")
+            .containsExactly(ContactEntities.withEmailAndPhone());
+    }
+
+    @Test
+    @DisplayName("With a contact with two contact channels for the same method, the contact is persisted")
+    @EmailContactMethod
+    void testSave_WithTwoContactChannel_SameMethod_PersistedData() {
+        final Contact                 contact;
+        final Iterable<ContactEntity> entities;
+
+        // GIVEN
+        contact = Contacts.withTwoEmails();
+
+        // WHEN
+        repository.save(contact);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contact", "contactChannels.contactMethod")
+            .containsExactly(ContactEntities.withTwoEmails());
     }
 
 }

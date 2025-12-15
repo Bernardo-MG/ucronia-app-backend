@@ -130,4 +130,30 @@ public final class Contacts {
             List.of(contactChannel), ContactConstants.COMMENTS);
     }
 
+    public static final Contact withEmailAndPhone() {
+        final ContactName    name;
+        final ContactChannel contactChannelA;
+        final ContactChannel contactChannelB;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactChannelA = new ContactChannel(ContactMethods.email(), ContactConstants.EMAIL);
+        contactChannelB = new ContactChannel(ContactMethods.phone(), ContactConstants.PHONE);
+        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS);
+    }
+
+    public static final Contact withTwoEmails() {
+        final ContactName    name;
+        final ContactChannel contactChannelA;
+        final ContactChannel contactChannelB;
+        final ContactMethod  contactMethod;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannelA = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        contactChannelB = new ContactChannel(contactMethod, ContactConstants.ALTERNATIVE_EMAIL);
+        return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS);
+    }
+
 }

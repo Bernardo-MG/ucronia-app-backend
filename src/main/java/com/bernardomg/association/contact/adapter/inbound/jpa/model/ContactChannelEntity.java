@@ -29,6 +29,8 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -45,12 +47,10 @@ public class ContactChannelEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = -3239435918896603554L;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "contact_id", nullable = false)
     private ContactEntity       contact;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
@@ -58,17 +58,20 @@ public class ContactChannelEntity implements Serializable {
     @Column(name = "detail", nullable = false)
     private String              detail;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long                id;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final ContactChannelEntity other)) {
             return false;
         }
-        final ContactChannelEntity other = (ContactChannelEntity) obj;
-        return Objects.equals(detail, other.detail) && Objects.equals(contact, other.contact)
-                && Objects.equals(contactMethod, other.contactMethod);
+        return Objects.equals(id, other.id);
     }
 
     public ContactEntity getContact() {
@@ -83,9 +86,13 @@ public class ContactChannelEntity implements Serializable {
         return detail;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(detail, contact, contactMethod);
+        return Objects.hash(id);
     }
 
     public void setContact(final ContactEntity contact) {
@@ -100,10 +107,14 @@ public class ContactChannelEntity implements Serializable {
         detail = code;
     }
 
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "ContactChannelEntity [contact=" + contact.getId() + ", contactMethod=" + contactMethod + ", detail="
-                + detail + "]";
+        return "ContactChannelEntity [id=" + id + ", contact=" + contact.getId() + contact.getId() + ", contactMethod="
+                + contactMethod + ", detail=" + detail + "]";
     }
 
 }

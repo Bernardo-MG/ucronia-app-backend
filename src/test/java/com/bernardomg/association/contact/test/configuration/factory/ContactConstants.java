@@ -8,6 +8,8 @@ import java.time.ZoneOffset;
 
 public final class ContactConstants {
 
+    public static final String  ALTERNATIVE_EMAIL      = "email2@somewhere.com";
+
     public static final String  ALTERNATIVE_FIRST_NAME = "Contact 2";
 
     public static final String  ALTERNATIVE_FULL_NAME  = "Contact 2 Last name 2";
@@ -35,6 +37,8 @@ public final class ContactConstants {
     public static final String  LAST_NAME              = "Last name 1";
 
     public static final long    NUMBER                 = 10;
+
+    public static final String  PHONE                  = "123456789";
 
     private ContactConstants() {
         super();

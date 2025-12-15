@@ -117,6 +117,62 @@ public final class ContactEntities {
         return entity;
     }
 
+    public static final ContactEntity withEmailAndPhone() {
+        final ContactEntity        entity;
+        final ContactChannelEntity contactChannelEntityA;
+        final ContactChannelEntity contactChannelEntityB;
+
+        contactChannelEntityA = new ContactChannelEntity();
+        contactChannelEntityA.setContactMethod(ContactMethodEntities.email());
+        contactChannelEntityA.setDetail(ContactConstants.EMAIL);
+
+        contactChannelEntityB = new ContactChannelEntity();
+        contactChannelEntityB.setContactMethod(ContactMethodEntities.phone());
+        contactChannelEntityB.setDetail(ContactConstants.PHONE);
+
+        entity = new ContactEntity();
+        entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of(contactChannelEntityA, contactChannelEntityB));
+        entity.setComments(ContactConstants.COMMENTS);
+
+        contactChannelEntityA.setContact(entity);
+
+        return entity;
+    }
+
+    public static final ContactEntity withTwoEmails() {
+        final ContactEntity        entity;
+        final ContactChannelEntity contactChannelEntityA;
+        final ContactChannelEntity contactChannelEntityB;
+
+        contactChannelEntityA = new ContactChannelEntity();
+        contactChannelEntityA.setContactMethod(ContactMethodEntities.email());
+        contactChannelEntityA.setDetail(ContactConstants.EMAIL);
+
+        contactChannelEntityB = new ContactChannelEntity();
+        contactChannelEntityB.setContactMethod(ContactMethodEntities.email());
+        contactChannelEntityB.setDetail(ContactConstants.ALTERNATIVE_EMAIL);
+
+        entity = new ContactEntity();
+        entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of(contactChannelEntityA, contactChannelEntityB));
+        entity.setComments(ContactConstants.COMMENTS);
+
+        contactChannelEntityA.setContact(entity);
+
+        return entity;
+    }
+
     private ContactEntities() {
         super();
     }
