@@ -1,0 +1,20 @@
+put:
+  summary: Add membership to a contact.
+  operationId: addMembership
+  tags: [ContactMembership]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Updated contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactResponse'
+    '404':
+      description: Contact not found.
