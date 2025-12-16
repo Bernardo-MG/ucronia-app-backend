@@ -1,6 +1,6 @@
 put:
   summary: Add membership to a contact.
-  operationId: addMembership
+  operationId: convertToMember
   tags: [ContactMembership]
   parameters:
     - name: number
