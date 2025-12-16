@@ -89,7 +89,7 @@ class TestContactMembershipServiceConvert {
         final Contact contact;
 
         // GIVEN
-        member = Members.toCreate();
+        member = Members.active();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
@@ -113,7 +113,7 @@ class TestContactMembershipServiceConvert {
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(memberRepository.save(Members.toCreate())).willReturn(member);
+        given(memberRepository.save(member)).willReturn(member);
 
         // WHEN
         updated = service.convertToMember(ContactConstants.NUMBER);

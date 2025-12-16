@@ -77,7 +77,7 @@ public final class DefaultContactMembershipService implements ContactMembershipS
                 throw new MissingContactException(number);
             });
 
-        toCreate = new Member(0L, existing.name(), true, true);
+        toCreate = new Member(existing.number(), existing.name(), true, true);
 
         created = memberRepository.save(toCreate);
 
