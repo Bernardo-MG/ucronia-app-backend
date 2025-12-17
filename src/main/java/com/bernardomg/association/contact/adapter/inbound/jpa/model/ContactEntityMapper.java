@@ -49,7 +49,7 @@ public final class ContactEntityMapper {
             .toList();
 
         return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts,
-            entity.getComments());
+            entity.getComments(), entity.getTypes());
     }
 
     public static final ContactEntity toEntity(final Contact data,
@@ -73,6 +73,8 @@ public final class ContactEntityMapper {
             .toList();
         entity.setContactChannels(contacts);
 
+        entity.setTypes(data.types());
+
         return entity;
     }
 
@@ -94,6 +96,8 @@ public final class ContactEntityMapper {
             .map(c -> toEntity(entity, c, contactMethods))
             .toList();
         entity.setContactChannels(contacts);
+
+        entity.setTypes(data.types());
 
         return entity;
     }

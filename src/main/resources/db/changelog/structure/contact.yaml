@@ -49,6 +49,10 @@ databaseChangeLog:
                   name: comments
                   type: varchar(250)
                   defaultValue: ''
+              - column:
+                  name: types
+                  type: json
+                  defaultValue: '[]'
         - addAutoIncrement:
             schemaName: directory
             tableName: contacts
