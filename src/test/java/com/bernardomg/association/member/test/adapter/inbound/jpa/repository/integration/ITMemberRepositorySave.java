@@ -48,38 +48,18 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositorySave {
 
     @Autowired
+    private ContactSpringRepository     contactSpringRepository;
+
+    @Autowired
     private MemberRepository            repository;
 
     @Autowired
     private QueryMemberSpringRepository springRepository;
-    @Autowired
-    private ContactSpringRepository contactSpringRepository;
 
     public ITMemberRepositorySave() {
         super();
     }
 
-    @Test
-    @DisplayName("When the member is persisted, the contact types includes the member type")
-    void testSave_SetsType() {
-        final Member                      member;
-        final ContactEntity contact;
-
-        // GIVEN
-        member = Members.active();
-
-        // WHEN
-        repository.save(member);
-
-        // THEN
-        contact = contactSpringRepository.findByNumber(1L).get();
-
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberEntityConstants.CONTACT_TYPE);
-    }
     @Test
     @DisplayName("With an active member, the member is persisted")
     void testSave_Active_PersistedData() {
@@ -268,6 +248,29 @@ class ITMemberRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(MemberEntities.inactive());
+    }
+
+    @Test
+    @DisplayName("When the member is persisted, the contact types includes the member type")
+    void testSave_SetsType() {
+        final Member        member;
+        final ContactEntity contact;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        repository.save(member);
+
+        // THEN
+        contact = contactSpringRepository.findByNumber(1L)
+            .get();
+
+        Assertions.assertThat(contact)
+            .as("contact")
+            .extracting(ContactEntity::getTypes)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }
 
 }
