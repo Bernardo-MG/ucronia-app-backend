@@ -46,12 +46,7 @@ public interface QueryMemberSpringRepository
             """)
     public void deleteByNumber(@Param("number") final Long number);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM Member m
-            WHERE m.number = :number
-            """)
-    public boolean existsByNumber(@Param("number") final Long number);
+    public boolean existsByNumber(final Long number);
 
     @Query("""
             SELECT m.id AS id
