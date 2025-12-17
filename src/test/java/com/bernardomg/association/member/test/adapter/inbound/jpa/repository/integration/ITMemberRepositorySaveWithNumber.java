@@ -144,16 +144,17 @@ class ITMemberRepositorySaveWithNumber {
     @DisplayName("When the member is persisted, the contact types includes the member type")
     void testSaveWithNumber_SetsType() {
         final Member        member;
+        final Member        saved;
         final ContactEntity contact;
 
         // GIVEN
         member = Members.active();
 
         // WHEN
-        repository.save(member, ContactConstants.NUMBER);
+        saved = repository.save(member, ContactConstants.NUMBER);
 
         // THEN
-        contact = contactSpringRepository.findByNumber(1L)
+        contact = contactSpringRepository.findByNumber(saved.number())
             .get();
 
         Assertions.assertThat(contact)

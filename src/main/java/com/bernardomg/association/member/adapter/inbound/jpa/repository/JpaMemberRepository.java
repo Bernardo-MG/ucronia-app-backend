@@ -37,6 +37,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
@@ -205,15 +206,7 @@ public final class JpaMemberRepository implements MemberRepository {
                 .setNumber(number);
         }
 
-        if (entity.getContact()
-            .getTypes() == null) {
-            entity.getContact()
-                .setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
-        } else {
-            entity.getContact()
-                .getTypes()
-                .add(MemberEntityConstants.CONTACT_TYPE);
-        }
+        setType(entity.getContact());
 
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
@@ -239,6 +232,8 @@ public final class JpaMemberRepository implements MemberRepository {
         entity.getContact()
             .setNumber(number);
 
+        setType(entity.getContact());
+
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
         log.debug("Saved member {} with number {}", created, number);
@@ -258,6 +253,9 @@ public final class JpaMemberRepository implements MemberRepository {
         entities = members.stream()
             .map(m -> convert(m, number))
             .toList();
+
+        entities.stream()
+            .forEach(m -> setType(m.getContact()));
 
         saved = updateMemberSpringRepository.saveAll(entities)
             .stream()
@@ -283,6 +281,15 @@ public final class JpaMemberRepository implements MemberRepository {
         }
 
         return entity;
+    }
+
+    private final void setType(final ContactEntity entity) {
+        if (entity.getTypes() == null) {
+            entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        } else {
+            entity.getTypes()
+                .add(MemberEntityConstants.CONTACT_TYPE);
+        }
     }
 
 }
