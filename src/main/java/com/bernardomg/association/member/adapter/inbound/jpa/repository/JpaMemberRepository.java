@@ -43,6 +43,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEn
 import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
+import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -206,6 +207,30 @@ public final class JpaMemberRepository implements MemberRepository {
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
+
+        return created;
+    }
+
+    @Override
+    public final Member save(final Member member, final long number) {
+        final UpdateMemberEntity entity;
+        final Member             created;
+        final boolean            exists;
+
+        log.debug("Saving member {} with number {}", member, number);
+
+        exists = queryMemberSpringRepository.existsByNumber(member.number());
+        if (exists) {
+            throw new MemberExistsException(number);
+        }
+
+        entity = UpdateMemberEntityMapper.toEntity(member);
+        entity.getContact()
+            .setNumber(number);
+
+        created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
+
+        log.debug("Saved member {} with number {}", created, number);
 
         return created;
     }

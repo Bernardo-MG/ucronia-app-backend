@@ -23,6 +23,8 @@ paths:
     $ref: paths/contacts.yml
   /contact/{number}:
     $ref: paths/contacts_by_id.yml
+  /contact/{number}/member:
+    $ref: paths/contact_membership.yml
   /contact/contactMethod:
     $ref: paths/contact_methods.yml
   /contact/contactMethod/{number}:

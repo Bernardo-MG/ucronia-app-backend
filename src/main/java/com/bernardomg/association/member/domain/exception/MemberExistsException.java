@@ -22,37 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.domain.exception;
 
-import java.util.Collection;
-import java.util.Optional;
+import com.bernardomg.exception.MissingIdException;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+/**
+ * Missing member exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MemberExistsException extends MissingIdException {
 
-public interface MemberRepository {
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Collection<Member> findAllToRenew();
-
-    public Collection<Member> findAllWithRenewalMismatch();
-
-    public Optional<Member> findOne(final Long number);
-
-    public boolean isActive(final long number);
-
-    public Member save(final Member member);
-
-    public Member save(final Member member, final long number);
-
-    public Collection<Member> saveAll(final Collection<Member> members);
+    public MemberExistsException(final long number) {
+        super("member", number);
+    }
 
 }

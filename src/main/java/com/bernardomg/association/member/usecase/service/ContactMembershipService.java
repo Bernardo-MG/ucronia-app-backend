@@ -22,37 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.usecase.service;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
 
-public interface MemberRepository {
+/**
+ * Contact membership service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface ContactMembershipService {
 
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Collection<Member> findAllToRenew();
-
-    public Collection<Member> findAllWithRenewalMismatch();
-
-    public Optional<Member> findOne(final Long number);
-
-    public boolean isActive(final long number);
-
-    public Member save(final Member member);
-
-    public Member save(final Member member, final long number);
-
-    public Collection<Member> saveAll(final Collection<Member> members);
+    /**
+     * Converts a contact into a member.
+     *
+     * @param number
+     *            number of the contact to convert into a member
+     * @return the created member
+     */
+    public Member convertToMember(final long number);
 
 }
