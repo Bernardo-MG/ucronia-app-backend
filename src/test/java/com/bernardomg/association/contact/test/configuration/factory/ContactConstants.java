@@ -40,6 +40,8 @@ public final class ContactConstants {
 
     public static final String  PHONE                  = "123456789";
 
+    public static final String  TYPE_MEMBER            = "member";
+
     private ContactConstants() {
         super();
     }
