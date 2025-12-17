@@ -79,7 +79,7 @@ public final class DefaultContactMembershipService implements ContactMembershipS
 
         toCreate = new Member(existing.number(), existing.name(), true, true);
 
-        created = memberRepository.save(toCreate);
+        created = memberRepository.save(toCreate, number);
 
         log.debug("Converted contact {} to member", number);
 
