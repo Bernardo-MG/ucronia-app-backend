@@ -38,6 +38,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
@@ -202,6 +203,16 @@ public final class JpaMemberRepository implements MemberRepository {
             number = queryMemberSpringRepository.findNextNumber();
             entity.getContact()
                 .setNumber(number);
+        }
+
+        if (entity.getContact()
+            .getTypes() == null) {
+            entity.getContact()
+                .setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        } else {
+            entity.getContact()
+                .getTypes()
+                .add(MemberEntityConstants.CONTACT_TYPE);
         }
 
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
