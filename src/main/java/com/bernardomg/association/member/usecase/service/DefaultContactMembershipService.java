@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.contact.domain.exception.MissingContactException;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
+import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
@@ -65,19 +66,23 @@ public final class DefaultContactMembershipService implements ContactMembershipS
 
     @Override
     public final Member convertToMember(final long number) {
-        final Contact existing;
+        final Contact existingContact;
         final Member  toCreate;
         final Member  created;
 
         log.debug("Converting contact {} to member", number);
 
-        existing = contactRepository.findOne(number)
+        existingContact = contactRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing contact {}", number);
                 throw new MissingContactException(number);
             });
 
-        toCreate = new Member(existing.number(), existing.name(), true, true);
+        if (memberRepository.exists(number)) {
+            throw new MemberExistsException(number);
+        }
+
+        toCreate = new Member(existingContact.number(), existingContact.name(), true, true);
 
         created = memberRepository.save(toCreate, number);
 

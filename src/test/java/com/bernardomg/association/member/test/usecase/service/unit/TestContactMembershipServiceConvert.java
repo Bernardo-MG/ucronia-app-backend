@@ -43,6 +43,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
+import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -66,10 +67,32 @@ class TestContactMembershipServiceConvert {
     }
 
     @Test
+    @DisplayName("With an existing member, an exception is thrown")
+    void testConvertToMember_ExistingMember_Exception() {
+        final ThrowingCallable execution;
+        final Contact          contact;
+
+        // GIVEN
+        Members.nameChange();
+        contact = Contacts.valid();
+
+        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.convertToMember(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MemberExistsException.class);
+    }
+
+    @Test
     @DisplayName("With a not existing contact, an exception is thrown")
-    void testConvertToMember_NotExisting_Exception() {
+    void testConvertToMember_NotExistingContact_Exception() {
         final ThrowingCallable execution;
 
+        // GIVEN
         Members.nameChange();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
@@ -93,6 +116,7 @@ class TestContactMembershipServiceConvert {
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
 
         // WHEN
         service.convertToMember(ContactConstants.NUMBER);
@@ -113,6 +137,7 @@ class TestContactMembershipServiceConvert {
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
+        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
         given(memberRepository.save(member, ContactConstants.NUMBER)).willReturn(member);
 
         // WHEN

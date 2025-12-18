@@ -26,21 +26,19 @@ package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.in
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
-import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -64,6 +62,7 @@ class ITMemberRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an active member, the member is persisted")
+    @ValidContact
     void testSaveWithNumber_Active_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
@@ -85,6 +84,7 @@ class ITMemberRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an active member, the created member is returned")
+    @ValidContact
     void testSaveWithNumber_Active_ReturnedData() {
         final Member member;
         final Member saved;
@@ -102,25 +102,8 @@ class ITMemberRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("When a member exists with an active membership, and an inactive membership is set, the member is persisted")
-    @ActiveMember
-    void testSaveWithNumber_Existing_Active_SetInactive_PersistedData() {
-        final Member           member;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        member = Members.inactive();
-
-        // WHEN
-        execution = () -> repository.save(member, ContactConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MemberExistsException.class);
-    }
-
-    @Test
     @DisplayName("With an inactive member, the member is persisted")
+    @ValidContact
     void testSaveWithNumber_Inactive_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
