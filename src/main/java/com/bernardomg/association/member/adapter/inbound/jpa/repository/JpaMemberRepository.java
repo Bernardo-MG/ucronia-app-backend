@@ -37,13 +37,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
-import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -213,20 +213,18 @@ public final class JpaMemberRepository implements MemberRepository {
 
     @Override
     public final Member save(final Member member, final long number) {
-        final UpdateMemberEntity entity;
-        final Member             created;
-        final boolean            exists;
+        final UpdateMemberEntity      entity;
+        final Member                  created;
+        final Optional<ContactEntity> contact;
 
         log.debug("Saving member {} with number {}", member, number);
 
-        exists = queryMemberSpringRepository.existsByNumber(member.number());
-        if (exists) {
-            throw new MemberExistsException(number);
-        }
-
         entity = UpdateMemberEntityMapper.toEntity(member);
-        entity.getContact()
-            .setNumber(number);
+
+        contact = contactSpringRepository.findByNumber(number);
+        if (contact.isPresent()) {
+            entity.setContact(contact.get());
+        }
 
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
