@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ContactWithType;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.data.annotation.WithContactChannel;
@@ -87,6 +88,20 @@ class ITContactRepositoryFindOne {
         // THEN
         Assertions.assertThat(contact)
             .contains(Contacts.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a contact with type, it is returned")
+    @ContactWithType
+    void testFindOne_WithType() {
+        final Optional<Contact> contact;
+
+        // WHEN
+        contact = repository.findOne(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(contact)
+            .contains(Contacts.withType());
     }
 
 }

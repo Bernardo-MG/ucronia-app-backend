@@ -20,6 +20,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         return entity;
     }
@@ -41,6 +42,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         contactChannelEntity.setContact(entity);
 
@@ -59,6 +61,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         return entity;
     }
@@ -74,6 +77,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         return entity;
     }
@@ -90,6 +94,7 @@ public final class ContactEntities {
         entity.setIdentifier(ContactConstants.IDENTIFIER);
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         return entity;
     }
@@ -111,6 +116,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         contactChannelEntity.setContact(entity);
 
@@ -139,6 +145,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntityA, contactChannelEntityB));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         contactChannelEntityA.setContact(entity);
 
@@ -167,6 +174,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntityA, contactChannelEntityB));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of());
 
         contactChannelEntityA.setContact(entity);
 

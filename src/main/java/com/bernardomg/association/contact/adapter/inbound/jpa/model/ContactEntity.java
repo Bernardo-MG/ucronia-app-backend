@@ -29,6 +29,9 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -75,6 +78,10 @@ public class ContactEntity implements Serializable {
     @Column(name = "number")
     private Long                             number;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types")
+    private Collection<String>               types;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -118,6 +125,10 @@ public class ContactEntity implements Serializable {
         return number;
     }
 
+    public Collection<String> getTypes() {
+        return types;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -155,11 +166,15 @@ public class ContactEntity implements Serializable {
         this.number = number;
     }
 
+    public void setTypes(final Collection<String> types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
         return "ContactEntity [birthDate=" + birthDate + ", contactChannels=" + contactChannels + ", firstName="
                 + firstName + ", id=" + id + ", identifier=" + identifier + ", lastName=" + lastName + ", number="
-                + number + ", comments=" + comments + "]";
+                + number + ", comments=" + comments + ", types=" + types + "]";
     }
 
 }

@@ -83,6 +83,10 @@ components:
         comments:
           type: string
           description: Comments about the contact.
+        types:
+          type: array
+          items:
+            type: string
     ContactCreation:
       type: object
       required: [name]

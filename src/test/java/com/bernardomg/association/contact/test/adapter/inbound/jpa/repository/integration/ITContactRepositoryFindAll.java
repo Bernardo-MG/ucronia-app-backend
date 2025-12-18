@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.domain.filter.ContactQuery;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ContactWithType;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactQueries;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
@@ -93,6 +94,30 @@ class ITContactRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a contact with type, it is returned")
+    @ContactWithType
+    void testFindAll_WithType() {
+        final Page<Contact> contacts;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final ContactQuery  filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = ContactQueries.empty();
+
+        // WHEN
+        contacts = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(contacts)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Contacts.withType());
     }
 
 }

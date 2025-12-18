@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
@@ -204,6 +205,8 @@ public final class JpaMemberRepository implements MemberRepository {
                 .setNumber(number);
         }
 
+        setType(entity.getContact());
+
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
         log.debug("Saved member {}", created);
@@ -226,6 +229,8 @@ public final class JpaMemberRepository implements MemberRepository {
             entity.setContact(contact.get());
         }
 
+        setType(entity.getContact());
+
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
         log.debug("Saved member {} with number {}", created, number);
@@ -245,6 +250,9 @@ public final class JpaMemberRepository implements MemberRepository {
         entities = members.stream()
             .map(m -> convert(m, number))
             .toList();
+
+        entities.stream()
+            .forEach(m -> setType(m.getContact()));
 
         saved = updateMemberSpringRepository.saveAll(entities)
             .stream()
@@ -270,6 +278,15 @@ public final class JpaMemberRepository implements MemberRepository {
         }
 
         return entity;
+    }
+
+    private final void setType(final ContactEntity entity) {
+        if (entity.getTypes() == null) {
+            entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        } else {
+            entity.getTypes()
+                .add(MemberEntityConstants.CONTACT_TYPE);
+        }
     }
 
 }

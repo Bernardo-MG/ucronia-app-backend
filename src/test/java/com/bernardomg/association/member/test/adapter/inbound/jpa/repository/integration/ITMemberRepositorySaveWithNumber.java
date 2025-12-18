@@ -25,12 +25,16 @@
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
@@ -42,6 +46,9 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("MemberRepository - save with number")
 class ITMemberRepositorySaveWithNumber {
+
+    @Autowired
+    private ContactSpringRepository     contactSpringRepository;
 
     @Autowired
     private MemberRepository            repository;
@@ -114,6 +121,30 @@ class ITMemberRepositorySaveWithNumber {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(MemberEntities.inactive());
+    }
+
+    @Test
+    @DisplayName("When the member is persisted, the contact types includes the member type")
+    void testSaveWithNumber_SetsType() {
+        final Member        member;
+        final Member        saved;
+        final ContactEntity contact;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        saved = repository.save(member, ContactConstants.NUMBER);
+
+        // THEN
+        contact = contactSpringRepository.findByNumber(saved.number())
+            .get();
+
+        Assertions.assertThat(contact)
+            .as("contact")
+            .extracting(ContactEntity::getTypes)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }
 
 }

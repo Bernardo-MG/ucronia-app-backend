@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.contact.adapter.outbound.rest.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public final class ContactDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Contact(creation.getIdentifier(), -1L, name, null, List.of(), "");
+        return new Contact(creation.getIdentifier(), -1L, name, null, List.of(), "", List.of());
     }
 
     public static final Contact toDomain(final long number, final ContactChangeDto change) {
@@ -75,7 +76,7 @@ public final class ContactDtoMapper {
             .toList();
 
         return new Contact(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
-            change.getComments());
+            change.getComments(), List.of());
     }
 
     public static final ContactResponseDto toResponseDto(final Contact contact) {
@@ -136,7 +137,8 @@ public final class ContactDtoMapper {
             .name(name)
             .birthDate(contact.birthDate())
             .contactChannels(contactChannels)
-            .comments(contact.comments());
+            .comments(contact.comments())
+            .types(new ArrayList<>(contact.types()));
     }
 
     private static final ContactChannelDto toDto(final ContactChannel contact) {
