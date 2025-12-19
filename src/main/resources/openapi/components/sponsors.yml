@@ -35,12 +35,10 @@ components:
     SponsorChange:
       type: object
       properties:
-        active:
-          type: boolean
-          description: Whether the member is active.
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
+        years:
+          type: array
+          items:
+            type: integer
     SponsorPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

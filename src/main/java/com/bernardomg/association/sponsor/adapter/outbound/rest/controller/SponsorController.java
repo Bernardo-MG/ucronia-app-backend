@@ -25,10 +25,18 @@
 package com.bernardomg.association.sponsor.adapter.outbound.rest.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.model.SponsorDtoMapper;
+import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.usecase.service.SponsorService;
+import com.bernardomg.data.domain.Page;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.SponsorApi;
@@ -50,22 +58,34 @@ import jakarta.validation.constraints.Pattern;
 @RestController
 public class SponsorController implements SponsorApi {
 
-    public SponsorController(final MemberService service) {
+    private final SponsorService service;
+
+    public SponsorController(final SponsorService service) {
         super();
+
+        this.service = service;
     }
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.CREATE)
     public SponsorResponseDto createSponsor(@Valid final SponsorCreationDto sponsorCreationDto) {
-        // TODO Auto-generated method stub
-        return null;
+        final Sponsor sponsor;
+        final Sponsor created;
+
+        sponsor = SponsorDtoMapper.toDomain(sponsorCreationDto);
+        created = service.create(sponsor);
+
+        return SponsorDtoMapper.toResponseDto(created);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.DELETE)
     public SponsorResponseDto deleteSponsor(final Long number) {
-        // TODO Auto-generated method stub
-        return null;
+        final Sponsor sponsor;
+
+        sponsor = service.delete(number);
+
+        return SponsorDtoMapper.toResponseDto(sponsor);
     }
 
     @Override
@@ -73,29 +93,53 @@ public class SponsorController implements SponsorApi {
     public SponsorPageResponseDto getAllSponsors(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
             @Valid final String name) {
-        // TODO Auto-generated method stub
-        return null;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final Page<Sponsor> members;
+        final SponsorFilter filter;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+
+        filter = new SponsorFilter(name);
+
+        members = service.getAll(filter, pagination, sorting);
+
+        return SponsorDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.READ)
     public SponsorResponseDto getSponsorByNumber(final Long number) {
-        // TODO Auto-generated method stub
-        return null;
+        Optional<Sponsor> member;
+
+        member = service.getOne(number);
+
+        return SponsorDtoMapper.toResponseDto(member);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
     public SponsorResponseDto patchSponsor(final Long number, @Valid final SponsorChangeDto sponsorChangeDto) {
-        // TODO Auto-generated method stub
-        return null;
+        final Sponsor member;
+        final Sponsor updated;
+
+        member = SponsorDtoMapper.toDomain(number, sponsorChangeDto);
+        updated = service.patch(member);
+
+        return SponsorDtoMapper.toResponseDto(updated);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
     public SponsorResponseDto updateSponsor(final Long number, @Valid final SponsorChangeDto sponsorChangeDto) {
-        // TODO Auto-generated method stub
-        return null;
+        final Sponsor member;
+        final Sponsor updated;
+
+        member = SponsorDtoMapper.toDomain(number, sponsorChangeDto);
+        updated = service.update(member);
+
+        return SponsorDtoMapper.toResponseDto(updated);
     }
 
 }

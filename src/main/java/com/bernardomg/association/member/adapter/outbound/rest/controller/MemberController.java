@@ -86,11 +86,11 @@ public class MemberController implements MemberApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.DELETE)
     public MemberResponseDto deleteMember(final Long number) {
-        final Member contact;
+        final Member member;
 
-        contact = service.delete(number);
+        member = service.delete(number);
 
-        return MemberDtoMapper.toResponseDto(contact);
+        return MemberDtoMapper.toResponseDto(member);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class MemberController implements MemberApi {
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
-        // TODO: require contacts permission or filter only by active
+        // TODO: require members permission or filter only by active
         if (status != null) {
             memberStatus = MemberStatus.valueOf(status.name());
         } else {
