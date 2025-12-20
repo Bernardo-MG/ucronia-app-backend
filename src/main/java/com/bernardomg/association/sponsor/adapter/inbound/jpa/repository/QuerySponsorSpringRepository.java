@@ -22,22 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
 
-import com.bernardomg.exception.MissingIdException;
+import java.util.Optional;
 
-/**
- * Existing member exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MemberExistsException extends MissingIdException {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-    private static final long serialVersionUID = 2786821546505029631L;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
 
-    public MemberExistsException(final long number) {
-        super("member", number);
-    }
+public interface QuerySponsorSpringRepository
+        extends JpaRepository<QuerySponsorEntity, Long>, JpaSpecificationExecutor<QuerySponsorEntity> {
+
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Sponsor m
+            WHERE m.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
+
+    public boolean existsByNumber(final Long number);
+
+    public Optional<QuerySponsorEntity> findByNumber(final Long number);
+
+    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    public Long findNextNumber();
 
 }

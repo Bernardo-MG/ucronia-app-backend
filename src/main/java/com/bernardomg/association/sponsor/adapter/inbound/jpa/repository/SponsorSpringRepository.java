@@ -22,22 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
 
-import com.bernardomg.exception.MissingIdException;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- * Existing member exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MemberExistsException extends MissingIdException {
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 
-    private static final long serialVersionUID = 2786821546505029631L;
-
-    public MemberExistsException(final long number) {
-        super("member", number);
-    }
+public interface SponsorSpringRepository extends JpaRepository<SponsorEntity, Long> {
 
 }

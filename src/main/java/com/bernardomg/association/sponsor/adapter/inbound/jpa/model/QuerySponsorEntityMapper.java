@@ -22,22 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
-import com.bernardomg.exception.MissingIdException;
+import java.util.ArrayList;
+
+import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 /**
- * Existing member exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Query sponsor entity mapper.
  */
-public final class MemberExistsException extends MissingIdException {
+public final class QuerySponsorEntityMapper {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    public static final Sponsor toDomain(final QuerySponsorEntity entity) {
+        final ContactName name;
 
-    public MemberExistsException(final long number) {
-        super("member", number);
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        return new Sponsor(entity.getNumber(), name, new ArrayList<>(entity.getYears()));
+    }
+
+    public static final QuerySponsorEntity toEntity(final Sponsor data) {
+        final QuerySponsorEntity entity;
+
+        entity = new QuerySponsorEntity();
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setYears(new ArrayList<>(data.years()));
+
+        return entity;
+    }
+
+    private QuerySponsorEntityMapper() {
+        super();
     }
 
 }

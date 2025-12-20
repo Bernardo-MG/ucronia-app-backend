@@ -22,22 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.sponsor.usecase.service;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 /**
- * Existing member exception.
+ * Contact sponsorship service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MemberExistsException extends MissingIdException {
+public interface ContactSponsorshipService {
 
-    private static final long serialVersionUID = 2786821546505029631L;
-
-    public MemberExistsException(final long number) {
-        super("member", number);
-    }
+    /**
+     * Converts a contact into a sponsor.
+     *
+     * @param number
+     *            number of the contact to convert into a sponsor
+     * @return the created sponsor
+     */
+    public Sponsor convertToSponsor(final long number);
 
 }

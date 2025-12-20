@@ -22,22 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.sponsor.domain.repository;
 
-import com.bernardomg.exception.MissingIdException;
+import java.util.Collection;
+import java.util.Optional;
 
-/**
- * Existing member exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MemberExistsException extends MissingIdException {
+import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.data.domain.Page;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
-    private static final long serialVersionUID = 2786821546505029631L;
+public interface SponsorRepository {
 
-    public MemberExistsException(final long number) {
-        super("member", number);
-    }
+    public void delete(final long number);
+
+    public boolean exists(final long number);
+
+    public Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
+
+    public Optional<Sponsor> findOne(final Long number);
+
+    public Sponsor save(final Sponsor member);
+
+    public Sponsor save(final Sponsor member, final long number);
+
+    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
 
 }

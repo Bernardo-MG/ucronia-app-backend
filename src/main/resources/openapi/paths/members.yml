@@ -16,7 +16,7 @@ post:
           schema:
             $ref: '../components/members.yml#/components/schemas/MemberResponse'
 get:
-  summary: Get all public members.
+  summary: Get all members.
   operationId: getAllMembers
   tags: [Member]
   parameters:

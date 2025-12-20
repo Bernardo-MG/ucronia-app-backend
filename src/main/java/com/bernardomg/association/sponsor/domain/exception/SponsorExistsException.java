@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
+package com.bernardomg.association.sponsor.domain.exception;
 
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Existing member exception.
+ * Existing sponsor exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MemberExistsException extends MissingIdException {
+public final class SponsorExistsException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MemberExistsException(final long number) {
-        super("member", number);
+    public SponsorExistsException(final long number) {
+        super("sponsor", number);
     }
 
 }

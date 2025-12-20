@@ -78,13 +78,6 @@ permissions:
   - resource: library
     actions:
       - view
-  - resource: member
-    actions:
-      - create
-      - read
-      - update
-      - delete
-      - view
   - resource: contact
     actions:
       - create
@@ -98,6 +91,20 @@ permissions:
       - read
       - update
       - delete
+  - resource: member
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: sponsor
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: security
     actions:
       - view

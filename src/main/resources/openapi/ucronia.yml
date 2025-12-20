@@ -25,6 +25,8 @@ paths:
     $ref: paths/contacts_by_id.yml
   /contact/{number}/member:
     $ref: paths/contact_membership.yml
+  /contact/{number}/sponsor:
+    $ref: paths/contact_sponsorship.yml
   /contact/contactMethod:
     $ref: paths/contact_methods.yml
   /contact/contactMethod/{number}:
@@ -35,6 +37,10 @@ paths:
     $ref: paths/members_by_id.yml
   /member/evolution:
     $ref: paths/membership_monthly_evolution.yml
+  /sponsor:
+    $ref: paths/sponsors.yml
+  /sponsor/{number}:
+    $ref: paths/sponsors_by_id.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

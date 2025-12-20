@@ -1,0 +1,38 @@
+post:
+  summary: Create a new member.
+  operationId: createSponsor
+  tags: [Sponsor]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/sponsors.yml#/components/schemas/SponsorCreation'
+  responses:
+    '201':
+      description: Contact created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+get:
+  summary: Get all sponsors.
+  operationId: getAllSponsors
+  tags: [Sponsor]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/sponsors.yml#/components/parameters/sponsorsSortParam'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Sponsors page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorPageResponse'
