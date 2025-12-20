@@ -37,6 +37,13 @@ public final class Sponsors {
         return new Sponsor(ContactConstants.NUMBER, name, List.of(SponsorConstants.YEAR));
     }
 
+    public static final Sponsor noYears() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Sponsor(ContactConstants.NUMBER, name, List.of());
+    }
+
     public static final Sponsor padded() {
         final ContactName name;
 

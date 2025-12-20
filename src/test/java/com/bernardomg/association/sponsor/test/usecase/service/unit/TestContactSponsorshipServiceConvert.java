@@ -112,7 +112,7 @@ class TestContactSponsorshipServiceConvert {
         final Contact contact;
 
         // GIVEN
-        sponsor = Sponsors.valid();
+        sponsor = Sponsors.noYears();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
@@ -133,7 +133,7 @@ class TestContactSponsorshipServiceConvert {
         final Sponsor updated;
 
         // GIVEN
-        sponsor = Sponsors.valid();
+        sponsor = Sponsors.noYears();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
@@ -146,7 +146,7 @@ class TestContactSponsorshipServiceConvert {
         // THEN
         Assertions.assertThat(updated)
             .as("sponsor")
-            .isEqualTo(Sponsors.valid());
+            .isEqualTo(sponsor);
     }
 
 }
