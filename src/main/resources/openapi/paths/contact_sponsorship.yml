@@ -1,7 +1,7 @@
 put:
   summary: Add membership to a contact.
   operationId: convertToMember
-  tags: [ContactMembership]
+  tags: [ContactSponsorship]
   parameters:
     - name: number
       in: path
@@ -11,10 +11,10 @@ put:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
     '200':
-      description: Created member.
+      description: Created sponsor.
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
     '404':
       description: Contact not found.
