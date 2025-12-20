@@ -22,8 +22,24 @@
  * SOFTWARE.
  */
 
-/**
- * Guest JPA model.
- */
+package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
-package com.bernardomg.guest.adapter.inbound.jpa.model;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.UpdateGuestEntity;
+
+public interface UpdateGuestSpringRepository extends JpaRepository<UpdateGuestEntity, Long> {
+
+    @Query("""
+            SELECT m
+            FROM UpdateGuest m
+              JOIN m.contact c
+            WHERE c.number = :number
+            """)
+    public Optional<UpdateGuestEntity> findByNumber(@Param("number") final Long number);
+
+}

@@ -1,5 +1,5 @@
 
-package com.bernardomg.guest.adapter.inbound.jpa.model;
+package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

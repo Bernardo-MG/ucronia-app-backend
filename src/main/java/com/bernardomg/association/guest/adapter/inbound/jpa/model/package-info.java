@@ -22,34 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.guest.adapter.inbound.jpa.repository;
+/**
+ * Guest JPA model.
+ */
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import com.bernardomg.guest.adapter.inbound.jpa.model.QueryGuestEntity;
-
-public interface QueryGuestSpringRepository
-        extends JpaRepository<QueryGuestEntity, Long>, JpaSpecificationExecutor<QueryGuestEntity> {
-
-    @Modifying
-    @Query("""
-            DELETE
-            FROM Guest m
-            WHERE m.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
-
-    public boolean existsByNumber(final Long number);
-
-    public Optional<QueryGuestEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
-    public Long findNextNumber();
-
-}
+package com.bernardomg.association.guest.adapter.inbound.jpa.model;
