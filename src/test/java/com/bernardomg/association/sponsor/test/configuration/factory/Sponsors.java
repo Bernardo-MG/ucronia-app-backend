@@ -13,42 +13,49 @@ public final class Sponsors {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Sponsor(1L, name, List.of());
+        return new Sponsor(1L, name, List.of(SponsorConstants.YEAR));
+    }
+
+    public static final Sponsor forNumber(final long number) {
+        final ContactName name;
+
+        name = new ContactName("Contact " + number, "Last name " + number);
+        return new Sponsor(number * 10, name, List.of(SponsorConstants.YEAR));
     }
 
     public static final Sponsor nameChange() {
         final ContactName name;
 
         name = new ContactName("Contact 123", "Last name");
-        return new Sponsor(ContactConstants.NUMBER, name, List.of());
+        return new Sponsor(ContactConstants.NUMBER, name, List.of(SponsorConstants.YEAR));
     }
 
     public static final Sponsor nameChangePatch() {
         final ContactName name;
 
         name = new ContactName("Contact 123", "Last name");
-        return new Sponsor(ContactConstants.NUMBER, name, List.of());
+        return new Sponsor(ContactConstants.NUMBER, name, List.of(SponsorConstants.YEAR));
     }
 
     public static final Sponsor padded() {
         final ContactName name;
 
         name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
-        return new Sponsor(ContactConstants.NUMBER, name, List.of());
+        return new Sponsor(ContactConstants.NUMBER, name, List.of(SponsorConstants.YEAR));
     }
 
     public static final Sponsor toCreate() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Sponsor(0L, name, List.of());
+        return new Sponsor(0L, name, List.of(SponsorConstants.YEAR));
     }
 
     public static final Sponsor valid() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Sponsor(ContactConstants.NUMBER, name, List.of());
+        return new Sponsor(ContactConstants.NUMBER, name, List.of(SponsorConstants.YEAR));
     }
 
 }

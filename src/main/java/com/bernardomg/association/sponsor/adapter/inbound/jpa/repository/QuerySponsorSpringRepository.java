@@ -22,31 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.domain.repository;
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
-import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface SponsorRepository {
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
 
-    public void delete(final long number);
+public interface QuerySponsorSpringRepository
+        extends JpaRepository<QuerySponsorEntity, Long>, JpaSpecificationExecutor<QuerySponsorEntity> {
 
-    public boolean exists(final long number);
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Sponsor m
+            WHERE m.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
 
-    public Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
+    public boolean existsByNumber(final Long number);
 
-    public Optional<Sponsor> findOne(final Long number);
+    public Optional<QuerySponsorEntity> findByNumber(final Long number);
 
-    public Sponsor save(final Sponsor member);
-
-    public Sponsor save(final Sponsor member, final long number);
-
-    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
+    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    public Long findNextNumber();
 
 }

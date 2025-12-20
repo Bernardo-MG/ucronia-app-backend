@@ -22,31 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.domain.repository;
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
-import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface SponsorRepository {
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.UpdateSponsorEntity;
 
-    public void delete(final long number);
+public interface UpdateSponsorSpringRepository extends JpaRepository<UpdateSponsorEntity, Long> {
 
-    public boolean exists(final long number);
-
-    public Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Optional<Sponsor> findOne(final Long number);
-
-    public Sponsor save(final Sponsor member);
-
-    public Sponsor save(final Sponsor member, final long number);
-
-    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
+    @Query("""
+            SELECT m
+            FROM UpdateSponsor m
+              JOIN m.contact c
+            WHERE c.number = :number
+            """)
+    public Optional<UpdateSponsorEntity> findByNumber(@Param("number") final Long number);
 
 }

@@ -24,7 +24,6 @@ databaseChangeLog:
                   name: sponsor_id
                   type: bigint
                   constraints:
-                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_sponsor_year_sponsor
                     references: directory.sponsors(id)
@@ -34,3 +33,8 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
+        - addPrimaryKey:
+              constraintName: book_authors_key
+              schemaName: directory
+              tableName: sponsor_years
+              columnNames: 'sponsor_id, year'

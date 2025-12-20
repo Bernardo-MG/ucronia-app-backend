@@ -22,31 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.domain.repository;
+/**
+ * Sponsor JPA specifications.
+ */
 
-import java.util.Collection;
-import java.util.Optional;
-
-import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
-import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-
-public interface SponsorRepository {
-
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Optional<Sponsor> findOne(final Long number);
-
-    public Sponsor save(final Sponsor member);
-
-    public Sponsor save(final Sponsor member, final long number);
-
-    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
-
-}
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.specification;

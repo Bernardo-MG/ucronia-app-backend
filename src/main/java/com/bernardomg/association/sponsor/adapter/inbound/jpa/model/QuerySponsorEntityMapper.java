@@ -22,31 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.domain.repository;
+package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.ArrayList;
 
-import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
+import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
 
-public interface SponsorRepository {
+/**
+ * Query sponsor entity mapper.
+ */
+public final class QuerySponsorEntityMapper {
 
-    public void delete(final long number);
+    public static final Sponsor toDomain(final QuerySponsorEntity entity) {
+        final ContactName name;
 
-    public boolean exists(final long number);
+        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        return new Sponsor(entity.getNumber(), name, new ArrayList<>(entity.getYears()));
+    }
 
-    public Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
+    public static final QuerySponsorEntity toEntity(final Sponsor data) {
+        final QuerySponsorEntity entity;
 
-    public Optional<Sponsor> findOne(final Long number);
+        entity = new QuerySponsorEntity();
+        entity.setFirstName(data.name()
+            .firstName());
+        entity.setLastName(data.name()
+            .lastName());
+        entity.setYears(new ArrayList<>(data.years()));
 
-    public Sponsor save(final Sponsor member);
+        return entity;
+    }
 
-    public Sponsor save(final Sponsor member, final long number);
-
-    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
+    private QuerySponsorEntityMapper() {
+        super();
+    }
 
 }
