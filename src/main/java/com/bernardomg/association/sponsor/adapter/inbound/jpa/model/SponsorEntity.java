@@ -13,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(schema = "directory", name = "sponsors")
@@ -21,6 +22,7 @@ public class SponsorEntity implements Serializable {
     /**
      *
      */
+    @Transient
     private static final long serialVersionUID = -358337123425520096L;
 
     @Id
