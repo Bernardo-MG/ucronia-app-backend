@@ -41,6 +41,10 @@ paths:
     $ref: paths/sponsors.yml
   /sponsor/{number}:
     $ref: paths/sponsors_by_id.yml
+  /guest:
+    $ref: paths/guests.yml
+  /guest/{number}:
+    $ref: paths/guests_by_id.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

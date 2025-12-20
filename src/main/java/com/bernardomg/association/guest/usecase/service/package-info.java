@@ -22,13 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.model;
+/**
+ * Guest services.
+ */
 
-import java.time.Instant;
-import java.util.Collection;
-
-import com.bernardomg.association.contact.domain.model.ContactName;
-
-public record Guest(Long number, ContactName name, Collection<Instant> games) {
-
-}
+package com.bernardomg.association.guest.usecase.service;

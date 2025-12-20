@@ -1,28 +1,28 @@
 post:
-  summary: Create a new sponsor.
-  operationId: createSponsor
-  tags: [Sponsor]
+  summary: Create a new member.
+  operationId: createGuest
+  tags: [Guest]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../components/sponsors.yml#/components/schemas/SponsorCreation'
+          $ref: '../components/guests.yml#/components/schemas/GuestCreation'
   responses:
     '201':
       description: Contact created.
       content:
         application/json:
           schema:
-            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
 get:
-  summary: Get all sponsors.
-  operationId: getAllSponsors
-  tags: [Sponsor]
+  summary: Get all guests.
+  operationId: getAllGuests
+  tags: [Guest]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/sponsors.yml#/components/parameters/sponsorsSortParam'
+    - $ref: '../components/guests.yml#/components/parameters/guestsSortParam'
     - name: name
       in: query
       required: false
@@ -31,8 +31,8 @@ get:
         type: string
   responses:
     '200':
-      description: Sponsors page.
+      description: Guests page.
       content:
         application/json:
           schema:
-            $ref: '../components/sponsors.yml#/components/schemas/SponsorPageResponse'
+            $ref: '../components/guests.yml#/components/schemas/GuestPageResponse'
