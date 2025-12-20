@@ -34,7 +34,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addPrimaryKey:
-              constraintName: book_authors_key
+              constraintName: sponsor_years_key
               schemaName: directory
               tableName: sponsor_years
               columnNames: 'sponsor_id, year'
