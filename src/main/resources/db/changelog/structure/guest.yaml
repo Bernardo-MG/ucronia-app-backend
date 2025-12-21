@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: guest
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: directory
+            tableName: guests
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_guest_contact
+                    references: directory.contacts(id)
+                    deleteCascade: true
+        - createTable:
+            schemaName: directory
+            tableName: guest_games
+            columns:
+              - column:
+                  name: guest_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_guest_game_guest
+                    references: directory.guests(id)
+                    deleteCascade: true
+              - column:
+                  name: date
+                  type: datetime
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+              constraintName: guest_games_key
+              schemaName: directory
+              tableName: guest_games
+              columnNames: 'guest_id, date'

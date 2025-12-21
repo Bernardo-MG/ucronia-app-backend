@@ -1,0 +1,92 @@
+get:
+  summary: Get a specific guest by number.
+  operationId: getGuestByNumber
+  tags: [Guest]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Guest number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Requested guest.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
+    '404':
+      description: Guest not found.
+put:
+  summary: Update a guest.
+  operationId: updateGuest
+  tags: [Guest]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Guest number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/guests.yml#/components/schemas/GuestChange'
+  responses:
+    '200':
+      description: Updated contact.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
+    '404':
+      description: Contact not found.
+patch:
+  summary: Partially update a guest.
+  operationId: patchGuest
+  tags: [Guest]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Guest number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/guests.yml#/components/schemas/GuestChange'
+  responses:
+    '200':
+      description: Updated guest.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
+    '404':
+      description: Guest not found.
+delete:
+  summary: Delete a guest.
+  operationId: deleteGuest
+  tags: [Guest]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Guest number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Guest deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
+    '404':
+      description: Guest not found.

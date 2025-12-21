@@ -1,0 +1,20 @@
+put:
+  summary: Add guest status to a contact.
+  operationId: convertToGuest
+  tags: [ContactGuest]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Contact number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Created guest.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
+    '404':
+      description: Contact not found.
