@@ -56,7 +56,7 @@ public final class DefaultContactGuestService implements ContactGuestService {
 
     private final ContactRepository contactRepository;
 
-    private final GuestRepository guestRepository;
+    private final GuestRepository   guestRepository;
 
     public DefaultContactGuestService(final GuestRepository guestRepo, final ContactRepository contactRepo) {
         super();
@@ -68,8 +68,8 @@ public final class DefaultContactGuestService implements ContactGuestService {
     @Override
     public final Guest convertToGuest(final long number) {
         final Contact existingContact;
-        final Guest toCreate;
-        final Guest created;
+        final Guest   toCreate;
+        final Guest   created;
 
         log.debug("Converting contact {} to guest", number);
 

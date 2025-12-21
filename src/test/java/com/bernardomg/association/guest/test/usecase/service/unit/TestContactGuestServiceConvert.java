@@ -54,13 +54,13 @@ import com.bernardomg.association.guest.usecase.service.DefaultContactGuestServi
 class TestContactGuestServiceConvert {
 
     @Mock
-    private ContactRepository                contactRepository;
+    private ContactRepository          contactRepository;
+
+    @Mock
+    private GuestRepository            guestRepository;
 
     @InjectMocks
     private DefaultContactGuestService service;
-
-    @Mock
-    private GuestRepository                guestRepository;
 
     public TestContactGuestServiceConvert() {
         super();
@@ -108,7 +108,7 @@ class TestContactGuestServiceConvert {
     @Test
     @DisplayName("When converting to guest, the change is persisted")
     void testConvertToGuest_PersistedData() {
-        final Guest guest;
+        final Guest   guest;
         final Contact contact;
 
         // GIVEN
@@ -128,9 +128,9 @@ class TestContactGuestServiceConvert {
     @Test
     @DisplayName("When converting to guest, the change is returned")
     void testConvertToGuest_ReturnedData() {
-        final Guest guest;
+        final Guest   guest;
         final Contact contact;
-        final Guest updated;
+        final Guest   updated;
 
         // GIVEN
         guest = Guests.noYears();
