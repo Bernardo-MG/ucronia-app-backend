@@ -105,6 +105,13 @@ permissions:
       - update
       - delete
       - view
+  - resource: guest
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: security
     actions:
       - view
