@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.adapter.inbound.jpa.specification;
+package com.bernardomg.association.guest.adapter.inbound.jpa.specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,14 +30,14 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
-import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
+import com.bernardomg.association.guest.domain.filter.GuestFilter;
 
-public final class QuerySponsorSpecifications {
+public final class GuestSpecifications {
 
-    public static Optional<Specification<QuerySponsorEntity>> query(final SponsorFilter filter) {
-        final Optional<Specification<QuerySponsorEntity>> nameSpec;
-        final Specification<QuerySponsorEntity>           spec;
+    public static Optional<Specification<QueryGuestEntity>> query(final GuestFilter filter) {
+        final Optional<Specification<QueryGuestEntity>> nameSpec;
+        final Specification<QueryGuestEntity>           spec;
 
         if (filter.name()
             .isBlank()) {
@@ -50,7 +50,7 @@ public final class QuerySponsorSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<QuerySponsorEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<QueryGuestEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
@@ -62,7 +62,7 @@ public final class QuerySponsorSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<QuerySponsorEntity> name(final String pattern) {
+    private static Specification<QueryGuestEntity> name(final String pattern) {
         final String likePattern = "%" + pattern + "%";
         return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
             cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
@@ -70,7 +70,7 @@ public final class QuerySponsorSpecifications {
                 likePattern.toLowerCase()));
     }
 
-    private QuerySponsorSpecifications() {
+    private GuestSpecifications() {
         super();
     }
 

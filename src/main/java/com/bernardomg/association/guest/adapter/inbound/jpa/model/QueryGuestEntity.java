@@ -2,7 +2,7 @@
 package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -28,25 +28,25 @@ public class QueryGuestEntity implements Serializable {
      *
      */
     @Transient
-    private static final long         serialVersionUID = 8139806507534262996L;
+    private static final long   serialVersionUID = 8139806507534262996L;
 
     @Column(name = "first_name", table = "contacts", nullable = false)
-    private String                    firstName;
+    private String              firstName;
 
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
     @Column(name = "date", nullable = false)
-    private Collection<LocalDateTime> games            = new HashSet<>();
+    private Collection<Instant> games            = new HashSet<>();
 
     @Id
     @Column(name = "id", table = "guests", nullable = false, unique = true)
-    private Long                      id;
+    private Long                id;
 
     @Column(name = "last_name", table = "contacts")
-    private String                    lastName;
+    private String              lastName;
 
     @Column(name = "number", table = "contacts")
-    private Long                      number;
+    private Long                number;
 
     @Override
     public boolean equals(final Object obj) {
@@ -63,7 +63,7 @@ public class QueryGuestEntity implements Serializable {
         return firstName;
     }
 
-    public Collection<LocalDateTime> getGames() {
+    public Collection<Instant> getGames() {
         return games;
     }
 
@@ -88,7 +88,7 @@ public class QueryGuestEntity implements Serializable {
         this.firstName = firstName;
     }
 
-    public void setGames(final Collection<LocalDateTime> games) {
+    public void setGames(final Collection<Instant> games) {
         this.games = games;
     }
 

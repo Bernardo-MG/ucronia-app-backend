@@ -2,7 +2,7 @@
 package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -31,22 +31,22 @@ public class UpdateGuestEntity implements Serializable {
      *
      */
     @Transient
-    private static final long         serialVersionUID = 8139806507534262996L;
+    private static final long   serialVersionUID = 8139806507534262996L;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ContactEntity             contact;
+    private ContactEntity       contact;
 
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
     @Column(name = "date", nullable = false)
-    private Collection<LocalDateTime> games            = new HashSet<>();
+    private Collection<Instant> games            = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                      id;
+    private Long                id;
 
     @Override
     public boolean equals(final Object obj) {
@@ -63,7 +63,7 @@ public class UpdateGuestEntity implements Serializable {
         return contact;
     }
 
-    public Collection<LocalDateTime> getGames() {
+    public Collection<Instant> getGames() {
         return games;
     }
 
@@ -80,7 +80,7 @@ public class UpdateGuestEntity implements Serializable {
         this.contact = contact;
     }
 
-    public void setGames(final Collection<LocalDateTime> games) {
+    public void setGames(final Collection<Instant> games) {
         this.games = games;
     }
 
