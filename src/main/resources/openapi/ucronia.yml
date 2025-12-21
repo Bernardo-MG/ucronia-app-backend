@@ -27,6 +27,8 @@ paths:
     $ref: paths/contact_membership.yml
   /contact/{number}/sponsor:
     $ref: paths/contact_sponsorship.yml
+  /contact/{number}/guest:
+    $ref: paths/contact_guest.yml
   /contact/contactMethod:
     $ref: paths/contact_methods.yml
   /contact/contactMethod/{number}:
