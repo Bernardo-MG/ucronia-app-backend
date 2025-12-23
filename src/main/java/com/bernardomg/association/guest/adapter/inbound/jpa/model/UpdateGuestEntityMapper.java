@@ -25,8 +25,15 @@
 package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.model.Guest;
 
@@ -36,19 +43,35 @@ import com.bernardomg.association.guest.domain.model.Guest;
 public final class UpdateGuestEntityMapper {
 
     public static final Guest toDomain(final UpdateGuestEntity entity) {
-        final ContactName name;
+        final ContactName                name;
+        final Collection<ContactChannel> contacts;
 
         name = new ContactName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
+
+        contacts = entity.getContact()
+            .getContactChannels()
+            .stream()
+            .map(ContactChannelEntityMapper::toDomain)
+            .toList();
+
         return new Guest(entity.getContact()
-            .getNumber(), name, new ArrayList<>(entity.getGames()));
+            .getIdentifier(),
+            entity.getContact()
+                .getNumber(),
+            name, entity.getContact()
+                .getBirthDate(),
+            contacts, new ArrayList<>(entity.getGames()), entity.getContact()
+                .getComments());
     }
 
-    public static final UpdateGuestEntity toEntity(final Guest data) {
-        final UpdateGuestEntity entity;
-        final ContactEntity     contact;
+    public static final UpdateGuestEntity toEntity(final Guest data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final UpdateGuestEntity                entity;
+        final ContactEntity                    contact;
+        final Collection<ContactChannelEntity> contacts;
 
         contact = new ContactEntity();
         contact.setNumber(data.number());
@@ -56,6 +79,15 @@ public final class UpdateGuestEntityMapper {
             .firstName());
         contact.setLastName(data.name()
             .lastName());
+        contact.setIdentifier(data.identifier());
+        contact.setBirthDate(data.birthDate());
+        contact.setComments(data.comments());
+
+        contacts = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(contact, c, contactMethods))
+            .toList();
+        contact.setContactChannels(contacts);
 
         entity = new UpdateGuestEntity();
         entity.setContact(contact);
@@ -73,6 +105,31 @@ public final class UpdateGuestEntityMapper {
             .setLastName(data.name()
                 .lastName());
         entity.setGames(new ArrayList<>(data.games()));
+
+        return entity;
+    }
+
+    private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+            final Collection<ContactMethodEntity> concatMethods) {
+        final ContactChannelEntity          entity;
+        final Optional<ContactMethodEntity> contactMethod;
+
+        contactMethod = concatMethods.stream()
+            .filter(m -> m.getNumber()
+                .equals(data.contactMethod()
+                    .number()))
+            .findFirst();
+
+        // TODO: do this outside
+        if (contactMethod.isEmpty()) {
+            throw new MissingContactMethodException(data.contactMethod()
+                .number());
+        }
+
+        entity = new ContactChannelEntity();
+        entity.setContact(contact);
+        entity.setContactMethod(contactMethod.get());
+        entity.setDetail(data.detail());
 
         return entity;
     }

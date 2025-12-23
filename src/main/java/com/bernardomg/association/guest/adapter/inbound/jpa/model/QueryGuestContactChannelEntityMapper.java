@@ -22,28 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.model;
+package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
-import java.time.Instant;
-import java.util.Collection;
-
-import org.apache.commons.lang3.StringUtils;
-
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntityMapper;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 
-public record Guest(String identifier, Long number, ContactName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Instant> games, String comments) {
+/**
+ * Contact channel entity mapper.
+ */
+public final class QueryGuestContactChannelEntityMapper {
 
-    public Guest(final String identifier, final Long number, final ContactName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String comments) {
-        this.identifier = identifier;
-        this.number = number;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.contactChannels = contactChannels;
-        this.games = games;
-        this.comments = StringUtils.trim(comments);
+    public static final ContactChannel toDomain(final QueryGuestContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = ContactMethodEntityMapper.toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
+
+    private QueryGuestContactChannelEntityMapper() {
+        super();
     }
 
 }

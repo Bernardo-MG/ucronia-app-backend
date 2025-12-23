@@ -16,7 +16,13 @@ public final class GuestEntities {
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.ALTERNATIVE_FIRST_NAME);
         entity.setLastName(ContactConstants.ALTERNATIVE_LAST_NAME);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of());
         entity.setGames(List.of(GuestConstants.DATE));
+        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }
@@ -29,7 +35,13 @@ public final class GuestEntities {
         entity.setNumber(1L);
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of());
         entity.setGames(List.of(GuestConstants.DATE));
+        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }
@@ -42,7 +54,13 @@ public final class GuestEntities {
         entity.setNumber(ContactConstants.NUMBER);
         entity.setFirstName(ContactConstants.FIRST_NAME);
         entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of());
         entity.setGames(List.of(GuestConstants.DATE));
+        entity.setComments(ContactConstants.COMMENTS);
 
         return entity;
     }

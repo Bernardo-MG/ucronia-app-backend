@@ -20,25 +20,52 @@ components:
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
         name:
           $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'contacts.yml#/components/schemas/ContactChannel'
         games:
           type: array
           items:
             $ref: '../common/dates.yml#/components/schemas/Date'
+        comments:
+          type: string
+          description: Comments about the contact.
     GuestCreation:
       type: object
       required: [name]
       properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
     GuestChange:
       type: object
       properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'contacts.yml#/components/schemas/EditionContactChannel'
         games:
           type: array
           items:
             $ref: '../common/dates.yml#/components/schemas/Date'
+        comments:
+          type: string
     GuestPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
