@@ -38,7 +38,8 @@ public class QueryGuestEntity implements Serializable {
     @Column(name = "comments", table = "contacts")
     private String                                     comments;
 
-    @OneToMany(mappedBy = "contactId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private Collection<QueryGuestContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", table = "contacts", nullable = false)

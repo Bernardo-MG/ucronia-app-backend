@@ -49,10 +49,6 @@ public class QueryGuestContactChannelEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = -3239435918896603554L;
 
-    @Id
-    @Column(name = "contact_id", nullable = false, unique = true)
-    private Long                contactId;
-
     @ManyToOne
     @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
@@ -76,10 +72,6 @@ public class QueryGuestContactChannelEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public Long getContactId() {
-        return contactId;
-    }
-
     public ContactMethodEntity getContactMethod() {
         return contactMethod;
     }
@@ -97,10 +89,6 @@ public class QueryGuestContactChannelEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setContactId(final Long contactId) {
-        this.contactId = contactId;
-    }
-
     public void setContactMethod(final ContactMethodEntity contactMethod) {
         this.contactMethod = contactMethod;
     }
@@ -115,8 +103,8 @@ public class QueryGuestContactChannelEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryGuestContactChannelEntity [id=" + id + ", contactId=" + contactId + ", contactMethod="
-                + contactMethod + ", detail=" + detail + "]";
+        return "QueryGuestContactChannelEntity [id=" + id + ", contactMethod=" + contactMethod + ", detail=" + detail
+                + "]";
     }
 
 }
