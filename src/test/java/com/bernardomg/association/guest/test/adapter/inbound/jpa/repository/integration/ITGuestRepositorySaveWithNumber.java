@@ -70,7 +70,7 @@ class ITGuestRepositorySaveWithNumber {
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         repository.save(guest, ContactConstants.NUMBER);
@@ -93,7 +93,7 @@ class ITGuestRepositorySaveWithNumber {
         final Guest saved;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         saved = repository.save(guest, ContactConstants.NUMBER);
@@ -101,7 +101,7 @@ class ITGuestRepositorySaveWithNumber {
         // THEN
         Assertions.assertThat(saved)
             .as("guest")
-            .isEqualTo(Guests.valid());
+            .isEqualTo(Guests.noContactChannel());
     }
 
     @Test
@@ -113,7 +113,7 @@ class ITGuestRepositorySaveWithNumber {
         final ContactEntity contact;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         saved = repository.save(guest, ContactConstants.NUMBER);

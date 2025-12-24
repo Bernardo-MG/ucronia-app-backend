@@ -49,7 +49,15 @@ public final class Guests {
             List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
     }
 
-    public static final Guest noYears() {
+    public static final Guest noContactChannel() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
+    }
+
+    public static final Guest noGames() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
@@ -58,30 +66,30 @@ public final class Guests {
     }
 
     public static final Guest padded() {
-        final ContactName name;
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
 
         name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
+            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
     }
 
     public static final Guest toCreate() {
-        final ContactName name;
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Guest(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(),
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new Guest(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
             List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
     }
 
     public static final Guest valid() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
-    }
-
-    public static final Guest withEmail() {
         final ContactName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;

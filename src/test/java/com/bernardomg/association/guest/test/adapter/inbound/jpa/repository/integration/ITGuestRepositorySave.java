@@ -68,7 +68,7 @@ class ITGuestRepositorySave {
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         repository.save(guest);
@@ -91,7 +91,7 @@ class ITGuestRepositorySave {
         final Guest saved;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         saved = repository.save(guest);
@@ -99,7 +99,7 @@ class ITGuestRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("guest")
-            .isEqualTo(Guests.withEmail());
+            .isEqualTo(Guests.valid());
     }
 
     @Test
@@ -110,7 +110,7 @@ class ITGuestRepositorySave {
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         repository.save(guest);
@@ -133,7 +133,7 @@ class ITGuestRepositorySave {
         final Guest saved;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         saved = repository.save(guest);
@@ -152,7 +152,7 @@ class ITGuestRepositorySave {
         final ContactEntity contact;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         repository.save(guest);

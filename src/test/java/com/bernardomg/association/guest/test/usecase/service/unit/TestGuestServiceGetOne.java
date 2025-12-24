@@ -64,14 +64,14 @@ class TestGuestServiceGetOne {
         final Optional<Guest> guest;
 
         // GIVEN
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.withEmail()));
+        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
         // WHEN
         guest = service.getOne(ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Guests.withEmail());
+            .contains(Guests.valid());
     }
 
     @Test

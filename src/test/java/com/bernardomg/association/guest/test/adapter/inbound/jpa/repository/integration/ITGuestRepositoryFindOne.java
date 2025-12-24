@@ -57,7 +57,7 @@ class ITGuestRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Guests.withEmail());
+            .contains(Guests.valid());
     }
 
     @Test

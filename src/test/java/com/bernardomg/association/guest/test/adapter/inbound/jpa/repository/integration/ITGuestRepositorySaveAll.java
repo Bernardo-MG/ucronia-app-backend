@@ -70,7 +70,7 @@ class ITGuestRepositorySaveAll {
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         repository.saveAll(List.of(guest));
@@ -93,7 +93,7 @@ class ITGuestRepositorySaveAll {
         final Collection<Guest> saved;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         saved = repository.saveAll(List.of(guest));
@@ -112,7 +112,7 @@ class ITGuestRepositorySaveAll {
         final ContactEntity contact;
 
         // GIVEN
-        guest = Guests.withEmail();
+        guest = Guests.valid();
 
         // WHEN
         repository.saveAll(List.of(guest));

@@ -70,7 +70,7 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.withEmail());
+            .containsExactly(Guests.valid());
     }
 
     @Test
@@ -94,7 +94,7 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.withEmail());
+            .containsExactly(Guests.valid());
     }
 
     @Test
@@ -118,7 +118,7 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.withEmail());
+            .containsExactly(Guests.valid());
     }
 
     @Test
@@ -165,7 +165,7 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.withEmail());
+            .containsExactly(Guests.valid());
     }
 
     @Test
