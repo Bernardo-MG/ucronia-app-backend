@@ -25,8 +25,15 @@
 package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
@@ -36,19 +43,35 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 public final class UpdateSponsorEntityMapper {
 
     public static final Sponsor toDomain(final UpdateSponsorEntity entity) {
-        final ContactName name;
+        final ContactName                name;
+        final Collection<ContactChannel> contactChannels;
 
         name = new ContactName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
+
+        contactChannels = entity.getContact()
+            .getContactChannels()
+            .stream()
+            .map(ContactChannelEntityMapper::toDomain)
+            .toList();
+
         return new Sponsor(entity.getContact()
-            .getNumber(), name, new ArrayList<>(entity.getYears()));
+            .getIdentifier(),
+            entity.getContact()
+                .getNumber(),
+            name, entity.getContact()
+                .getBirthDate(),
+            contactChannels, new ArrayList<>(entity.getYears()), entity.getContact()
+                .getComments());
     }
 
-    public static final UpdateSponsorEntity toEntity(final Sponsor data) {
-        final UpdateSponsorEntity entity;
-        final ContactEntity       contact;
+    public static final UpdateSponsorEntity toEntity(final Sponsor data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final UpdateSponsorEntity              entity;
+        final ContactEntity                    contact;
+        final Collection<ContactChannelEntity> contactChannels;
 
         contact = new ContactEntity();
         contact.setNumber(data.number());
@@ -56,6 +79,15 @@ public final class UpdateSponsorEntityMapper {
             .firstName());
         contact.setLastName(data.name()
             .lastName());
+        contact.setIdentifier(data.identifier());
+        contact.setBirthDate(data.birthDate());
+        contact.setComments(data.comments());
+
+        contactChannels = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(contact, c, contactMethods))
+            .toList();
+        contact.setContactChannels(contactChannels);
 
         entity = new UpdateSponsorEntity();
         entity.setContact(contact);
@@ -73,6 +105,31 @@ public final class UpdateSponsorEntityMapper {
             .setLastName(data.name()
                 .lastName());
         entity.setYears(new ArrayList<>(data.years()));
+
+        return entity;
+    }
+
+    private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+            final Collection<ContactMethodEntity> concatMethods) {
+        final ContactChannelEntity          entity;
+        final Optional<ContactMethodEntity> contactMethod;
+
+        contactMethod = concatMethods.stream()
+            .filter(m -> m.getNumber()
+                .equals(data.contactMethod()
+                    .number()))
+            .findFirst();
+
+        // TODO: do this outside
+        if (contactMethod.isEmpty()) {
+            throw new MissingContactMethodException(data.contactMethod()
+                .number());
+        }
+
+        entity = new ContactChannelEntity();
+        entity.setContact(contact);
+        entity.setContactMethod(contactMethod.get());
+        entity.setDetail(data.detail());
 
         return entity;
     }

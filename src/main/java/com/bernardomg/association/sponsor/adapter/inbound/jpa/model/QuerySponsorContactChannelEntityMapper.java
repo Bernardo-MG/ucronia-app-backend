@@ -24,47 +24,23 @@
 
 package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntityMapper;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 
 /**
- * Query sponsor entity mapper.
+ * Contact channel entity mapper.
  */
-public final class QuerySponsorEntityMapper {
+public final class QuerySponsorContactChannelEntityMapper {
 
-    public static final Sponsor toDomain(final QuerySponsorEntity entity) {
-        final ContactName                name;
-        final Collection<ContactChannel> contactChannels;
+    public static final ContactChannel toDomain(final QuerySponsorContactChannelEntity entity) {
+        final ContactMethod method;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
-
-        contactChannels = entity.getContactChannels()
-            .stream()
-            .map(QuerySponsorContactChannelEntityMapper::toDomain)
-            .toList();
-
-        return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            new ArrayList<>(entity.getYears()), entity.getComments());
+        method = ContactMethodEntityMapper.toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
     }
 
-    public static final QuerySponsorEntity toEntity(final Sponsor data) {
-        final QuerySponsorEntity entity;
-
-        entity = new QuerySponsorEntity();
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setYears(new ArrayList<>(data.years()));
-
-        return entity;
-    }
-
-    private QuerySponsorEntityMapper() {
+    private QuerySponsorContactChannelEntityMapper() {
         super();
     }
 

@@ -39,23 +39,23 @@ public final class ContactEntityMapper {
 
     public static final Contact toDomain(final ContactEntity entity) {
         final ContactName                name;
-        final Collection<ContactChannel> contacts;
+        final Collection<ContactChannel> contactChannels;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
 
-        contacts = entity.getContactChannels()
+        contactChannels = entity.getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts,
+        return new Contact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
             entity.getComments(), entity.getTypes());
     }
 
     public static final ContactEntity toEntity(final Contact data,
             final Collection<ContactMethodEntity> contactMethods) {
         final ContactEntity                    entity;
-        final Collection<ContactChannelEntity> contacts;
+        final Collection<ContactChannelEntity> contactChannels;
 
         entity = new ContactEntity();
         entity.setNumber(data.number());
@@ -67,11 +67,11 @@ public final class ContactEntityMapper {
         entity.setBirthDate(data.birthDate());
         entity.setComments(data.comments());
 
-        contacts = data.contactChannels()
+        contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c, contactMethods))
             .toList();
-        entity.setContactChannels(contacts);
+        entity.setContactChannels(contactChannels);
 
         entity.setTypes(data.types());
 
@@ -80,7 +80,7 @@ public final class ContactEntityMapper {
 
     public static final ContactEntity toEntity(final Contact data, final Collection<ContactMethodEntity> contactMethods,
             final ContactEntity entity) {
-        final Collection<ContactChannelEntity> contacts;
+        final Collection<ContactChannelEntity> contactChannels;
 
         entity.setNumber(data.number());
         entity.setFirstName(data.name()
@@ -91,11 +91,11 @@ public final class ContactEntityMapper {
         entity.setBirthDate(data.birthDate());
         entity.setComments(data.comments());
 
-        contacts = data.contactChannels()
+        contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c, contactMethods))
             .toList();
-        entity.setContactChannels(contacts);
+        entity.setContactChannels(contactChannels);
 
         entity.setTypes(data.types());
 

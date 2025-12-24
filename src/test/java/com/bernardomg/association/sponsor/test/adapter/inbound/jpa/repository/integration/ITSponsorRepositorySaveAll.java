@@ -35,12 +35,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorEntities;
+import com.bernardomg.association.sponsor.test.configuration.factory.QuerySponsorEntities;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -63,7 +64,8 @@ class ITSponsorRepositorySaveAll {
 
     @Test
     @DisplayName("With a valid sponsor, the sponsor is persisted")
-    void testSave_PersistedData() {
+    @EmailContactMethod
+    void testSaveAll_PersistedData() {
         final Sponsor                      sponsor;
         final Iterable<QuerySponsorEntity> entities;
 
@@ -78,13 +80,15 @@ class ITSponsorRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
-            .containsExactly(SponsorEntities.created());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QuerySponsorEntities.withEmail());
     }
 
     @Test
     @DisplayName("With a valid sponsor, the created sponsor is returned")
-    void testSave_ReturnedData() {
+    @EmailContactMethod
+    void testSaveAll_ReturnedData() {
         final Sponsor             sponsor;
         final Collection<Sponsor> saved;
 
@@ -102,7 +106,8 @@ class ITSponsorRepositorySaveAll {
 
     @Test
     @DisplayName("When the sponsor is persisted, the contact types includes the sponsor type")
-    void testSave_SetsType() {
+    @EmailContactMethod
+    void testSaveAll_SetsType() {
         final Sponsor       sponsor;
         final ContactEntity contact;
 

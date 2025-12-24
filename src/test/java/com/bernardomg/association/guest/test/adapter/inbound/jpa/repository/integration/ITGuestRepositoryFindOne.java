@@ -74,7 +74,7 @@ class ITGuestRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a guest with no guestship, it returns nothing")
+    @DisplayName("With a guest with no guest role, it returns nothing")
     @ValidContact
     void testFindOne_NoGuestship() {
         final Optional<Guest> guest;

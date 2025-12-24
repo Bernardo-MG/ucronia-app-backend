@@ -20,25 +20,52 @@ components:
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
         name:
           $ref: 'contacts.yml#/components/schemas/ContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'contacts.yml#/components/schemas/ContactChannel'
         years:
           type: array
           items:
             type: integer
+        comments:
+          type: string
+          description: Comments about the contact.
     SponsorCreation:
       type: object
       required: [name]
       properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
         name:
           $ref: 'contacts.yml#/components/schemas/EditionContactName'
     SponsorChange:
       type: object
       properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'contacts.yml#/components/schemas/EditionContactChannel'
         years:
           type: array
           items:
             type: integer
+        comments:
+          type: string
     SponsorPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

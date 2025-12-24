@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.sponsor.test.adapter.inbound.jpa.repository.integration;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -31,89 +33,93 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.guest.domain.filter.GuestFilter;
-import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
+import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GuestRepository - find all - filter for all")
-class ITGuestRepositoryFindAllQueryAll {
+@DisplayName("SponsorRepository - find all")
+class ITSponsorRepositoryFindAll {
 
     @Autowired
-    private GuestRepository repository;
+    private SponsorRepository repository;
 
-    @Test
-    @DisplayName("With a guest, it is returned")
-    @ValidGuest
-    void testFindAll() {
-        final Page<Guest> guests;
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final GuestFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
-
-        // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(guests)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+    public ITSponsorRepositoryFindAll() {
+        super();
     }
 
     @Test
-    @DisplayName("With no guest, nothing is returned")
-    void testFindAll_NoData() {
-        final Page<Guest> guests;
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final GuestFilter filter;
+    @DisplayName("With an sponsor, it is returned")
+    @ValidSponsor
+    void testFindAll() {
+        final Page<Sponsor> sponsors;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final SponsorFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of());
+        filter = new SponsorFilter("");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        sponsors = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(sponsors)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Sponsors.valid());
+    }
+
+    @Test
+    @DisplayName("With no sponsor, nothing is returned")
+    void testFindAll_NoData() {
+        final Page<Sponsor> sponsors;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final SponsorFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of());
+        filter = new SponsorFilter("");
+
+        // WHEN
+        sponsors = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(sponsors)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a guest without guest role, it is returned")
+    @DisplayName("With a sponsor with no sponsorship, it returns nothing")
     @ValidContact
-    void testFindAll_WithoutGuestship() {
-        final Page<Guest> guests;
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final GuestFilter filter;
+    void testFindAll_NoSponsorship() {
+        final Page<Sponsor> sponsors;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final SponsorFilter filter;
 
         // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of());
+        filter = new SponsorFilter("");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        sponsors = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(sponsors)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

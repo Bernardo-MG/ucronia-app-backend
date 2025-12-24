@@ -71,7 +71,8 @@ public final class DefaultGuestService implements GuestService {
 
         log.debug("Creating guest {}", guest);
 
-        toCreate = new Guest(0L, guest.name(), guest.games());
+        toCreate = new Guest(guest.identifier(), 0L, guest.name(), guest.birthDate(), guest.contactChannels(),
+            guest.games(), guest.comments());
 
         created = guestRepository.save(toCreate);
 
@@ -185,10 +186,18 @@ public final class DefaultGuestService implements GuestService {
                     .orElse(existing.name()
                         .lastName()));
         }
-        return new Guest(Optional.ofNullable(updated.number())
-            .orElse(existing.number()), name,
+        return new Guest(Optional.ofNullable(updated.identifier())
+            .orElse(existing.identifier()),
+            Optional.ofNullable(updated.number())
+                .orElse(existing.number()),
+            name, Optional.ofNullable(updated.birthDate())
+                .orElse(existing.birthDate()),
+            Optional.ofNullable(updated.contactChannels())
+                .orElse(existing.contactChannels()),
             Optional.ofNullable(updated.games())
-                .orElse(existing.games()));
+                .orElse(existing.games()),
+            Optional.ofNullable(updated.comments())
+                .orElse(existing.comments()));
     }
 
 }

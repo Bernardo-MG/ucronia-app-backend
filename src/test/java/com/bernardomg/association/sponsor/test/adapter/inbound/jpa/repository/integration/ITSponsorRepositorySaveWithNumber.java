@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
@@ -39,7 +40,7 @@ import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntit
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorEntities;
+import com.bernardomg.association.sponsor.test.configuration.factory.QuerySponsorEntities;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -63,6 +64,7 @@ class ITSponsorRepositorySaveWithNumber {
     @Test
     @DisplayName("With an active sponsor, the sponsor is persisted")
     @ValidContact
+    @EmailContactMethod
     void testSaveWithNumber_PersistedData() {
         final Sponsor                      sponsor;
         final Iterable<QuerySponsorEntity> entities;
@@ -79,12 +81,13 @@ class ITSponsorRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(SponsorEntities.valid());
+            .containsExactly(QuerySponsorEntities.valid());
     }
 
     @Test
     @DisplayName("With an active sponsor, the created sponsor is returned")
     @ValidContact
+    @EmailContactMethod
     void testSaveWithNumber_ReturnedData() {
         final Sponsor sponsor;
         final Sponsor saved;
@@ -98,11 +101,12 @@ class ITSponsorRepositorySaveWithNumber {
         // THEN
         Assertions.assertThat(saved)
             .as("sponsor")
-            .isEqualTo(Sponsors.valid());
+            .isEqualTo(Sponsors.noContactChannel());
     }
 
     @Test
     @DisplayName("When the sponsor is persisted, the contact types includes the sponsor type")
+    @EmailContactMethod
     void testSaveWithNumber_SetsType() {
         final Sponsor       sponsor;
         final Sponsor       saved;

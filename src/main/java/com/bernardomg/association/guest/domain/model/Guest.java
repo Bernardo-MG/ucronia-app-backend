@@ -27,8 +27,23 @@ package com.bernardomg.association.guest.domain.model;
 import java.time.Instant;
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
-public record Guest(Long number, ContactName name, Collection<Instant> games) {
+public record Guest(String identifier, Long number, ContactName name, Instant birthDate,
+        Collection<ContactChannel> contactChannels, Collection<Instant> games, String comments) {
+
+    public Guest(final String identifier, final Long number, final ContactName name, final Instant birthDate,
+            final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String comments) {
+        this.identifier = identifier;
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.contactChannels = contactChannels;
+        this.games = games;
+        this.comments = StringUtils.trim(comments);
+    }
 
 }

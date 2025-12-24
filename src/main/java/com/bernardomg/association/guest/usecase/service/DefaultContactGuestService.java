@@ -67,13 +67,13 @@ public final class DefaultContactGuestService implements ContactGuestService {
 
     @Override
     public final Guest convertToGuest(final long number) {
-        final Contact existingContact;
+        final Contact existing;
         final Guest   toCreate;
         final Guest   created;
 
         log.debug("Converting contact {} to guest", number);
 
-        existingContact = contactRepository.findOne(number)
+        existing = contactRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing contact {}", number);
                 throw new MissingContactException(number);
@@ -83,7 +83,8 @@ public final class DefaultContactGuestService implements ContactGuestService {
             throw new GuestExistsException(number);
         }
 
-        toCreate = new Guest(existingContact.number(), existingContact.name(), List.of());
+        toCreate = new Guest(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
+            existing.contactChannels(), List.of(), existing.comments());
 
         created = guestRepository.save(toCreate, number);
 

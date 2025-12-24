@@ -112,7 +112,7 @@ class TestContactGuestServiceConvert {
         final Contact contact;
 
         // GIVEN
-        guest = Guests.noYears();
+        guest = Guests.noGames();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
@@ -133,7 +133,7 @@ class TestContactGuestServiceConvert {
         final Guest   updated;
 
         // GIVEN
-        guest = Guests.noYears();
+        guest = Guests.noGames();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));

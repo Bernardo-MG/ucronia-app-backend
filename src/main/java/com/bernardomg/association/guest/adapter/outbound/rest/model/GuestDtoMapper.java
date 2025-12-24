@@ -25,15 +25,19 @@
 package com.bernardomg.association.guest.adapter.outbound.rest.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.GuestChangeDto;
 import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
 import com.bernardomg.ucronia.openapi.model.GuestDto;
@@ -53,11 +57,24 @@ public final class GuestDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Guest(-1L, name, List.of());
+        return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "");
     }
 
     public static final Guest toDomain(final long number, final GuestChangeDto change) {
-        return new Guest(number, null, new ArrayList<>(change.getGames()));
+        final ContactName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new ContactName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(GuestDtoMapper::toDomain)
+            .toList();
+
+        return new Guest(change.getIdentifier(), number, name, null, contactChannels,
+            new ArrayList<>(change.getGames()), change.getComments());
     }
 
     public static final GuestResponseDto toResponseDto(final Guest contact) {
@@ -89,6 +106,13 @@ public final class GuestDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sortingResponse);
+    }
+
+    private static final ContactChannel toDomain(final EditionContactChannelDto dto) {
+        final ContactMethod contactMethod;
+
+        contactMethod = new ContactMethod(dto.getMethod(), "");
+        return new ContactChannel(contactMethod, dto.getDetail());
     }
 
     private static final GuestDto toDto(final Guest guest) {

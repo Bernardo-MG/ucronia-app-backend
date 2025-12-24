@@ -7,12 +7,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -28,25 +30,38 @@ public class QueryGuestEntity implements Serializable {
      *
      */
     @Transient
-    private static final long   serialVersionUID = 8139806507534262996L;
+    private static final long                          serialVersionUID = 8139806507534262996L;
+
+    @Column(name = "birth_date", table = "contacts")
+    private Instant                                    birthDate;
+
+    @Column(name = "comments", table = "contacts")
+    private String                                     comments;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    private Collection<QueryGuestContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", table = "contacts", nullable = false)
-    private String              firstName;
+    private String                                     firstName;
 
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
     @Column(name = "date", nullable = false)
-    private Collection<Instant> games            = new HashSet<>();
+    private Collection<Instant>                        games            = new HashSet<>();
 
     @Id
     @Column(name = "id", table = "guests", nullable = false, unique = true)
-    private Long                id;
+    private Long                                       id;
+
+    @Column(name = "identifier", table = "contacts")
+    private String                                     identifier;
 
     @Column(name = "last_name", table = "contacts")
-    private String              lastName;
+    private String                                     lastName;
 
     @Column(name = "number", table = "contacts")
-    private Long                number;
+    private Long                                       number;
 
     @Override
     public boolean equals(final Object obj) {
@@ -59,6 +74,18 @@ public class QueryGuestEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public Instant getBirthDate() {
+        return birthDate;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public Collection<QueryGuestContactChannelEntity> getContactChannels() {
+        return contactChannels;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -69,6 +96,10 @@ public class QueryGuestEntity implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     public String getLastName() {
@@ -84,6 +115,18 @@ public class QueryGuestEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    public void setBirthDate(final Instant birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
+
+    public void setContactChannels(final Collection<QueryGuestContactChannelEntity> contactChannels) {
+        this.contactChannels = contactChannels;
+    }
+
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
@@ -96,6 +139,10 @@ public class QueryGuestEntity implements Serializable {
         this.id = id;
     }
 
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
@@ -106,8 +153,9 @@ public class QueryGuestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryGuestEntity [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", number="
-                + number + ", games=" + games + "]";
+        return "QueryGuestEntity [birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
+                + contactChannels + ", firstName=" + firstName + ", games=" + games + ", id=" + id + ", identifier="
+                + identifier + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

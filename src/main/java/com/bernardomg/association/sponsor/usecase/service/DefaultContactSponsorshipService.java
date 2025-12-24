@@ -67,13 +67,13 @@ public final class DefaultContactSponsorshipService implements ContactSponsorshi
 
     @Override
     public final Sponsor convertToSponsor(final long number) {
-        final Contact existingContact;
+        final Contact existing;
         final Sponsor toCreate;
         final Sponsor created;
 
         log.debug("Converting contact {} to sponsor", number);
 
-        existingContact = contactRepository.findOne(number)
+        existing = contactRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing contact {}", number);
                 throw new MissingContactException(number);
@@ -83,7 +83,8 @@ public final class DefaultContactSponsorshipService implements ContactSponsorshi
             throw new SponsorExistsException(number);
         }
 
-        toCreate = new Sponsor(existingContact.number(), existingContact.name(), List.of());
+        toCreate = new Sponsor(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
+            existing.contactChannels(), List.of(), existing.comments());
 
         created = sponsorRepository.save(toCreate, number);
 
