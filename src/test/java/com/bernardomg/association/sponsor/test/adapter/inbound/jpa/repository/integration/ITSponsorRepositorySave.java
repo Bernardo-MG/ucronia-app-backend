@@ -32,13 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorEntities;
+import com.bernardomg.association.sponsor.test.configuration.factory.QuerySponsorEntities;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -77,8 +78,9 @@ class ITSponsorRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(SponsorEntities.valid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QuerySponsorEntities.withEmail());
     }
 
     @Test
@@ -102,6 +104,7 @@ class ITSponsorRepositorySave {
 
     @Test
     @DisplayName("With an sponsor, the sponsor is persisted")
+    @EmailContactMethod
     void testSave_PersistedData() {
         final Sponsor                      sponsor;
         final Iterable<QuerySponsorEntity> entities;
@@ -117,12 +120,14 @@ class ITSponsorRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(SponsorEntities.valid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QuerySponsorEntities.withEmail());
     }
 
     @Test
     @DisplayName("With an sponsor, the created sponsor is returned")
+    @EmailContactMethod
     void testSave_ReturnedData() {
         final Sponsor sponsor;
         final Sponsor saved;
@@ -141,6 +146,7 @@ class ITSponsorRepositorySave {
 
     @Test
     @DisplayName("When the sponsor is persisted, the contact types includes the sponsor type")
+    @EmailContactMethod
     void testSave_SetsType() {
         final Sponsor       sponsor;
         final ContactEntity contact;

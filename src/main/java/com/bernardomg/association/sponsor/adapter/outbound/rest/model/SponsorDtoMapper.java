@@ -25,15 +25,19 @@
 package com.bernardomg.association.sponsor.adapter.outbound.rest.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -46,7 +50,20 @@ import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
 public final class SponsorDtoMapper {
 
     public static final Sponsor toDomain(final long number, final SponsorChangeDto change) {
-        return new Sponsor(number, null, new ArrayList<>(change.getYears()));
+        final ContactName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new ContactName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(SponsorDtoMapper::toDomain)
+            .toList();
+
+        return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
+            new ArrayList<>(change.getYears()), change.getComments());
     }
 
     public static final Sponsor toDomain(final SponsorCreationDto creation) {
@@ -57,7 +74,7 @@ public final class SponsorDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Sponsor(-1L, name, List.of());
+        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "");
     }
 
     public static final SponsorResponseDto toResponseDto(final Optional<Sponsor> contact) {
@@ -89,6 +106,13 @@ public final class SponsorDtoMapper {
 
     public static final SponsorResponseDto toResponseDto(final Sponsor contact) {
         return new SponsorResponseDto().content(SponsorDtoMapper.toDto(contact));
+    }
+
+    private static final ContactChannel toDomain(final EditionContactChannelDto dto) {
+        final ContactMethod contactMethod;
+
+        contactMethod = new ContactMethod(dto.getMethod(), "");
+        return new ContactChannel(contactMethod, dto.getDetail());
     }
 
     private static final PropertyDto toDto(final Property property) {

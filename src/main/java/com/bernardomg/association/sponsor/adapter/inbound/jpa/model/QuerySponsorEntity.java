@@ -2,16 +2,19 @@
 package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -27,25 +30,38 @@ public class QuerySponsorEntity implements Serializable {
      *
      */
     @Transient
-    private static final long   serialVersionUID = 8139806507534262996L;
+    private static final long                            serialVersionUID = 8139806507534262996L;
+
+    @Column(name = "birth_date", table = "contacts")
+    private Instant                                      birthDate;
+
+    @Column(name = "comments", table = "contacts")
+    private String                                       comments;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    private Collection<QuerySponsorContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", table = "contacts", nullable = false)
-    private String              firstName;
+    private String                                       firstName;
 
     @Id
     @Column(name = "id", table = "sponsors", nullable = false, unique = true)
-    private Long                id;
+    private Long                                         id;
+
+    @Column(name = "identifier", table = "contacts")
+    private String                                       identifier;
 
     @Column(name = "last_name", table = "contacts")
-    private String              lastName;
+    private String                                       lastName;
 
     @Column(name = "number", table = "contacts")
-    private Long                number;
+    private Long                                         number;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
     @Column(name = "year")
-    private Collection<Integer> years            = new HashSet<>();
+    private Collection<Integer>                          years            = new HashSet<>();
 
     @Override
     public boolean equals(final Object obj) {
@@ -58,12 +74,28 @@ public class QuerySponsorEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public Instant getBirthDate() {
+        return birthDate;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public Collection<QuerySponsorContactChannelEntity> getContactChannels() {
+        return contactChannels;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     public String getLastName() {
@@ -83,12 +115,28 @@ public class QuerySponsorEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    public void setBirthDate(final Instant birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
+
+    public void setContactChannels(final Collection<QuerySponsorContactChannelEntity> contactChannels) {
+        this.contactChannels = contactChannels;
+    }
+
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
     }
 
     public void setLastName(final String lastName) {
@@ -105,8 +153,9 @@ public class QuerySponsorEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QuerySponsorEntity [firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", number="
-                + number + ", years=" + years + "]";
+        return "QuerySponsorEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
+                + ", lastName=" + lastName + ", birthDate=" + birthDate + ", comments=" + comments
+                + ", contactChannels=" + contactChannels + ", number=" + number + ", years=" + years + "]";
     }
 
 }

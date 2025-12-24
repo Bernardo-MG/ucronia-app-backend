@@ -24,10 +24,26 @@
 
 package com.bernardomg.association.sponsor.domain.model;
 
+import java.time.Instant;
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
-public record Sponsor(Long number, ContactName name, Collection<Integer> years) {
+public record Sponsor(String identifier, Long number, ContactName name, Instant birthDate,
+        Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments) {
+
+    public Sponsor(final String identifier, final Long number, final ContactName name, final Instant birthDate,
+            final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String comments) {
+        this.identifier = identifier;
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.contactChannels = contactChannels;
+        this.years = years;
+        this.comments = StringUtils.trim(comments);
+    }
 
 }

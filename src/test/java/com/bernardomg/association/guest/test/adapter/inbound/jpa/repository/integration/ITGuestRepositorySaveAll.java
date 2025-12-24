@@ -65,7 +65,7 @@ class ITGuestRepositorySaveAll {
     @Test
     @DisplayName("With a valid guest, the guest is persisted")
     @EmailContactMethod
-    void testSave_PersistedData() {
+    void testSaveAll_PersistedData() {
         final Guest                      guest;
         final Iterable<QueryGuestEntity> entities;
 
@@ -88,7 +88,7 @@ class ITGuestRepositorySaveAll {
     @Test
     @DisplayName("With a valid guest, the created guest is returned")
     @EmailContactMethod
-    void testSave_ReturnedData() {
+    void testSaveAll_ReturnedData() {
         final Guest             guest;
         final Collection<Guest> saved;
 
@@ -107,7 +107,7 @@ class ITGuestRepositorySaveAll {
     @Test
     @DisplayName("When the guest is persisted, the contact types includes the guest type")
     @EmailContactMethod
-    void testSave_SetsType() {
+    void testSaveAll_SetsType() {
         final Guest         guest;
         final ContactEntity contact;
 
