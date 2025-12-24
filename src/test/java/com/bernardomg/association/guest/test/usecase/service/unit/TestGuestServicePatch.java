@@ -109,7 +109,7 @@ class TestGuestServicePatch {
         service.patch(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.withEmail());
+        verify(guestRepository).save(Guests.valid());
     }
 
     @Test

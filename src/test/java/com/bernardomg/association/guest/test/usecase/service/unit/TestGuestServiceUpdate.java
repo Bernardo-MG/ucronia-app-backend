@@ -90,7 +90,7 @@ class TestGuestServiceUpdate {
         service.update(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.withEmail());
+        verify(guestRepository).save(Guests.valid());
     }
 
     @Test
