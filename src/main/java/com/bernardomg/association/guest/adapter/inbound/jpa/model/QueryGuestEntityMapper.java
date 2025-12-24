@@ -72,15 +72,15 @@ public final class QueryGuestEntityMapper {
 
         contacts = data.contactChannels()
             .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .toList();
         entity.setContactChannels(contacts);
 
         return entity;
     }
 
-    private static final QueryGuestContactChannelEntity toEntity(final QueryGuestEntity guest,
-            final ContactChannel data, final Collection<ContactMethodEntity> concatMethods) {
+    private static final QueryGuestContactChannelEntity toEntity(final ContactChannel data,
+            final Collection<ContactMethodEntity> concatMethods) {
         final QueryGuestContactChannelEntity entity;
         final Optional<ContactMethodEntity>  contactMethod;
 
@@ -97,7 +97,6 @@ public final class QueryGuestEntityMapper {
         }
 
         entity = new QueryGuestContactChannelEntity();
-        entity.setContact(guest);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

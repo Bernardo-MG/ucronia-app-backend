@@ -88,8 +88,6 @@ public final class QueryGuestEntities {
         entity.setGames(List.of(GuestConstants.DATE));
         entity.setComments(ContactConstants.COMMENTS);
 
-        contactChannelEntity.setContact(entity);
-
         return entity;
     }
 
