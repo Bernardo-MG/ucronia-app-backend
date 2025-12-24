@@ -33,20 +33,20 @@ paths:
     $ref: paths/contact_methods.yml
   /contact/contactMethod/{number}:
     $ref: paths/contact_methods_by_id.yml
+  /contact/sponsor:
+    $ref: paths/sponsors.yml
+  /contact/sponsor/{number}:
+    $ref: paths/sponsors_by_id.yml
+  /contact/guest:
+    $ref: paths/guests.yml
+  /contact/guest/{number}:
+    $ref: paths/guests_by_id.yml
   /member:
     $ref: paths/members.yml
   /member/{number}:
     $ref: paths/members_by_id.yml
   /member/evolution:
     $ref: paths/membership_monthly_evolution.yml
-  /sponsor:
-    $ref: paths/sponsors.yml
-  /sponsor/{number}:
-    $ref: paths/sponsors_by_id.yml
-  /guest:
-    $ref: paths/guests.yml
-  /guest/{number}:
-    $ref: paths/guests_by_id.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:
