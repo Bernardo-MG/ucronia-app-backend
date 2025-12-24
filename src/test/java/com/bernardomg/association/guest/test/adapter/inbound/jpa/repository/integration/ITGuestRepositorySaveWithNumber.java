@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
@@ -39,8 +40,8 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEnti
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.guest.test.configuration.factory.GuestEntities;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.guest.test.configuration.factory.QueryGuestEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -61,14 +62,15 @@ class ITGuestRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("With an active guest, the guest is persisted")
+    @DisplayName("With a guest, the guest is persisted")
+    @EmailContactMethod
     @ValidContact
     void testSaveWithNumber_PersistedData() {
         final Guest                      guest;
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         repository.save(guest, ContactConstants.NUMBER);
@@ -79,18 +81,19 @@ class ITGuestRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(GuestEntities.valid());
+            .containsExactly(QueryGuestEntities.valid());
     }
 
     @Test
-    @DisplayName("With an active guest, the created guest is returned")
+    @DisplayName("With a guest, the created guest is returned")
+    @EmailContactMethod
     @ValidContact
     void testSaveWithNumber_ReturnedData() {
         final Guest guest;
         final Guest saved;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         saved = repository.save(guest, ContactConstants.NUMBER);
@@ -103,13 +106,14 @@ class ITGuestRepositorySaveWithNumber {
 
     @Test
     @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @EmailContactMethod
     void testSaveWithNumber_SetsType() {
         final Guest         guest;
         final Guest         saved;
         final ContactEntity contact;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         saved = repository.save(guest, ContactConstants.NUMBER);

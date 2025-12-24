@@ -41,16 +41,16 @@ public final class QueryGuestEntityMapper {
 
     public static final Guest toDomain(final QueryGuestEntity entity) {
         final ContactName                name;
-        final Collection<ContactChannel> contacts;
+        final Collection<ContactChannel> contactChannels;
 
         name = new ContactName(entity.getFirstName(), entity.getLastName());
 
-        contacts = entity.getContactChannels()
+        contactChannels = entity.getContactChannels()
             .stream()
             .map(QueryGuestContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contacts,
+        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
             new ArrayList<>(entity.getGames()), entity.getComments());
     }
 

@@ -98,7 +98,7 @@ class TestGuestServiceGetAll {
         sorting = Sorting.unsorted();
         filter = new GuestFilter("");
 
-        existing = new Page<>(List.of(Guests.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Guests.withEmail()), 0, 0, 0, 0, 0, false, false, sorting);
         given(guestRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -109,7 +109,7 @@ class TestGuestServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("guests")
-            .containsExactly(Guests.valid());
+            .containsExactly(Guests.withEmail());
     }
 
 }

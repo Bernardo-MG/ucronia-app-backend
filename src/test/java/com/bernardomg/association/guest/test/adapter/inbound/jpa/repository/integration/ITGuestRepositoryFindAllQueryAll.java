@@ -69,7 +69,7 @@ class ITGuestRepositoryFindAllQueryAll {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+            .containsExactly(Guests.withEmail());
     }
 
     @Test
@@ -96,7 +96,7 @@ class ITGuestRepositoryFindAllQueryAll {
     }
 
     @Test
-    @DisplayName("With a guest without guestship, it is returned")
+    @DisplayName("With a guest without guest role, it is returned")
     @ValidContact
     void testFindAll_WithoutGuestship() {
         final Page<Guest> guests;

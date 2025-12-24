@@ -4,17 +4,24 @@ package com.bernardomg.association.guest.test.configuration.factory;
 import java.util.List;
 import java.util.Objects;
 
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.contact.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.guest.domain.model.Guest;
 
 public final class Guests {
 
     public static final Guest created() {
-        final ContactName name;
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Guest(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(),
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new Guest(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
             List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
     }
 
@@ -72,6 +79,18 @@ public final class Guests {
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
             List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
+    }
+
+    public static final Guest withEmail() {
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS);
     }
 
 }

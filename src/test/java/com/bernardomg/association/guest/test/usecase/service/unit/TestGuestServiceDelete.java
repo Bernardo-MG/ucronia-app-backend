@@ -62,7 +62,7 @@ class TestGuestServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.withEmail()));
 
         // WHEN
         service.delete(ContactConstants.NUMBER);

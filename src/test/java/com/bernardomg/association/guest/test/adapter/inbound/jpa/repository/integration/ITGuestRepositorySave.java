@@ -32,14 +32,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.guest.test.configuration.factory.GuestEntities;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.guest.test.configuration.factory.QueryGuestEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -67,7 +68,7 @@ class ITGuestRepositorySave {
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         repository.save(guest);
@@ -77,8 +78,9 @@ class ITGuestRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(GuestEntities.valid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contact")
+            .containsExactly(QueryGuestEntities.withEmail());
     }
 
     @Test
@@ -89,7 +91,7 @@ class ITGuestRepositorySave {
         final Guest saved;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         saved = repository.save(guest);
@@ -97,17 +99,18 @@ class ITGuestRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("guest")
-            .isEqualTo(Guests.valid());
+            .isEqualTo(Guests.withEmail());
     }
 
     @Test
     @DisplayName("With an guest, the guest is persisted")
+    @EmailContactMethod
     void testSave_PersistedData() {
         final Guest                      guest;
         final Iterable<QueryGuestEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         repository.save(guest);
@@ -117,18 +120,20 @@ class ITGuestRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(GuestEntities.valid());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contact")
+            .containsExactly(QueryGuestEntities.withEmail());
     }
 
     @Test
     @DisplayName("With an guest, the created guest is returned")
+    @EmailContactMethod
     void testSave_ReturnedData() {
         final Guest guest;
         final Guest saved;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         saved = repository.save(guest);
@@ -141,12 +146,13 @@ class ITGuestRepositorySave {
 
     @Test
     @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @EmailContactMethod
     void testSave_SetsType() {
         final Guest         guest;
         final ContactEntity contact;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.withEmail();
 
         // WHEN
         repository.save(guest);

@@ -93,7 +93,7 @@ class TestGuestServiceCreate {
         // GIVEN
         guest = Guests.toCreate();
 
-        given(guestRepository.save(guest)).willReturn(Guests.valid());
+        given(guestRepository.save(guest)).willReturn(Guests.withEmail());
 
         // WHEN
         created = service.create(guest);
@@ -101,7 +101,7 @@ class TestGuestServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("contact")
-            .isEqualTo(Guests.valid());
+            .isEqualTo(Guests.withEmail());
     }
 
 }

@@ -4,9 +4,11 @@ package com.bernardomg.association.guest.test.configuration.factory;
 import java.util.List;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.contact.test.configuration.factory.ContactMethodEntities;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestContactChannelEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
 
-public final class GuestEntities {
+public final class QueryGuestEntities {
 
     public static final QueryGuestEntity alternative() {
         final QueryGuestEntity entity;
@@ -65,7 +67,33 @@ public final class GuestEntities {
         return entity;
     }
 
-    private GuestEntities() {
+    public static final QueryGuestEntity withEmail() {
+        final QueryGuestEntity               entity;
+        final QueryGuestContactChannelEntity contactChannelEntity;
+
+        contactChannelEntity = new QueryGuestContactChannelEntity();
+        contactChannelEntity.setContactMethod(ContactMethodEntities.email());
+        contactChannelEntity.setDetail(ContactConstants.EMAIL);
+
+        entity = new QueryGuestEntity();
+        entity.setId(1L);
+        entity.setNumber(ContactConstants.NUMBER);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setFirstName(ContactConstants.FIRST_NAME);
+        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setBirthDate(ContactConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(List.of(contactChannelEntity));
+        entity.setGames(List.of(GuestConstants.DATE));
+        entity.setComments(ContactConstants.COMMENTS);
+
+        contactChannelEntity.setContact(entity);
+
+        return entity;
+    }
+
+    private QueryGuestEntities() {
         super();
     }
 

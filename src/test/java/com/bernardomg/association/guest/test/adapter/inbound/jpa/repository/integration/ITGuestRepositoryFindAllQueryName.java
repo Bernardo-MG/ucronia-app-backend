@@ -70,11 +70,11 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+            .containsExactly(Guests.withEmail());
     }
 
     @Test
-    @DisplayName("With a guest having an active guestship and matching full name, it is returned")
+    @DisplayName("With a guest having a guest role and matching full name, it is returned")
     @ValidGuest
     void testFindAll_FullName() {
         final Page<Guest> guests;
@@ -94,11 +94,11 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+            .containsExactly(Guests.withEmail());
     }
 
     @Test
-    @DisplayName("With a guest having an active guestship and matching last name, it is returned")
+    @DisplayName("With a guest having a guest role and matching last name, it is returned")
     @ValidGuest
     void testFindAll_LastName() {
         final Page<Guest> guests;
@@ -118,7 +118,7 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+            .containsExactly(Guests.withEmail());
     }
 
     @Test
@@ -145,7 +145,7 @@ class ITGuestRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a guest having an active guestship and partial matching name, it is returned")
+    @DisplayName("With a guest having a guest role and partial matching name, it is returned")
     @ValidGuest
     void testFindAll_PartialName() {
         final Page<Guest> guests;
@@ -165,11 +165,11 @@ class ITGuestRepositoryFindAllQueryName {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+            .containsExactly(Guests.withEmail());
     }
 
     @Test
-    @DisplayName("With a guest without guestship and matching first name, it is is returned")
+    @DisplayName("With a guest without guest role and matching first name, it is is returned")
     @ValidContact
     void testFindAll_WithoutGuestship_FirstName() {
         final Page<Guest> guests;
@@ -193,7 +193,7 @@ class ITGuestRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a guest having an active guestship and wrong name, nothing is returned")
+    @DisplayName("With a guest having a guest role and wrong name, nothing is returned")
     @ValidGuest
     void testFindAll_WrongName() {
         final Page<Guest> guests;

@@ -86,7 +86,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChangePatch();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.withEmail()));
 
         // WHEN
         service.patch(guest);
@@ -103,13 +103,13 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.padded();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.withEmail()));
 
         // WHEN
         service.patch(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(guestRepository).save(Guests.withEmail());
     }
 
     @Test
@@ -120,7 +120,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.withEmail()));
 
         // WHEN
         service.patch(guest);
@@ -138,7 +138,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.withEmail()));
         given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
 
         // WHEN

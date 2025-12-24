@@ -44,14 +44,14 @@ public final class UpdateGuestEntityMapper {
 
     public static final Guest toDomain(final UpdateGuestEntity entity) {
         final ContactName                name;
-        final Collection<ContactChannel> contacts;
+        final Collection<ContactChannel> contactChannels;
 
         name = new ContactName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
 
-        contacts = entity.getContact()
+        contactChannels = entity.getContact()
             .getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
@@ -63,7 +63,7 @@ public final class UpdateGuestEntityMapper {
                 .getNumber(),
             name, entity.getContact()
                 .getBirthDate(),
-            contacts, new ArrayList<>(entity.getGames()), entity.getContact()
+            contactChannels, new ArrayList<>(entity.getGames()), entity.getContact()
                 .getComments());
     }
 
@@ -71,7 +71,7 @@ public final class UpdateGuestEntityMapper {
             final Collection<ContactMethodEntity> contactMethods) {
         final UpdateGuestEntity                entity;
         final ContactEntity                    contact;
-        final Collection<ContactChannelEntity> contacts;
+        final Collection<ContactChannelEntity> contactChannels;
 
         contact = new ContactEntity();
         contact.setNumber(data.number());
@@ -83,11 +83,11 @@ public final class UpdateGuestEntityMapper {
         contact.setBirthDate(data.birthDate());
         contact.setComments(data.comments());
 
-        contacts = data.contactChannels()
+        contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(contact, c, contactMethods))
             .toList();
-        contact.setContactChannels(contacts);
+        contact.setContactChannels(contactChannels);
 
         entity = new UpdateGuestEntity();
         entity.setContact(contact);
