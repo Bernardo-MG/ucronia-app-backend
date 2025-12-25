@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodEntities;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestContactChannelEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
 
@@ -25,6 +26,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(List.of());
         entity.setGames(List.of(GuestConstants.DATE));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(GuestEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -44,6 +46,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(List.of());
         entity.setGames(List.of(GuestConstants.DATE));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(GuestEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -63,6 +66,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(List.of());
         entity.setGames(List.of(GuestConstants.DATE));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(GuestEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -87,6 +91,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setGames(List.of(GuestConstants.DATE));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(GuestEntityConstants.CONTACT_TYPE));
 
         return entity;
     }

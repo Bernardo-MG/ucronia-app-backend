@@ -156,12 +156,12 @@ public final class Contacts {
             List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS, List.of());
     }
 
-    public static final Contact withType() {
+    public static final Contact withType(final String type) {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), ContactConstants.COMMENTS, List.of(ContactConstants.TYPE_MEMBER));
+            List.of(), ContactConstants.COMMENTS, List.of(type));
     }
 
 }

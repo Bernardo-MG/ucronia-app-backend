@@ -7,6 +7,7 @@ import com.bernardomg.association.contact.test.configuration.factory.ContactCons
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodEntities;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorContactChannelEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
 
 public final class QuerySponsorEntities {
 
@@ -25,6 +26,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(List.of());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(SponsorEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -44,6 +46,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(List.of());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(SponsorEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -63,6 +66,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(List.of());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(SponsorEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -87,6 +91,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
+        entity.setTypes(List.of(SponsorEntityConstants.CONTACT_TYPE));
 
         return entity;
     }

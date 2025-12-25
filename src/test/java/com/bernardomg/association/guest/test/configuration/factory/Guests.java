@@ -9,6 +9,7 @@ import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.domain.model.Guest;
 
 public final class Guests {
@@ -22,7 +23,7 @@ public final class Guests {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Guest(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
-            List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest forNumber(final long number) {
@@ -30,7 +31,7 @@ public final class Guests {
 
         name = new ContactName("Contact " + number, "Last name " + number);
         return new Guest(Objects.toString(number * 10), number * 10, name, ContactConstants.BIRTH_DATE, List.of(),
-            List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest nameChange() {
@@ -38,7 +39,7 @@ public final class Guests {
 
         name = new ContactName("Contact 123", "Last name");
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest nameChangePatch() {
@@ -46,7 +47,7 @@ public final class Guests {
 
         name = new ContactName("Contact 123", "Last name");
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest noContactChannel() {
@@ -54,7 +55,7 @@ public final class Guests {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(), List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest noGames() {
@@ -62,7 +63,7 @@ public final class Guests {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(), ContactConstants.COMMENTS, List.of());
+            List.of(), List.of(), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest padded() {
@@ -74,7 +75,7 @@ public final class Guests {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest toCreate() {
@@ -86,7 +87,7 @@ public final class Guests {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Guest(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
-            List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
     public static final Guest valid() {
@@ -98,7 +99,7 @@ public final class Guests {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS, List.of());
+            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS,List.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
 }
