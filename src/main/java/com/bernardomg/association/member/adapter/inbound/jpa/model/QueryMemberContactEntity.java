@@ -19,6 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity(name = "MemberContact")
 @Table(schema = "directory", name = "members")
@@ -29,6 +30,7 @@ public class QueryMemberContactEntity implements Serializable {
     /**
      *
      */
+    @Transient
     private static final long                           serialVersionUID = 2746178038075808052L;
 
     @Column(name = "active", table = "members", nullable = false)
