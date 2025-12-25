@@ -62,14 +62,6 @@ public final class Sponsors {
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
-    public static final Sponsor noYears() {
-        final ContactName name;
-
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
-    }
-
     public static final Sponsor padded() {
         final ContactName    name;
         final ContactChannel contactChannel;
@@ -81,6 +73,14 @@ public final class Sponsors {
         return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
             List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
+    }
+
+    public static final Sponsor toConvert() {
+        final ContactName name;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            List.of(), List.of(), ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Sponsor toCreate() {

@@ -112,7 +112,7 @@ class TestContactSponsorshipServiceConvert {
         final Contact contact;
 
         // GIVEN
-        sponsor = Sponsors.noYears();
+        sponsor = Sponsors.toConvert();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
@@ -133,7 +133,7 @@ class TestContactSponsorshipServiceConvert {
         final Sponsor updated;
 
         // GIVEN
-        sponsor = Sponsors.noYears();
+        sponsor = Sponsors.toConvert();
         contact = Contacts.valid();
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
