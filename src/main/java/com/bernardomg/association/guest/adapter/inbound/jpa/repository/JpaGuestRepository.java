@@ -25,10 +25,10 @@
 package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
@@ -270,9 +270,8 @@ public final class JpaGuestRepository implements GuestRepository {
 
     private final void setType(final ContactEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(List.of(GuestEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
         } else {
-            entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
                 .add(GuestEntityConstants.CONTACT_TYPE);
         }

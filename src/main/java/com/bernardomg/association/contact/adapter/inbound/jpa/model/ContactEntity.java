@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -80,7 +81,7 @@ public class ContactEntity implements Serializable {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "types")
-    private Collection<String>               types;
+    private Set<String>                      types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -125,7 +126,7 @@ public class ContactEntity implements Serializable {
         return number;
     }
 
-    public Collection<String> getTypes() {
+    public Set<String> getTypes() {
         return types;
     }
 
@@ -166,7 +167,7 @@ public class ContactEntity implements Serializable {
         this.number = number;
     }
 
-    public void setTypes(final Collection<String> types) {
+    public void setTypes(final Set<String> types) {
         this.types = types;
     }
 

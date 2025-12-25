@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
@@ -65,7 +66,7 @@ public final class SponsorDtoMapper {
             .toList();
 
         return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getYears()), change.getComments(), List.of());
+            new ArrayList<>(change.getYears()), change.getComments(), Set.of());
     }
 
     public static final Sponsor toDomain(final SponsorCreationDto creation) {
@@ -76,7 +77,7 @@ public final class SponsorDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", List.of());
+        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", Set.of());
     }
 
     public static final SponsorResponseDto toResponseDto(final Optional<Sponsor> contact) {

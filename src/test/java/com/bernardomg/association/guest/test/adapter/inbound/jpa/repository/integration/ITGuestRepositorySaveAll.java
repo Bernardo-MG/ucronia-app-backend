@@ -124,7 +124,7 @@ class ITGuestRepositorySaveAll {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(GuestEntityConstants.CONTACT_TYPE);
     }
 

@@ -26,6 +26,7 @@ package com.bernardomg.association.member.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,12 +34,11 @@ import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
 public record MemberContact(String identifier, Long number, ContactName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String comments, Boolean active, Boolean renew,
-        Collection<String> types) {
+        Collection<ContactChannel> contactChannels, String comments, Boolean active, Boolean renew, Set<String> types) {
 
     public MemberContact(final String identifier, final Long number, final ContactName name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String comments, final Boolean active,
-            final Boolean renew, final Collection<String> types) {
+            final Boolean renew, final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;

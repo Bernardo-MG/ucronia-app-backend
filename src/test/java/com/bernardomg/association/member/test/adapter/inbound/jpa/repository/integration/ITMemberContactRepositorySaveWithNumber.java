@@ -125,7 +125,7 @@ class ITMemberContactRepositorySaveWithNumber {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }
 

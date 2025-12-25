@@ -2,6 +2,7 @@
 package com.bernardomg.association.contact.test.configuration.factory;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
@@ -20,7 +21,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         return entity;
     }
@@ -42,7 +43,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         contactChannelEntity.setContact(entity);
 
@@ -61,7 +62,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         return entity;
     }
@@ -77,7 +78,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         return entity;
     }
@@ -94,7 +95,7 @@ public final class ContactEntities {
         entity.setIdentifier(ContactConstants.IDENTIFIER);
         entity.setContactChannels(List.of());
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         return entity;
     }
@@ -116,7 +117,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         contactChannelEntity.setContact(entity);
 
@@ -145,7 +146,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntityA, contactChannelEntityB));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         contactChannelEntityA.setContact(entity);
 
@@ -174,7 +175,7 @@ public final class ContactEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntityA, contactChannelEntityB));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(List.of());
+        entity.setTypes(Set.of());
 
         contactChannelEntityA.setContact(entity);
 

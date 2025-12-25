@@ -26,6 +26,7 @@ package com.bernardomg.association.sponsor.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,12 +34,11 @@ import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
 public record Sponsor(String identifier, Long number, ContactName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments,
-        Collection<String> types) {
+        Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments, Set<String> types) {
 
     public Sponsor(final String identifier, final Long number, final ContactName name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String comments,
-            final Collection<String> types) {
+            final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;

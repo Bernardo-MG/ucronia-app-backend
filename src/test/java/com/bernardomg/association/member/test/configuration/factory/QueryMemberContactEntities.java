@@ -2,6 +2,7 @@
 package com.bernardomg.association.member.test.configuration.factory;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactMethodEntities;
@@ -27,7 +28,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -48,7 +49,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -69,7 +70,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
 
         return entity;
     }
@@ -95,7 +96,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
 
         return entity;
     }

@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -63,7 +64,7 @@ public class QuerySponsorEntity implements Serializable {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "types", table = "contacts")
-    private Collection<String>                           types;
+    private Set<String>                                  types;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
@@ -113,7 +114,7 @@ public class QuerySponsorEntity implements Serializable {
         return number;
     }
 
-    public Collection<String> getTypes() {
+    public Set<String> getTypes() {
         return types;
     }
 
@@ -158,7 +159,7 @@ public class QuerySponsorEntity implements Serializable {
         this.number = number;
     }
 
-    public void setTypes(final Collection<String> types) {
+    public void setTypes(final Set<String> types) {
         this.types = types;
     }
 
