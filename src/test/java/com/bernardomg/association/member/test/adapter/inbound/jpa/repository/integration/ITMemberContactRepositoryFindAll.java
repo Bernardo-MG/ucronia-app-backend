@@ -75,7 +75,7 @@ class ITMemberContactRepositoryFindAll {
         // THEN
         Assertions.assertThat(members)
             .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.SET)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.active());
     }
 

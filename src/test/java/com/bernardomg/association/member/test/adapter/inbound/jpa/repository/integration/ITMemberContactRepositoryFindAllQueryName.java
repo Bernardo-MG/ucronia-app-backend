@@ -190,7 +190,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
+            .containsExactly(MemberContacts.active());
     }
 
     @Test

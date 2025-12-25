@@ -41,11 +41,15 @@ public final class MemberContacts {
     }
 
     public static final MemberContact forNumber(final long number) {
-        final ContactName name;
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
 
         name = new ContactName("Contact " + number, "Last name " + number);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(Objects.toString(number * 10), number * 10, name, ContactConstants.BIRTH_DATE,
-            List.of(), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact nameChange() {
