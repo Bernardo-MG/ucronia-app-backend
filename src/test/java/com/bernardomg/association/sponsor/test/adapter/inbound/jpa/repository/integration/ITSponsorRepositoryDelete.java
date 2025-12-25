@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -80,6 +81,18 @@ class ITSponsorRepositoryDelete {
     @Test
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
+        // WHEN
+        repository.delete(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With a contact with no sponsor role, nothing is deleted")
+    @ValidContact
+    void testDelete_NoSponsor() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
 

@@ -72,9 +72,9 @@ class ITMemberContactRepositoryExists {
     }
 
     @Test
-    @DisplayName("With a member with no membership, it returns nothing")
+    @DisplayName("With a contact with no member role, nothing exists")
     @ValidContact
-    void testExists_NoMemberContactship() {
+    void testExists_NoMembership() {
         final boolean exists;
 
         // WHEN

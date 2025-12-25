@@ -49,7 +49,7 @@ class ITMemberRepositoryFindAllWithRenewalMismatch {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With no membership, nothing is returned")
+    @DisplayName("With a contact without member role, nothing is returned")
     @ValidContact
     void testFindAllWithRenewalMismatch_NoMembership() {
         final Collection<Member> members;

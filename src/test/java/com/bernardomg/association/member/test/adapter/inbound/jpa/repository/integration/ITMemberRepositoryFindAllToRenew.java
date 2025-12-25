@@ -49,7 +49,7 @@ class ITMemberRepositoryFindAllToRenew {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With no membership, nothing is returned")
+    @DisplayName("With a contact without member role, nothing is returned")
     @ValidContact
     void testFindAllToRenew_NoMembership() {
         final Collection<Member> members;
@@ -66,7 +66,7 @@ class ITMemberRepositoryFindAllToRenew {
     @Test
     @DisplayName("With an active membership to not renew, nothing is returned")
     @ActiveToNotRenewMember
-    void testFindAllToRenew_ToNotRenewActive() {
+    void testFindAllToRenew_ToNotRenew_Active() {
         final Collection<Member> members;
 
         // WHEN
@@ -81,7 +81,7 @@ class ITMemberRepositoryFindAllToRenew {
     @Test
     @DisplayName("With an inactive membership to not renew, nothing is returned")
     @InactiveToNotRenewMember
-    void testFindAllToRenew_ToNotRenewInactive() {
+    void testFindAllToRenew_ToNotRenew_Inactive() {
         final Collection<Member> members;
 
         // WHEN
@@ -96,7 +96,7 @@ class ITMemberRepositoryFindAllToRenew {
     @Test
     @DisplayName("With an active membership to renew, it is returned")
     @ActiveToRenewMember
-    void testFindAllToRenew_ToRenewActive() {
+    void testFindAllToRenew_ToRenew_Active() {
         final Collection<Member> members;
 
         // WHEN
@@ -111,7 +111,7 @@ class ITMemberRepositoryFindAllToRenew {
     @Test
     @DisplayName("With an inactive membership to renew, it is returned")
     @InactiveToRenewMember
-    void testFindAllToRenew_ToRenewInactive() {
+    void testFindAllToRenew_ToRenew_Inactive() {
         final Collection<Member> members;
 
         // WHEN

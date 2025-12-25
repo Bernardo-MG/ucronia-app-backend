@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberContactSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
@@ -80,6 +81,18 @@ class ITMemberContactRepositoryDelete {
     @Test
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
+        // WHEN
+        repository.delete(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With a contact with no member role, nothing is deleted")
+    @ValidContact
+    void testDelete_NoMembership() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
 

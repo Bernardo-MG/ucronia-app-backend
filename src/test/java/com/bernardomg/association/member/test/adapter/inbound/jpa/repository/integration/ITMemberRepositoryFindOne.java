@@ -89,7 +89,7 @@ class ITMemberRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a member with no membership, it returns nothing")
+    @DisplayName("With a contact with no member role, it returns nothing")
     @ValidContact
     void testFindOne_NoMembership() {
         final Optional<Member> member;

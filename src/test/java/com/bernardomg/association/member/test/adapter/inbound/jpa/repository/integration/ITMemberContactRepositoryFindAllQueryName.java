@@ -74,7 +74,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a member having a member role and matching full name, it is returned")
+    @DisplayName("With a member matching full name, it is returned")
     @ActiveMember
     void testFindAll_FullName() {
         final Page<MemberContact> members;
@@ -98,7 +98,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a member having a member role and matching last name, it is returned")
+    @DisplayName("With a member matching last name, it is returned")
     @ActiveMember
     void testFindAll_LastName() {
         final Page<MemberContact> members;
@@ -145,7 +145,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a member having a member role and partial matching name, it is returned")
+    @DisplayName("With a member partial matching name, it is returned")
     @ActiveMember
     void testFindAll_PartialName() {
         final Page<MemberContact> members;
@@ -170,31 +170,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     }
 
     @Test
-    @DisplayName("With a member without member role and matching first name, it is is returned")
-    @ActiveMember
-    void testFindAll_WithoutMemberContactship_FirstName() {
-        final Page<MemberContact> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberFilter        filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FIRST_NAME);
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
-    }
-
-    @Test
-    @DisplayName("With a member having a member role and wrong name, nothing is returned")
+    @DisplayName("With a member and wrong name, nothing is returned")
     @ActiveMember
     void testFindAll_WrongName() {
         final Page<MemberContact> members;

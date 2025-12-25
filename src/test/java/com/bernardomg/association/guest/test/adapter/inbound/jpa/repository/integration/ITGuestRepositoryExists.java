@@ -74,7 +74,7 @@ class ITGuestRepositoryExists {
     @Test
     @DisplayName("With no guest role, nothing exists")
     @ValidContact
-    void testExists_NoGuestship() {
+    void testExists_NoGuest() {
         final boolean exists;
 
         // WHEN

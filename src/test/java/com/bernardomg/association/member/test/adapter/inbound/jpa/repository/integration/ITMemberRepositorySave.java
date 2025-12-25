@@ -99,7 +99,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When a member exists with an active membership, and an inactive membership is set, the member is persisted")
+    @DisplayName("When an active member exists, and an inactive membership is set, the member is persisted")
     @ActiveMember
     void testSave_Existing_Active_SetInactive_PersistedData() {
         final Member                      member;

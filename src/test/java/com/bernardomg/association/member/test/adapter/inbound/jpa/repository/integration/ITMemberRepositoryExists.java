@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -75,6 +76,21 @@ class ITMemberRepositoryExists {
     @Test
     @DisplayName("With no member, nothing exists")
     void testExists_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With a contact with no member role, nothing exists")
+    @ValidContact
+    void testExists_NoMembership() {
         final boolean exists;
 
         // WHEN
