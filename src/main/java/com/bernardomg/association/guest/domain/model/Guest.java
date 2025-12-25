@@ -26,6 +26,7 @@ package com.bernardomg.association.guest.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,10 +44,10 @@ public record Guest(String identifier, Long number, ContactName name, Instant bi
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
-        this.contactChannels = contactChannels;
-        this.games = games;
+        this.contactChannels = List.copyOf(contactChannels);
+        this.games = List.copyOf(games);
         this.comments = StringUtils.trim(comments);
-        this.types = types;
+        this.types = Set.copyOf(types);
     }
 
 }

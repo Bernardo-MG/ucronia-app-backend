@@ -164,7 +164,8 @@ public final class SponsorDtoMapper {
             .birthDate(sponsor.birthDate())
             .contactChannels(contactChannels)
             .comments(sponsor.comments())
-            .years(new ArrayList<>(sponsor.years()));
+            .years(new ArrayList<>(sponsor.years()))
+            .types(new ArrayList<>(sponsor.types()));
     }
 
     private SponsorDtoMapper() {

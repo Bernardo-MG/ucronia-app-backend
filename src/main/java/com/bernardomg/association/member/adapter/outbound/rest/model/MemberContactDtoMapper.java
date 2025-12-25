@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -151,7 +152,8 @@ public final class MemberContactDtoMapper {
             .contactChannels(contactChannels)
             .comments(memberContact.comments())
             .active(memberContact.active())
-            .renew(memberContact.renew());
+            .renew(memberContact.renew())
+            .types(new ArrayList<>(memberContact.types()));
     }
 
     private static final PropertyDto toDto(final Property property) {

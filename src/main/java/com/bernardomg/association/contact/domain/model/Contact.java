@@ -26,6 +26,7 @@ package com.bernardomg.association.contact.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,9 +40,9 @@ public record Contact(String identifier, Long number, ContactName name, Instant 
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
-        this.contactChannels = contactChannels;
+        this.contactChannels = List.copyOf(contactChannels);
         this.comments = StringUtils.trim(comments);
-        this.types = types;
+        this.types = Set.copyOf(types);
     }
 
     public record ContactChannel(ContactMethod contactMethod, String detail) {

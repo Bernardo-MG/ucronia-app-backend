@@ -151,7 +151,8 @@ public final class GuestDtoMapper {
             .birthDate(guest.birthDate())
             .contactChannels(contactChannels)
             .comments(guest.comments())
-            .games(new ArrayList<>(guest.games()));
+            .games(new ArrayList<>(guest.games()))
+            .types(new ArrayList<>(guest.types()));
     }
 
     private static final PropertyDto toDto(final Property property) {

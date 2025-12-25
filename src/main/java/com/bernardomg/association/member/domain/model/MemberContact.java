@@ -26,6 +26,7 @@ package com.bernardomg.association.member.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,11 +44,11 @@ public record MemberContact(String identifier, Long number, ContactName name, In
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
-        this.contactChannels = contactChannels;
+        this.contactChannels = List.copyOf(contactChannels);
         this.comments = StringUtils.trim(comments);
         this.active = active;
         this.renew = renew;
-        this.types = types;
+        this.types = Set.copyOf(types);
     }
 
 }

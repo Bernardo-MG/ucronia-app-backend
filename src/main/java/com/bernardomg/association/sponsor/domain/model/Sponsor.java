@@ -26,6 +26,7 @@ package com.bernardomg.association.sponsor.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,10 +44,10 @@ public record Sponsor(String identifier, Long number, ContactName name, Instant 
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
-        this.contactChannels = contactChannels;
-        this.years = years;
+        this.contactChannels = List.copyOf(contactChannels);
+        this.years = List.copyOf(years);
         this.comments = StringUtils.trim(comments);
-        this.types = types;
+        this.types = Set.copyOf(types);
     }
 
 }
