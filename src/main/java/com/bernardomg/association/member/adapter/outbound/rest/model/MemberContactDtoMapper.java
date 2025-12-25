@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.adapter.outbound.rest.model;
+package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,7 @@ import java.util.Optional;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -40,18 +39,18 @@ import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactCreationDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberContactResponseDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.SponsorChangeDto;
-import com.bernardomg.ucronia.openapi.model.SponsorCreationDto;
-import com.bernardomg.ucronia.openapi.model.SponsorDto;
-import com.bernardomg.ucronia.openapi.model.SponsorPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
 
-public final class SponsorDtoMapper {
+public final class MemberContactDtoMapper {
 
-    public static final Sponsor toDomain(final long number, final SponsorChangeDto change) {
+    public static final MemberContact toDomain(final long number, final MemberContactChangeDto change) {
         final ContactName                name;
         final Collection<ContactChannel> contactChannels;
 
@@ -61,14 +60,14 @@ public final class SponsorDtoMapper {
                 .getLastName());
         contactChannels = change.getContactChannels()
             .stream()
-            .map(SponsorDtoMapper::toDomain)
+            .map(MemberContactDtoMapper::toDomain)
             .toList();
 
-        return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getYears()), change.getComments());
+        return new MemberContact(change.getIdentifier(), number, name, null, contactChannels, change.getComments(),
+            change.getActive(), change.getRenew());
     }
 
-    public static final Sponsor toDomain(final SponsorCreationDto creation) {
+    public static final MemberContact toDomain(final MemberContactCreationDto creation) {
         final ContactName name;
 
         name = new ContactName(creation.getName()
@@ -76,25 +75,29 @@ public final class SponsorDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "");
+        return new MemberContact(creation.getIdentifier(), -1L, name, null, List.of(), "", true, true);
     }
 
-    public static final SponsorResponseDto toResponseDto(final Optional<Sponsor> contact) {
-        return new SponsorResponseDto().content(contact.map(SponsorDtoMapper::toDto)
+    public static final MemberContactResponseDto toResponseDto(final MemberContact contact) {
+        return new MemberContactResponseDto().content(MemberContactDtoMapper.toDto(contact));
+    }
+
+    public static final MemberContactResponseDto toResponseDto(final Optional<MemberContact> contact) {
+        return new MemberContactResponseDto().content(contact.map(MemberContactDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final SponsorPageResponseDto toResponseDto(final Page<Sponsor> page) {
+    public static final MemberContactPageResponseDto toResponseDto(final Page<MemberContact> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
-            .map(SponsorDtoMapper::toDto)
+            .map(MemberContactDtoMapper::toDto)
             .toList());
-        return new SponsorPageResponseDto().content(page.content()
+        return new MemberContactPageResponseDto().content(page.content()
             .stream()
-            .map(SponsorDtoMapper::toDto)
+            .map(MemberContactDtoMapper::toDto)
             .toList())
             .size(page.size())
             .page(page.page())
@@ -104,10 +107,6 @@ public final class SponsorDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sortingResponse);
-    }
-
-    public static final SponsorResponseDto toResponseDto(final Sponsor contact) {
-        return new SponsorResponseDto().content(SponsorDtoMapper.toDto(contact));
     }
 
     private static final ContactChannel toDomain(final EditionContactChannelDto dto) {
@@ -129,6 +128,31 @@ public final class SponsorDtoMapper {
             .method(method);
     }
 
+    private static final MemberContactDto toDto(final MemberContact memberContact) {
+        ContactNameDto          name;
+        List<ContactChannelDto> contactChannels;
+
+        name = new ContactNameDto().firstName(memberContact.name()
+            .firstName())
+            .lastName(memberContact.name()
+                .lastName())
+            .fullName(memberContact.name()
+                .fullName());
+        contactChannels = memberContact.contactChannels()
+            .stream()
+            .map(MemberContactDtoMapper::toDto)
+            .toList();
+
+        return new MemberContactDto().identifier(memberContact.identifier())
+            .number(memberContact.number())
+            .name(name)
+            .birthDate(memberContact.birthDate())
+            .contactChannels(contactChannels)
+            .comments(memberContact.comments())
+            .active(memberContact.active())
+            .renew(memberContact.renew());
+    }
+
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -142,31 +166,7 @@ public final class SponsorDtoMapper {
             .direction(direction);
     }
 
-    private static final SponsorDto toDto(final Sponsor sponsor) {
-        ContactNameDto          name;
-        List<ContactChannelDto> contactChannels;
-
-        name = new ContactNameDto().firstName(sponsor.name()
-            .firstName())
-            .lastName(sponsor.name()
-                .lastName())
-            .fullName(sponsor.name()
-                .fullName());
-        contactChannels = sponsor.contactChannels()
-            .stream()
-            .map(SponsorDtoMapper::toDto)
-            .toList();
-
-        return new SponsorDto().identifier(sponsor.identifier())
-            .number(sponsor.number())
-            .name(name)
-            .birthDate(sponsor.birthDate())
-            .contactChannels(contactChannels)
-            .comments(sponsor.comments())
-            .years(new ArrayList<>(sponsor.years()));
-    }
-
-    private SponsorDtoMapper() {
+    private MemberContactDtoMapper() {
         super();
     }
 

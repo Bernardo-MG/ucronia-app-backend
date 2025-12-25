@@ -67,7 +67,7 @@ public class GuestController implements GuestApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "GUEST", action = Actions.CREATE)
     public GuestResponseDto createGuest(@Valid final GuestCreationDto guestCreationDto) {
         final Guest guest;
         final Guest created;
@@ -79,7 +79,7 @@ public class GuestController implements GuestApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "GUEST", action = Actions.DELETE)
     public GuestResponseDto deleteGuest(final Long number) {
         final Guest guest;
 
@@ -89,7 +89,7 @@ public class GuestController implements GuestApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "GUEST", action = Actions.READ)
     public GuestPageResponseDto getAllGuests(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
             @Valid final String name) {
@@ -109,7 +109,7 @@ public class GuestController implements GuestApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "GUEST", action = Actions.READ)
     public GuestResponseDto getGuestByNumber(final Long number) {
         Optional<Guest> member;
 
@@ -119,7 +119,7 @@ public class GuestController implements GuestApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "GUEST", action = Actions.UPDATE)
     public GuestResponseDto patchGuest(final Long number, @Valid final GuestChangeDto guestChangeDto) {
         final Guest member;
         final Guest updated;
@@ -131,7 +131,7 @@ public class GuestController implements GuestApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "GUEST", action = Actions.UPDATE)
     public GuestResponseDto updateGuest(final Long number, @Valid final GuestChangeDto guestChangeDto) {
         final Guest member;
         final Guest updated;

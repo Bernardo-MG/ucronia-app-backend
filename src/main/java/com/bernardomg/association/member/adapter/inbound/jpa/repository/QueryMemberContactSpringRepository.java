@@ -22,31 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.guest.domain.filter.GuestFilter;
-import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface GuestRepository {
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntity;
 
-    public void delete(final long number);
+public interface QueryMemberContactSpringRepository
+        extends JpaRepository<QueryMemberContactEntity, Long>, JpaSpecificationExecutor<QueryMemberContactEntity> {
 
-    public boolean exists(final long number);
+    @Modifying
+    @Query("""
+            DELETE
+            FROM MemberContact m
+            WHERE m.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
 
-    public Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting);
+    public boolean existsByNumber(final Long number);
 
-    public Optional<Guest> findOne(final Long number);
+    public Optional<QueryMemberContactEntity> findByNumber(final Long number);
 
-    public Guest save(final Guest guest);
-
-    public Guest save(final Guest guest, final long number);
-
-    public Collection<Guest> saveAll(final Collection<Guest> guests);
+    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    public Long findNextNumber();
 
 }

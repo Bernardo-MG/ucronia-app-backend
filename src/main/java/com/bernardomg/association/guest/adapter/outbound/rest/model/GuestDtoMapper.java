@@ -36,6 +36,8 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.GuestChangeDto;
@@ -115,8 +117,21 @@ public final class GuestDtoMapper {
         return new ContactChannel(contactMethod, dto.getDetail());
     }
 
+    private static final ContactChannelDto toDto(final ContactChannel contact) {
+        ContactMethodDto method;
+
+        method = new ContactMethodDto().number(contact.contactMethod()
+            .number())
+            .name(contact.contactMethod()
+                .name());
+
+        return new ContactChannelDto().detail(contact.detail())
+            .method(method);
+    }
+
     private static final GuestDto toDto(final Guest guest) {
-        ContactNameDto name;
+        ContactNameDto          name;
+        List<ContactChannelDto> contactChannels;
 
         name = new ContactNameDto().firstName(guest.name()
             .firstName())
@@ -124,9 +139,17 @@ public final class GuestDtoMapper {
                 .lastName())
             .fullName(guest.name()
                 .fullName());
+        contactChannels = guest.contactChannels()
+            .stream()
+            .map(GuestDtoMapper::toDto)
+            .toList();
 
-        return new GuestDto().number(guest.number())
+        return new GuestDto().identifier(guest.identifier())
+            .number(guest.number())
             .name(name)
+            .birthDate(guest.birthDate())
+            .contactChannels(contactChannels)
+            .comments(guest.comments())
             .games(new ArrayList<>(guest.games()));
     }
 

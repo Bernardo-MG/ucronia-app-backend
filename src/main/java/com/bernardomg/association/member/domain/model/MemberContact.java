@@ -22,31 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.repository;
+package com.bernardomg.association.member.domain.model;
 
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Optional;
 
-import com.bernardomg.association.guest.domain.filter.GuestFilter;
-import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import org.apache.commons.lang3.StringUtils;
 
-public interface GuestRepository {
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactName;
 
-    public void delete(final long number);
+public record MemberContact(String identifier, Long number, ContactName name, Instant birthDate,
+        Collection<ContactChannel> contactChannels, String comments, Boolean active, Boolean renew) {
 
-    public boolean exists(final long number);
-
-    public Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Optional<Guest> findOne(final Long number);
-
-    public Guest save(final Guest guest);
-
-    public Guest save(final Guest guest, final long number);
-
-    public Collection<Guest> saveAll(final Collection<Guest> guests);
+    public MemberContact(final String identifier, final Long number, final ContactName name, final Instant birthDate,
+            final Collection<ContactChannel> contactChannels, final String comments, final Boolean active,
+            final Boolean renew) {
+        this.identifier = identifier;
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.contactChannels = contactChannels;
+        this.comments = StringUtils.trim(comments);
+        this.active = active;
+        this.renew = renew;
+    }
 
 }

@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
-
-import java.util.List;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -33,40 +31,36 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.guest.domain.filter.GuestFilter;
-import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("GuestRepository - find all")
-class ITGuestRepositoryFindAll {
+@DisplayName("MemberContactRepository - find all - filter for all")
+class ITMemberContactRepositoryFindAllQueryAll {
 
     @Autowired
-    private GuestRepository repository;
-
-    public ITGuestRepositoryFindAll() {
-        super();
-    }
+    private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With an guest, it is returned")
-    @ValidGuest
+    @DisplayName("With a guest, it is returned")
+    @ValidContact
     void testFindAll() {
-        final Page<Guest> guests;
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final GuestFilter filter;
+        final Page<MemberContact> guests;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberFilter        filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -75,21 +69,21 @@ class ITGuestRepositoryFindAll {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.valid());
+            .containsExactly(MemberContacts.active());
     }
 
     @Test
     @DisplayName("With no guest, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Guest> guests;
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final GuestFilter filter;
+        final Page<MemberContact> guests;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberFilter        filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -102,18 +96,18 @@ class ITGuestRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a guest with no guestship, it returns nothing")
+    @DisplayName("With a guest without guest role, it is returned")
     @ValidContact
-    void testFindAll_NoGuestship() {
-        final Page<Guest> guests;
-        final Pagination  pagination;
-        final Sorting     sorting;
-        final GuestFilter filter;
+    void testFindAll_WithoutMemberContactship() {
+        final Page<MemberContact> guests;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberFilter        filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);

@@ -1,0 +1,44 @@
+post:
+  summary: Create a new member.
+  operationId: createMemberContact
+  tags: [MemberContact]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/MemberContactCreation'
+  responses:
+    '201':
+      description: Contact created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberContactResponse'
+get:
+  summary: Get all members.
+  operationId: getAllMemberContacts
+  tags: [MemberContact]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/members.yml#/components/parameters/membersSortParam'
+    - name: status
+      in: query
+      required: false
+      description: Filter by member status.
+      schema:
+        $ref: '../components/members.yml#/components/schemas/MemberStatus'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: MemberContacts page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberContactPageResponse'

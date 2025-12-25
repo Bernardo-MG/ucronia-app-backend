@@ -22,31 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.repository;
+package com.bernardomg.association.member.domain.repository;
 
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.guest.domain.filter.GuestFilter;
-import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
-public interface GuestRepository {
+public interface MemberContactRepository {
 
     public void delete(final long number);
 
     public boolean exists(final long number);
 
-    public Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<MemberContact> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
-    public Optional<Guest> findOne(final Long number);
+    public Optional<MemberContact> findOne(final Long number);
 
-    public Guest save(final Guest guest);
+    public MemberContact save(final MemberContact member);
 
-    public Guest save(final Guest guest, final long number);
+    public MemberContact save(final MemberContact member, final long number);
 
-    public Collection<Guest> saveAll(final Collection<Guest> guests);
+    public Collection<MemberContact> saveAll(final Collection<MemberContact> members);
 
 }

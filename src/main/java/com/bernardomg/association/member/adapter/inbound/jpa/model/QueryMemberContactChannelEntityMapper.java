@@ -22,31 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.util.Collection;
-import java.util.Optional;
+import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntityMapper;
+import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
+import com.bernardomg.association.contact.domain.model.ContactMethod;
 
-import com.bernardomg.association.guest.domain.filter.GuestFilter;
-import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+/**
+ * Contact channel entity mapper.
+ */
+public final class QueryMemberContactChannelEntityMapper {
 
-public interface GuestRepository {
+    public static final ContactChannel toDomain(final QueryMemberContactChannelEntity entity) {
+        final ContactMethod method;
 
-    public void delete(final long number);
+        method = ContactMethodEntityMapper.toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
 
-    public boolean exists(final long number);
-
-    public Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Optional<Guest> findOne(final Long number);
-
-    public Guest save(final Guest guest);
-
-    public Guest save(final Guest guest, final long number);
-
-    public Collection<Guest> saveAll(final Collection<Guest> guests);
+    private QueryMemberContactChannelEntityMapper() {
+        super();
+    }
 
 }

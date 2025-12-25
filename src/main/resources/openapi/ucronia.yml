@@ -41,6 +41,10 @@ paths:
     $ref: paths/guests.yml
   /contact/guest/{number}:
     $ref: paths/guests_by_id.yml
+  /contact/member:
+    $ref: paths/member_contacts.yml
+  /contact/member/{number}:
+    $ref: paths/member_contacts_by_id.yml
   /member:
     $ref: paths/members.yml
   /member/{number}:

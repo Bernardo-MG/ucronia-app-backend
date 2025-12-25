@@ -52,7 +52,7 @@ public class ContactSponsorshipController implements ContactSponsorshipApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.CREATE)
     public SponsorResponseDto convertToMember(final Long number) {
         final Sponsor created;
 
