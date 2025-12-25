@@ -25,6 +25,7 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -284,6 +285,7 @@ public final class JpaMemberRepository implements MemberRepository {
         if (entity.getTypes() == null) {
             entity.setTypes(List.of(MemberEntityConstants.CONTACT_TYPE));
         } else {
+            entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
                 .add(MemberEntityConstants.CONTACT_TYPE);
         }

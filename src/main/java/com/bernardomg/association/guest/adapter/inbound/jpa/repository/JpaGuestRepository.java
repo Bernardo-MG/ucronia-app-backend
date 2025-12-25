@@ -25,6 +25,7 @@
 package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -271,6 +272,7 @@ public final class JpaGuestRepository implements GuestRepository {
         if (entity.getTypes() == null) {
             entity.setTypes(List.of(GuestEntityConstants.CONTACT_TYPE));
         } else {
+            entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
                 .add(GuestEntityConstants.CONTACT_TYPE);
         }
