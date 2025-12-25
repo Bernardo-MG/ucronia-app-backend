@@ -6,6 +6,10 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -58,6 +62,10 @@ public class QuerySponsorEntity implements Serializable {
     @Column(name = "number", table = "contacts")
     private Long                                         number;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Set<String>                                  types;
+
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
     @Column(name = "year")
@@ -106,6 +114,10 @@ public class QuerySponsorEntity implements Serializable {
         return number;
     }
 
+    public Set<String> getTypes() {
+        return types;
+    }
+
     public Collection<Integer> getYears() {
         return years;
     }
@@ -147,6 +159,10 @@ public class QuerySponsorEntity implements Serializable {
         this.number = number;
     }
 
+    public void setTypes(final Set<String> types) {
+        this.types = types;
+    }
+
     public void setYears(final Collection<Integer> years) {
         this.years = years;
     }
@@ -155,7 +171,8 @@ public class QuerySponsorEntity implements Serializable {
     public String toString() {
         return "QuerySponsorEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", birthDate=" + birthDate + ", comments=" + comments
-                + ", contactChannels=" + contactChannels + ", number=" + number + ", years=" + years + "]";
+                + ", contactChannels=" + contactChannels + ", number=" + number + ", years=" + years + ", types="
+                + types + "]";
     }
 
 }

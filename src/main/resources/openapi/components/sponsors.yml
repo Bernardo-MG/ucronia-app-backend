@@ -38,6 +38,10 @@ components:
         comments:
           type: string
           description: Comments about the contact.
+        types:
+          type: array
+          items:
+            type: string
     SponsorCreation:
       type: object
       required: [name]

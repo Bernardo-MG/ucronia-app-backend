@@ -101,7 +101,7 @@ class ITContactRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(contact)
-            .contains(Contacts.withType());
+            .contains(Contacts.withType(ContactConstants.TYPE_MEMBER));
     }
 
 }

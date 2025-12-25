@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
@@ -59,7 +60,7 @@ public final class GuestDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "");
+        return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", Set.of());
     }
 
     public static final Guest toDomain(final long number, final GuestChangeDto change) {
@@ -76,7 +77,7 @@ public final class GuestDtoMapper {
             .toList();
 
         return new Guest(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getGames()), change.getComments());
+            new ArrayList<>(change.getGames()), change.getComments(), Set.of());
     }
 
     public static final GuestResponseDto toResponseDto(final Guest contact) {

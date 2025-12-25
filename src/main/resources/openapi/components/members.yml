@@ -54,6 +54,10 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+        types:
+          type: array
+          items:
+            type: string
     MemberCreation:
       type: object
       required: [name]

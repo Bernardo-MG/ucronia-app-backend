@@ -47,7 +47,7 @@ class ITGuestRepositoryFindOne {
     private GuestRepository repository;
 
     @Test
-    @DisplayName("With an guest, it is returned")
+    @DisplayName("With a guest, it is returned")
     @ValidGuest
     void testFindOne() {
         final Optional<Guest> guest;

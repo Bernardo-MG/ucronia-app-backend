@@ -27,6 +27,7 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactMethod;
@@ -64,7 +65,7 @@ public final class MemberContactDtoMapper {
             .toList();
 
         return new MemberContact(change.getIdentifier(), number, name, null, contactChannels, change.getComments(),
-            change.getActive(), change.getRenew());
+            change.getActive(), change.getRenew(), Set.of());
     }
 
     public static final MemberContact toDomain(final MemberContactCreationDto creation) {
@@ -75,7 +76,7 @@ public final class MemberContactDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new MemberContact(creation.getIdentifier(), -1L, name, null, List.of(), "", true, true);
+        return new MemberContact(creation.getIdentifier(), -1L, name, null, List.of(), "", true, true, Set.of());
     }
 
     public static final MemberContactResponseDto toResponseDto(final MemberContact contact) {

@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -42,8 +43,8 @@ class ITMemberContactRepositoryExists {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With an guest, it exists")
-    @ValidContact
+    @DisplayName("With a member, it exists")
+    @ActiveMember
     void testExists_Active() {
         final boolean exists;
 
@@ -57,8 +58,23 @@ class ITMemberContactRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no guest, nothing exists")
+    @DisplayName("With no member, nothing exists")
     void testExists_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With a member with no membership, it returns nothing")
+    @ValidContact
+    void testExists_NoMemberContactship() {
         final boolean exists;
 
         // WHEN

@@ -164,7 +164,7 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(SponsorEntityConstants.CONTACT_TYPE);
     }
 

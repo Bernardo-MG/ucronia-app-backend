@@ -6,6 +6,10 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -63,6 +67,10 @@ public class QueryGuestEntity implements Serializable {
     @Column(name = "number", table = "contacts")
     private Long                                       number;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Set<String>                                types;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -110,6 +118,10 @@ public class QueryGuestEntity implements Serializable {
         return number;
     }
 
+    public Set<String> getTypes() {
+        return types;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -151,11 +163,15 @@ public class QueryGuestEntity implements Serializable {
         this.number = number;
     }
 
+    public void setTypes(final Set<String> types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "QueryGuestEntity [birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
-                + contactChannels + ", firstName=" + firstName + ", games=" + games + ", id=" + id + ", identifier="
-                + identifier + ", lastName=" + lastName + ", number=" + number + "]";
+        return "QueryGuestEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
+                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
+                + contactChannels + ", games=" + games + ", number=" + number + ", types=" + types + "]";
     }
 
 }

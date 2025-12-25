@@ -30,12 +30,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -50,10 +50,10 @@ class ITMemberContactRepositoryFindAllQueryName {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With a guest matching first name, it is returned")
-    @ValidContact
+    @DisplayName("With a member matching first name, it is returned")
+    @ActiveMember
     void testFindAll_FirstName() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -64,20 +64,20 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With a guest having a guest role and matching full name, it is returned")
-    @ValidContact
+    @DisplayName("With a member having a member role and matching full name, it is returned")
+    @ActiveMember
     void testFindAll_FullName() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -88,20 +88,20 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FULL_NAME);
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With a guest having a guest role and matching last name, it is returned")
-    @ValidContact
+    @DisplayName("With a member having a member role and matching last name, it is returned")
+    @ActiveMember
     void testFindAll_LastName() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -112,19 +112,19 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberFilter(MemberStatus.ALL, ContactConstants.LAST_NAME);
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With no guest, nothing is returned")
+    @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -135,20 +135,20 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a guest having a guest role and partial matching name, it is returned")
-    @ValidContact
+    @DisplayName("With a member having a member role and partial matching name, it is returned")
+    @ActiveMember
     void testFindAll_PartialName() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -160,20 +160,20 @@ class ITMemberContactRepositoryFindAllQueryName {
             ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With a guest without guest role and matching first name, it is is returned")
-    @ValidContact
+    @DisplayName("With a member without member role and matching first name, it is is returned")
+    @ActiveMember
     void testFindAll_WithoutMemberContactship_FirstName() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -184,20 +184,20 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FIRST_NAME);
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
+            .containsExactly(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With a guest having a guest role and wrong name, nothing is returned")
-    @ValidContact
+    @DisplayName("With a member having a member role and wrong name, nothing is returned")
+    @ActiveMember
     void testFindAll_WrongName() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -208,10 +208,10 @@ class ITMemberContactRepositoryFindAllQueryName {
         filter = new MemberFilter(MemberStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

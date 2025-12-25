@@ -63,17 +63,17 @@ class ITMemberContactRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("With a valid guest, the guest is persisted")
+    @DisplayName("With a valid member, the member is persisted")
     @EmailContactMethod
     void testSaveAll_PersistedData() {
-        final MemberContact                      guest;
+        final MemberContact                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        repository.saveAll(List.of(guest));
+        repository.saveAll(List.of(member));
 
         // THEN
         entities = springRepository.findAll();
@@ -86,36 +86,36 @@ class ITMemberContactRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("With a valid guest, the created guest is returned")
+    @DisplayName("With a valid member, the created member is returned")
     @EmailContactMethod
     void testSaveAll_ReturnedData() {
-        final MemberContact             guest;
+        final MemberContact             member;
         final Collection<MemberContact> saved;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        saved = repository.saveAll(List.of(guest));
+        saved = repository.saveAll(List.of(member));
 
         // THEN
         Assertions.assertThat(saved)
-            .as("guest")
+            .as("member")
             .containsExactly(MemberContacts.created());
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @DisplayName("When the member is persisted, the contact types includes the member type")
     @EmailContactMethod
     void testSaveAll_SetsType() {
-        final MemberContact guest;
+        final MemberContact member;
         final ContactEntity contact;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        repository.saveAll(List.of(guest));
+        repository.saveAll(List.of(member));
 
         // THEN
         contact = contactSpringRepository.findByNumber(1L)
@@ -124,7 +124,7 @@ class ITMemberContactRepositorySaveAll {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }
 

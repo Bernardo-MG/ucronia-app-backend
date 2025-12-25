@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
@@ -59,6 +60,21 @@ class ITSponsorRepositoryExists {
     @Test
     @DisplayName("With no sponsor, nothing exists")
     void testExists_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With a sponsor with no sponsor role, it returns nothing")
+    @ValidContact
+    void testExists_NoSponsor() {
         final boolean exists;
 
         // WHEN

@@ -26,6 +26,7 @@ package com.bernardomg.association.guest.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,10 +34,11 @@ import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
 public record Guest(String identifier, Long number, ContactName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Instant> games, String comments) {
+        Collection<ContactChannel> contactChannels, Collection<Instant> games, String comments, Set<String> types) {
 
     public Guest(final String identifier, final Long number, final ContactName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String comments) {
+            final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String comments,
+            final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
@@ -44,6 +46,7 @@ public record Guest(String identifier, Long number, ContactName name, Instant bi
         this.contactChannels = contactChannels;
         this.games = games;
         this.comments = StringUtils.trim(comments);
+        this.types = types;
     }
 
 }

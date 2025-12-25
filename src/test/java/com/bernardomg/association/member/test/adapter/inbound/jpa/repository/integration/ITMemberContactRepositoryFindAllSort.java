@@ -60,7 +60,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
     void testFindAll_FirstName_Asc() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -72,10 +72,10 @@ class ITMemberContactRepositoryFindAllSort {
 
         // WHEN
         // FIXME: names should be sorted ignoring case
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.forNumber(1), MemberContacts.forNumber(2), MemberContacts.forNumber(3),
@@ -85,7 +85,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by first name it returns the ordered data")
     void testFindAll_FirstName_Desc() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -96,10 +96,10 @@ class ITMemberContactRepositoryFindAllSort {
         filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.forNumber(5), MemberContacts.forNumber(4), MemberContacts.forNumber(3),
@@ -109,7 +109,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by last name it returns the ordered data")
     void testFindAll_LastName_Asc() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -120,10 +120,10 @@ class ITMemberContactRepositoryFindAllSort {
         filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.forNumber(1), MemberContacts.forNumber(2), MemberContacts.forNumber(3),
@@ -133,7 +133,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by last name it returns the ordered data")
     void testFindAll_LastName_Desc() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -144,10 +144,10 @@ class ITMemberContactRepositoryFindAllSort {
         filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.forNumber(5), MemberContacts.forNumber(4), MemberContacts.forNumber(3),

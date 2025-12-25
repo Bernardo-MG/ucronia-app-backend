@@ -62,7 +62,7 @@ class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -73,10 +73,10 @@ class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
         filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.forNumber(1));
@@ -85,7 +85,7 @@ class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Page<MemberContact> guests;
+        final Page<MemberContact> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -96,10 +96,10 @@ class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
         filter = new MemberFilter(MemberStatus.ALL, "");
 
         // WHEN
-        guests = repository.findAll(filter, pagination, sorting);
+        members = repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(MemberContacts.forNumber(2));

@@ -64,7 +64,8 @@ public final class UpdateMemberContactEntityMapper {
                 .getBirthDate(),
             contactChannels, entity.getContact()
                 .getComments(),
-            entity.getActive(), entity.getRenew());
+            entity.getActive(), entity.getRenew(), entity.getContact()
+                .getTypes());
     }
 
     public static final UpdateMemberContactEntity toEntity(final MemberContact data,

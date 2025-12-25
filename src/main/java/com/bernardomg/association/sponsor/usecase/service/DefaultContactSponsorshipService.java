@@ -84,7 +84,7 @@ public final class DefaultContactSponsorshipService implements ContactSponsorshi
         }
 
         toCreate = new Sponsor(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
-            existing.contactChannels(), List.of(), existing.comments());
+            existing.contactChannels(), List.of(), existing.comments(), existing.types());
 
         created = sponsorRepository.save(toCreate, number);
 

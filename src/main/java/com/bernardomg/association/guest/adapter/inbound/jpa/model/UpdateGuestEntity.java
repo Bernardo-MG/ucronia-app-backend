@@ -90,7 +90,7 @@ public class UpdateGuestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateGuestEntity [contact=" + contact + ", id=" + id + ", games=" + games + "]";
+        return "UpdateGuestEntity [id=" + id + ", contact=" + contact + ", games=" + games + "]";
     }
 
 }

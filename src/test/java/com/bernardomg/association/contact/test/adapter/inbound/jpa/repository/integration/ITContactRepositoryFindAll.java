@@ -35,6 +35,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ContactWithType;
 import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactQueries;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.data.domain.Page;
@@ -117,7 +118,7 @@ class ITContactRepositoryFindAll {
         Assertions.assertThat(contacts)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Contacts.withType());
+            .containsExactly(Contacts.withType(ContactConstants.TYPE_MEMBER));
     }
 
 }

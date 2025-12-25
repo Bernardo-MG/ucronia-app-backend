@@ -94,8 +94,8 @@ public class UpdateMemberContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberContactEntity [contact=" + contact + ", id=" + id + ", renew=" + renew + ", active="
-                + active + "]";
+        return "UpdateMemberContactEntity [id=" + id + ", contact=" + contact + ", active=" + active + ", renew="
+                + renew + "]";
     }
 
 }

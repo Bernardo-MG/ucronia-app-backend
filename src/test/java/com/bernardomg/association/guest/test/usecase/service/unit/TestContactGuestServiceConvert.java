@@ -43,6 +43,7 @@ import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
@@ -113,7 +114,7 @@ class TestContactGuestServiceConvert {
 
         // GIVEN
         guest = Guests.noGames();
-        contact = Contacts.valid();
+        contact = Contacts.withType(GuestEntityConstants.CONTACT_TYPE);
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
         given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(false);
@@ -134,7 +135,7 @@ class TestContactGuestServiceConvert {
 
         // GIVEN
         guest = Guests.noGames();
-        contact = Contacts.valid();
+        contact = Contacts.withType(GuestEntityConstants.CONTACT_TYPE);
 
         given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
         given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(false);

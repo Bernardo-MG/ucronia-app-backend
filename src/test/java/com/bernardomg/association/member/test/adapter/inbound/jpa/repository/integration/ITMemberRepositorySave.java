@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
@@ -189,7 +188,6 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When a member exists and a member is remove, the member is persisted")
-    @EmailContactMethod
     @ActiveMember
     void testSave_Existing_RemoveMember_PersistedData() {
         final Member                      member;
@@ -269,7 +267,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }
 

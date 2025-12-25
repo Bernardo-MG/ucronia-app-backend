@@ -103,7 +103,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("With an guest, the guest is persisted")
+    @DisplayName("With a guest, the guest is persisted")
     @EmailContactMethod
     void testSave_PersistedData() {
         final Guest                      guest;
@@ -126,7 +126,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("With an guest, the created guest is returned")
+    @DisplayName("With a guest, the created guest is returned")
     @EmailContactMethod
     void testSave_ReturnedData() {
         final Guest guest;
@@ -164,7 +164,7 @@ class ITGuestRepositorySave {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(GuestEntityConstants.CONTACT_TYPE);
     }
 

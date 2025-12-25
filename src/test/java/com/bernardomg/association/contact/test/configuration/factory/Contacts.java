@@ -2,6 +2,7 @@
 package com.bernardomg.association.contact.test.configuration.factory;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
@@ -15,7 +16,7 @@ public final class Contacts {
 
         name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
         return new Contact(ContactConstants.ALTERNATIVE_IDENTIFIER, ContactConstants.ALTERNATIVE_NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, List.of());
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact created() {
@@ -23,7 +24,7 @@ public final class Contacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(),
-            ContactConstants.COMMENTS, List.of());
+            ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact createdWithEmail() {
@@ -35,7 +36,7 @@ public final class Contacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Contact(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
-            ContactConstants.COMMENTS, List.of());
+            ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact emptyName() {
@@ -43,7 +44,7 @@ public final class Contacts {
 
         name = new ContactName(" ", " ");
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), "", List.of());
+            List.of(), "", Set.of());
     }
 
     public static final Contact nameChange() {
@@ -51,21 +52,21 @@ public final class Contacts {
 
         name = new ContactName("Contact 123", "Last name");
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), "", List.of());
+            List.of(), "", Set.of());
     }
 
     public static final Contact nameChangePatch() {
         final ContactName name;
 
         name = new ContactName("Contact 123", "Last name");
-        return new Contact(null, ContactConstants.NUMBER, name, null, List.of(), "", List.of());
+        return new Contact(null, ContactConstants.NUMBER, name, null, List.of(), "", Set.of());
     }
 
     public static final Contact noIdentifier() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact("", ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, List.of(), "", List.of());
+        return new Contact("", ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE, List.of(), "", Set.of());
     }
 
     public static final Contact padded() {
@@ -73,7 +74,7 @@ public final class Contacts {
 
         name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), " " + ContactConstants.COMMENTS + " ", List.of());
+            List.of(), " " + ContactConstants.COMMENTS + " ", Set.of());
     }
 
     public static final Contact toCreate() {
@@ -81,14 +82,14 @@ public final class Contacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(),
-            ContactConstants.COMMENTS, List.of());
+            ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact toCreateNoIdentifier() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact("", 0L, name, ContactConstants.BIRTH_DATE, List.of(), "", List.of());
+        return new Contact("", 0L, name, ContactConstants.BIRTH_DATE, List.of(), "", Set.of());
     }
 
     public static final Contact toCreateWithEmail() {
@@ -100,7 +101,7 @@ public final class Contacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Contact(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
-            ContactConstants.COMMENTS, List.of());
+            ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact valid() {
@@ -108,14 +109,14 @@ public final class Contacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), ContactConstants.COMMENTS, List.of());
+            List.of(), ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact validNew() {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Contact("", ContactConstants.NUMBER, name, null, List.of(), "", List.of());
+        return new Contact("", ContactConstants.NUMBER, name, null, List.of(), "", Set.of());
     }
 
     public static final Contact withEmail() {
@@ -127,7 +128,7 @@ public final class Contacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), ContactConstants.COMMENTS, List.of());
+            List.of(contactChannel), ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact withEmailAndPhone() {
@@ -139,7 +140,7 @@ public final class Contacts {
         contactChannelA = new ContactChannel(ContactMethods.email(), ContactConstants.EMAIL);
         contactChannelB = new ContactChannel(ContactMethods.phone(), ContactConstants.PHONE);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS, List.of());
+            List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS, Set.of());
     }
 
     public static final Contact withTwoEmails() {
@@ -153,15 +154,15 @@ public final class Contacts {
         contactChannelA = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         contactChannelB = new ContactChannel(contactMethod, ContactConstants.ALTERNATIVE_EMAIL);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS, List.of());
+            List.of(contactChannelA, contactChannelB), ContactConstants.COMMENTS, Set.of());
     }
 
-    public static final Contact withType() {
+    public static final Contact withType(final String type) {
         final ContactName name;
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Contact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), ContactConstants.COMMENTS, List.of(ContactConstants.TYPE_MEMBER));
+            List.of(), ContactConstants.COMMENTS, Set.of(type));
     }
 
 }

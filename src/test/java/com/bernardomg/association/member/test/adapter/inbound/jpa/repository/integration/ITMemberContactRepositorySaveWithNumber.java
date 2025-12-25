@@ -62,18 +62,18 @@ class ITMemberContactRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("With a guest, the guest is persisted")
+    @DisplayName("With a member, the member is persisted")
     @EmailContactMethod
     @ValidContact
     void testSaveWithNumber_PersistedData() {
-        final MemberContact                      guest;
+        final MemberContact                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        repository.save(guest, ContactConstants.NUMBER);
+        repository.save(member, ContactConstants.NUMBER);
 
         // THEN
         entities = springRepository.findAll();
@@ -85,38 +85,38 @@ class ITMemberContactRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("With a guest, the created guest is returned")
+    @DisplayName("With a member, the created member is returned")
     @EmailContactMethod
     @ValidContact
     void testSaveWithNumber_ReturnedData() {
-        final MemberContact guest;
+        final MemberContact member;
         final MemberContact saved;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        saved = repository.save(guest, ContactConstants.NUMBER);
+        saved = repository.save(member, ContactConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(saved)
-            .as("guest")
+            .as("member")
             .isEqualTo(MemberContacts.noContactChannel());
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @DisplayName("When the member is persisted, the contact types includes the member type")
     @EmailContactMethod
     void testSaveWithNumber_SetsType() {
-        final MemberContact guest;
+        final MemberContact member;
         final MemberContact saved;
         final ContactEntity contact;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        saved = repository.save(guest, ContactConstants.NUMBER);
+        saved = repository.save(member, ContactConstants.NUMBER);
 
         // THEN
         contact = contactSpringRepository.findByNumber(saved.number())
@@ -125,7 +125,7 @@ class ITMemberContactRepositorySaveWithNumber {
         Assertions.assertThat(contact)
             .as("contact")
             .extracting(ContactEntity::getTypes)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }
 

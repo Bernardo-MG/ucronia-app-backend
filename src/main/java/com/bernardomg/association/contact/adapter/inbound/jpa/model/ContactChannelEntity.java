@@ -113,8 +113,8 @@ public class ContactChannelEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactChannelEntity [id=" + id + ", contact=" + contact.getId() + contact.getId() + ", contactMethod="
-                + contactMethod + ", detail=" + detail + "]";
+        return "ContactChannelEntity [id=" + id + ", contact=" + contact.getId() + ", contactMethod=" + contactMethod
+                + ", detail=" + detail + "]";
     }
 
 }

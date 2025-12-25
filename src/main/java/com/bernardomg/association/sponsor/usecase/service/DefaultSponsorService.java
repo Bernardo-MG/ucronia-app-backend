@@ -72,7 +72,7 @@ public final class DefaultSponsorService implements SponsorService {
         log.debug("Creating sponsor {}", sponsor);
 
         toCreate = new Sponsor(sponsor.identifier(), 0L, sponsor.name(), sponsor.birthDate(), sponsor.contactChannels(),
-            sponsor.years(), sponsor.comments());
+            sponsor.years(), sponsor.comments(), sponsor.types());
 
         created = sponsorRepository.save(toCreate);
 
@@ -198,7 +198,9 @@ public final class DefaultSponsorService implements SponsorService {
             Optional.ofNullable(updated.years())
                 .orElse(existing.years()),
             Optional.ofNullable(updated.comments())
-                .orElse(existing.comments()));
+                .orElse(existing.comments()),
+            Optional.ofNullable(updated.types())
+                .orElse(existing.types()));
     }
 
 }

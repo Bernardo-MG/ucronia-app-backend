@@ -25,9 +25,11 @@
 package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
@@ -269,8 +271,9 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
     private final void setType(final ContactEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(List.of(SponsorEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
         } else {
+            entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
                 .add(SponsorEntityConstants.CONTACT_TYPE);
         }
