@@ -41,20 +41,6 @@ public class QueryGuestEntity implements Serializable {
     @Column(name = "comments", table = "contacts")
     private String                                     comments;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types", table = "contacts")
-    private Collection<String>               types;
-
-    
-    public Collection<String> getTypes() {
-        return types;
-    }
-
-    
-    public void setTypes(Collection<String> types) {
-        this.types = types;
-    }
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private Collection<QueryGuestContactChannelEntity> contactChannels;
@@ -79,6 +65,10 @@ public class QueryGuestEntity implements Serializable {
 
     @Column(name = "number", table = "contacts")
     private Long                                       number;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Collection<String>                         types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -127,6 +117,10 @@ public class QueryGuestEntity implements Serializable {
         return number;
     }
 
+    public Collection<String> getTypes() {
+        return types;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -168,11 +162,15 @@ public class QueryGuestEntity implements Serializable {
         this.number = number;
     }
 
+    public void setTypes(final Collection<String> types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "QueryGuestEntity [birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
-                + contactChannels + ", firstName=" + firstName + ", games=" + games + ", id=" + id + ", identifier="
-                + identifier + ", lastName=" + lastName + ", number=" + number + "]";
+        return "QueryGuestEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
+                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
+                + contactChannels + ", games=" + games + ", number=" + number + ", types=" + types + "]";
     }
 
 }

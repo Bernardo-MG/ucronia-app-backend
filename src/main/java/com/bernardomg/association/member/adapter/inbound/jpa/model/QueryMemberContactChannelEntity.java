@@ -103,7 +103,7 @@ public class QueryMemberContactChannelEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryGuestContactChannelEntity [id=" + id + ", contactMethod=" + contactMethod + ", detail=" + detail
+        return "QueryMemberContactChannelEntity [id=" + id + ", contactMethod=" + contactMethod + ", detail=" + detail
                 + "]";
     }
 

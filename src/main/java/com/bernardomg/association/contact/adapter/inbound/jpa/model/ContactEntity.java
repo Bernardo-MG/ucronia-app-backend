@@ -172,9 +172,9 @@ public class ContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactEntity [birthDate=" + birthDate + ", contactChannels=" + contactChannels + ", firstName="
-                + firstName + ", id=" + id + ", identifier=" + identifier + ", lastName=" + lastName + ", number="
-                + number + ", comments=" + comments + ", types=" + types + "]";
+        return "ContactEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
+                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
+                + contactChannels + ", number=" + number + ", types=" + types + "]";
     }
 
 }

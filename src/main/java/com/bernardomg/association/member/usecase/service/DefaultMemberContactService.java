@@ -72,7 +72,8 @@ public final class DefaultMemberContactService implements MemberContactService {
         log.debug("Creating member contact {}", memberContact);
 
         toCreate = new MemberContact(memberContact.identifier(), 0L, memberContact.name(), memberContact.birthDate(),
-            memberContact.contactChannels(), memberContact.comments(), memberContact.active(), memberContact.renew(),memberContact.types());
+            memberContact.contactChannels(), memberContact.comments(), memberContact.active(), memberContact.renew(),
+            memberContact.types());
 
         created = memberContactRepository.save(toCreate);
 

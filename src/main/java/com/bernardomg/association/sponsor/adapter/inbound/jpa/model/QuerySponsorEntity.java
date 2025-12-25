@@ -38,20 +38,6 @@ public class QuerySponsorEntity implements Serializable {
     @Column(name = "birth_date", table = "contacts")
     private Instant                                      birthDate;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types", table = "contacts")
-    private Collection<String>               types;
-
-    
-    public Collection<String> getTypes() {
-        return types;
-    }
-
-    
-    public void setTypes(Collection<String> types) {
-        this.types = types;
-    }
-
     @Column(name = "comments", table = "contacts")
     private String                                       comments;
 
@@ -74,6 +60,10 @@ public class QuerySponsorEntity implements Serializable {
 
     @Column(name = "number", table = "contacts")
     private Long                                         number;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Collection<String>                           types;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
@@ -123,6 +113,10 @@ public class QuerySponsorEntity implements Serializable {
         return number;
     }
 
+    public Collection<String> getTypes() {
+        return types;
+    }
+
     public Collection<Integer> getYears() {
         return years;
     }
@@ -164,6 +158,10 @@ public class QuerySponsorEntity implements Serializable {
         this.number = number;
     }
 
+    public void setTypes(final Collection<String> types) {
+        this.types = types;
+    }
+
     public void setYears(final Collection<Integer> years) {
         this.years = years;
     }
@@ -172,7 +170,8 @@ public class QuerySponsorEntity implements Serializable {
     public String toString() {
         return "QuerySponsorEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", birthDate=" + birthDate + ", comments=" + comments
-                + ", contactChannels=" + contactChannels + ", number=" + number + ", years=" + years + "]";
+                + ", contactChannels=" + contactChannels + ", number=" + number + ", years=" + years + ", types="
+                + types + "]";
     }
 
 }

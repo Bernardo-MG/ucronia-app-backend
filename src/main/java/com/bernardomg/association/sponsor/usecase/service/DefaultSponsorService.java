@@ -72,7 +72,7 @@ public final class DefaultSponsorService implements SponsorService {
         log.debug("Creating sponsor {}", sponsor);
 
         toCreate = new Sponsor(sponsor.identifier(), 0L, sponsor.name(), sponsor.birthDate(), sponsor.contactChannels(),
-            sponsor.years(), sponsor.comments(),sponsor.types());
+            sponsor.years(), sponsor.comments(), sponsor.types());
 
         created = sponsorRepository.save(toCreate);
 

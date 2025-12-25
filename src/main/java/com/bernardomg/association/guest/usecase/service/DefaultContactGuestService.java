@@ -84,7 +84,7 @@ public final class DefaultContactGuestService implements ContactGuestService {
         }
 
         toCreate = new Guest(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
-            existing.contactChannels(), List.of(), existing.comments(),existing.types());
+            existing.contactChannels(), List.of(), existing.comments(), existing.types());
 
         created = guestRepository.save(toCreate, number);
 

@@ -39,20 +39,6 @@ public class QueryMemberContactEntity implements Serializable {
     @Column(name = "comments", table = "contacts")
     private String                                      comments;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types", table = "contacts")
-    private Collection<String>               types;
-
-    
-    public Collection<String> getTypes() {
-        return types;
-    }
-
-    
-    public void setTypes(Collection<String> types) {
-        this.types = types;
-    }
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private Collection<QueryMemberContactChannelEntity> contactChannels;
@@ -75,6 +61,10 @@ public class QueryMemberContactEntity implements Serializable {
 
     @Column(name = "renew_membership", table = "members", nullable = false)
     private Boolean                                     renew;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Collection<String>                          types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -127,6 +117,10 @@ public class QueryMemberContactEntity implements Serializable {
         return renew;
     }
 
+    public Collection<String> getTypes() {
+        return types;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -172,11 +166,16 @@ public class QueryMemberContactEntity implements Serializable {
         this.renew = renew;
     }
 
+    public void setTypes(final Collection<String> types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "QueryMemberContactEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
-                + contactChannels + ", active=" + active + ", identifier=" + identifier + ", renew=" + renew + "]";
+        return "QueryMemberContactEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
+                + ", lastName=" + lastName + ", active=" + active + ", birthDate=" + birthDate + ", comments="
+                + comments + ", contactChannels=" + contactChannels + ", number=" + number + ", renew=" + renew
+                + ", types=" + types + "]";
     }
 
 }
