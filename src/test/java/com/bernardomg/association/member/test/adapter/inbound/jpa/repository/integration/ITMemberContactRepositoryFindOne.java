@@ -46,7 +46,7 @@ class ITMemberContactRepositoryFindOne {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With an guest, it is returned")
+    @DisplayName("With a guest, it is returned")
     @ValidContact
     void testFindOne() {
         final Optional<MemberContact> guest;

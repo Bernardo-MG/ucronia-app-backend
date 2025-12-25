@@ -42,7 +42,7 @@ class ITGuestRepositoryExists {
     private GuestRepository repository;
 
     @Test
-    @DisplayName("With an guest, it exists")
+    @DisplayName("With a guest, it exists")
     @ValidGuest
     void testExists_Active() {
         final boolean exists;

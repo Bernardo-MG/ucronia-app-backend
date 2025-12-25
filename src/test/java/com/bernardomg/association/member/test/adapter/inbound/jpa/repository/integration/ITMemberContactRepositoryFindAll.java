@@ -55,7 +55,7 @@ class ITMemberContactRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With an guest, it is returned")
+    @DisplayName("With a guest, it is returned")
     @ValidContact
     void testFindAll() {
         final Page<MemberContact> guests;

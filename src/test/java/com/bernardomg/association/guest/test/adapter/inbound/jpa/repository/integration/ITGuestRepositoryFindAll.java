@@ -55,7 +55,7 @@ class ITGuestRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With an guest, it is returned")
+    @DisplayName("With a guest, it is returned")
     @ValidGuest
     void testFindAll() {
         final Page<Guest> guests;

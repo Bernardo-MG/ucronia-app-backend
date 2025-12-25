@@ -54,7 +54,7 @@ class ITMemberContactRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting an guest, it is deleted")
+    @DisplayName("When deleting a guest, it is deleted")
     @ValidContact
     void testDelete_Active() {
         // WHEN
@@ -66,7 +66,7 @@ class ITMemberContactRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting an guest, the contact is deleted")
+    @DisplayName("When deleting a guest, the contact is deleted")
     @ValidContact
     void testDelete_Active_Contact() {
         // WHEN
