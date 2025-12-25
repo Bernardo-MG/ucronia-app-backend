@@ -35,8 +35,11 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 
 public final class MemberContactSpecifications {
 
+    private static final String ACTIVE_FIELD = "active";
+
     public static Optional<Specification<QueryMemberContactEntity>> query(final MemberFilter filter) {
         final Optional<Specification<QueryMemberContactEntity>> nameSpec;
+        final Optional<Specification<QueryMemberContactEntity>> statusSpec;
         final Specification<QueryMemberContactEntity>           spec;
 
         if (filter.name()
@@ -46,13 +49,37 @@ public final class MemberContactSpecifications {
             nameSpec = Optional.of(name(filter.name()));
         }
 
-        spec = List.of(nameSpec)
+        statusSpec = switch (filter.status()) {
+            case ACTIVE -> Optional.of(active());
+            case INACTIVE -> Optional.of(inactive());
+            default -> Optional.empty();
+        };
+
+        spec = List.of(nameSpec, statusSpec)
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
             .reduce((BinaryOperator<Specification<QueryMemberContactEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
+    }
+
+    /**
+     * Member and active specification.
+     *
+     * @return active specification
+     */
+    private static Specification<QueryMemberContactEntity> active() {
+        return (root, query, cb) -> cb.isTrue(root.get(ACTIVE_FIELD));
+    }
+
+    /**
+     * Member and inactive specification.
+     *
+     * @return inactive specification
+     */
+    private static Specification<QueryMemberContactEntity> inactive() {
+        return (root, query, cb) -> cb.isFalse(root.get(ACTIVE_FIELD));
     }
 
     /**

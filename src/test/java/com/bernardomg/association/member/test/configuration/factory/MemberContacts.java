@@ -61,7 +61,7 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, false, false,
+            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, false, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
