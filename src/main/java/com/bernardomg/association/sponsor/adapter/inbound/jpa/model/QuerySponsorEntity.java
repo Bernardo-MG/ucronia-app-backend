@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -34,6 +37,20 @@ public class QuerySponsorEntity implements Serializable {
 
     @Column(name = "birth_date", table = "contacts")
     private Instant                                      birthDate;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Collection<String>               types;
+
+    
+    public Collection<String> getTypes() {
+        return types;
+    }
+
+    
+    public void setTypes(Collection<String> types) {
+        this.types = types;
+    }
 
     @Column(name = "comments", table = "contacts")
     private String                                       comments;

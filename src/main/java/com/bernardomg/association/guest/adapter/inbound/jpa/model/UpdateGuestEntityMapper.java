@@ -64,7 +64,7 @@ public final class UpdateGuestEntityMapper {
             name, entity.getContact()
                 .getBirthDate(),
             contactChannels, new ArrayList<>(entity.getGames()), entity.getContact()
-                .getComments());
+                .getComments(), entity.getContact().getTypes());
     }
 
     public static final UpdateGuestEntity toEntity(final Guest data,

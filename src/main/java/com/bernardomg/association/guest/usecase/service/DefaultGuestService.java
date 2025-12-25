@@ -72,7 +72,7 @@ public final class DefaultGuestService implements GuestService {
         log.debug("Creating guest {}", guest);
 
         toCreate = new Guest(guest.identifier(), 0L, guest.name(), guest.birthDate(), guest.contactChannels(),
-            guest.games(), guest.comments());
+            guest.games(), guest.comments(),guest.types());
 
         created = guestRepository.save(toCreate);
 
@@ -197,7 +197,9 @@ public final class DefaultGuestService implements GuestService {
             Optional.ofNullable(updated.games())
                 .orElse(existing.games()),
             Optional.ofNullable(updated.comments())
-                .orElse(existing.comments()));
+                .orElse(existing.comments()),
+            Optional.ofNullable(updated.types())
+                .orElse(existing.types()));
     }
 
 }

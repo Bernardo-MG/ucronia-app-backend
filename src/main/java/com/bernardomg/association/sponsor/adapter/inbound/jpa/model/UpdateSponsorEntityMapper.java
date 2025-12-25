@@ -64,7 +64,7 @@ public final class UpdateSponsorEntityMapper {
             name, entity.getContact()
                 .getBirthDate(),
             contactChannels, new ArrayList<>(entity.getYears()), entity.getContact()
-                .getComments());
+                .getComments(), entity.getContact().getTypes());
     }
 
     public static final UpdateSponsorEntity toEntity(final Sponsor data,

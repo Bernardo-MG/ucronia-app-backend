@@ -50,7 +50,7 @@ public final class QueryMemberContactEntityMapper {
             .toList();
 
         return new MemberContact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getComments(), entity.getActive(), entity.getRenew());
+            contactChannels, entity.getComments(), entity.getActive(), entity.getRenew(), entity.getTypes());
     }
 
     public static final QueryMemberContactEntity toEntity(final MemberContact data,

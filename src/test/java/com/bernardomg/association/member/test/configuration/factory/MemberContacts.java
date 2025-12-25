@@ -22,7 +22,7 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true);
+            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact created() {
@@ -34,7 +34,7 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), ContactConstants.COMMENTS, true, true);
+            List.of(contactChannel), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact forNumber(final long number) {
@@ -42,7 +42,7 @@ public final class MemberContacts {
 
         name = new ContactName("Contact " + number, "Last name " + number);
         return new MemberContact(Objects.toString(number * 10), number * 10, name, ContactConstants.BIRTH_DATE,
-            List.of(), ContactConstants.COMMENTS, true, true);
+            List.of(), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact nameChange() {
@@ -50,7 +50,7 @@ public final class MemberContacts {
 
         name = new ContactName("Contact 123", "Last name");
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true);
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact nameChangePatch() {
@@ -58,7 +58,7 @@ public final class MemberContacts {
 
         name = new ContactName("Contact 123", "Last name");
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true);
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact noContactChannel() {
@@ -66,7 +66,7 @@ public final class MemberContacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true);
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact noGames() {
@@ -74,7 +74,7 @@ public final class MemberContacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true);
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact padded() {
@@ -86,7 +86,7 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true);
+            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true, List.of());
     }
 
     public static final MemberContact toCreate() {
@@ -98,7 +98,7 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), ContactConstants.COMMENTS, true, true);
+            List.of(contactChannel), ContactConstants.COMMENTS, true, true, List.of());
     }
 
 }

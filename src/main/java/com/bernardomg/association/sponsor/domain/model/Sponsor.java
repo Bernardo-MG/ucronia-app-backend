@@ -33,10 +33,10 @@ import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 
 public record Sponsor(String identifier, Long number, ContactName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments) {
+        Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments, Collection<String> types) {
 
     public Sponsor(final String identifier, final Long number, final ContactName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String comments) {
+            final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String comments, Collection<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
@@ -44,6 +44,7 @@ public record Sponsor(String identifier, Long number, ContactName name, Instant 
         this.contactChannels = contactChannels;
         this.years = years;
         this.comments = StringUtils.trim(comments);
+        this.types = types;
     }
 
 }

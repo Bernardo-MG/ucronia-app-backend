@@ -6,6 +6,9 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +38,20 @@ public class QueryMemberContactEntity implements Serializable {
 
     @Column(name = "comments", table = "contacts")
     private String                                      comments;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "contacts")
+    private Collection<String>               types;
+
+    
+    public Collection<String> getTypes() {
+        return types;
+    }
+
+    
+    public void setTypes(Collection<String> types) {
+        this.types = types;
+    }
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")

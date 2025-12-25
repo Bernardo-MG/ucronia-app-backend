@@ -72,7 +72,7 @@ public final class DefaultMemberContactService implements MemberContactService {
         log.debug("Creating member contact {}", memberContact);
 
         toCreate = new MemberContact(memberContact.identifier(), 0L, memberContact.name(), memberContact.birthDate(),
-            memberContact.contactChannels(), memberContact.comments(), memberContact.active(), memberContact.renew());
+            memberContact.contactChannels(), memberContact.comments(), memberContact.active(), memberContact.renew(),memberContact.types());
 
         created = memberContactRepository.save(toCreate);
 
@@ -201,7 +201,9 @@ public final class DefaultMemberContactService implements MemberContactService {
             Optional.ofNullable(updated.active())
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
-                .orElse(existing.renew()));
+                .orElse(existing.renew()),
+            Optional.ofNullable(updated.types())
+                .orElse(existing.types()));
     }
 
 }
