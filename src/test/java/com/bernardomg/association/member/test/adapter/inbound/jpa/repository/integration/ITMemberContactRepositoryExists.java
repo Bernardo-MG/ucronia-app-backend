@@ -42,7 +42,7 @@ class ITMemberContactRepositoryExists {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With a guest, it exists")
+    @DisplayName("With a member, it exists")
     @ValidContact
     void testExists_Active() {
         final boolean exists;
@@ -57,7 +57,7 @@ class ITMemberContactRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no guest, nothing exists")
+    @DisplayName("With no member, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 

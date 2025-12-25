@@ -61,17 +61,17 @@ class ITMemberContactRepositorySave {
     }
 
     @Test
-    @DisplayName("When a guest exists, the guest is persisted")
+    @DisplayName("When a member exists, the member is persisted")
     @ValidContact
     void testSave_Existing_PersistedData() {
-        final MemberContact                      guest;
+        final MemberContact                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        repository.save(guest);
+        repository.save(member);
 
         // THEN
         entities = springRepository.findAll();
@@ -84,36 +84,36 @@ class ITMemberContactRepositorySave {
     }
 
     @Test
-    @DisplayName("When a guest exists, the created guest is returned")
+    @DisplayName("When a member exists, the created member is returned")
     @ValidContact
     void testSave_Existing_ReturnedData() {
-        final MemberContact guest;
+        final MemberContact member;
         final MemberContact saved;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        saved = repository.save(guest);
+        saved = repository.save(member);
 
         // THEN
         Assertions.assertThat(saved)
-            .as("guest")
+            .as("member")
             .isEqualTo(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With a guest, the guest is persisted")
+    @DisplayName("With a member, the member is persisted")
     @EmailContactMethod
     void testSave_PersistedData() {
-        final MemberContact                      guest;
+        final MemberContact                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        repository.save(guest);
+        repository.save(member);
 
         // THEN
         entities = springRepository.findAll();
@@ -126,36 +126,36 @@ class ITMemberContactRepositorySave {
     }
 
     @Test
-    @DisplayName("With a guest, the created guest is returned")
+    @DisplayName("With a member, the created member is returned")
     @EmailContactMethod
     void testSave_ReturnedData() {
-        final MemberContact guest;
+        final MemberContact member;
         final MemberContact saved;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        saved = repository.save(guest);
+        saved = repository.save(member);
 
         // THEN
         Assertions.assertThat(saved)
-            .as("guest")
+            .as("member")
             .isEqualTo(MemberContacts.created());
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @DisplayName("When the member is persisted, the contact types includes the member type")
     @EmailContactMethod
     void testSave_SetsType() {
-        final MemberContact guest;
+        final MemberContact member;
         final ContactEntity contact;
 
         // GIVEN
-        guest = MemberContacts.active();
+        member = MemberContacts.active();
 
         // WHEN
-        repository.save(guest);
+        repository.save(member);
 
         // THEN
         contact = contactSpringRepository.findByNumber(1L)

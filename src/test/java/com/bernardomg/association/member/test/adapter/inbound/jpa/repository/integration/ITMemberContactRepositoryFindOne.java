@@ -46,43 +46,43 @@ class ITMemberContactRepositoryFindOne {
     private MemberContactRepository repository;
 
     @Test
-    @DisplayName("With a guest, it is returned")
+    @DisplayName("With a member, it is returned")
     @ValidContact
     void testFindOne() {
-        final Optional<MemberContact> guest;
+        final Optional<MemberContact> member;
 
         // WHEN
-        guest = repository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
+        Assertions.assertThat(member)
             .contains(MemberContacts.active());
     }
 
     @Test
-    @DisplayName("With no guest, nothing is returned")
+    @DisplayName("With no member, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<MemberContact> guest;
+        final Optional<MemberContact> member;
 
         // WHEN
-        guest = repository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
+        Assertions.assertThat(member)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a guest with no guest role, it returns nothing")
+    @DisplayName("With a member with no member role, it returns nothing")
     @ValidContact
     void testFindOne_NoMemberContactship() {
-        final Optional<MemberContact> guest;
+        final Optional<MemberContact> member;
 
         // WHEN
-        guest = repository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ContactConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
+        Assertions.assertThat(member)
             .isEmpty();
     }
 
