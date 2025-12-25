@@ -35,6 +35,7 @@ import com.bernardomg.association.contact.test.configuration.data.annotation.Val
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -47,7 +48,7 @@ class ITMemberContactRepositoryFindOne {
 
     @Test
     @DisplayName("With a member, it is returned")
-    @ValidContact
+    @ActiveMember
     void testFindOne() {
         final Optional<MemberContact> member;
 

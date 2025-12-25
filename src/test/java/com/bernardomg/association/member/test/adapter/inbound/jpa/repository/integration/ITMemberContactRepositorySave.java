@@ -33,12 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberContactSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -62,7 +62,7 @@ class ITMemberContactRepositorySave {
 
     @Test
     @DisplayName("When a member exists, the member is persisted")
-    @ValidContact
+    @ActiveMember
     void testSave_Existing_PersistedData() {
         final MemberContact                      member;
         final Iterable<QueryMemberContactEntity> entities;
@@ -85,7 +85,7 @@ class ITMemberContactRepositorySave {
 
     @Test
     @DisplayName("When a member exists, the created member is returned")
-    @ValidContact
+    @ActiveMember
     void testSave_Existing_ReturnedData() {
         final MemberContact member;
         final MemberContact saved;

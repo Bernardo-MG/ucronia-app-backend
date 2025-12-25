@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
@@ -59,6 +60,21 @@ class ITGuestRepositoryExists {
     @Test
     @DisplayName("With no guest, nothing exists")
     void testExists_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(ContactConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With no guest role, nothing exists")
+    @ValidContact
+    void testExists_NoGuestship() {
         final boolean exists;
 
         // WHEN

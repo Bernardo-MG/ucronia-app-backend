@@ -30,12 +30,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -51,7 +51,7 @@ class ITMemberContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching first name, it is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll_FirstName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
@@ -75,7 +75,7 @@ class ITMemberContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member having a member role and matching full name, it is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll_FullName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
@@ -99,7 +99,7 @@ class ITMemberContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member having a member role and matching last name, it is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll_LastName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
@@ -146,7 +146,7 @@ class ITMemberContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member having a member role and partial matching name, it is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll_PartialName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
@@ -171,7 +171,7 @@ class ITMemberContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member without member role and matching first name, it is is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll_WithoutMemberContactship_FirstName() {
         final Page<MemberContact> members;
         final Pagination          pagination;
@@ -195,7 +195,7 @@ class ITMemberContactRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member having a member role and wrong name, nothing is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll_WrongName() {
         final Page<MemberContact> members;
         final Pagination          pagination;

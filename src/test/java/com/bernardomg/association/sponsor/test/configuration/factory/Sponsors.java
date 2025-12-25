@@ -40,7 +40,8 @@ public final class Sponsors {
 
         name = new ContactName("Contact 123", "Last name");
         return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor nameChangePatch() {
@@ -48,7 +49,8 @@ public final class Sponsors {
 
         name = new ContactName("Contact 123", "Last name");
         return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor noContactChannel() {
@@ -56,7 +58,8 @@ public final class Sponsors {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor noYears() {
@@ -76,7 +79,8 @@ public final class Sponsors {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor toCreate() {
@@ -100,7 +104,8 @@ public final class Sponsors {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
 }

@@ -24,7 +24,8 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true,
+            Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact created() {
@@ -52,7 +53,8 @@ public final class MemberContacts {
 
         name = new ContactName("Contact 123", "Last name");
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+            Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact nameChangePatch() {
@@ -60,7 +62,8 @@ public final class MemberContacts {
 
         name = new ContactName("Contact 123", "Last name");
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+            Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact noContactChannel() {
@@ -68,7 +71,8 @@ public final class MemberContacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+            Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact noGames() {
@@ -76,7 +80,8 @@ public final class MemberContacts {
 
         name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+            Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact padded() {
@@ -88,7 +93,8 @@ public final class MemberContacts {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
         return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true,
+            Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
     public static final MemberContact toCreate() {

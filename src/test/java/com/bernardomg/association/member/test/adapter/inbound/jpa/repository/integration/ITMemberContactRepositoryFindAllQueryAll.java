@@ -35,6 +35,7 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -50,7 +51,7 @@ class ITMemberContactRepositoryFindAllQueryAll {
 
     @Test
     @DisplayName("With a member, it is returned")
-    @ValidContact
+    @ActiveMember
     void testFindAll() {
         final Page<MemberContact> members;
         final Pagination          pagination;

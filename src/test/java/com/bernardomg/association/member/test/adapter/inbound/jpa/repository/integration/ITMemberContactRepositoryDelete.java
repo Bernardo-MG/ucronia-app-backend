@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberContactSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -55,7 +55,7 @@ class ITMemberContactRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a member, it is deleted")
-    @ValidContact
+    @ActiveMember
     void testDelete_Active() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
@@ -67,7 +67,7 @@ class ITMemberContactRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a member, the contact is deleted")
-    @ValidContact
+    @ActiveMember
     void testDelete_Active_Contact() {
         // WHEN
         repository.delete(ContactConstants.NUMBER);
