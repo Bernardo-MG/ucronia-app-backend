@@ -24,8 +24,10 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
@@ -73,7 +75,7 @@ public final class QueryMemberContactEntityMapper {
         contacts = data.contactChannels()
             .stream()
             .map(c -> toEntity(c, contactMethods))
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         entity.setContactChannels(contacts);
 
         return entity;

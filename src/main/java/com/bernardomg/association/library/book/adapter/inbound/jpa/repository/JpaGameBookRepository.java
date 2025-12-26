@@ -24,10 +24,12 @@
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -373,7 +375,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         publisherNumbers = domain.publishers()
             .stream()
             .map(Publisher::number)
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         publishers = publisherSpringRepository.findAllByNumberIn(publisherNumbers);
 
         // Donors
@@ -384,10 +386,10 @@ public final class JpaGameBookRepository implements GameBookRepository {
                 .donors()
                 .stream()
                 .map(Donor::number)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
             donors = contactSpringRepository.findAllByNumberIn(donorNumbers);
         } else {
-            donors = List.of();
+            donors = new ArrayList<>();
         }
 
         // Authors

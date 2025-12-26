@@ -24,8 +24,10 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
@@ -86,7 +88,7 @@ public final class UpdateMemberContactEntityMapper {
         contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(contact, c, contactMethods))
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         contact.setContactChannels(contactChannels);
 
         contact.setTypes(contact.getTypes());
