@@ -39,8 +39,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEn
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.QueryMemberEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -79,7 +79,7 @@ class ITMemberRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(QueryMemberEntities.active());
     }
 
     @Test
@@ -120,7 +120,7 @@ class ITMemberRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.inactive());
+            .containsExactly(QueryMemberEntities.inactive());
     }
 
     @Test

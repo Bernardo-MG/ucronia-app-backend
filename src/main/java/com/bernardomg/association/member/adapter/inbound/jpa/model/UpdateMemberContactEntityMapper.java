@@ -73,7 +73,6 @@ public final class UpdateMemberContactEntityMapper {
         final UpdateMemberContactEntity        entity;
         final ContactEntity                    contact;
         final Collection<ContactChannelEntity> contactChannels;
-
         contact = new ContactEntity();
         contact.setNumber(data.number());
         contact.setFirstName(data.name()
@@ -89,6 +88,8 @@ public final class UpdateMemberContactEntityMapper {
             .map(c -> toEntity(contact, c, contactMethods))
             .toList();
         contact.setContactChannels(contactChannels);
+
+        contact.setTypes(contact.getTypes());
 
         entity = new UpdateMemberContactEntity();
         entity.setContact(contact);

@@ -126,6 +126,29 @@ class ITSponsorRepositorySave {
     }
 
     @Test
+    @DisplayName("When the type is removed, the sponsor is not changed")
+    @EmailContactMethod
+    void testSave_RemoveType_NoChange() {
+        final Sponsor                      sponsor;
+        final Iterable<QuerySponsorEntity> entities;
+
+        // GIVEN
+        sponsor = Sponsors.withoutType();
+
+        // WHEN
+        repository.save(sponsor);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QuerySponsorEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("With an sponsor, the created sponsor is returned")
     @EmailContactMethod
     void testSave_ReturnedData() {

@@ -24,12 +24,8 @@
 
 package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
 import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.model.Guest;
@@ -51,56 +47,7 @@ public final class QueryGuestEntityMapper {
             .toList();
 
         return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            new ArrayList<>(entity.getGames()), entity.getComments(), entity.getTypes());
-    }
-
-    public static final QueryGuestEntity toEntity(final Guest data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final QueryGuestEntity                           entity;
-        final Collection<QueryGuestContactChannelEntity> contacts;
-
-        entity = new QueryGuestEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setComments(data.comments());
-        entity.setGames(new ArrayList<>(data.games()));
-
-        contacts = data.contactChannels()
-            .stream()
-            .map(c -> toEntity(c, contactMethods))
-            .toList();
-        entity.setContactChannels(contacts);
-
-        return entity;
-    }
-
-    private static final QueryGuestContactChannelEntity toEntity(final ContactChannel data,
-            final Collection<ContactMethodEntity> concatMethods) {
-        final QueryGuestContactChannelEntity entity;
-        final Optional<ContactMethodEntity>  contactMethod;
-
-        contactMethod = concatMethods.stream()
-            .filter(m -> m.getNumber()
-                .equals(data.contactMethod()
-                    .number()))
-            .findFirst();
-
-        // TODO: do this outside
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.contactMethod()
-                .number());
-        }
-
-        entity = new QueryGuestContactChannelEntity();
-        entity.setContactMethod(contactMethod.get());
-        entity.setDetail(data.detail());
-
-        return entity;
+            entity.getGames(), entity.getComments(), entity.getTypes());
     }
 
     private QueryGuestEntityMapper() {

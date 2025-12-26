@@ -41,6 +41,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberCo
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberContactSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberContact;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -63,6 +64,29 @@ class ITMemberContactRepositorySaveAll {
     }
 
     @Test
+    @DisplayName("With an existing member, the member is persisted")
+    @ActiveMember
+    void testSaveAll_Existing_PersistedData() {
+        final MemberContact                      member;
+        final Iterable<QueryMemberContactEntity> entities;
+
+        // GIVEN
+        member = MemberContacts.active();
+
+        // WHEN
+        repository.saveAll(List.of(member));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QueryMemberContactEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("With a valid member, the member is persisted")
     @EmailContactMethod
     void testSaveAll_PersistedData() {
@@ -71,6 +95,29 @@ class ITMemberContactRepositorySaveAll {
 
         // GIVEN
         member = MemberContacts.active();
+
+        // WHEN
+        repository.saveAll(List.of(member));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QueryMemberContactEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("When the type is removed, the member is not changed")
+    @ActiveMember
+    void testSaveAll_RemoveType_NoChange() {
+        final MemberContact                      member;
+        final Iterable<QueryMemberContactEntity> entities;
+
+        // GIVEN
+        member = MemberContacts.withoutType();
 
         // WHEN
         repository.saveAll(List.of(member));

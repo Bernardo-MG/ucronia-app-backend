@@ -41,6 +41,7 @@ import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntit
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.association.sponsor.test.configuration.factory.QuerySponsorEntities;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -63,6 +64,29 @@ class ITSponsorRepositorySaveAll {
     }
 
     @Test
+    @DisplayName("When a sponsor exists, the contact is persisted")
+    @ValidSponsor
+    void testSaveAll_Existing_PersistedData() {
+        final Sponsor                      sponsor;
+        final Iterable<QuerySponsorEntity> entities;
+
+        // GIVEN
+        sponsor = Sponsors.valid();
+
+        // WHEN
+        repository.saveAll(List.of(sponsor));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QuerySponsorEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("With a valid sponsor, the sponsor is persisted")
     @EmailContactMethod
     void testSaveAll_PersistedData() {
@@ -71,6 +95,29 @@ class ITSponsorRepositorySaveAll {
 
         // GIVEN
         sponsor = Sponsors.valid();
+
+        // WHEN
+        repository.saveAll(List.of(sponsor));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QuerySponsorEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("When the type is removed, the sponsor is not changed")
+    @ValidSponsor
+    void testSaveAll_RemoveType_NoChange() {
+        final Sponsor                      sponsor;
+        final Iterable<QuerySponsorEntity> entities;
+
+        // GIVEN
+        sponsor = Sponsors.withoutType();
 
         // WHEN
         repository.saveAll(List.of(sponsor));

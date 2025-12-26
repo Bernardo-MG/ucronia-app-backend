@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
@@ -48,20 +47,7 @@ public final class QuerySponsorEntityMapper {
             .toList();
 
         return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            new ArrayList<>(entity.getYears()), entity.getComments(), entity.getTypes());
-    }
-
-    public static final QuerySponsorEntity toEntity(final Sponsor data) {
-        final QuerySponsorEntity entity;
-
-        entity = new QuerySponsorEntity();
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setYears(new ArrayList<>(data.years()));
-
-        return entity;
+            entity.getYears(), entity.getComments(), entity.getTypes());
     }
 
     private QuerySponsorEntityMapper() {

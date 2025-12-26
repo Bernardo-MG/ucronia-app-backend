@@ -126,4 +126,16 @@ public final class MemberContacts {
             List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
+    public static final MemberContact withoutType() {
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
+            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of());
+    }
+
 }

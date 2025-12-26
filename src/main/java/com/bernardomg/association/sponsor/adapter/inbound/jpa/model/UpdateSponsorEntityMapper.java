@@ -26,6 +26,7 @@ package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
@@ -63,7 +64,7 @@ public final class UpdateSponsorEntityMapper {
                 .getNumber(),
             name, entity.getContact()
                 .getBirthDate(),
-            contactChannels, new ArrayList<>(entity.getYears()), entity.getContact()
+            contactChannels, entity.getYears(), entity.getContact()
                 .getComments(),
             entity.getContact()
                 .getTypes());
@@ -74,7 +75,6 @@ public final class UpdateSponsorEntityMapper {
         final UpdateSponsorEntity              entity;
         final ContactEntity                    contact;
         final Collection<ContactChannelEntity> contactChannels;
-
         contact = new ContactEntity();
         contact.setNumber(data.number());
         contact.setFirstName(data.name()
@@ -90,6 +90,8 @@ public final class UpdateSponsorEntityMapper {
             .map(c -> toEntity(contact, c, contactMethods))
             .toList();
         contact.setContactChannels(contactChannels);
+
+        contact.setTypes(new HashSet<>(data.types()));
 
         entity = new UpdateSponsorEntity();
         entity.setContact(contact);

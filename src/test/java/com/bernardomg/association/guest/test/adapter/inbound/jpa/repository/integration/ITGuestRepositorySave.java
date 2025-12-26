@@ -126,6 +126,29 @@ class ITGuestRepositorySave {
     }
 
     @Test
+    @DisplayName("When the type is removed, the guest is not changed")
+    @EmailContactMethod
+    void testSave_RemoveType_NoChange() {
+        final Guest                      guest;
+        final Iterable<QueryGuestEntity> entities;
+
+        // GIVEN
+        guest = Guests.withoutType();
+
+        // WHEN
+        repository.save(guest);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QueryGuestEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("With a guest, the created guest is returned")
     @EmailContactMethod
     void testSave_ReturnedData() {

@@ -24,8 +24,12 @@
 
 package com.bernardomg.association.contact.adapter.inbound.jpa.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.contact.domain.model.Contact;
@@ -70,10 +74,10 @@ public final class ContactEntityMapper {
         contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c, contactMethods))
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         entity.setContactChannels(contactChannels);
 
-        entity.setTypes(data.types());
+        entity.setTypes(new HashSet<>(data.types()));
 
         return entity;
     }
@@ -81,6 +85,7 @@ public final class ContactEntityMapper {
     public static final ContactEntity toEntity(final Contact data, final Collection<ContactMethodEntity> contactMethods,
             final ContactEntity entity) {
         final Collection<ContactChannelEntity> contactChannels;
+        final Set<String>                      types;
 
         entity.setNumber(data.number());
         entity.setFirstName(data.name()
@@ -94,10 +99,15 @@ public final class ContactEntityMapper {
         contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c, contactMethods))
-            .toList();
-        entity.setContactChannels(contactChannels);
+            .collect(Collectors.toCollection(ArrayList::new));
+        entity.getContactChannels()
+            .clear();
+        entity.getContactChannels()
+            .addAll(contactChannels);
 
-        entity.setTypes(data.types());
+        types = new HashSet<>(data.types());
+        types.addAll(entity.getTypes());
+        entity.setTypes(types);
 
         return entity;
     }

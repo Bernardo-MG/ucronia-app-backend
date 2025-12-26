@@ -126,6 +126,29 @@ class ITMemberContactRepositorySave {
     }
 
     @Test
+    @DisplayName("When the type is removed, the member is not changed")
+    @ActiveMember
+    void testSave_RemoveType_NoChange() {
+        final MemberContact                      member;
+        final Iterable<QueryMemberContactEntity> entities;
+
+        // GIVEN
+        member = MemberContacts.withoutType();
+
+        // WHEN
+        repository.save(member);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QueryMemberContactEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("With a member, the created member is returned")
     @EmailContactMethod
     void testSave_ReturnedData() {

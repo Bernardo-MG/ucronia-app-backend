@@ -38,8 +38,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMem
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.QueryMemberEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -77,7 +77,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(QueryMemberEntities.active());
     }
 
     @Test
@@ -117,7 +117,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "membership.member")
-            .containsExactly(MemberEntities.inactive());
+            .containsExactly(QueryMemberEntities.inactive());
     }
 
     @Test
@@ -139,7 +139,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(QueryMemberEntities.active());
     }
 
     @Test
@@ -161,7 +161,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.inactive());
+            .containsExactly(QueryMemberEntities.inactive());
     }
 
     @Test
@@ -183,29 +183,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.active());
-    }
-
-    @Test
-    @DisplayName("When a member exists and a member is remove, the member is persisted")
-    @ActiveMember
-    void testSave_Existing_RemoveMember_PersistedData() {
-        final Member                      member;
-        final Iterable<QueryMemberEntity> entities;
-
-        // GIVEN
-        member = Members.active();
-
-        // WHEN
-        repository.save(member);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.active());
+            .containsExactly(QueryMemberEntities.active());
     }
 
     @Test
@@ -245,7 +223,7 @@ class ITMemberRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(MemberEntities.inactive());
+            .containsExactly(QueryMemberEntities.inactive());
     }
 
     @Test

@@ -181,6 +181,9 @@ public final class JpaContactRepository implements ContactRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            // Can't change types manually
+            entity.setTypes(existing.get()
+                .getTypes());
         } else {
             number = contactSpringRepository.findNextNumber();
             entity.setNumber(number);

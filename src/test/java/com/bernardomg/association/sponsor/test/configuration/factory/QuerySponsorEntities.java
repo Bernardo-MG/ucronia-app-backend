@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.sponsor.test.configuration.factory;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,10 +26,10 @@ public final class QuerySponsorEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
+        entity.setContactChannels(new ArrayList<>());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -44,10 +46,10 @@ public final class QuerySponsorEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
+        entity.setContactChannels(new ArrayList<>());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -64,10 +66,10 @@ public final class QuerySponsorEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
+        entity.setContactChannels(new ArrayList<>());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -92,7 +94,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }

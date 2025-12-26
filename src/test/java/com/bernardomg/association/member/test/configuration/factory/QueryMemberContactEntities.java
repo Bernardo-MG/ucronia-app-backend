@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,11 +26,11 @@ public final class QueryMemberContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
+        entity.setContactChannels(new ArrayList<>());
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -45,11 +47,11 @@ public final class QueryMemberContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
+        entity.setContactChannels(new ArrayList<>());
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -66,11 +68,11 @@ public final class QueryMemberContactEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
+        entity.setContactChannels(new ArrayList<>());
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -96,7 +98,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ContactConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }

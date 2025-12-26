@@ -108,4 +108,16 @@ public final class Guests {
             Set.of(GuestEntityConstants.CONTACT_TYPE));
     }
 
+    public static final Guest withoutType() {
+        final ContactName    name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
+
+        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
+        return new Guest(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
+            List.of(contactChannel), List.of(GuestConstants.DATE), ContactConstants.COMMENTS, Set.of());
+    }
+
 }

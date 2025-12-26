@@ -4,7 +4,7 @@ package com.bernardomg.association.member.test.configuration.factory;
 import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
-public final class MemberEntities {
+public final class QueryMemberEntities {
 
     public static final QueryMemberEntity active() {
         final QueryMemberEntity entity;
@@ -62,7 +62,7 @@ public final class MemberEntities {
         return entity;
     }
 
-    private MemberEntities() {
+    private QueryMemberEntities() {
         super();
     }
 

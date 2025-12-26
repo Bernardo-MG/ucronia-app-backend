@@ -36,6 +36,9 @@ import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntit
 import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.contact.domain.model.Contact;
 import com.bernardomg.association.contact.domain.repository.ContactRepository;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ContactWithType;
+import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
+import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.contact.test.configuration.factory.ContactEntities;
 import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -52,7 +55,50 @@ class ITContactRepositorySaveAll {
 
     public ITContactRepositorySaveAll() {
         super();
-        // TODO: test that it updates entities
+    }
+
+    @Test
+    @DisplayName("When a contact exists, the contact is persisted")
+    @ValidContact
+    void testSave_Existing_PersistedData() {
+        final Contact                 contact;
+        final Iterable<ContactEntity> entities;
+
+        // GIVEN
+        contact = Contacts.valid();
+
+        // WHEN
+        repository.saveAll(List.of(contact));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(ContactEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When a contact exists and a type is removed, the contact is not changed")
+    @ContactWithType
+    void testSave_Existing_RemoveContact_NoChange() {
+        final Contact                 contact;
+        final Iterable<ContactEntity> entities;
+
+        // GIVEN
+        contact = Contacts.valid();
+
+        // WHEN
+        repository.saveAll(List.of(contact));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(ContactEntities.withType(ContactConstants.TYPE_MEMBER));
     }
 
     @Test

@@ -41,6 +41,7 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEnti
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.test.configuration.factory.QueryGuestEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -63,6 +64,29 @@ class ITGuestRepositorySaveAll {
     }
 
     @Test
+    @DisplayName("When a guest exists, the contact is persisted")
+    @ValidGuest
+    void testSaveAll_Existing_PersistedData() {
+        final Guest                      guest;
+        final Iterable<QueryGuestEntity> entities;
+
+        // GIVEN
+        guest = Guests.valid();
+
+        // WHEN
+        repository.saveAll(List.of(guest));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QueryGuestEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("With a valid guest, the guest is persisted")
     @EmailContactMethod
     void testSaveAll_PersistedData() {
@@ -71,6 +95,29 @@ class ITGuestRepositorySaveAll {
 
         // GIVEN
         guest = Guests.valid();
+
+        // WHEN
+        repository.saveAll(List.of(guest));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
+                "contactChannels.contactId", "contactChannels.contact")
+            .containsExactly(QueryGuestEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("When the type is removed, the guest is not changed")
+    @ValidGuest
+    void testSaveAll_RemoveType_NoChange() {
+        final Guest                      guest;
+        final Iterable<QueryGuestEntity> entities;
+
+        // GIVEN
+        guest = Guests.withoutType();
 
         // WHEN
         repository.saveAll(List.of(guest));

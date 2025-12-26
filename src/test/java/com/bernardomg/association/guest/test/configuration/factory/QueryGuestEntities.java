@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.guest.test.configuration.factory;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,10 +26,10 @@ public final class QueryGuestEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
-        entity.setGames(List.of(GuestConstants.DATE));
+        entity.setContactChannels(new ArrayList<>());
+        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -44,10 +46,10 @@ public final class QueryGuestEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
-        entity.setGames(List.of(GuestConstants.DATE));
+        entity.setContactChannels(new ArrayList<>());
+        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -64,10 +66,10 @@ public final class QueryGuestEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of());
-        entity.setGames(List.of(GuestConstants.DATE));
+        entity.setContactChannels(new ArrayList<>());
+        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }
@@ -89,10 +91,10 @@ public final class QueryGuestEntities {
         entity.setLastName(ContactConstants.LAST_NAME);
         entity.setBirthDate(ContactConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
-        entity.setContactChannels(List.of(contactChannelEntity));
-        entity.setGames(List.of(GuestConstants.DATE));
+        entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
+        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ContactConstants.COMMENTS);
-        entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
 
         return entity;
     }

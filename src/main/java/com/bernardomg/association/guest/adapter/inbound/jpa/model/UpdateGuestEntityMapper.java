@@ -26,6 +26,7 @@ package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
@@ -63,7 +64,7 @@ public final class UpdateGuestEntityMapper {
                 .getNumber(),
             name, entity.getContact()
                 .getBirthDate(),
-            contactChannels, new ArrayList<>(entity.getGames()), entity.getContact()
+            contactChannels, entity.getGames(), entity.getContact()
                 .getComments(),
             entity.getContact()
                 .getTypes());
@@ -74,7 +75,6 @@ public final class UpdateGuestEntityMapper {
         final UpdateGuestEntity                entity;
         final ContactEntity                    contact;
         final Collection<ContactChannelEntity> contactChannels;
-
         contact = new ContactEntity();
         contact.setNumber(data.number());
         contact.setFirstName(data.name()
@@ -90,6 +90,8 @@ public final class UpdateGuestEntityMapper {
             .map(c -> toEntity(contact, c, contactMethods))
             .toList();
         contact.setContactChannels(contactChannels);
+
+        contact.setTypes(new HashSet<>(data.types()));
 
         entity = new UpdateGuestEntity();
         entity.setContact(contact);

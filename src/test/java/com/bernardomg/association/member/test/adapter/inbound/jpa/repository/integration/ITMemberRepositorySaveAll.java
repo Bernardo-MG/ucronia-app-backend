@@ -40,8 +40,9 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEn
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.QueryMemberEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,6 +63,28 @@ class ITMemberRepositorySaveAll {
     }
 
     @Test
+    @DisplayName("With an existing member, the member is persisted")
+    @ActiveMember
+    void testSave_Existing_PersistedData() {
+        final Member                      member;
+        final Iterable<QueryMemberEntity> entities;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        repository.saveAll(List.of(member));
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(QueryMemberEntities.created());
+    }
+
+    @Test
     @DisplayName("With a valid member, the member is persisted")
     void testSave_PersistedData() {
         final Member                      member;
@@ -79,7 +102,7 @@ class ITMemberRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
-            .containsExactly(MemberEntities.created());
+            .containsExactly(QueryMemberEntities.created());
     }
 
     @Test
