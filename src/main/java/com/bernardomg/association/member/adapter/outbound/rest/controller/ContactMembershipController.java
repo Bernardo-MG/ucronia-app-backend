@@ -52,7 +52,7 @@ public class ContactMembershipController implements ContactMembershipApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
     public MemberResponseDto convertToMember(final Long number) {
         final Member created;
 

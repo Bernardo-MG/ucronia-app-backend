@@ -98,6 +98,13 @@ permissions:
       - update
       - delete
       - view
+  - resource: member_contact
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: sponsor
     actions:
       - create

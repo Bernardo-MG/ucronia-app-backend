@@ -69,7 +69,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
     public MemberContactResponseDto createMemberContact(@Valid final MemberContactCreationDto guestCreationDto) {
         final MemberContact guest;
         final MemberContact created;
@@ -81,7 +81,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.DELETE)
     public MemberContactResponseDto deleteMemberContact(final Long number) {
         final MemberContact guest;
 
@@ -91,7 +91,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
     public MemberContactPageResponseDto getAllMemberContacts(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
@@ -118,7 +118,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
     public MemberContactResponseDto getMemberContactByNumber(final Long number) {
         Optional<MemberContact> member;
 
@@ -128,7 +128,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
     public MemberContactResponseDto patchMemberContact(final Long number,
             @Valid final MemberContactChangeDto guestChangeDto) {
         final MemberContact member;
@@ -141,7 +141,7 @@ public class MemberContactController implements MemberContactApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
     public MemberContactResponseDto updateMemberContact(final Long number,
             @Valid final MemberContactChangeDto guestChangeDto) {
         final MemberContact member;
