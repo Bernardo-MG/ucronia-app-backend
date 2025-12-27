@@ -45,6 +45,7 @@ public final class AssociationPersistenceSettingsSource implements AssociationSe
 
     @Override
     public final Float getFeeAmount() {
+        // TODO: throw exception if the setting is missing
         return settingsRepository.getFloat(AssociationSettingsKey.FEE_AMOUNT);
     }
 
