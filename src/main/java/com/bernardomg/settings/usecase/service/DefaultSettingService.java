@@ -81,10 +81,10 @@ public final class DefaultSettingService implements SettingService {
 
         log.debug("Updating code {} with value {}", code, value);
 
-        existing = settingRepository.findOne(code)
+        existing = settingRepository.findOne(code.trim())
             .orElseThrow(() -> {
-                log.error("Missing configuration {}", code);
-                throw new MissingSettingException(code);
+                log.error("Missing configuration {}", code.trim());
+                throw new MissingSettingException(code.trim());
             });
 
         toSave = new Setting(existing.type(), code, value);
