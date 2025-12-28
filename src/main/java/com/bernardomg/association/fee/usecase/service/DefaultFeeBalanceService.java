@@ -27,7 +27,6 @@ package com.bernardomg.association.fee.usecase.service;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,20 +66,18 @@ public final class DefaultFeeBalanceService implements FeeBalanceService {
         final long            unpaid;
         final FeeBalance      report;
 
-        log.info("Getting payment report");
+        log.info("Getting fee balance");
 
         // TODO: user a smaller query
         fees = feeRepository.findAllInMonth(YearMonth.now());
         paid = fees.stream()
             .filter(Fee::paid)
             .count();
-        unpaid = fees.stream()
-            .filter(Predicate.not(Fee::paid))
-            .count();
+        unpaid = fees.size() - paid;
 
         report = new FeeBalance(paid, unpaid);
 
-        log.debug("Got payment report: {}", report);
+        log.debug("Got fee balance: {}", report);
 
         return report;
     }
