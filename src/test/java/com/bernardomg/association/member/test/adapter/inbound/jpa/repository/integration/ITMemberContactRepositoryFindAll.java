@@ -30,14 +30,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -54,7 +54,7 @@ class ITMemberContactRepositoryFindAll {
     @DisplayName("With an active member and filtering by active, it is returned")
     @ActiveMember
     void testFindAll_Active_Active() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -78,7 +78,7 @@ class ITMemberContactRepositoryFindAll {
     @DisplayName("With an inactive member and filtering by active, nothing is returned")
     @InactiveMember
     void testFindAll_Active_Inactive() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -101,7 +101,7 @@ class ITMemberContactRepositoryFindAll {
     @Test
     @DisplayName("With no member and filtering by active, nothing is returned")
     void testFindAll_Active_NoData() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -122,10 +122,10 @@ class ITMemberContactRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a contact with no member role and filtering by active, nothing is returned")
-    @ValidContact
+    @DisplayName("With a profile with no member role and filtering by active, nothing is returned")
+    @ValidProfile
     void testFindAll_Active_WithoutMembership() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -149,7 +149,7 @@ class ITMemberContactRepositoryFindAll {
     @DisplayName("With an active member and filtering by all, it is returned")
     @ActiveMember
     void testFindAll_All_Active() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -173,7 +173,7 @@ class ITMemberContactRepositoryFindAll {
     @DisplayName("With an inactive member and filtering by all, it is returned")
     @InactiveMember
     void testFindAll_All_Inactive() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -196,7 +196,7 @@ class ITMemberContactRepositoryFindAll {
     @Test
     @DisplayName("With no member and filtering by all, nothing is returned")
     void testFindAll_All_NoData() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -217,10 +217,10 @@ class ITMemberContactRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a contact with no member role and filtering by all, it is returned")
-    @ValidContact
+    @DisplayName("With a profile with no member role and filtering by all, it is returned")
+    @ValidProfile
     void testFindAll_All_WithoutMembership() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -244,7 +244,7 @@ class ITMemberContactRepositoryFindAll {
     @DisplayName("With an active member and filtering by inactive, nothing is returned")
     @ActiveMember
     void testFindAll_Inactive_Active() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -268,7 +268,7 @@ class ITMemberContactRepositoryFindAll {
     @DisplayName("With an inactive member and filtering by inactive, it is returned")
     @InactiveMember
     void testFindAll_Inactive_Inactive() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -291,7 +291,7 @@ class ITMemberContactRepositoryFindAll {
     @Test
     @DisplayName("With no member and filtering by inactive, nothing is returned")
     void testFindAll_Inactive_NoData() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -312,10 +312,10 @@ class ITMemberContactRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a contact with no member role and filtering by inactive, nothing is returned")
-    @ValidContact
+    @DisplayName("With a profile with no member role and filtering by inactive, nothing is returned")
+    @ValidProfile
     void testFindAll_Inactive_WithoutMembership() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;

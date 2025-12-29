@@ -31,12 +31,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 /**
  * Default implementation of the member service.
@@ -53,29 +53,29 @@ public final class DefaultContactMembershipService implements ContactMembershipS
      */
     private static final Logger     log = LoggerFactory.getLogger(DefaultContactMembershipService.class);
 
-    private final ContactRepository contactRepository;
-
     private final MemberRepository  memberRepository;
 
-    public DefaultContactMembershipService(final MemberRepository memberRepo, final ContactRepository contactRepo) {
+    private final ProfileRepository profileRepository;
+
+    public DefaultContactMembershipService(final MemberRepository memberRepo, final ProfileRepository profileRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
-        contactRepository = Objects.requireNonNull(contactRepo);
+        profileRepository = Objects.requireNonNull(profileRepo);
     }
 
     @Override
     public final Member convertToMember(final long number) {
-        final Contact existingContact;
+        final Profile existingContact;
         final Member  toCreate;
         final Member  created;
 
         log.debug("Converting contact {} to member", number);
 
-        existingContact = contactRepository.findOne(number)
+        existingContact = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing contact {}", number);
-                throw new MissingContactException(number);
+                throw new MissingProfileException(number);
             });
 
         if (memberRepository.exists(number)) {

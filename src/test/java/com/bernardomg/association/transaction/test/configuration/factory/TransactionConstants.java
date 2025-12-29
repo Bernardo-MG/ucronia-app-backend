@@ -29,11 +29,11 @@ public final class TransactionConstants {
 
     public static final String    DESCRIPTION                      = "Transaction";
 
-    public static final String    DESCRIPTION_FEE_DECEMBER_JANUARY = "Cuota de Contact 1 Last name 1 para Diciembre 2020, Enero 2021";
+    public static final String    DESCRIPTION_FEE_DECEMBER_JANUARY = "Cuota de Profile 1 Last name 1 para Diciembre 2020, Enero 2021";
 
-    public static final String    DESCRIPTION_FEE_FEBRUARY         = "Cuota de Contact 1 Last name 1 para Febrero 2020";
+    public static final String    DESCRIPTION_FEE_FEBRUARY         = "Cuota de Profile 1 Last name 1 para Febrero 2020";
 
-    public static final String    DESCRIPTION_FEE_FEBRUARY_MARCH   = "Cuota de Contact 1 Last name 1 para Febrero 2020, Marzo 2020";
+    public static final String    DESCRIPTION_FEE_FEBRUARY_MARCH   = "Cuota de Profile 1 Last name 1 para Febrero 2020, Marzo 2020";
 
     public static final Instant   END_DATE                         = LocalDate.of(2021, Month.JANUARY, 1)
         .atStartOfDay(ZoneOffset.UTC)

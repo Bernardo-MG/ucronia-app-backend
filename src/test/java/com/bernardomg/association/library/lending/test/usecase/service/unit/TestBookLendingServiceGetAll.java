@@ -37,12 +37,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -58,7 +58,7 @@ class TestBookLendingServiceGetAll {
     private BookRepository            bookRepository;
 
     @Mock
-    private ContactRepository         contactRepository;
+    private ProfileRepository         profileRepository;
 
     @InjectMocks
     private DefaultBookLendingService service;

@@ -27,7 +27,7 @@ package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,7 +50,7 @@ public class QueryGuestContactChannelEntity implements Serializable {
     private static final long   serialVersionUID = -3239435918896603554L;
 
     @ManyToOne
-    @JoinColumn(name = "contact_method_id", nullable = false)
+    @JoinColumn(name = "profile_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
 
     @Column(name = "detail", nullable = false)

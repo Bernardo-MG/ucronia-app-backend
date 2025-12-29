@@ -31,7 +31,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.usecase.service.ContactMembershipService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ContactMembershipApi;
+import com.bernardomg.ucronia.openapi.api.ProfileMembershipApi;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
 
 /**
@@ -41,7 +41,7 @@ import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
  *
  */
 @RestController
-public class ContactMembershipController implements ContactMembershipApi {
+public class ContactMembershipController implements ProfileMembershipApi {
 
     private final ContactMembershipService service;
 

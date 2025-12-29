@@ -29,22 +29,22 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberContactDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberProfileDtoMapper;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.usecase.service.MemberContactService;
+import com.bernardomg.association.member.usecase.service.MemberProfileService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MemberContactApi;
-import com.bernardomg.ucronia.openapi.model.MemberContactChangeDto;
-import com.bernardomg.ucronia.openapi.model.MemberContactCreationDto;
-import com.bernardomg.ucronia.openapi.model.MemberContactPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberContactResponseDto;
+import com.bernardomg.ucronia.openapi.api.MemberProfileApi;
+import com.bernardomg.ucronia.openapi.model.MemberProfileChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberProfileCreationDto;
+import com.bernardomg.ucronia.openapi.model.MemberProfilePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberProfileResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
 
 import jakarta.validation.Valid;
@@ -52,17 +52,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
 /**
- * MemberContact REST controller.
+ * MemberProfile REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-public class MemberContactController implements MemberContactApi {
+public class MemberContactController implements MemberProfileApi {
 
-    private final MemberContactService service;
+    private final MemberProfileService service;
 
-    public MemberContactController(final MemberContactService service) {
+    public MemberContactController(final MemberProfileService service) {
         super();
 
         this.service = service;
@@ -70,35 +70,35 @@ public class MemberContactController implements MemberContactApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
-    public MemberContactResponseDto createMemberContact(@Valid final MemberContactCreationDto guestCreationDto) {
-        final MemberContact guest;
-        final MemberContact created;
+    public MemberProfileResponseDto createMemberProfile(@Valid final MemberProfileCreationDto guestCreationDto) {
+        final MemberProfile guest;
+        final MemberProfile created;
 
-        guest = MemberContactDtoMapper.toDomain(guestCreationDto);
+        guest = MemberProfileDtoMapper.toDomain(guestCreationDto);
         created = service.create(guest);
 
-        return MemberContactDtoMapper.toResponseDto(created);
+        return MemberProfileDtoMapper.toResponseDto(created);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.DELETE)
-    public MemberContactResponseDto deleteMemberContact(final Long number) {
-        final MemberContact guest;
+    public MemberProfileResponseDto deleteMemberProfile(final Long number) {
+        final MemberProfile guest;
 
         guest = service.delete(number);
 
-        return MemberContactDtoMapper.toResponseDto(guest);
+        return MemberProfileDtoMapper.toResponseDto(guest);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
-    public MemberContactPageResponseDto getAllMemberContacts(@Min(1) @Valid final Integer page,
+    public MemberProfilePageResponseDto getAllMemberProfiles(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
             @Valid final MemberStatusDto status, @Valid final String name) {
         final Pagination          pagination;
         final Sorting             sorting;
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final MemberStatus        memberStatus;
         final MemberFilter        filter;
 
@@ -114,43 +114,43 @@ public class MemberContactController implements MemberContactApi {
 
         members = service.getAll(filter, pagination, sorting);
 
-        return MemberContactDtoMapper.toResponseDto(members);
+        return MemberProfileDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
-    public MemberContactResponseDto getMemberContactByNumber(final Long number) {
-        Optional<MemberContact> member;
+    public MemberProfileResponseDto getMemberProfileByNumber(final Long number) {
+        Optional<MemberProfile> member;
 
         member = service.getOne(number);
 
-        return MemberContactDtoMapper.toResponseDto(member);
+        return MemberProfileDtoMapper.toResponseDto(member);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
-    public MemberContactResponseDto patchMemberContact(final Long number,
-            @Valid final MemberContactChangeDto guestChangeDto) {
-        final MemberContact member;
-        final MemberContact updated;
+    public MemberProfileResponseDto patchMemberProfile(final Long number,
+            @Valid final MemberProfileChangeDto guestChangeDto) {
+        final MemberProfile member;
+        final MemberProfile updated;
 
-        member = MemberContactDtoMapper.toDomain(number, guestChangeDto);
+        member = MemberProfileDtoMapper.toDomain(number, guestChangeDto);
         updated = service.patch(member);
 
-        return MemberContactDtoMapper.toResponseDto(updated);
+        return MemberProfileDtoMapper.toResponseDto(updated);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
-    public MemberContactResponseDto updateMemberContact(final Long number,
-            @Valid final MemberContactChangeDto guestChangeDto) {
-        final MemberContact member;
-        final MemberContact updated;
+    public MemberProfileResponseDto updateMemberProfile(final Long number,
+            @Valid final MemberProfileChangeDto guestChangeDto) {
+        final MemberProfile member;
+        final MemberProfile updated;
 
-        member = MemberContactDtoMapper.toDomain(number, guestChangeDto);
+        member = MemberProfileDtoMapper.toDomain(number, guestChangeDto);
         updated = service.update(member);
 
-        return MemberContactDtoMapper.toResponseDto(updated);
+        return MemberProfileDtoMapper.toResponseDto(updated);
     }
 
 }

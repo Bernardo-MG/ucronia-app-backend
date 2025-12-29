@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -39,14 +39,14 @@ public interface MemberContactRepository {
 
     public boolean exists(final long number);
 
-    public Page<MemberContact> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<MemberProfile> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
-    public Optional<MemberContact> findOne(final Long number);
+    public Optional<MemberProfile> findOne(final Long number);
 
-    public MemberContact save(final MemberContact member);
+    public MemberProfile save(final MemberProfile member);
 
-    public MemberContact save(final MemberContact member, final long number);
+    public MemberProfile save(final MemberProfile member, final long number);
 
-    public Collection<MemberContact> saveAll(final Collection<MemberContact> members);
+    public Collection<MemberProfile> saveAll(final Collection<MemberProfile> members);
 
 }

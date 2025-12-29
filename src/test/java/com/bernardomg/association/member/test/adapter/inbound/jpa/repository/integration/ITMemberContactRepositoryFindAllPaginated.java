@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
@@ -45,7 +45,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 @IntegrationTest
 @DisplayName("MemberContactRepository - find all public - pagination")
 @MultipleActiveMember
-class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<MemberContact> {
+class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<MemberProfile> {
 
     @Autowired
     private MemberContactRepository repository;
@@ -55,14 +55,14 @@ class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
     }
 
     @Override
-    protected final Page<MemberContact> read(final Pagination pagination, final Sorting sorting) {
+    protected final Page<MemberProfile> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAll(new MemberFilter(MemberStatus.ALL, ""), pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -85,7 +85,7 @@ class ITMemberContactRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;

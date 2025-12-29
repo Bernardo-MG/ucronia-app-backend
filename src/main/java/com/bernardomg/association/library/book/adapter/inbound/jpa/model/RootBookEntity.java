@@ -27,9 +27,9 @@ package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 import java.time.Instant;
 import java.util.Collection;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -64,7 +64,7 @@ public abstract class RootBookEntity {
     @JoinTable(schema = "inventory", name = "book_donors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "donor_id", referencedColumnName = "id") })
-    private Collection<ContactEntity>   donors;
+    private Collection<ProfileEntity>   donors;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,7 +106,7 @@ public abstract class RootBookEntity {
         return donationDate;
     }
 
-    public Collection<ContactEntity> getDonors() {
+    public Collection<ProfileEntity> getDonors() {
         return donors;
     }
 
@@ -154,7 +154,7 @@ public abstract class RootBookEntity {
         this.donationDate = donationDate;
     }
 
-    public void setDonors(final Collection<ContactEntity> donors) {
+    public void setDonors(final Collection<ProfileEntity> donors) {
         this.donors = donors;
     }
 

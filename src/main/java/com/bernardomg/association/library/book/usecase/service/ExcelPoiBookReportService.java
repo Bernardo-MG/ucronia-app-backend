@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
@@ -54,6 +53,7 @@ import com.bernardomg.association.library.book.domain.repository.GameBookReposit
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
 
@@ -352,7 +352,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
-                    .map(ContactName::fullName)
+                    .map(ProfileName::fullName)
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(style);
 
@@ -461,7 +461,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
-                    .map(ContactName::fullName)
+                    .map(ProfileName::fullName)
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(style);
 

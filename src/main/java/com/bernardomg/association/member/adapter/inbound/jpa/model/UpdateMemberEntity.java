@@ -4,7 +4,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -34,7 +34,7 @@ public class UpdateMemberEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ContactEntity     contact;
+    private ProfileEntity     contact;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,7 +59,7 @@ public class UpdateMemberEntity implements Serializable {
         return active;
     }
 
-    public ContactEntity getContact() {
+    public ProfileEntity getContact() {
         return contact;
     }
 
@@ -80,7 +80,7 @@ public class UpdateMemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setContact(final ContactEntity contact) {
+    public void setContact(final ProfileEntity contact) {
         this.contact = contact;
     }
 

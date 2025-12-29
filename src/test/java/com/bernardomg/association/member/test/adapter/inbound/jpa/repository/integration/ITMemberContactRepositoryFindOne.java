@@ -31,12 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,10 +50,10 @@ class ITMemberContactRepositoryFindOne {
     @DisplayName("With a member, it is returned")
     @ActiveMember
     void testFindOne() {
-        final Optional<MemberContact> member;
+        final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -63,10 +63,10 @@ class ITMemberContactRepositoryFindOne {
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<MemberContact> member;
+        final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -75,12 +75,12 @@ class ITMemberContactRepositoryFindOne {
 
     @Test
     @DisplayName("With a member with no member role, it returns nothing")
-    @ValidContact
+    @ValidProfile
     void testFindOne_NoMembership() {
-        final Optional<MemberContact> member;
+        final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ContactConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)

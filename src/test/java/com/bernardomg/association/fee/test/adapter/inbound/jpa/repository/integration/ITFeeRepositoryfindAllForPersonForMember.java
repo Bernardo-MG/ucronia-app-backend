@@ -33,7 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
@@ -43,14 +42,15 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameActiveMember;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - find all for contact")
-class ITFeeRepositoryfindAllForContactForMember {
+@DisplayName("FeeRepository - find all for profile")
+class ITFeeRepositoryfindAllForProfileForMember {
 
     @Autowired
     private FeeRepository repository;
@@ -59,7 +59,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With a full year it returns all the fees")
     @ActiveMember
     @FeeFullYear
-    void testFindAllForContact_Active_FullYear() {
+    void testFindAllForProfile_Active_FullYear() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -69,7 +69,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -87,7 +87,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @Test
     @DisplayName("With no data it returns nothing")
     @ActiveMember
-    void testFindAllForContact_Active_NoFee() {
+    void testFindAllForProfile_Active_NoFee() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -97,7 +97,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -111,7 +111,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With no last name it returns only the name")
     @NoLastNameActiveMember
     @PaidFee
-    void testFindAllForContact_Active_NoLastName() {
+    void testFindAllForProfile_Active_NoLastName() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -121,7 +121,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -135,7 +135,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With a not paid fee, for an active member, it returns all the fees")
     @ActiveMember
     @NotPaidFee
-    void testFindAllForContact_Active_NotPaid() {
+    void testFindAllForProfile_Active_NotPaid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -145,7 +145,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -159,7 +159,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With a paid fee, for an active member, it returns all the fees")
     @ActiveMember
     @PaidFee
-    void testFindAllForContact_Active_Paid() {
+    void testFindAllForProfile_Active_Paid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -169,7 +169,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -183,7 +183,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With a wrong member it returns nothing")
     @ActiveMember
     @PaidFee
-    void testFindAllForContact_Active_WrongMember() {
+    void testFindAllForProfile_Active_WrongMember() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -193,7 +193,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(-1L, pagination, sorting);
+        fees = repository.findAllForProfile(-1L, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -207,7 +207,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With a not paid fee, for an inactive member, it returns all the fees")
     @InactiveMember
     @NotPaidFee
-    void testFindAllForContact_Inactive_NotPaid() {
+    void testFindAllForProfile_Inactive_NotPaid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -217,7 +217,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -231,7 +231,7 @@ class ITFeeRepositoryfindAllForContactForMember {
     @DisplayName("With a paid fee, for an inactive member, it returns all the fees")
     @InactiveMember
     @PaidFee
-    void testFindAllForContact_Inactive_Paid() {
+    void testFindAllForProfile_Inactive_Paid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -241,7 +241,7 @@ class ITFeeRepositoryfindAllForContactForMember {
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForContact(ContactConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

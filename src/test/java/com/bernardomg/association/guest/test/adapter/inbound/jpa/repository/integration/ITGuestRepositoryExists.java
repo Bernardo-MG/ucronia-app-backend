@@ -29,10 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,7 +49,7 @@ class ITGuestRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -63,7 +63,7 @@ class ITGuestRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -73,12 +73,12 @@ class ITGuestRepositoryExists {
 
     @Test
     @DisplayName("With no guest role, nothing exists")
-    @ValidContact
+    @ValidProfile
     void testExists_NoGuest() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

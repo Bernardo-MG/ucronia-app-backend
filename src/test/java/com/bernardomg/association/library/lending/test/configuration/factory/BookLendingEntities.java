@@ -9,7 +9,7 @@ public final class BookLendingEntities {
     public static final BookLendingEntity lent() {
         final BookLendingEntity entity = new BookLendingEntity();
         entity.setBookId(1L);
-        entity.setContactId(1L);
+        entity.setProfileId(1L);
         entity.setLendingDate(BookConstants.LENT_DATE);
         return entity;
     }
@@ -17,7 +17,7 @@ public final class BookLendingEntities {
     public static final BookLendingEntity returned() {
         final BookLendingEntity entity = new BookLendingEntity();
         entity.setBookId(1L);
-        entity.setContactId(1L);
+        entity.setProfileId(1L);
         entity.setLendingDate(BookConstants.LENT_DATE);
         entity.setReturnDate(BookConstants.RETURNED_DATE);
         return entity;

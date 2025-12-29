@@ -26,9 +26,9 @@ package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.util.Collection;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Query guest entity mapper.
@@ -36,10 +36,10 @@ import com.bernardomg.association.guest.domain.model.Guest;
 public final class QueryGuestEntityMapper {
 
     public static final Guest toDomain(final QueryGuestEntity entity) {
-        final ContactName                name;
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()

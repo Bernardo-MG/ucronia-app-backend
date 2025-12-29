@@ -29,14 +29,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Update guest entity mapper.
@@ -44,10 +44,10 @@ import com.bernardomg.association.guest.domain.model.Guest;
 public final class UpdateGuestEntityMapper {
 
     public static final Guest toDomain(final UpdateGuestEntity entity) {
-        final ContactName                name;
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(entity.getContact()
+        name = new ProfileName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
@@ -73,28 +73,28 @@ public final class UpdateGuestEntityMapper {
     public static final UpdateGuestEntity toEntity(final Guest data,
             final Collection<ContactMethodEntity> contactMethods) {
         final UpdateGuestEntity                entity;
-        final ContactEntity                    contact;
+        final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
-        contact = new ContactEntity();
-        contact.setNumber(data.number());
-        contact.setFirstName(data.name()
+        profile = new ProfileEntity();
+        profile.setNumber(data.number());
+        profile.setFirstName(data.name()
             .firstName());
-        contact.setLastName(data.name()
+        profile.setLastName(data.name()
             .lastName());
-        contact.setIdentifier(data.identifier());
-        contact.setBirthDate(data.birthDate());
-        contact.setComments(data.comments());
+        profile.setIdentifier(data.identifier());
+        profile.setBirthDate(data.birthDate());
+        profile.setComments(data.comments());
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(contact, c, contactMethods))
+            .map(c -> toEntity(profile, c, contactMethods))
             .toList();
-        contact.setContactChannels(contactChannels);
+        profile.setContactChannels(contactChannels);
 
-        contact.setTypes(new HashSet<>(data.types()));
+        profile.setTypes(new HashSet<>(data.types()));
 
         entity = new UpdateGuestEntity();
-        entity.setContact(contact);
+        entity.setContact(profile);
         entity.setGames(new ArrayList<>(data.games()));
 
         return entity;
@@ -113,7 +113,7 @@ public final class UpdateGuestEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;

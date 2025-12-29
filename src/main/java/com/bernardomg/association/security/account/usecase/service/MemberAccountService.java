@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.security.account.domain.model.ContactAccount;
-import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount;
+import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
@@ -51,15 +51,15 @@ public final class MemberAccountService implements AccountService {
      */
     private static final Logger         log = LoggerFactory.getLogger(MemberAccountService.class);
 
-    private final UserContactRepository userContactRepository;
+    private final UserProfileRepository userProfileRepository;
 
     private final AccountService        wrapped;
 
-    public MemberAccountService(final AccountService wrppd, final UserContactRepository userContactRepo) {
+    public MemberAccountService(final AccountService wrppd, final UserProfileRepository userProfileRepo) {
         super();
 
         wrapped = Objects.requireNonNull(wrppd);
-        userContactRepository = Objects.requireNonNull(userContactRepo);
+        userProfileRepository = Objects.requireNonNull(userProfileRepo);
     }
 
     @Override
@@ -67,22 +67,22 @@ public final class MemberAccountService implements AccountService {
         final Optional<Account> wrappedAccount;
         final Optional<Account> result;
         final Account           account;
-        final Optional<Contact> contact;
+        final Optional<Profile> profile;
 
         log.debug("Getting account for user in session");
 
         wrappedAccount = wrapped.getCurrentUser();
         if (wrappedAccount.isPresent()) {
-            contact = userContactRepository.findByUsername(wrappedAccount.get()
+            profile = userProfileRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
-            account = new ContactAccount(wrappedAccount.get()
+            account = new ProfileAccount(wrappedAccount.get()
                 .getEmail(),
                 wrappedAccount.get()
                     .getUsername(),
                 wrappedAccount.get()
                     .getName(),
-                contact.orElse(null));
+                profile.orElse(null));
             result = Optional.of(account);
         } else {
             log.debug("Missing authentication object");

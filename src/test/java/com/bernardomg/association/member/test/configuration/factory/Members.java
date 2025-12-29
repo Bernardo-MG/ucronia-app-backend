@@ -1,93 +1,93 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class Members {
 
     public static final Member active() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Member(ContactConstants.NUMBER, name, true, true);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Member(ProfileConstants.NUMBER, name, true, true);
     }
 
     public static final Member activeNoRenew() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Member(ContactConstants.NUMBER, name, true, false);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Member(ProfileConstants.NUMBER, name, true, false);
     }
 
     public static final Member alternativeActive() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
-        return new Member(ContactConstants.ALTERNATIVE_NUMBER, name, true, true);
+        name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
+        return new Member(ProfileConstants.ALTERNATIVE_NUMBER, name, true, true);
     }
 
     public static final Member alternativeInactive() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.ALTERNATIVE_FIRST_NAME, ContactConstants.ALTERNATIVE_LAST_NAME);
-        return new Member(ContactConstants.ALTERNATIVE_NUMBER, name, false, true);
+        name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
+        return new Member(ProfileConstants.ALTERNATIVE_NUMBER, name, false, true);
     }
 
     public static final Member created() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new Member(1L, name, true, true);
     }
 
     public static final Member forNumber(final long number) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName("Contact " + number, "Last name " + number);
+        name = new ProfileName("Profile " + number, "Last name " + number);
         return new Member(number * 10, name, true, true);
     }
 
     public static final Member inactive() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Member(ContactConstants.NUMBER, name, false, true);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Member(ProfileConstants.NUMBER, name, false, true);
     }
 
     public static final Member inactiveNoRenew() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Member(ContactConstants.NUMBER, name, false, false);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Member(ProfileConstants.NUMBER, name, false, false);
     }
 
     public static final Member nameChange() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName("Contact 123", "Last name");
-        return new Member(ContactConstants.NUMBER, name, true, true);
+        name = new ProfileName("Profile 123", "Last name");
+        return new Member(ProfileConstants.NUMBER, name, true, true);
     }
 
     public static final Member nameChangePatch() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName("Contact 123", "Last name");
-        return new Member(ContactConstants.NUMBER, name, null, null);
+        name = new ProfileName("Profile 123", "Last name");
+        return new Member(ProfileConstants.NUMBER, name, null, null);
     }
 
     public static final Member padded() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
-        return new Member(ContactConstants.NUMBER, name, true, true);
+        name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
+        return new Member(ProfileConstants.NUMBER, name, true, true);
     }
 
     public static final Member toCreate() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new Member(0L, name, true, true);
     }
 

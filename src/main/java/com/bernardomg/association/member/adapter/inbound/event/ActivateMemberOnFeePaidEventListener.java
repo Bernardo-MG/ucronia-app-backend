@@ -62,9 +62,9 @@ public final class ActivateMemberOnFeePaidEventListener implements EventListener
 
     @Override
     public final void handle(final FeePaidEvent event) {
-        log.debug("Handling fee paid event at {} for member with number {}", event.getDate(), event.getContactNumber());
-        memberStatusService.activate(event.getDate(), event.getContactNumber());
-        log.debug("Handled fee paid event at {} for member with number {}", event.getDate(), event.getContactNumber());
+        log.debug("Handling fee paid event at {} for member with number {}", event.getDate(), event.getProfileNumber());
+        memberStatusService.activate(event.getDate(), event.getProfileNumber());
+        log.debug("Handled fee paid event at {} for member with number {}", event.getDate(), event.getProfileNumber());
     }
 
 }

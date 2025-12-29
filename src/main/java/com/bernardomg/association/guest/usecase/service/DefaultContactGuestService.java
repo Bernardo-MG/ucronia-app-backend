@@ -32,12 +32,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 /**
  * Default implementation of the guest service.
@@ -54,29 +54,29 @@ public final class DefaultContactGuestService implements ContactGuestService {
      */
     private static final Logger     log = LoggerFactory.getLogger(DefaultContactGuestService.class);
 
-    private final ContactRepository contactRepository;
-
     private final GuestRepository   guestRepository;
 
-    public DefaultContactGuestService(final GuestRepository guestRepo, final ContactRepository contactRepo) {
+    private final ProfileRepository profileRepository;
+
+    public DefaultContactGuestService(final GuestRepository guestRepo, final ProfileRepository profileRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);
-        contactRepository = Objects.requireNonNull(contactRepo);
+        profileRepository = Objects.requireNonNull(profileRepo);
     }
 
     @Override
     public final Guest convertToGuest(final long number) {
-        final Contact existing;
+        final Profile existing;
         final Guest   toCreate;
         final Guest   created;
 
-        log.debug("Converting contact {} to guest", number);
+        log.debug("Converting profile {} to guest", number);
 
-        existing = contactRepository.findOne(number)
+        existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing contact {}", number);
-                throw new MissingContactException(number);
+                log.error("Missing profile {}", number);
+                throw new MissingProfileException(number);
             });
 
         if (guestRepository.exists(number)) {
@@ -88,7 +88,7 @@ public final class DefaultContactGuestService implements ContactGuestService {
 
         created = guestRepository.save(toCreate, number);
 
-        log.debug("Converted contact {} to guest", number);
+        log.debug("Converted profile {} to guest", number);
 
         return created;
     }

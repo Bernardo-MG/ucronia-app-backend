@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.sponsor.adapter.outbound.rest.model.SponsorDtoMapper;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.usecase.service.ContactSponsorshipService;
+import com.bernardomg.association.sponsor.usecase.service.ProfileSponsorshipService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.ContactSponsorshipApi;
@@ -43,9 +43,9 @@ import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
 @RestController
 public class ContactSponsorshipController implements ContactSponsorshipApi {
 
-    private final ContactSponsorshipService service;
+    private final ProfileSponsorshipService service;
 
-    public ContactSponsorshipController(final ContactSponsorshipService service) {
+    public ContactSponsorshipController(final ProfileSponsorshipService service) {
         super();
 
         this.service = service;

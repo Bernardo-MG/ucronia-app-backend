@@ -29,10 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,7 +49,7 @@ class ITMemberContactRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -63,7 +63,7 @@ class ITMemberContactRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -72,13 +72,13 @@ class ITMemberContactRepositoryExists {
     }
 
     @Test
-    @DisplayName("With a contact with no member role, nothing exists")
-    @ValidContact
+    @DisplayName("With a profile with no member role, nothing exists")
+    @ValidProfile
     void testExists_NoMembership() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

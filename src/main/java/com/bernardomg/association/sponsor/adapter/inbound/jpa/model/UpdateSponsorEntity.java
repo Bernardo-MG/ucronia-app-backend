@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -35,7 +35,7 @@ public class UpdateSponsorEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ContactEntity       contact;
+    private ProfileEntity       contact;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +58,7 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ContactEntity getContact() {
+    public ProfileEntity getContact() {
         return contact;
     }
 
@@ -75,7 +75,7 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setContact(final ContactEntity contact) {
+    public void setContact(final ProfileEntity contact) {
         this.contact = contact;
     }
 

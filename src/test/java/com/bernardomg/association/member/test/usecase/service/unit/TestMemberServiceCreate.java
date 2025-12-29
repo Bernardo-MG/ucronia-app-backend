@@ -55,7 +55,7 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed and the contact is persisted")
+    @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
         final Member member;
 
@@ -70,7 +70,7 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid member, the contact is persisted")
+    @DisplayName("With a valid member, the profile is persisted")
     void testCreate_PersistedData() {
         final Member member;
 
@@ -85,7 +85,7 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid member, the created contact is returned")
+    @DisplayName("With a valid member, the created profile is returned")
     void testCreate_ReturnedData() {
         final Member member;
         final Member created;
@@ -100,7 +100,7 @@ class TestMemberServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
-            .as("contact")
+            .as("profile")
             .isEqualTo(Members.active());
     }
 

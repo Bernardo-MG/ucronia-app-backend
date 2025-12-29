@@ -78,7 +78,7 @@ permissions:
   - resource: library
     actions:
       - view
-  - resource: contact
+  - resource: profile
     actions:
       - create
       - read

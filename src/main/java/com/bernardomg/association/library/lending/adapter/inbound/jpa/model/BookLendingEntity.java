@@ -50,12 +50,12 @@ public class BookLendingEntity implements Serializable {
     private Long              bookId;
 
     @Id
-    @Column(name = "contact_id", nullable = false)
-    private Long              contactId;
-
-    @Id
     @Column(name = "lending_date", nullable = false)
     private Instant           lendingDate;
+
+    @Id
+    @Column(name = "profile_id", nullable = false)
+    private Long              profileId;
 
     @Column(name = "return_date", nullable = false)
     private Instant           returnDate;
@@ -64,12 +64,12 @@ public class BookLendingEntity implements Serializable {
         return bookId;
     }
 
-    public Long getContactId() {
-        return contactId;
-    }
-
     public Instant getLendingDate() {
         return lendingDate;
+    }
+
+    public Long getProfileId() {
+        return profileId;
     }
 
     public Instant getReturnDate() {
@@ -80,12 +80,12 @@ public class BookLendingEntity implements Serializable {
         this.bookId = bookId;
     }
 
-    public void setContactId(final Long contactId) {
-        this.contactId = contactId;
-    }
-
     public void setLendingDate(final Instant lendingDate) {
         this.lendingDate = lendingDate;
+    }
+
+    public void setProfileId(final Long contactId) {
+        profileId = contactId;
     }
 
     public void setReturnDate(final Instant returnDate) {
@@ -94,7 +94,7 @@ public class BookLendingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", contactId=" + contactId
+        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", contactId=" + profileId
                 + ", returnDate=" + returnDate + "]";
     }
 

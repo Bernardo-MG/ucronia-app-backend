@@ -37,13 +37,13 @@ put:
           $ref: '../components/guests.yml#/components/schemas/GuestChange'
   responses:
     '200':
-      description: Updated contact.
+      description: Updated guest.
       content:
         application/json:
           schema:
             $ref: '../components/guests.yml#/components/schemas/GuestResponse'
     '404':
-      description: Contact not found.
+      description: Guest not found.
 patch:
   summary: Partially update a guest.
   operationId: patchGuest

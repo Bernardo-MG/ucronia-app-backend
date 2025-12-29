@@ -5,119 +5,119 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 public final class Sponsors {
 
     public static final Sponsor created() {
-        final ContactName    name;
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new Sponsor(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
-            List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new Sponsor(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
+            List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor forNumber(final long number) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName("Contact " + number, "Last name " + number);
-        return new Sponsor(Objects.toString(number * 10), number * 10, name, ContactConstants.BIRTH_DATE, List.of(),
-            List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        name = new ProfileName("Profile " + number, "Last name " + number);
+        return new Sponsor(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE, List.of(),
+            List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor nameChange() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName("Contact 123", "Last name");
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+        name = new ProfileName("Profile 123", "Last name");
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor nameChangePatch() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName("Contact 123", "Last name");
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+        name = new ProfileName("Profile 123", "Last name");
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor noContactChannel() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor padded() {
-        final ContactName    name;
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
+        name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor toConvert() {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(), List.of(), ContactConstants.COMMENTS, Set.of());
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(), ProfileConstants.COMMENTS, Set.of());
     }
 
     public static final Sponsor toCreate() {
-        final ContactName    name;
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new Sponsor(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE, List.of(contactChannel),
-            List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new Sponsor(ProfileConstants.IDENTIFIER, 0L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
+            List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor valid() {
-        final ContactName    name;
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS,
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.CONTACT_TYPE));
     }
 
     public static final Sponsor withoutType() {
-        final ContactName    name;
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new Sponsor(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ContactConstants.COMMENTS, Set.of());
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of());
     }
 
 }

@@ -31,7 +31,7 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.usecase.service.ContactGuestService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ContactGuestApi;
+import com.bernardomg.ucronia.openapi.api.ProfileGuestApi;
 import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
 
 /**
@@ -41,7 +41,7 @@ import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
  *
  */
 @RestController
-public class ContactGuestController implements ContactGuestApi {
+public class ContactGuestController implements ProfileGuestApi {
 
     private final ContactGuestService service;
 

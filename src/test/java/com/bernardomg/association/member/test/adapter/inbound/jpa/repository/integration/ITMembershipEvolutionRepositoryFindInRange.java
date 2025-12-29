@@ -9,13 +9,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonthConstants;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonths;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -103,8 +103,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("When reading all with a contact with no member role, nothing is returned")
-    @ValidContact
+    @DisplayName("When reading all with a profile with no member role, nothing is returned")
+    @ValidProfile
     void testFindInRange_NoRange_NoMember() {
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;

@@ -54,7 +54,7 @@ public interface FeeRepository {
      * @param sorting
      * @return
      */
-    public Page<Fee> findAllForContact(final Long number, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting);
 
     public Collection<Fee> findAllInMonth(final YearMonth date);
 

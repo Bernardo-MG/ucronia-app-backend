@@ -35,10 +35,10 @@ import com.bernardomg.association.member.domain.model.Member;
 public interface ContactMembershipService {
 
     /**
-     * Converts a contact into a member.
+     * Converts a profile into a member.
      *
      * @param number
-     *            number of the contact to convert into a member
+     *            number of the profile to convert into a member
      * @return the created member
      */
     public Member convertToMember(final long number);

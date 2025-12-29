@@ -38,26 +38,26 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultContactMembershipService;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultContactMembershipService - convert to member")
 class TestContactMembershipServiceConvert {
 
     @Mock
-    private ContactRepository               contactRepository;
+    private MemberRepository                memberRepository;
 
     @Mock
-    private MemberRepository                memberRepository;
+    private ProfileRepository               profileRepository;
 
     @InjectMocks
     private DefaultContactMembershipService service;
@@ -70,17 +70,16 @@ class TestContactMembershipServiceConvert {
     @DisplayName("With an existing member, an exception is thrown")
     void testConvertToMember_ExistingMember_Exception() {
         final ThrowingCallable execution;
-        final Contact          contact;
+        final Profile          profile;
 
         // GIVEN
-        Members.nameChange();
-        contact = Contacts.valid();
+        profile = Profiles.valid();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.convertToMember(ContactConstants.NUMBER);
+        execution = () -> service.convertToMember(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -88,60 +87,57 @@ class TestContactMembershipServiceConvert {
     }
 
     @Test
-    @DisplayName("With a not existing contact, an exception is thrown")
+    @DisplayName("With a not existing profile, an exception is thrown")
     void testConvertToMember_NotExistingContact_Exception() {
         final ThrowingCallable execution;
 
-        // GIVEN
-        Members.nameChange();
-
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.convertToMember(ContactConstants.NUMBER);
+        execution = () -> service.convertToMember(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactException.class);
+            .isInstanceOf(MissingProfileException.class);
     }
 
     @Test
     @DisplayName("When converting to member, the change is persisted")
     void testConvertToMember_PersistedData() {
         final Member  member;
-        final Contact contact;
+        final Profile profile;
 
         // GIVEN
         member = Members.active();
-        contact = Contacts.valid();
+        profile = Profiles.valid();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.convertToMember(ContactConstants.NUMBER);
+        service.convertToMember(ProfileConstants.NUMBER);
 
         // THEN
-        verify(memberRepository).save(member, ContactConstants.NUMBER);
+        verify(memberRepository).save(member, ProfileConstants.NUMBER);
     }
 
     @Test
     @DisplayName("When converting to member, the change is returned")
     void testConvertToMember_ReturnedData() {
         final Member  member;
-        final Contact contact;
+        final Profile profile;
         final Member  updated;
 
         // GIVEN
         member = Members.active();
-        contact = Contacts.valid();
+        profile = Profiles.valid();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
-        given(memberRepository.save(member, ContactConstants.NUMBER)).willReturn(member);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(memberRepository.save(member, ProfileConstants.NUMBER)).willReturn(member);
 
         // WHEN
-        updated = service.convertToMember(ContactConstants.NUMBER);
+        updated = service.convertToMember(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(updated)

@@ -172,12 +172,12 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Page<Fee> findAllForContact(final Long number, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
         final Sorting                                   correctedSorting;
 
-        log.debug("Finding all fees for contact {} with pagination {} and sorting {}", number, pagination, sorting);
+        log.debug("Finding all fees for profile {} with pagination {} and sorting {}", number, pagination, sorting);
 
         correctedSorting = new Sorting(sorting.properties()
             .stream()
@@ -187,7 +187,7 @@ public final class JpaFeeRepository implements FeeRepository {
         found = feeSpringRepository.findAllByMemberNumber(number, pageable)
             .map(FeeEntityMapper::toDomain);
 
-        log.debug("Found all fees for contact {} with pagination {} and sorting {}: {}", number, pagination, sorting,
+        log.debug("Found all fees for profile {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
         return SpringPagination.toPage(found);
@@ -404,7 +404,7 @@ public final class JpaFeeRepository implements FeeRepository {
         member = memberSpringRepository.findByNumber(fee.member()
             .number());
         if (!member.isPresent()) {
-            log.warn("Contact with number {} not found", fee.member()
+            log.warn("Profile with number {} not found", fee.member()
                 .number());
         }
         if (fee.transaction()

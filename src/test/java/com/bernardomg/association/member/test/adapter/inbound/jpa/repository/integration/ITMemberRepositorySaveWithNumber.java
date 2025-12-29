@@ -30,10 +30,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
@@ -41,6 +37,10 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberEntities;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,7 +48,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositorySaveWithNumber {
 
     @Autowired
-    private ContactSpringRepository     contactSpringRepository;
+    private ProfileSpringRepository     profileSpringRepository;
 
     @Autowired
     private MemberRepository            repository;
@@ -62,7 +62,7 @@ class ITMemberRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an active member, the member is persisted")
-    @ValidContact
+    @ValidProfile
     void testSaveWithNumber_Active_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
@@ -71,7 +71,7 @@ class ITMemberRepositorySaveWithNumber {
         member = Members.active();
 
         // WHEN
-        repository.save(member, ContactConstants.NUMBER);
+        repository.save(member, ProfileConstants.NUMBER);
 
         // THEN
         entities = springRepository.findAll();
@@ -84,7 +84,7 @@ class ITMemberRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an active member, the created member is returned")
-    @ValidContact
+    @ValidProfile
     void testSaveWithNumber_Active_ReturnedData() {
         final Member member;
         final Member saved;
@@ -93,7 +93,7 @@ class ITMemberRepositorySaveWithNumber {
         member = Members.active();
 
         // WHEN
-        saved = repository.save(member, ContactConstants.NUMBER);
+        saved = repository.save(member, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(saved)
@@ -103,7 +103,7 @@ class ITMemberRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an inactive member, the member is persisted")
-    @ValidContact
+    @ValidProfile
     void testSaveWithNumber_Inactive_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
@@ -112,7 +112,7 @@ class ITMemberRepositorySaveWithNumber {
         member = Members.inactive();
 
         // WHEN
-        repository.save(member, ContactConstants.NUMBER);
+        repository.save(member, ProfileConstants.NUMBER);
 
         // THEN
         entities = springRepository.findAll();
@@ -124,25 +124,25 @@ class ITMemberRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("When the member is persisted, the contact types includes the member type")
+    @DisplayName("When the member is persisted, the profile types includes the member type")
     void testSaveWithNumber_SetsType() {
         final Member        member;
         final Member        saved;
-        final ContactEntity contact;
+        final ProfileEntity profile;
 
         // GIVEN
         member = Members.active();
 
         // WHEN
-        saved = repository.save(member, ContactConstants.NUMBER);
+        saved = repository.save(member, ProfileConstants.NUMBER);
 
         // THEN
-        contact = contactSpringRepository.findByNumber(saved.number())
+        profile = profileSpringRepository.findByNumber(saved.number())
             .get();
 
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
+        Assertions.assertThat(profile)
+            .as("profile")
+            .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }

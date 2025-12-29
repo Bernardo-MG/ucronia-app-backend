@@ -38,27 +38,27 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultContactGuestService;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultContactGuestService - convert to guest")
 class TestContactGuestServiceConvert {
 
     @Mock
-    private ContactRepository          contactRepository;
+    private GuestRepository            guestRepository;
 
     @Mock
-    private GuestRepository            guestRepository;
+    private ProfileRepository          profileRepository;
 
     @InjectMocks
     private DefaultContactGuestService service;
@@ -71,17 +71,17 @@ class TestContactGuestServiceConvert {
     @DisplayName("With an existing guest, an exception is thrown")
     void testConvertToGuest_ExistingGuest_Exception() {
         final ThrowingCallable execution;
-        final Contact          contact;
+        final Profile          profile;
 
         // GIVEN
         Guests.nameChange();
-        contact = Contacts.valid();
+        profile = Profiles.valid();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.convertToGuest(ContactConstants.NUMBER);
+        execution = () -> service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -89,60 +89,60 @@ class TestContactGuestServiceConvert {
     }
 
     @Test
-    @DisplayName("With a not existing contact, an exception is thrown")
+    @DisplayName("With a not existing profile, an exception is thrown")
     void testConvertToGuest_NotExistingContact_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
         Guests.nameChange();
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.convertToGuest(ContactConstants.NUMBER);
+        execution = () -> service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactException.class);
+            .isInstanceOf(MissingProfileException.class);
     }
 
     @Test
     @DisplayName("When converting to guest, the change is persisted")
     void testConvertToGuest_PersistedData() {
         final Guest   guest;
-        final Contact contact;
+        final Profile profile;
 
         // GIVEN
         guest = Guests.noGames();
-        contact = Contacts.withType(GuestEntityConstants.CONTACT_TYPE);
+        profile = Profiles.withType(GuestEntityConstants.CONTACT_TYPE);
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.convertToGuest(ContactConstants.NUMBER);
+        service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
-        verify(guestRepository).save(guest, ContactConstants.NUMBER);
+        verify(guestRepository).save(guest, ProfileConstants.NUMBER);
     }
 
     @Test
     @DisplayName("When converting to guest, the change is returned")
     void testConvertToGuest_ReturnedData() {
         final Guest   guest;
-        final Contact contact;
+        final Profile profile;
         final Guest   updated;
 
         // GIVEN
         guest = Guests.noGames();
-        contact = Contacts.withType(GuestEntityConstants.CONTACT_TYPE);
+        profile = Profiles.withType(GuestEntityConstants.CONTACT_TYPE);
 
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(contact));
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(false);
-        given(guestRepository.save(guest, ContactConstants.NUMBER)).willReturn(guest);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(guestRepository.save(guest, ProfileConstants.NUMBER)).willReturn(guest);
 
         // WHEN
-        updated = service.convertToGuest(ContactConstants.NUMBER);
+        updated = service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(updated)

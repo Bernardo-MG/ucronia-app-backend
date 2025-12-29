@@ -30,13 +30,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -61,7 +61,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.FIRST_NAME);
+        filter = new GuestFilter(ProfileConstants.FIRST_NAME);
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -85,7 +85,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.FULL_NAME);
+        filter = new GuestFilter(ProfileConstants.FULL_NAME);
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -109,7 +109,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.LAST_NAME);
+        filter = new GuestFilter(ProfileConstants.LAST_NAME);
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -132,7 +132,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.FIRST_NAME);
+        filter = new GuestFilter(ProfileConstants.FIRST_NAME);
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -156,7 +156,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
+        filter = new GuestFilter(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -170,7 +170,7 @@ class ITGuestRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a guest without guest role and matching first name, it is is returned")
-    @ValidContact
+    @ValidProfile
     void testFindAll_WithoutGuestship_FirstName() {
         final Page<Guest> guests;
         final Pagination  pagination;
@@ -180,7 +180,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.FIRST_NAME);
+        filter = new GuestFilter(ProfileConstants.FIRST_NAME);
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -204,7 +204,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new GuestFilter(ProfileConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);

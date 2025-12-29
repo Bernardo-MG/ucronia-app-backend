@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntityMapper;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntityMapper;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 
 /**
  * Contact channel entity mapper.

@@ -30,8 +30,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -61,7 +61,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.FIRST_NAME);
+        filter = new SponsorFilter(ProfileConstants.FIRST_NAME);
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -85,7 +85,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.FULL_NAME);
+        filter = new SponsorFilter(ProfileConstants.FULL_NAME);
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -109,7 +109,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.LAST_NAME);
+        filter = new SponsorFilter(ProfileConstants.LAST_NAME);
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -132,7 +132,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.FIRST_NAME);
+        filter = new SponsorFilter(ProfileConstants.FIRST_NAME);
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -156,7 +156,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
+        filter = new SponsorFilter(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2));
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -170,7 +170,7 @@ class ITSponsorRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a sponsor without sponsorship and matching first name, it is is returned")
-    @ValidContact
+    @ValidProfile
     void testFindAll_WithoutSponsorship_FirstName() {
         final Page<Sponsor> sponsors;
         final Pagination    pagination;
@@ -180,7 +180,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.FIRST_NAME);
+        filter = new SponsorFilter(ProfileConstants.FIRST_NAME);
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -204,7 +204,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new SponsorFilter(ProfileConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);

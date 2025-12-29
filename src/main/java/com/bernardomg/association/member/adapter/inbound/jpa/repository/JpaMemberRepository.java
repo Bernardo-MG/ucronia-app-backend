@@ -39,8 +39,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
@@ -50,6 +48,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.specification.Membe
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -64,7 +64,7 @@ public final class JpaMemberRepository implements MemberRepository {
      */
     private static final Logger                log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ContactSpringRepository      contactSpringRepository;
+    private final ProfileSpringRepository      profileSpringRepository;
 
     private final QueryMemberSpringRepository  queryMemberSpringRepository;
 
@@ -72,13 +72,13 @@ public final class JpaMemberRepository implements MemberRepository {
 
     public JpaMemberRepository(final QueryMemberSpringRepository queryMemberSpringRepo,
             final UpdateMemberSpringRepository updateMemberSpringRepo,
-            final ContactSpringRepository contactSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo) {
         super();
 
         queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
         updateMemberSpringRepository = Objects.requireNonNull(updateMemberSpringRepo);
         // TODO: remove contact repository
-        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -87,7 +87,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         // TODO: delete on cascade from the contact
         queryMemberSpringRepository.deleteByNumber(number);
-        contactSpringRepository.deleteByNumber(number);
+        profileSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted member {}", number);
     }
@@ -220,13 +220,13 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Member save(final Member member, final long number) {
         final UpdateMemberEntity      entity;
         final Member                  created;
-        final Optional<ContactEntity> contact;
+        final Optional<ProfileEntity> contact;
 
         log.debug("Saving member {} with number {}", member, number);
 
         entity = UpdateMemberEntityMapper.toEntity(member);
 
-        contact = contactSpringRepository.findByNumber(number);
+        contact = profileSpringRepository.findByNumber(number);
         if (contact.isPresent()) {
             entity.setContact(contact.get());
         }
@@ -282,7 +282,7 @@ public final class JpaMemberRepository implements MemberRepository {
         return entity;
     }
 
-    private final void setType(final ContactEntity entity) {
+    private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
             entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
         } else {

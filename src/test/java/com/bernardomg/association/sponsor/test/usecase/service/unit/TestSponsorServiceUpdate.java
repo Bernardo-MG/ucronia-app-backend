@@ -36,7 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -66,7 +66,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(sponsor);
@@ -84,7 +84,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(sponsorRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(sponsor);
@@ -101,7 +101,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.save(Sponsors.nameChange())).willReturn(Sponsors.nameChange());
 
         // WHEN
@@ -120,7 +120,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.save(Sponsors.nameChange())).willReturn(Sponsors.nameChange());
 
         // WHEN

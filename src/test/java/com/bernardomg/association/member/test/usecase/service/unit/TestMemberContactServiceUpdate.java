@@ -36,12 +36,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberContactService - update")
@@ -60,13 +60,13 @@ class TestMemberContactServiceUpdate {
     @Test
     @DisplayName("With a not existing guest, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final MemberContact    guest;
+        final MemberProfile    guest;
         final ThrowingCallable execution;
 
         // GIVEN
         guest = MemberContacts.nameChange();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(guest);
@@ -79,12 +79,12 @@ class TestMemberContactServiceUpdate {
     @Test
     @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final MemberContact guest;
+        final MemberProfile guest;
 
         // GIVEN
         guest = MemberContacts.padded();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(guest);
@@ -96,12 +96,12 @@ class TestMemberContactServiceUpdate {
     @Test
     @DisplayName("When updating a guest, the change is persisted")
     void testUpdate_PersistedData() {
-        final MemberContact guest;
+        final MemberProfile guest;
 
         // GIVEN
         guest = MemberContacts.nameChange();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(MemberContacts.nameChange())).willReturn(MemberContacts.nameChange());
 
         // WHEN
@@ -114,13 +114,13 @@ class TestMemberContactServiceUpdate {
     @Test
     @DisplayName("When updating a guest, the change is returned")
     void testUpdate_ReturnedData() {
-        final MemberContact guest;
-        final MemberContact updated;
+        final MemberProfile guest;
+        final MemberProfile updated;
 
         // GIVEN
         guest = MemberContacts.nameChange();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(MemberContacts.nameChange())).willReturn(MemberContacts.nameChange());
 
         // WHEN

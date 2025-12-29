@@ -32,11 +32,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -49,7 +49,7 @@ import com.bernardomg.data.domain.Sorting;
  */
 @Service
 @Transactional
-public final class DefaultMemberContactService implements MemberContactService {
+public final class DefaultMemberContactService implements MemberProfileService {
 
     /**
      * Logger for the class.
@@ -65,13 +65,13 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final MemberContact create(final MemberContact memberContact) {
-        final MemberContact toCreate;
-        final MemberContact created;
+    public final MemberProfile create(final MemberProfile memberContact) {
+        final MemberProfile toCreate;
+        final MemberProfile created;
 
         log.debug("Creating member contact {}", memberContact);
 
-        toCreate = new MemberContact(memberContact.identifier(), 0L, memberContact.name(), memberContact.birthDate(),
+        toCreate = new MemberProfile(memberContact.identifier(), 0L, memberContact.name(), memberContact.birthDate(),
             memberContact.contactChannels(), memberContact.comments(), memberContact.active(), memberContact.renew(),
             memberContact.types());
 
@@ -83,8 +83,8 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final MemberContact delete(final long number) {
-        final MemberContact existing;
+    public final MemberProfile delete(final long number) {
+        final MemberProfile existing;
 
         log.debug("Deleting member contact {}", number);
 
@@ -102,9 +102,9 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final Page<MemberContact> getAll(final MemberFilter filter, final Pagination pagination,
+    public final Page<MemberProfile> getAll(final MemberFilter filter, final Pagination pagination,
             final Sorting sorting) {
-        final Page<MemberContact> memberContacts;
+        final Page<MemberProfile> memberContacts;
 
         log.debug("Reading member contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
@@ -117,8 +117,8 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final Optional<MemberContact> getOne(final long number) {
-        final Optional<MemberContact> memberContacts;
+    public final Optional<MemberProfile> getOne(final long number) {
+        final Optional<MemberProfile> memberContacts;
 
         log.debug("Reading member contact {}", number);
 
@@ -134,10 +134,10 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final MemberContact patch(final MemberContact memberContact) {
-        final MemberContact existing;
-        final MemberContact toSave;
-        final MemberContact saved;
+    public final MemberProfile patch(final MemberProfile memberContact) {
+        final MemberProfile existing;
+        final MemberProfile toSave;
+        final MemberProfile saved;
 
         log.debug("Patching member contact {} using data {}", memberContact.number(), memberContact);
 
@@ -157,8 +157,8 @@ public final class DefaultMemberContactService implements MemberContactService {
     }
 
     @Override
-    public final MemberContact update(final MemberContact memberContact) {
-        final MemberContact saved;
+    public final MemberProfile update(final MemberProfile memberContact) {
+        final MemberProfile saved;
 
         log.debug("Updating member contact {} using data {}", memberContact.number(), memberContact);
 
@@ -174,13 +174,13 @@ public final class DefaultMemberContactService implements MemberContactService {
         return saved;
     }
 
-    private final MemberContact copy(final MemberContact existing, final MemberContact updated) {
-        final ContactName name;
+    private final MemberProfile copy(final MemberProfile existing, final MemberProfile updated) {
+        final ProfileName name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ContactName(Optional.ofNullable(updated.name()
+            name = new ProfileName(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),
@@ -189,7 +189,7 @@ public final class DefaultMemberContactService implements MemberContactService {
                     .orElse(existing.name()
                         .lastName()));
         }
-        return new MemberContact(Optional.ofNullable(updated.identifier())
+        return new MemberProfile(Optional.ofNullable(updated.identifier())
             .orElse(existing.identifier()),
             Optional.ofNullable(updated.number())
                 .orElse(existing.number()),

@@ -35,10 +35,10 @@ import com.bernardomg.association.guest.domain.model.Guest;
 public interface ContactGuestService {
 
     /**
-     * Converts a contact into a guest.
+     * Converts a profile into a guest.
      *
      * @param number
-     *            number of the contact to convert into a guest
+     *            number of the profile to convert into a guest
      * @return the created guest
      */
     public Guest convertToGuest(final long number);

@@ -44,7 +44,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
@@ -64,6 +63,7 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -132,17 +132,17 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee createUnpaidFee(final YearMonth feeDate, final Long contactNumber) {
+    public final Fee createUnpaidFee(final YearMonth feeDate, final Long number) {
         final Fee    newFee;
         final Fee    fee;
         final Member member;
 
-        log.info("Creating unpaid fee for {} for month {}", contactNumber, feeDate);
+        log.info("Creating unpaid fee for {} for month {}", number, feeDate);
 
-        member = memberRepository.findOne(contactNumber)
+        member = memberRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing contact {}", contactNumber);
-                throw new MissingMemberException(contactNumber);
+                log.error("Missing profile {}", number);
+                throw new MissingMemberException(number);
             });
 
         newFee = toUnpaidFee(member, feeDate);
@@ -151,27 +151,27 @@ public final class DefaultFeeService implements FeeService {
 
         fee = feeRepository.save(newFee);
 
-        log.info("Created unpaid fee for {} for month {}", contactNumber, feeDate);
+        log.info("Created unpaid fee for {} for month {}", number, feeDate);
 
         return fee;
     }
 
     @Override
-    public final Fee delete(final long contactNumber, final YearMonth date) {
+    public final Fee delete(final long number, final YearMonth date) {
         final Fee fee;
 
-        log.info("Deleting fee for {} in {}", contactNumber, date);
+        log.info("Deleting fee for {} in {}", number, date);
 
-        fee = feeRepository.findOne(contactNumber, date)
+        fee = feeRepository.findOne(number, date)
             .orElseThrow(() -> {
-                log.error("Missing fee for {} in {}", contactNumber, date);
-                throw new MissingFeeException(contactNumber, date);
+                log.error("Missing fee for {} in {}", number, date);
+                throw new MissingFeeException(number, date);
             });
 
-        feeRepository.delete(contactNumber, date);
+        feeRepository.delete(number, date);
 
         // Send events for deleted fees
-        eventEmitter.emit(new FeeDeletedEvent(fee, date, contactNumber));
+        eventEmitter.emit(new FeeDeletedEvent(fee, date, number));
 
         return fee;
     }
@@ -200,7 +200,7 @@ public final class DefaultFeeService implements FeeService {
         List<Fee>                    fees;
         MemberFees                   calendarFee;
         Collection<MemberFees.Fee>   membFees;
-        ContactName                  name;
+        ProfileName                  name;
 
         log.info("Getting fee calendar for year {} and status {}", year, status);
 
@@ -255,18 +255,18 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<Fee> getOne(final long contactNumber, final YearMonth date) {
+    public final Optional<Fee> getOne(final long number, final YearMonth date) {
         final Optional<Fee> fee;
 
-        log.info("Getting fee for {} in {}", contactNumber, date);
+        log.info("Getting fee for {} in {}", number, date);
 
-        fee = feeRepository.findOne(contactNumber, date);
+        fee = feeRepository.findOne(number, date);
         if (fee.isEmpty()) {
-            log.error("Missing fee for {} in {}", contactNumber, date);
-            throw new MissingFeeException(contactNumber, date);
+            log.error("Missing fee for {} in {}", number, date);
+            throw new MissingFeeException(number, date);
         }
 
-        log.debug("Got fee for {} in {}: {}", contactNumber, date, fee);
+        log.debug("Got fee for {} in {}: {}", number, date, fee);
 
         return fee;
     }
@@ -296,7 +296,7 @@ public final class DefaultFeeService implements FeeService {
 
         member = memberRepository.findOne(feesPayments.member())
             .orElseThrow(() -> {
-                log.error("Missing contact {}", feesPayments.member());
+                log.error("Missing profile {}", feesPayments.member());
                 throw new MissingMemberException(feesPayments.member());
             });
 
@@ -348,7 +348,7 @@ public final class DefaultFeeService implements FeeService {
         member = memberRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
-                log.error("Missing contact {}", fee.member()
+                log.error("Missing profile {}", fee.member()
                     .number());
                 throw new MissingMemberException(fee.member()
                     .number());
@@ -478,7 +478,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long contactNumber, final ContactName name, final MemberStatus status,
+    private final MemberFees toFeeYear(final Long number, final ProfileName name, final MemberStatus status,
             final Collection<MemberFees.Fee> fees) {
         final boolean           active;
         final MemberFees.Member member;
@@ -487,10 +487,10 @@ public final class DefaultFeeService implements FeeService {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> memberRepository.isActive(contactNumber);
+            default -> memberRepository.isActive(number);
         };
 
-        member = new MemberFees.Member(contactNumber, name, active);
+        member = new MemberFees.Member(number, name, active);
         return new MemberFees(member, fees);
     }
 

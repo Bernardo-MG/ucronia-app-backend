@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -36,6 +34,8 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Author repository mapper.
@@ -50,25 +50,25 @@ public final class BookEntityMapper {
         return new BookType(entity.getNumber(), entity.getName());
     }
 
-    public static final Borrower toDomain(final ContactEntity entity) {
-        final ContactName name;
-
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
-    }
-
     public static final GameSystem toDomain(final GameSystemEntity entity) {
         return new GameSystem(entity.getNumber(), entity.getName());
+    }
+
+    public static final Borrower toDomain(final ProfileEntity entity) {
+        final ProfileName name;
+
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        return new Borrower(entity.getNumber(), name);
     }
 
     public static final Publisher toDomain(final PublisherEntity entity) {
         return new Publisher(entity.getNumber(), entity.getName());
     }
 
-    public static final Donor toDonorDomain(final ContactEntity entity) {
-        final ContactName name;
+    public static final Donor toDonorDomain(final ProfileEntity entity) {
+        final ProfileName name;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
         return new Donor(entity.getNumber(), name);
     }
 

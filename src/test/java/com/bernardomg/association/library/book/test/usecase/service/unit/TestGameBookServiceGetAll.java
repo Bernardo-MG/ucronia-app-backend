@@ -37,7 +37,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
@@ -46,6 +45,7 @@ import com.bernardomg.association.library.book.usecase.service.DefaultGameBookSe
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -64,10 +64,10 @@ class TestGameBookServiceGetAll {
     private BookTypeRepository     bookTypeRepository;
 
     @Mock
-    private ContactRepository      contactRepository;
+    private GameSystemRepository   gameSystemRepository;
 
     @Mock
-    private GameSystemRepository   gameSystemRepository;
+    private ProfileRepository      profileRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;

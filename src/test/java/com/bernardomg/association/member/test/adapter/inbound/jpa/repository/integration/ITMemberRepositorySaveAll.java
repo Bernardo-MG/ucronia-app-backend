@@ -33,8 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
@@ -43,6 +41,8 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberEntities;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,7 +50,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositorySaveAll {
 
     @Autowired
-    private ContactSpringRepository     contactSpringRepository;
+    private ProfileSpringRepository     profileSpringRepository;
 
     @Autowired
     private MemberRepository            repository;
@@ -101,7 +101,7 @@ class ITMemberRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "contact.number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "profile.number")
             .containsExactly(QueryMemberEntities.created());
     }
 
@@ -124,10 +124,10 @@ class ITMemberRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When the member is persisted, the contact types includes the member type")
+    @DisplayName("When the member is persisted, the profile types includes the member type")
     void testSave_SetsType() {
         final Member        member;
-        final ContactEntity contact;
+        final ProfileEntity profile;
 
         // GIVEN
         member = Members.active();
@@ -136,12 +136,12 @@ class ITMemberRepositorySaveAll {
         repository.saveAll(List.of(member));
 
         // THEN
-        contact = contactSpringRepository.findByNumber(1L)
+        profile = profileSpringRepository.findByNumber(1L)
             .get();
 
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
+        Assertions.assertThat(profile)
+            .as("profile")
+            .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }

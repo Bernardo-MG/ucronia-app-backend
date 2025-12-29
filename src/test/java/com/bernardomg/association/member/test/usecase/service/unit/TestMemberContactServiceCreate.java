@@ -35,7 +35,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
@@ -55,9 +55,9 @@ class TestMemberContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed and the contact is persisted")
+    @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberContact guest;
+        final MemberProfile guest;
 
         // GIVEN
         guest = MemberContacts.padded();
@@ -70,9 +70,9 @@ class TestMemberContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid guest, the contact is persisted")
+    @DisplayName("With a valid guest, the profile is persisted")
     void testCreate_PersistedData() {
-        final MemberContact guest;
+        final MemberProfile guest;
 
         // GIVEN
         guest = MemberContacts.toCreate();
@@ -85,10 +85,10 @@ class TestMemberContactServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid guest, the created contact is returned")
+    @DisplayName("With a valid guest, the created profile is returned")
     void testCreate_ReturnedData() {
-        final MemberContact guest;
-        final MemberContact created;
+        final MemberProfile guest;
+        final MemberProfile created;
 
         // GIVEN
         guest = MemberContacts.toCreate();
@@ -100,7 +100,7 @@ class TestMemberContactServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
-            .as("contact")
+            .as("profile")
             .isEqualTo(MemberContacts.active());
     }
 

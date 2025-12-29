@@ -31,12 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITGuestRepositoryFindOne {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(ContactConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -66,7 +66,7 @@ class ITGuestRepositoryFindOne {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(ContactConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -75,12 +75,12 @@ class ITGuestRepositoryFindOne {
 
     @Test
     @DisplayName("With a guest with no guest role, it returns nothing")
-    @ValidContact
+    @ValidProfile
     void testFindOne_NoGuestship() {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(ContactConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)

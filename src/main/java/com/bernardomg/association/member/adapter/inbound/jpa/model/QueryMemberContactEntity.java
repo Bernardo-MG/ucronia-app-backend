@@ -36,37 +36,37 @@ public class QueryMemberContactEntity implements Serializable {
     @Column(name = "active", table = "members", nullable = false)
     private Boolean                                     active;
 
-    @Column(name = "birth_date", table = "contacts")
+    @Column(name = "birth_date", table = "profiles")
     private Instant                                     birthDate;
 
-    @Column(name = "comments", table = "contacts")
+    @Column(name = "comments", table = "profiles")
     private String                                      comments;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private Collection<QueryMemberContactChannelEntity> contactChannels;
 
-    @Column(name = "first_name", table = "contacts", nullable = false)
+    @Column(name = "first_name", table = "profiles", nullable = false)
     private String                                      firstName;
 
     @Id
     @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long                                        id;
 
-    @Column(name = "identifier", table = "contacts")
+    @Column(name = "identifier", table = "profiles")
     private String                                      identifier;
 
-    @Column(name = "last_name", table = "contacts")
+    @Column(name = "last_name", table = "profiles")
     private String                                      lastName;
 
-    @Column(name = "number", table = "contacts")
+    @Column(name = "number", table = "profiles")
     private Long                                        number;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
     private Boolean                                     renew;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types", table = "contacts")
+    @Column(name = "types", table = "profiles")
     private Set<String>                                 types;
 
     @Override

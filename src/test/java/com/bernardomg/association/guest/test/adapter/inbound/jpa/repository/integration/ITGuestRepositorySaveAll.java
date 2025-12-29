@@ -33,9 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
@@ -44,6 +41,9 @@ import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.test.configuration.factory.QueryGuestEntities;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,7 +51,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITGuestRepositorySaveAll {
 
     @Autowired
-    private ContactSpringRepository    contactSpringRepository;
+    private ProfileSpringRepository    profileSpringRepository;
 
     @Autowired
     private GuestRepository            repository;
@@ -152,11 +152,11 @@ class ITGuestRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @DisplayName("When the guest is persisted, the profile types includes the guest type")
     @EmailContactMethod
     void testSaveAll_SetsType() {
         final Guest         guest;
-        final ContactEntity contact;
+        final ProfileEntity profile;
 
         // GIVEN
         guest = Guests.valid();
@@ -165,12 +165,12 @@ class ITGuestRepositorySaveAll {
         repository.saveAll(List.of(guest));
 
         // THEN
-        contact = contactSpringRepository.findByNumber(1L)
+        profile = profileSpringRepository.findByNumber(1L)
             .get();
 
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
+        Assertions.assertThat(profile)
+            .as("profile")
+            .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(GuestEntityConstants.CONTACT_TYPE);
     }

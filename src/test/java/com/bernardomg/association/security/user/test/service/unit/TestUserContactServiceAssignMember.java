@@ -38,105 +38,105 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.exception.MissingContactException;
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
-import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.association.security.user.test.configuration.factory.Users;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserContactService;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserContactService - assign contact")
-class TestUserContactServiceAssignContact {
+@DisplayName("UserProfileService - assign profile")
+class TestUserProfileServiceAssignProfile {
 
     @Mock
-    private ContactRepository         contactRepository;
+    private ProfileRepository         profileRepository;
 
     @InjectMocks
-    private DefaultUserContactService service;
+    private DefaultUserProfileService service;
 
     @Mock
-    private UserContactRepository     userContactRepository;
+    private UserProfileRepository     userProfileRepository;
 
     @Mock
     private UserRepository            userRepository;
 
     @Test
-    @DisplayName("When the contact has already been assigned, it throws an exception")
-    void testAssignContact_ExistingContact() {
+    @DisplayName("When the profile has already been assigned, it throws an exception")
+    void testAssignProfile_ExistingProfile() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
 
-        given(userContactRepository.existsByContactForAnotherUser(UserConstants.USERNAME, ContactConstants.NUMBER))
+        given(userProfileRepository.existsByProfileForAnotherUser(UserConstants.USERNAME, ProfileConstants.NUMBER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        execution = () -> service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "contact", ContactConstants.NUMBER));
+            new FieldFailure("existing", "profile", ProfileConstants.NUMBER));
     }
 
     @Test
-    @DisplayName("When the user already has a contact, it throws an exception")
-    void testAssignContact_ExistingUser() {
+    @DisplayName("When the user already has a profile, it throws an exception")
+    void testAssignProfile_ExistingUser() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
 
-        given(userContactRepository.existsByContactForAnotherUser(UserConstants.USERNAME, ContactConstants.NUMBER))
+        given(userProfileRepository.existsByProfileForAnotherUser(UserConstants.USERNAME, ProfileConstants.NUMBER))
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        execution = () -> service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "contact", ContactConstants.NUMBER));
+            new FieldFailure("existing", "profile", ProfileConstants.NUMBER));
     }
 
     @Test
-    @DisplayName("With no contact, it throws an exception")
-    void testAssignContact_NoContact() {
+    @DisplayName("With no profile, it throws an exception")
+    void testAssignProfile_NoProfile() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // TODO: assign when the user already has a person
 
         // WHEN
-        execution = () -> service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        execution = () -> service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingContactException.class);
+            .isInstanceOf(MissingProfileException.class);
     }
 
     @Test
     @DisplayName("With no user, it throws an exception")
-    void testAssignContact_NoUser() {
+    void testAssignProfile_NoUser() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        execution = () -> service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -145,36 +145,36 @@ class TestUserContactServiceAssignContact {
 
     @Test
     @DisplayName("With valid data, the relationship is persisted")
-    void testAssignContact_PersistedData() {
+    void testAssignProfile_PersistedData() {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
 
         // WHEN
-        service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
 
         // THEN
-        verify(userContactRepository).assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        verify(userProfileRepository).assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
     }
 
     @Test
     @DisplayName("With valid data, the created relationship is returned")
-    void testAssignContact_ReturnedData() {
-        final Contact contact;
+    void testAssignProfile_ReturnedData() {
+        final Profile profile;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(contactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Contacts.valid()));
-        given(userContactRepository.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER))
-            .willReturn(Contacts.valid());
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
+        given(userProfileRepository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER))
+            .willReturn(Profiles.valid());
 
         // WHEN
-        contact = service.assignContact(UserConstants.USERNAME, ContactConstants.NUMBER);
+        profile = service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contact)
-            .isEqualTo(Contacts.valid());
+        Assertions.assertThat(profile)
+            .isEqualTo(Profiles.valid());
     }
 
 }

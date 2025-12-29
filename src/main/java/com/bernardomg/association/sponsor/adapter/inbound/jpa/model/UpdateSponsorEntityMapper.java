@@ -29,13 +29,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 /**
@@ -44,10 +44,10 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 public final class UpdateSponsorEntityMapper {
 
     public static final Sponsor toDomain(final UpdateSponsorEntity entity) {
-        final ContactName                name;
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(entity.getContact()
+        name = new ProfileName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
@@ -73,9 +73,9 @@ public final class UpdateSponsorEntityMapper {
     public static final UpdateSponsorEntity toEntity(final Sponsor data,
             final Collection<ContactMethodEntity> contactMethods) {
         final UpdateSponsorEntity              entity;
-        final ContactEntity                    contact;
+        final ProfileEntity                    contact;
         final Collection<ContactChannelEntity> contactChannels;
-        contact = new ContactEntity();
+        contact = new ProfileEntity();
         contact.setNumber(data.number());
         contact.setFirstName(data.name()
             .firstName());
@@ -113,7 +113,7 @@ public final class UpdateSponsorEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;

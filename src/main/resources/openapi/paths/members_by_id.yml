@@ -37,13 +37,13 @@ put:
           $ref: '../components/members.yml#/components/schemas/MemberChange'
   responses:
     '200':
-      description: Updated contact.
+      description: Updated member.
       content:
         application/json:
           schema:
             $ref: '../components/members.yml#/components/schemas/MemberResponse'
     '404':
-      description: Contact not found.
+      description: Member not found.
 patch:
   summary: Partially update a member.
   operationId: patchMember

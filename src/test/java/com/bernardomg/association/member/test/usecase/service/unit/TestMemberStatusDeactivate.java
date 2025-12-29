@@ -39,10 +39,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member status service - deactivate")
@@ -65,9 +65,9 @@ class TestMemberStatusDeactivate {
         final Long      number;
 
         // GIVEN
-        given(MemberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(MemberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         date = YearMonth.now();
-        number = ContactConstants.NUMBER;
+        number = ProfileConstants.NUMBER;
 
         // WHEN
         service.deactivate(date, number);
@@ -85,7 +85,7 @@ class TestMemberStatusDeactivate {
         // GIVEN
         date = YearMonth.now()
             .minusMonths(1);
-        number = ContactConstants.NUMBER;
+        number = ProfileConstants.NUMBER;
 
         // WHEN
         service.deactivate(date, number);

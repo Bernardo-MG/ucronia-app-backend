@@ -30,17 +30,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberContactSpringRepository;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,7 +48,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberContactRepositorySave {
 
     @Autowired
-    private ContactSpringRepository            contactSpringRepository;
+    private ProfileSpringRepository            profileSpringRepository;
 
     @Autowired
     private MemberContactRepository            repository;
@@ -64,7 +64,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("When a member exists, the member is persisted")
     @ActiveMember
     void testSave_Existing_PersistedData() {
-        final MemberContact                      member;
+        final MemberProfile                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
@@ -87,8 +87,8 @@ class ITMemberContactRepositorySave {
     @DisplayName("When a member exists, the created member is returned")
     @ActiveMember
     void testSave_Existing_ReturnedData() {
-        final MemberContact member;
-        final MemberContact saved;
+        final MemberProfile member;
+        final MemberProfile saved;
 
         // GIVEN
         member = MemberContacts.active();
@@ -106,7 +106,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("With a member, the member is persisted")
     @EmailContactMethod
     void testSave_PersistedData() {
-        final MemberContact                      member;
+        final MemberProfile                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
@@ -129,7 +129,7 @@ class ITMemberContactRepositorySave {
     @DisplayName("When the type is removed, the member is not changed")
     @ActiveMember
     void testSave_RemoveType_NoChange() {
-        final MemberContact                      member;
+        final MemberProfile                      member;
         final Iterable<QueryMemberContactEntity> entities;
 
         // GIVEN
@@ -152,8 +152,8 @@ class ITMemberContactRepositorySave {
     @DisplayName("With a member, the created member is returned")
     @EmailContactMethod
     void testSave_ReturnedData() {
-        final MemberContact member;
-        final MemberContact saved;
+        final MemberProfile member;
+        final MemberProfile saved;
 
         // GIVEN
         member = MemberContacts.active();
@@ -168,11 +168,11 @@ class ITMemberContactRepositorySave {
     }
 
     @Test
-    @DisplayName("When the member is persisted, the contact types includes the member type")
+    @DisplayName("When the member is persisted, the profile types includes the member type")
     @EmailContactMethod
     void testSave_SetsType() {
-        final MemberContact member;
-        final ContactEntity contact;
+        final MemberProfile member;
+        final ProfileEntity profile;
 
         // GIVEN
         member = MemberContacts.active();
@@ -181,12 +181,12 @@ class ITMemberContactRepositorySave {
         repository.save(member);
 
         // THEN
-        contact = contactSpringRepository.findByNumber(1L)
+        profile = profileSpringRepository.findByNumber(1L)
             .get();
 
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
+        Assertions.assertThat(profile)
+            .as("profile")
+            .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(MemberEntityConstants.CONTACT_TYPE);
     }

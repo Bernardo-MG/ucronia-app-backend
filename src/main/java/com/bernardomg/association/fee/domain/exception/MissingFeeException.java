@@ -38,8 +38,8 @@ public final class MissingFeeException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingFeeException(final long contactNumber, final YearMonth date) {
-        super("fee", contactNumber + " " + String.valueOf(date));
+    public MissingFeeException(final long profileNumber, final YearMonth date) {
+        super("fee", profileNumber + " " + String.valueOf(date));
     }
 
 }

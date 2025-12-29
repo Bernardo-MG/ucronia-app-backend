@@ -32,11 +32,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -172,12 +172,12 @@ public final class DefaultMemberService implements MemberService {
     }
 
     private final Member copy(final Member existing, final Member updated) {
-        final ContactName name;
+        final ProfileName name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ContactName(Optional.ofNullable(updated.name()
+            name = new ProfileName(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

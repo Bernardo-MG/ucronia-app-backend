@@ -30,7 +30,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
@@ -38,6 +37,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -122,8 +122,8 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a contact with no member role and filtering by active, nothing is returned")
-    @ValidContact
+    @DisplayName("With a profile with no member role and filtering by active, nothing is returned")
+    @ValidProfile
     void testFindAll_Active_WithoutMembership() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -217,8 +217,8 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a contact with no member role and filtering by all, it is returned")
-    @ValidContact
+    @DisplayName("With a profile with no member role and filtering by all, it is returned")
+    @ValidProfile
     void testFindAll_All_WithoutMembership() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -312,8 +312,8 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a contact with no member role and filtering by inactive, nothing is returned")
-    @ValidContact
+    @DisplayName("With a profile with no member role and filtering by inactive, nothing is returned")
+    @ValidProfile
     void testFindAll_Inactive_WithoutMembership() {
         final Page<Member> members;
         final Pagination   pagination;

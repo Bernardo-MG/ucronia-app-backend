@@ -5,137 +5,137 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
-import com.bernardomg.association.contact.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethods;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class MemberContacts {
 
-    public static final MemberContact active() {
-        final ContactName    name;
+    public static final MemberProfile active() {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true,
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, true, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact created() {
-        final ContactName    name;
+    public static final MemberProfile created() {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(ContactConstants.IDENTIFIER, 1L, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE,
+            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact forNumber(final long number) {
-        final ContactName    name;
+    public static final MemberProfile forNumber(final long number) {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName("Contact " + number, "Last name " + number);
+        name = new ProfileName("Profile " + number, "Last name " + number);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(Objects.toString(number * 10), number * 10, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE,
+            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact inactive() {
-        final ContactName    name;
+    public static final MemberProfile inactive() {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, false, true,
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, false, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact nameChange() {
-        final ContactName name;
+    public static final MemberProfile nameChange() {
+        final ProfileName name;
 
-        name = new ContactName("Contact 123", "Last name");
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+        name = new ProfileName("Profile 123", "Last name");
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact nameChangePatch() {
-        final ContactName name;
+    public static final MemberProfile nameChangePatch() {
+        final ProfileName name;
 
-        name = new ContactName("Contact 123", "Last name");
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+        name = new ProfileName("Profile 123", "Last name");
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact noContactChannel() {
-        final ContactName name;
+    public static final MemberProfile noContactChannel() {
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact noGames() {
-        final ContactName name;
+    public static final MemberProfile noGames() {
+        final ProfileName name;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(), ContactConstants.COMMENTS, true, true,
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact padded() {
-        final ContactName    name;
+    public static final MemberProfile padded() {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(" " + ContactConstants.FIRST_NAME + " ", " " + ContactConstants.LAST_NAME + " ");
+        name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true,
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, true, true,
             Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact toCreate() {
-        final ContactName    name;
+    public static final MemberProfile toCreate() {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(ContactConstants.IDENTIFIER, 0L, name, ContactConstants.BIRTH_DATE,
-            List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, 0L, name, ProfileConstants.BIRTH_DATE,
+            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
     }
 
-    public static final MemberContact withoutType() {
-        final ContactName    name;
+    public static final MemberProfile withoutType() {
+        final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        name = new ContactName(ContactConstants.FIRST_NAME, ContactConstants.LAST_NAME);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ContactConstants.EMAIL);
-        return new MemberContact(ContactConstants.IDENTIFIER, ContactConstants.NUMBER, name,
-            ContactConstants.BIRTH_DATE, List.of(contactChannel), ContactConstants.COMMENTS, true, true, Set.of());
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of());
     }
 
 }

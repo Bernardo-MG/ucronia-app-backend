@@ -24,13 +24,13 @@
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Author repository mapper.
@@ -38,7 +38,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.LentB
 public final class BookLendingEntityMapper {
 
     public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final ContactEntity contactEntity) {
+            final ProfileEntity contactEntity) {
         final Borrower borrower;
         final LentBook lentBook;
         final Title    title;
@@ -49,20 +49,20 @@ public final class BookLendingEntityMapper {
         return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
-    public static final Borrower toDomain(final ContactEntity entity) {
-        final ContactName name;
+    public static final Borrower toDomain(final ProfileEntity entity) {
+        final ProfileName name;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
         return new Borrower(entity.getNumber(), name);
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
-            final ContactEntity contactEntity) {
+            final ProfileEntity contactEntity) {
         final BookLendingEntity entity;
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setContactId(contactEntity.getId());
+        entity.setProfileId(contactEntity.getId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate());
 

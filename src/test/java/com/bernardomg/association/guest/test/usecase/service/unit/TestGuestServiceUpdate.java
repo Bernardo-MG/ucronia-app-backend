@@ -36,12 +36,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultGuestService - update")
@@ -66,7 +66,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(guest);
@@ -84,7 +84,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.padded();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(guest);
@@ -101,7 +101,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
 
         // WHEN
@@ -120,7 +120,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
 
         // WHEN

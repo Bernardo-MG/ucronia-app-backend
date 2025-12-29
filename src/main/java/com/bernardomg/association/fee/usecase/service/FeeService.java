@@ -53,22 +53,22 @@ public interface FeeService {
      *
      * @param feeDate
      *            date of the fee
-     * @param contactNumber
+     * @param number
      *            member paying the fees
      * @return the new unpaid fee
      */
-    public Fee createUnpaidFee(final YearMonth feeDate, final Long contactNumber);
+    public Fee createUnpaidFee(final YearMonth feeDate, final Long number);
 
     /**
      * Deletes the fee for the received member in the received date.
      *
-     * @param contactNumber
+     * @param number
      *            person number for the fee to delete
      * @param date
      *            date of the fee to delete
      * @return deleted fee
      */
-    public Fee delete(final long contactNumber, final YearMonth date);
+    public Fee delete(final long number, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.

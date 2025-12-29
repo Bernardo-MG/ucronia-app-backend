@@ -76,8 +76,8 @@ class ITFeeRepositoryFindAllInYearSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Contact a Last name 1", "Contact é Last name 2", "Contact i Last name 3",
-                "Contact o Last name 4", "Contact u Last name 5");
+            .containsExactly("Profile a Last name 1", "Profile é Last name 2", "Profile i Last name 3",
+                "Profile o Last name 4", "Profile u Last name 5");
     }
 
     @Test

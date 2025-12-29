@@ -86,8 +86,8 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Contact a Last name 1", "Contact é Last name 2", "Contact i Last name 3",
-                "Contact o Last name 4", "Contact u Last name 5");
+            .containsExactly("Profile a Last name 1", "Profile é Last name 2", "Profile i Last name 3",
+                "Profile o Last name 4", "Profile u Last name 5");
     }
 
     @Test
@@ -178,8 +178,8 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Contact 1 Last name 1", "Contact 2 Last name 2", "Contact 3 Last name 3",
-                "Contact 4 Last name 4", "Contact 5 Last name 5");
+            .containsExactly("Profile 1 Last name 1", "Profile 2 Last name 2", "Profile 3 Last name 3",
+                "Profile 4 Last name 4", "Profile 5 Last name 5");
     }
 
     @Test
@@ -209,8 +209,8 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Contact 5 Last name 5", "Contact 4 Last name 4", "Contact 3 Last name 3",
-                "Contact 2 Last name 2", "Contact 1 Last name 1");
+            .containsExactly("Profile 5 Last name 5", "Profile 4 Last name 4", "Profile 3 Last name 3",
+                "Profile 2 Last name 2", "Profile 1 Last name 1");
     }
 
     @Test

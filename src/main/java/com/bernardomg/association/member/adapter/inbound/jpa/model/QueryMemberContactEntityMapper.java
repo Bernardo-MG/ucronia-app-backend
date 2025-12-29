@@ -29,33 +29,33 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Query MemberContact entity mapper.
  */
 public final class QueryMemberContactEntityMapper {
 
-    public static final MemberContact toDomain(final QueryMemberContactEntity entity) {
-        final ContactName                name;
+    public static final MemberProfile toDomain(final QueryMemberContactEntity entity) {
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()
             .map(QueryMemberContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new MemberContact(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
+        return new MemberProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
             contactChannels, entity.getComments(), entity.getActive(), entity.getRenew(), entity.getTypes());
     }
 
-    public static final QueryMemberContactEntity toEntity(final MemberContact data,
+    public static final QueryMemberContactEntity toEntity(final MemberProfile data,
             final Collection<ContactMethodEntity> contactMethods) {
         final QueryMemberContactEntity                    entity;
         final Collection<QueryMemberContactChannelEntity> contacts;

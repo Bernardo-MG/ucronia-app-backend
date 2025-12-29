@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
@@ -60,7 +60,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
     void testFindAll_FirstName_Asc() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -85,7 +85,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by first name it returns the ordered data")
     void testFindAll_FirstName_Desc() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -109,7 +109,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by last name it returns the ordered data")
     void testFindAll_LastName_Asc() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -133,7 +133,7 @@ class ITMemberContactRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by last name it returns the ordered data")
     void testFindAll_LastName_Desc() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;

@@ -37,12 +37,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
 import com.bernardomg.association.member.usecase.service.DefaultMemberContactService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberContactService - get one")
@@ -61,13 +61,13 @@ class TestMemberContactServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<MemberContact> guest;
+        final Optional<MemberProfile> guest;
 
         // GIVEN
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(MemberContacts.active()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(MemberContacts.active()));
 
         // WHEN
-        guest = service.getOne(ContactConstants.NUMBER);
+        guest = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -80,10 +80,10 @@ class TestMemberContactServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ContactConstants.NUMBER);
+        execution = () -> service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

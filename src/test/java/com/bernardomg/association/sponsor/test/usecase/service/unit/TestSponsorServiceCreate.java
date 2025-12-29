@@ -55,7 +55,7 @@ class TestSponsorServiceCreate {
     }
 
     @Test
-    @DisplayName("With a sponsor having padding whitespaces in first and last name, these whitespaces are removed and the contact is persisted")
+    @DisplayName("With a sponsor having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
         final Sponsor sponsor;
 
@@ -70,7 +70,7 @@ class TestSponsorServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid sponsor, the contact is persisted")
+    @DisplayName("With a valid sponsor, the profile is persisted")
     void testCreate_PersistedData() {
         final Sponsor sponsor;
 
@@ -85,7 +85,7 @@ class TestSponsorServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid sponsor, the created contact is returned")
+    @DisplayName("With a valid sponsor, the created profile is returned")
     void testCreate_ReturnedData() {
         final Sponsor sponsor;
         final Sponsor created;
@@ -100,7 +100,7 @@ class TestSponsorServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
-            .as("contact")
+            .as("profile")
             .isEqualTo(Sponsors.valid());
     }
 

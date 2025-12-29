@@ -30,13 +30,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -53,7 +53,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member matching first name, it is returned")
     @ActiveMember
     void testFindAll_FirstName() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -61,7 +61,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FIRST_NAME);
+        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -77,7 +77,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member matching full name, it is returned")
     @ActiveMember
     void testFindAll_FullName() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -85,7 +85,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FULL_NAME);
+        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.FULL_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -101,7 +101,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member matching last name, it is returned")
     @ActiveMember
     void testFindAll_LastName() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -109,7 +109,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ContactConstants.LAST_NAME);
+        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.LAST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -124,7 +124,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -132,7 +132,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ContactConstants.FIRST_NAME);
+        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -148,7 +148,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member partial matching name, it is returned")
     @ActiveMember
     void testFindAll_PartialName() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -157,7 +157,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
         filter = new MemberFilter(MemberStatus.ALL,
-            ContactConstants.FIRST_NAME.substring(0, ContactConstants.FIRST_NAME.length() - 2));
+            ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2));
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -173,7 +173,7 @@ class ITMemberContactRepositoryFindAllQueryName {
     @DisplayName("With a member and wrong name, nothing is returned")
     @ActiveMember
     void testFindAll_WrongName() {
-        final Page<MemberContact> members;
+        final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -181,7 +181,7 @@ class ITMemberContactRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ContactConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

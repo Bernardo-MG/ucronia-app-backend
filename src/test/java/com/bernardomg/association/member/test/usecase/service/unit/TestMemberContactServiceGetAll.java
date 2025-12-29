@@ -38,7 +38,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
@@ -60,8 +60,8 @@ class TestMemberContactServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Page<MemberContact> guests;
-        final Page<MemberContact> existing;
+        final Page<MemberProfile> guests;
+        final Page<MemberProfile> existing;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;
@@ -88,8 +88,8 @@ class TestMemberContactServiceGetAll {
     @Test
     @DisplayName("When there is data, it returns all the guests")
     void testGetAll_ReturnsData() {
-        final Page<MemberContact> guests;
-        final Page<MemberContact> existing;
+        final Page<MemberProfile> guests;
+        final Page<MemberProfile> existing;
         final Pagination          pagination;
         final Sorting             sorting;
         final MemberFilter        filter;

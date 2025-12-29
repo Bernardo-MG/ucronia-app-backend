@@ -29,25 +29,25 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactChannelEntityMapper;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
-import com.bernardomg.association.member.domain.model.MemberContact;
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Update guest entity mapper.
  */
 public final class UpdateMemberContactEntityMapper {
 
-    public static final MemberContact toDomain(final UpdateMemberContactEntity entity) {
-        final ContactName                name;
+    public static final MemberProfile toDomain(final UpdateMemberContactEntity entity) {
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(entity.getContact()
+        name = new ProfileName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
@@ -58,7 +58,7 @@ public final class UpdateMemberContactEntityMapper {
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new MemberContact(entity.getContact()
+        return new MemberProfile(entity.getContact()
             .getIdentifier(),
             entity.getContact()
                 .getNumber(),
@@ -70,12 +70,12 @@ public final class UpdateMemberContactEntityMapper {
                 .getTypes());
     }
 
-    public static final UpdateMemberContactEntity toEntity(final MemberContact data,
+    public static final UpdateMemberContactEntity toEntity(final MemberProfile data,
             final Collection<ContactMethodEntity> contactMethods) {
         final UpdateMemberContactEntity        entity;
-        final ContactEntity                    contact;
+        final ProfileEntity                    contact;
         final Collection<ContactChannelEntity> contactChannels;
-        contact = new ContactEntity();
+        contact = new ProfileEntity();
         contact.setNumber(data.number());
         contact.setFirstName(data.name()
             .firstName());
@@ -102,7 +102,7 @@ public final class UpdateMemberContactEntityMapper {
     }
 
     public static final UpdateMemberContactEntity toEntity(final UpdateMemberContactEntity entity,
-            final MemberContact data) {
+            final MemberProfile data) {
 
         entity.getContact()
             .setFirstName(data.name()
@@ -116,7 +116,7 @@ public final class UpdateMemberContactEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ContactEntity contact, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;

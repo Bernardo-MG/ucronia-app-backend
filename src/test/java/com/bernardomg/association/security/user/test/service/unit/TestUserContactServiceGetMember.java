@@ -37,58 +37,58 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.domain.model.Contact;
-import com.bernardomg.association.contact.domain.repository.ContactRepository;
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
-import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserContactService;
+import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserContactService - get contact")
-class TestUserContactServiceGetContact {
+@DisplayName("UserProfileService - get profile")
+class TestUserProfileServiceGetProfile {
 
     @Mock
-    private ContactRepository         contactRepository;
+    private ProfileRepository         profileRepository;
 
     @InjectMocks
-    private DefaultUserContactService service;
+    private DefaultUserProfileService service;
 
     @Mock
-    private UserContactRepository     userContactRepository;
+    private UserProfileRepository     userProfileRepository;
 
     @Mock
     private UserRepository            userRepository;
 
     @Test
-    @DisplayName("With a contact assigned to the user, it returns the user")
-    void testGetContact() {
-        final Optional<Contact> contact;
+    @DisplayName("With a profile assigned to the user, it returns the user")
+    void testGetProfile() {
+        final Optional<Profile> profile;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
-        given(userContactRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Contacts.valid()));
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         // WHEN
-        contact = service.getContact(UserConstants.USERNAME);
+        profile = service.getProfile(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(contact)
-            .contains(Contacts.valid());
+        Assertions.assertThat(profile)
+            .contains(Profiles.valid());
     }
 
     @Test
-    @DisplayName("With no contact, it throws an exception")
-    void testGetContact_NoContact() {
+    @DisplayName("With no profile, it throws an exception")
+    void testGetProfile_NoProfile() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getContact(UserConstants.USERNAME);
+        execution = () -> service.getProfile(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

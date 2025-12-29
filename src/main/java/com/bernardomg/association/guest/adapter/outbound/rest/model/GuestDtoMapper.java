@@ -30,22 +30,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
-import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.GuestChangeDto;
 import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
 import com.bernardomg.ucronia.openapi.model.GuestDto;
 import com.bernardomg.ucronia.openapi.model.GuestPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -53,9 +53,9 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class GuestDtoMapper {
 
     public static final Guest toDomain(final GuestCreationDto creation) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(creation.getName()
+        name = new ProfileName(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
@@ -64,10 +64,10 @@ public final class GuestDtoMapper {
     }
 
     public static final Guest toDomain(final long number, final GuestChangeDto change) {
-        final ContactName                name;
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(change.getName()
+        name = new ProfileName(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -80,12 +80,12 @@ public final class GuestDtoMapper {
             new ArrayList<>(change.getGames()), change.getComments(), Set.of());
     }
 
-    public static final GuestResponseDto toResponseDto(final Guest contact) {
-        return new GuestResponseDto().content(GuestDtoMapper.toDto(contact));
+    public static final GuestResponseDto toResponseDto(final Guest profile) {
+        return new GuestResponseDto().content(GuestDtoMapper.toDto(profile));
     }
 
-    public static final GuestResponseDto toResponseDto(final Optional<Guest> contact) {
-        return new GuestResponseDto().content(contact.map(GuestDtoMapper::toDto)
+    public static final GuestResponseDto toResponseDto(final Optional<Guest> profile) {
+        return new GuestResponseDto().content(profile.map(GuestDtoMapper::toDto)
             .orElse(null));
     }
 
@@ -118,23 +118,23 @@ public final class GuestDtoMapper {
         return new ContactChannel(contactMethod, dto.getDetail());
     }
 
-    private static final ContactChannelDto toDto(final ContactChannel contact) {
+    private static final ContactChannelDto toDto(final ContactChannel profile) {
         ContactMethodDto method;
 
-        method = new ContactMethodDto().number(contact.contactMethod()
+        method = new ContactMethodDto().number(profile.contactMethod()
             .number())
-            .name(contact.contactMethod()
+            .name(profile.contactMethod()
                 .name());
 
-        return new ContactChannelDto().detail(contact.detail())
+        return new ContactChannelDto().detail(profile.detail())
             .method(method);
     }
 
     private static final GuestDto toDto(final Guest guest) {
-        ContactNameDto          name;
+        ProfileNameDto          name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ContactNameDto().firstName(guest.name()
+        name = new ProfileNameDto().firstName(guest.name()
             .firstName())
             .lastName(guest.name()
                 .lastName())

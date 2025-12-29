@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Update member entity mapper.
@@ -34,9 +34,9 @@ import com.bernardomg.association.member.domain.model.Member;
 public final class UpdateMemberEntityMapper {
 
     public static final Member toDomain(final UpdateMemberEntity entity) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(entity.getContact()
+        name = new ProfileName(entity.getContact()
             .getFirstName(),
             entity.getContact()
                 .getLastName());
@@ -46,9 +46,9 @@ public final class UpdateMemberEntityMapper {
 
     public static final UpdateMemberEntity toEntity(final Member data) {
         final UpdateMemberEntity entity;
-        final ContactEntity      contact;
+        final ProfileEntity      contact;
 
-        contact = new ContactEntity();
+        contact = new ProfileEntity();
         contact.setNumber(data.number());
         contact.setFirstName(data.name()
             .firstName());
